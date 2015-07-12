@@ -40,7 +40,8 @@
 #'      some other way, e.g. in a spreadsheet GUI, but don't want to have to correct the syllable count yourself as well.}
 #' }
 #'
-#' @param obj An object of class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.hyphen-class}}.
+#' @param obj An object of class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
+#'    \code{\link[koRpus]{kRp.analysis-class}} or  \code{\link[koRpus]{kRp.txt.trans-class}}, or \code{\link[koRpus]{kRp.hyphen-class}}.
 #' @param row Integer, the row number of the entry to be changed. Can be an integer vector
 #'    to change several rows in one go.
 #' @param word A character string, the (possibly incorrectly hyphenated) \code{word} entry to be replaced with \code{hyphen}.
@@ -73,10 +74,14 @@ setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=N
 #' @export
 #' @docType methods
 #' @rdname correct-methods
-#' @aliases correct.tag,kRp.tagged-method
+#' @aliases correct.tag correct.tag,kRp.taggedText-method
 #' @include 00_class_01_kRp.tagged.R
+#' @include 00_class_03_kRp.txt.freq.R
+#' @include 00_class_04_kRp.txt.trans.R
+#' @include 00_class_05_kRp.analysis.R
+#' @include koRpus-internal.R
 setMethod("correct.tag",
-    signature(obj="kRp.tagged"),
+    signature(obj="kRp.taggedText"),
     function (obj, row, tag=NULL, lemma=NULL, check.token=NULL){
 
       if(!is.numeric(row)){
@@ -130,7 +135,7 @@ setGeneric("correct.hyph", function(obj, word=NULL, hyphen=NULL, cache=TRUE){sta
 #' @export
 #' @docType methods
 #' @rdname correct-methods
-#' @aliases correct.hyph,kRp.hyphen-method
+#' @aliases correct.hyph correct.hyph,kRp.hyphen-method
 #' @export
 #' @include 00_class_08_kRp.hyphen.R
 setMethod("correct.hyph",
