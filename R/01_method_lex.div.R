@@ -156,7 +156,7 @@ setGeneric("lex.div", function(txt, ...) standardGeneric("lex.div"))
 #' @include 00_class_04_kRp.txt.trans.R
 #' @include 00_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
-#' @aliases lex.div,kRp.taggedText-method
+#' @aliases lex.div lex.div,kRp.taggedText-method
 #' @rdname lex.div-methods
 setMethod("lex.div", signature(txt="kRp.taggedText"), function(txt, segment=100,
     factor.size=0.72, min.tokens=9, rand.sample=42, window=100,
