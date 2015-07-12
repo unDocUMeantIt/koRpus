@@ -1,6 +1,20 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.06-2 (2015-07-09)}{
+  \subsection{unreleased}{
+    \itemize{
+      \item this release is under development
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item \code{correct.tag()} now accepts all objects of class union kRp.taggedText
+      \item \code{query()} now uses "\%in\%" instead of "==" to match character strings agains
+        \code{"query"}
+    }
+  }
+}
 \section{Changes in koRpus version 0.06-1 (2015-07-08)}{
   \subsection{fixed}{
     \itemize{

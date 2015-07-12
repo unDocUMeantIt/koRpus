@@ -11,8 +11,8 @@ An R Package for Text Analysis.
 \tabular{ll}{
 Package: \tab koRpus\cr
 Type: \tab Package\cr
-Version: \tab 0.06-1\cr
-Date: \tab 2015-07-08\cr
+Version: \tab 0.06-2\cr
+Date: \tab 2015-07-09\cr
 Depends: \tab R (>= 2.10.0),methods\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr

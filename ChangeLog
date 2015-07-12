@@ -1,5 +1,16 @@
 ChangeLog for package koRpus
 
+changes in version 0.06-2 (2015-07-09)
+unreleased:
+  - this release is under development
+fixed:
+  - read.corp.custom() calculated the in-document frequency wrong
+    if analysis was performed case insensitive
+changed:
+  - correct.tag() now accepts all objects of class union kRp.taggedText
+  - query() now uses "%in%" instead of "==" to match character strings against
+    "query"
+
 changes in version 0.06-1 (2015-07-08)
 fixed:
   - read.corp.custom() was buggy when dealing with tagged objects
@@ -13,7 +24,7 @@ changed:
     read.corp.custom() into several subfunctions to get more flexibility
   - read.corp.custom() now also supports analysis of lists of tagged objects
   - removed option "fileEncoding" from the signature of read.corp.custom(),
-    bit it can still be used as part of the "..." options; this was neccessary
+    but it can still be used as part of the "..." options; this was neccessary
     because treetag() uses "encoding" instead
 added:
   - new option "tagger" now also available in read.corp.custom()
