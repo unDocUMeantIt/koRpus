@@ -117,7 +117,7 @@ setMethod("query",
           # get all entries where word matches regexp
           results <- in.obj[grepl(query, in.obj[["word"]], ignore.case=ignore.case, perl=perl),]
         } else {
-          results <- subset(in.obj, eval(parse(text=paste(var, "== query"))))
+          results <- subset(in.obj, eval(parse(text=paste(var, "%in% query"))))
         }
       } else{}
       # in case we're looking for anything frequency related
