@@ -1,0 +1,9 @@
+this
+is
+a
+pseudo
+word
+list
+to
+do
+tests

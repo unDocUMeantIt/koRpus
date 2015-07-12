@@ -1,0 +1,4 @@
+TODO list for package koRpus:
+
+ - find global solution for corp.rm.class="nonpunct" in several internal functions (it's a bit scattered...)
+ - try txtProgressBar() in hyphenation, database reading etc.

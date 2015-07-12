@@ -1,0 +1,137 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!-- this code was generated using the rkwarddev package.
+			perhaps don't make changes here, but in the rkwarddev script instead! -->
+	<code file="LexicalDiversity.js" />
+	<help file="LexicalDiversity.rkh" />
+	<!-- <dependencies>
+			</dependencies> -->
+	<logic>
+		<convert id="lgc_TTRCMATT" sources="TTRChar.state;MATTRChar.state;CldChar.state;RldChar.state;CTTRChar.state;UldChar.state;SldChar.state;KldChar.state;MaasChar.state;HDDChar.state;MTLDChar.state;MTLDMAChar.state" mode="or" />
+		<connect governor="lgc_TTRCMATT" client="spn_Stpszbtw.enabled" />
+		<connect governor="types.state" client="chc_Kptypstk.state" />
+		<connect governor="types.state.not" client="chc_Kptypstk.enabled" />
+		<convert id="lgc_MATTRMAT" sources="MATTR.state;MATTRChar.state" mode="or" />
+		<convert id="lgc_HDDHDDCh" sources="HDD.state;HDDChar.state" mode="or" />
+		<convert id="lgc_MTLDMTLD" sources="MTLD.state;MTLDMA.state;MTLDChar.state;MTLDMAChar.state" mode="or" />
+		<connect governor="MSTTR.state" client="frm_MSTTR.enabled" />
+		<connect governor="lgc_MATTRMAT" client="frm_MATTR.enabled" />
+		<connect governor="lgc_HDDHDDCh" client="frm_HDD.enabled" />
+		<connect governor="lgc_MTLDMTLD" client="frm_MTLDMTLD.enabled" />
+	</logic>
+	<dialog label="Lexical Diversity">
+		<tabbook id="tbbk_LxclDvrs" label="Lexical Diversity">
+			<tab label="Data and Basic Indices" id="tab_DtndBscI">
+				<row id="row_cHHHTTRHRM">
+					<column id="clm_vrslctrdvH">
+						<varselector id="varsHyph" />
+					</column>
+					<column id="clm_vHTTRHRMLD">
+						<varslot id="varHyphenTagged" label="Tokenized text object (valid class: kRp.tagged)" source="varsHyph" classes="kRp.tagged" required="true" />
+						<stretch />
+						<frame label="Measures of lexical diversity" id="frameLDIndices">
+							<row id="row_cLD1TTRTTR">
+								<column id="colLD1">
+									<checkbox id="TTR" label="Type Token Ratio (TTR)" value="TTR" checked="true" />
+									<checkbox id="MSTTR" label="Mean Segmental TTR (MSTTR)" value="MSTTR" checked="true" />
+									<checkbox id="MATTR" label="Moving Average TTR (MATTR)" value="MATTR" checked="true" />
+									<checkbox id="Cld" label="Herdan's C" value="C" checked="true" />
+									<checkbox id="Rld" label="Root TTR" value="R" checked="true" />
+									<checkbox id="CTTR" label="Corrected TTR (CTTR)" value="CTTR" checked="true" />
+									<checkbox id="Uld" label="Uber Index" value="U" checked="true" />
+									<stretch />
+								</column>
+								<column id="colLD2">
+									<checkbox id="Sld" label="Summer" value="S" checked="true" />
+									<checkbox id="Kld" label="Yule's K" value="K" checked="true" />
+									<checkbox id="Maas" label="Maas (a, lg(V0))" value="Maas" checked="true" />
+									<checkbox id="HDD" label="HD-D (idealized vocd-D)" value="HD-D" checked="true" />
+									<checkbox id="MTLD" label="Measure of Textual Lexical Diversity (MTLD)" value="MTLD" checked="true" />
+									<checkbox id="MTLDMA" label="Moving Average MTLD (MTLD-MA)" value="MTLD-MA" checked="true" />
+									<stretch />
+								</column>
+							</row>
+						</frame>
+						<frame label="Output" id="frameLDShowTypes">
+							<checkbox id="types" label="List all identified types" value="types" />
+						</frame>
+						<saveobject label="Keep results" checkable="true" checked="true" initial="lexical.diversity.obj" id="saveLD" />
+					</column>
+				</row>
+			</tab>
+			<tab label="Characteristics" id="tab_Chrctrst">
+				<frame label="Calculate impact of text length" id="frameLDChars">
+					<text id="txt_ThcTTRYY">
+						The classic TTR is dependent on text legth. You can examine this effect by repeatedly calculating the measures' value for growing
+						    portions of your text. You can then plot these characteristics.
+					</text>
+					<row id="row_cLDC1TTRCT">
+						<column id="colLDChar1">
+							<checkbox id="TTRChar" label="Type Token Ratio (TTR)" value="TTR" />
+							<checkbox id="MATTRChar" label="Moving Average TTR (MATTR)" value="MATTR" />
+							<checkbox id="CldChar" label="Herdan's C" value="C" />
+							<checkbox id="RldChar" label="Root TTR" value="R" />
+							<checkbox id="CTTRChar" label="Corrected TTR (CTTR)" value="CTTR" />
+							<checkbox id="UldChar" label="Uber Index" value="U" />
+							<stretch />
+						</column>
+						<column id="colLDChar">
+							<checkbox id="SldChar" label="Summer" value="S" />
+							<checkbox id="KldChar" label="Yule's K" value="K" />
+							<checkbox id="MaasChar" label="Maas (a, lg(V0))" value="Maas" />
+							<checkbox id="HDDChar" label="HD-D (idealized vocd-D)" value="HD-D" />
+							<checkbox id="MTLDChar" label="Measure of Textual Lexical Diversity (MTLD)" value="MTLD" />
+							<checkbox id="MTLDMAChar" label="Moving Average MTLD (MTLD-MA)" value="MTLD-MA" />
+							<stretch />
+						</column>
+					</row>
+					<frame label="Accuracy" id="frm_Accuracy">
+						<spinbox label="Step size between calculations (tokens)" id="spn_Stpszbtw" initial="5" min="2" type="integer" />
+					</frame>
+				</frame>
+			</tab>
+			<tab label="Options" id="tab_Options">
+				<column id="clm_rGGCCLLKKB">
+					<row id="row_cGGCCLLKKB">
+						<column id="clm_fGGCCLLKKB">
+							<frame label="Global options" id="frm_Glblptns">
+								<checkbox id="chc_Cassnstv" label="Case sensitive" value="true" />
+								<checkbox id="chc_Lemmatiz" label="Lemmatize" value="true" />
+								<checkbox id="chc_Kptypstk" label="Keep types/tokens in result object" value="true" />
+								<input label="Base for logarithm (must be numeric)" id="inp_Bsfrlgrt" initial="10" size="small" required="true" />
+								<stretch />
+							</frame>
+						</column>
+						<column id="clm_fMSTTRMSTT">
+							<frame label="MSTTR" id="frm_MSTTR">
+								<spinbox label="Segment size (tokens)" id="spn_Sgmntszt" initial="100" min="1" type="integer" />
+								<stretch />
+							</frame>
+							<frame label="MATTR" id="frm_MATTR">
+								<spinbox label="Window size (tokens)" id="spn_Wndwsztk" initial="100" min="1" type="integer" />
+								<stretch />
+							</frame>
+						</column>
+					</row>
+					<row id="row_cHDDHDDRR4">
+						<column id="clm_fHDDHDDRR4">
+							<frame label="HD-D" id="frm_HDD">
+								<spinbox label="Random sample size (tokens)" id="spn_Rndmsmpl" initial="42" min="2" type="integer" />
+								<stretch />
+							</frame>
+						</column>
+						<column id="clm_fMTLDMTLDM">
+							<frame label="MTLD/MTLD-MA" id="frm_MTLDMTLD">
+								<spinbox label="Factor size" id="spn_Factorsz" initial="0.72" min="0" max="1" />
+								<spinbox label="Minimum number of tokens" id="spn_Mnmmnmbr" initial="9" min="1" type="integer" />
+								<checkbox id="chc_Kplldtls" label="Keep all details (slow!)" value="true" />
+								<stretch />
+							</frame>
+						</column>
+					</row>
+					<stretch />
+				</column>
+			</tab>
+		</tabbook>
+	</dialog>
+</document>

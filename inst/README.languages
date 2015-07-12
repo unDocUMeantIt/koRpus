@@ -1,0 +1,49 @@
+README file for language support in koRpus
+==========================================
+
+Language support in this package is designed to be extended easily. You could call it modular, although it's actually more "environemntal", but nevermind.
+
+To add new language support, say for Xyzedish, you basically only have to create one R code file, say "lang.support-yxz.R". This file should contain three calls to the internal function set.language.support(). "Internal" means that this function is not exported, you cannot see it after loading the koRpus package. It will do its work *while* the package is loaded, and fill an also internal environment with the information you have defined in "lang.support-yxz.R".
+
+The function set.language.support() gets called three times because there's three functions of koRpus that need language support:
+ - hyphen() needs to know which language pattern test are available as data files (which you must provide also)
+ - treetag() needs the preset information from its own start scripts
+ - kRp.POS.tags() needs to learn all possible POS tags that TreeTagger uses
+
+Please have a look at the existing language support files, most of it should be almost self-explaining. Anyway, some notes on the three calls:
+
+
+set.lang.support("hyphen")
+==========================
+
+The named list usually has one simple entry just to tell the new language abbreviation:
+  set.lang.support("hyphen",
+    list("xyz"="xyz")
+  )
+
+
+set.lang.support("treetag")
+===========================
+
+The presets for the treetag() function are basically what the shell (GNU/Linux, MacOS) and batch (Win) scripts define that come with TreeTagger. Look for scripts called "$TREETAGGER/cmd/tree-tagger-xyzedish" and "$TREETAGGER\cmd\tree-tagger-xyzedish.bat", figure out which call resembles which call and then define them in set.lang.support("treetag") accordingly.
+
+
+set.lang.support("kRp.POS.tags")
+================================
+
+If Xyzedish is supported by TreeTagger, you should find a tagset definition for the language on its homepage. treetag() needs to know *all* POS tags that TreeTagger might return, otherwise you will get a self-explaining error message as soon as an unknown tag appears. Notice that this can still happen after you implemented the full documented tag set: sometimes the contributed TreeTagger parameter files added their own tags, e.g. for special punctuation. So please test your tag set well.
+As you can see, you will also have to add a global word class and an explaination for each tag. The former is especially important for further steps like frequency analysis.
+
+
+Hyphenation patterns
+====================
+
+To be able to also do syllable count with the newly added language, you should add a hyphenation pattern file as well. Refer to the documentation of read.hyph.pat() to learn how to produce a pattern object from a downloaded hyphenation pattern file, then save this object to the "data" directory of the koRpus sources. Make sure you use the correct name scheme (e.g. "hyph.xyz.rda") and good compression.
+
+
+Re-build koRpus
+===============
+
+After adding the files to koRpus' sources, re-build and install the package to test it. To do that after adding new R files, you might also need to add their filenames to the "Collate:" field in the DESCRIPTION file first -- this is only needed for R code files, not for hyphenation data files.
+
+If you run into problems or would like to contribute the file to be included in the package, don't hesitate to contact me!

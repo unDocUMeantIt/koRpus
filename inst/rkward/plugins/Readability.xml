@@ -1,0 +1,127 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!-- this code was generated using the rkwarddev package.
+			perhaps don't make changes here, but in the rkwarddev script instead! -->
+	<code file="Readability.js" />
+	<help file="Readability.rkh" />
+	<!-- <dependencies>
+			</dependencies> -->
+	<logic>
+		<convert id="lgc_DCDCPSKD" sources="DaleChall.state;DaleChallPSK.state;DaleChallOld.state;Bormuth.state;DRP.state" mode="or" />
+		<convert id="lgc_SpchSpcO" sources="Spache.state;SpacheOld.state" mode="or" />
+		<connect governor="lgc_DCDCPSKD" client="readbWLldc.enabled" />
+		<connect governor="lgc_DCDCPSKD" client="readbWLldc.required" />
+		<connect governor="lgc_SpchSpcO" client="readbWLsdc.enabled" />
+		<connect governor="lgc_SpchSpcO" client="readbWLsdc.required" />
+		<connect governor="HarrisJacobson.state" client="readbWLHaJa.enabled" />
+		<connect governor="HarrisJacobson.state" client="readbWLHaJa.required" />
+	</logic>
+	<dialog label="Readability">
+		<tabbook id="tbbk_Readblty" label="Readability">
+			<tab label="Data and Basic Indices" id="tab_DtndBscI">
+				<row id="row_cHHHTTRHRT">
+					<column id="clm_vrslctrdvH">
+						<varselector id="varsHyph" />
+					</column>
+					<column id="clm_vHTTRHRTHH">
+						<varslot id="varHyphenTagged" label="Tokenized text object (valid class: kRp.tagged)" source="varsHyph" classes="kRp.tagged" required="true" />
+						<varslot id="varTaggedHyphenated" label="Hyphenated text object (optional, valid class: kRp.hyphen)" source="varsHyph" classes="kRp.hyphen" />
+						<stretch />
+						<frame id="frameReadabilityIndices">
+							<row id="row_cARIARIARI">
+								<column id="clm_cARIARIARI">
+									<checkbox id="ARI" label="Automated Readability Index (ARI)" value="ARI" checked="true" />
+									<checkbox id="ARINRI" label="ARI (NRI)" value="ARI.NRI" checked="true" />
+									<checkbox id="ColemanLiau" label="Coleman-Liau" value="Coleman.Liau" checked="true" />
+									<checkbox id="DanielsonBryan" label="Danielson-Bryan (D 1+2)" value="Danielson.Bryan" checked="true" />
+								</column>
+								<column id="clm_cDSDSHDSFF">
+									<checkbox id="DickesSteiwer" label="Dickes-Steiwer Handformel" value="Dickes.Steiwer" checked="true" />
+									<checkbox id="Fucks" label="Fucks' Stilcharakteristik" value="Fucks" checked="true" />
+									<checkbox id="LIX" label="Läsbarhetsindex (LIX)" value="LIX" checked="true" />
+									<checkbox id="RIX" label="Readability Index (RIX)" value="RIX" checked="true" />
+								</column>
+							</row>
+						</frame>
+						<saveobject label="Keep results" checkable="true" checked="true" initial="readability.obj" id="saveReadb" />
+					</column>
+				</row>
+			</tab>
+			<tab label="Using Syllables" id="tab_UsngSyll">
+				<column id="frameReadabilityNeedSylls">
+					<text id="txt_Slctngny">
+						Selecting any of these indices will automatically activate syllable count.
+					</text>
+					<row id="row_cCCC14CELF">
+						<column id="clm_cCCC14CELF">
+							<checkbox id="Coleman" label="Coleman (C 1-4)" value="Coleman" />
+							<checkbox id="ELF" label="Easy Listening Formula" value="ELF" />
+							<checkbox id="FarrJenkinsPaterson" label="Farr-Jenkins-Paterson" value="Farr.Jenkins.Paterson" />
+							<checkbox id="FarrJenkinsPatersonPSK" label="Farr-Jenkins-Paterson (Powers-Sumner-Kearl)" value="Farr.Jenkins.Paterson.PSK" />
+							<checkbox id="Flesch" label="Flesch Reading Ease" value="Flesch" />
+							<checkbox id="FleschDE" label="Flesch (DE, Amstad)" value="Flesch.de" />
+							<checkbox id="FleschES" label="Flesch (ES, Fernandez-Huerta)" value="Flesch.es" />
+							<checkbox id="FleschESS" label="Flesch (ES, Szigriszt)" value="Flesch.Szigriszt" />
+							<checkbox id="FleschFR" label="Flesch (FR, Kandel-Moles)" value="Flesch.fr" />
+							<checkbox id="FleschNL" label="Flesch (NL, Douma)" value="Flesch.nl" />
+							<checkbox id="FleschPSK" label="Flesch Reading Ease (Powers-Sumner-Kearl)" value="Flesch.PSK" />
+							<checkbox id="FleschKincaid" label="Flesch-Kincaid Grade Level" value="Flesch.Kincaid" />
+							<checkbox id="FOG" label="FOG (Gunning)" value="FOG" />
+							<checkbox id="FOGPSK" label="FOG (Powers-Sumner-Kearl)" value="FOG.PSK" />
+							<stretch />
+						</column>
+						<column id="clm_cFOGNRIFOG">
+							<checkbox id="FOGNRI" label="FOG (NRI)" value="FOG.NRI" />
+							<checkbox id="FORCAST" label="FORCAST" value="FORCAST" />
+							<checkbox id="FORCASTRGL" label="FORCAST (RGL)" value="FORCAST.RGL" />
+							<checkbox id="TRI" label="Kuntzsch's Text-Redundanz-Index" value="TRI" />
+							<checkbox id="LinsearWrite" label="Linsear Write" value="Linsear.Write" />
+							<checkbox id="SMOG" label="SMOG" value="SMOG" />
+							<checkbox id="SMOGC" label="SMOG (formula C)" value="SMOG.C" />
+							<checkbox id="SMOGsimple" label="SMOG (simple)" value="SMOG.simple" />
+							<checkbox id="Qu" label="SMOG (DE, »Qu«)" value="SMOG.de" />
+							<checkbox id="Strain" label="Strain Index" value="Strain" />
+							<checkbox id="Tuldava" label="Tuldava" value="Tuldava" />
+							<checkbox id="WheelerSmith" label="Wheeler-Smith" value="Wheeler.Smith" />
+							<checkbox id="WheelerSmithDe" label="Wheeler-Smith (DE)" value="Wheeler.Smith.de" />
+							<checkbox id="nWS" label="Wiener Sachtextformeln (nWS 1-4)" value="nWS" />
+							<stretch />
+						</column>
+					</row>
+					Formulae that need syllable count
+				</column>
+			</tab>
+			<tab label="Using Word Lists" id="tab_UsngWrdL">
+				<column id="frameReadabilityNeedWL">
+					<text id="txt_Ifyslctn">
+						If you select any of these indices you will also need to provide word lists as indicated below.
+					</text>
+					<row id="row_cBBMCGBDCD">
+						<column id="clm_cBBMCGBDCD">
+							<checkbox id="Bormuth" label="Bormuth Mean Cloze + Grade" value="Bormuth" />
+							<checkbox id="DaleChall" label="Dale-Chall (1995)" value="Dale.Chall" />
+							<checkbox id="DaleChallPSK" label="Dale-Chall (Powers-Sumner-Kearl)" value="Dale.Chall.PSK" />
+							<checkbox id="DaleChallOld" label="Dale-Chall (1948)" value="Dale.Chall.old" />
+							<stretch />
+						</column>
+						<column id="clm_cDRPDRPDRP">
+							<checkbox id="DRP" label="Degrees of Reading Power" value="DRP" />
+							<checkbox id="HarrisJacobson" label="Harris-Jacobson" value="Harris.Jacobson" />
+							<checkbox id="Spache" label="Spache" value="Spache" />
+							<checkbox id="SpacheOld" label="Spache (old)" value="Spache.old" />
+							<stretch />
+						</column>
+					</row>
+					<row id="rowWLfile">
+						<column id="clm_bLDCBDRPWL">
+							<browser label="Long Dale-Chall word list (*.txt, also used for Bormuth/DRP):" type="file" id="readbWLldc" filter="*.txt" required="false" />
+							<browser label="Short Dale-Chall word list (*.txt):" type="file" id="readbWLsdc" filter="*.txt" required="false" />
+							<browser label="Harris-Jacobson word list (grades 1 and 2, *.txt):" type="file" id="readbWLHaJa" filter="*.txt" required="false" />
+						</column>
+					</row>
+					Formulae that need word lists
+				</column>
+			</tab>
+		</tabbook>
+	</dialog>
+</document>

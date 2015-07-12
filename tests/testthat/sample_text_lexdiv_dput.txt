@@ -1,0 +1,7 @@
+structure(list(index = c("TTR", "MSTTR", "MATTR", "Herdan's C", 
+"Root TTR", "CTTR", "Uber index", "Summer", "Yule's K", "Maas a", 
+"Maas lgV0", "HD-D (vocd-D)", "MTLD", "MTLD-MA"), value = c("0.53", 
+"0.72", "0.73", "0.9", "12.47", "8.82", "27.23", "0.89", "119.24", 
+"0.19", "5.64", "35.52", "97.18", "102.3")), .Names = c("index", 
+"value"), row.names = c("1", "2", "3", "4", "5", "6", "7", "8", 
+"9", "10", "11", "12", "13", "14"), class = "data.frame")

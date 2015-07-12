@@ -1,0 +1,131 @@
+<!DOCTYPE rkpluginmap >
+<document 
+	base_prefix=""
+	namespace="TokenizingPOStagging"
+	id="TokenizingPOStagging_rkward"
+	po_id="TokenizingPOStagging_rkward"
+	priority="medium"
+>
+	<!-- 
+		this code was generated using the rkwarddev package.
+			perhaps don't make changes here, but in the rkwarddev script instead! 
+	-->
+	<dependencies rkward_min_version="0.6.3">
+	</dependencies>
+	<about 
+		name="koRpus"
+		shortinfo="RKWard GUI for the koRpus package."
+		longinfo="RKWard GUI for the koRpus package."
+		version="0.01-0"
+		releasedate="2015-06-29"
+		url="http://EXAMPLE.com"
+		license="GPL (&gt;= 3)"
+	>
+		<author 
+			given="Meik"
+			family="Michalke"
+			email="meik.michalke@hhu.de"
+			role="aut, cre"
+		 />
+	</about>
+	<require 
+		map="rkward::menu"
+	 />
+	<require 
+		map="rkward::embedded"
+	 />
+	<components>
+		<component 
+			id="cmp_TokenizingPOStggngHyphntn"
+			label="Hyphenation"
+			type="standard"
+			file="plugins/Hyphenation.xml"
+		>
+		</component>
+		<component 
+			id="cmp_TokenizingPOStaggngRdblty"
+			label="Readability"
+			type="standard"
+			file="plugins/Readability.xml"
+		>
+		</component>
+		<component 
+			id="cmp_ToknzngPOStggngLxclDvrsty"
+			label="Lexical Diversity"
+			type="standard"
+			file="plugins/LexicalDiversity.xml"
+		>
+		</component>
+		<component 
+			id="cmp_TknzngPOStggngFrqncyAnlys"
+			label="Frequency Analysis"
+			type="standard"
+			file="plugins/FrequencyAnalysis.xml"
+		>
+		</component>
+		<component 
+			id="cmp_TknzngPOStggngTknzngPOStg"
+			label="Tokenizing &amp; POS tagging"
+			type="standard"
+			file="plugins/TokenizingPOStagging.xml"
+		>
+		</component>
+	</components>
+	<hierarchy>
+		<menu 
+			id="analysis"
+			label="Analysis"
+		>
+			<menu 
+				id="TextAnalysis"
+				label="Text Analysis"
+			>
+				<entry component="cmp_TokenizingPOStggngHyphntn" />
+			</menu>
+		</menu>
+		<menu 
+			id="analysis"
+			label="Analysis"
+		>
+			<menu 
+				id="TextAnalysis"
+				label="Text Analysis"
+			>
+				<entry component="cmp_TokenizingPOStaggngRdblty" />
+			</menu>
+		</menu>
+		<menu 
+			id="analysis"
+			label="Analysis"
+		>
+			<menu 
+				id="TextAnalysis"
+				label="Text Analysis"
+			>
+				<entry component="cmp_ToknzngPOStggngLxclDvrsty" />
+			</menu>
+		</menu>
+		<menu 
+			id="analysis"
+			label="Analysis"
+		>
+			<menu 
+				id="TextAnalysis"
+				label="Text Analysis"
+			>
+				<entry component="cmp_TknzngPOStggngFrqncyAnlys" />
+			</menu>
+		</menu>
+		<menu 
+			id="analysis"
+			label="Analysis"
+		>
+			<menu 
+				id="TextAnalysis"
+				label="Text Analysis"
+			>
+				<entry component="cmp_TknzngPOStggngTknzngPOStg" />
+			</menu>
+		</menu>
+	</hierarchy>
+</document>

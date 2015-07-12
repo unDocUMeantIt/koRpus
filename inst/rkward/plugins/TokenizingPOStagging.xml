@@ -1,0 +1,55 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!-- this code was generated using the rkwarddev package.
+			perhaps don't make changes here, but in the rkwarddev script instead! -->
+	<code file="TokenizingPOStagging.js" />
+	<help file="TokenizingPOStagging.rkh" />
+	<!-- <dependencies>
+			</dependencies> -->
+	<logic>
+		<convert id="lgc_rdSlctpr" sources="rad_Slctprtn.string" mode="equals" standard="file" />
+		<convert id="lgc_rdSlctTT" sources="rad_Slctprtn.string" mode="equals" standard="fileTreeTagger" />
+		<connect governor="lgc_rdSlctTT" client="txt_ThTrTggr.visible" />
+		<connect governor="lgc_rdSlctTT" client="brw_TrTggrrt.visible" />
+		<connect governor="lgc_rdSlctTT" client="brw_TrTggrrt.required" />
+		<connect governor="lgc_rdSlctpr" client="frm_tknzptns.visible" />
+	</logic>
+	<dialog label="POS Tagging">
+		<row id="row_cSSTTTTTTT">
+			<column id="clm_rSSTTTTTTT">
+				<radio id="rad_Slctprtn" label="Select operation mode">
+					<option label="Tokenize with tokenize()" value="file" checked="true" />
+					<option label="Tokenize and tag with TreeTagger" value="fileTreeTagger" />
+				</radio>
+				<frame id="frm_bTTTTTTTTT">
+					<browser label="TreeTagger root folder:" type="dir" id="brw_TrTggrrt" />
+					<text id="txt_ThTrTggr">
+						The TreeTagger folder is the one containing the bin, cmd and lib folders
+					</text>
+					<dropdown id="drp_Textlngg" label="Text language:">
+						<option label="English" value="en" checked="true" />
+						<option label="French (UTF-8)" value="fr-utf8" />
+						<option label="French" value="fr" />
+						<option label="German (UTF-8)" value="de-utf8" />
+						<option label="German" value="de" />
+						<option label="Italian (UTF-8)" value="it-utf8" />
+						<option label="Italian" value="it" />
+						<option label="Spanish (UTF-8)" value="es-utf8" />
+						<option label="Spanish" value="es" />
+						<option label="Russian (UTF-8)" value="ru" />
+					</dropdown>
+					<browser label="Text to analyze:" type="file" id="brw_Txttnlyz" filter="*.txt" />
+				</frame>
+				<frame label="tokenize() options" id="frm_tknzptns">
+					<checkbox id="chc_Dtcthdln" label="Detect headlines (treated as sentences)" value="hline=TRUE" />
+					<checkbox id="chc_Dtctprgr" label="Detect paragraphs" value="parag=TRUE" />
+				</frame>
+				<stretch />
+				<frame id="frm_chckbxdsTL">
+					<checkbox id="showTagged" label="List tokenized results in output (slow for long texts!)" value="tagged" />
+				</frame>
+				<saveobject label="Keep tagged text object" checkable="true" checked="true" initial="tagged.text.obj" id="saveTaggedText" />
+			</column>
+		</row>
+	</dialog>
+</document>
