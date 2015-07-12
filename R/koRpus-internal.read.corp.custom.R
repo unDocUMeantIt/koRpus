@@ -19,12 +19,10 @@
 # so they're mostly called by read.corp.custom()
 
 
-## TODO: encoding vs. fileEncoding! -> tag.kRp.txt()
-
 ## function kRp.corp.custom.prepare()
 # prepare data to feed to internal functions
 # called by kRp.read.corp.custom.calc(), see below
-kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", force.lang=NULL, ...){
+kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", force.lang=NULL, caseSens=TRUE, ...){
   if(inherits(corpus, "kRp.tagged")){
     tokens <- slot(corpus, "TT.res")[["token"]]
     tokenizedTexts <- list(corpus)
@@ -56,6 +54,11 @@ kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", for
     }
   }
   
+  if(!isTRUE(caseSens)){
+    tokens <- tolower(tokens)
+    tokensList <- lapply(tokensList, tolower)
+  } else {}
+
   results <- list(tokens=tokens, tokensList=tokensList, tokenizedTexts=tokenizedTexts)
   return(results)
 } ## end function kRp.corp.custom.prepare()
@@ -64,12 +67,8 @@ kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", for
 ## function kRp.corp.custom.analysis()
 # calculate basic frequencies
 # called by kRp.read.corp.custom.calc(), see below
-kRp.corp.custom.analysis <- function(tokens, quiet=TRUE, caseSens=TRUE){
+kRp.corp.custom.analysis <- function(tokens, quiet=TRUE){
   
-  if(!isTRUE(caseSens)){
-    tokens <- tolower(tokens)
-  } else {}
-
   # this can be handled quick if quiet=TRUE, by using table()
   if(isTRUE(quiet)){
     freq.df <- frqcy.of.types(tokens=tokens, byTypes=TRUE, byTokens=FALSE)
@@ -141,9 +140,10 @@ kRp.read.corp.custom.calc <- function(corpus, format="file", quiet=TRUE, caseSen
     tagger="kRp.env", force.lang=NULL, ...){
 
   # prepare data
-  data <- kRp.corp.custom.prepare(corpus=corpus, format=format, tagger=tagger, force.lang=force.lang, ...)
+  data <- kRp.corp.custom.prepare(corpus=corpus, format=format, tagger=tagger,
+    force.lang=force.lang, caseSens=caseSens, ...)
   # basic frequencies
-  freq.obj <- kRp.corp.custom.analysis(tokens=data[["tokens"]], quiet=quiet, caseSens=caseSens)
+  freq.obj <- kRp.corp.custom.analysis(tokens=data[["tokens"]], quiet=quiet)
   # idf  
   freq.obj <- kRp.idf(freq.obj=freq.obj, tokensList=data[["tokensList"]], log.base=log.base)
 
