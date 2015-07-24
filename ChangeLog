@@ -10,7 +10,7 @@ changed:
   - correct.tag() now accepts all objects of class union kRp.taggedText
   - query() now uses "%in%" instead of "==" to match character strings
     against "query"
-  - added parameter "env" to internal function set.lang.support(), to prepare
+  - exported the previously internal function set.lang.support(), to prepare
     for the possibility of third party package to add new languages
 
 changes in version 0.06-1 (2015-07-08)

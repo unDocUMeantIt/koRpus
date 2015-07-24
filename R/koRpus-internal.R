@@ -1271,56 +1271,6 @@ tokenz <- function(txt, split="[[:space:]]", ign.comp="-", heuristics="abbr", ab
 } ## end function tokenz()
 
 
-## function set.lang.support()
-# used to upgrade the supported languages
-# - target: one of "hyphen", "kRp.POS.tags", or "treetag", depending on what whould be supported
-# - value: a named list that upholds exactly the structure defined in inst/README.languages
-set.lang.support <- function(target, value, env=.koRpus.env){
-
-  all.kRp.env <- as.list(as.environment(env))
-
-  if(identical(target, "hyphen")){
-    recent.pattern <- all.kRp.env[["langSup"]][["hyphen"]][["supported"]]
-    # could be there is no such entries in the environment yet
-    if(is.null(recent.pattern)){
-      recent.pattern <- list()
-    } else {}
-    # to be safe do this as a for loop; this should replace older entries
-    # but keep all other intact or just add new ones
-    for (this.pattern in names(value)){
-      recent.pattern[[this.pattern]] <- value[[this.pattern]]
-    }
-    all.kRp.env[["langSup"]][["hyphen"]][["supported"]] <- recent.pattern
-  } else if(identical(target, "kRp.POS.tags")){
-    recent.tags <- all.kRp.env[["langSup"]][["kRp.POS.tags"]][["tags"]]
-    # could be there is no such entries in the environment yet
-    if(is.null(recent.tags)){
-      recent.tags <- list()
-    } else {}
-    # to be safe do this as a for loop; this should replace older entries
-    # but keep all other intact or just add new ones
-    for (this.tags in names(value)){
-      recent.tags[[this.tags]] <- value[[this.tags]]
-    }
-    all.kRp.env[["langSup"]][["kRp.POS.tags"]][["tags"]] <- recent.tags
-  } else if(identical(target, "treetag")){
-    recent.presets <- all.kRp.env[["langSup"]][["treetag"]][["presets"]]
-    # could be there is no such entries in the environment yet
-    if(is.null(recent.presets)){
-      recent.presets <- list()
-    } else {}
-    # to be safe do this as a for loop; this should replace older entries
-    # but keep all other intact or just add new ones
-    for (this.preset in names(value)){
-      recent.presets[[this.preset]] <- value[[this.preset]]
-    }
-    all.kRp.env[["langSup"]][["treetag"]][["presets"]] <- recent.presets
-  } else {
-    stop(simpleError(paste0("Invalid target for language support: ", target)))
-  }
-  list2env(all.kRp.env, envir=as.environment(env))
-} ## end function set.lang.support()
-
 ## function queryList()
 queryList <- function(obj, var, query, rel, as.df, ignore.case, perl){
   this.query <- query[[1]]

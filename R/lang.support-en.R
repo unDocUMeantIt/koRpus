@@ -19,6 +19,8 @@
 # this is an internal file providing language support.
 # please refer to inst/README.languages for details
 
+#' @include set.lang.support.R
+
 set.lang.support("hyphen",
   list(
     "en"="en",

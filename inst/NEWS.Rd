@@ -18,7 +18,7 @@
       \item \code{correct.tag()} now accepts all objects of class union kRp.taggedText
       \item \code{query()} now uses "\%in\%" instead of "==" to match character strings
         against \code{"query"}
-      \item added parameter \code{"env"} to internal function \code{set.lang.support()}, to prepare
+      \item exported the previously internal function \code{set.lang.support()}, to prepare
         for the possibility of third party package to add new languages
     }
   }
