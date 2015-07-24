@@ -1275,9 +1275,9 @@ tokenz <- function(txt, split="[[:space:]]", ign.comp="-", heuristics="abbr", ab
 # used to upgrade the supported languages
 # - target: one of "hyphen", "kRp.POS.tags", or "treetag", depending on what whould be supported
 # - value: a named list that upholds exactly the structure defined in inst/README.languages
-set.lang.support <- function(target, value){
+set.lang.support <- function(target, value, env=.koRpus.env){
 
-  all.kRp.env <- as.list(as.environment(.koRpus.env))
+  all.kRp.env <- as.list(as.environment(env))
 
   if(identical(target, "hyphen")){
     recent.pattern <- all.kRp.env[["langSup"]][["hyphen"]][["supported"]]
@@ -1318,7 +1318,7 @@ set.lang.support <- function(target, value){
   } else {
     stop(simpleError(paste0("Invalid target for language support: ", target)))
   }
-  list2env(all.kRp.env, envir=as.environment(.koRpus.env))
+  list2env(all.kRp.env, envir=as.environment(env))
 } ## end function set.lang.support()
 
 ## function queryList()

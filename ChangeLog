@@ -1,15 +1,17 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-2 (2015-07-09)
+changes in version 0.06-2 (2015-07-24)
 unreleased:
   - this release is under development
 fixed:
-  - read.corp.custom() calculated the in-document frequency wrong
-    if analysis was performed case insensitive
+  - read.corp.custom() calculated the in-document frequency wrong if analysis
+    was performed case insensitive
 changed:
   - correct.tag() now accepts all objects of class union kRp.taggedText
-  - query() now uses "%in%" instead of "==" to match character strings against
-    "query"
+  - query() now uses "%in%" instead of "==" to match character strings
+    against "query"
+  - added parameter "env" to internal function set.lang.support(), to prepare
+    for the possibility of third party package to add new languages
 
 changes in version 0.06-1 (2015-07-08)
 fixed:

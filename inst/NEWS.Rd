@@ -1,17 +1,25 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
-\section{Changes in koRpus version 0.06-2 (2015-07-09)}{
+\section{Changes in koRpus version 0.06-2 (2015-07-24)}{
   \subsection{unreleased}{
     \itemize{
       \item this release is under development
     }
   }
+  \subsection{fixed}{
+    \itemize{
+      \item \code{read.corp.custom()} calculated the in-document frequency wrong if analysis
+        was performed case insensitive
+    }
+  }
   \subsection{changed}{
     \itemize{
       \item \code{correct.tag()} now accepts all objects of class union kRp.taggedText
-      \item \code{query()} now uses "\%in\%" instead of "==" to match character strings agains
-        \code{"query"}
+      \item \code{query()} now uses "\%in\%" instead of "==" to match character strings
+        against \code{"query"}
+      \item added parameter \code{"env"} to internal function \code{set.lang.support()}, to prepare
+        for the possibility of third party package to add new languages
     }
   }
 }
@@ -32,7 +40,7 @@
         \code{read.corp.custom()} into several subfunctions to get more flexibility
       \item \code{read.corp.custom()} now also supports analysis of lists of tagged objects
       \item removed option \code{"fileEncoding"} from the signature of \code{read.corp.custom()},
-        bit it can still be used as part of the \code{"..."} options; this was neccessary
+        but it can still be used as part of the \code{"..."} options; this was neccessary
         because \code{treetag()} uses \code{"encoding"} instead
     }
   }

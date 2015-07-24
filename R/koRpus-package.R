@@ -4,7 +4,7 @@
 #' Package: \tab koRpus\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.06-2\cr
-#' Date: \tab 2015-07-09\cr
+#' Date: \tab 2015-07-24\cr
 #' Depends: \tab R (>= 2.10.0),methods\cr
 #' Enhances: \tab rkward\cr
 #' Encoding: \tab UTF-8\cr
@@ -23,7 +23,8 @@
 #' 'rkward' cannot be installed directly from a repository, as it is a part of RKWard. To make full use of this
 #' feature, please install RKWard from https://rkward.kde.org (plugins are detected automatically).
 #' Due to some restrictions on CRAN, the full package sources are only available from the project homepage.
-#' To ask for help, report bugs, suggest feature improvements, or discuss the global development of the package, please subscribe to the koRpus-dev mailing list: https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de
+#' To ask for help, report bugs, suggest feature improvements, or discuss the global development of the package,
+#' please subscribe to the koRpus-dev mailing list: https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de
 #'
 #' @aliases koRpus-package
 #' @name koRpus-package

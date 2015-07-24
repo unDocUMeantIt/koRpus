@@ -29,10 +29,11 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
 URL: http://reaktanz.de/?c=hacking&s=koRpus
-Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl", family="Brown", email="eabrown@csumb.edu", role=c("ctb")), person(given="Alberto",
-                         family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
+Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl", family="Brown", email="eabrown@csumb.edu",
+                    role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura",
+                    family="Hauser", role=c("ctb")))
 Version: 0.06-2
-Date: 2015-07-09
+Date: 2015-07-24
 Collate:
     '00_class_01_kRp.tagged.R'
     '00_class_02_kRp.TTR.R'
