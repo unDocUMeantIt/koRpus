@@ -227,8 +227,17 @@ load.hyph.pattern <- function(lang){
   hyph.pat <- NULL
 
   lang <- is.supported.lang(lang, support="hyphen")
+  # check for additional package information, in case we're
+  # importing hyphen patterns from a third party package
+  lang.names <- names(lang) %in% "package"
+  if(length(lang) > 1 & any(lang.names)){
+    hyph.package <- lang[["package"]]
+    lang <- lang[!lang.names][[1]]
+  } else {
+    hyph.package <- "koRpus"
+  }
   if(!exists(paste0("hyph.", lang), envir=as.environment(.koRpus.env), inherits=FALSE)){
-    data(list=paste0("hyph.", lang), package="koRpus", envir=as.environment(.koRpus.env))
+    data(list=paste0("hyph.", lang), package=hyph.package, envir=as.environment(.koRpus.env))
   } else {}
   hyph.pat <- get(paste0("hyph.", lang), envir=as.environment(.koRpus.env))
   return(hyph.pat)

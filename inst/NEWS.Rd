@@ -1,7 +1,7 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
-\section{Changes in koRpus version 0.06-2 (2015-07-24)}{
+\section{Changes in koRpus version 0.06-2 (2015-07-25)}{
   \subsection{unreleased}{
     \itemize{
       \item this release is under development

@@ -40,11 +40,16 @@
 #' 
 #' @section "hyphen":
 #' 
-#' The named list usually has one simple entry just to tell the new language abbreviation, e.g., \code{set.lang.support("hyphen", list("xyz"="xyz"))}. However,
-#' this will only work if the language support script is a part of the \code{koRpus} package itself and the hyphen pattern saved to its \code{data} subdirectory.
+#' The named list usually has one single entry to tell the new language abbreviation, e.g., \code{set.lang.support("hyphen", list("xyz"="xyz"))}. However,
+#' this will only work if a) the language support script is a part of the \code{koRpus} package itself, and b) the hyphen pattern is located in its \code{data} subdirectory.
 #' 
 #' For your custom hyphenation patterns to be found automatically, provide it as the value in the named list, e.g., \code{set.lang.support("hyphen", list("xyz"=hyph.xyz))}.
 #' This will directly add the patterns to \code{korpus}' environment, so it will be found when hyphenation is requested for language \code{"xyz"}.
+#' 
+#' If you would like to provide hyphenation as part of a third party language package, you must name the object \code{hyph.<lang>}, save it to your package's \code{data}
+#' subdirectory named \code{hyph.<lang>.rda}, and append \code{package="<yourpackage>"} to the named list; e.g.,
+#' \code{set.lang.support("hyphen", list("xyz"=c("xyz", package="koRpus.lang.xyz"))}. Only then \code{koRpus} will look for the pattern object in your package, not its own
+#' \code{data} directory.
 #' 
 #' @section "treetag":
 #' 
