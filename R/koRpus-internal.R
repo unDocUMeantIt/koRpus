@@ -880,20 +880,6 @@ is.supported.lang <- function(lang.ident, support="hyphen"){
 } ## end function is.supported.lang()
 
 
-## function load.hyph.pattern()
-load.hyph.pattern <- function(lang){
-  # to avoid needless NOTEs from R CMD check
-  hyph.pat <- NULL
-
-  lang <- is.supported.lang(lang, support="hyphen")
-  pat.to.load <- parse(text=paste0("if(!exists(\"hyph.", lang, "\", envir=.koRpus.env, inherits=FALSE)){
-    data(hyph.", lang, ", package=\"koRpus\", envir=.koRpus.env)} else {}
-    hyph.pat <- get(\"hyph.", lang, "\", envir=.koRpus.env)"))
-  eval(pat.to.load)
-  return(hyph.pat)
-} ## end function load.hyph.pattern()
-
-
 ## function txt.compress()
 # will gzip an object and return file size and compression ratio
 # can be used to estimate redundancy on a global level

@@ -219,3 +219,17 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=3, rm.hyph=TRUE
 
   return(results)
 }
+
+
+## function load.hyph.pattern()
+load.hyph.pattern <- function(lang){
+  # to avoid needless NOTEs from R CMD check
+  hyph.pat <- NULL
+
+  lang <- is.supported.lang(lang, support="hyphen")
+  if(!exists(paste0("hyph.", lang), envir=as.environment(.koRpus.env), inherits=FALSE)){
+    data(list=paste0("hyph.", lang), package="koRpus", envir=as.environment(.koRpus.env))
+  } else {}
+  hyph.pat <- get(paste0("hyph.", lang), envir=as.environment(.koRpus.env))
+  return(hyph.pat)
+} ## end function load.hyph.pattern()
