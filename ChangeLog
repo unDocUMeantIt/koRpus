@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-2 (2015-07-25)
+changes in version 0.06-2 (2015-09-13)
 unreleased:
   - this release is under development
 fixed:
@@ -12,6 +12,13 @@ changed:
     against "query"
   - exported the previously internal function set.lang.support(), to prepare
     for the possibility of third party package to add new languages
+added:
+  - initial support to manually extend the languages supported by the package.
+    you can now add new languages on-the-fly in a running session, or in a
+    more sustainable manner by providing a language package (using the same
+    methods, basically). key to this is the now globally available function
+    set.lang.support(), and there's also a commented template script installed
+    with the package, see the "templates" folder
 
 changes in version 0.06-1 (2015-07-08)
 fixed:
