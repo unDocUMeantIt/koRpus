@@ -4,7 +4,7 @@
 #' Package: \tab koRpus\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.06-2\cr
-#' Date: \tab 2015-07-25\cr
+#' Date: \tab 2015-09-13\cr
 #' Depends: \tab R (>= 2.10.0),methods\cr
 #' Enhances: \tab rkward\cr
 #' Encoding: \tab UTF-8\cr
@@ -17,7 +17,7 @@
 #' hyphenation, several indices of lexical diversity (e.g., type token ratio, HD-D/vocd-D, MTLD)
 #' and readability (e.g., Flesch, SMOG, LIX, Dale-Chall). Basic import functions for language corpora
 #' are also provided, to enable frequency analyses (supports Celex and Leipzig Corpora Collection file formats)
-#' and measures like tf-idf.
+#' and measures like tf-idf. Support for additional languages can be added on-the-fly or by plugin packages.
 #' Note: For full functionality a local installation of TreeTagger is recommended. 'koRpus' also includes a plugin
 #' for the R GUI and IDE RKWard, providing graphical dialogs for its basic features. The respective R package
 #' 'rkward' cannot be installed directly from a repository, as it is a part of RKWard. To make full use of this

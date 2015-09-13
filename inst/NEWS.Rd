@@ -1,7 +1,7 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
-\section{Changes in koRpus version 0.06-2 (2015-07-25)}{
+\section{Changes in koRpus version 0.06-2 (2015-09-13)}{
   \subsection{unreleased}{
     \itemize{
       \item this release is under development
@@ -20,6 +20,16 @@
         against \code{"query"}
       \item exported the previously internal function \code{set.lang.support()}, to prepare
         for the possibility of third party package to add new languages
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item initial support to manually extend the languages supported by the package.
+        you can now add new languages on-the-fly in a running session, or in a
+        more sustainable manner by providing a language package (using the same
+        methods, basically). key to this is the now globally available function
+        \code{set.lang.support()}, and there's also a commented template script installed
+        with the package, see the \code{"templates"} folder
     }
   }
 }

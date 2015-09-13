@@ -70,7 +70,7 @@ tags.de <- kRp.POS.tags("de")
 }
 \author{
 m.eik michalke \email{meik.michalke@hhu.de},
-      support for Spanish contributed by Earl Brown \email{eabrown@csumb.edu}, support for Italian contributed by Alberto Mirisola.
+      support for Spanish contributed by Earl Brown \email{ekbrown@ksu.edu}, support for Italian contributed by Alberto Mirisola.
 }
 \references{
 Santorini,
