@@ -53,7 +53,7 @@
 #'    }
 #' Otherwise a vector with the known word classes or POS tags for the chosen language (and probably tag subset) will be returned.
 #' If both \code{list.classes} and \code{list.tags} are \code{TRUE}, still only the POS tags will be returned.
-#' @author m.eik michalke \email{meik.michalke@@hhu.de}, support for Spanish contributed by Earl Brown \email{eabrown@@csumb.edu}, support for Italian contributed by Alberto Mirisola.
+#' @author m.eik michalke \email{meik.michalke@@hhu.de}, support for Spanish contributed by Earl Brown \email{ekbrown@@ksu.edu}, support for Italian contributed by Alberto Mirisola.
 #' @keywords misc
 #' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
 #' @references
