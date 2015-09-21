@@ -75,7 +75,7 @@ m.eik michalke \email{meik.michalke@hhu.de},
 \references{
 Santorini,
       B. (1991). \emph{Part-of-Speech Tagging Guidelines for the Penn Treebank Project}.
-   URL: \url{http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/Penn-Treebank-Tagset.pdf}
+   URL: \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/Penn-Treebank-Tagset.pdf}
 
  Schiller, A., Teufel, S., Stockert, C. & Thielen,
       C. (1995). \emph{Vorl\"aufge Guidelines f\"ur das Tagging deutscher Textcorpora mit STTS}.

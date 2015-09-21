@@ -98,7 +98,7 @@
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
 #'
-#' [1] \url{http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/DecisionTreeTagger.html}
+#' [1] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/}
 #' @export
 #' @examples
 #' \dontrun{

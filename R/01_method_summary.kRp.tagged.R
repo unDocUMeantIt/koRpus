@@ -57,6 +57,8 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' @include 00_class_01_kRp.tagged.R
 #' @include 01_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.tagged"), function(object){
+  # to prevent hiccups from R CMD check
+  Row.names <- NULL
   desc <- object@desc
   wclass.nopunct.num <- wClassNoPunct(wclass=object@TT.res[["wclass"]], lang=object@lang)
   if(!is.null(object@desc[["cloze"]][["origText"]][["wclass"]])){
