@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-3 (2015-09-24)
+changes in version 0.06-3 (2015-10-29)
 unreleased:
   - this release is under development
 fixed:
@@ -8,6 +8,9 @@ fixed:
     is.supported.lang(). the function previously looked for supported languages in the
     available presets, which failed if there was no preset named like the language
     abberviation
+added:
+  - read.tagged() does now also accept matrix objects, see
+    https://github.com/unDocUMeantIt/koRpus/issues/1
 
 changes in version 0.06-2 (2015-09-21)
 fixed:
