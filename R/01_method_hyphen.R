@@ -47,7 +47,8 @@
 #'    \code{\link[koRpus]{kRp.analysis-class}}, or a character vector with words to be hyphenated.
 #' @param hyph.pattern Either an object of class \code{\link[koRpus]{kRp.hyph.pat-class}}, or
 #'    a valid character string naming the language of the patterns to be used. See details.
-#' @param min.length Integer, number of letters a word must have for considering a hyphenation.
+#' @param min.length Integer, number of letters a word must have for considering a hyphenation. \code{hyphen} will
+#'    not split words after the first or before the last letter, so values smaller than 4 are not useful.
 #' @param rm.hyph Logical, whether appearing hyphens in words should be removed before pattern matching.
 #' @param corp.rm.class A character vector with word classes which should be ignored. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
@@ -96,7 +97,7 @@ setGeneric("hyphen", function(words, ...) standardGeneric("hyphen"))
 #' @aliases hyphen,kRp.taggedText-method
 #' @rdname hyphen-methods
 setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
-    hyph.pattern=NULL, min.length=3, rm.hyph=TRUE,
+    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
     corp.rm.class="nonpunct",
     corp.rm.tag=c(), quiet=FALSE, cache=TRUE){
 
@@ -119,7 +120,7 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
 #' @aliases hyphen,character-method
 #' @rdname hyphen-methods
 setMethod("hyphen", signature(words="character"), function(words,
-    hyph.pattern=NULL, min.length=3, rm.hyph=TRUE,
+    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
     corp.rm.class="nonpunct",
     corp.rm.tag=c(), quiet=FALSE, cache=TRUE){
 
