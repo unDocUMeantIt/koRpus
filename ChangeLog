@@ -8,6 +8,8 @@ fixed:
     is.supported.lang(). the function previously looked for supported languages in the
     available presets, which failed if there was no preset named like the language
     abberviation
+  - made hyphen() not split words after first or before last character, therefore
+    min.length was increased to 4 accordingly
 added:
   - read.tagged() does now also accept matrix objects, see
     https://github.com/unDocUMeantIt/koRpus/issues/1

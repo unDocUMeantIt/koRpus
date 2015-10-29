@@ -10,10 +10,10 @@
 hyphen(words, ...)
 
 \S4method{hyphen}{kRp.taggedText}(words, hyph.pattern = NULL,
-  min.length = 3, rm.hyph = TRUE, corp.rm.class = "nonpunct",
+  min.length = 4, rm.hyph = TRUE, corp.rm.class = "nonpunct",
   corp.rm.tag = c(), quiet = FALSE, cache = TRUE)
 
-\S4method{hyphen}{character}(words, hyph.pattern = NULL, min.length = 3,
+\S4method{hyphen}{character}(words, hyph.pattern = NULL, min.length = 4,
   rm.hyph = TRUE, corp.rm.class = "nonpunct", corp.rm.tag = c(),
   quiet = FALSE, cache = TRUE)
 }
@@ -29,7 +29,9 @@ hyphen(words, ...)
 a valid character string naming the language of the patterns to be used. See details.}
 
 \item{min.length}{Integer,
-      number of letters a word must have for considering a hyphenation.}
+      number of letters a word must have for considering a hyphenation. \code{hyphen} will
+not split words after the first or before the last letter,
+      so values smaller than 4 are not useful.}
 
 \item{rm.hyph}{Logical,
       whether appearing hyphens in words should be removed before pattern matching.}
