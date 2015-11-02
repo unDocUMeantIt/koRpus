@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.06-4 (2015-11-02)
+unreleased:
+  - this release is under development
+
 changes in version 0.06-3 (2015-11-02)
 fixed:
   - actually query for supported POS tags in internal function
