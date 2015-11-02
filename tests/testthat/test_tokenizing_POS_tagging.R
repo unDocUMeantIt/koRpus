@@ -42,7 +42,6 @@ test_that("basic tokenizing", {
     equals(sampleTextStandard))
   expect_that(tokenizedTextConnection,
     equals(sampleTextStandard))
-
 })
 
 test_that("lexical diversity", {

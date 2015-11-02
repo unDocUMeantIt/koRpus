@@ -1,6 +1,25 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.06-3 (2015-11-02)}{
+  \subsection{fixed}{
+    \itemize{
+      \item actually query for supported POS tags in internal function
+        \code{is.supported.lang()}. the function previously looked for supported languages in the
+        available presets, which failed if there was no preset named like the language
+        abberviation
+      \item made \code{hyphen()} not split words after first or before last character,
+        therefore min.length was increased to 4 accordingly
+      \item adjusted test standards to changed hyphen results
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item \code{read.tagged()} does now also accept matrix objects, see
+        https://github.com/unDocUMeantIt/koRpus/issues/1
+    }
+  }
+}
 \section{Changes in koRpus version 0.06-2 (2015-09-21)}{
   \subsection{fixed}{
     \itemize{

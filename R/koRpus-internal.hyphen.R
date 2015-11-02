@@ -22,7 +22,9 @@
 ## if this signature changes, check hyphen() as well! ##
 ########################################################
 
-kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=3, rm.hyph=TRUE,
+# min.length is set to 4 because we'll never hyphenate after the first of before the last letter, so
+# words with three letters or less cannot be hyphenated
+kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
     corp.rm.class="nonpunct",
     corp.rm.tag=c(), quiet=FALSE, cache=TRUE, lang=NULL){
 
@@ -116,9 +118,9 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=3, rm.hyph=TRUE
     word.dotted <- paste0(".", word, ".")
     word.length <- nchar(word.dotted)
 
-    ## create word fragments ".w", ".wo", ".wor"... "rd."
+    ## create word fragments ".wo", ".wor"... "rd."
     # first, define all possible start values. obviously it starts with the first letter
-    # since minimal patten length is known, the last start value is (last character - min-length + 1)
+    # since minimal patten length is known, the last start value would be (last character - min-length + 1)
     iter.start.points <- c(1:(word.length - min.pat))
 
     word.fragments <- data.frame(sapply(iter.start.points, function(start){
@@ -150,8 +152,8 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=3, rm.hyph=TRUE
 
       # we'll never hyphenate before a word...
       pattern.max <- pattern.max[-c(1, length(pattern.max))]
-      # ... and never after the last letter
-      pattern.max[length(pattern.max)] <- 0
+      # ... never after the first or before the last letter
+      pattern.max[c(1,length(pattern.max)-1,length(pattern.max))] <- 0
 
       # filter odd positions (count syllables)
       possible.hyphs <- (pattern.max %% 2) != 0

@@ -18,33 +18,41 @@
 
 #' Import already tagged texts
 #'
-#' This function can be used on text files containing already tagged text material, e.g. the results of
+#' This function can be used on text files or matrices containing already tagged text material, e.g. the results of
 #' TreeTagger[1].
 #'
 #' Note that the value of \code{lang} must match a valid language supported by \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}.
 #' It will also get stored in the resulting object and might be used by other functions at a later point.
 #'
-#' @param file Either a connection or a character vector, valid path to a file, containing the previously analyzed text.
-#' @param lang A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
+#' @param file Either a matrix, a connection or a character vector. If the latter, that must be a valid path to a file,
+#'    containing the previously analyzed text. If it is a matrix, it must contain three columns named "token", "tag", and "lemma",
+#'    and only these three columns are used.
+#' @param lang A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
+#'    for all supported languages.
 #'    If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
-#' @param encoding A character string defining the character encoding of the input file, like  \code{"Latin1"} or \code{"UTF-8"}. If \code{NULL},
-#'    the encoding will either be taken from a preset (if defined in \code{TT.options}), or fall back to \code{""}. Hence you can overwrite the preset encoding with this parameter.
+#' @param encoding A character string defining the character encoding of the input file, like  \code{"Latin1"} or \code{"UTF-8"}.
+#'    If \code{NULL}, the encoding will either be taken from a preset (if defined in \code{TT.options}), or fall back to \code{""}.
+#'    Hence you can overwrite the preset encoding with this parameter.
 #' @param tagger The software which was used to tokenize and tag the text. Currently, TreeTagger is the only
 #'    supported tagger.
-#' @param apply.sentc.end Logical, whethter the tokens defined in \code{sentc.end} should be searched and set to a sentence ending tag. You could
-#'    call this a compatibility mode to make sure you get the results you would get if you called \code{\link[koRpus:treetag]{treetag}} on the original file.
+#' @param apply.sentc.end Logical, whethter the tokens defined in \code{sentc.end} should be searched and set to a sentence ending tag.
+#'    You could call this a compatibility mode to make sure you get the results you would get if you called
+#'    \code{\link[koRpus:treetag]{treetag}} on the original file.
 #'    If set to \code{FALSE}, the tags will be imported as they are.
 #' @param sentc.end A character vector with tokens indicating a sentence ending. This adds to given results, it doesn't replace them.
 #' @param stopwords A character vector to be used for stopword detection. Comparison is done in lower case. You can also simply set 
 #'    \code{stopwords=tm::stopwords("en")} to use the english stopwords provided by the \code{tm} package.
-#' @param stemmer A function or method to perform stemming. For instance, you can set \code{stemmer=Snowball::SnowballStemmer} if you have
-#'    the \code{Snowball} package installed (or \code{SnowballC::wordStem}). As of now, you cannot provide further arguments to this function.
+#' @param stemmer A function or method to perform stemming. For instance, you can set \code{stemmer=Snowball::SnowballStemmer} if you
+#'    have the \code{Snowball} package installed (or \code{SnowballC::wordStem}). As of now, you cannot provide further arguments to
+#'    this function.
 #' @param rm.sgml Logical, whether SGML tags should be ignored and removed from output
-#' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
-#'    original output if the TreeTagger system call in a matrix.
+#' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE}, prints internal variable settings and
+#'    attempts to return the original output if the TreeTagger system call in a matrix.
 #' @keywords misc
-#' @seealso \code{\link[koRpus:treetag]{treetag}}, \code{\link[koRpus:freq.analysis]{freq.analysis}}, \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-#' \code{\link[koRpus]{kRp.tagged-class}}
+#' @seealso \code{\link[koRpus:treetag]{treetag}},
+#'    \code{\link[koRpus:freq.analysis]{freq.analysis}},
+#'    \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
+#'    \code{\link[koRpus]{kRp.tagged-class}}
 #' @references
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
@@ -64,32 +72,44 @@ read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger"
     lang <- get.kRp.env(lang=TRUE)
   } else {}
 
-  if(inherits(file, "connection")){
-    takeAsFile <- file
+  # file can be a matrix-like object with previously tagged text
+  if(is.matrix(file) | is.data.frame(file)){
+    if(!ncol(file) == 3 | any(!c("token","tag","lemma") %in% colnames(file))){
+      stop(simpleError("If 'file' is a matrix, it must have three columns named \"token\", \"tag\", and \"lemma\"!"))
+    } else {
+      tagged.mtrx <- as.matrix(file[,c("token","tag","lemma")])
+    }
+    haveMatrix <- TRUE
   } else {
-    # does the text file exist?
-    takeAsFile <- normalizePath(file)
-    check.file(takeAsFile, mode="exist")
+    haveMatrix <- FALSE
+    if(inherits(file, "connection")){
+      takeAsFile <- file
+    } else {
+      # does the text file exist?
+      takeAsFile <- normalizePath(file)
+      check.file(takeAsFile, mode="exist")
+    }
+
+    ## read the file
+    if(is.null(encoding)){
+      encoding <- ""
+    } else {}
+    tagged.text <- readLines(takeAsFile, encoding=encoding)
+    tagged.text <- enc2utf8(tagged.text)
+
+    ## workaround
+    # in seldom cases TreeTagger seems to return duplicate tab stops
+    # we'll try to correct for that here
+    tagged.text <- gsub("\t\t", "\t", tagged.text)
   }
 
-  ## read the file
-  if(is.null(encoding)){
-    encoding <- ""
-  } else {}
-  tagged.text <- readLines(takeAsFile, encoding=encoding)
-  tagged.text <- enc2utf8(tagged.text)
-
-  ## workaround
-  # in seldom cases TreeTagger seems to return duplicate tab stops
-  # we'll try to correct for that here
-  tagged.text <- gsub("\t\t", "\t", tagged.text)
-
   if(identical(tagger, "TreeTagger")){
-    if(isTRUE(rm.sgml)){
-      tagged.text <- tagged.text[grep("^[^<]", tagged.text)]
+    if(!isTRUE(haveMatrix)){
+      if(isTRUE(rm.sgml)){
+        tagged.text <- tagged.text[grep("^[^<]", tagged.text)]
+      } else {}
+      tagged.mtrx <- matrix(unlist(strsplit(tagged.text, "\t")), ncol=3, byrow=TRUE, dimnames=list(c(),c("token","tag","lemma")))
     } else {}
-
-    tagged.mtrx <- matrix(unlist(strsplit(tagged.text, "\t")), ncol=3, byrow=TRUE, dimnames=list(c(),c("token","tag","lemma")))
 
     # add sentence endings as defined
     if(isTRUE(apply.sentc.end)){
