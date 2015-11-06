@@ -44,6 +44,9 @@ want to subscribe to the package's [RSS feed](http://r.reaktanz.de/pckg/koRpus/R
 
 If you're running a Debian based operating system, you might be interested in the
 [precompiled *.deb packages](http://r.reaktanz.de/pckg/koRpus/deb_repo.html).
+=======
+To automatically get updates, consider adding the repository to your R configuration. If you're running a
+Debian based operating system, you might be interested in the precompiled *.deb packages.
 
 ## Contributing
 
