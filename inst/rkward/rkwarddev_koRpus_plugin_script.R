@@ -112,15 +112,25 @@ kRp.POS.js.calc <- rk.paste.JS(
   kRp.POS.js.arr.tkheadl <- rk.JS.vars(kRp.POS.chk.tkheadl, var.prefix="value"),
   kRp.POS.js.arr.tkparag <- rk.JS.vars(kRp.POS.chk.tkparag, var.prefix="value"),
   kRp.POS.js.array <- rk.JS.array("detect", variables=list(id(kRp.POS.js.arr.tkheadl), id(kRp.POS.js.arr.tkparag)), opt.sep=",\\n\\t"),
-  ite(id(kRp.POS.drp.TTlang, " == \"de-utf8\""), id("var ", kRp.POS.js.lang, " = \"de\";"),
-    ite(id(kRp.POS.drp.TTlang, " == \"fr-utf8\""), id("var ", kRp.POS.js.lang, " = \"fr\";"),
-    ite(id(kRp.POS.drp.TTlang, " == \"es-utf8\""), id("var ", kRp.POS.js.lang, " = \"es\";"),
-    ite(id(kRp.POS.drp.TTlang, " == \"it-utf8\""), id("var ", kRp.POS.js.lang, " = \"it\";"),
-    id("var ", kRp.POS.js.lang, " = ", kRp.POS.drp.TTlang, ";"))))
+  js(
+    if(kRp.POS.drp.TTlang == "de-utf8"){
+      id("var ", kRp.POS.js.lang, " = \"de\";")
+    } else if(kRp.POS.drp.TTlang == "fr-utf8"){
+      id("var ", kRp.POS.js.lang, " = \"fr\";")
+    } else if(kRp.POS.drp.TTlang == "es-utf8"){
+      id("var ", kRp.POS.js.lang, " = \"es\";")
+    } else if(kRp.POS.drp.TTlang == "it-utf8"){
+      id("var ", kRp.POS.js.lang, " = \"it\";")
+    } else {
+      id("var ", kRp.POS.js.lang, " = ", kRp.POS.drp.TTlang, ";")
+    }
   ),
-  ite(id(kRp.POS.radio.mode, " == \"file\""),
-    echo("tagged.text.obj <- tokenize(\n\t\"", kRp.POS.brw.text, "\",\n\tlang=\"", kRp.POS.js.lang, "\"", kRp.POS.js.array, "\n)\n\n"),
-    echo("tagged.text.obj <- treetag(\n\t\"", kRp.POS.brw.text, "\",\n\ttreetagger=\"manual\",\n\tlang=\"", kRp.POS.js.lang, "\",\n\tTT.options=list(path=\"", kRp.POS.brw.TTroot, "\",\n\tpreset=\"", kRp.POS.drp.TTlang, "\")\n)\n\n")
+  js(
+    if(kRp.POS.radio.mode == "file"){
+      echo("tagged.text.obj <- tokenize(\n\t\"", kRp.POS.brw.text, "\",\n\tlang=\"", kRp.POS.js.lang, "\"", kRp.POS.js.array, "\n)\n\n")
+    } else {
+      echo("tagged.text.obj <- treetag(\n\t\"", kRp.POS.brw.text, "\",\n\ttreetagger=\"manual\",\n\tlang=\"", kRp.POS.js.lang, "\",\n\tTT.options=list(path=\"", kRp.POS.brw.TTroot, "\",\n\tpreset=\"", kRp.POS.drp.TTlang, "\")\n)\n\n")
+    }
   )
 )
 
@@ -137,11 +147,14 @@ kRp.POS.js.print <- rk.paste.JS(
 #   echo("\trk.print.literal(paste0(\"<strong>Letters: </strong>\", describe(tagged.text.obj)$letters[[\"all\"]],\n\t\t",
 #     "\" (\", round(describe(tagged.text.obj)$avg.word.length, digits=2), \" per word)\"))\n"),
   echo("rk.print(summary(tagged.text.obj))\n"),
-  ite(kRp.POS.chk.show,
-    rk.paste.JS(
-      rk.JS.header("Tagged text", level=3),
-      echo("rk.print(taggedText(tagged.text.obj))\n")
-    )
+  js(
+    if(kRp.POS.chk.show){
+      rk.paste.JS(
+        rk.JS.header("Tagged text", level=3),
+        echo("rk.print(taggedText(tagged.text.obj))\n"),
+        level=3
+      )
+    }
   ),
   echo("\n")
 )
@@ -182,7 +195,11 @@ kRp.hyph.js.calc <- rk.paste.JS(
 
 kRp.hyph.js.print <- rk.paste.JS(
   rk.JS.vars(kRp.hyph.chk.show),
-  ite(kRp.hyph.chk.show, echo("rk.print(hyphenated.text.obj@hyphen)\n\n"))
+  js(
+    if(kRp.hyph.chk.show){
+      echo("rk.print(hyphenated.text.obj@hyphen)\n\n")
+    }
+  )
 )
 
 kRp.hyph.component <- rk.plugin.component("Hyphenation",
