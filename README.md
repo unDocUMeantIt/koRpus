@@ -39,8 +39,11 @@ Installation is fairly easy, too:
 install.packages("koRpus", repo="http://R.reaktanz.de")
 ```
 
-To automatically get updates, consider adding the repository to your R configuration. If you're running a
-Debian based operating system, you might be interested in the precompiled *.deb packages.
+To automatically get updates, consider adding the repository to your R configuration.  You might also
+want to subscribe to the package's [RSS feed](http://r.reaktanz.de/pckg/koRpus/RSS.xml) to get notified of new releases.
+
+If you're running a Debian based operating system, you might be interested in the
+[precompiled *.deb packages](http://r.reaktanz.de/pckg/koRpus/deb_repo.html).
 
 ## Contributing
 
