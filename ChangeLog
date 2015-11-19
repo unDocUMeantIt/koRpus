@@ -1,8 +1,10 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-4 (2015-11-02)
+changes in version 0.06-4 (2015-11-19)
 unreleased:
   - this release is under development
+fixed:
+  - workaround for missing POS tag "NS" for english texts
 changed:
   - updated rkwarddev script according to recent development in the rkwarddev package
 added:
