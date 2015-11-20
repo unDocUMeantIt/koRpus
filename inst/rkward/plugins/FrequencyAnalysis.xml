@@ -1,56 +1,54 @@
 <!DOCTYPE rkplugin >
 <document>
-	<!-- this code was generated using the rkwarddev package.
-			perhaps don't make changes here, but in the rkwarddev script instead! -->
-	<code file="FrequencyAnalysis.js" />
-	<help file="FrequencyAnalysis.rkh" />
-	<!-- <dependencies>
-			</dependencies> -->
-	<logic>
-		<convert id="lgc_vrkRpFrO" sources="varkRpFreqObj.available" mode="and" />
-		<connect governor="lgc_vrkRpFrO.not" client="frm_Frqncsfr.enabled" />
-		<convert id="convDrpDir" sources="drp_Uscrpsdt.string" mode="notequals" standard="none" />
-		<connect governor="convDrpDir" client="brw_Databsfl.enabled" />
-		<connect governor="convDrpDir" client="brw_Databsfl.required" />
-		<connect governor="convDrpDir" client="saveCorpFrq.enabled" />
-		<convert id="convnoFrqObj" sources="varkRpFreqObj.available" mode="equals" standard="" />
-		<convert id="convSvCrp" sources="convnoFrqObj;convDrpDir" mode="and" />
-		<connect governor="convSvCrp" client="saveCorpFrq.active" />
-		<convert id="convDrpCelex" sources="drp_Uscrpsdt.string" mode="equals" standard="celex" />
-		<connect governor="convDrpCelex" client="spn_Nmbrfrnn.enabled" />
-	</logic>
-	<dialog label="Frequency Analysis">
-		<tabbook id="tbbk_FrqncyAn" label="Frequency Analysis">
-			<tab label="Data" id="tab_Data">
-				<row id="row_cHHHTTRHRR">
-					<column id="clm_vrslctrdvH">
-						<varselector id="varsHyph" />
-					</column>
-					<column id="clm_vHTTRHRRFO">
-						<varslot id="varHyphenTagged" label="Tokenized text object (valid class: kRp.tagged)" source="varsHyph" classes="kRp.tagged" required="true" />
-						<varslot id="varkRpFreqObj" label="Analyse against frequency object (valid class: kRp.corp.freq)" source="varsHyph" classes="kRp.corp.freq" />
-						<stretch />
-						<frame label="Descriptive statistics" id="frameFrqWCShow">
-							<checkbox id="chc_Trmfrqnc" label="Term frequency/inverse document frequency statistics (tf-idf)" value="true" checked="true" />
-							<checkbox id="chc_Shwfrqnc" label="Show frequencies of types &amp; token (by word class)" value="freqWC" />
-						</frame>
-						<saveobject label="Keep results" checkable="true" checked="true" initial="freq.analysis.obj" id="saveFrq" />
-					</column>
-				</row>
-			</tab>
-			<tab label="Corpora" id="tab_Corpora">
-				<frame label="Frequencies from language corpora" id="frm_Frqncsfr">
-					<dropdown id="drp_Uscrpsdt" label="Use corpus database">
-						<option label="none" value="none" checked="true" />
-						<option label="Leipzig Corpora Collection (*-text.tar.gz) " value="LCC" />
-						<option label="Celex (*.CD)" value="celex" />
-					</dropdown>
-					<browser label="Database file" type="file" id="brw_Databsfl" required="false" />
-					<spinbox label="Number of running words" id="spn_Nmbrfrnn" min="1" type="integer" />
-					<stretch />
-					<saveobject label="Keep corpus object" checkable="true" initial="corp.freq.obj" id="saveCorpFrq" />
-				</frame>
-			</tab>
-		</tabbook>
-	</dialog>
+  <code file="FrequencyAnalysis.js" />
+  <help file="FrequencyAnalysis.rkh" />
+  <!--   <dependencies>
+        </dependencies> -->
+  <logic>
+    <convert id="lgc_vrkRpFrO" sources="varkRpFreqObj.available" mode="and" />
+    <connect governor="lgc_vrkRpFrO.not" client="freqSourceFrame.enabled" />
+    <convert id="convDrpDir" sources="corpusDB.string" mode="notequals" standard="none" />
+    <connect governor="convDrpDir" client="corpDBdir.enabled" />
+    <connect governor="convDrpDir" client="corpDBdir.required" />
+    <connect governor="convDrpDir" client="saveCorpFrq.enabled" />
+    <convert id="convnoFrqObj" sources="varkRpFreqObj.available" mode="equals" standard="" />
+    <convert id="convSvCrp" sources="convnoFrqObj;convDrpDir" mode="and" />
+    <connect governor="convSvCrp" client="saveCorpFrq.active" />
+    <convert id="convDrpCelex" sources="corpusDB.string" mode="equals" standard="celex" />
+    <connect governor="convDrpCelex" client="CelexRunWd.enabled" />
+  </logic>
+  <dialog label="Frequency Analysis">
+    <tabbook id="tbbk_FrqncyAn" label="Frequency Analysis">
+      <tab label="Data" id="tab_Data">
+        <row id="row_cHHHTTRHRR">
+          <column id="clm_vrslctrdvH">
+            <varselector id="varsHyph" />
+          </column>
+          <column id="clm_vHTTRHRRFO">
+            <varslot id="varHyphenTagged" label="Tokenized text object (valid class: kRp.tagged)" source="varsHyph" classes="kRp.tagged" required="true" />
+            <varslot id="varkRpFreqObj" label="Analyse against frequency object (valid class: kRp.corp.freq)" source="varsHyph" classes="kRp.corp.freq" />
+            <stretch />
+            <frame label="Descriptive statistics" id="frameFrqWCShow">
+              <checkbox id="tfidf" label="Term frequency/inverse document frequency statistics (tf-idf)" value="true" checked="true" />
+              <checkbox id="freqShowTypes" label="Show frequencies of types &amp; token (by word class)" value="freqWC" />
+            </frame>
+            <saveobject label="Keep results" checkable="true" checked="true" initial="freq.analysis.obj" id="saveFrq" />
+          </column>
+        </row>
+      </tab>
+      <tab label="Corpora" id="tab_Corpora">
+        <frame label="Frequencies from language corpora" id="freqSourceFrame">
+          <dropdown id="corpusDB" label="Use corpus database">
+            <option label="none" value="none" checked="true" />
+            <option label="Leipzig Corpora Collection (*-text.tar.gz) " value="LCC" />
+            <option label="Celex (*.CD)" value="celex" />
+          </dropdown>
+          <browser label="Database file" type="file" id="corpDBdir" required="false" />
+          <spinbox label="Number of running words" id="CelexRunWd" min="1" type="integer" />
+          <stretch />
+          <saveobject label="Keep corpus object" checkable="true" initial="corp.freq.obj" id="saveCorpFrq" />
+        </frame>
+      </tab>
+    </tabbook>
+  </dialog>
 </document>

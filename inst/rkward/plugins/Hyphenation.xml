@@ -1,28 +1,26 @@
 <!DOCTYPE rkplugin >
 <document>
-	<!-- this code was generated using the rkwarddev package.
-			perhaps don't make changes here, but in the rkwarddev script instead! -->
-	<code file="Hyphenation.js" />
-	<help file="Hyphenation.rkh" />
-	<!-- <dependencies>
-			</dependencies> -->
-	<logic>
-		<!-- <convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" /> -->
-		<!-- <connect governor="!edit!" client="!edit!.enabled" /> -->
-	</logic>
-	<dialog label="Hyphenation">
-		<row id="rowHyph">
-			<column id="clm_vrslctrdvH">
-				<varselector id="varsHyph" />
-			</column>
-			<column id="clm_vHTTRHRHLH">
-				<varslot id="varHyphenTagged" label="Tokenized text object (valid class: kRp.tagged)" source="varsHyph" classes="kRp.tagged" required="true" />
-				<stretch />
-				<frame id="frm_chckbxdsHL">
-					<checkbox id="showHyphenation" label="List hyphenation results in output" value="hyph" />
-				</frame>
-				<saveobject label="Keep hyphenated text object" checkable="true" checked="true" initial="hyphenated.text.obj" id="saveHyphen" />
-			</column>
-		</row>
-	</dialog>
+  <code file="Hyphenation.js" />
+  <help file="Hyphenation.rkh" />
+  <!--   <dependencies>
+        </dependencies> -->
+  <logic>
+    <!--     <convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" /> -->
+    <!--     <connect governor="!edit!.state" client="!edit!.enabled" /> -->
+  </logic>
+  <dialog label="Hyphenation">
+    <row id="rowHyph">
+      <column id="clm_vrslctrdvH">
+        <varselector id="varsHyph" />
+      </column>
+      <column id="clm_vHTTRHRHFH">
+        <varslot id="varHyphenTagged" label="Tokenized text object (valid class: kRp.tagged)" source="varsHyph" classes="kRp.tagged" required="true" />
+        <stretch />
+        <frame id="showHyphenationFrame">
+          <checkbox id="showHyphenation" label="List hyphenation results in output" value="hyph" />
+        </frame>
+        <saveobject label="Keep hyphenated text object" checkable="true" checked="true" initial="hyphenated.text.obj" id="saveHyphen" />
+      </column>
+    </row>
+  </dialog>
 </document>
