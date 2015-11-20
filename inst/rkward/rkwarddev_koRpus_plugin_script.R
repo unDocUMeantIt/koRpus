@@ -3,16 +3,20 @@
 # note: this script only creates objects in your workspace,
 # *EXCEPT* for the last call, see below.
 
+require(rkwarddev)
+rkwarddev.required("0.07-4")
+
 local({
 # set the output directory to overwrite the actual plugin
 output.dir <- tempdir()
 overwrite <- TRUE
 # if you set guess.getters to TRUE, the resulting code will need RKWard >= 0.6.0
 guess.getter <- TRUE
+rk.set.indent(by="  ")
+rk.set.empty.e(TRUE)
+update.translations <- TRUE
 
 menu.hierarchy <- list("analysis", "Text Analysis")
-
-require(rkwarddev)
 
 about.info <- rk.XML.about(
   name="koRpus",
@@ -26,18 +30,22 @@ dependencies.info <- rk.XML.dependencies(
 )
 
 
-kRp.POS.radio.mode <- rk.XML.radio(label="Select operation mode", options=list(
+operationMode <- rk.XML.radio(label="Select operation mode", options=list(
     "Tokenize with tokenize()"=c(val="file", chk=TRUE),
     "Tokenize and tag with TreeTagger"=c(val="fileTreeTagger")
-  )
+  ),
+  id.name="operationMode"
 )
 
-kRp.POS.brw.TTroot <- rk.XML.browser(
+TTRootDir <- rk.XML.browser(
   label="TreeTagger root folder:",
-  type="dir"
+  type="dir",
+  id.name="TTRootDir"
 )
-kRp.POS.txt.TTroot <- rk.XML.text("The TreeTagger folder is the one containing the bin, cmd and lib folders")
-kRp.POS.drp.TTlang <- rk.XML.dropdown(label="Text language:", options=list(
+TTRootText <- rk.XML.text(
+  "The TreeTagger folder is the one containing the bin, cmd and lib folders",
+  id.name="TTRootText")
+language <- rk.XML.dropdown(label="Text language:", options=list(
     "English"=c(val="en", chk=TRUE),
     "French (UTF-8)"=c(val="fr-utf8"),
     "French"=c(val="fr"),
@@ -48,48 +56,57 @@ kRp.POS.drp.TTlang <- rk.XML.dropdown(label="Text language:", options=list(
     "Spanish (UTF-8)"=c(val="es-utf8"),
     "Spanish"=c(val="es"),
     "Russian (UTF-8)"=c(val="ru")
-  )
+  ),
+  id.name="language"
 )
-kRp.POS.brw.text <- rk.XML.browser(
+textFile <- rk.XML.browser(
   label="Text to analyze:",
-  filter="*.txt"
+  filter="*.txt",
+  id.name="textFile"
 )
 kRp.POS.frm.TT <- rk.XML.frame(
-  kRp.POS.brw.TTroot,
-  kRp.POS.txt.TTroot,
-  kRp.POS.drp.TTlang,
-  kRp.POS.brw.text
+  TTRootDir,
+  TTRootText,
+  language,
+  textFile
 )
 
-kRp.POS.chk.tkheadl <- rk.XML.cbox(
+detectHeadlines <- rk.XML.cbox(
   label="Detect headlines (treated as sentences)",
-  value="hline=TRUE"
+  value="hline=TRUE",
+  id.name="detectHeadlines"
 )
-kRp.POS.chk.tkparag <- rk.XML.cbox(
+detectParagraphs <- rk.XML.cbox(
   label="Detect paragraphs",
-  value="parag=TRUE"
+  value="parag=TRUE",
+  id.name="detectParagraphs"
 )
-kRp.POS.frm.tkopts <- rk.XML.frame(
-  kRp.POS.chk.tkheadl,
-  kRp.POS.chk.tkparag,
-  label="tokenize() options"
-)
-
-kRp.POS.frm.show <- rk.XML.frame(
-  kRp.POS.chk.show <- rk.XML.cbox(label="List tokenized results in output (slow for long texts!)", value="tagged", id.name="showTagged")
+tknzOptions <- rk.XML.frame(
+  detectHeadlines,
+  detectParagraphs,
+  label="tokenize() options",
+  id.name="tknzOptions"
 )
 
-kRp.POS.saveobj <- rk.XML.saveobj(label="Keep tagged text object", initial="tagged.text.obj", chk=TRUE, id.name="saveTaggedText")
+showTaggedFrame <- rk.XML.frame(
+  showTagged <- rk.XML.cbox(
+    label="List tokenized results in output (slow for long texts!)",
+    value="tagged",
+    id.name="showTagged"),
+  id.name="showTaggedFrame"
+)
+
+saveTaggedText <- rk.XML.saveobj(label="Keep tagged text object", initial="tagged.text.obj", chk=TRUE, id.name="saveTaggedText")
 
 kRp.dialog.POS <- rk.XML.dialog(
   rk.XML.row(
     rk.XML.col(
-      kRp.POS.radio.mode,
+      operationMode,
       kRp.POS.frm.TT,
-      kRp.POS.frm.tkopts,
+      tknzOptions,
       rk.XML.stretch(),
-      kRp.POS.frm.show,
-      kRp.POS.saveobj
+      showTaggedFrame,
+      saveTaggedText
     )
   ),
   label="POS Tagging"
@@ -97,48 +114,48 @@ kRp.dialog.POS <- rk.XML.dialog(
 
 ## logic section
 kRp.POS.lgc.sect <- rk.XML.logic(
-  kRp.POS.lgc.tagModeTokenize <- rk.XML.convert(sources=list(string=kRp.POS.radio.mode), mode=c(equals="file")),
-  kRp.POS.lgc.tagModeTreeTagger <- rk.XML.convert(sources=list(string=kRp.POS.radio.mode), mode=c(equals="fileTreeTagger")),
-  rk.XML.connect(governor=kRp.POS.lgc.tagModeTreeTagger, client=kRp.POS.txt.TTroot, set="visible"),
-  rk.XML.connect(governor=kRp.POS.lgc.tagModeTreeTagger, client=kRp.POS.brw.TTroot, set="visible"),
-  rk.XML.connect(governor=kRp.POS.lgc.tagModeTreeTagger, client=kRp.POS.brw.TTroot, set="required"),
-  rk.XML.connect(governor=kRp.POS.lgc.tagModeTokenize, client=kRp.POS.frm.tkopts, set="visible")
+  kRp.POS.lgc.tagModeTokenize <- rk.XML.convert(sources=list(string=operationMode), mode=c(equals="file")),
+  kRp.POS.lgc.tagModeTreeTagger <- rk.XML.convert(sources=list(string=operationMode), mode=c(equals="fileTreeTagger")),
+  rk.XML.connect(governor=kRp.POS.lgc.tagModeTreeTagger, client=TTRootText, set="visible"),
+  rk.XML.connect(governor=kRp.POS.lgc.tagModeTreeTagger, client=TTRootDir, set="visible"),
+  rk.XML.connect(governor=kRp.POS.lgc.tagModeTreeTagger, client=TTRootDir, set="required"),
+  rk.XML.connect(governor=kRp.POS.lgc.tagModeTokenize, client=tknzOptions, set="visible")
 )
 
 ## JavaScript
 kRp.POS.js.lang <- rk.JS.vars("TTLang")
 kRp.POS.js.calc <- rk.paste.JS(
   # these are probably fetched as boolean, ensure we get the character values
-  kRp.POS.js.arr.tkheadl <- rk.JS.vars(kRp.POS.chk.tkheadl, var.prefix="value"),
-  kRp.POS.js.arr.tkparag <- rk.JS.vars(kRp.POS.chk.tkparag, var.prefix="value"),
+  kRp.POS.js.arr.tkheadl <- rk.JS.vars(detectHeadlines, var.prefix="value"),
+  kRp.POS.js.arr.tkparag <- rk.JS.vars(detectParagraphs, var.prefix="value"),
   kRp.POS.js.array <- rk.JS.array("detect", variables=list(id(kRp.POS.js.arr.tkheadl), id(kRp.POS.js.arr.tkparag)), opt.sep=",\\n\\t"),
   js(
-    if(kRp.POS.drp.TTlang == "de-utf8"){
+    if(language == "de-utf8"){
       id("var ", kRp.POS.js.lang, " = \"de\";")
-    } else if(kRp.POS.drp.TTlang == "fr-utf8"){
+    } else if(language == "fr-utf8"){
       id("var ", kRp.POS.js.lang, " = \"fr\";")
-    } else if(kRp.POS.drp.TTlang == "es-utf8"){
+    } else if(language == "es-utf8"){
       id("var ", kRp.POS.js.lang, " = \"es\";")
-    } else if(kRp.POS.drp.TTlang == "it-utf8"){
+    } else if(language == "it-utf8"){
       id("var ", kRp.POS.js.lang, " = \"it\";")
     } else {
-      id("var ", kRp.POS.js.lang, " = ", kRp.POS.drp.TTlang, ";")
+      id("var ", kRp.POS.js.lang, " = ", language, ";")
     }
   ),
   js(
-    if(kRp.POS.radio.mode == "file"){
-      echo("tagged.text.obj <- tokenize(\n\t\"", kRp.POS.brw.text, "\",\n\tlang=\"", kRp.POS.js.lang, "\"", kRp.POS.js.array, "\n)\n\n")
+    if(operationMode == "file"){
+      echo("tagged.text.obj <- tokenize(\n\t\"", textFile, "\",\n\tlang=\"", kRp.POS.js.lang, "\"", kRp.POS.js.array, "\n)\n\n")
     } else {
-      echo("tagged.text.obj <- treetag(\n\t\"", kRp.POS.brw.text, "\",\n\ttreetagger=\"manual\",\n\tlang=\"", kRp.POS.js.lang, "\",\n\tTT.options=list(path=\"", kRp.POS.brw.TTroot, "\",\n\tpreset=\"", kRp.POS.drp.TTlang, "\")\n)\n\n")
+      echo("tagged.text.obj <- treetag(\n\t\"", textFile, "\",\n\ttreetagger=\"manual\",\n\tlang=\"", kRp.POS.js.lang, "\",\n\tTT.options=list(path=\"", TTRootDir, "\",\n\tpreset=\"", language, "\")\n)\n\n")
     }
   )
 )
 
 kRp.POS.js.print <- rk.paste.JS(
-  rk.JS.vars(kRp.POS.brw.text, kRp.POS.drp.TTlang, kRp.POS.chk.show),
+  rk.JS.vars(textFile, language, showTagged),
   rk.JS.header("Tokenizing & POS tagging results",
-    add=c("Text", kRp.POS.brw.text),
-    add=c("Language", kRp.POS.drp.TTlang)
+    add=c("Text", textFile),
+    add=c("Language", language)
   ),
   rk.JS.header("Word class distribution", level=3),
 #   echo("\trk.print.literal(paste0(\"<strong>Sentences: </strong>\", describe(tagged.text.obj)$sentences))\n"),
@@ -148,12 +165,9 @@ kRp.POS.js.print <- rk.paste.JS(
 #     "\" (\", round(describe(tagged.text.obj)$avg.word.length, digits=2), \" per word)\"))\n"),
   echo("rk.print(summary(tagged.text.obj))\n"),
   js(
-    if(kRp.POS.chk.show){
-      rk.paste.JS(
-        rk.JS.header("Tagged text", level=3),
-        echo("rk.print(taggedText(tagged.text.obj))\n"),
-        level=3
-      )
+    if(showTagged){
+      rk.JS.header("Tagged text", level=3)
+      echo("rk.print(taggedText(tagged.text.obj))\n")
     }
   ),
   echo("\n")
@@ -161,28 +175,33 @@ kRp.POS.js.print <- rk.paste.JS(
 
 ### hyphenation
 
-kRp.hyph.vars <- rk.XML.varselector(id.name="varsHyph")
-kRp.hyph.data <- rk.XML.varslot(
+varsHyph <- rk.XML.varselector(id.name="varsHyph")
+varHyphenTagged <- rk.XML.varslot(
   label="Tokenized text object (valid class: kRp.tagged)",
-  source=kRp.hyph.vars,
+  source=varsHyph,
   classes=c("kRp.tagged"),
   required=TRUE,
   id.name="varHyphenTagged"
 )
 
-kRp.hyph.frm.show <- rk.XML.frame(
-  kRp.hyph.chk.show <- rk.XML.cbox(label="List hyphenation results in output", value="hyph", id.name="showHyphenation")
+showHyphenationFrame <- rk.XML.frame(
+  showHyphenation <- rk.XML.cbox(
+    label="List hyphenation results in output",
+    value="hyph",
+    id.name="showHyphenation"
+  ),
+  id.name="showHyphenationFrame"
 )
-kRp.hyph.saveobj <- rk.XML.saveobj(label="Keep hyphenated text object", initial="hyphenated.text.obj", chk=TRUE, id.name="saveHyphen")
+saveHyphen <- rk.XML.saveobj(label="Keep hyphenated text object", initial="hyphenated.text.obj", chk=TRUE, id.name="saveHyphen")
 
 kRp.tab.hyph <- list(
   rk.XML.row(
-    rk.XML.col(kRp.hyph.vars),
+    rk.XML.col(varsHyph),
     rk.XML.col(
-       kRp.hyph.data,
+       varHyphenTagged,
       rk.XML.stretch(),
-      kRp.hyph.frm.show,
-      kRp.hyph.saveobj
+      showHyphenationFrame,
+      saveHyphen
     ),
   id.name="rowHyph")
 )
@@ -190,13 +209,13 @@ kRp.tab.hyph <- list(
 kRp.dialog.hyph <- rk.XML.dialog(kRp.tab.hyph, label="Hyphenation")
 
 kRp.hyph.js.calc <- rk.paste.JS(
-  echo("hyphenated.text.obj <- hyphen(\n\t", kRp.hyph.data, ",\n\tquiet=TRUE\n)\n\n")
+  echo("hyphenated.text.obj <- hyphen(\n\t", varHyphenTagged, ",\n\tquiet=TRUE\n)\n\n")
 )
 
 kRp.hyph.js.print <- rk.paste.JS(
-  rk.JS.vars(kRp.hyph.chk.show),
+  rk.JS.vars(showHyphenation),
   js(
-    if(kRp.hyph.chk.show){
+    if(showHyphenation){
       echo("rk.print(hyphenated.text.obj@hyphen)\n\n")
     }
   )
@@ -211,110 +230,112 @@ kRp.hyph.component <- rk.plugin.component("Hyphenation",
   ),
   guess.getter=guess.getter,
   hierarchy=menu.hierarchy,
-  create=c("xml", "js"))
+  create=c("xml", "js"),
+  gen.info="$SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R"
+)
 
 
 ## readability
 
 
-kRp.rdb.frm.rdb <- rk.XML.frame(
+readabilityIndicesFrame <- rk.XML.frame(
   rk.XML.row(
     rk.XML.col(
-      kRp.rdb.chk.ARI <- rk.XML.cbox(label="Automated Readability Index (ARI)", value="ARI", chk=TRUE, id.name="ARI"),
-      kRp.rdb.chk.ARINRI <- rk.XML.cbox(label="ARI (NRI)", value="ARI.NRI", chk=TRUE, id.name="ARINRI"),
-      kRp.rdb.chk.ColemanLiau <- rk.XML.cbox(label="Coleman-Liau", value="Coleman.Liau", chk=TRUE, id.name="ColemanLiau"),
-      kRp.rdb.chk.DanielsonBrian <- rk.XML.cbox(label="Danielson-Bryan (D 1+2)", value="Danielson.Bryan", chk=TRUE, id.name="DanielsonBryan")
+      ARI <- rk.XML.cbox(label="Automated Readability Index (ARI)", value="ARI", chk=TRUE, id.name="ARI"),
+      ARINRI <- rk.XML.cbox(label="ARI (NRI)", value="ARI.NRI", chk=TRUE, id.name="ARINRI"),
+      ColemanLiau <- rk.XML.cbox(label="Coleman-Liau", value="Coleman.Liau", chk=TRUE, id.name="ColemanLiau"),
+      DanielsonBryan <- rk.XML.cbox(label="Danielson-Bryan (D 1+2)", value="Danielson.Bryan", chk=TRUE, id.name="DanielsonBryan")
     ),
     rk.XML.col(
-      kRp.rdb.chk.DickesSteiwer <- rk.XML.cbox(label="Dickes-Steiwer Handformel", value="Dickes.Steiwer", chk=TRUE, id.name="DickesSteiwer"),
-      kRp.rdb.chk.Fucks <- rk.XML.cbox(label="Fucks' Stilcharakteristik", value="Fucks", chk=TRUE, id.name="Fucks"),
-      kRp.rdb.chk.LIX <- rk.XML.cbox(label="Läsbarhetsindex (LIX)", value="LIX", chk=TRUE, id.name="LIX"),
-      kRp.rdb.chk.RIX <- rk.XML.cbox(label="Readability Index (RIX)", value="RIX", chk=TRUE, id.name="RIX")
+      DickesSteiwer <- rk.XML.cbox(label="Dickes-Steiwer Handformel", value="Dickes.Steiwer", chk=TRUE, id.name="DickesSteiwer"),
+      Fucks <- rk.XML.cbox(label="Fucks' Stilcharakteristik", value="Fucks", chk=TRUE, id.name="Fucks"),
+      LIX <- rk.XML.cbox(label="Läsbarhetsindex (LIX)", value="LIX", chk=TRUE, id.name="LIX"),
+      RIX <- rk.XML.cbox(label="Readability Index (RIX)", value="RIX", chk=TRUE, id.name="RIX")
     )
   ),
-  id.name="frameReadabilityIndices"
+  id.name="readabilityIndicesFrame"
 )
 
 
 
 
-kRp.rdb.col.needSylls <- rk.XML.col(
+readabilityNeedSylls <- rk.XML.col(
   rk.XML.text("Selecting any of these indices will automatically activate syllable count."),
   rk.XML.row(
     rk.XML.col(
-      kRp.rdb.chk.Coleman <- rk.XML.cbox(label="Coleman (C 1-4)", value="Coleman", id.name="Coleman"),
-      kRp.rdb.chk.ELF <- rk.XML.cbox(label="Easy Listening Formula", value="ELF", id.name="ELF"),
-      kRp.rdb.chk.FarrJenkinsPaterson <- rk.XML.cbox(label="Farr-Jenkins-Paterson", value="Farr.Jenkins.Paterson", id.name="FarrJenkinsPaterson"),
-      kRp.rdb.chk.FarrJenkinsPatersonPSK <- rk.XML.cbox(label="Farr-Jenkins-Paterson (Powers-Sumner-Kearl)", value="Farr.Jenkins.Paterson.PSK", id.name="FarrJenkinsPatersonPSK"),
-      kRp.rdb.chk.Flesch <- rk.XML.cbox(label="Flesch Reading Ease", value="Flesch", id.name="Flesch"),
-      kRp.rdb.chk.Flesch.de <- rk.XML.cbox(label="Flesch (DE, Amstad)", value="Flesch.de", id.name="FleschDE"),
-      kRp.rdb.chk.Flesch.es <- rk.XML.cbox(label="Flesch (ES, Fernandez-Huerta)", value="Flesch.es", id.name="FleschES"),
-      kRp.rdb.chk.Flesch.Szigriszt <- rk.XML.cbox(label="Flesch (ES, Szigriszt)", value="Flesch.Szigriszt", id.name="FleschESS"),
-      kRp.rdb.chk.Flesch.fr <- rk.XML.cbox(label="Flesch (FR, Kandel-Moles)", value="Flesch.fr", id.name="FleschFR"),
-      kRp.rdb.chk.Flesch.nl <- rk.XML.cbox(label="Flesch (NL, Douma)", value="Flesch.nl", id.name="FleschNL"),
-      kRp.rdb.chk.FleschPSK <- rk.XML.cbox(label="Flesch Reading Ease (Powers-Sumner-Kearl)", value="Flesch.PSK", id.name="FleschPSK"),
-      kRp.rdb.chk.FleschKincaid <- rk.XML.cbox(label="Flesch-Kincaid Grade Level", value="Flesch.Kincaid", id.name="FleschKincaid"),
-      kRp.rdb.chk.FOG <- rk.XML.cbox(label="FOG (Gunning)", value="FOG", id.name="FOG"),
-      kRp.rdb.chk.FOGPSK <- rk.XML.cbox(label="FOG (Powers-Sumner-Kearl)", value="FOG.PSK", id.name="FOGPSK"),
+      Coleman <- rk.XML.cbox(label="Coleman (C 1-4)", value="Coleman", id.name="Coleman"),
+      ELF <- rk.XML.cbox(label="Easy Listening Formula", value="ELF", id.name="ELF"),
+      FarrJenkinsPaterson <- rk.XML.cbox(label="Farr-Jenkins-Paterson", value="Farr.Jenkins.Paterson", id.name="FarrJenkinsPaterson"),
+      FarrJenkinsPatersonPSK <- rk.XML.cbox(label="Farr-Jenkins-Paterson (Powers-Sumner-Kearl)", value="Farr.Jenkins.Paterson.PSK", id.name="FarrJenkinsPatersonPSK"),
+      Flesch <- rk.XML.cbox(label="Flesch Reading Ease", value="Flesch", id.name="Flesch"),
+      FleschDE <- rk.XML.cbox(label="Flesch (DE, Amstad)", value="Flesch.de", id.name="FleschDE"),
+      FleschES <- rk.XML.cbox(label="Flesch (ES, Fernandez-Huerta)", value="Flesch.es", id.name="FleschES"),
+      FleschSzigriszt <- rk.XML.cbox(label="Flesch (ES, Szigriszt)", value="Flesch.Szigriszt", id.name="FleschSzigriszt"),
+      FleschFR <- rk.XML.cbox(label="Flesch (FR, Kandel-Moles)", value="Flesch.fr", id.name="FleschFR"),
+      FleschNL <- rk.XML.cbox(label="Flesch (NL, Douma)", value="Flesch.nl", id.name="FleschNL"),
+      FleschPSK <- rk.XML.cbox(label="Flesch Reading Ease (Powers-Sumner-Kearl)", value="Flesch.PSK", id.name="FleschPSK"),
+      FleschKincaid <- rk.XML.cbox(label="Flesch-Kincaid Grade Level", value="Flesch.Kincaid", id.name="FleschKincaid"),
+      FOG <- rk.XML.cbox(label="FOG (Gunning)", value="FOG", id.name="FOG"),
+      FOGPSK <- rk.XML.cbox(label="FOG (Powers-Sumner-Kearl)", value="FOG.PSK", id.name="FOGPSK"),
       rk.XML.stretch()
     ),
     rk.XML.col(
-      kRp.rdb.chk.FOGNRI <- rk.XML.cbox(label="FOG (NRI)", value="FOG.NRI", id.name="FOGNRI"),
-      kRp.rdb.chk.FORCAST <- rk.XML.cbox(label="FORCAST", value="FORCAST", id.name="FORCAST"),
-      kRp.rdb.chk.FORCASTRGL <- rk.XML.cbox(label="FORCAST (RGL)", value="FORCAST.RGL", id.name="FORCASTRGL"),
-      kRp.rdb.chk.TRI <- rk.XML.cbox(label="Kuntzsch's Text-Redundanz-Index", value="TRI", id.name="TRI"),
-      kRp.rdb.chk.LinsearWrite <- rk.XML.cbox(label="Linsear Write", value="Linsear.Write", id.name="LinsearWrite"),
-      kRp.rdb.chk.SMOG <- rk.XML.cbox(label="SMOG", value="SMOG", id.name="SMOG"),
-      kRp.rdb.chk.SMOG.C <- rk.XML.cbox(label="SMOG (formula C)", value="SMOG.C", id.name="SMOGC"),
-      kRp.rdb.chk.SMOG.simple <- rk.XML.cbox(label="SMOG (simple)", value="SMOG.simple", id.name="SMOGsimple"),
-      kRp.rdb.chk.Qu <- rk.XML.cbox(label="SMOG (DE, »Qu«)", value="SMOG.de", id.name="Qu"),
-      kRp.rdb.chk.Strain <- rk.XML.cbox(label="Strain Index", value="Strain", id.name="Strain"),
-      kRp.rdb.chk.Tuldava <- rk.XML.cbox(label="Tuldava", value="Tuldava", id.name="Tuldava"),
-      kRp.rdb.chk.WheelerSmith <- rk.XML.cbox(label="Wheeler-Smith", value="Wheeler.Smith", id.name="WheelerSmith"),
-      kRp.rdb.chk.WheelerSmithDe <- rk.XML.cbox(label="Wheeler-Smith (DE)", value="Wheeler.Smith.de", id.name="WheelerSmithDe"),
-      kRp.rdb.chk.nWS <- rk.XML.cbox(label="Wiener Sachtextformeln (nWS 1-4)", value="nWS", id.name="nWS"),
+      FOGNRI <- rk.XML.cbox(label="FOG (NRI)", value="FOG.NRI", id.name="FOGNRI"),
+      FORCAST <- rk.XML.cbox(label="FORCAST", value="FORCAST", id.name="FORCAST"),
+      FORCASTRGL <- rk.XML.cbox(label="FORCAST (RGL)", value="FORCAST.RGL", id.name="FORCASTRGL"),
+      TRI <- rk.XML.cbox(label="Kuntzsch's Text-Redundanz-Index", value="TRI", id.name="TRI"),
+      LinsearWrite <- rk.XML.cbox(label="Linsear Write", value="Linsear.Write", id.name="LinsearWrite"),
+      SMOG <- rk.XML.cbox(label="SMOG", value="SMOG", id.name="SMOG"),
+      SMOGC <- rk.XML.cbox(label="SMOG (formula C)", value="SMOG.C", id.name="SMOGC"),
+      SMOGsimple <- rk.XML.cbox(label="SMOG (simple)", value="SMOG.simple", id.name="SMOGsimple"),
+      Qu <- rk.XML.cbox(label="SMOG (DE, »Qu«)", value="SMOG.de", id.name="Qu"),
+      Strain <- rk.XML.cbox(label="Strain Index", value="Strain", id.name="Strain"),
+      Tuldava <- rk.XML.cbox(label="Tuldava", value="Tuldava", id.name="Tuldava"),
+      WheelerSmith <- rk.XML.cbox(label="Wheeler-Smith", value="Wheeler.Smith", id.name="WheelerSmith"),
+      WheelerSmithDE <- rk.XML.cbox(label="Wheeler-Smith (DE)", value="Wheeler.Smith.de", id.name="WheelerSmithDE"),
+      nWS <- rk.XML.cbox(label="Wiener Sachtextformeln (nWS 1-4)", value="nWS", id.name="nWS"),
       rk.XML.stretch()
     )
   ),
   label="Formulae that need syllable count",
-  id.name="frameReadabilityNeedSylls"
+  id.name="readabilityNeedSylls"
 )
 
-kRp.rdb.col.NeedWL <- rk.XML.col(
+readabilityNeedWL <- rk.XML.col(
   rk.XML.text("If you select any of these indices you will also need to provide word lists as indicated below."),
   rk.XML.row(
     rk.XML.col(
-      kRp.rdb.chk.Bormuth <- rk.XML.cbox(label="Bormuth Mean Cloze + Grade", value="Bormuth", id.name="Bormuth"),
-      kRp.rdb.chk.DaleChall <- rk.XML.cbox(label="Dale-Chall (1995)", value="Dale.Chall", id.name="DaleChall"),
-      kRp.rdb.chk.DaleChallPSK <- rk.XML.cbox(label="Dale-Chall (Powers-Sumner-Kearl)", value="Dale.Chall.PSK", id.name="DaleChallPSK"),
-      kRp.rdb.chk.DaleChallOld <- rk.XML.cbox(label="Dale-Chall (1948)", value="Dale.Chall.old", id.name="DaleChallOld"),
+      Bormuth <- rk.XML.cbox(label="Bormuth Mean Cloze + Grade", value="Bormuth", id.name="Bormuth"),
+      DaleChall <- rk.XML.cbox(label="Dale-Chall (1995)", value="Dale.Chall", id.name="DaleChall"),
+      DaleChallPSK <- rk.XML.cbox(label="Dale-Chall (Powers-Sumner-Kearl)", value="Dale.Chall.PSK", id.name="DaleChallPSK"),
+      DaleChallOld <- rk.XML.cbox(label="Dale-Chall (1948)", value="Dale.Chall.old", id.name="DaleChallOld"),
       rk.XML.stretch()
     ),
     rk.XML.col(
-      kRp.rdb.chk.DRP <- rk.XML.cbox(label="Degrees of Reading Power", value="DRP", id.name="DRP"),
-      kRp.rdb.chk.Harris.Jacobson <- rk.XML.cbox(label="Harris-Jacobson", value="Harris.Jacobson", id.name="HarrisJacobson"),
-      kRp.rdb.chk.Spache <- rk.XML.cbox(label="Spache", value="Spache", id.name="Spache"),
-      kRp.rdb.chk.SpacheOld <- rk.XML.cbox(label="Spache (old)", value="Spache.old", id.name="SpacheOld"),
+      DRP <- rk.XML.cbox(label="Degrees of Reading Power", value="DRP", id.name="DRP"),
+      HarrisJacobson <- rk.XML.cbox(label="Harris-Jacobson", value="Harris.Jacobson", id.name="HarrisJacobson"),
+      Spache <- rk.XML.cbox(label="Spache", value="Spache", id.name="Spache"),
+      SpacheOld <- rk.XML.cbox(label="Spache (old)", value="Spache.old", id.name="SpacheOld"),
       rk.XML.stretch()
     )
   ),
   rk.XML.row(
     rk.XML.col(
-      kRp.rdb.brw.lDaleChall <- rk.XML.browser(label="Long Dale-Chall word list (*.txt, also used for Bormuth/DRP):", filter="*.txt", required=FALSE, id.name="readbWLldc"),
-      kRp.rdb.brw.sDaleChall <- rk.XML.browser(label="Short Dale-Chall word list (*.txt):", filter="*.txt", required=FALSE, id.name="readbWLsdc"),
-      kRp.rdb.brw.Harris.Jacobson <- rk.XML.browser(label="Harris-Jacobson word list (grades 1 and 2, *.txt):", filter="*.txt", required=FALSE, id.name="readbWLHaJa")
+      readbWLldc <- rk.XML.browser(label="Long Dale-Chall word list (*.txt, also used for Bormuth/DRP):", filter="*.txt", required=FALSE, id.name="readbWLldc"),
+      readbWLsdc <- rk.XML.browser(label="Short Dale-Chall word list (*.txt):", filter="*.txt", required=FALSE, id.name="readbWLsdc"),
+      readbWLHaJa <- rk.XML.browser(label="Harris-Jacobson word list (grades 1 and 2, *.txt):", filter="*.txt", required=FALSE, id.name="readbWLHaJa")
     ),
     id.name="rowWLfile"
   ),
-  id.name="frameReadabilityNeedWL",
+  id.name="readabilityNeedWL",
   label="Formulae that need word lists"
 )
 
-kRp.rdb.saveobj <- rk.XML.saveobj(label="Keep results", initial="readability.obj", chk=TRUE, id.name="saveReadb")
+saveReadb <- rk.XML.saveobj(label="Keep results", initial="readability.obj", chk=TRUE, id.name="saveReadb")
 
-kRp.rdb.data.hyph <- rk.XML.varslot(
+varTaggedHyphenated <- rk.XML.varslot(
   label="Hyphenated text object (optional, valid class: kRp.hyphen)",
-  source=kRp.hyph.vars,
+  source=varsHyph,
   classes=c("kRp.hyphen"),
   id.name="varTaggedHyphenated"
 )
@@ -323,15 +344,15 @@ kRp.rdb.data.hyph <- rk.XML.varslot(
 kRp.tab.rdb <- rk.XML.tabbook(label="Readability",
   tabs=list(
   "Data and Basic Indices"=rk.XML.row(
-    rk.XML.col(kRp.hyph.vars),
+    rk.XML.col(varsHyph),
     rk.XML.col(
-       kRp.hyph.data,
-       kRp.rdb.data.hyph,
+       varHyphenTagged,
+       varTaggedHyphenated,
       rk.XML.stretch(),
-    kRp.rdb.frm.rdb,
-    kRp.rdb.saveobj)),
-  "Using Syllables"=kRp.rdb.col.needSylls,
-  "Using Word Lists"=kRp.rdb.col.NeedWL
+    readabilityIndicesFrame,
+    saveReadb)),
+  "Using Syllables"=readabilityNeedSylls,
+  "Using Word Lists"=readabilityNeedWL
   )
 )
 
@@ -339,136 +360,140 @@ kRp.dialog.rdb <- rk.XML.dialog(kRp.tab.rdb, label="Readability")
 
 kRp.logic.rdb <- rk.XML.logic(
   kRp.lgc.rdb.LongDCWL <- rk.XML.convert(sources=list(
-      state=kRp.rdb.chk.DaleChall,
-      state=kRp.rdb.chk.DaleChallPSK,
-      state=kRp.rdb.chk.DaleChallOld,
-      state=kRp.rdb.chk.Bormuth,
-      state=kRp.rdb.chk.DRP), mode=c(or="")),
+      state=DaleChall,
+      state=DaleChallPSK,
+      state=DaleChallOld,
+      state=Bormuth,
+      state=DRP), mode=c(or="")),
   kRp.lgc.rdb.ShortDCWL <- rk.XML.convert(sources=c(
-      state=kRp.rdb.chk.Spache,
-      state=kRp.rdb.chk.SpacheOld), mode=c(or="")),
-  rk.XML.connect(governor=kRp.lgc.rdb.LongDCWL, client=kRp.rdb.brw.lDaleChall, set="enabled"),
-  rk.XML.connect(governor=kRp.lgc.rdb.LongDCWL, client=kRp.rdb.brw.lDaleChall, set="required"),
-  rk.XML.connect(governor=kRp.lgc.rdb.ShortDCWL, client=kRp.rdb.brw.sDaleChall, set="enabled"),
-  rk.XML.connect(governor=kRp.lgc.rdb.ShortDCWL, client=kRp.rdb.brw.sDaleChall, set="required"),
-  rk.XML.connect(governor=kRp.rdb.chk.Harris.Jacobson, client=kRp.rdb.brw.Harris.Jacobson, set="enabled"),
-  rk.XML.connect(governor=kRp.rdb.chk.Harris.Jacobson, client=kRp.rdb.brw.Harris.Jacobson, set="required")
+      state=Spache,
+      state=SpacheOld), mode=c(or="")),
+  rk.XML.connect(governor=kRp.lgc.rdb.LongDCWL, client=readbWLldc, set="enabled"),
+  rk.XML.connect(governor=kRp.lgc.rdb.LongDCWL, client=readbWLldc, set="required"),
+  rk.XML.connect(governor=kRp.lgc.rdb.ShortDCWL, client=readbWLsdc, set="enabled"),
+  rk.XML.connect(governor=kRp.lgc.rdb.ShortDCWL, client=readbWLsdc, set="required"),
+  rk.XML.connect(governor=HarrisJacobson, client=readbWLHaJa, set="enabled"),
+  rk.XML.connect(governor=HarrisJacobson, client=readbWLHaJa, set="required")
 )
 
 kRp.rdb.js.calc <- rk.paste.JS(
-  kRp.rdb.chk.ARI.val <- rk.JS.vars(kRp.rdb.chk.ARI, var.prefix="value"),
-  kRp.rdb.chk.ARINRI.val <- rk.JS.vars(kRp.rdb.chk.ARINRI, var.prefix="value"),
-  kRp.rdb.chk.Bormuth.val <- rk.JS.vars(kRp.rdb.chk.Bormuth, var.prefix="value"),
-  kRp.rdb.chk.Coleman.val <- rk.JS.vars(kRp.rdb.chk.Coleman, var.prefix="value"),
-  kRp.rdb.chk.ColemanLiau.val <- rk.JS.vars(kRp.rdb.chk.ColemanLiau, var.prefix="value"),
-  kRp.rdb.chk.DaleChall.val <- rk.JS.vars(kRp.rdb.chk.DaleChall, var.prefix="value"),
-  kRp.rdb.chk.DaleChallPSK.val <- rk.JS.vars(kRp.rdb.chk.DaleChallPSK, var.prefix="value"),
-  kRp.rdb.chk.DaleChallOld.val <- rk.JS.vars(kRp.rdb.chk.DaleChallOld, var.prefix="value"),
-  kRp.rdb.chk.DanielsonBrian.val <- rk.JS.vars(kRp.rdb.chk.DanielsonBrian, var.prefix="value"),
-  kRp.rdb.chk.DickesSteiwer.val <- rk.JS.vars(kRp.rdb.chk.DickesSteiwer, var.prefix="value"),
-  kRp.rdb.chk.DRP.val <- rk.JS.vars(kRp.rdb.chk.DRP, var.prefix="value"),
-  kRp.rdb.chk.ELF.val <- rk.JS.vars(kRp.rdb.chk.ELF, var.prefix="value"),
-  kRp.rdb.chk.FarrJenkinsPaterson.val <- rk.JS.vars(kRp.rdb.chk.FarrJenkinsPaterson, var.prefix="value"),
-  kRp.rdb.chk.FarrJenkinsPatersonPSK.val <- rk.JS.vars(kRp.rdb.chk.FarrJenkinsPatersonPSK, var.prefix="value"),
-  kRp.rdb.chk.Flesch.val <- rk.JS.vars(kRp.rdb.chk.Flesch, var.prefix="value"),
-  kRp.rdb.chk.Flesch.es.val <- rk.JS.vars(kRp.rdb.chk.Flesch.es, var.prefix="value"),
-  kRp.rdb.chk.Flesch.Szigriszt.val <- rk.JS.vars(kRp.rdb.chk.Flesch.Szigriszt, var.prefix="value"),
-  kRp.rdb.chk.Flesch.nl.val <- rk.JS.vars(kRp.rdb.chk.Flesch.nl, var.prefix="value"),
-  kRp.rdb.chk.Flesch.de.val <- rk.JS.vars(kRp.rdb.chk.Flesch.de, var.prefix="value"),
-  kRp.rdb.chk.Flesch.fr.val <- rk.JS.vars(kRp.rdb.chk.Flesch.fr, var.prefix="value"),
-  kRp.rdb.chk.FleschPSK.val <- rk.JS.vars(kRp.rdb.chk.FleschPSK, var.prefix="value"),
-  kRp.rdb.chk.FleschKincaid.val <- rk.JS.vars(kRp.rdb.chk.FleschKincaid, var.prefix="value"),
-  kRp.rdb.chk.FOG.val <- rk.JS.vars(kRp.rdb.chk.FOG, var.prefix="value"),
-  kRp.rdb.chk.FOGPSK.val <- rk.JS.vars(kRp.rdb.chk.FOGPSK, var.prefix="value"),
-  kRp.rdb.chk.FOGNRI.val <- rk.JS.vars(kRp.rdb.chk.FOGNRI, var.prefix="value"),
-  kRp.rdb.chk.FORCAST.val <- rk.JS.vars(kRp.rdb.chk.FORCAST, var.prefix="value"),
-  kRp.rdb.chk.FORCASTRGL.val <- rk.JS.vars(kRp.rdb.chk.FORCASTRGL, var.prefix="value"),
-  kRp.rdb.chk.Fucks.val <- rk.JS.vars(kRp.rdb.chk.Fucks, var.prefix="value"),
-  kRp.rdb.chk.Harris.Jacobson.val <- rk.JS.vars(kRp.rdb.chk.Harris.Jacobson, var.prefix="value"),
-  kRp.rdb.chk.LinsearWrite.val <- rk.JS.vars(kRp.rdb.chk.LinsearWrite, var.prefix="value"),
-  kRp.rdb.chk.LIX.val <- rk.JS.vars(kRp.rdb.chk.LIX, var.prefix="value"),
-  kRp.rdb.chk.nWS.val <- rk.JS.vars(kRp.rdb.chk.nWS, var.prefix="value"),
-  kRp.rdb.chk.Qu.val <- rk.JS.vars(kRp.rdb.chk.Qu, var.prefix="value"),
-  kRp.rdb.chk.RIX.val <- rk.JS.vars(kRp.rdb.chk.RIX, var.prefix="value"),
-  kRp.rdb.chk.SMOG.val <- rk.JS.vars(kRp.rdb.chk.SMOG, var.prefix="value"),
-  kRp.rdb.chk.SMOG.C.val <- rk.JS.vars(kRp.rdb.chk.SMOG.C, var.prefix="value"),
-  kRp.rdb.chk.SMOG.simple.val <- rk.JS.vars(kRp.rdb.chk.SMOG.simple, var.prefix="value"),
-  kRp.rdb.chk.Strain.val <- rk.JS.vars(kRp.rdb.chk.Strain, var.prefix="value"),
-  kRp.rdb.chk.Spache.val <- rk.JS.vars(kRp.rdb.chk.Spache, var.prefix="value"),
-  kRp.rdb.chk.SpacheOld.val <- rk.JS.vars(kRp.rdb.chk.SpacheOld, var.prefix="value"),
-  kRp.rdb.chk.TRI.val <- rk.JS.vars(kRp.rdb.chk.TRI, var.prefix="value"),
-  kRp.rdb.chk.Tuldava.val <- rk.JS.vars(kRp.rdb.chk.Tuldava, var.prefix="value"),
-  kRp.rdb.chk.WheelerSmith.val <- rk.JS.vars(kRp.rdb.chk.WheelerSmith, var.prefix="value"),
-  kRp.rdb.chk.WheelerSmithDe.val <- rk.JS.vars(kRp.rdb.chk.WheelerSmithDe, var.prefix="value"),
+  ARI.val <- rk.JS.vars(ARI, var.prefix="value"),
+  ARINRI.val <- rk.JS.vars(ARINRI, var.prefix="value"),
+  Bormuth.val <- rk.JS.vars(Bormuth, var.prefix="value"),
+  Coleman.val <- rk.JS.vars(Coleman, var.prefix="value"),
+  ColemanLiau.val <- rk.JS.vars(ColemanLiau, var.prefix="value"),
+  DaleChall.val <- rk.JS.vars(DaleChall, var.prefix="value"),
+  DaleChallPSK.val <- rk.JS.vars(DaleChallPSK, var.prefix="value"),
+  DaleChallOld.val <- rk.JS.vars(DaleChallOld, var.prefix="value"),
+  DanielsonBryan.val <- rk.JS.vars(DanielsonBryan, var.prefix="value"),
+  DickesSteiwer.val <- rk.JS.vars(DickesSteiwer, var.prefix="value"),
+  DRP.val <- rk.JS.vars(DRP, var.prefix="value"),
+  ELF.val <- rk.JS.vars(ELF, var.prefix="value"),
+  FarrJenkinsPaterson.val <- rk.JS.vars(FarrJenkinsPaterson, var.prefix="value"),
+  FarrJenkinsPatersonPSK.val <- rk.JS.vars(FarrJenkinsPatersonPSK, var.prefix="value"),
+  Flesch.val <- rk.JS.vars(Flesch, var.prefix="value"),
+  FleschES.val <- rk.JS.vars(FleschES, var.prefix="value"),
+  FleschSzigriszt.val <- rk.JS.vars(FleschSzigriszt, var.prefix="value"),
+  FleschNL.val <- rk.JS.vars(FleschNL, var.prefix="value"),
+  FleschDE.val <- rk.JS.vars(FleschDE, var.prefix="value"),
+  FleschFR.val <- rk.JS.vars(FleschFR, var.prefix="value"),
+  FleschPSK.val <- rk.JS.vars(FleschPSK, var.prefix="value"),
+  FleschKincaid.val <- rk.JS.vars(FleschKincaid, var.prefix="value"),
+  FOG.val <- rk.JS.vars(FOG, var.prefix="value"),
+  FOGPSK.val <- rk.JS.vars(FOGPSK, var.prefix="value"),
+  FOGNRI.val <- rk.JS.vars(FOGNRI, var.prefix="value"),
+  FORCAST.val <- rk.JS.vars(FORCAST, var.prefix="value"),
+  FORCASTRGL.val <- rk.JS.vars(FORCASTRGL, var.prefix="value"),
+  Fucks.val <- rk.JS.vars(Fucks, var.prefix="value"),
+  HarrisJacobson.val <- rk.JS.vars(HarrisJacobson, var.prefix="value"),
+  LinsearWrite.val <- rk.JS.vars(LinsearWrite, var.prefix="value"),
+  LIX.val <- rk.JS.vars(LIX, var.prefix="value"),
+  nWS.val <- rk.JS.vars(nWS, var.prefix="value"),
+  Qu.val <- rk.JS.vars(Qu, var.prefix="value"),
+  RIX.val <- rk.JS.vars(RIX, var.prefix="value"),
+  SMOG.val <- rk.JS.vars(SMOG, var.prefix="value"),
+  SMOGC.val <- rk.JS.vars(SMOGC, var.prefix="value"),
+  SMOGsimple.val <- rk.JS.vars(SMOGsimple, var.prefix="value"),
+  Strain.val <- rk.JS.vars(Strain, var.prefix="value"),
+  Spache.val <- rk.JS.vars(Spache, var.prefix="value"),
+  SpacheOld.val <- rk.JS.vars(SpacheOld, var.prefix="value"),
+  TRI.val <- rk.JS.vars(TRI, var.prefix="value"),
+  Tuldava.val <- rk.JS.vars(Tuldava, var.prefix="value"),
+  WheelerSmith.val <- rk.JS.vars(WheelerSmith, var.prefix="value"),
+  WheelerSmithDE.val <- rk.JS.vars(WheelerSmithDE, var.prefix="value"),
   kRp.rdb.array <- rk.JS.array("index", variables=list(
-    id(kRp.rdb.chk.ARI.val),
-    id(kRp.rdb.chk.ARINRI.val),
-    id(kRp.rdb.chk.Bormuth.val),
-    id(kRp.rdb.chk.Coleman.val),
-    id(kRp.rdb.chk.ColemanLiau.val),
-    id(kRp.rdb.chk.DaleChall.val),
-    id(kRp.rdb.chk.DaleChallPSK.val),
-    id(kRp.rdb.chk.DaleChallOld.val),
-    id(kRp.rdb.chk.DanielsonBrian.val),
-    id(kRp.rdb.chk.DickesSteiwer.val),
-    id(kRp.rdb.chk.DRP.val),
-    id(kRp.rdb.chk.ELF.val),
-    id(kRp.rdb.chk.FarrJenkinsPaterson.val),
-    id(kRp.rdb.chk.FarrJenkinsPatersonPSK.val),
-    id(kRp.rdb.chk.Flesch.val),
-    id(kRp.rdb.chk.Flesch.de.val),
-    id(kRp.rdb.chk.Flesch.es.val),
-    id(kRp.rdb.chk.Flesch.Szigriszt.val),
-    id(kRp.rdb.chk.Flesch.fr.val),
-    id(kRp.rdb.chk.Flesch.nl.val),
-    id(kRp.rdb.chk.FleschPSK.val),
-    id(kRp.rdb.chk.FleschKincaid.val),
-    id(kRp.rdb.chk.FOG.val),
-    id(kRp.rdb.chk.FOGPSK.val),
-    id(kRp.rdb.chk.FOGNRI.val),
-    id(kRp.rdb.chk.FORCAST.val),
-    id(kRp.rdb.chk.FORCASTRGL.val),
-    id(kRp.rdb.chk.Fucks.val),
-    id(kRp.rdb.chk.Harris.Jacobson.val),
-    id(kRp.rdb.chk.LinsearWrite.val),
-    id(kRp.rdb.chk.LIX.val),
-    id(kRp.rdb.chk.nWS.val),
-    id(kRp.rdb.chk.Qu.val),
-    id(kRp.rdb.chk.RIX.val),
-    id(kRp.rdb.chk.SMOG.val),
-    id(kRp.rdb.chk.SMOG.C.val),
-    id(kRp.rdb.chk.SMOG.simple.val),
-    id(kRp.rdb.chk.Spache.val),
-    id(kRp.rdb.chk.SpacheOld.val),
-    id(kRp.rdb.chk.Strain.val),
-    id(kRp.rdb.chk.TRI.val),
-    id(kRp.rdb.chk.Tuldava.val),
-    id(kRp.rdb.chk.WheelerSmith.val),
-    id(kRp.rdb.chk.WheelerSmithDe.val)
+    id(ARI.val),
+    id(ARINRI.val),
+    id(Bormuth.val),
+    id(Coleman.val),
+    id(ColemanLiau.val),
+    id(DaleChall.val),
+    id(DaleChallPSK.val),
+    id(DaleChallOld.val),
+    id(DanielsonBryan.val),
+    id(DickesSteiwer.val),
+    id(DRP.val),
+    id(ELF.val),
+    id(FarrJenkinsPaterson.val),
+    id(FarrJenkinsPatersonPSK.val),
+    id(Flesch.val),
+    id(FleschDE.val),
+    id(FleschES.val),
+    id(FleschSzigriszt.val),
+    id(FleschFR.val),
+    id(FleschNL.val),
+    id(FleschPSK.val),
+    id(FleschKincaid.val),
+    id(FOG.val),
+    id(FOGPSK.val),
+    id(FOGNRI.val),
+    id(FORCAST.val),
+    id(FORCASTRGL.val),
+    id(Fucks.val),
+    id(HarrisJacobson.val),
+    id(LinsearWrite.val),
+    id(LIX.val),
+    id(nWS.val),
+    id(Qu.val),
+    id(RIX.val),
+    id(SMOG.val),
+    id(SMOGC.val),
+    id(SMOGsimple.val),
+    id(Spache.val),
+    id(SpacheOld.val),
+    id(Strain.val),
+    id(TRI.val),
+    id(Tuldava.val),
+    id(WheelerSmith.val),
+    id(WheelerSmithDE.val)
   ), quote=TRUE, opt.sep=",\\n\\t"),
   kRp.rdb.JS.wordLists <- rk.JS.options("rdbWordLists",
     # word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL)
     ite(
-      id("(", kRp.rdb.chk.Bormuth, " || ", kRp.rdb.chk.DRP, ") && ", kRp.rdb.brw.lDaleChall),
-      qp("\n\t\tBormuth=\"", kRp.rdb.brw.lDaleChall, "\"")
+      id("(", Bormuth, " || ", DRP, ") && ", readbWLldc),
+      qp("\n\t\tBormuth=\"", readbWLldc, "\"")
     ),
     ite(
-      id("(", kRp.rdb.chk.DaleChall, " || ", kRp.rdb.chk.DaleChallPSK, " || ", kRp.rdb.chk.DaleChallOld, ") && ", kRp.rdb.brw.lDaleChall),
-      qp("\n\t\tDale.Chall=\"", kRp.rdb.brw.lDaleChall, "\"")
+      id("(", DaleChall, " || ", DaleChallPSK, " || ", DaleChallOld, ") && ", readbWLldc),
+      qp("\n\t\tDale.Chall=\"", readbWLldc, "\"")
     ),
     ite(
-      id(kRp.rdb.chk.Harris.Jacobson, " && ", kRp.rdb.brw.Harris.Jacobson),
-      qp("\n\t\tHarris.Jacobson=\"", kRp.rdb.brw.Harris.Jacobson, "\"")
+      id(HarrisJacobson, " && ", readbWLHaJa),
+      qp("\n\t\tHarris.Jacobson=\"", readbWLHaJa, "\"")
     ),
     ite(
-      id("(", kRp.rdb.chk.Spache, " || ", kRp.rdb.chk.SpacheOld, ") && ", kRp.rdb.brw.sDaleChall),
-      qp("\n\t\tSpache=\"", kRp.rdb.brw.sDaleChall, "\"")
+      id("(", Spache, " || ", SpacheOld, ") && ", readbWLsdc),
+      qp("\n\t\tSpache=\"", readbWLsdc, "\"")
     ),
     option="word.lists",
     funct="list",
     opt.sep=",\\n\\t"),
-  echo("readability.obj <- readability(\n\t", kRp.hyph.data, kRp.rdb.array),
-  ite(id(kRp.rdb.data.hyph, " != \"\""), echo(",\n\thyphen=", kRp.rdb.data.hyph)),
+  echo("readability.obj <- readability(\n\t", varHyphenTagged, kRp.rdb.array),
+  js(
+    if(varTaggedHyphenated != ""){
+      echo(",\n\thyphen=", varTaggedHyphenated)
+    } else {}
+  ),
   echo(kRp.rdb.JS.wordLists),
   echo(",\n\tquiet=TRUE\n)\n\n")
 )
@@ -487,139 +512,151 @@ kRp.rdb.component <- rk.plugin.component("Readability",
   ),
   guess.getter=guess.getter,
   hierarchy=menu.hierarchy,
-  create=c("xml", "js")
+  create=c("xml", "js"),
+  gen.info="$SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R"
 )
 
 
 ## lexical diversity
 
-kRp.ld.frm.ld <- rk.XML.frame(
+LDIndices <- rk.XML.frame(
   rk.XML.row(
     rk.XML.col(
-      kRp.ld.chk.TTR <- rk.XML.cbox("Type Token Ratio (TTR)", value="TTR", chk=TRUE, id.name="TTR"),
-      kRp.ld.chk.MSTTR <- rk.XML.cbox("Mean Segmental TTR (MSTTR)", value="MSTTR", chk=TRUE, id.name="MSTTR"),
-      kRp.ld.chk.MATTR <- rk.XML.cbox("Moving Average TTR (MATTR)", value="MATTR", chk=TRUE, id.name="MATTR"),
-      kRp.ld.chk.Cld <- rk.XML.cbox("Herdan's C", value="C", chk=TRUE, id.name="Cld"),
-      kRp.ld.chk.Rld <- rk.XML.cbox("Root TTR", value="R", chk=TRUE, id.name="Rld"),
-      kRp.ld.chk.CTTR <- rk.XML.cbox("Corrected TTR (CTTR)", value="CTTR", chk=TRUE, id.name="CTTR"),
-      kRp.ld.chk.Uld <- rk.XML.cbox("Uber Index", value="U", chk=TRUE, id.name="Uld"),
+      TTR <- rk.XML.cbox("Type Token Ratio (TTR)", value="TTR", chk=TRUE, id.name="TTR"),
+      MSTTR <- rk.XML.cbox("Mean Segmental TTR (MSTTR)", value="MSTTR", chk=TRUE, id.name="MSTTR"),
+      MATTR <- rk.XML.cbox("Moving Average TTR (MATTR)", value="MATTR", chk=TRUE, id.name="MATTR"),
+      Cld <- rk.XML.cbox("Herdan's C", value="C", chk=TRUE, id.name="Cld"),
+      Rld <- rk.XML.cbox("Root TTR", value="R", chk=TRUE, id.name="Rld"),
+      CTTR <- rk.XML.cbox("Corrected TTR (CTTR)", value="CTTR", chk=TRUE, id.name="CTTR"),
+      Uld <- rk.XML.cbox("Uber Index", value="U", chk=TRUE, id.name="Uld"),
       rk.XML.stretch(),
       id.name="colLD1"
     ),
     rk.XML.col(
-      kRp.ld.chk.Sld <- rk.XML.cbox("Summer", value="S", chk=TRUE, id.name="Sld"),
-      kRp.ld.chk.Kld <- rk.XML.cbox("Yule's K", value="K", chk=TRUE, id.name="Kld"),
-      kRp.ld.chk.Maas <- rk.XML.cbox("Maas (a, lg(V0))", value="Maas", chk=TRUE, id.name="Maas"),
-      kRp.ld.chk.HDD <- rk.XML.cbox("HD-D (idealized vocd-D)", value="HD-D", chk=TRUE, id.name="HDD"),
-      kRp.ld.chk.MTLD <- rk.XML.cbox("Measure of Textual Lexical Diversity (MTLD)", value="MTLD", chk=TRUE, id.name="MTLD"),
-      kRp.ld.chk.MTLDMA <- rk.XML.cbox("Moving Average MTLD (MTLD-MA)", value="MTLD-MA", chk=TRUE, id.name="MTLDMA"),
+      Sld <- rk.XML.cbox("Summer", value="S", chk=TRUE, id.name="Sld"),
+      Kld <- rk.XML.cbox("Yule's K", value="K", chk=TRUE, id.name="Kld"),
+      Maas <- rk.XML.cbox("Maas (a, lg(V0))", value="Maas", chk=TRUE, id.name="Maas"),
+      HDD <- rk.XML.cbox("HD-D (idealized vocd-D)", value="HD-D", chk=TRUE, id.name="HDD"),
+      MTLD <- rk.XML.cbox("Measure of Textual Lexical Diversity (MTLD)", value="MTLD", chk=TRUE, id.name="MTLD"),
+      MTLDMA <- rk.XML.cbox("Moving Average MTLD (MTLD-MA)", value="MTLD-MA", chk=TRUE, id.name="MTLDMA"),
       rk.XML.stretch(),
       id.name="colLD2"
     )
   ),
   label="Measures of lexical diversity",
-  id.name="frameLDIndices"
+  id.name="LDIndices"
 )
 
-kRp.ld.frm.chars <- rk.XML.frame(
+LDChars <- rk.XML.frame(
   rk.XML.text("The classic TTR is dependent on text legth. You can examine this effect by repeatedly calculating the measures' value for growing
     portions of your text. You can then plot these characteristics."),
   rk.XML.row(
     rk.XML.col(
-      kRp.ld.chk.TTRChar <- rk.XML.cbox("Type Token Ratio (TTR)", value="TTR", id.name="TTRChar"),
-      kRp.ld.chk.MATTRChar <- rk.XML.cbox("Moving Average TTR (MATTR)", value="MATTR", id.name="MATTRChar"),
-      kRp.ld.chk.CldChar <- rk.XML.cbox("Herdan's C", value="C", id.name="CldChar"),
-      kRp.ld.chk.RldChar <- rk.XML.cbox("Root TTR", value="R", id.name="RldChar"),
-      kRp.ld.chk.CTTRChar <- rk.XML.cbox("Corrected TTR (CTTR)", value="CTTR", id.name="CTTRChar"),
-      kRp.ld.chk.UldChar <- rk.XML.cbox("Uber Index", value="U", id.name="UldChar"),
+      TTRChar <- rk.XML.cbox("Type Token Ratio (TTR)", value="TTR", id.name="TTRChar"),
+      MATTRChar <- rk.XML.cbox("Moving Average TTR (MATTR)", value="MATTR", id.name="MATTRChar"),
+      CldChar <- rk.XML.cbox("Herdan's C", value="C", id.name="CldChar"),
+      RldChar <- rk.XML.cbox("Root TTR", value="R", id.name="RldChar"),
+      CTTRChar <- rk.XML.cbox("Corrected TTR (CTTR)", value="CTTR", id.name="CTTRChar"),
+      UldChar <- rk.XML.cbox("Uber Index", value="U", id.name="UldChar"),
       rk.XML.stretch(),
       id.name="colLDChar1"
     ),
     rk.XML.col(
-      kRp.ld.chk.SldChar <- rk.XML.cbox("Summer", value="S", id.name="SldChar"),
-      kRp.ld.chk.KldChar <- rk.XML.cbox("Yule's K", value="K", id.name="KldChar"),
-      kRp.ld.chk.MaasChar <- rk.XML.cbox("Maas (a, lg(V0))", value="Maas", id.name="MaasChar"),
-      kRp.ld.chk.HDDChar <- rk.XML.cbox("HD-D (idealized vocd-D)", value="HD-D", id.name="HDDChar"),
-      kRp.ld.chk.MTLDChar <- rk.XML.cbox("Measure of Textual Lexical Diversity (MTLD)", value="MTLD", id.name="MTLDChar"),
-      kRp.ld.chk.MTLDMAChar <- rk.XML.cbox("Moving Average MTLD (MTLD-MA)", value="MTLD-MA", id.name="MTLDMAChar"),
+      SldChar <- rk.XML.cbox("Summer", value="S", id.name="SldChar"),
+      KldChar <- rk.XML.cbox("Yule's K", value="K", id.name="KldChar"),
+      MaasChar <- rk.XML.cbox("Maas (a, lg(V0))", value="Maas", id.name="MaasChar"),
+      HDDChar <- rk.XML.cbox("HD-D (idealized vocd-D)", value="HD-D", id.name="HDDChar"),
+      MTLDChar <- rk.XML.cbox("Measure of Textual Lexical Diversity (MTLD)", value="MTLD", id.name="MTLDChar"),
+      MTLDMAChar <- rk.XML.cbox("Moving Average MTLD (MTLD-MA)", value="MTLD-MA", id.name="MTLDMAChar"),
       rk.XML.stretch(),
       id.name="colLDChar"
     )
   ),
   rk.XML.frame(
-    kRp.ld.chk.CharSteps <- rk.XML.spinbox("Step size between calculations (tokens)", min=2, initial=5, real=FALSE),
+    stepSize <- rk.XML.spinbox(
+      "Step size between calculations (tokens)",
+      min=2,
+      initial=5,
+      real=FALSE,
+      id.name="stepSize"
+    ),
     label="Accuracy"
   ),
   label="Calculate impact of text length",
-  id.name="frameLDChars"
+  id.name="LDChars"
 )
 
-kRp.ld.col.options <- rk.XML.col(
+LDOptions <- rk.XML.col(
   rk.XML.row(
     rk.XML.col(
       rk.XML.frame(
-        kRp.ld.chk.caseSens <- rk.XML.cbox("Case sensitive"),
-        kRp.ld.chk.lemmatize <- rk.XML.cbox("Lemmatize"),
-        kRp.ld.chk.keepTokens <- rk.XML.cbox("Keep types/tokens in result object"),
-        kRp.ld.inp.log <- rk.XML.input("Base for logarithm (must be numeric)", initial=10, required=TRUE, size="small"),
+        LDcaseSens <- rk.XML.cbox("Case sensitive", id.name="LDcaseSens"),
+        LDlemmatize <- rk.XML.cbox("Lemmatize", id.name="LDlemmatize"),
+        LDkeepTokens <- rk.XML.cbox("Keep types/tokens in result object", id.name="LDkeepTokens"),
+        LDlog <- rk.XML.input("Base for logarithm (must be numeric)", initial=10, required=TRUE, size="small", id.name="LDlog"),
         rk.XML.stretch(),
         label="Global options"
       )
     ),
     rk.XML.col(
-      kRp.ld.frm.opt.MSTTR <- rk.XML.frame(
-        kRp.ld.spin.segment <- rk.XML.spinbox("Segment size (tokens)", min=1, initial=100, real=FALSE),
+      optMSTTR <- rk.XML.frame(
+        LDsegment <- rk.XML.spinbox("Segment size (tokens)", min=1, initial=100, real=FALSE, id.name="LDsegment"),
         rk.XML.stretch(),
-        label="MSTTR"
+        label="MSTTR",
+        id.name="optMSTTR"
       ),
-      kRp.ld.frm.opt.MATTR <- rk.XML.frame(
-        kRp.ld.spin.window <- rk.XML.spinbox("Window size (tokens)", min=1, initial=100, real=FALSE),
+      optMATTR <- rk.XML.frame(
+        LDwindow <- rk.XML.spinbox("Window size (tokens)", min=1, initial=100, real=FALSE, id.name="LDwindow"),
         rk.XML.stretch(),
-        label="MATTR"
+        label="MATTR",
+        id.name="optMATTR"
       )
     )
   ),
   rk.XML.row(
     rk.XML.col(
-      kRp.ld.frm.opt.HDD <- rk.XML.frame(
-        kRp.ld.spin.rand.sample <- rk.XML.spinbox("Random sample size (tokens)", min=2, initial=42, real=FALSE),
+      optHDD <- rk.XML.frame(
+        LDsampleSize <- rk.XML.spinbox("Random sample size (tokens)", min=2, initial=42, real=FALSE, id.name="LDsampleSize"),
         rk.XML.stretch(),
-        label="HD-D"
+        label="HD-D",
+        id.name="optHDD"
       )
     ),
     rk.XML.col(
-      kRp.ld.frm.opt.MTLD <- rk.XML.frame(
-        kRp.ld.spin.factor.size <- rk.XML.spinbox("Factor size", min=0, max=1, initial=0.72),
-        kRp.ld.spin.min.tokens <- rk.XML.spinbox("Minimum number of tokens", min=1, initial=9, real=FALSE),
-        kRp.ld.chk.details <- rk.XML.cbox("Keep all details (slow!)"),
+      optMTLD <- rk.XML.frame(
+        LDfactorSize <- rk.XML.spinbox("Factor size", min=0, max=1, initial=0.72, id.name="LDfactorSize"),
+        LDminTokens <- rk.XML.spinbox("Minimum number of tokens", min=1, initial=9, real=FALSE, id.name="LDminTokens"),
+        LDdetails <- rk.XML.cbox("Keep all details (slow!)", id.name="LDdetails"),
         rk.XML.stretch(),
-        label="MTLD/MTLD-MA"
+        label="MTLD/MTLD-MA",
+        id.name="optMTLD"
       )
     )
   ),
-  rk.XML.stretch()
+  rk.XML.stretch(),
+  id.name="LDOptions"
 )
 
-kRp.ld.frm.showTypes <- rk.XML.frame(
-  kRp.ld.chk.showTypes <- rk.XML.cbox("List all identified types", value="types", id.name="types"),
+LDShowTypesFrame <- rk.XML.frame(
+  showTypes <- rk.XML.cbox("List all identified types", value="types", id.name="showTypes"),
   label="Output",
-  id.name="frameLDShowTypes"
+  id.name="LDShowTypesFrame"
 )
 
-kRp.ld.saveobj <- rk.XML.saveobj(label="Keep results", initial="lexical.diversity.obj", chk=TRUE, id.name="saveLD")
+saveLD <- rk.XML.saveobj(label="Keep results", initial="lexical.diversity.obj", chk=TRUE, id.name="saveLD")
 
 kRp.tab.ld <- rk.XML.tabbook(label="Lexical Diversity",
   tabs=list(
   "Data and Basic Indices"=rk.XML.row(
-    rk.XML.col(kRp.hyph.vars),
+    rk.XML.col(varsHyph),
     rk.XML.col(
-       kRp.hyph.data,
+       varHyphenTagged,
       rk.XML.stretch(),
-    kRp.ld.frm.ld,
-    kRp.ld.frm.showTypes,
-    kRp.ld.saveobj)),
-  "Characteristics"=kRp.ld.frm.chars,
-  "Options"=kRp.ld.col.options
+    LDIndices,
+    LDShowTypesFrame,
+    saveLD)),
+  "Characteristics"=LDChars,
+  "Options"=LDOptions
   )
 )
 
@@ -627,164 +664,179 @@ kRp.dialog.ld <- rk.XML.dialog(kRp.tab.ld, label="Lexical Diversity")
 
 kRp.logic.ld <- rk.XML.logic(
   kRp.lgc.ld.CharSteps <- rk.XML.convert(sources=list(
-      state=kRp.ld.chk.TTRChar,
-      state=kRp.ld.chk.MATTRChar,
-      state=kRp.ld.chk.CldChar,
-      state=kRp.ld.chk.RldChar,
-      state=kRp.ld.chk.CTTRChar,
-      state=kRp.ld.chk.UldChar,
-      state=kRp.ld.chk.SldChar,
-      state=kRp.ld.chk.KldChar,
-      state=kRp.ld.chk.MaasChar,
-      state=kRp.ld.chk.HDDChar,
-      state=kRp.ld.chk.MTLDChar,
-      state=kRp.ld.chk.MTLDMAChar
+      state=TTRChar,
+      state=MATTRChar,
+      state=CldChar,
+      state=RldChar,
+      state=CTTRChar,
+      state=UldChar,
+      state=SldChar,
+      state=KldChar,
+      state=MaasChar,
+      state=HDDChar,
+      state=MTLDChar,
+      state=MTLDMAChar
     ), mode=c(or="")
   ),
-  rk.XML.connect(governor=kRp.lgc.ld.CharSteps, client=kRp.ld.chk.CharSteps, set="enabled"),
-  rk.XML.connect(governor=kRp.ld.chk.showTypes, client=kRp.ld.chk.keepTokens, set="state"),
-  rk.XML.connect(governor=kRp.ld.chk.showTypes, client=kRp.ld.chk.keepTokens, set="enabled", not=TRUE),
+  rk.XML.connect(governor=kRp.lgc.ld.CharSteps, client=stepSize, set="enabled"),
+  rk.XML.connect(governor=showTypes, client=LDkeepTokens, set="state"),
+  rk.XML.connect(governor=showTypes, client=LDkeepTokens, set="enabled", not=TRUE),
   kRp.lgc.ld.MATTR <- rk.XML.convert(sources=list(
-      state=kRp.ld.chk.MATTR,
-      state=kRp.ld.chk.MATTRChar
+      state=MATTR,
+      state=MATTRChar
     ), mode=c(or="")
   ),
   kRp.lgc.ld.HDD <- rk.XML.convert(sources=list(
-      state=kRp.ld.chk.HDD,
-      state=kRp.ld.chk.HDDChar
+      state=HDD,
+      state=HDDChar
     ), mode=c(or="")
   ),
   kRp.lgc.ld.MTLD <- rk.XML.convert(sources=list(
-      state=kRp.ld.chk.MTLD,
-      state=kRp.ld.chk.MTLDMA,
-      state=kRp.ld.chk.MTLDChar,
-      state=kRp.ld.chk.MTLDMAChar
+      state=MTLD,
+      state=MTLDMA,
+      state=MTLDChar,
+      state=MTLDMAChar
     ), mode=c(or="")
   ),
-  rk.XML.connect(governor=kRp.ld.chk.MSTTR, client=kRp.ld.frm.opt.MSTTR, set="enabled"),
-  rk.XML.connect(governor=kRp.lgc.ld.MATTR, client=kRp.ld.frm.opt.MATTR, set="enabled"),
-  rk.XML.connect(governor=kRp.lgc.ld.HDD, client=kRp.ld.frm.opt.HDD, set="enabled"),
-  rk.XML.connect(governor=kRp.lgc.ld.MTLD, client=kRp.ld.frm.opt.MTLD, set="enabled")
+  rk.XML.connect(governor=MSTTR, client=optMSTTR, set="enabled"),
+  rk.XML.connect(governor=kRp.lgc.ld.MATTR, client=optMATTR, set="enabled"),
+  rk.XML.connect(governor=kRp.lgc.ld.HDD, client=optHDD, set="enabled"),
+  rk.XML.connect(governor=kRp.lgc.ld.MTLD, client=optMTLD, set="enabled")
 )
 
 
 kRp.ld.js.calc <- rk.paste.JS(
-  kRp.ld.chk.TTR.val <- rk.JS.vars(kRp.ld.chk.TTR, var.prefix="value"),
-  kRp.ld.chk.MSTTR.val <- rk.JS.vars(kRp.ld.chk.MSTTR, var.prefix="value"),
-  kRp.ld.chk.MATTR.val <- rk.JS.vars(kRp.ld.chk.MATTR, var.prefix="value"),
-  kRp.ld.chk.Cld.val <- rk.JS.vars(kRp.ld.chk.Cld, var.prefix="value"),
-  kRp.ld.chk.Rld.val <- rk.JS.vars(kRp.ld.chk.Rld, var.prefix="value"),
-  kRp.ld.chk.CTTR.val <- rk.JS.vars(kRp.ld.chk.CTTR, var.prefix="value"),
-  kRp.ld.chk.Uld.val <- rk.JS.vars(kRp.ld.chk.Uld, var.prefix="value"),
-  kRp.ld.chk.Sld.val <- rk.JS.vars(kRp.ld.chk.Sld, var.prefix="value"),
-  kRp.ld.chk.Kld.val <- rk.JS.vars(kRp.ld.chk.Kld, var.prefix="value"),
-  kRp.ld.chk.Maas.val <- rk.JS.vars(kRp.ld.chk.Maas, var.prefix="value"),
-  kRp.ld.chk.HDD.val <- rk.JS.vars(kRp.ld.chk.HDD, var.prefix="value"),
-  kRp.ld.chk.MTLD.val <- rk.JS.vars(kRp.ld.chk.MTLD, var.prefix="value"),
-  kRp.ld.chk.MTLDMA.val <- rk.JS.vars(kRp.ld.chk.MTLDMA, var.prefix="value"),
+  TTR.val <- rk.JS.vars(TTR, var.prefix="value"),
+  MSTTR.val <- rk.JS.vars(MSTTR, var.prefix="value"),
+  MATTR.val <- rk.JS.vars(MATTR, var.prefix="value"),
+  Cld.val <- rk.JS.vars(Cld, var.prefix="value"),
+  Rld.val <- rk.JS.vars(Rld, var.prefix="value"),
+  CTTR.val <- rk.JS.vars(CTTR, var.prefix="value"),
+  Uld.val <- rk.JS.vars(Uld, var.prefix="value"),
+  Sld.val <- rk.JS.vars(Sld, var.prefix="value"),
+  Kld.val <- rk.JS.vars(Kld, var.prefix="value"),
+  Maas.val <- rk.JS.vars(Maas, var.prefix="value"),
+  HDD.val <- rk.JS.vars(HDD, var.prefix="value"),
+  MTLD.val <- rk.JS.vars(MTLD, var.prefix="value"),
+  MTLDMA.val <- rk.JS.vars(MTLDMA, var.prefix="value"),
   kRp.ld.measure.array <- rk.JS.array("measure", variables=list(
-    id(kRp.ld.chk.TTR.val),
-    id(kRp.ld.chk.MSTTR.val),
-    id(kRp.ld.chk.MATTR.val),
-    id(kRp.ld.chk.Cld.val),
-    id(kRp.ld.chk.Rld.val),
-    id(kRp.ld.chk.CTTR.val),
-    id(kRp.ld.chk.Uld.val),
-    id(kRp.ld.chk.Sld.val),
-    id(kRp.ld.chk.Kld.val),
-    id(kRp.ld.chk.Maas.val),
-    id(kRp.ld.chk.HDD.val),
-    id(kRp.ld.chk.MTLD.val),
-    id(kRp.ld.chk.MTLDMA.val)
+    id(TTR.val),
+    id(MSTTR.val),
+    id(MATTR.val),
+    id(Cld.val),
+    id(Rld.val),
+    id(CTTR.val),
+    id(Uld.val),
+    id(Sld.val),
+    id(Kld.val),
+    id(Maas.val),
+    id(HDD.val),
+    id(MTLD.val),
+    id(MTLDMA.val)
   ), quote=TRUE, opt.sep=",\\n\\t"),
-  kRp.ld.chk.TTRChar.val <- rk.JS.vars(kRp.ld.chk.TTRChar, var.prefix="value"),
-  kRp.ld.chk.MATTRChar.val <- rk.JS.vars(kRp.ld.chk.MATTRChar, var.prefix="value"),
-  kRp.ld.chk.CldChar.val <- rk.JS.vars(kRp.ld.chk.CldChar, var.prefix="value"),
-  kRp.ld.chk.RldChar.val <- rk.JS.vars(kRp.ld.chk.RldChar, var.prefix="value"),
-  kRp.ld.chk.CTTRChar.val <- rk.JS.vars(kRp.ld.chk.CTTRChar, var.prefix="value"),
-  kRp.ld.chk.UldChar.val <- rk.JS.vars(kRp.ld.chk.UldChar, var.prefix="value"),
-  kRp.ld.chk.SldChar.val <- rk.JS.vars(kRp.ld.chk.SldChar, var.prefix="value"),
-  kRp.ld.chk.KldChar.val <- rk.JS.vars(kRp.ld.chk.KldChar, var.prefix="value"),
-  kRp.ld.chk.MaasChar.val <- rk.JS.vars(kRp.ld.chk.MaasChar, var.prefix="value"),
-  kRp.ld.chk.HDDChar.val <- rk.JS.vars(kRp.ld.chk.HDDChar, var.prefix="value"),
-  kRp.ld.chk.MTLDChar.val <- rk.JS.vars(kRp.ld.chk.MTLDChar, var.prefix="value"),
-  kRp.ld.chk.MTLDMAChar.val <- rk.JS.vars(kRp.ld.chk.MTLDMAChar, var.prefix="value"),
+  TTRChar.val <- rk.JS.vars(TTRChar, var.prefix="value"),
+  MATTRChar.val <- rk.JS.vars(MATTRChar, var.prefix="value"),
+  CldChar.val <- rk.JS.vars(CldChar, var.prefix="value"),
+  RldChar.val <- rk.JS.vars(RldChar, var.prefix="value"),
+  CTTRChar.val <- rk.JS.vars(CTTRChar, var.prefix="value"),
+  UldChar.val <- rk.JS.vars(UldChar, var.prefix="value"),
+  SldChar.val <- rk.JS.vars(SldChar, var.prefix="value"),
+  KldChar.val <- rk.JS.vars(KldChar, var.prefix="value"),
+  MaasChar.val <- rk.JS.vars(MaasChar, var.prefix="value"),
+  HDDChar.val <- rk.JS.vars(HDDChar, var.prefix="value"),
+  MTLDChar.val <- rk.JS.vars(MTLDChar, var.prefix="value"),
+  MTLDMAChar.val <- rk.JS.vars(MTLDMAChar, var.prefix="value"),
   kRp.ld.char.array <- rk.JS.array("char", variables=list(
-    id(kRp.ld.chk.TTRChar.val),
-    id(kRp.ld.chk.MATTRChar.val),
-    id(kRp.ld.chk.CldChar.val),
-    id(kRp.ld.chk.RldChar.val),
-    id(kRp.ld.chk.CTTRChar.val),
-    id(kRp.ld.chk.UldChar.val),
-    id(kRp.ld.chk.SldChar.val),
-    id(kRp.ld.chk.KldChar.val),
-    id(kRp.ld.chk.MaasChar.val),
-    id(kRp.ld.chk.HDDChar.val),
-    id(kRp.ld.chk.MTLDChar.val),
-    id(kRp.ld.chk.MTLDMAChar.val)
+    id(TTRChar.val),
+    id(MATTRChar.val),
+    id(CldChar.val),
+    id(RldChar.val),
+    id(CTTRChar.val),
+    id(UldChar.val),
+    id(SldChar.val),
+    id(KldChar.val),
+    id(MaasChar.val),
+    id(HDDChar.val),
+    id(MTLDChar.val),
+    id(MTLDMAChar.val)
   ), quote=TRUE, opt.sep=",\\n\\t"),
-  kRp.ld.status.opt.MATTR <- rk.JS.vars(kRp.ld.frm.opt.MATTR, modifiers="enabled"),
-  kRp.ld.status.opt.MSTTR <- rk.JS.vars(kRp.ld.frm.opt.MSTTR, modifiers="enabled"),
-  kRp.ld.status.opt.HDD <- rk.JS.vars(kRp.ld.frm.opt.HDD, modifiers="enabled"),
-  kRp.ld.status.opt.MTLD <- rk.JS.vars(kRp.ld.frm.opt.MTLD, modifiers="enabled"),
+  kRp.ld.status.opt.MATTR <- rk.JS.vars(optMATTR, modifiers="enabled"),
+  kRp.ld.status.opt.MSTTR <- rk.JS.vars(optMSTTR, modifiers="enabled"),
+  kRp.ld.status.opt.HDD <- rk.JS.vars(optHDD, modifiers="enabled"),
+  kRp.ld.status.opt.MTLD <- rk.JS.vars(optMTLD, modifiers="enabled"),
   echo("lexical.diversity.obj <- lex.div(\n\t",
-    kRp.hyph.data
+    varHyphenTagged
   ),
-  ite(id(kRp.ld.spin.segment, " != \"100\" && ", kRp.ld.status.opt.MSTTR), echo(",\n\tsegment=", kRp.ld.spin.segment)),
-  ite(id(kRp.ld.status.opt.MTLD),
-    rk.paste.JS(
-      ite(id(kRp.ld.spin.factor.size, " != \"0.72\""), echo(",\n\tfactor.size=", kRp.ld.spin.factor.size)),
-      ite(id(kRp.ld.spin.min.tokens, " != \"9\""), echo(",\n\tmin.tokens=", kRp.ld.spin.min.tokens))
-    )
+  js(
+    if(LDsegment != 100 && kRp.ld.status.opt.MSTTR){
+      echo(",\n\tsegment=", LDsegment)
+    } else {},
+    if(kRp.ld.status.opt.MTLD){
+      if(LDfactorSize != 0.72){
+        echo(",\n\tfactor.size=", LDfactorSize)
+      } else {}
+      if(LDminTokens != 9){
+        echo(",\n\tmin.tokens=", LDminTokens)
+      } else {}
+    } else {},
+    if(LDsampleSize != 42 && kRp.ld.status.opt.HDD){
+      echo(",\n\trand.sample=", LDsampleSize)
+    } else {},
+    if(LDwindow != 100 && kRp.ld.status.opt.MATTR){
+      echo(",\n\twindow=", LDwindow)
+    } else {}
   ),
-  ite(id(kRp.ld.spin.rand.sample, " != \"42\" && ", kRp.ld.status.opt.HDD), echo(",\n\trand.sample=", kRp.ld.spin.rand.sample)),
-  ite(id(kRp.ld.spin.window, " != \"100\" && ", kRp.ld.status.opt.MATTR), echo(",\n\twindow=", kRp.ld.spin.window)),
-  tf(kRp.ld.chk.caseSens, opt="case.sens", level=2),
-  tf(kRp.ld.chk.lemmatize, opt="lemmatize", level=2),
-  ite(id(kRp.ld.chk.details, " && ", kRp.ld.status.opt.MTLD), echo(",\n\tdetailed=TRUE")),
-  echo(kRp.ld.measure.array),
-  ite(id(kRp.ld.char.array, " != \"\""), 
-    rk.paste.JS(
-      echo(kRp.ld.char.array),
-      ite(id(kRp.ld.chk.CharSteps, " != \"5\""),
-        echo(",\n\tchar.steps=", kRp.ld.chk.CharSteps)
-      )
-    ),
-    echo(",\n\tchar=NULL")
+  tf(LDcaseSens, opt="case.sens", level=2),
+  tf(LDlemmatize, opt="lemmatize", level=2),
+  js(
+    if(LDdetails && kRp.ld.status.opt.MTLD){
+      echo(",\n\tdetailed=TRUE")
+    } else {},
+    echo(kRp.ld.measure.array),
+    if(kRp.ld.char.array != ""){
+      echo(kRp.ld.char.array)
+      if(stepSize != 5){
+        echo(",\n\tchar.steps=", stepSize)
+      } else {}
+    } else {
+      echo(",\n\tchar=NULL")
+    },
+    if(LDlog != 10){
+      echo(",\n\tlog.base=", LDlog)
+    } else {}
   ),
-  ite(id(kRp.ld.inp.log, " != \"10\""), echo(",\n\tlog.base=", kRp.ld.inp.log)),
-  tf(kRp.ld.chk.keepTokens, opt="keep.tokens", level=2),
+  tf(LDkeepTokens, opt="keep.tokens", level=2),
   echo(",\n\tquiet=TRUE\n)\n\n")
 )
 
 kRp.ld.js.print <- rk.paste.JS(
   rk.JS.vars(
-    kRp.ld.spin.segment,
-    kRp.ld.spin.factor.size,
-    kRp.ld.spin.min.tokens,
-    kRp.ld.spin.rand.sample,
-    kRp.ld.spin.window,
-    kRp.ld.chk.caseSens,
-    kRp.ld.chk.lemmatize,
-    kRp.ld.chk.details,
-    kRp.ld.chk.showTypes
+    LDsegment,
+    LDfactorSize,
+    LDminTokens,
+    LDsampleSize,
+    LDwindow,
+    LDcaseSens,
+    LDlemmatize,
+    LDdetails,
+    showTypes
   ),
   rk.JS.header("Lexical diversity results",
-    add=c("MSTTR segment size", kRp.ld.spin.segment),
-    add=c("MTLD factor size", kRp.ld.spin.factor.size),
-    add=c("MTLD-MA min. tokens/factor", kRp.ld.spin.min.tokens),
-    add=c("HD-D random sample size", kRp.ld.spin.rand.sample),
-    add=c("MATTR window size", kRp.ld.spin.window),
-    add=c("Case sensitive", kRp.ld.chk.caseSens),
-    add=c("Lemmatize", kRp.ld.chk.lemmatize),
-    add=c("Keep MTLD/MTLD-MA details", kRp.ld.chk.details)
+    add=c("MSTTR segment size", LDsegment),
+    add=c("MTLD factor size", LDfactorSize),
+    add=c("MTLD-MA min. tokens/factor", LDminTokens),
+    add=c("HD-D random sample size", LDsampleSize),
+    add=c("MATTR window size", LDwindow),
+    add=c("Case sensitive", LDcaseSens),
+    add=c("Lemmatize", LDlemmatize),
+    add=c("Keep MTLD/MTLD-MA details", LDdetails)
   ),
   echo("rk.results(summary(lexical.diversity.obj))\n"),
-  ite(kRp.ld.chk.showTypes,
-    rk.paste.JS(
-      rk.JS.header("Identified types in text", level=3),
+  js(
+    if(showTypes){
+      rk.JS.header("Identified types in text", level=3)
       echo("rk.print(slot(lexical.diversity.obj, \"tt\")[[\"types\"]])\n")
-    )
+    } else {}
   ),
   echo("\n")
 )
@@ -799,39 +851,42 @@ kRp.ld.component <- rk.plugin.component("Lexical Diversity",
     printout=kRp.ld.js.print
   ),
   hierarchy=list("analysis", "Text Analysis"),
-  create=c("xml", "js")
+  create=c("xml", "js"),
+  gen.info="$SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R"
 )
 
 ## frequency analysis
 
-kRp.frq.frm.src <- rk.XML.frame(
-  kRp.frq.drp.corpusDB <- rk.XML.dropdown(
+freqSourceFrame <- rk.XML.frame(
+  corpusDB <- rk.XML.dropdown(
     label="Use corpus database",
     options=list(
       "none"=c(val="none", chk=TRUE),
       "Leipzig Corpora Collection (*-text.tar.gz) "=c(val="LCC"),
       "Celex (*.CD)"=c(val="celex")
-    )
+    ),
+    id.name="corpusDB"
   ),
-  kRp.frq.brs.corpDBdir <- rk.XML.browser(label="Database file", type="file", required=FALSE),
-  kRp.frq.spin.CelexRunWd <- rk.XML.spinbox(label="Number of running words", min=1, real=FALSE),
+  corpDBdir <- rk.XML.browser(label="Database file", type="file", required=FALSE, id.name="corpDBdir"),
+  CelexRunWd <- rk.XML.spinbox(label="Number of running words", min=1, real=FALSE, id.name="CelexRunWd"),
   rk.XML.stretch(),
-  kRp.frq.saveobj.corp <- rk.XML.saveobj(label="Keep corpus object", initial="corp.freq.obj", id.name="saveCorpFrq"),
-  label="Frequencies from language corpora"
+  saveCorpFrq <- rk.XML.saveobj(label="Keep corpus object", initial="corp.freq.obj", id.name="saveCorpFrq"),
+  label="Frequencies from language corpora",
+  id.name="freqSourceFrame"
 )
 
 kRp.frq.frm.showFrqWC <- rk.XML.frame(
-  kRp.frq.chk.tfidf <- rk.XML.cbox("Term frequency/inverse document frequency statistics (tf-idf)", chk=TRUE),
-  kRp.frq.chk.showTypes <- rk.XML.cbox("Show frequencies of types & token (by word class)", value="freqWC"),
+  tfidf <- rk.XML.cbox("Term frequency/inverse document frequency statistics (tf-idf)", chk=TRUE, id.name="tfidf"),
+  freqShowTypes <- rk.XML.cbox("Show frequencies of types & token (by word class)", value="freqWC", id.name="freqShowTypes"),
   label="Descriptive statistics",
   id.name="frameFrqWCShow"
 )
 
-kRp.frq.saveobj <- rk.XML.saveobj(label="Keep results", initial="freq.analysis.obj", chk=TRUE, id.name="saveFrq")
+saveFrq <- rk.XML.saveobj(label="Keep results", initial="freq.analysis.obj", chk=TRUE, id.name="saveFrq")
 
-kRp.frq.data.freq <- rk.XML.varslot(
+varkRpFreqObj <- rk.XML.varslot(
   label="Analyse against frequency object (valid class: kRp.corp.freq)",
-  source=kRp.hyph.vars,
+  source=varsHyph,
   classes=c("kRp.corp.freq"),
   id.name="varkRpFreqObj"
 )
@@ -839,16 +894,16 @@ kRp.frq.data.freq <- rk.XML.varslot(
 kRp.tab.frq <- rk.XML.tabbook(label="Frequency Analysis",
   tabs=list(
   "Data"=rk.XML.row(
-    rk.XML.col(kRp.hyph.vars),
+    rk.XML.col(varsHyph),
     rk.XML.col(
-      kRp.hyph.data,
-      kRp.frq.data.freq,
+      varHyphenTagged,
+      varkRpFreqObj,
       rk.XML.stretch(),
       kRp.frq.frm.showFrqWC,
-      kRp.frq.saveobj
+      saveFrq
     )
   ),
-  "Corpora"=kRp.frq.frm.src#,
+  "Corpora"=freqSourceFrame#,
 #   "Options"=kRp.frq.col.options
   )
 )
@@ -856,53 +911,57 @@ kRp.tab.frq <- rk.XML.tabbook(label="Frequency Analysis",
 kRp.dialog.frq <- rk.XML.dialog(kRp.tab.frq, label="Frequency Analysis")
 
 kRp.logic.frq <- rk.XML.logic(
-  kRp.lgc.frq.haveFreqObject <- rk.XML.convert(sources=list(available=kRp.frq.data.freq), mode=c(and="")),
-  rk.XML.connect(governor=kRp.lgc.frq.haveFreqObject, client=kRp.frq.frm.src, not=TRUE),
-  kRp.lgc.frq.needCorpDir <- rk.XML.convert(sources=list(string=kRp.frq.drp.corpusDB), mode=c(notequals="none"), id.name="convDrpDir"),
-  rk.XML.connect(governor=kRp.lgc.frq.needCorpDir, client=kRp.frq.brs.corpDBdir, set="enabled"),
-  rk.XML.connect(governor=kRp.lgc.frq.needCorpDir, client=kRp.frq.brs.corpDBdir, set="required"),
-  rk.XML.connect(governor=kRp.lgc.frq.needCorpDir, client=kRp.frq.saveobj.corp, set="enabled"),
-  kRp.lgc.frq.noFreqObject <- rk.XML.convert(sources=list(available=kRp.frq.data.freq), mode=c(equals=""), id.name="convnoFrqObj"),
+  kRp.lgc.frq.haveFreqObject <- rk.XML.convert(sources=list(available=varkRpFreqObj), mode=c(and="")),
+  rk.XML.connect(governor=kRp.lgc.frq.haveFreqObject, client=freqSourceFrame, not=TRUE),
+  kRp.lgc.frq.needCorpDir <- rk.XML.convert(sources=list(string=corpusDB), mode=c(notequals="none"), id.name="convDrpDir"),
+  rk.XML.connect(governor=kRp.lgc.frq.needCorpDir, client=corpDBdir, set="enabled"),
+  rk.XML.connect(governor=kRp.lgc.frq.needCorpDir, client=corpDBdir, set="required"),
+  rk.XML.connect(governor=kRp.lgc.frq.needCorpDir, client=saveCorpFrq, set="enabled"),
+  kRp.lgc.frq.noFreqObject <- rk.XML.convert(sources=list(available=varkRpFreqObj), mode=c(equals=""), id.name="convnoFrqObj"),
   kRp.lgc.frq.saveCorp <- rk.XML.convert(sources=list(kRp.lgc.frq.noFreqObject, kRp.lgc.frq.needCorpDir), mode=c(and=""), id.name="convSvCrp"),
-  rk.XML.connect(governor=kRp.lgc.frq.saveCorp, client=kRp.frq.saveobj.corp, set="active"),
-  kRp.lgc.frq.Celex <- rk.XML.convert(sources=list(string=kRp.frq.drp.corpusDB), mode=c(equals="celex"), id.name="convDrpCelex"),
-  rk.XML.connect(governor=kRp.lgc.frq.Celex, client=kRp.frq.spin.CelexRunWd, set="enabled")
+  rk.XML.connect(governor=kRp.lgc.frq.saveCorp, client=saveCorpFrq, set="active"),
+  kRp.lgc.frq.Celex <- rk.XML.convert(sources=list(string=corpusDB), mode=c(equals="celex"), id.name="convDrpCelex"),
+  rk.XML.connect(governor=kRp.lgc.frq.Celex, client=CelexRunWd, set="enabled")
 )
 
 kRp.frq.js.calc <- rk.paste.JS(
-  ite(id("!", kRp.frq.data.freq),
-    ite(id(kRp.frq.drp.corpusDB, " == \"LCC\" && ", kRp.frq.brs.corpDBdir),
-      echo("corp.freq.obj <- read.corp.LCC(\n\t\"", kRp.frq.brs.corpDBdir, "\"\n)\n\n"),
-      ite(id(kRp.frq.drp.corpusDB, " == \"celex\" && ", kRp.frq.brs.corpDBdir, " && ", kRp.frq.spin.CelexRunWd),
-        echo("corp.freq.obj <- read.corp.celex(\n\t\"", kRp.frq.brs.corpDBdir, "\",\n\trunning.words=", kRp.frq.spin.CelexRunWd, "\n)\n\n")
-      )
-    )
-  ),
-  echo("freq.analysis.obj <- freq.analysis(\n\t",
-    kRp.hyph.data
-  ),
-  ite(id("!", kRp.frq.data.freq),
-    ite(id(kRp.frq.drp.corpusDB, " != \"none\""),
-      echo(",\n\tcorp.freq=corp.freq.obj")
+  js(
+    if(!varkRpFreqObj){
+      if(corpusDB == "LCC" && corpDBdir){
+        echo("corp.freq.obj <- read.corp.LCC(\n\t\"", corpDBdir, "\"\n)\n\n")
+      } else if(corpusDB == "celex" && corpDBdir){
+        echo("corp.freq.obj <- read.corp.celex(\n\t\"", corpDBdir, "\",\n\trunning.words=", CelexRunWd, "\n)\n\n")
+      } else {}
+    } else {},
+    echo("freq.analysis.obj <- freq.analysis(\n\t",
+      varHyphenTagged
     ),
-    echo(",\n\tcorp.freq=", kRp.frq.data.freq)
+    if(!varkRpFreqObj){
+      if(corpusDB != "none"){
+        echo(",\n\tcorp.freq=corp.freq.obj")
+      } else {}
+    } else {
+      echo(",\n\tcorp.freq=", varkRpFreqObj)
+    },
+    if(!tfidf){
+      echo(",\n\ttfidf=FALSE")
+    } else {}
   ),
-  tf(kRp.frq.chk.tfidf, opt="tfidf", true=FALSE, not=TRUE, level=2),
   echo("\n)\n\n")
 )
 
 kRp.frq.js.print <- rk.paste.JS(
-  rk.JS.vars(kRp.frq.chk.showTypes),
+  rk.JS.vars(freqShowTypes),
   rk.JS.header("Frequency analysis results"),
   echo("rk.print(summary(freq.analysis.obj))\n\n"),
-  ite(id(kRp.frq.chk.showTypes),
-    rk.paste.JS(
-      rk.JS.header("Frequencies of types & token (by word class)", level=3),
+  js(
+    if(freqShowTypes){
+      rk.JS.header("Frequencies of types & token (by word class)", level=3)
       echo("freqTypeToken <- data.frame(\n\t",
         "types=slot(freq.analysis.obj, \"desc\")$freq.types,\n\t",
         "token=slot(freq.analysis.obj, \"desc\")$freq.token\n)\n",
         "rk.print(freqTypeToken)\n\n")
-    )
+    } else {}
   )
 )
 
@@ -915,7 +974,8 @@ kRp.frq.component <- rk.plugin.component("Frequency Analysis",
     printout=kRp.frq.js.print
   ),
   hierarchy=menu.hierarchy,
-  create=c("xml", "js")
+  create=c("xml", "js"),
+  gen.info="$SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R"
 )
 
 
@@ -950,7 +1010,11 @@ rk.kRp.dir <<- rk.plugin.skeleton(
   tests=FALSE,
 #  edit=TRUE,
   load=TRUE,
-  hints=FALSE)#,
+  hints=FALSE,
+  gen.info="$SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R")#,
 #  show=TRUE)
 
+  if(isTRUE(update.translations)){
+    rk.updatePluginMessages(file.path(output.dir,"koRpus","inst","rkward","koRpus.pluginmap"))
+  } else {}
 })
