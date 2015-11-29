@@ -12,7 +12,7 @@ An R Package for Text Analysis.
 Package: \tab koRpus\cr
 Type: \tab Package\cr
 Version: \tab 0.06-4\cr
-Date: \tab 2015-11-02\cr
+Date: \tab 2015-11-29\cr
 Depends: \tab R (>= 2.10.0),methods\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr

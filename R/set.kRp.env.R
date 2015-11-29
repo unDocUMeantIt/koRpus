@@ -55,7 +55,14 @@ set.kRp.env <- function(...){
     stop(simpleError("You must at least set one (valid) parameter!"))
   } else {}
 
+  # assume using TreeTaggers tokenizer as the default
+  TT.tknz <- TRUE
+  manual.config <- TRUE
   if(!is.null(TT.cmd)){
+    if(identical(TT.cmd, "tokenize")){
+      TT.tknz <- FALSE
+      manual.config <- FALSE
+    } else {}
     if(identical(TT.cmd, "")){
       rm("TT.cmd", envir=.koRpus.env)
     } else if(!identical(TT.cmd, "manual") & !identical(TT.cmd, "tokenize")){
@@ -79,16 +86,8 @@ set.kRp.env <- function(...){
     if(identical(TT.options, "")){
       rm("TT.options", envir=.koRpus.env)
     } else {
-      stopifnot(is.list(TT.options))
-      # do some sanitiy checks
-      if(!"path" %in% names(TT.options)){
-        stop(simpleError("Manual TreeTagger configuration demanded, but not even a path was defined!"))
-      } else {}
-      stopifnot(check.file(TT.options$path, mode="dir"))
-      if(!is.null(TT.options[["preset"]])){
-        checkLangPreset(preset=TT.options[["preset"]], returnPresetDefinition=FALSE)
-      } else {}
-      # TODO: move TT.options checks to internal function to call it here
+      # moved TT.options checks to internal function to call it here
+      checkTTOptions(TT.options=TT.options, manual.config=manual.config, TT.tknz=TT.tknz)
       assign("TT.options", TT.options, envir=.koRpus.env)
     }
   } else {}
