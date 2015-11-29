@@ -78,6 +78,8 @@ the encoding will either be taken from a preset (if defined in \code{TT.options}
       naming the lexicon lookup command. Interpreted relative to \code{path/cmd/}.}
      \item {\code{filter}} {Optional: A character string,
       naming the output filter to be used. Interpreted relative to \code{path/cmd/}.}
+     \item {\code{no.unknown}} {Optional: Logical,
+      can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults of \code{FALSE}.}
    }
 You can also set these options globally using \code{\link[koRpus:set.kRp.env]{set.kRp.env}},
 and then force \code{treetag} to use them by setting \code{TT.options="kRp.env"} here. Note: 

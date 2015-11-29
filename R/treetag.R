@@ -70,6 +70,7 @@
 #'      \item {\code{lexicon}} {Optional: A character string, naming the lexicon file to be used. Interpreted relative to \code{path/lib/}.}
 #'      \item {\code{lookup}} {Optional: A character string, naming the lexicon lookup command. Interpreted relative to \code{path/cmd/}.}
 #'      \item {\code{filter}} {Optional: A character string, naming the output filter to be used. Interpreted relative to \code{path/cmd/}.}
+#'      \item {\code{no.unknown}} {Optional: Logical, can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults of \code{FALSE}.}
 #'    }
 #' You can also set these options globally using \code{\link[koRpus:set.kRp.env]{set.kRp.env}},
 #' and then force \code{treetag} to use them by setting \code{TT.options="kRp.env"} here. Note: 
@@ -183,20 +184,17 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
 
   # TODO: move TT.options checks to internal function to call it here
   manual.config <- identical(treetagger, "manual")
-  if(isTRUE(manual.config)){
-    if(!"path" %in% names(TT.options)){
-      stop(simpleError("Manual TreeTagger configuration demanded, but not even a path was defined!"))
-    } else {}
-    # specify basic paths
-    TT.path <- TT.options[["path"]]
-    TT.bin <- file.path(TT.path,"bin")
-    TT.cmd <- file.path(TT.path,"cmd")
-    TT.lib <- file.path(TT.path,"lib")
-    # check if this is really a TreeTagger root directory
-    sapply(c(TT.bin, TT.cmd, TT.lib), function(chk.dir){check.file(chk.dir, mode="dir")})
+  checkedOptions <- checkTTOptions(TT.options=TT.options, manual.config=manual.config, TT.tknz=TT.tknz)
 
-    # basic options, cannot be toyed with
-    TT.opts        <- "-token -lemma -sgml -pt-with-lemma"
+  if(isTRUE(manual.config)){
+    # specify basic paths
+    TT.path <- checkedOptions[["TT.path"]]
+    TT.bin <- checkedOptions[["TT.bin"]]
+    TT.cmd <- checkedOptions[["TT.cmd"]]
+    TT.lib <- checkedOptions[["TT.lib"]]
+
+    # basic options
+    TT.opts <- checkedOptions[["TT.opts"]]
 
     have.preset <- FALSE
     if("preset" %in% names(TT.options)){
@@ -209,7 +207,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       #  TT.tknz.opts    <- c()
       #  TT.lookup.command  <- c()
       #  TT.filter.command  <- c()
-      preset.definition <- checkLangPreset(preset=TT.options[["preset"]], returnPresetDefinition=TRUE)
+      preset.definition <- checkedOptions[["preset"]]
       # check for matching language definitions
       matching.lang(lang=lang, lang.preset=preset.definition[["lang"]])
       preset.list <- preset.definition[["preset"]](TT.cmd=TT.cmd, TT.bin=TT.bin, TT.lib=TT.lib, unix.OS=unix.OS)
@@ -226,18 +224,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       TT.tknz.opts    <- preset.list[["TT.tknz.opts"]]
       TT.lookup.command  <- preset.list[["TT.lookup.command"]]
       TT.filter.command  <- preset.list[["TT.filter.command"]]
-    } else {
-      # if no preset was defined, we need some more information
-      if(isTRUE(TT.tknz)){
-        needed.options <- c("tokenizer", "tagger", "params")
-      } else {
-        needed.options <- c("tagger", "params")
-      }
-      missing.options <- needed.options[!needed.options %in% names(TT.options)]
-      if(length(missing.options) > 0){
-        stop(simpleError(paste("Manual TreeTagger configuration demanded, but not enough optinons given!\nMissing options:",missing.options)))
-      } else {}
-    }
+    } else {}
 
     if("tokenizer" %in% names(TT.options)){
       TT.tokenizer    <- file.path(TT.cmd, TT.options[["tokenizer"]])
