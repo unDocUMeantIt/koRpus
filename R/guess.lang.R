@@ -118,9 +118,9 @@ guess.lang <- function(txt.file, udhr.path, comp.length=300, keep.udhr=FALSE, qu
 
   # get the best match
   lang.estim <- udhr.results[1,"name"]
-  lang.estim.uli <- udhr.results[1,"uli"]
+  lang.estim.lc <- udhr.results[1,"iso639-3"]
 
-  results <- new("kRp.lang", lang=lang.estim.uli, lang.name=lang.estim, txt=txt.short, txt.full=txt, udhr=udhr.results)
+  results <- new("kRp.lang", lang=lang.estim.lc, lang.name=lang.estim, txt=txt.short, txt.full=txt, udhr=udhr.results)
 
   return(results)
 }
