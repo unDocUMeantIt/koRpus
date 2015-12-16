@@ -1114,7 +1114,10 @@ taggz <- function(tokens, abbrev=NULL, heur.fix=list(pre=c("\u2019","'"), suf=c(
 
   if(length(tokens) > 1){
     tagged.text <- t(unlist(tagged.text))
-  }  else {}
+  }  else {
+    tagged.text <- t(tagged.text)
+    colnames(tagged.text) <- c("token", "tag")
+  }
   # remove the dumb names
   rownames(tagged.text) <- NULL
   

@@ -7,6 +7,8 @@ fixed:
   - workaround for missing POS tag "NS" for english texts
   - made guess.lang() compatible with recent format of UDHR archives, now using
     ISO 639-3 codes as language identifier
+  - tokenize() and treetag() weren't able to cope with text that only consisted
+    of a single token
 changed:
   - updated rkwarddev script according to recent development in the rkwarddev
     package
