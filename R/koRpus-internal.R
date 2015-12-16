@@ -962,20 +962,24 @@ read.udhr <- function(txt.path, quiet=TRUE){
   #   udhr.xml <- xmlParse(file.path(udhr.path, "index.xml"))
   #   udhr.list <- xmlSApply(xmlRoot(udhr.xml), xmlAttrs)
   ## since there was no windows package XML for R 2.13, this is a primitive parser which does the job:
-  udhr.XML <- readLines(file.path(udhr.path, "index.xml"))
+  udhr.XML <- readLines(file.path(udhr.path, "index.xml"), warn=FALSE)
   # filter out only the interesting parts
   udhr.XML <- gsub("([[:space:]]+<udhr )(.*)/>", "\\2", udhr.XML[grep("<udhr ", udhr.XML)], perl=TRUE)
-  # the minus-sign causes problems in naming the elements later on
-  udhr.XML <- gsub("iso639-3", "iso6393", udhr.XML)
   # split vector into a list with ell elements; then we have basically what xmlParse() and xmlSApply() returned
   udhr.XML <- gsub("([[:alnum:]]+)=('[^']+'|'')[[:space:]]+", "\\1=\\2#", udhr.XML, perl=TRUE)
+  # as a safety measure, put iso639-3 in quotes
+  udhr.XML <- gsub("#iso639-3=", "#\"iso639-3\"=", udhr.XML)
   udhr.XML.list <- strsplit(udhr.XML, split="#")
   udhr.list <- lapply(1:length(udhr.XML.list), function(cur.entry){eval(parse(text=paste0("c(", paste(udhr.XML.list[[cur.entry]], collapse=", "), ")")))})
 
   names(udhr.list) <- 1:length(udhr.list)
   # correct for missing values and variables
   udhr.list.corr <- sapply(udhr.list, function(udhr.entry){
-      if(sum(!c("v","nv") %in% names(udhr.entry))){
+      # older index files split up l+v and n+nv, newer have combined f and n elements
+      if("f" %in% names(udhr.entry)){
+        udhr.entry[["file"]] <- file.path(udhr.path, paste0("udhr_", udhr.entry[["f"]], ".txt"))
+        udhr.entry[["name"]] <- udhr.entry[["n"]]
+      } else if("l" %in% names(udhr.entry)){
         if(!"v" %in% names(udhr.entry)){
           udhr.entry[["v"]] <- NA
           udhr.entry[["file"]] <- file.path(udhr.path, paste0("udhr_", udhr.entry[["l"]], ".txt"))
@@ -989,15 +993,14 @@ read.udhr <- function(txt.path, quiet=TRUE){
           udhr.entry[["name"]] <- paste0(udhr.entry[["n"]], " (",udhr.entry[["nv"]],")")
         }
       } else {
-        udhr.entry[["file"]] <- file.path(udhr.path, paste0("udhr_", udhr.entry[["l"]], "_", udhr.entry[["v"]], ".txt"))
-        udhr.entry[["name"]] <- paste0(udhr.entry[["n"]], " (",udhr.entry[["nv"]],")")
+        stop(simpleError("Erm, sorry -- looks like the format if the index.xml file has changed, please file a bug report!"))
       }
       # now try to load the translated text from file and add it to the entry
       udhr.file <- udhr.entry[["file"]]
       if(file.exists(udhr.file)){
         # remove the trailing notice also, because it will keep gzip from
         # optimizing for the actual charset
-        udhr.entry[["text"]] <- gsub("^.*udhr. --- ", "", paste(scan(udhr.file, what=character(), quiet=quiet), collapse=" "))
+        udhr.entry[["text"]] <- gsub("^.*udhr. --- ", "", paste(suppressWarnings(scan(udhr.file, what=character(), quiet=quiet)), collapse=" "))
       } else {
         udhr.entry[["text"]] <- NA
       }
