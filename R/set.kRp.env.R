@@ -33,6 +33,7 @@
 #'     \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data, used by \code{hyphen}.}
 #'   }
 #'   To explicitly unset a value again, set it to an empty character string (e.g., \code{lang=""}).
+#' @param validate Logical, if \code{TRUE} given paths will be checked for actual availablity, and the function will fail if files can't be found.
 #' @return Returns an invisible \code{NULL}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
@@ -44,7 +45,7 @@
 #' get.kRp.env(TT.cmd=TRUE)
 #' }
 
-set.kRp.env <- function(...){
+set.kRp.env <- function(..., validate=TRUE){
   kRp.vars <- list(...)
   # set all desired variables
   TT.cmd <- kRp.vars[["TT.cmd"]]
@@ -66,7 +67,9 @@ set.kRp.env <- function(...){
     if(identical(TT.cmd, "")){
       rm("TT.cmd", envir=.koRpus.env)
     } else if(!identical(TT.cmd, "manual") & !identical(TT.cmd, "tokenize")){
-      stopifnot(check.file(TT.cmd, mode="exec"))
+      if(isTRUE(validate)){
+        stopifnot(check.file(TT.cmd, mode="exec"))
+      } else {}
       assign("TT.cmd", file.path(TT.cmd), envir=.koRpus.env)
     } else {
       assign("TT.cmd", TT.cmd, envir=.koRpus.env)
@@ -86,8 +89,10 @@ set.kRp.env <- function(...){
     if(identical(TT.options, "")){
       rm("TT.options", envir=.koRpus.env)
     } else {
-      # moved TT.options checks to internal function to call it here
-      checkTTOptions(TT.options=TT.options, manual.config=manual.config, TT.tknz=TT.tknz)
+      if(isTRUE(validate)){
+        # moved TT.options checks to internal function to call it here
+        checkTTOptions(TT.options=TT.options, manual.config=manual.config, TT.tknz=TT.tknz)
+      } else {}
       assign("TT.options", TT.options, envir=.koRpus.env)
     }
   } else {}

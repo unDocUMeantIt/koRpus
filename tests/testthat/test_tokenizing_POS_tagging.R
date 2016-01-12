@@ -5,7 +5,7 @@ context("environment")
 test_that("setting environment variables", {
   # we cannot really test the treetag function without a local TreeTagger installation,
   # however, we can check if setting the environment works as expected
-  set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path=".", preset="en"))
+  set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path=".", preset="en"), validate=FALSE)
 
   expect_that(get.kRp.env(TT.cmd=TRUE),
     matches("manual"))

@@ -19,6 +19,7 @@ added:
   - added a README.md file
   - new option "no.unknown" can be passed to the "TT.options" of treetag(),
     to toggle the "-no-unknown" switch of TreeTagger
+  - new option "validate" for set.kRp.env() to enable/disable checks
 
 changes in version 0.06-3 (2015-11-02)
 fixed:
