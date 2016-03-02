@@ -13,6 +13,12 @@ shinyUI(
                 onfocus="if(this.value==\"(Paste your text here. Please do not supply sensitive data. Text limit is 5000 characters, but should at least have 100 words.)\") this.value=\"\";",
                 "(Paste your text here. Please do not supply sensitive data. Text limit is 5000 characters, but should at least have 100 words.)"),
             selectInput("lang", "Language:", choices = c("en", "de", "es", "fr", "it", "ru")),
+            conditionalPanel("input.tab == 'chkMain'",
+              h4(style="margin-top:60px;", "About"),
+              tags$p(HTML("This is a demo of the R package <code>koRpus</code>. For more information, documentation and downloads please visit the",
+                "<a href=\"http://reaktanz.de/?c=hacking&amp;s=koRpus\" target=\"_blank\" title=\"koRpus webpage\">project webpage</a>."
+              ))
+            ),
             conditionalPanel("input.tab == 'chkLexdiv'",
                 h4("Lexical diversity options:"),
                 numericInput("LD.segment", "MSTTR segment size:", 100),
@@ -91,7 +97,8 @@ shinyUI(
                     tableOutput("desc.lttr.disrib"),
                     h5("Word length (syllables)"),
                     tableOutput("syll.disrib"),
-                    plotOutput("letter.plot")
+                    plotOutput("letter.plot"),
+                    value="chkMain"
                 ),
                 tabPanel("Lexical diversity",
                     h5("Summary"),
