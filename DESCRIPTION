@@ -24,16 +24,17 @@ Description: A set of tools to analyze texts. Includes, amongst others,
     automatically). Due to some restrictions on CRAN, the full package sources are
     only available from the project homepage. To ask for help, report bugs, suggest
     feature improvements, or discuss the global development of the package, please
-    subscribe to the koRpus-dev mailing list: https://ml06.ispgateway.de/mailman/
-    listinfo/korpus-dev_r.reaktanz.de
+    subscribe to the koRpus-dev mailing list (https://ml06.ispgateway.de/mailman/
+    listinfo/korpus-dev_r.reaktanz.de).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
 URL: http://reaktanz.de/?c=hacking&s=koRpus
-Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl", family="Brown", email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto",
-                         family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
+Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl",
+               family="Brown", email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")),
+               person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
 Version: 0.06-4
-Date: 2015-11-29
+Date: 2016-03-07
 RoxygenNote: 5.0.1
 Collate:
     '00_class_01_kRp.tagged.R'

@@ -4,7 +4,7 @@
 \alias{set.kRp.env}
 \title{A function to set information on your koRpus environmenton}
 \usage{
-set.kRp.env(...)
+set.kRp.env(..., validate = TRUE)
 }
 \arguments{
 \item{...}{Named parameters to set in the koRpus environment. Valid arguments are:
@@ -18,6 +18,9 @@ set.kRp.env(...)
 }
 To explicitly unset a value again, set it to an empty character string (e.g.,
       \code{lang=""}).}
+
+\item{validate}{Logical,
+      if \code{TRUE} given paths will be checked for actual availablity, and the function will fail if files can't be found.}
 }
 \value{
 Returns an invisible \code{NULL}.

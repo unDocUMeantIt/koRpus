@@ -12,7 +12,7 @@ An R Package for Text Analysis.
 Package: \tab koRpus\cr
 Type: \tab Package\cr
 Version: \tab 0.06-4\cr
-Date: \tab 2015-11-29\cr
+Date: \tab 2016-03-07\cr
 Depends: \tab R (>= 2.10.0),methods\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr
@@ -41,7 +41,7 @@ Due to some restrictions on CRAN,
       the full package sources are only available from the project homepage.
 To ask for help, report bugs, suggest feature improvements,
       or discuss the global development of the package,
-please subscribe to the koRpus-dev mailing list: https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de
+please subscribe to the koRpus-dev mailing list (https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de).
 }
 \author{
 m.eik michalke, with contributions from Earl Brown, Alberto Mirisola, Alexandre Brulet,
