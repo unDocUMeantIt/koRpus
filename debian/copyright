@@ -6,7 +6,7 @@ The package was renamed from its upstream name 'koRpus' to
 'r-other-reaktanz-korpus' in harmony with the R packaging policy to indicate
 that the package is external to the CRAN or BioC repositories.
 
-koRpus Copyright (C) 2015 m.eik michalke, released under the
+koRpus Copyright (C) 2016 m.eik michalke, released under the
 GNU General Public License (GPL) version 3 or (at your option) any later version.
 
 This software is distributed in the hope that it will be useful, but

@@ -39,8 +39,8 @@ this function will only calculate the Flesch RE value.
 
 Certain internationalisations of the parameters are also implemented. They can be used by setting
 \code{parameters} to \code{"es"} (Fernandez-Huerta),  \code{"es-s"} (Szigriszt),
-      \code{"nl"} (Douma), \code{"de"} or
-\code{"fr"} (Kandel-Moles).
+      \code{"nl"} (Douma), \code{"de"}
+(Amstad) or \code{"fr"} (Kandel-Moles).
 If \code{parameters="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used
 to calculate a grade level.
 }

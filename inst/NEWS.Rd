@@ -1,6 +1,35 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.06-4 (2016-03-07)}{
+  \subsection{fixed}{
+    \itemize{
+      \item workaround for missing POS tag \code{"NS"} for english texts
+      \item made \code{guess.lang()} compatible with recent format of UDHR archives, now
+        using ISO 639-3 codes as language identifier
+      \item \code{tokenize()} and \code{treetag()} weren't able to cope with text that only
+        consisted of a single token
+      \item declared import from graphics package to satisfy CRAN checks
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item updated rkwarddev script according to recent development in the rkwarddev
+        package
+      \item some basic validity checks of treetag()s \code{"TT.options"} moved to an
+        internal function \code{checkTTOptions()}, which is now also called by \code{set.kRp.env()}
+      \item \code{guess.lang()} doesn't warn about missing EOL in the UDHR texts any longer
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item added a README.md file
+      \item new option \code{"no.unknown"} can be passed to the \code{"TT.options"} of \code{treetag()},
+        to toggle the "-no-unknown" switch of TreeTagger
+      \item new option \code{"validate"} for \code{set.kRp.env()} to enable/disable checks
+    }
+  }
+}
 \section{Changes in koRpus version 0.06-3 (2015-11-02)}{
   \subsection{fixed}{
     \itemize{
