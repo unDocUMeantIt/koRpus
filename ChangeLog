@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.06-5 (2016-03-08)
+unreleased:
+  - this version is under development
+
 changes in version 0.06-4 (2016-03-07)
 fixed:
   - workaround for missing POS tag "NS" for english texts
