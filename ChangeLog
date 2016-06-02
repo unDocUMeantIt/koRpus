@@ -1,11 +1,13 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-5 (2016-05-31)
+changes in version 0.06-5 (2016-06-01)
 unreleased:
   - this version is under development
 added:
   - new template for a roxyPackage script to make it easy to build packages
     from language support scripts
+  - additional validation for ARI, flesch (en), flesch-kincaid, SMOG and FOG,
+    via http://wordscount.info/wc/jsp/clear/analyze_readability.jsp
 
 changes in version 0.06-4 (2016-03-07)
 fixed:

@@ -60,7 +60,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # to validate the correctness of calculation. this doesn't mean they always came to identical
   # results at once, since the accuracy of input data (like number of syllables or sentences)
   # varies considerably. but if these differences were manually corrected, the results were similar:
-  # - ARI                   [OUT, RDS, FRT]
+  # - ARI                   [OUT, RDS, FRT, WDC]
   #   - NRI                 [RDS (labeled as "simplified")]
   # - Bormuth Mean Cloze    [RDS]
   # - Coleman-Liau          [OUT, RDS]
@@ -70,19 +70,19 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # - DRP                   [RDS]
   # - Farr-Jenkins-Paterson [RDS]
   #   - PSK                 [RDS]
-  # - Flesch                [OUT, RDS, TAL, LLB, JRT]
+  # - Flesch                [OUT, RDS, TAL, LLB, JRT, WDC]
   #   - PSK                 [RDS]
   #   - Szigriszt (es)      [INF]
   #   - Flesch.es           [INF]
-  # - Flesch-Kincaid        [OUT, RDS, JRT]
-  # - FOG                   [GFI, RDS, OUT, JRT]
+  # - Flesch-Kincaid        [OUT, RDS, JRT, WDC]
+  # - FOG                   [GFI, RDS, OUT, JRT, WDC]
   #   - PSK                 [RDS]
   # - FORCAST               [RDS]
   # - Harris-Jacobson (HJ2) [RDS]
   # - LIX                   [RDS]
   # - Linsear Write         [FRT]
   # - RIX                   [RDS]
-  # - SMOG                  [OUT, RDS]
+  # - SMOG                  [OUT, RDS, WDC]
   # - Spache                [RDS]
   # - Wheeler-Smith         [RDS, WHE]
   #
@@ -116,6 +116,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
   # RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
   # TAL: http://www.textalyser.net
+  # WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
   # 
   # other:
   # WHE: example from original article by Wheeler & Smith

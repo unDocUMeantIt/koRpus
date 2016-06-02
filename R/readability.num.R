@@ -59,7 +59,7 @@
 #'  sentences=18,
 #'  words=556,
 #'  letters=c(all=2918, l1=19, l2=92, l3=74, l4=80, l5=51, l6=49),
-#'  syll=c(all=974, s1=316, s2=116),
+#'  syllables=c(all=974, s1=316, s2=116),
 #'  punct=78,
 #'  all.chars=3553,
 #'  prepositions=74,
@@ -67,10 +67,10 @@
 #'  pronouns=9,
 #'  foreign=0,
 #'  TTR=0.5269784,
-#'  Bormuth=192,
-#'  Dale.Chall=192,
-#'  Harris.Jacobson=240,
-#'  Spache=240)
+#'  Bormuth.NOL=192,
+#'  Dale.Chall.NOL=192,
+#'  Harris.Jacobson.NOL=240,
+#'  Spache.NOL=240)
 #'
 #'# should not calculate FOG, because FOG.hard.words is missing:
 #'readability.num(test.features, index="all")
