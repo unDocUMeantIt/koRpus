@@ -929,7 +929,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       if(identical(prms, "nl")){
         # Douma
         flavour <- "nl (Douma)"
-        prms <- c(const=206.835, asl=0.33, asw=77)
+        prms <- c(const=206.835, asl=0.93, asw=77)
       } else {}
       if(identical(prms, "nl-b")){
         # Douma
