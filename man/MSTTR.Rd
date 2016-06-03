@@ -7,13 +7,11 @@
 MSTTR(txt, segment = 100, ...)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.analysis-class}},
-      containing the tagged text to be analyzed.}
+\item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.analysis-class}}, containing the tagged text to be analyzed.}
 
 \item{segment}{An integer value, defining how many tokens should form one segment.}
 
-\item{...}{Further valid options for the main function,
-      see \code{\link[koRpus:lex.div]{lex.div}} for details.}
+\item{...}{Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.TTR-class}}.
@@ -23,8 +21,7 @@ This is just a convenient wrapper function for \code{\link[koRpus:lex.div]{lex.d
 }
 \details{
 This function calculates the mean segmental type-token ratio (MSTTR). In contrast to
-\code{\link[koRpus:lex.div]{lex.div}},
-      which by default calculates all possible measures and
+\code{\link[koRpus:lex.div]{lex.div}}, which by default calculates all possible measures and
 their progressing characteristics, this function will only calculate the MSTTR value.
 }
 \examples{

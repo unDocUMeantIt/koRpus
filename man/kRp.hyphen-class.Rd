@@ -11,8 +11,7 @@ This class is used for objects that are returned by \code{\link[koRpus:hyphen]{h
 \section{Slots}{
 
 \describe{
-\item{\code{lang}}{A character string,
-      naming the language that is assumed for the analized text in this object}
+\item{\code{lang}}{A character string, naming the language that is assumed for the analized text in this object}
 
 \item{\code{desc}}{Descriptive statistics of the analyzed text.}
 

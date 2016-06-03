@@ -10,24 +10,19 @@ guess.lang(txt.file, udhr.path, comp.length = 300, keep.udhr = FALSE,
 \arguments{
 \item{txt.file}{A character vector pointing to the file with the text to be analyzed.}
 
-\item{udhr.path}{A character string,
-      either pointing to the directory where you unzipped the translations of the
+\item{udhr.path}{A character string, either pointing to the directory where you unzipped the translations of the
 Universal Declaration of Human Rights, or to the ZIP file containing them.}
 
-\item{comp.length}{Numeric value,
-      giving the number of characters to be used of \code{txt} to estimate the language.}
+\item{comp.length}{Numeric value, giving the number of characters to be used of \code{txt} to estimate the language.}
 
-\item{keep.udhr}{Logical,
-      whether all the UDHR translations should be kept in the resulting object.}
+\item{keep.udhr}{Logical, whether all the UDHR translations should be kept in the resulting object.}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.}
 
-\item{in.mem}{Logical. If \code{TRUE},
-      the gzip compression will remain in memory (using \code{memCompress}), which
+\item{in.mem}{Logical. If \code{TRUE}, the gzip compression will remain in memory (using \code{memCompress}), which
 is probably the faster method. Otherwise temporary files are created and automatically removed on exit.}
 
-\item{format}{Either "file" or "obj". If the latter,
-      \code{txt.file} is not interpreted as a file path but the text to analyze itself.}
+\item{format}{Either "file" or "obj". If the latter, \code{txt.file} is not interpreted as a file path but the text to analyze itself.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.lang-class}}.
@@ -36,8 +31,7 @@ An object of class \code{\link[koRpus]{kRp.lang-class}}.
 This function tries to guess the language a text is written in.
 }
 \details{
-To accomplish the task, the method described by Benedetto,
-      Caglioti & Loreto (2002) is used, utilizing both
+To accomplish the task, the method described by Benedetto, Caglioti & Loreto (2002) is used, utilizing both
 gzip compression and tranlations of the Universal Declaration of Human Rights[1]. The latter holds the world
 record for being translated into the most different languages, and is publicly available.
 }
@@ -55,8 +49,7 @@ You need the ZIP archive containing \emph{all the plain text files} from \url{ht
 }
 }
 \references{
-Benedetto, D., Caglioti, E. & Loreto,
-      V. (2002). Language trees and zipping. \emph{Physical Review Letters}, 88(4), 048702.
+Benedetto, D., Caglioti, E. & Loreto, V. (2002). Language trees and zipping. \emph{Physical Review Letters}, 88(4), 048702.
 
 [1] \url{http://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
 

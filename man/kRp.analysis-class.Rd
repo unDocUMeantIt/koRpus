@@ -11,11 +11,9 @@ This class is used for objects that are returned by \code{\link[koRpus:kRp.text.
 \section{Slots}{
 
 \describe{
-\item{\code{lang}}{A character string,
-      naming the language that is assumed for the analized text in this object}
+\item{\code{lang}}{A character string, naming the language that is assumed for the analized text in this object}
 
-\item{\code{TT.res}}{A commented verion of the fully tagged text. Depending on input data,
-      this is
+\item{\code{TT.res}}{A commented verion of the fully tagged text. Depending on input data, this is
 identical to the slot \code{TT.res} of function \code{treetag} or \code{freq.analysis}.}
 
 \item{\code{desc}}{Descriptive statistics}

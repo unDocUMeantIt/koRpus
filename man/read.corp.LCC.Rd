@@ -8,26 +8,22 @@ read.corp.LCC(LCC.path, format = "flatfile", fileEncoding = "UTF-8",
   n = -1, keep.temp = FALSE, prefix = NULL)
 }
 \arguments{
-\item{LCC.path}{A character string,
-      either path to a .tar/.tar.gz/.zip file in LCC format (flatfile),
+\item{LCC.path}{A character string, either path to a .tar/.tar.gz/.zip file in LCC format (flatfile),
 or the path to the directory with the unpacked archive.}
 
 \item{format}{Either "flatfile" or "MySQL", depending on the type of LCC data.}
 
 \item{fileEncoding}{A character string naming the encoding of the LCC files. Old zip archives used "ISO_8859-1".
-This option will only influence the reading of meta information,
-      as the actual database encoding is derived from
+This option will only influence the reading of meta information, as the actual database encoding is derived from
 there.}
 
 \item{n}{An integer value defining how many lines of data should be read if \code{format="flatfile"}. Reads all at -1.}
 
-\item{keep.temp}{Logical. If \code{LCC.path} is a tarred/zipped archive,
-      setting \code{keep.temp=TRUE} will keep
+\item{keep.temp}{Logical. If \code{LCC.path} is a tarred/zipped archive, setting \code{keep.temp=TRUE} will keep
 the temporarily unpacked files for further use. By default all temporary files will be removed when
 the function ends.}
 
-\item{prefix}{Character string,
-      giving the prefix for the file names in the archive. Needed for newer LCC tar archives
+\item{prefix}{Character string, giving the prefix for the file names in the archive. Needed for newer LCC tar archives
 if they are already decompressed (autodetected if \code{LCC.path} points to the tar archive directly).}
 }
 \value{
@@ -37,10 +33,8 @@ An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
 Read data from LCC[1] formatted corpora (Quasthoff, Richter & Biemann, 2006).
 }
 \details{
-The LCC database can either be unpacked or still a .tar/.tar.gz/.zip archive. If the latter is the case,
-      then
-all necessary files will be extracted to a temporal location automatically,
-      and by default removed again
+The LCC database can either be unpacked or still a .tar/.tar.gz/.zip archive. If the latter is the case, then
+all necessary files will be extracted to a temporal location automatically, and by default removed again
 when the function has finished reading from it.
 }
 \note{
@@ -53,18 +47,15 @@ my.LCC.data <- read.corp.LCC("~/mydata/corpora/de05_3M.zip")
 # new format tar archive
 my.LCC.data <- read.corp.LCC("~/mydata/corpora/rus_web_2002_300K-text.tar")
 # in case the tar archive was already unpacked
-my.LCC.data <- read.corp.LCC("~/mydata/corpora/rus_web_2002_300K-text",
-      prefix="rus_web_2002_300K-")
+my.LCC.data <- read.corp.LCC("~/mydata/corpora/rus_web_2002_300K-text", prefix="rus_web_2002_300K-")
 
 tagged.results <- treetag("/some/text.txt")
 freq.analysis(tagged.results, corp.freq=my.LCC.data)
 }
 }
 \references{
-Quasthoff, U., Richter, M. & Biemann,
-      C. (2006). Corpus Portal for Search in Monolingual Corpora, In
-   \emph{Proceedings of the Fifth International Conference on Language Resources and Evaluation},
-      Genoa, 1799--1802.
+Quasthoff, U., Richter, M. & Biemann, C. (2006). Corpus Portal for Search in Monolingual Corpora, In
+   \emph{Proceedings of the Fifth International Conference on Language Resources and Evaluation}, Genoa, 1799--1802.
 
    [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
 }

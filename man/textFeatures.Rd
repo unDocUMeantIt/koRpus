@@ -11,10 +11,8 @@ textFeatures(text, hyphen = NULL)
 \code{\link[koRpus]{kRp.txt.freq-class}} or \code{\link[koRpus]{kRp.analysis-class}}. Can
 also be a list of these objects, if you want to analyze more than one text at once.}
 
-\item{hyphen}{An object of class \code{\link[koRpus]{kRp.hyphen-class}},
-      if \code{text} has
-already been hyphenated. If \code{text} is a list and \code{hyphen} is not \code{NULL},
-      it must
+\item{hyphen}{An object of class \code{\link[koRpus]{kRp.hyphen-class}}, if \code{text} has
+already been hyphenated. If \code{text} is a list and \code{hyphen} is not \code{NULL}, it must
 also be a list with one object for each text, in the same order.}
 }
 \value{
@@ -37,22 +35,17 @@ authorship detection (Brannon, Afroz & Greenstadt, 2011; Brannon & Greenstadt, 2
 }
 \examples{
 \dontrun{
-set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger",
-      preset="en"))
+set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger", preset="en"))
 tagged.txt <- treetag("example_text.txt")
 tagged.txt.features <- textFeatures(tagged.txt)
 }
 }
 \references{
-Brennan, M., Afroz, S., & Greenstadt,
-      R. (2011). Deceiving authorship detection. Presentation
+Brennan, M., Afroz, S., & Greenstadt, R. (2011). Deceiving authorship detection. Presentation
      at \emph{28th Chaos Communication Congress (28C3)}, Berlin, Germany.
-   Brennan, M. & Greenstadt,
-     R. (2009). Practical Attacks Against Authorship Recognition Techniques. In
-     \emph{Proceedings of the Twenty-First Conference on Innovative Applications of Artificial Intelligence (IAAI)},
-      Pasadena, CA.
-   Tweedie, F.J., Singh, S., & Holmes,
-      D.I. (1996). Neural Network Applications in Stylometry: The Federalist Papers.
+   Brennan, M. & Greenstadt,R. (2009). Practical Attacks Against Authorship Recognition Techniques. In
+     \emph{Proceedings of the Twenty-First Conference on Innovative Applications of Artificial Intelligence (IAAI)}, Pasadena, CA.
+   Tweedie, F.J., Singh, S., & Holmes, D.I. (1996). Neural Network Applications in Stylometry: The Federalist Papers.
      \emph{Computers and the Humanities}, 30, 1--10.
 }
 

@@ -11,11 +11,9 @@ This class is used for objects that are returned by \code{\link[koRpus:freq.anal
 \section{Slots}{
 
 \describe{
-\item{\code{lang}}{A character string,
-      naming the language that is assumed for the analized text in this object.}
+\item{\code{lang}}{A character string, naming the language that is assumed for the analized text in this object.}
 
-\item{\code{TT.res}}{A data.frame with a version of the fully tagged text (like \code{TT.res} in class \code{koRpus.tagged},
-      plus frequency data).}
+\item{\code{TT.res}}{A data.frame with a version of the fully tagged text (like \code{TT.res} in class \code{koRpus.tagged}, plus frequency data).}
 
 \item{\code{desc}}{A list with detailed descriptive statistics on the analyzed text.}
 

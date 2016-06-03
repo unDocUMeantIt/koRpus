@@ -8,21 +8,16 @@ FOG(txt.file, hyphen = NULL, parameters = list(syll = 3, const = 0.4, suffix
   = c("es", "ed", "ing")), ...)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
-      a character vector which must be be
-a valid path to a file containing the text to be analyzed,
-      or a list of text features. If the latter, calculation
+\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 is done by \code{\link[koRpus:readability.num]{readability.num}}.}
 
-\item{hyphen}{An object of class kRp.hyphen. If \code{NULL},
-      the text will be hyphenated automatically.}
+\item{hyphen}{An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.}
 
-\item{parameters}{A list with named magic numbers and a vector with verb suffixes,
-      defining the relevant parameters for the index,
+\item{parameters}{A list with named magic numbers and a vector with verb suffixes, defining the relevant parameters for the index,
 or one of \code{"PSK"} or \code{"NRI"}.}
 
-\item{...}{Further valid options for the main function,
-      see \code{\link[koRpus:readability]{readability}} for details.}
+\item{...}{Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.readability-class}}.
@@ -32,13 +27,10 @@ This is just a convenient wrapper function for \code{\link[koRpus:readability]{r
 }
 \details{
 Calculates the Gunning FOG index. In contrast to \code{\link[koRpus:readability]{readability}},
-which by default calculates all possible indices,
-      this function will only calculate the index value.
+which by default calculates all possible indices, this function will only calculate the index value.
 
-If \code{parameters="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used,
-      and
-if \code{parameters="NRI"}, the simplified parameters from the Navy Readability Indexes,
-      respectively.
+If \code{parameters="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used, and
+if \code{parameters="NRI"}, the simplified parameters from the Navy Readability Indexes, respectively.
 }
 \examples{
 \dontrun{
@@ -49,8 +41,7 @@ FOG(tagged.text)
 DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
 
-   Powers, R.D, Sumner, W.A, & Kearl,
-      B.E. (1958). A recalculation of four adult readability formulas,
+   Powers, R.D, Sumner, W.A, & Kearl, B.E. (1958). A recalculation of four adult readability formulas,
      \emph{Journal of Educational Psychology}, 49(2), 99--105.
 }
 \keyword{readability}
