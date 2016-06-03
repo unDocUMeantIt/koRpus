@@ -124,7 +124,7 @@
 #'   \item{\code{"Flesch"}:}{\emph{Flesch Reading Ease}:
 #'      \deqn{ 206.835 - 1.015 \times \frac{W}{St} - 84.6 \times \frac{Sy}{W}}
 #'      Certain internationalisations of the parameters are also implemented. They can be used by setting
-#'      the \code{Flesch} parameter to \code{"es"} (Fernandez-Huerta),  \code{"es-s"} (Szigriszt), \code{"nl"} (Douma),
+#'      the \code{Flesch} parameter to \code{"es"} (Fernandez-Huerta),  \code{"es-s"} (Szigriszt), \code{"nl"} (Douma), \code{"nl-b"} (Brouwer),
 #'      \code{"de"} (Amstad's Verst\"andlichkeitsindex), or \code{"fr"} (Kandel-Moles).
 #'      If \code{parameters} is set to \code{Flesch="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used
 #'      to calculate a grade level:
