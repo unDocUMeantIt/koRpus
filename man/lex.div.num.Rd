@@ -40,10 +40,12 @@ See \code{\link[koRpus:lex.div]{lex.div}} for further details on the formulae.
 lex.div.num(104, 43)
 }
 \references{
-Maas, H.-D., (1972). \"Uber den Zusammenhang zwischen Wortschatzumfang und L\"ange eines Textes. \emph{Zeitschrift f\"ur
+Maas, H.-D.,
+      (1972). \"Uber den Zusammenhang zwischen Wortschatzumfang und L\"ange eines Textes. \emph{Zeitschrift f\"ur
      Literaturwissenschaft und Linguistik}, 2(8), 73--96.
 
-   Tweedie. F.J. & Baayen, R.H. (1998). How Variable May a Constant Be? Measures of Lexical Richness in Perspective.
+   Tweedie. F.J. & Baayen,
+      R.H. (1998). How Variable May a Constant Be? Measures of Lexical Richness in Perspective.
     \emph{Computers and the Humanities}, 32(5), 323--352.
 }
 \seealso{

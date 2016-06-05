@@ -37,7 +37,8 @@ The slot \code{meta} simply contains all information from the "meta.txt" of the 
 }
 The slot might have additional columns, depending on the input material.}
 
-\item{\code{desc}}{Descriptive information. It contains six numbers from the \code{meta} information, for convenient accessibility:
+\item{\code{desc}}{Descriptive information. It contains six numbers from the \code{meta} information,
+      for convenient accessibility:
  \describe{
   \item{\code{tokens}:}{Number of running word forms}
   \item{\code{types}:}{Number of distinct word forms}

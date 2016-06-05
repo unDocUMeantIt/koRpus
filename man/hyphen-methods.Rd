@@ -18,22 +18,28 @@ hyphen(words, ...)
   quiet = FALSE, cache = TRUE)
 }
 \arguments{
-\item{words}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}} or
-\code{\link[koRpus]{kRp.analysis-class}}, or a character vector with words to be hyphenated.}
+\item{words}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+      \code{\link[koRpus]{kRp.txt.freq-class}} or
+\code{\link[koRpus]{kRp.analysis-class}},
+      or a character vector with words to be hyphenated.}
 
 \item{...}{Only used for the method generic.}
 
 \item{hyph.pattern}{Either an object of class \code{\link[koRpus]{kRp.hyph.pat-class}}, or
 a valid character string naming the language of the patterns to be used. See details.}
 
-\item{min.length}{Integer, number of letters a word must have for considering a hyphenation. \code{hyphen} will
-not split words after the first or before the last letter, so values smaller than 4 are not useful.}
+\item{min.length}{Integer,
+      number of letters a word must have for considering a hyphenation. \code{hyphen} will
+not split words after the first or before the last letter,
+      so values smaller than 4 are not useful.}
 
-\item{rm.hyph}{Logical, whether appearing hyphens in words should be removed before pattern matching.}
+\item{rm.hyph}{Logical,
+      whether appearing hyphens in words should be removed before pattern matching.}
 
 \item{corp.rm.class}{A character vector with word classes which should be ignored. The default value
 \code{"nonpunct"} has special meaning and will cause the result of
-\code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used. Relevant only if \code{words}
+\code{kRp.POS.tags(lang, c("punct","sentc"),
+      list.classes=TRUE)} to be used. Relevant only if \code{words}
 is a valid koRpus object.}
 
 \item{corp.rm.tag}{A character vector with POS tags which should be ignored. Relevant only if \code{words}
@@ -41,9 +47,11 @@ is a valid koRpus object.}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.}
 
-\item{cache}{Logical. \code{hyphen()} can cache results to speed up the process. If this option is set to \code{TRUE}, the
+\item{cache}{Logical. \code{hyphen()} can cache results to speed up the process. If this option is set to \code{TRUE},
+      the
 current cache will be queried and new tokens also be added. Caches are language-specific and reside in an environment,
-i.e., they are cleaned at the end of a session. If you want to save these for later use, see the option \code{hyphen.cache.file}
+i.e., they are cleaned at the end of a session. If you want to save these for later use,
+      see the option \code{hyphen.cache.file}
 in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.}
 }
 \value{
@@ -73,7 +81,8 @@ In case you'd rather use your own pattern set, \code{hyph.pattern} can be an
 object of class \code{kRp.hyph.pat}, alternatively.
 
 The built-in hyphenation patterns were derived from the patterns available on CTAN[1]
-under the terms of the LaTeX Project Public License[2], see \code{\link[koRpus:hyph.XX]{hyph.XX}}
+under the terms of the LaTeX Project Public License[2],
+      see \code{\link[koRpus:hyph.XX]{hyph.XX}}
 for detailed information.
 }
 \examples{

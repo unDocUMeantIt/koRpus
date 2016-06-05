@@ -11,9 +11,11 @@ segment.optimizer(txtlgth, segment = 100, range = 20, favour.min = TRUE)
 
 \item{segment}{Integer value, start value of the segment size.}
 
-\item{range}{Integer value, range around \code{segment} to search for better fitting sizes.}
+\item{range}{Integer value,
+      range around \code{segment} to search for better fitting sizes.}
 
-\item{favour.min}{Logical, whether as a last ressort smaller or larger segment sizes should be
+\item{favour.min}{Logical,
+      whether as a last ressort smaller or larger segment sizes should be
 prefered, if in doubt.}
 }
 \value{
@@ -27,15 +29,21 @@ This function calculates an optimized segment size for \code{\link[koRpus:MSTTR]
 \details{
 When calculating the mean segmental type-token ratio (MSTTR), tokens are divided into
 segments of a given size and analyzed. If at the end text is left over which won't fill another
-full segment, it is discarded, i.e. information is lost. For interpretation it is debatable
-which is worse: Dropping more or less actual token material, or variance in segment size between
+full segment, it is discarded,
+      i.e. information is lost. For interpretation it is debatable
+which is worse: Dropping more or less actual token material,
+      or variance in segment size between
 analyzed texts. If you'd prefer the latter, this function might prove helpful.
 
-Starting with a given text length, segment size and range to investigate, \code{segment.optimizer}
+Starting with a given text length, segment size and range to investigate,
+      \code{segment.optimizer}
 iterates through possible segment values. It returns the segment size which would drop the fewest
-tokens (zero, if you're lucky). Should more than one value fulfill this demand, the one nearest to
-the segment start value is taken. In cases, where still two values are equally far away from the
-start value, it depends on the setting of \code{favour.min} if the smaller or larger segment size
+tokens (zero, if you're lucky). Should more than one value fulfill this demand,
+      the one nearest to
+the segment start value is taken. In cases,
+      where still two values are equally far away from the
+start value,
+      it depends on the setting of \code{favour.min} if the smaller or larger segment size
 is returned.
 }
 \examples{

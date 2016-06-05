@@ -9,17 +9,23 @@ coleman.liau(txt.file, ecp = c(const = 141.8401, char = 0.21459, sntc =
   5.88, spw = 29.6, const = 15.8), ...)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
-a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
+\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+      a character vector which must be be
+a valid path to a file containing the text to be analyzed,
+      or a list of text features. If the latter, calculation
 is done by \code{\link[koRpus:readability.num]{readability.num}}.}
 
-\item{ecp}{A numeric vector with named magic numbers, defining the relevant parameters for the cloze percentage estimate.}
+\item{ecp}{A numeric vector with named magic numbers,
+      defining the relevant parameters for the cloze percentage estimate.}
 
-\item{grade}{A numeric vector with named magic numbers, defining the relevant parameters to calculate grade equvalent for ECP values.}
+\item{grade}{A numeric vector with named magic numbers,
+      defining the relevant parameters to calculate grade equvalent for ECP values.}
 
-\item{short}{A numeric vector with named magic numbers, defining the relevant parameters for the short form of the formula.}
+\item{short}{A numeric vector with named magic numbers,
+      defining the relevant parameters for the short form of the formula.}
 
-\item{...}{Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.}
+\item{...}{Further valid options for the main function,
+      see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.readability-class}}.
@@ -29,7 +35,8 @@ This is just a convenient wrapper function for \code{\link[koRpus:readability]{r
 }
 \details{
 Calculates the Coleman-Liau index. In contrast to \code{\link[koRpus:readability]{readability}},
-which by default calculates all possible indices, this function will only calculate the index value.
+which by default calculates all possible indices,
+      this function will only calculate the index value.
 
 This formula doesn't need syllable count.
 }

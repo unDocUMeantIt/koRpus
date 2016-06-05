@@ -24,13 +24,17 @@ query(obj, ...)
 \code{"regexp"}, \code{grepl} is called on the \code{word} column of corpus frequency
 objects.}
 
-\item{query}{A character vector (for words), regular expression, or single number naming values to be matched in the variable.
-Can also be a vector of two numbers to query a range of frequency data, or a list of named lists for multiple queries (see
+\item{query}{A character vector (for words), regular expression,
+      or single number naming values to be matched in the variable.
+Can also be a vector of two numbers to query a range of frequency data,
+      or a list of named lists for multiple queries (see
 "Query lists" section in details).}
 
 \item{rel}{A character string defining the relation of the queried value and desired results.
-Must either be \code{"eq"} (equal, the default), \code{"gt"} (greater than), \code{"ge"} (greater of equal),
-\code{"lt"} (less than) or \code{"le"} (less or equal). If \code{var="word"}, is always interpreted as \code{"eq"}}
+Must either be \code{"eq"} (equal, the default), \code{"gt"} (greater than),
+      \code{"ge"} (greater of equal),
+\code{"lt"} (less than) or \code{"le"} (less or equal). If \code{var="word"},
+      is always interpreted as \code{"eq"}}
 
 \item{as.df}{Logical, if \code{TRUE}, returns a data.frame, otherwise an object of
 the input class.}
@@ -47,25 +51,34 @@ The method \code{query} returns query information from objects of classes \code{
 \code{\link[koRpus]{kRp.tagged-class}}.
 }
 \details{
-\emph{kRp.corp.freq:} Depending on the setting of the \code{var} parameter, will return entries with a matching character (\code{var="word"}),
+\emph{kRp.corp.freq:} Depending on the setting of the \code{var} parameter,
+      will return entries with a matching character (\code{var="word"}),
 or all entries of the desired frequency (see the examples). A special case is the need for a range of frequencies,
-which can be achieved by providing a nomerical vector of two values as the \code{query} value, for start and end of
-the range, respectively. In these cases, if \code{rel} is set to \code{"gt"} or \code{"lt"},
+which can be achieved by providing a nomerical vector of two values as the \code{query} value,
+      for start and end of
+the range, respectively. In these cases,
+      if \code{rel} is set to \code{"gt"} or \code{"lt"},
 the given range borders are excluded, otherwise they will be included as true matches.
 
 \emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. For \code{rel} currently only
-"eq" and "num" are implemented. The latter isn't a relation, but will return a vector with the row numbers in which
+"eq" and "num" are implemented. The latter isn't a relation,
+      but will return a vector with the row numbers in which
 the query was found.
 }
 \section{Query lists}{
  You can combine an arbitrary number of queries in a simple way by providing a list of named lists to the
-\code{query} parameter, where each list contains one query request. In each list, the first element name represents the
-\code{var} value of the request, and its value is taken as the \code{query} argument. You can also assign \code{rel}, 
-\code{ignore.case} and \code{perl} for each request individually, and if you don't, the settings of the main query call are 
-taken as default (\code{as.df} only applies to the final query). The filters will be applied in the order given, i.e., the
+\code{query} parameter, where each list contains one query request. In each list,
+      the first element name represents the
+\code{var} value of the request,
+      and its value is taken as the \code{query} argument. You can also assign \code{rel}, 
+\code{ignore.case} and \code{perl} for each request individually, and if you don't,
+      the settings of the main query call are 
+taken as default (\code{as.df} only applies to the final query). The filters will be applied in the order given,
+      i.e., the
 second query will be made to the results of the first.
 
-This method calls \code{\link[base]{subset}}, which might actually be even more flexible if you need more control.
+This method calls \code{\link[base]{subset}},
+      which might actually be even more flexible if you need more control.
 }
 \examples{
 \dontrun{

@@ -7,7 +7,8 @@
 kRp.text.transform(txt, scheme, p = 0.5, paste = FALSE)
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus]{kRp.txt.trans-class}}, \code{\link[koRpus]{kRp.tagged-class}},
+\item{txt}{An object of class \code{\link[koRpus]{kRp.txt.trans-class}},
+      \code{\link[koRpus]{kRp.tagged-class}},
 \code{\link[koRpus]{kRp.txt.freq-class}} or \code{\link[koRpus]{kRp.analysis-class}}.}
 
 \item{scheme}{One of the following character strings:
@@ -17,7 +18,8 @@ kRp.text.transform(txt, scheme, p = 0.5, paste = FALSE)
   \item {\code{"major"}} {Start each word with a uppercase letter.}
   \item {\code{"all.major"}} {Forces all letters into uppercase.}
   \item {\code{"random"}} {Randomly start words with uppercase or lowercase letters.}
-  \item {\code{"de.norm"}} {German norm: All names, nouns and sentence beginnings start with an uppercase letter,
+  \item {\code{"de.norm"}} {German norm: All names,
+      nouns and sentence beginnings start with an uppercase letter,
      anything else with a lowercase letter.}
   \item {\code{"de.inv"}} {Inversion of \code{"de.norm"}.}
   \item {\code{"eu.norm"}} {Usual European cases: Only names and sentence beginnings start with an uppercase letter,
@@ -31,7 +33,8 @@ if \code{scheme="random"}).}
 \item{paste}{Logical, see value section.}
 }
 \value{
-By default an object of class \code{\link[koRpus]{kRp.txt.trans-class}} is returned. If \code{paste=TRUE}, returns
+By default an object of class \code{\link[koRpus]{kRp.txt.trans-class}} is returned. If \code{paste=TRUE},
+      returns
    an atomic character vector (via \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}).
 }
 \description{

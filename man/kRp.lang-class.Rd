@@ -11,7 +11,8 @@ This class is used for objects that are returned by \code{\link[koRpus:guess.lan
 \section{Slots}{
 
 \describe{
-\item{\code{lang}}{A character string, naming the language (by its ISO 639-3 identifier) that was estimated for the analized text in this object.}
+\item{\code{lang}}{A character string,
+      naming the language (by its ISO 639-3 identifier) that was estimated for the analized text in this object.}
 
 \item{\code{lang.name}}{A character string, full name of the estimated language.}
 

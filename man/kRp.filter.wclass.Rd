@@ -17,11 +17,13 @@ Another valid value is "stopword" to remove all detected stopwords.}
 
 \item{corp.rm.tag}{A character vector with valid POS tags which should be removed.}
 
-\item{as.vector}{Logical. If \code{TRUE}, results will be returned as a character vector containing only the text parts
+\item{as.vector}{Logical. If \code{TRUE},
+      results will be returned as a character vector containing only the text parts
 which survived the filtering.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{as.vector=TRUE}, returns only a character vector.
+An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{as.vector=TRUE},
+      returns only a character vector.
 }
 \description{
 This function strips off defined word classes of tagged text objects.

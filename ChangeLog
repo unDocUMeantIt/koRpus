@@ -1,21 +1,24 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-5 (2016-06-03)
-unreleased:
-  - this version is under development
+changes in version 0.06-5 (2016-06-05)
 fixed:
   - fixed the Douma formula: based on available literature, the factor for
-    average sentence length was set to 0.33, but the original paper reported
-    it as 0.93
+    average sentence length was set to 0.33, but the original paper reported it
+    as 0.93
   - fixed the documentation for tokenize(), rxygen2 had problems with an
     escaped double quote
+  - corrected some probelms with umlaut in the docs
 added:
   - new template for a roxyPackage script to make it easy to build packages
     from language support scripts
   - additional validation for ARI, flesch (en), flesch-kincaid, SMOG and FOG,
     via http://wordscount.info/wc/jsp/clear/analyze_readability.jsp
   - new Flesch parameters to calculate readability according to Brouwer (NL),
-    can be invoked as index "Flesch.nl-b" or "Flesch.Brouwer"
+    can be invoked as index "Flesch.nl-b", "Flesch.Brouwer", or Flesch
+    paremeters set to "nl-b"
+  - now the manual is actually documenting all the various Flesch formulas,
+    i.e., listing all parameter values, so that it's easier for users to check
+    what is being calculated
 
 changes in version 0.06-4 (2016-03-07)
 fixed:

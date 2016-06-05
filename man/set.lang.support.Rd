@@ -7,7 +7,8 @@
 set.lang.support(target, value)
 }
 \arguments{
-\item{target}{One of "hyphen", "kRp.POS.tags", or "treetag", depending on what support is to be added.}
+\item{target}{One of "hyphen", "kRp.POS.tags", or "treetag",
+      depending on what support is to be added.}
 
 \item{value}{A named list that upholds exactly the structure defined here for its respective \code{target}.}
 }
@@ -18,11 +19,14 @@ You can use this function to add new languages to be used with \code{koRpus}.
 Language support in this package is designed to be extended easily. You could call it modular,
 although it's actually more "environemntal", but nevermind.
 
-To add full new language support, say for Xyzedish, you basically have to call this function
+To add full new language support, say for Xyzedish,
+      you basically have to call this function
 three times with different targets, and provide respective hyphenation patterns.
-If you would like to re-use this language support, you should consider making it a package.
+If you would like to re-use this language support,
+      you should consider making it a package.
 
-Be it a package or a script, it should contain all three calls to this function. If it succeeds,
+Be it a package or a script,
+      it should contain all three calls to this function. If it succeeds,
 it will fill an internal environment with the information you have defined.
 
 The function \code{set.language.support()} gets called three times because there's three
@@ -36,33 +40,42 @@ functions of koRpus that need language support:
       language
 }
 
-All the calls follow the same pattern -- first, you name one of the three targets explained above,
-and second, you provide a named list as the \code{value} for the respective \code{target} function.
+All the calls follow the same pattern -- first,
+      you name one of the three targets explained above,
+and second,
+      you provide a named list as the \code{value} for the respective \code{target} function.
 }
 \section{"hyphen"}{
 
 
 The named list usually has one single entry to tell the new language abbreviation, e.g.,
 \code{set.lang.support("hyphen", list("xyz"="xyz"))}. However, this will only work if a)
-the language support script is a part of the \code{koRpus} package itself, and b) the hyphen pattern
+the language support script is a part of the \code{koRpus} package itself,
+      and b) the hyphen pattern
 is located in its \code{data} subdirectory.
 
-For your custom hyphenation patterns to be found automatically, provide it as the value in the named
+For your custom hyphenation patterns to be found automatically,
+      provide it as the value in the named
 list, e.g., \code{set.lang.support("hyphen", list("xyz"=hyph.xyz))}.
-This will directly add the patterns to \code{korpus}' environment, so it will be found when
+This will directly add the patterns to \code{korpus}' environment,
+      so it will be found when
 hyphenation is requested for language \code{"xyz"}.
 
-If you would like to provide hyphenation as part of a third party language package, you must name the
+If you would like to provide hyphenation as part of a third party language package,
+      you must name the
 object \code{hyph.<lang>}, save it to your package's \code{data} subdirectory named
 \code{hyph.<lang>.rda}, and append \code{package="<yourpackage>"} to the named list; e.g.,
-\code{set.lang.support("hyphen", list("xyz"=c("xyz", package="koRpus.lang.xyz"))}. Only then
-\code{koRpus} will look for the pattern object in your package, not its own \code{data} directory.
+\code{set.lang.support("hyphen", list("xyz"=c("xyz",
+      package="koRpus.lang.xyz"))}. Only then
+\code{koRpus} will look for the pattern object in your package,
+      not its own \code{data} directory.
 }
 
 \section{"treetag"}{
 
 
-The presets for the treetag() function are basically what the shell (GNU/Linux, MacOS) and batch
+The presets for the treetag() function are basically what the shell (GNU/Linux,
+      MacOS) and batch
 (Win) scripts define that come with TreeTagger. Look for scripts called
 "$TREETAGGER/cmd/tree-tagger-xyzedish" and "$TREETAGGER\\cmd\\tree-tagger-xyzedish.bat",
 figure out which call resembles which call and then define them in set.lang.support("treetag")
@@ -75,23 +88,29 @@ example.
 \section{"kRp.POS.tags"}{
 
 
-If Xyzedish is supported by TreeTagger, you should find a tagset definition for the language on its
-homepage. treetag() needs to know \emph{all} POS tags that TreeTagger might return, otherwise you
+If Xyzedish is supported by TreeTagger,
+      you should find a tagset definition for the language on its
+homepage. treetag() needs to know \emph{all} POS tags that TreeTagger might return,
+      otherwise you
 will get a self-explaining error message as soon as an unknown tag appears. Notice that this can
 still happen after you implemented the full documented tag set: sometimes the contributed TreeTagger
-parameter files added their own tags, e.g., for special punctuation. So please test your tag set well.
+parameter files added their own tags, e.g.,
+      for special punctuation. So please test your tag set well.
 
-As you can see in the template file, you will also have to add a global word class and an explaination
+As you can see in the template file,
+      you will also have to add a global word class and an explaination
 for each tag. The former is especially important for further steps like frequency analysis.
 
-Again, please have a look at the commented template and/or existing language support files in the
+Again,
+      please have a look at the commented template and/or existing language support files in the
 package sources, most of it should be almost self-explaining.
 }
 
 \section{Hyphenation patterns}{
 
 
-To be able to also do syllable count with the newly added language, you should add a hyphenation pattern
+To be able to also do syllable count with the newly added language,
+      you should add a hyphenation pattern
 file as well.
 Refer to the documentation of read.hyph.pat() to learn how to produce a pattern object from a downloaded
 hyphenation pattern file. Make sure you use the correct name scheme (e.g. "hyph.xyz.rda") and good

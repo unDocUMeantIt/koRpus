@@ -19,8 +19,10 @@ correct.hyph(obj, word = NULL, hyphen = NULL, cache = TRUE)
   cache = TRUE)
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}} or  \code{\link[koRpus]{kRp.txt.trans-class}}, or \code{\link[koRpus]{kRp.hyphen-class}}.}
+\item{obj}{An object of class \code{\link[koRpus]{kRp.tagged-class}},
+      \code{\link[koRpus]{kRp.txt.freq-class}},
+\code{\link[koRpus]{kRp.analysis-class}} or  \code{\link[koRpus]{kRp.txt.trans-class}},
+      or \code{\link[koRpus]{kRp.hyphen-class}}.}
 
 \item{row}{Integer, the row number of the entry to be changed. Can be an integer vector
 to change several rows in one go.}
@@ -34,12 +36,15 @@ If \code{NULL} (the default) the entry remains unchanged.}
 \item{check.token}{A character string naming the token you expect to be in this row.
 If not \code{NULL}, \code{correct} will stop with an error if this values don't match.}
 
-\item{word}{A character string, the (possibly incorrectly hyphenated) \code{word} entry to be replaced with \code{hyphen}.}
+\item{word}{A character string,
+      the (possibly incorrectly hyphenated) \code{word} entry to be replaced with \code{hyphen}.}
 
-\item{hyphen}{A character string, the new manually hyphenated version of \code{word}. Mustn't contain
+\item{hyphen}{A character string,
+      the new manually hyphenated version of \code{word}. Mustn't contain
 anything other than characters of \code{word} plus the hyphenation mark \code{"-"}.}
 
-\item{cache}{Logical, if \code{TRUE}, the given hyphenation will be added to the sessions' hyphenation cache.
+\item{cache}{Logical, if \code{TRUE},
+      the given hyphenation will be added to the sessions' hyphenation cache.
 Existing entries for the same word will be replaced.}
 }
 \value{
@@ -50,23 +55,31 @@ The methods \code{correct.tag} and \code{correct.hyph} can be used to alter obje
 or of class \code{\link[koRpus]{kRp.hyphen-class}} respectively.
 }
 \details{
-Although automatic POS tagging, lemmatization and hyphenation are remarkably accurate, the algorithms do ususally produce
-some errors. If you want to correct for these flaws, these methods can be of help, because they might prevent you from
-introducing new errors. That is, the will do some sanitiy checks before the object is actually manipulated and returned:
+Although automatic POS tagging, lemmatization and hyphenation are remarkably accurate,
+      the algorithms do ususally produce
+some errors. If you want to correct for these flaws, these methods can be of help,
+      because they might prevent you from
+introducing new errors. That is,
+      the will do some sanitiy checks before the object is actually manipulated and returned:
 
 \describe{
    \item{\code{correct.tag}}{will read the \code{lang} slot from the given object and check whether the \code{tag}
-     provided is actually valid. If so, it will not only change the \code{tag} field in the object, but also update
+     provided is actually valid. If so,
+      it will not only change the \code{tag} field in the object, but also update
      \code{wclass} and \code{desc} accordingly.
 
 If \code{check.token} is set it must also match \code{token} in the given row(s). Note that no check is done on the lemmata.}
    \item{\code{correct.hyph}}{will check whether \code{word} and \code{hyphen} are actually hyphenations of the
-     same token before proceeding. If so, it will also recalculate the number of syllables and update the \code{syll}
+     same token before proceeding. If so,
+      it will also recalculate the number of syllables and update the \code{syll}
      field.
 
-If both \code{word} and \code{hyphen} are \code{NULL}, \code{correct.hyph} will try to simply recalculate the syllable count
-     for each word, by counting the hyphenation marks (and adding 1 to the number). This can be usefull if you changed hyphenation
-     some other way, e.g. in a spreadsheet GUI, but don't want to have to correct the syllable count yourself as well.}
+If both \code{word} and \code{hyphen} are \code{NULL},
+      \code{correct.hyph} will try to simply recalculate the syllable count
+     for each word,
+      by counting the hyphenation marks (and adding 1 to the number). This can be usefull if you changed hyphenation
+     some other way, e.g. in a spreadsheet GUI,
+      but don't want to have to correct the syllable count yourself as well.}
 }
 }
 \examples{

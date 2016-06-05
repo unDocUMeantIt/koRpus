@@ -23,13 +23,19 @@ The patterns (as they are present in the \code{"orig"} column described above) w
 under the terms of the LaTeX Project Public License[2]. Refer to Liang (1983) for a detailed explaination -- it's fascinating.
 From these original patterns the values in the remaining columns were created (using \code{\link[koRpus:read.hyph.pat]{read.hyph.pat}}).
 
-Note: Some of the original patterns might have been altered before, too. This is because the use cases slightly differ between LaTeX
-and this package. For accurate hyphenation in text processing it's important to not split words in wrong ways, rather than identifying
+Note: Some of the original patterns might have been altered before,
+      too. This is because the use cases slightly differ between LaTeX
+and this package. For accurate hyphenation in text processing it's important to not split words in wrong ways,
+      rather than identifying
 all possible split points. I therefore understand that in general these patterns might lead to slightly more conservative results.
-This package, however, uses the same algorithm to count syllables, that is, it's more important to just get the right sum of syllables
-in a word, and actually quite irrelevant (for the time being) which actual syllables were identified. That is, for this purpose even
-completely wrong suggestions wouldn't do any harm, as long as the overall number is correct, whereas perfectly valid hyphenations would
-be misleading if they are missing one or more possibilities. If any such changes to the patterns have been made, they are fully
+This package, however, uses the same algorithm to count syllables, that is,
+      it's more important to just get the right sum of syllables
+in a word,
+      and actually quite irrelevant (for the time being) which actual syllables were identified. That is, for this purpose even
+completely wrong suggestions wouldn't do any harm,
+      as long as the overall number is correct, whereas perfectly valid hyphenations would
+be misleading if they are missing one or more possibilities. If any such changes to the patterns have been made,
+      they are fully
 documented in the file "ChangeLog_hyph_patterns.txt" in the sources for this package. The
 unchanged original patterns can be found under [1].
 }
@@ -38,8 +44,10 @@ hyph.XX
 }
 \description{
 Hyphenation patterns for \code{hyphen()} in several languages. Replace \code{"XX"} with \code{"de"},
-\code{"de.old"}, \code{"en"}, \code{"es"}, \code{"fr"}, \code{"it"}, \code{"en.us"}, or \code{"ru"}, respectively.
-These data objects are not really intended to be used directly, but rather to be consulted by the hyphen() function without further user interaction.
+\code{"de.old"}, \code{"en"}, \code{"es"}, \code{"fr"}, \code{"it"}, \code{"en.us"},
+      or \code{"ru"}, respectively.
+These data objects are not really intended to be used directly,
+      but rather to be consulted by the hyphen() function without further user interaction.
 }
 \references{
 Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.

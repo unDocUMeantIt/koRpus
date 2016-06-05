@@ -626,7 +626,7 @@ setMethod("show", signature(object="kRp.readability"), function(object){
     cat("\n")
   } else {}
   if(show.Flesch.Brouwer){
-    cat("\nFlesch-Brouwer Reading Ease (nl)\n")
+    cat("\nFlesch-Brouwer Reading Ease (Leesindex, nl)\n")
     cat("  Parameters:", prt.Flesch.Brouwer.flavour, "\n")
     if(!is.na(prt.Flesch.Brouwer)){
     cat("          RE:", prt.Flesch.Brouwer, "\n")

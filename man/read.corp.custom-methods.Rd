@@ -21,7 +21,8 @@ read.corp.custom(corpus, ...)
   log.base = 10, ...)
 }
 \arguments{
-\item{corpus}{Either the path to directory with txt files to read and analyze, or a vector object already holding the text corpus.
+\item{corpus}{Either the path to directory with txt files to read and analyze,
+      or a vector object already holding the text corpus.
 Can also be an already tokenized and tagged text object which inherits class \code{kRp.tagged} (then the column \code{"token"} of
 the \code{"TT.res"} slot is used).}
 
@@ -29,18 +30,21 @@ the \code{"TT.res"} slot is used).}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.}
 
-\item{caseSens}{Logical. If \code{FALSE}, all tokens will be matched in their lower case form.}
+\item{caseSens}{Logical. If \code{FALSE},
+      all tokens will be matched in their lower case form.}
 
 \item{log.base}{A numeric value defining the base of the logarithm used for inverse document frequency (idf). See
 \code{\link[base:log]{log}} for details.}
 
-\item{format}{Either "file" or "obj", depending on whether you want to scan files or analyze the given object.}
+\item{format}{Either "file" or "obj",
+      depending on whether you want to scan files or analyze the given object.}
 
 \item{tagger}{A character string pointing to the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
 \code{txt.file} is already of class \code{kRp.tagged-class}. Defaults to \code{tagger="kRp.env"} to get the settings by
 \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Set to \code{"tokenize"} to use \code{\link[koRpus:tokenize]{tokenize}}.}
 
-\item{force.lang}{A character string defining the language to be assumed for the text(s), by force.}
+\item{force.lang}{A character string defining the language to be assumed for the text(s),
+      by force.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
@@ -49,9 +53,12 @@ An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
 Read data from a custom corpus into a valid object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
 }
 \details{
-The methods should enable you to perform a basic text corpus frequency analysis. That is, not just to
-import analysis results like LCC files, but to import the corpus material itself. The resulting object
-is of class \code{\link[koRpus]{kRp.corp.freq-class}}, so it can be used for frequency analysis by
+The methods should enable you to perform a basic text corpus frequency analysis. That is,
+      not just to
+import analysis results like LCC files,
+      but to import the corpus material itself. The resulting object
+is of class \code{\link[koRpus]{kRp.corp.freq-class}},
+      so it can be used for frequency analysis by
 other functions and methods of this package.
 }
 \examples{

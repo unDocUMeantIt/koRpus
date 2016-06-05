@@ -9,24 +9,29 @@ read.hyph.pat(file, lang, fileEncoding = "UTF-8")
 \arguments{
 \item{file}{A character string with a valid path to a file with hyphenation patterns (one pattern per line).}
 
-\item{lang}{A character string, usually two letters short, naming the language the patterns are meant to
+\item{lang}{A character string, usually two letters short,
+      naming the language the patterns are meant to
 be used with (e.g. "es" for Spanish).}
 
 \item{fileEncoding}{A character string defining the character encoding of the file to be read. Unless
-you have a really good reason to do otherwise, your pattern files should all be UTF-8 encoded.}
+you have a really good reason to do otherwise,
+      your pattern files should all be UTF-8 encoded.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.hyph.pat-class]{kRp.hyph.pat-class}}.
 }
 \description{
-This function reads hyphenation pattern files, to be used with \code{\link[koRpus:hyphen]{hyphen}}.
+This function reads hyphenation pattern files,
+      to be used with \code{\link[koRpus:hyphen]{hyphen}}.
 }
 \details{
 Hyphenation patterns that can be used are available from CTAN[1]. But actually any file
 with only the patterns themselves, one per line, should work.
 
-The language designation is of no direct consequence here, but if the resulting pattern object is to be
-used by other functions in this package, it should resamble the designation that's used for the
+The language designation is of no direct consequence here,
+      but if the resulting pattern object is to be
+used by other functions in this package,
+      it should resamble the designation that's used for the
 same language there.
 }
 \examples{

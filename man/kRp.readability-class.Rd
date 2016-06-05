@@ -12,7 +12,8 @@ This class is used for objects that are returned by \code{\link[koRpus:readabili
 \section{Slots}{
 
 \describe{
-\item{\code{lang}}{A character string, naming the language that is assumed for the text in this object.}
+\item{\code{lang}}{A character string,
+      naming the language that is assumed for the text in this object.}
 
 \item{\code{TT.res}}{The tokenized and POS-tagged text. See \code{\link[koRpus]{kRp.tagged-class}} for details.}
 
@@ -20,13 +21,18 @@ This class is used for objects that are returned by \code{\link[koRpus:readabili
 \describe{
   \item{\code{sentences}:}{Number of sentences.}
   \item{\code{words}:}{Number of words.}
-  \item{\code{letters}:}{Named vector with total number of letters (\code{"all"}) and possibly several entries called \code{"l<digit>"}, giving the number of words
+  \item{\code{letters}:}{Named vector with total number of letters (\code{"all"}) and possibly several entries called \code{"l<digit>"},
+      giving the number of words
     with \code{<digit>} letters.}
   \item{\code{all.chars}:}{Number of all characters, including spaces.}
-  \item{\code{syllables}:}{Named vector with the number of syllables, simlar to \code{letters}, but entries are called \code{"s<digit>"} (\code{NA} if hyphenation was skipped).}
-  \item{\code{lttr.distrib}:}{Distribution of letters: Absolute numbers, cumulative sum, inversed cumulative sum, percent, cumulative percent, and inversed cumulative percent.}
-  \item{\code{syll.distrib}:}{Distribution of syllables (see \code{lttr.distrib}, \code{NA} if hyphenation was skipped).}
-  \item{\code{syll.uniq.distrib}:}{Distribution of unique syllables (see \code{lttr.distrib}, \code{NA} if hyphenation was skipped).}
+  \item{\code{syllables}:}{Named vector with the number of syllables,
+      simlar to \code{letters}, but entries are called \code{"s<digit>"} (\code{NA} if hyphenation was skipped).}
+  \item{\code{lttr.distrib}:}{Distribution of letters: Absolute numbers, cumulative sum,
+      inversed cumulative sum, percent, cumulative percent, and inversed cumulative percent.}
+  \item{\code{syll.distrib}:}{Distribution of syllables (see \code{lttr.distrib},
+      \code{NA} if hyphenation was skipped).}
+  \item{\code{syll.uniq.distrib}:}{Distribution of unique syllables (see \code{lttr.distrib},
+      \code{NA} if hyphenation was skipped).}
   \item{\code{punct}:}{Number of punctuation characters.}
   \item{\code{conjunctions}:}{Number of conjunctions.}
   \item{\code{prepositions}:}{Number of prepositions.}
@@ -40,16 +46,19 @@ This class is used for objects that are returned by \code{\link[koRpus:readabili
   \item{\code{sntc.per100}:}{Number of sentences per 100 words.}
   \item{\code{lett.per100}:}{Number of letters per 100 words.}
   \item{\code{syll.per100}:}{Number of syllables per 100 words (\code{NA} if hyphenation was skipped).}
-  \item{\code{FOG.hard.words}:}{Number of hard words, counted according to FOG (\code{NULL} if measure was not computed).}
+  \item{\code{FOG.hard.words}:}{Number of hard words,
+      counted according to FOG (\code{NULL} if measure was not computed).}
   \item{\code{Bormuth.NOL}:}{Number of words not on the Bormuth word list (\code{NULL} if measure was not computed).}
   \item{\code{Dale.Chall.NOL}:}{Number of words not on the Dale-Chall word list (\code{NULL} if measure was not computed).}
   \item{\code{Harris.Jacobson.NOL}:}{Number of words not on the Harris-Jacobson word list (\code{NULL} if measure was not computed).}
   \item{\code{Spache.NOL}:}{Number of words not on the Spache word list (\code{NULL} if measure was not computed).}
 }}
 
-\item{\code{hyphen}}{The hyphenated text that was actually analyzed (i.e. without certain word classes, if they were to be removed).}
+\item{\code{hyphen}}{The hyphenated text that was actually analyzed (i.e. without certain word classes,
+      if they were to be removed).}
 
-\item{\code{param}}{Relevant parameters of the given analysis, as given to the function call. See \code{\link[koRpus:readability]{readability}}
+\item{\code{param}}{Relevant parameters of the given analysis,
+      as given to the function call. See \code{\link[koRpus:readability]{readability}}
 for detailed onformation.}
 
 \item{\code{ARI}}{The "flavour" of the parameter settings and the calculated value of the ARI level. NA if not calculated.}
@@ -100,8 +109,10 @@ for detailed onformation.}
 
 \item{\code{Flesch.Kincaid}}{The "flavour" of the parameter settings and the calculated value of the Flesch-Kincaid Grade Level. NA if not calculated.}
 
-\item{\code{FOG}}{The "flavour" of the parameter settings, a list of proper nouns, combined words and verbs that were not counted as hard words
-(\code{"dropped"}), the considered number of hard words, and the calculated value of Gunning's FOG index. NA if not calculated.}
+\item{\code{FOG}}{The "flavour" of the parameter settings, a list of proper nouns,
+      combined words and verbs that were not counted as hard words
+(\code{"dropped"}), the considered number of hard words,
+      and the calculated value of Gunning's FOG index. NA if not calculated.}
 
 \item{\code{FOG.PSK}}{See "FOG".}
 
@@ -133,7 +144,9 @@ for detailed onformation.}
 
 \item{\code{Strain}}{The "flavour" of the parameter settings and the calculated value of the Strain index. NA if not calculated.}
 
-\item{\code{Traenkle.Bailer}}{The "flavour" of the parameter settings, percentages of prepositions and conjunctions, and the calculated values of both Tr\"ankle-Bailer formulae. NA if not calculated.}
+\item{\code{Traenkle.Bailer}}{The "flavour" of the parameter settings,
+      percentages of prepositions and conjunctions,
+      and the calculated values of both Tr\"ankle-Bailer formulae. NA if not calculated.}
 
 \item{\code{TRI}}{The calculated value of Kuntzsch' Text-Redundanz-Index. NA if not calculated.}
 

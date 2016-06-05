@@ -16,13 +16,16 @@ cTest(obj, ...)
 
 \item{...}{Additional arguments to the method (as described in this document).}
 
-\item{every}{Integer numeric, setting the frequency of words to be manipulated. By default,
+\item{every}{Integer numeric,
+      setting the frequency of words to be manipulated. By default,
 every other word is being transformed.}
 
-\item{min.length}{Integer numeric, sets the minimum length of words to be considered (in letters).}
+\item{min.length}{Integer numeric,
+      sets the minimum length of words to be considered (in letters).}
 
 \item{intact}{Named vector with the elements \code{start} and \code{end}. both must be integer values
-and define, which sentences are to be left untouched, counted in sentences from beginning and end of the text.
+and define, which sentences are to be left untouched,
+      counted in sentences from beginning and end of the text.
 The default is to ignore the first and last sentence.}
 
 \item{replace.by}{Character, will be used as the replacement for the removed word halves.}

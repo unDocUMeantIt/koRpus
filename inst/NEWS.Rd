@@ -1,6 +1,32 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.06-5 (2016-06-05)}{
+  \subsection{fixed}{
+    \itemize{
+      \item fixed the Douma formula: based on available literature, the factor for
+        average sentence length was set to 0.33, but the original paper reported it
+        as 0.93
+      \item fixed the documentation for \code{tokenize()}, rxygen2 had problems with an
+        escaped double quote
+      \item corrected some probelms with umlaut in the docs
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item new template for a roxyPackage script to make it easy to build packages
+        from language support scripts
+      \item additional validation for ARI, flesch (en), flesch-kincaid, SMOG and FOG,
+        via http://wordscount.info/wc/jsp/clear/analyze_readability.jsp
+      \item new Flesch parameters to calculate readability according to Brouwer (NL),
+        can be invoked as index "Flesch.nl-b", \code{"Flesch.Brouwer"}, or Flesch
+        paremeters set to "nl-b"
+      \item now the manual is actually documenting all the various Flesch formulas,
+        i.e., listing all parameter values, so that it's easier for users to check
+        what is being calculated
+    }
+  }
+}
 \section{Changes in koRpus version 0.06-4 (2016-03-07)}{
   \subsection{fixed}{
     \itemize{
