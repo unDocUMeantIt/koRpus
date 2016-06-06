@@ -1,13 +1,19 @@
 ChangeLog for package koRpus
 
+changes in version 0.06-6 (2016-06-06)
+unreleased:
+  - this version is under development
+fixed:
+  - some typos in the ChangeLog...
+  
 changes in version 0.06-5 (2016-06-05)
 fixed:
   - fixed the Douma formula: based on available literature, the factor for
     average sentence length was set to 0.33, but the original paper reported it
     as 0.93
-  - fixed the documentation for tokenize(), rxygen2 had problems with an
+  - fixed the documentation for tokenize(), roxygen2 had problems with an
     escaped double quote
-  - corrected some probelms with umlaut in the docs
+  - corrected some problems with umlauts in the docs
 added:
   - new template for a roxyPackage script to make it easy to build packages
     from language support scripts

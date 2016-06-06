@@ -1,15 +1,27 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.06-6 (2016-06-06)}{
+  \subsection{unreleased}{
+    \itemize{
+      \item this version is under development
+    }
+  }
+  \subsection{fixed}{
+    \itemize{
+      \item some typos in the ChangeLog...
+    }
+  }
+}
 \section{Changes in koRpus version 0.06-5 (2016-06-05)}{
   \subsection{fixed}{
     \itemize{
       \item fixed the Douma formula: based on available literature, the factor for
         average sentence length was set to 0.33, but the original paper reported it
         as 0.93
-      \item fixed the documentation for \code{tokenize()}, rxygen2 had problems with an
+      \item fixed the documentation for \code{tokenize()}, roxygen2 had problems with an
         escaped double quote
-      \item corrected some probelms with umlaut in the docs
+      \item corrected some problems with umlauts in the docs
     }
   }
   \subsection{added}{
