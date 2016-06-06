@@ -16,9 +16,6 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-## temporarily turned off most of the roxygen comments
-## class docs will remain static until roxygen2 supports "@slot"
-
 #' S4 Class kRp.readability
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:readability]{readability}} and its wrapper functions
@@ -76,6 +73,7 @@
 #' @slot Farr.Jenkins.Paterson.PSK See "Farr.Jenkins.Paterson".
 #' @slot Flesch The "flavour" of the parameter settings and the calculated value of Flesch Reading Ease. NA if not calculated.
 #' @slot Flesch.PSK See "Flesch".
+#' @slot Flesch.Brouwer See "Flesch".
 #' @slot Flesch.Szigriszt See "Flesch".
 #' @slot Flesch.de See "Flesch".
 #' @slot Flesch.es See "Flesch".
@@ -135,6 +133,7 @@ setClass("kRp.readability",
       ELF="list",
       Flesch="list",
       Flesch.PSK="list",
+      Flesch.Brouwer="list",
       Flesch.Szigriszt="list",
       Flesch.de="list",
       Flesch.es="list",
@@ -187,6 +186,7 @@ setClass("kRp.readability",
       ELF=list(NA),
       Flesch=list(NA),
       Flesch.PSK=list(NA),
+      Flesch.Brouwer=list(NA),
       Flesch.Szigriszt=list(NA),
       Flesch.de=list(NA),
       Flesch.es=list(NA),

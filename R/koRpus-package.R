@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #' Package: \tab koRpus\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.06-4\cr
-#' Date: \tab 2016-03-07\cr
+#' Version: \tab 0.06-5\cr
+#' Date: \tab 2016-06-05\cr
 #' Depends: \tab R (>= 2.10.0),methods\cr
 #' Enhances: \tab rkward\cr
 #' Encoding: \tab UTF-8\cr

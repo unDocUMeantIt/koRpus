@@ -316,6 +316,19 @@ setMethod("summary", signature(object="kRp.readability"), function(object, flat=
         ))
     }
   } else {}
+  if(sum(!is.na(object@Flesch.Brouwer)) > 1){
+    if(isTRUE(flat)){
+      summary.flat <- c(summary.flat, Flesch.Brouwer=object@Flesch.Brouwer$RE)
+    } else {
+      summary.table <- add.to.sumtab(summary.table, adds=list(
+          index="Flesch",
+          flavour=object@Flesch.Brouwer$flavour,
+          raw=object@Flesch.Brouwer$RE,
+          grade=object@Flesch.Brouwer$grade,
+          age=object@Flesch.Brouwer$age
+        ))
+    }
+  } else {}
   if(sum(!is.na(object@Flesch.Szigriszt)) > 1){
     if(isTRUE(flat)){
       summary.flat <- c(summary.flat, Flesch.Szigriszt=object@Flesch.Szigriszt$RE)

@@ -81,20 +81,22 @@
 #' # expressions. a simple example: replace all single quotes by
 #' # double quotes througout the text:
 #' tokenized.obj <- tokenize("~/my.data/speech.txt",
-#'    clean.raw=list("'"="\""))
+#'   clean.raw=list("'"='\"')
+#' )
+#' 
 #' # now replace all occurrances of the letter A followed
 #' # by two digits with the letter B, followed by the same
 #' # two digits:
 #' tokenized.obj <- tokenize("~/my.data/speech.txt",
-#'    clean.raw=list("(A)([[:digit:]]{2})"="B\\2"),
-#'    perl=TRUE)
+#'   clean.raw=list("(A)([[:digit:]]{2})"="B\\2"),
+#'   perl=TRUE)
 #'
 #' ## enabling stopword detection and stemming
 #' # if you also installed the packages tm and Snowball,
 #' # you can use some of their features with koRpus:
 #' tokenized.obj <- tokenize("~/my.data/speech.txt",
-#'    stopwords=tm::stopwords("en"),
-#'    stemmer=SnowballC::wordStem)
+#'   stopwords=tm::stopwords("en"),
+#'   stemmer=SnowballC::wordStem)
 #'
 #' # removing all stopwords now is simple:
 #' tokenized.noStopWords <- kRp.filter.wclass(tokenized.obj, "stopword")

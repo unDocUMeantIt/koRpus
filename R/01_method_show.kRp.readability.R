@@ -183,6 +183,15 @@ setMethod("show", signature(object="kRp.readability"), function(object){
     prt.Flesch.PSK.age <- round(object@Flesch.PSK$age, digits=2)
     show.Flesch.PSK <- TRUE
   }
+  if(sum(!is.na(object@Flesch.Brouwer)) == 0){
+    show.Flesch.Brouwer <- FALSE
+  } else {
+    prt.Flesch.Brouwer.flavour <- object@Flesch.Brouwer$flavour
+    prt.Flesch.Brouwer <- round(object@Flesch.Brouwer$RE, digits=2)
+    prt.Flesch.Brouwer.grade <- round(object@Flesch.Brouwer$grade, digits=2)
+    prt.Flesch.Brouwer.age <- round(object@Flesch.Brouwer$age, digits=2)
+    show.Flesch.Brouwer <- TRUE
+  }
   if(sum(!is.na(object@Flesch.Szigriszt)) == 0){
     show.Flesch.Szigriszt <- FALSE
   } else {
@@ -613,6 +622,20 @@ setMethod("show", signature(object="kRp.readability"), function(object){
     } else {}
     if(!is.na(prt.Flesch.PSK.age)){
     cat("         Age:", prt.Flesch.PSK.age, "\n")
+    } else {}
+    cat("\n")
+  } else {}
+  if(show.Flesch.Brouwer){
+    cat("\nFlesch-Brouwer Reading Ease (Leesindex, nl)\n")
+    cat("  Parameters:", prt.Flesch.Brouwer.flavour, "\n")
+    if(!is.na(prt.Flesch.Brouwer)){
+    cat("          RE:", prt.Flesch.Brouwer, "\n")
+    } else {}
+    if(!is.na(prt.Flesch.Brouwer.grade)){
+    cat("       Grade:", prt.Flesch.Brouwer.grade, "\n")
+    } else {}
+    if(!is.na(prt.Flesch.Brouwer.age)){
+    cat("         Age:", prt.Flesch.Brouwer.age, "\n")
     } else {}
     cat("\n")
   } else {}

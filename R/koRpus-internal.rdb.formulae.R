@@ -60,7 +60,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # to validate the correctness of calculation. this doesn't mean they always came to identical
   # results at once, since the accuracy of input data (like number of syllables or sentences)
   # varies considerably. but if these differences were manually corrected, the results were similar:
-  # - ARI                   [OUT, RDS, FRT]
+  # - ARI                   [OUT, RDS, FRT, WDC]
   #   - NRI                 [RDS (labeled as "simplified")]
   # - Bormuth Mean Cloze    [RDS]
   # - Coleman-Liau          [OUT, RDS]
@@ -70,19 +70,19 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # - DRP                   [RDS]
   # - Farr-Jenkins-Paterson [RDS]
   #   - PSK                 [RDS]
-  # - Flesch                [OUT, RDS, TAL, LLB, JRT]
+  # - Flesch                [OUT, RDS, TAL, LLB, JRT, WDC]
   #   - PSK                 [RDS]
   #   - Szigriszt (es)      [INF]
   #   - Flesch.es           [INF]
-  # - Flesch-Kincaid        [OUT, RDS, JRT]
-  # - FOG                   [GFI, RDS, OUT, JRT]
+  # - Flesch-Kincaid        [OUT, RDS, JRT, WDC]
+  # - FOG                   [GFI, RDS, OUT, JRT, WDC]
   #   - PSK                 [RDS]
   # - FORCAST               [RDS]
   # - Harris-Jacobson (HJ2) [RDS]
   # - LIX                   [RDS]
   # - Linsear Write         [FRT]
   # - RIX                   [RDS]
-  # - SMOG                  [OUT, RDS]
+  # - SMOG                  [OUT, RDS, WDC]
   # - Spache                [RDS]
   # - Wheeler-Smith         [RDS, WHE]
   #
@@ -95,6 +95,8 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # - Flesch.de
   # - Flesch.fr
   # - Flesch.nl
+  #   - some papers use 0.33 and other 0.93 for the average sentence length parameter!
+  # - Flesch.Brouwer (nl)
   # - Fucks
   # - Harris-Jacobson (1-5)
   # - Neue Wiener Sachtextformeln (1-4)
@@ -116,6 +118,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
   # RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
   # TAL: http://www.textalyser.net
+  # WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
   # 
   # other:
   # WHE: example from original article by Wheeler & Smith
@@ -243,8 +246,8 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   all.valid.indices <- c("ARI", "ARI.NRI", "ARI.simple", "Bormuth", "Coleman", "Coleman.Liau",
       "Dale.Chall", "Dale.Chall.old", "Dale.Chall.PSK", "Danielson.Bryan",
       "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Farr.Jenkins.Paterson.PSK",
-      "Flesch", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
-      "Flesch.nl", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
+      "Flesch", "Flesch.Brouwer", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
+      "Flesch.nl", "Flesch.nl-b", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
       "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "SMOG.C",
       "SMOG.de", "SMOG.simple", "Spache", "Spache.de", "Spache.old", "Strain", "Traenkle.Bailer", "TRI",
       "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
@@ -254,8 +257,8 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   } else {}
 
   need.sylls <- c("Coleman", "ELF", "Farr.Jenkins.Paterson", "Farr.Jenkins.Paterson.PSK",
-    "Flesch", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
-    "Flesch.nl", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
+    "Flesch", "Flesch.Brouwer", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
+    "Flesch.nl", "Flesch.nl-b", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
     "Linsear.Write", "nWS", "SMOG", "SMOG.C", "SMOG.de", "SMOG.simple",
     "Strain", "TRI", "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
 
@@ -926,7 +929,12 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       if(identical(prms, "nl")){
         # Douma
         flavour <- "nl (Douma)"
-        prms <- c(const=206.835, asl=0.33, asw=77)
+        prms <- c(const=206.835, asl=0.93, asw=77)
+      } else {}
+      if(identical(prms, "nl-b")){
+        # Douma
+        flavour <- "nl (Brouwer)"
+        prms <- c(const=195, asl=2, asw=67)
       } else {}
       if(identical(prms, "fr")){
         # Kandel & Moles
@@ -980,6 +988,11 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   } else {}
   if("Flesch.nl" %in% index){
     slot(all.results, "Flesch.nl") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl"),
+      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+  } else {}
+  if("Flesch.Brouwer" %in% index){
+    slot(all.results, "Flesch.Brouwer") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl-b"),
       fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
   } else {}
@@ -1611,7 +1624,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 
   ## for the time being, give a warning until all implementations have been validated
   needs.warning <- index %in% c("ARI.simple", "Coleman", "Danielson.Bryan",
-      "Dickes.Steiwer", "ELF", "Flesch.de", "Flesch.fr",
+      "Dickes.Steiwer", "ELF", "Flesch.Brouwer", "Flesch.de", "Flesch.fr",
       "Flesch.nl", "Fucks", "Harris.Jacobson", "nWS",
       "SMOG.C", "SMOG.de", "Strain", "Traenkle.Bailer", "TRI")
   if(!isTRUE(quiet) && any(needs.warning)){

@@ -209,9 +209,20 @@ Wrapper function: \code{\link[koRpus:ELF]{ELF}}
   \item{\code{"Flesch"}:}{\emph{Flesch Reading Ease}:
      \deqn{ 206.835 - 1.015 \times \frac{W}{St} - 84.6 \times \frac{Sy}{W}}
      Certain internationalisations of the parameters are also implemented. They can be used by setting
-     the \code{Flesch} parameter to \code{"es"} (Fernandez-Huerta),
-       \code{"es-s"} (Szigriszt), \code{"nl"} (Douma),
-     \code{"de"} (Amstad's Verst\"andlichkeitsindex), or \code{"fr"} (Kandel-Moles).
+     the \code{Flesch} parameter to one of the following language abbreviations.
+     
+     \code{"de"} (Amstad's Verständlichkeitsindex):
+     \deqn{ 180 - \frac{W}{St} - 58.5 \times \frac{Sy}{W}}
+     \code{"es"} (Fernandez-Huerta):
+     \deqn{ 206.835 - 1.02 \times \frac{W}{St} - 60 \times \frac{Sy}{W}}
+     \code{"es-s"} (Szigriszt):
+     \deqn{ 206.835 - \frac{W}{St} - 62.3 \times \frac{Sy}{W}}
+     \code{"nl"} (Douma):
+     \deqn{ 206.835 - 0.93 \times \frac{W}{St} - 77 \times \frac{Sy}{W}}
+     \code{"nl-b"} (Brouwer Leesindex):
+     \deqn{ 195 - 2 \times \frac{W}{St} - 67 \times \frac{Sy}{W}}
+     \code{"fr"} (Kandel-Moles):
+     \deqn{ 209 - 1.15 \times \frac{W}{St} - 68 \times \frac{Sy}{W}}
      If \code{parameters} is set to \code{Flesch="PSK"},
       the revised parameters by Powers-Sumner-Kearl (1958) are used
      to calculate a grade level:
@@ -278,7 +289,7 @@ Wrapper function: \code{\link[koRpus:harris.jacobson]{harris.jacobson}}
 
 Wrapper function: \code{\link[koRpus:linsear.write]{linsear.write}}
    }
-  \item{\code{"LIX"}}{Bj\"ornsson's \emph{L\"asbarhetsindex}. Originally proposed for Swedish texts,
+  \item{\code{"LIX"}}{Björnsson's \emph{Läsbarhetsindex}. Originally proposed for Swedish texts,
       calculated by:
      \deqn{\frac{W}{St} + \frac{100 \times{} W_{7C}}{W}}{LIX = W7C / St + (L*100) / W}
      Texts with a LIX < 25 are considered very easy, around 40 normal,
@@ -331,9 +342,9 @@ Wrapper function: \code{\link[koRpus:spache]{spache}}
 
 Wrapper function: \code{\link[koRpus:strain]{strain}}
    }
-   \item{\code{"Traenkle.Bailer"}:}{\emph{Tr\"anke-Bailer Formeln}. These two formulas were the result of a re-examination of the ones proposed
+   \item{\code{"Traenkle.Bailer"}:}{\emph{Tränkle-Bailer Formeln}. These two formulas were the result of a re-examination of the ones proposed
      by Dickes-Steiwer. They try to avoid the usage of the type-token ratio,
-      which is dependent on text length (Tr\"ankle, & Bailer, 1984):
+      which is dependent on text length (Tränkle, & Bailer, 1984):
      \deqn{TB1 = 224.6814 - \left(79.8304 \times \frac{C}{W} \right) - \left(12.24032 \times \frac{W}{St} \right) - \left(1.292857 \times \frac{100 \times{} W_{prep}}{W} \right)}
      \deqn{TB2 = 234.1063 - \left(96.11069 \times \frac{C}{W} \right) - \left(2.05444 \times \frac{100 \times{} W_{prep}}{W} \right) - \left(1.02805 \times \frac{100 \times{} W_{conj}}{W} \right)}
      Where \eqn{W_{prep}} refers to the number of prepositions,
@@ -400,9 +411,9 @@ Anderson,
       T.L. (1975). A computer readability formula designed for machine scoring, \emph{Journal of Applied Psychology}, 60(2), 283--284.
 
    Dickes, P. & Steiwer,
-      L. (1977). Ausarbeitung von Lesbarkeitsformeln f\"ur die deutsche Sprache.
-     \emph{Zeitschrift f\"ur Entwicklungspsychologie und P\"adagogische Psychologie},
-      9(1), 20--28.
+      L. (1977). Ausarbeitung von Lesbarkeitsformeln für die deutsche Sprache.
+     \emph{Zeitschrift für Entwicklungspsychologie und Pädagogische Psychologie}, 9(1),
+      20--28.
 
    DuBay,
       W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
@@ -440,10 +451,10 @@ Anderson,
    Spache,
       G. (1953). A new readability formula for primary-grade reading materials. \emph{The Elementary School Journal}, 53, 410--413.
 
-   Tr\"ankle, U. & Bailer,
-      H. (1984). Kreuzvalidierung und Neuberechnung von Lesbarkeitsformeln f\"ur die deutsche Sprache.
-     \emph{Zeitschrift f\"ur Entwicklungspsychologie und P\"adagogische Psychologie},
-      16(3), 231--244.
+   Tränkle, U. & Bailer,
+      H. (1984). Kreuzvalidierung und Neuberechnung von Lesbarkeitsformeln für die deutsche Sprache.
+     \emph{Zeitschrift für Entwicklungspsychologie und Pädagogische Psychologie}, 16(3),
+      231--244.
 
    Wheeler, L.R. & Smith,
       E.H. (1954). A practical readability formula for the classroom teacher in the primary grades. \emph{Elementary English},

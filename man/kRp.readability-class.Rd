@@ -95,6 +95,8 @@ for detailed onformation.}
 
 \item{\code{Flesch.PSK}}{See "Flesch".}
 
+\item{\code{Flesch.Brouwer}}{See "Flesch".}
+
 \item{\code{Flesch.Szigriszt}}{See "Flesch".}
 
 \item{\code{Flesch.de}}{See "Flesch".}

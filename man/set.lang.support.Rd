@@ -10,93 +10,112 @@ set.lang.support(target, value)
 \item{target}{One of "hyphen", "kRp.POS.tags", or "treetag",
       depending on what support is to be added.}
 
-\item{value}{A named list that upholds exactly the structure defined in inst/README.languages}
+\item{value}{A named list that upholds exactly the structure defined here for its respective \code{target}.}
 }
 \description{
 You can use this function to add new languages to be used with \code{koRpus}.
 }
 \details{
 Language support in this package is designed to be extended easily. You could call it modular,
-      although it's actually more "environemntal", but nevermind.
+although it's actually more "environemntal", but nevermind.
 
 To add full new language support, say for Xyzedish,
-      you basically have to call this function three times with different values, and provide respective hyphenation patterns.
+      you basically have to call this function
+three times with different targets, and provide respective hyphenation patterns.
 If you would like to re-use this language support,
       you should consider making it a package.
 
 Be it a package or a script,
-      it should contain all three calls to this function. If it succeeds, it will fill an internal environment with the information you have defined.
+      it should contain all three calls to this function. If it succeeds,
+it will fill an internal environment with the information you have defined.
 
-The function \code{set.language.support()} gets called three times because there's three functions of koRpus that need language support:
+The function \code{set.language.support()} gets called three times because there's three
+functions of koRpus that need language support:
 
 \itemize{
-   \item hyphen() needs to know which language pattern tests are available as data files (which you must provide also)
+   \item hyphen() needs to know which language pattern tests are available as data files (which
+      you must provide also)
    \item treetag() needs the preset information from its own start scripts
-   \item kRp.POS.tags() needs to learn all possible POS tags that TreeTagger uses for the given language
+   \item kRp.POS.tags() needs to learn all possible POS tags that TreeTagger uses for the given
+      language
 }
 
 All the calls follow the same pattern -- first,
-      you name one of the three targets explained above, and second, you provide a named list as the \code{value} for the
-respective \code{target} function.
+      you name one of the three targets explained above,
+and second,
+      you provide a named list as the \code{value} for the respective \code{target} function.
 }
 \section{"hyphen"}{
 
 
 The named list usually has one single entry to tell the new language abbreviation, e.g.,
-      \code{set.lang.support("hyphen", list("xyz"="xyz"))}. However,
-this will only work if a) the language support script is a part of the \code{koRpus} package itself,
-      and b) the hyphen pattern is located in its \code{data} subdirectory.
+\code{set.lang.support("hyphen", list("xyz"="xyz"))}. However, this will only work if a)
+the language support script is a part of the \code{koRpus} package itself,
+      and b) the hyphen pattern
+is located in its \code{data} subdirectory.
 
 For your custom hyphenation patterns to be found automatically,
-      provide it as the value in the named list, e.g., \code{set.lang.support("hyphen", list("xyz"=hyph.xyz))}.
+      provide it as the value in the named
+list, e.g., \code{set.lang.support("hyphen", list("xyz"=hyph.xyz))}.
 This will directly add the patterns to \code{korpus}' environment,
-      so it will be found when hyphenation is requested for language \code{"xyz"}.
+      so it will be found when
+hyphenation is requested for language \code{"xyz"}.
 
 If you would like to provide hyphenation as part of a third party language package,
-      you must name the object \code{hyph.<lang>}, save it to your package's \code{data}
-subdirectory named \code{hyph.<lang>.rda},
-      and append \code{package="<yourpackage>"} to the named list; e.g.,
+      you must name the
+object \code{hyph.<lang>}, save it to your package's \code{data} subdirectory named
+\code{hyph.<lang>.rda}, and append \code{package="<yourpackage>"} to the named list; e.g.,
 \code{set.lang.support("hyphen", list("xyz"=c("xyz",
-      package="koRpus.lang.xyz"))}. Only then \code{koRpus} will look for the pattern object in your package, not its own
-\code{data} directory.
+      package="koRpus.lang.xyz"))}. Only then
+\code{koRpus} will look for the pattern object in your package,
+      not its own \code{data} directory.
 }
 
 \section{"treetag"}{
 
 
 The presets for the treetag() function are basically what the shell (GNU/Linux,
-      MacOS) and batch (Win) scripts define that come
-with TreeTagger. Look for scripts called "$TREETAGGER/cmd/tree-tagger-xyzedish" and "$TREETAGGER\\cmd\\tree-tagger-xyzedish.bat",
-figure out which call resembles which call and then define them in set.lang.support("treetag") accordingly.
+      MacOS) and batch
+(Win) scripts define that come with TreeTagger. Look for scripts called
+"$TREETAGGER/cmd/tree-tagger-xyzedish" and "$TREETAGGER\\cmd\\tree-tagger-xyzedish.bat",
+figure out which call resembles which call and then define them in set.lang.support("treetag")
+accordingly.
+
+Have a look at the commented template in your \code{koRpus} installation directory for an elaborate
+example.
 }
 
 \section{"kRp.POS.tags"}{
 
 
 If Xyzedish is supported by TreeTagger,
-      you should find a tagset definition for the language on its homepage. treetag() needs
-to know \emph{all} POS tags that TreeTagger might return,
-      otherwise you will get a self-explaining error message as soon as an unknown
-tag appears. Notice that this can still happen after you implemented the full documented tag set: sometimes the contributed TreeTagger
+      you should find a tagset definition for the language on its
+homepage. treetag() needs to know \emph{all} POS tags that TreeTagger might return,
+      otherwise you
+will get a self-explaining error message as soon as an unknown tag appears. Notice that this can
+still happen after you implemented the full documented tag set: sometimes the contributed TreeTagger
 parameter files added their own tags, e.g.,
       for special punctuation. So please test your tag set well.
 
-As you can see,
-      you will also have to add a global word class and an explaination for each tag.
-The former is especially important for further steps like frequency analysis.
+As you can see in the template file,
+      you will also have to add a global word class and an explaination
+for each tag. The former is especially important for further steps like frequency analysis.
 
-Please have a look at the existing language support files in the package sources,
-      most of it should be almost self-explaining.
+Again,
+      please have a look at the commented template and/or existing language support files in the
+package sources, most of it should be almost self-explaining.
 }
 
 \section{Hyphenation patterns}{
 
 
 To be able to also do syllable count with the newly added language,
-      you should add a hyphenation pattern file as well.
-Refer to the documentation of read.hyph.pat() to learn how to produce a pattern object from a downloaded hyphenation pattern
-file. Then save this object to the "data" directory of the koRpus sources. Make sure you use the correct name scheme (e.g. "hyph.xyz.rda")
-and good compression.
+      you should add a hyphenation pattern
+file as well.
+Refer to the documentation of read.hyph.pat() to learn how to produce a pattern object from a downloaded
+hyphenation pattern file. Make sure you use the correct name scheme (e.g. "hyph.xyz.rda") and good
+compression. Please refer to the \code{"hyphen"} section for details on how to add these patterns to
+a running \code{koRpus} session or a language support package.
 }
 \examples{
 \dontrun{
