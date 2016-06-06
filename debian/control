@@ -2,14 +2,14 @@ Source: r-other-reaktanz-korpus
 Section: math
 Priority: optional
 Maintainer: m.eik michalke <meik.michalke@hhu.de>
-Build-Depends-Indep: debhelper (>> 7.0.0), r-base-dev (>= 3.2.0), cdbs
+Build-Depends-Indep: debhelper (>> 7.0.0), r-base-dev (>= 3.3.0), cdbs
 Standards-Version: 3.9.3.1
 Homepage: http://reaktanz.de/?c=hacking&s=koRpus
 
 Package: r-other-reaktanz-korpus
 Architecture: all
 Section: math
-Depends: r-base-core (>= 3.2.0)
+Depends: r-base-core (>= 3.3.0)
 Description: GNU R package: A set of tools to analyze texts. Includes, amongst others, functions for automatic language detection,
  hyphenation, several indices of lexical diversity (e.g., type token ratio, HD-D/vocd-D, MTLD) and readability (e.g., Flesch, SMOG,
  LIX, Dale-Chall). Basic import functions for language corpora are also provided, to enable frequency analyses (supports Celex and
