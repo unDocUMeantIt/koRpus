@@ -41,6 +41,10 @@
 #'    the function ends.
 #' @param prefix Character string, giving the prefix for the file names in the archive. Needed for newer LCC tar archives
 #'    if they are already decompressed (autodetected if \code{LCC.path} points to the tar archive directly).
+#' @param bigrams Logical, whether infomration on bigrams should be imported.
+#'    This is is \code{FALSE} by default, because it might make the objects quite large.
+#'    Note that this will only work in \code{n = -1} because otherwise the tokens cannot be looked up.
+#' @param cooccurence Logical, like \code{bigrams}, but for infomration on co-occurences of tokens in a sentence.
 #' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
@@ -63,13 +67,18 @@
 #' freq.analysis(tagged.results, corp.freq=my.LCC.data)
 #' }
 
-read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-1, keep.temp=FALSE, prefix=NULL){
+read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-1, keep.temp=FALSE, prefix=NULL, bigrams=FALSE, cooccurence=FALSE){
 
   # basic checks before we even proceed...
   if(identical(format, "flatfile")){
     # check if LCC.path is a zip file
     if(!as.logical(file_test("-d", LCC.path))){
       if(file.exists(LCC.path)){
+        if(any(bigrams, cooccurence)){
+          lookForFiles <- "(words|meta|co_n|co_s).txt$"
+        } else {
+          lookForFiles <- "(words|meta).txt$"
+        }
         # prepare temporary location to later alter variable to use that location
         tmp.path <- tempfile("koRpus.LCC")
         if(!dir.create(tmp.path, recursive=TRUE)) stop(simpleError("Can't create temporary directory!"))
@@ -85,7 +94,7 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
           message("Unzipping LCC archive... ", appendLF=FALSE)
           # to save time and diskspace, unpack only the needed files
           LCC.zip.content <- as.character(unzip(LCC.path, list=TRUE)$Name)
-          LCC.zip.wanted <- LCC.zip.content[grep("(words|meta).txt$", LCC.zip.content)]
+          LCC.zip.wanted <- LCC.zip.content[grep(lookForFiles, LCC.zip.content)]
           unzip(LCC.path, files=LCC.zip.wanted, junkpaths=TRUE, exdir=tmp.path)
           message("done.")
         } else if(grepl("(\\.tar|\\.tar.gz|\\.tgz)$", tolower(LCC.path))){
@@ -94,9 +103,9 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
           message("Fetching needed files from LCC archive... ", appendLF=FALSE)
           # to save time and diskspace, unpack only the needed files
           LCC.tar.content <- as.character(untar(LCC.path, list=TRUE))
-          LCC.tar.wanted <- LCC.tar.content[grep("(words|meta).txt$", LCC.tar.content)]
+          LCC.tar.wanted <- LCC.tar.content[grep(lookForFiles, LCC.tar.content)]
           if(is.null(prefix)){
-            prefix <- gsub("(words|meta).txt$", "", LCC.tar.wanted)[1]
+            prefix <- gsub(lookForFiles, "", LCC.tar.wanted)[1]
           } else {}
           untar(LCC.path, files=LCC.tar.wanted, exdir=tmp.path)
           message("done.")
@@ -114,12 +123,16 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
       check.file(LCC.path, mode="dir")
     }
 
-    # does meta.txt exist?
-    LCC.meta <- file.path(LCC.path, paste0(prefix, "meta.txt"))
-    have.meta <- check.file(LCC.meta, mode="exist", stopOnFail=FALSE)
+    have <- c()
+    LCC.files <- c()
+    for (thisFile in c("meta", "co_n", "co_s")){
+      # does thisFile.txt exist?
+      LCC.files[thisFile] <- file.path(LCC.path, paste0(prefix, thisFile, ".txt"))
+      have[thisFile] <- check.file(LCC.files[thisFile], mode="exist", stopOnFail=FALSE)
+    }
     # does words.txt exist?
-    LCC.words <- file.path(LCC.path, paste0(prefix, "words.txt"))
-    check.file(LCC.words, mode="exist")
+    LCC.files["words"] <- file.path(LCC.path, paste0(prefix, "words.txt"))
+    check.file(LCC.files["words"], mode="exist")
   } else if(identical(format, "MySQL")){
     stop(simpleMessage("Sorry, not implemented yet..."))
   } else {
@@ -128,8 +141,10 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
 
   ## here we go!
   # TODO: need another if(identical(format, "flatfile")) here when MySQL is implemented?
-  if(isTRUE(have.meta)){
-    table.meta <- read.delim(LCC.meta, header=FALSE, col.names=c(1,"meta","value"),
+  dscrpt.meta <- table.meta <- NULL
+  num.running.words <- NA
+  if(isTRUE(have[["meta"]])){
+    table.meta <- read.delim(LCC.files["meta"], header=FALSE, col.names=c(1,"meta","value"),
       strip.white=TRUE, fill=FALSE, stringsAsFactors=FALSE, fileEncoding=fileEncoding)[,-1]
     # check the format type
     if(all(c("number of distinct word forms", "average sentence length in characters") %in% table.meta[,1])){
@@ -161,24 +176,81 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
       chars.p.sntc=avg.sntclgth.chars,
       chars.p.wform=avg.wrdlgth.form,
       chars.p.word=avg.wrdlgth.running)
-  } else {
-    dscrpt.meta <- table.meta <- NULL
-    num.running.words <- NA
-  }
+  } else {}
 
+  # checking n-grams
+  table.cooccur <- table.bigrams <- NULL
+  if(any(bigrams, cooccurence) & !identical(n, -1)){
+    warning("Importing bigrams and co-occurrences is only possible while 'n = -1'!")
+  } else {}
+  if(isTRUE(bigrams) & identical(n, -1)){
+    # bigrams
+    if(isTRUE(have[["co_n"]])){
+      message("Importing bigrams... ", appendLF=FALSE)
+      LCC.file.con <- file(LCC.files[["co_n"]], open="r", encoding=fileEncoding)
+      rL.words <- readLines(LCC.file.con)
+      close(LCC.file.con)
+      table.bigrams <- matrix(unlist(strsplit(rL.words, "\t")), ncol=4, byrow=TRUE, dimnames=list(c(),c("token1","token2","freq","sig")))
+      rm(rL.words)
+      message("done.")
+    } else {
+      warning("'bigrams' is TRUE, but no *-co_n.txt file was found in the LCC archive!")
+    }
+  } else {}
+  if(isTRUE(cooccurence) & identical(n, -1)){
+    # co-occrrence in one sentence
+    if(isTRUE(have[["co_s"]])){
+      message("Importing co-occrrence in one sentence... ", appendLF=FALSE)
+      LCC.file.con <- file(LCC.files[["co_s"]], open="r", encoding=fileEncoding)
+      rL.words <- readLines(LCC.file.con)
+      close(LCC.file.con)
+      table.cooccur <- matrix(unlist(strsplit(rL.words, "\t")), ncol=4, byrow=TRUE, dimnames=list(c(),c("token1","token2","freq","sig")))
+      rm(rL.words)
+      message("done.")
+    } else {
+      warning("'cooccurence' is TRUE, but no *-co_s.txt file was found in the LCC archive!")
+    }
+  } else {}
   # LCC files can be veeeery large. if so, reading them will most likely freeze R
   # as a precaution we'll therefore use a file connection and readLines()
-  LCC.file.con <- file(LCC.words, open="r", encoding=fileEncoding)
+  LCC.file.con <- file(LCC.files[["words"]], open="r", encoding=fileEncoding)
   rL.words <- readLines(LCC.file.con, n=n)
   close(LCC.file.con)
-
-  table.words <- matrix(unlist(strsplit(rL.words, "\t")), ncol=3, byrow=TRUE, dimnames=list(c(),c("num","word","freq")))
+  # newer archives have four instead of three columns, check for this
+  words.num.cols <- length(unlist(strsplit(rL.words[1], "\t")))
+  if(isTRUE(words.num.cols == 3)){
+    table.words <- matrix(unlist(strsplit(rL.words, "\t")), ncol=3, byrow=TRUE, dimnames=list(c(),c("num","word","freq")))
+  } else if(isTRUE(words.num.cols == 4)){
+    table.words <- matrix(unlist(strsplit(rL.words, "\t")), ncol=4, byrow=TRUE, dimnames=list(c(),c("num","word","word2","freq")))
+    rm(rL.words)
+    # usually, the third row is a duplicate of the second, then it's safe to drop one
+    if(!identical(table.words[,2], table.words[,3])){
+      warning(
+        paste0(
+          "This looks like a newer LCC archive with four columns in the *-words.txt file.\n",
+          "The two word columns did not match, but we'll only use the first one!"
+        )
+      )
+    } else {}
+    table.words <- table.words[,c("num","word","freq")]
+  } else {
+    stop(simpleError(
+      paste0("It seems the LCC archove format has changed:\n",
+        "  koRpus supports *-words.txt files with 3 or 4 columns, found ", words.num.cols, ".\n",
+        "  Please inform the package author(s) so that the problem get's fixed soon!"
+      )
+    ))
+  }
 
   # call internal function create.corp.freq.object()
-  results <- create.corp.freq.object(matrix.freq=table.words,
-            num.running.words=num.running.words,
-            df.meta=table.meta,
-            df.dscrpt.meta=dscrpt.meta)
+  results <- create.corp.freq.object(
+              matrix.freq=table.words,
+              num.running.words=num.running.words,
+              df.meta=table.meta,
+              df.dscrpt.meta=dscrpt.meta,
+              matrix.table.bigrams=table.bigrams,
+              matrix.table.cooccur=table.cooccur
+            )
 
   return(results)
 }

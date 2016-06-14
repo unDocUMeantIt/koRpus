@@ -774,7 +774,8 @@ text.freq.analysis <- function(txt.commented, corp.freq, corp.rm.class, corp.rm.
 # "dscrpt.meta" must be a data.frame with six columns: "tokens" (old: "words"), "types" (old: "dist.words"),
 #   "words.p.sntc", "chars.p.sntc", "chars.p.wform" and "chars.p.word"; if NULL its value is set to an empty default
 # "extra.cols" is an optional data.frame with additional columns, e.g. valence data
-create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.dscrpt.meta, extra.cols=NULL){
+create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.dscrpt.meta,
+  matrix.table.bigrams=NULL, matrix.table.cooccur=NULL, extra.cols=NULL){
   tokenFreq <- as.numeric(matrix.freq[,"freq"])
   # try to work around missing meta information
   if(is.na(num.running.words)){
@@ -848,7 +849,68 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
   if(is.null(df.meta)){
     df.meta <- slot(new("kRp.corp.freq"), "meta")
   } else {}
-  results <- new("kRp.corp.freq", meta=df.meta, words=df.words, desc=df.dscrpt.meta)
+  if(is.null(matrix.table.bigrams)){
+    df.table.bigrams <- slot(new("kRp.corp.freq"), "bigrams")
+  } else {
+    message("Fetching bigram tokens from data... ", appendLF=FALSE)
+    df.table.bigrams <- data.frame(
+      token1=df.words[
+        sapply(
+          as.numeric(matrix.table.bigrams[,"token1"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      token2=df.words[
+        sapply(
+          as.numeric(matrix.table.bigrams[,"token2"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      freq=as.numeric(matrix.table.bigrams[,"freq"]),
+      sig=as.numeric(matrix.table.bigrams[,"sig"])
+    )
+    # sort by frequency
+    message("sorting... ", appendLF=FALSE)
+    df.table.bigrams <- df.table.bigrams[with(df.table.bigrams, order(freq, decreasing=TRUE)),]
+    message("done.")
+  }
+  if(is.null(matrix.table.cooccur)){
+    df.table.cooccur <- slot(new("kRp.corp.freq"), "cooccur")
+  } else {
+    message("Fetching co-occurrence tokens from data... ", appendLF=FALSE)
+    df.table.cooccur <- data.frame(
+      token1=df.words[
+        sapply(
+          as.numeric(matrix.table.cooccur[,"token1"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      token2=df.words[
+        sapply(
+          as.numeric(matrix.table.cooccur[,"token2"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      freq=as.numeric(matrix.table.cooccur[,"freq"]),
+      sig=as.numeric(matrix.table.cooccur[,"sig"])
+    )
+    # sort by frequency
+    message("sorting... ", appendLF=FALSE)
+    df.table.cooccur <- df.table.cooccur[with(df.table.cooccur, order(freq, decreasing=TRUE)),]
+    message("done.")
+  }
+  results <- new(
+    "kRp.corp.freq",
+    meta=df.meta,
+    words=df.words,
+    desc=df.dscrpt.meta,
+    bigrams=df.table.bigrams,
+    cooccur=df.table.cooccur
+  )
   return(results)
 } ## end function create.corp.freq.object()
 

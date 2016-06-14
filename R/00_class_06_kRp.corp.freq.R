@@ -15,10 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
-
-## temporarily turned off most of the roxygen comments
-## class docs will remain static until roxygen2 supports "@slot"
-
 #' S4 Class kRp.corp.freq
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:read.corp.LCC]{read.corp.LCC}} and \code{\link[koRpus:read.corp.celex]{read.corp.celex}}.
@@ -56,6 +52,18 @@
 #'    \item{\code{chars.p.word}:}{Average running word length}
 #'  }
 #'  The slot might have additional columns, depending on the input material.
+#' @slot bigrams A data.frame listing all tokens that co-occurred next to each other in the corpus:
+#'   \describe{
+#'    \item{\code{token1}:}{The first token}
+#'    \item{\code{token2}:}{The second token that appeared right next to the first}
+#'    \item{\code{freq}:}{How often the co-occurrance was present}
+#'    \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
+#'   }
+#' @slot cooccur Similar to \code{bigrams}, but listing co-occurrences anywhere in one sentence:
+#'    \item{\code{token1}:}{The first token}
+#'    \item{\code{token2}:}{The second token that appeared in the same sentence}
+#'    \item{\code{freq}:}{How often the co-occurrance was present}
+#'    \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
 #' @name kRp.corp.freq,-class
 #' @aliases kRp.corp.freq,-class kRp.corp.freq-class
 #' @import methods
@@ -71,52 +79,85 @@ setClass("kRp.corp.freq",
     representation=representation(
       meta="data.frame",
       words="data.frame",
-      desc="data.frame"),
+      desc="data.frame",
+      bigrams="data.frame",
+      cooccur="data.frame"),
     prototype(
       meta=data.frame(
-        meta=NA,
-        value=NA),
+          meta=NA,
+          value=NA
+        ),
       words=data.frame(
-        num=NA,
-        word=NA,
-        lemma=NA,
-        tag=NA,
-        wclass=NA,
-        lttr=NA,
-        freq=NA,
-        pct=NA,
-        pmio=NA,
-        log10=NA,
-        rank.avg=NA,
-        rank.min=NA,
-        rank.rel.avg=NA,
-        rank.rel.min=NA,
-        inDocs=NA,
-        idf=NA),
+          num=NA,
+          word=NA,
+          lemma=NA,
+          tag=NA,
+          wclass=NA,
+          lttr=NA,
+          freq=NA,
+          pct=NA,
+          pmio=NA,
+          log10=NA,
+          rank.avg=NA,
+          rank.min=NA,
+          rank.rel.avg=NA,
+          rank.rel.min=NA,
+          inDocs=NA,
+          idf=NA
+        ),
       desc=data.frame(
-        tokens=NA,
-        types=NA,
-        words.p.sntc=NA,
-        chars.p.sntc=NA,
-        chars.p.wform=NA,
-        chars.p.word=NA)
+          tokens=NA,
+          types=NA,
+          words.p.sntc=NA,
+          chars.p.sntc=NA,
+          chars.p.wform=NA,
+          chars.p.word=NA
+        ),
+      bigrams=data.frame(
+          token1=NA,
+          token2=NA,
+          freq=NA,
+          sig=NA
+        ),
+      cooccur=data.frame(
+          token1=NA,
+          token2=NA,
+          freq=NA,
+          sig=NA
+        )
     )
 )
 
 setValidity("kRp.corp.freq", function(object){
-    meta <- object@meta
-    words <- object@words
-    desc <- object@desc
+    meta <- slot(object, "meta")
+    words <- slot(object, "words")
+    desc <- slot(object, "desc")
+    bigrams <- slot(object, "bigrams")
+    cooccur <- slot(object, "cooccur")
 
     meta.names <- dimnames(meta)[[2]]
     words.names <- dimnames(words)[[2]]
     desc.names <- dimnames(desc)[[2]]
+    bigrams.names <- dimnames(bigrams)[[2]]
+    cooccur.names <- dimnames(cooccur)[[2]]
 
-    if(identical(meta.names, c("meta", "value")) &
-        all(c("num", "word", "lemma", "tag", "wclass", "lttr", "freq", "pct", "pmio", "log10", "rank.avg", "rank.min", "rank.rel.avg", "rank.rel.min", "inDocs", "idf") %in% words.names) &
-        all(c("tokens", "types", "words.p.sntc", "chars.p.sntc", "chars.p.wform", "chars.p.word") %in% desc.names)){
-      return(TRUE)
-    } else {
-      stop(simpleError("Invalid object: Wrong column names."))
-    }
+  if(!identical(meta.names, c("meta", "value"))){
+    stop(simpleError("Invalid object: Wrong column names in slot \"meta\"."))
+  } else {}
+  if(!identical(words.names, c(
+    "num", "word", "lemma", "tag", "wclass", "lttr", "freq", "pct", "pmio", "log10",
+    "rank.avg", "rank.min", "rank.rel.avg", "rank.rel.min", "inDocs", "idf"))){
+    stop(simpleError("Invalid object: Wrong column names in slot \"words\"."))
+  } else {}
+  if(!identical(desc.names, c("tokens", "types", "words.p.sntc", "chars.p.sntc", "chars.p.wform", "chars.p.word"))){
+    stop(simpleError("Invalid object: Wrong column names in slot \"desc\"."))
+  } else {}
+  if(!identical(bigrams.names, c("token1", "token2", "freq", "sig"))){
+    stop(simpleError("Invalid object: Wrong column names in slot \"bigrams\"."))
+  } else {}
+  if(!identical(cooccur.names, c("token1", "token2", "freq", "sig"))){
+    stop(simpleError("Invalid object: Wrong column names in slot \"cooccur\"."))
+  } else {}
+  
+  return(TRUE)
 })

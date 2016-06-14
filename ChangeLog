@@ -5,9 +5,13 @@ unreleased:
   - this version is under development
 fixed:
   - read.corp.LCC() can now digest newer LCC archives, omitting the *-meta.txt file
-    if none is present
-    TODO: the import of these newer archives is still broken and produces NAs
+    if none is present, and also supporting *-words.txt files with duplicate columns
   - some typos in the ChangeLog...
+changed:
+  - new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
+added:
+  - read.corp.LCC() can now import the information on bigrams and co-occurences of tokens
+    in a sentence
   
 changes in version 0.06-5 (2016-06-05)
 fixed:
