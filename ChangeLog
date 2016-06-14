@@ -1,9 +1,12 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-6 (2016-06-06)
+changes in version 0.06-6 (2016-06-14)
 unreleased:
   - this version is under development
 fixed:
+  - read.corp.LCC() can now digest newer LCC archives, omitting the *-meta.txt file
+    if none is present
+    TODO: the import of these newer archives is still broken and produces NAs
   - some typos in the ChangeLog...
   
 changes in version 0.06-5 (2016-06-05)

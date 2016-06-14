@@ -23,6 +23,9 @@
 #' The LCC database can either be unpacked or still a .tar/.tar.gz/.zip archive. If the latter is the case, then
 #' all necessary files will be extracted to a temporal location automatically, and by default removed again
 #' when the function has finished reading from it.
+#' 
+#' Newer LCC archives no longer feature the \code{*-meta.txt} file, resulting in less meta informtion in the object.
+#' In these cases, the total number of tokens is calculated as the sum of types' frequencies.
 #'
 #' @note Please note that MySQL support is not implemented yet.
 #'
@@ -113,7 +116,7 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
 
     # does meta.txt exist?
     LCC.meta <- file.path(LCC.path, paste0(prefix, "meta.txt"))
-    check.file(LCC.meta, mode="exist")
+    have.meta <- check.file(LCC.meta, mode="exist", stopOnFail=FALSE)
     # does words.txt exist?
     LCC.words <- file.path(LCC.path, paste0(prefix, "words.txt"))
     check.file(LCC.words, mode="exist")
@@ -125,39 +128,43 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
 
   ## here we go!
   # TODO: need another if(identical(format, "flatfile")) here when MySQL is implemented?
-
-  table.meta <- read.delim(LCC.meta, header=FALSE, col.names=c(1,"meta","value"),
+  if(isTRUE(have.meta)){
+    table.meta <- read.delim(LCC.meta, header=FALSE, col.names=c(1,"meta","value"),
       strip.white=TRUE, fill=FALSE, stringsAsFactors=FALSE, fileEncoding=fileEncoding)[,-1]
-  # check the format type
-  if(all(c("number of distinct word forms", "average sentence length in characters") %in% table.meta[,1])){
-    LCC.archive.format <- "zip"
-  } else if(all(c("SENTENCES", "WORD_TOKENS", "WORD_TYPES") %in% table.meta[,1])){
-    LCC.archive.format <- "tar"
-  } else {
-    stop(simpleError("Sorry, this format is not supported! Please contact the authors."))
-  }
-  if(identical(LCC.archive.format, "zip")){
-    num.distinct.words  <- as.numeric(table.meta[table.meta[,1] == "number of distinct word forms", 2])
-    num.running.words   <- as.numeric(table.meta[table.meta[,1] == "number of running word forms", 2])
-    avg.sntclgth.words  <- as.numeric(table.meta[table.meta[,1] == "average sentence length in words", 2])
-    avg.sntclgth.chars  <- as.numeric(table.meta[table.meta[,1] == "average sentence length in characters", 2])
-    avg.wrdlgth.form    <- as.numeric(table.meta[table.meta[,1] == "average word form length", 2])
-    avg.wrdlgth.running <- as.numeric(table.meta[table.meta[,1] == "average running word length", 2])
-    fileEncoding        <- table.meta[table.meta[,1] == "database encoding", 2]
-  } else if(identical(LCC.archive.format, "tar")) {
-    num.distinct.words  <- as.numeric(table.meta[table.meta[,1] == "WORD_TYPES", 2])
-    num.running.words   <- as.numeric(table.meta[table.meta[,1] == "WORD_TOKENS", 2])
-    avg.sntclgth.words <- avg.sntclgth.chars  <- avg.wrdlgth.form <- avg.wrdlgth.running <- NA
-    fileEncoding        <- table.meta[table.meta[,1] == "database encoding", 2]
-  }
+    # check the format type
+    if(all(c("number of distinct word forms", "average sentence length in characters") %in% table.meta[,1])){
+      LCC.archive.format <- "zip"
+    } else if(all(c("SENTENCES", "WORD_TOKENS", "WORD_TYPES") %in% table.meta[,1])){
+      LCC.archive.format <- "tar"
+    } else {
+      stop(simpleError("Sorry, this format is not supported! Please contact the authors."))
+    }
+    if(identical(LCC.archive.format, "zip")){
+      num.distinct.words  <- as.numeric(table.meta[table.meta[,1] == "number of distinct word forms", 2])
+      num.running.words   <- as.numeric(table.meta[table.meta[,1] == "number of running word forms", 2])
+      avg.sntclgth.words  <- as.numeric(table.meta[table.meta[,1] == "average sentence length in words", 2])
+      avg.sntclgth.chars  <- as.numeric(table.meta[table.meta[,1] == "average sentence length in characters", 2])
+      avg.wrdlgth.form    <- as.numeric(table.meta[table.meta[,1] == "average word form length", 2])
+      avg.wrdlgth.running <- as.numeric(table.meta[table.meta[,1] == "average running word length", 2])
+      fileEncoding        <- table.meta[table.meta[,1] == "database encoding", 2]
+    } else if(identical(LCC.archive.format, "tar")) {
+      num.distinct.words  <- as.numeric(table.meta[table.meta[,1] == "WORD_TYPES", 2])
+      num.running.words   <- as.numeric(table.meta[table.meta[,1] == "WORD_TOKENS", 2])
+      avg.sntclgth.words <- avg.sntclgth.chars  <- avg.wrdlgth.form <- avg.wrdlgth.running <- NA
+      fileEncoding        <- table.meta[table.meta[,1] == "database encoding", 2]
+    }
 
-  dscrpt.meta <- data.frame(
-    tokens=num.running.words,
-    types=num.distinct.words,
-    words.p.sntc=avg.sntclgth.words,
-    chars.p.sntc=avg.sntclgth.chars,
-    chars.p.wform=avg.wrdlgth.form,
-    chars.p.word=avg.wrdlgth.running)
+    dscrpt.meta <- data.frame(
+      tokens=num.running.words,
+      types=num.distinct.words,
+      words.p.sntc=avg.sntclgth.words,
+      chars.p.sntc=avg.sntclgth.chars,
+      chars.p.wform=avg.wrdlgth.form,
+      chars.p.word=avg.wrdlgth.running)
+  } else {
+    dscrpt.meta <- table.meta <- NULL
+    num.running.words <- NA
+  }
 
   # LCC files can be veeeery large. if so, reading them will most likely freeze R
   # as a precaution we'll therefore use a file connection and readLines()

@@ -772,18 +772,23 @@ text.freq.analysis <- function(txt.commented, corp.freq, corp.rm.class, corp.rm.
 #     optional columns are "lemma", "tag", "wclass", "inDocs" and "idf".
 # "df.meta" must be a data.frame with two columns: "meta" (name of meta information) and its "value".
 # "dscrpt.meta" must be a data.frame with six columns: "tokens" (old: "words"), "types" (old: "dist.words"),
-#   "words.p.sntc", "chars.p.sntc", "chars.p.wform" and "chars.p.word"
+#   "words.p.sntc", "chars.p.sntc", "chars.p.wform" and "chars.p.word"; if NULL its value is set to an empty default
 # "extra.cols" is an optional data.frame with additional columns, e.g. valence data
 create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.dscrpt.meta, extra.cols=NULL){
+  tokenFreq <- as.numeric(matrix.freq[,"freq"])
+  # try to work around missing meta information
+  if(is.na(num.running.words)){
+    num.running.words <- sum(tokenFreq)
+  }
   # calculate rank data
-  rank.avg <- rank(as.numeric(matrix.freq[,"freq"]), ties.method="average")
-  rank.min <- rank(as.numeric(matrix.freq[,"freq"]), ties.method="min")
+  rank.avg <- rank(tokenFreq, ties.method="average")
+  rank.min <- rank(tokenFreq, ties.method="min")
   # for better comparability, compute relative ranks
   # can take values between 0 and 100
   rank.rel.avg <- (rank.avg / max(rank.avg)) * 100
   rank.rel.min <- (rank.min / max(rank.min)) * 100
 
-  words.per.mio <- as.numeric(matrix.freq[,"freq"]) %/% (num.running.words/1000000)
+  words.per.mio <- tokenFreq %/% (num.running.words/1000000)
   log10.per.mio <- log10(words.per.mio)
   # correct for lowest frequency words and log10(0), which returns -Inf
   log10.per.mio[log10.per.mio < 0] <- 0
@@ -821,8 +826,8 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
               tag=have.tag,
               wclass=have.wclass,
               lttr=nchar(matrix.freq[,"word"], allowNA=TRUE),
-              freq=as.numeric(matrix.freq[,"freq"]),
-              pct=as.numeric(matrix.freq[,"freq"])/num.running.words,
+              freq=tokenFreq,
+              pct=tokenFreq/num.running.words,
               pmio=words.per.mio,
               log10=log10.per.mio,
               rank.avg=rank.avg,
@@ -836,7 +841,13 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
   if(!is.null(extra.cols)){
     df.words <- cbind(df.words, extra.cols, stringsAsFactors=FALSE)
   } else {}
-
+  # set missing information to a valid defaults
+  if(is.null(df.dscrpt.meta)){
+    df.dscrpt.meta <- slot(new("kRp.corp.freq"), "desc")
+  } else {}
+  if(is.null(df.meta)){
+    df.meta <- slot(new("kRp.corp.freq"), "meta")
+  } else {}
   results <- new("kRp.corp.freq", meta=df.meta, words=df.words, desc=df.dscrpt.meta)
   return(results)
 } ## end function create.corp.freq.object()
