@@ -9,6 +9,7 @@ fixed:
   - some typos in the ChangeLog...
 changed:
   - new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
+  - cleaned up code
 added:
   - read.corp.LCC() can now import the information on bigrams and co-occurences of tokens
     in a sentence

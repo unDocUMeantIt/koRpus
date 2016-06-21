@@ -243,7 +243,7 @@ clean.text <- function(txt.vct, from.to=NULL, perl=FALSE){
   } else {}
   stopifnot(is.character(txt.vct))
   stopifnot(is.list(from.to))
-  for (idx in 1:length(from.to)){
+  for (idx in seq_along(from.to)){
       from <- names(from.to)[[idx]]
       to <- from.to[[idx]]
       txt.vct <- gsub(from, to, txt.vct, perl=perl)
@@ -612,7 +612,7 @@ type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.n
   all.types <- unique(all.tokens[[relevant.tokens]])
   num.tokens <- dim(all.tokens)[[1]]
   num.types <- length(all.types)
-  corp.freq <- data.frame(type="", lttr=0, freq=0, stringsAsFactors=FALSE)
+  corp.freq <- data.frame(type=all.types, lttr=0, freq=0, stringsAsFactors=FALSE)
   type.counter <- 1
   for (tp in all.types){
     if(isTRUE(verbose)){
@@ -623,7 +623,7 @@ type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.n
       tp.freq <- sum(match(all.tokens[[relevant.tokens]], tp), na.rm=TRUE)
     }
     tp.letters <- all.tokens[match(tp, all.tokens[[relevant.tokens]]),"lttr"]
-    corp.freq <- rbind(corp.freq, c(token=tp, lttr=tp.letters, freq=tp.freq))
+    corp.freq[corp.freq[["token"]] == tp,] <- c(token=tp, lttr=tp.letters, freq=tp.freq)
     type.counter <- type.counter + 1
   }
   # remove first empty row
@@ -1043,9 +1043,9 @@ read.udhr <- function(txt.path, quiet=TRUE){
   # as a safety measure, put iso639-3 in quotes
   udhr.XML <- gsub("#iso639-3=", "#\"iso639-3\"=", udhr.XML)
   udhr.XML.list <- strsplit(udhr.XML, split="#")
-  udhr.list <- lapply(1:length(udhr.XML.list), function(cur.entry){eval(parse(text=paste0("c(", paste(udhr.XML.list[[cur.entry]], collapse=", "), ")")))})
+  udhr.list <- lapply(seq_along(udhr.XML.list), function(cur.entry){eval(parse(text=paste0("c(", paste(udhr.XML.list[[cur.entry]], collapse=", "), ")")))})
 
-  names(udhr.list) <- 1:length(udhr.list)
+  names(udhr.list) <- seq_along(udhr.list)
   # correct for missing values and variables
   udhr.list.corr <- sapply(udhr.list, function(udhr.entry){
       # older index files split up l+v and n+nv, newer have combined f and n elements

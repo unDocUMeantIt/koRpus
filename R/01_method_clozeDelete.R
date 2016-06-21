@@ -39,7 +39,7 @@ setGeneric("clozeDelete", function(obj, ...){standardGeneric("clozeDelete")})
 # replaces a word with undercores
 clozify <- function(words, replace.by="_"){
   num.chars <- nchar(words)
-  word.rest <- sapply(1:length(num.chars), function(idx){
+  word.rest <- sapply(seq_along(num.chars), function(idx){
       return(paste(rep(replace.by, num.chars[idx]), collapse=""))
     })
   return(word.rest)
@@ -70,7 +70,7 @@ setMethod("clozeDelete",
   function (obj, every=5, offset=0, replace.by="_", fixed=10){
 
     if(identical(offset, "all")){
-      for(idx in 0:(every-1)){
+      for(idx in seq_along(every)-1){
         clozeTxt <- clozeDelete(obj=obj, every=every, offset=idx, replace.by=replace.by, fixed=fixed)
         changedTxt <- slot(clozeTxt, "desc")[["cloze"]][["origText"]]
         rmLetters <- sum(changedTxt[["lttr"]])
@@ -99,8 +99,8 @@ setMethod("clozeDelete",
       txtToChange <- tagged.text[["tag"]] %in% word.tags
       txtToChangeTRUE <- which(txtToChange)
       # implement the offset by removing the first words
-      txtToChangeTRUE <- txtToChangeTRUE[offset+1:length(txtToChangeTRUE)]
-      changeIndex <- txtToChangeTRUE[!1:length(txtToChangeTRUE) %% every == 0]
+      txtToChangeTRUE <- txtToChangeTRUE[offset+seq_along(txtToChangeTRUE)]
+      changeIndex <- txtToChangeTRUE[!seq_along(txtToChangeTRUE) %% every == 0]
       txtToChange[changeIndex] <- FALSE
       txtToChange[0:max(0,offset-1)] <- FALSE
 
