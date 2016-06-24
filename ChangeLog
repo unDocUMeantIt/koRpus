@@ -8,6 +8,8 @@ fixed:
     if none is present, and also supporting *-words.txt files with duplicate columns
   - some typos in the ChangeLog...
 changed:
+  - massively improved the speed of hyphen by using a new method for exploding
+    words into their sub-parts. in tests the new method only takes about 70% of the time
   - new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
   - cleaned up code
 added:

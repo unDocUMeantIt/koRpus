@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -108,7 +108,7 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
     lang <- language(tagged.text)
     words <- tagged.txt.rm.classes(taggedText(tagged.text), lemma=FALSE,
       lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag)
- 
+
     results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
       rm.hyph=rm.hyph, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet, cache=cache, lang=lang)
 

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -14,6 +14,108 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
+
+## function explode.letters()
+# all possible values of .word.:
+# 6 x 1: . w o r d .
+#        1 2 3 4 5 6
+# 5 x 2: .w wo or rd d.
+#        12 23 34 45 56
+# 4 x 3: .wo wor ord rd.
+#        123 234 345 456
+# 3 x 4: .wor word ord.
+#        1234 2345 3456
+# 2 x 5: .word word.
+#        12345 23456
+# 1 x 6: .word.
+#        123456
+#
+# we're safe for words up to 50 characters
+hyph.max.word.length <- 50
+explode.letters <- function(max.word.length=50){
+  result <- lapply(
+    1:max.word.length,
+    function(wl){
+      lapply(
+        1:wl,
+        function(sl){
+          lapply(
+            1:(wl-sl+1),
+            function(x){
+              x:(x+sl-1)
+            }
+          )
+        }
+      )
+    }
+  )
+  return(result)
+} ## end function explode.letters()
+
+# generate internal object with all possible patterns of subcharacters
+# for hyphenation, to speed up the process
+all.patterns <- explode.letters()
+
+# calculate the number of expected patterns
+num.patters <- function(nchar, min.pattern=2, max.pattern=5){
+  all.pat <- sum(min.pattern:max.pattern - nchar + 1)
+  sum(all.pat - nchar + 1)
+  sapply(
+    min.pattern:max.pattern,
+    function(npat){
+      
+    }
+  )
+}
+
+## function explode.word()
+# using the provided patterns, split an actual word into its subpatterns
+# - min.pattern/max.pattern: set the minimum and maximum length of available
+#   patterns, makes no sense to split further in the first place
+explode.word <- function(word, min.pattern=2, max.pattern=5){
+  word.length <- nchar(word)
+  if(word.length > hyph.max.word.length){
+    stop(
+      simpleError(
+        paste0(
+          "Found a word with more than ", hyph.max.word.length, " characters:\n  ",
+          word, "\n",
+          "This was not expected and is not covered by the defaults, please inform the package author(s)!"
+        )
+      )
+    )
+  } else {}
+  if(word.length <= min.pattern){
+    result <- data.frame(frag=word, on=1, off=min(word.length, min.pattern))
+  } else {
+    result.list <- sapply(
+      all.patterns[[word.length]][min.pattern:min(word.length, max.pattern)],
+      function(sub.length){
+        sapply(
+          sub.length,
+          function(lttrs){
+            return(
+              # already include a dummy 'match' row
+              c(
+                substr(word, lttrs[1], max(lttrs)), # frag
+                lttrs[1],                           # on
+                max(lttrs),                         # off
+                NA                                  # match
+              )
+                
+            )
+          },
+          USE.NAMES=FALSE
+        )
+      },
+      USE.NAMES=FALSE
+    )
+    #TODO: can this be done simpler? need to turn the list into a data.frame
+    result <- matrix(unlist(result.list), nrow=4, dimnames=list(c("frag","on","off","match"),NULL))
+  }
+  return(result)
+} ## function explode.word()
+
 
 # this internal function does the real hyphenations,
 # so it's mostly called by hyphen()
@@ -118,26 +220,10 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
     word.dotted <- paste0(".", word, ".")
     word.length <- nchar(word.dotted)
 
-    ## create word fragments ".wo", ".wor"... "rd."
-    # first, define all possible start values. obviously it starts with the first letter
-    # since minimal patten length is known, the last start value would be (last character - min-length + 1)
-    iter.start.points <- c(1:(word.length - min.pat))
-
-    word.fragments <- data.frame(sapply(iter.start.points, function(start){
-        # if there's less of the word left than there's patterns to match,
-        # don't care about too long patterns
-        rest.of.word <- word.length - start
-        iter.counter <- min.pat
-        iter.counter.max <- min(c(max.pat, max(rest.of.word, min.pat))) + 1
-        sub.fragments <- sapply(iter.counter:iter.counter.max, function(frag.stop){
-            frag.stop <- (start + frag.stop - 1)
-            word.part <- substr(word.dotted, start, frag.stop)
-            # return a vector with the fragment and its start/end points in the word
-            return(c(frag=word.part, on=start, off=frag.stop))
-          })
-      }), stringsAsFactors=FALSE)
+    # create word fragments ".wo", ".wor"... "rd."
+    matched.patterns <- explode.word(word.dotted, min.pattern=min.pat, max.pattern=max.pat)
     # find all matching patterns of the word fragments
-    matched.patterns <- rbind(word.fragments, match=hyph.pattern[match(word.fragments["frag",], hyph.pattern[,"char"]),"nums"])
+    matched.patterns["match",] <- hyph.pattern[match(matched.patterns["frag",], hyph.pattern[,"char"]),"nums"]
     # now let's add the found matches and find the maximum
     matched.pat.index <- !is.na(matched.patterns["match",])
     if(sum(matched.pat.index) > 0){
