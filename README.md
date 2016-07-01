@@ -45,6 +45,16 @@ want to subscribe to the package's [RSS feed](http://r.reaktanz.de/pckg/koRpus/R
 If you're running a Debian based operating system, you might be interested in the
 [precompiled *.deb packages](http://r.reaktanz.de/pckg/koRpus/deb_repo.html).
 
+### Installation via GitHub
+
+To install it directly from GitHub, you can use `install_github()` from the [devtools](https://github.com/hadley/devtools) package:
+
+```
+library(devtools)
+install_github("unDocUMeantIt/koRpus") # stable release
+install_github("unDocUMeantIt/koRpus", ref="develop") # development release
+```
+
 ## Contributing
 
 To ask for help, report bugs, suggest feature improvements, or discuss the global
