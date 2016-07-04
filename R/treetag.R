@@ -196,15 +196,15 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     # basic options
     TT.opts <- checkedOptions[["TT.opts"]]
 
-    have.preset <- FALSE
+    have.preset <- use.splitter <- FALSE
     if("preset" %in% names(TT.options)){
       ## minimum requirements for new presets:
-      #  TT.tokenizer    <- file.path(TT.cmd, "...")
-      #  TT.tagger      <- file.path(TT.bin, "...")
-      #  TT.abbrev      <- c()
-      #  TT.params      <- file.path(TT.lib, "...")
-      #  TT.tknz.opts.def  <- c()
-      #  TT.tknz.opts    <- c()
+      #  TT.splitter         <- c() # done before tokenization
+      #  TT.tokenizer       <- file.path(TT.cmd, "...")
+      #  TT.tagger          <- file.path(TT.bin, "...")
+      #  TT.abbrev          <- c()
+      #  TT.params          <- file.path(TT.lib, "...")
+      #  TT.tknz.opts       <- c()
       #  TT.lookup.command  <- c()
       #  TT.filter.command  <- c()
       preset.definition <- checkedOptions[["preset"]]
@@ -212,18 +212,20 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       matching.lang(lang=lang, lang.preset=preset.definition[["lang"]])
       preset.list <- preset.definition[["preset"]](TT.cmd=TT.cmd, TT.bin=TT.bin, TT.lib=TT.lib, unix.OS=unix.OS)
 
-      TT.tokenizer    <- preset.list[["TT.tokenizer"]]
-      TT.tagger      <- preset.list[["TT.tagger"]]
-      TT.abbrev      <- preset.list[["TT.abbrev"]]
-      TT.params      <- preset.list[["TT.params"]]
-      TT.lexicon      <- preset.list[["TT.lexicon"]]
-      TT.lookup      <- preset.list[["TT.lookup"]]
-      TT.filter      <- preset.list[["TT.filter"]]
+      TT.splitter        <- preset.list[["TT.splitter"]]
+      TT.splitter.opts   <- preset.list[["TT.splitter.opts"]]
+      TT.tokenizer       <- preset.list[["TT.tokenizer"]]
+      TT.tagger          <- preset.list[["TT.tagger"]]
+      TT.abbrev          <- preset.list[["TT.abbrev"]]
+      TT.params          <- preset.list[["TT.params"]]
+      TT.lexicon         <- preset.list[["TT.lexicon"]]
+      TT.lookup          <- preset.list[["TT.lookup"]]
+      TT.filter          <- preset.list[["TT.filter"]]
 
-      TT.tknz.opts.def  <- preset.list[["TT.tknz.opts.def"]]
-      TT.tknz.opts    <- preset.list[["TT.tknz.opts"]]
+      TT.tknz.opts       <- preset.list[["TT.tknz.opts"]]
       TT.lookup.command  <- preset.list[["TT.lookup.command"]]
       TT.filter.command  <- preset.list[["TT.filter.command"]]
+      have.preset <- TRUE
     } else {}
 
     if("tokenizer" %in% names(TT.options)){
@@ -256,9 +258,27 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     } else {
       if(!isTRUE(have.preset)){
         TT.tknz.opts  <- c()
-      } else {
-        TT.tknz.opts  <- TT.tknz.opts.def
-      }
+      } else {}
+    }
+
+    if("splitter" %in% names(TT.options)){
+      TT.splitter     <- TT.options[["splitter"]]
+    } else {
+      if(!isTRUE(have.preset)){
+        TT.splitter   <- c()
+      } else {}
+    }
+    if("splitter.opts" %in% names(TT.options)){
+      TT.splitter.opts <- TT.options[["splitter.opts"]]
+    } else {
+      if(!isTRUE(have.preset)){
+        TT.splitter.opts <- c()
+      } else {}
+    }
+    if(all(!identical(TT.splitter, ""), !identical(TT.splitter, c()), !is.null(TT.splitter))){
+      # check if path works
+      check.file(TT.splitter, mode="exist")
+      use.splitter <- TRUE
     }
 
     if("abbrev" %in% names(TT.options)){
@@ -356,7 +376,12 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     # create system call for unix and windows
     if(isTRUE(unix.OS)){
       if(isTRUE(TT.tknz)){
-        sys.tt.call <- paste(TT.tokenizer, TT.tknz.opts, paste0("\"", takeAsFile, "\""), "|",
+        TT.call.file <- paste0("\"", takeAsFile, "\"")
+        if(isTRUE(use.splitter)){
+          TT.splitter <- paste(TT.splitter, TT.call.file, TT.splitter.opts)
+          TT.call.file <- ""
+        } else {}
+        sys.tt.call <- paste(TT.splitter, TT.tokenizer, TT.tknz.opts, TT.call.file, "|",
           TT.lookup.command, TT.tagger, TT.opts, TT.params, TT.filter.command)
       } else {
         sys.tt.call <- paste("cat ", tknz.tempfile, "|",
@@ -364,7 +389,11 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       }
     } else {
       if(isTRUE(TT.tknz)){
-        sys.tt.call <- paste("perl ", TT.tokenizer, TT.tknz.opts, paste0("\"", takeAsFile, "\""), "|",
+        if(isTRUE(use.splitter)){
+          TT.splitter <- paste(TT.splitter, TT.call.file, TT.splitter.opts)
+          TT.call.file <- ""
+        } else {}
+        sys.tt.call <- paste(TT.splitter, "perl ", TT.tokenizer, TT.tknz.opts, TT.call.file, "|",
           TT.lookup.command, TT.tagger, TT.params, TT.opts, TT.filter.command)
       } else {
         sys.tt.call <- paste("type ", tknz.tempfile, "|",
@@ -386,7 +415,12 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
   ## uncomment for debugging
   if(isTRUE(debug)){
     if(isTRUE(manual.config)){
-      cat(paste("
+      message(paste(
+        if(isTRUE(use.splitter)){
+        paste("
+        TT.splitter: ", TT.splitter,"
+        TT.splitter.opts: ", TT.splitter.opts)
+        },"
         TT.tokenizer: ",TT.tokenizer,
         ifelse(isTRUE(TT.tknz),
           paste0("\n\t\t\t\tTT.tknz.opts: ",TT.tknz.opts),
@@ -399,7 +433,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
         TT.filter.command: ",TT.filter.command,"\n
         sys.tt.call: ",sys.tt.call,"\n"))
     } else {
-      cat(paste("
+      message(paste("
         file: ",takeAsFile,"
         sys.tt.call: ",sys.tt.call,"\n"))
     }

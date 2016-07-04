@@ -42,18 +42,17 @@ set.lang.support("treetag",
         TT.filter      <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
         return(
           list(
-            TT.tokenizer    = file.path(TT.cmd, "tokenize.pl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger"),
-            TT.abbrev      = TT.abbrev,
-            TT.params      = file.path(TT.lib, "english.par"),
-            TT.lexicon      = TT.lexicon,
-            TT.lookup      = TT.lookup,
-            TT.filter      = TT.filter,
+            TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
+            TT.tagger         = file.path(TT.bin, "tree-tagger"),
+            TT.abbrev         = TT.abbrev,
+            TT.params         = file.path(TT.lib, "english.par"),
+            TT.lexicon        = TT.lexicon,
+            TT.lookup         = TT.lookup,
+            TT.filter         = TT.filter,
 
-            TT.tknz.opts.def  = "-e",
-            TT.tknz.opts    = paste("-e -a", TT.abbrev),
-            TT.lookup.command  = paste("perl", TT.lookup, TT.lexicon, "|"),
-            TT.filter.command  = paste("|", TT.filter)
+            TT.tknz.opts      = paste("-e -a", TT.abbrev),
+            TT.lookup.command = paste("perl", TT.lookup, TT.lexicon, "|"),
+            TT.filter.command = paste("|", TT.filter)
           )
         )
       } else {
@@ -62,18 +61,17 @@ set.lang.support("treetag",
         TT.filter      <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
         return(
           list(
-            TT.tokenizer    = file.path(TT.cmd, "tokenize.pl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger.exe"),
-            TT.abbrev      = TT.abbrev,
-            TT.params      = file.path(TT.lib, "english.par"),
-            TT.lexicon      = c(),
-            TT.lookup      = c(),
-            TT.filter      = TT.filter,
+            TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
+            TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
+            TT.abbrev         = TT.abbrev,
+            TT.params         = file.path(TT.lib, "english.par"),
+            TT.lexicon        = c(),
+            TT.lookup         = c(),
+            TT.filter         = TT.filter,
 
-            TT.tknz.opts.def  = "-e",
-            TT.tknz.opts    = paste("-e -a", TT.abbrev),
-            TT.lookup.command  = c(),
-            TT.filter.command  = paste("|", TT.filter)
+            TT.tknz.opts      = paste("-e -a", TT.abbrev),
+            TT.lookup.command = c(),
+            TT.filter.command = paste("|", TT.filter)
           )
         )
       }

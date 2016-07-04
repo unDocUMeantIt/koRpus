@@ -4,6 +4,9 @@ changes in version 0.06-6 (2016-06-14)
 unreleased:
   - this version is under development
 fixed:
+  - the treetag() function actually omittet options for the tokenizer due to a never
+    updated variable and a wrong setting later on; this has been the case for years --
+    interesting that no-one ever noticed this
   - read.corp.LCC() can now digest newer LCC archives, omitting the *-meta.txt file
     if none is present, and also supporting *-words.txt files with duplicate columns
   - some typos in the ChangeLog...
@@ -12,9 +15,13 @@ changed:
     words into their sub-parts. in tests the new method only takes about 70% of the time
   - new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
   - cleaned up code
+  - removed the never used variable TT.tknz.opts.def in the language support
 added:
   - read.corp.LCC() can now import the information on bigrams and co-occurences of tokens
     in a sentence
+  - language support now also uses TT.splitter and TT.splitter.opts, which was needed
+    to implement the TreeTagger script for portuguese (available in the separate package
+    koRpus.lang.pt)
   
 changes in version 0.06-5 (2016-06-05)
 fixed:

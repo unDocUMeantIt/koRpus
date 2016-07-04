@@ -40,18 +40,17 @@ set.lang.support("treetag",
         TT.abbrev      <- file.path(TT.lib, "french-abbreviations-utf8")
         return(
           list(
-            TT.tokenizer    = file.path(TT.cmd, "utf8-tokenize.perl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger"),
-            TT.abbrev      = TT.abbrev,
-            TT.params      = file.path(TT.lib, "french-utf8.par"),
-            TT.lexicon      = c(),
-            TT.lookup      = c(),
-            TT.filter      = c(),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
+            TT.tagger         = file.path(TT.bin, "tree-tagger"),
+            TT.abbrev         = TT.abbrev,
+            TT.params         = file.path(TT.lib, "french-utf8.par"),
+            TT.lexicon        = c(),
+            TT.lookup         = c(),
+            TT.filter         = c(),
 
-            TT.tknz.opts.def    = c(),
-            TT.tknz.opts       = paste("-a", TT.abbrev),
-            TT.lookup.command    = c(),
-            TT.filter.command    = c()
+            TT.tknz.opts      = paste("-a", TT.abbrev),
+            TT.lookup.command = c(),
+            TT.filter.command = c()
           )
         )
       } else {
@@ -59,18 +58,17 @@ set.lang.support("treetag",
         TT.abbrev      <- file.path(TT.lib, "french-abbreviations-utf8")
         return(
           list(
-            TT.tokenizer    = file.path(TT.cmd, "utf8-tokenize.perl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger.exe"),
-            TT.abbrev      = TT.abbrev,
-            TT.params      = file.path(TT.lib, "french-utf8.par"),
-            TT.lexicon      = c(),
-            TT.lookup      = c(),
-            TT.filter      = c(),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
+            TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
+            TT.abbrev         = TT.abbrev,
+            TT.params         = file.path(TT.lib, "french-utf8.par"),
+            TT.lexicon        = c(),
+            TT.lookup         = c(),
+            TT.filter         = c(),
 
-            TT.tknz.opts.def    = c(),
-            TT.tknz.opts       = paste("-a", TT.abbrev),
-            TT.lookup.command    = c(),
-            TT.filter.command    = c()
+            TT.tknz.opts      = paste("-a", TT.abbrev),
+            TT.lookup.command = c(),
+            TT.filter.command = c()
           )
         )
       }
@@ -85,18 +83,17 @@ set.lang.support("treetag",
           TT.abbrev      <- file.path(TT.lib, "french-abbreviations")
           return(
             list(
-              TT.tokenizer    = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger      = file.path(TT.bin, "tree-tagger"),
-              TT.abbrev      = TT.abbrev,
-              TT.params      = file.path(TT.lib, "french.par"),
-              TT.lexicon      = c(),
-              TT.lookup      = c(),
-              TT.filter      = c(),
+              TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
+              TT.tagger         = file.path(TT.bin, "tree-tagger"),
+              TT.abbrev         = TT.abbrev,
+              TT.params         = file.path(TT.lib, "french.par"),
+              TT.lexicon        = c(),
+              TT.lookup         = c(),
+              TT.filter         = c(),
 
-              TT.tknz.opts.def    = c(),
-              TT.tknz.opts       = paste("-a", TT.abbrev),
-              TT.lookup.command    = c(),
-              TT.filter.command    = c()
+              TT.tknz.opts      = paste("-a", TT.abbrev),
+              TT.lookup.command = c(),
+              TT.filter.command = c()
             )
           )
         } else {
@@ -104,18 +101,17 @@ set.lang.support("treetag",
           TT.abbrev      <- file.path(TT.lib, "french-abbreviations")
           return(
             list(
-              TT.tokenizer    = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger      = file.path(TT.bin, "tree-tagger.exe"),
-              TT.abbrev      = TT.abbrev,
-              TT.params      = file.path(TT.lib, "french.par"),
-              TT.lexicon      = c(),
-              TT.lookup      = c(),
-              TT.filter      = c(),
+              TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
+              TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
+              TT.abbrev         = TT.abbrev,
+              TT.params         = file.path(TT.lib, "french.par"),
+              TT.lexicon        = c(),
+              TT.lookup         = c(),
+              TT.filter         = c(),
 
-              TT.tknz.opts.def    = c(),
-              TT.tknz.opts       = paste("-a", TT.abbrev),
-              TT.lookup.command    = c(),
-              TT.filter.command    = c()
+              TT.tknz.opts      = paste("-a", TT.abbrev),
+              TT.lookup.command = c(),
+              TT.filter.command = c()
             )
           )
         }

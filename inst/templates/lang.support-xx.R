@@ -106,7 +106,6 @@ lang.support.xx <- function() {
                 TT.lookup           = TT.lookup,
                 TT.filter           = TT.filter,
 
-                TT.tknz.opts.def    = c(),
                 TT.tknz.opts        = paste("-a", TT.abbrev),
                 TT.lookup.command   = paste("perl", TT.lookup, TT.lexicon, "|"),
                 TT.filter.command   = paste("|", TT.filter)
@@ -126,7 +125,6 @@ lang.support.xx <- function() {
                 TT.lookup           = c(), # example for undefined values
                 TT.filter           = TT.filter,
 
-                TT.tknz.opts.def    = c(),
                 TT.tknz.opts        = paste("-a", TT.abbrev),
                 TT.lookup.command   = c(),
                 TT.filter.command   = c()
@@ -155,7 +153,6 @@ lang.support.xx <- function() {
                 TT.lookup           = TT.lookup,
                 TT.filter           = TT.filter,
 
-                TT.tknz.opts.def    = c(),
                 TT.tknz.opts        = paste("-a", TT.abbrev),
                 TT.lookup.command   = paste("perl", TT.lookup, TT.lexicon, "|"),
                 TT.filter.command   = paste("|", TT.filter)
@@ -175,7 +172,6 @@ lang.support.xx <- function() {
                 TT.lookup           = c(),
                 TT.filter           = TT.filter,
 
-                TT.tknz.opts.def    = c(),
                 TT.tknz.opts        = paste("-a", TT.abbrev),
                 TT.lookup.command   = c(),
                 TT.filter.command   = c()

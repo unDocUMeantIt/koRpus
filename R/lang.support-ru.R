@@ -37,30 +37,28 @@ set.lang.support("treetag",
         # preset for unix systems
         return(
           list(
-            TT.tokenizer    = file.path(TT.cmd, "utf8-tokenize.perl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger"),
-            TT.abbrev      = c(),
-            TT.params      = file.path(TT.lib, "russian.par"),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
+            TT.tagger         = file.path(TT.bin, "tree-tagger"),
+            TT.abbrev         = c(),
+            TT.params         = file.path(TT.lib, "russian.par"),
 
-            TT.tknz.opts.def  = c(),
-            TT.tknz.opts    = c(),
-            TT.lookup.command  = c(),
-            TT.filter.command  = c()
+            TT.tknz.opts      = c(),
+            TT.lookup.command = c(),
+            TT.filter.command = c()
           )
         )
       } else {
         # preset for windows systems
         return(
           list(
-            TT.tokenizer    = file.path(TT.cmd, "utf8-tokenize.perl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger.exe"),
-            TT.abbrev      = c(),
-            TT.params      = file.path(TT.lib, "russian.par"),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
+            TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
+            TT.abbrev         = c(),
+            TT.params         = file.path(TT.lib, "russian.par"),
 
-            TT.tknz.opts.def  = c(),
-            TT.tknz.opts    = c(),
-            TT.lookup.command  = c(),
-            TT.filter.command  = c()
+            TT.tknz.opts      = c(),
+            TT.lookup.command = c(),
+            TT.filter.command = c()
           )
         )
       }

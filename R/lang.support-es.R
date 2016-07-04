@@ -42,18 +42,17 @@ set.lang.support("treetag",
         TT.lookup    <- file.path(TT.cmd, "mwl-lookup.perl")
         return(
           list(
-            TT.tokenizer       = file.path(TT.cmd, "utf8-tokenize.perl"),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
             TT.tagger         = file.path(TT.bin, "tree-tagger"),
             TT.abbrev         = TT.abbrev,
             TT.params         = file.path(TT.lib, "spanish-utf8.par"),
-            TT.lexicon         = TT.lexicon,
+            TT.lexicon        = TT.lexicon,
             TT.lookup         = TT.lookup,
             TT.filter         = c(),
 
-            TT.tknz.opts.def    = c(),
-            TT.tknz.opts       = paste("-a", TT.abbrev),
-            TT.lookup.command    = paste(TT.lookup, "-f", TT.lexicon, "|"),
-            TT.filter.command    = c()
+            TT.tknz.opts      = paste("-a", TT.abbrev),
+            TT.lookup.command = paste(TT.lookup, "-f", TT.lexicon, "|"),
+            TT.filter.command = c()
           )
         )
       } else {
@@ -61,17 +60,17 @@ set.lang.support("treetag",
         TT.abbrev    <- file.path(TT.lib, "spanish-abbreviations")
         return(
           list(
-            TT.tokenizer       = file.path(TT.cmd, "utf8-tokenize.perl"),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
             TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
-            TT.abbrev        = TT.abbrev,
-            TT.params        = file.path(TT.lib, "spanish-utf8.par"),
+            TT.abbrev         = TT.abbrev,
+            TT.params         = file.path(TT.lib, "spanish-utf8.par"),
             TT.lexicon        = c(),
-            TT.lookup        = c(),
-            TT.filter        = c(),
-            TT.tknz.opts.def    = c(),
+            TT.lookup         = c(),
+            TT.filter         = c(),
+
             TT.tknz.opts      = paste("-a", TT.abbrev),
-            TT.lookup.command    = c(),
-            TT.filter.command    = c()
+            TT.lookup.command = c(),
+            TT.filter.command = c()
           )
         )
       }
@@ -89,16 +88,16 @@ set.lang.support("treetag",
           return(
             list(
               TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger        = file.path(TT.bin, "tree-tagger"),
-              TT.abbrev        = TT.abbrev,
-              TT.params        = file.path(TT.lib, "spanish.par"),
+              TT.tagger         = file.path(TT.bin, "tree-tagger"),
+              TT.abbrev         = TT.abbrev,
+              TT.params         = file.path(TT.lib, "spanish.par"),
               TT.lexicon        = TT.lexicon,
-              TT.lookup        = TT.lookup,
-              TT.filter        = c(),
-              TT.tknz.opts.def    = c(),
+              TT.lookup         = TT.lookup,
+              TT.filter         = c(),
+
               TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command    = paste(TT.lookup, "-f", TT.lexicon, "|"),
-              TT.filter.command    = c()
+              TT.lookup.command = paste(TT.lookup, "-f", TT.lexicon, "|"),
+              TT.filter.command = c()
             )
           )
         } else {
@@ -107,15 +106,15 @@ set.lang.support("treetag",
           return(
             list(
               TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger        = file.path(TT.bin, "tree-tagger.exe"),
-              TT.abbrev        = TT.abbrev,
-              TT.params        = file.path(TT.lib, "spanish.par"),
+              TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
+              TT.abbrev         = TT.abbrev,
+              TT.params         = file.path(TT.lib, "spanish.par"),
               TT.lexicon        = c(),
-              TT.filter        = c(),
-              TT.tknz.opts.def    = c(),
+              TT.filter         = c(),
+
               TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command    = c(),
-              TT.filter.command    = c()
+              TT.lookup.command = c(),
+              TT.filter.command = c()
             )
           )
         }
