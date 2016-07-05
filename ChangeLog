@@ -16,6 +16,8 @@ changed:
   - new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
   - cleaned up code
   - removed the never used variable TT.tknz.opts.def in the language support
+  - set.lang.support() now checks for duplicate tag definitions and throws an error if
+    any were found
 added:
   - read.corp.LCC() can now import the information on bigrams and co-occurences of tokens
     in a sentence
