@@ -146,6 +146,7 @@ local({
         "cleanRd",         # linebreaks for >90 chars in *.Rd
         "log",             # update ChangeLog
         "package"#,        # build & install koRpus.lang.xx package
+#        "readme",         # add initial README.md file
 #        "check"           # check package
 #        "license",        # update LICENSE file
         ),
