@@ -344,7 +344,7 @@ Wrapper function: \code{\link[koRpus:strain]{strain}}
    }
    \item{\code{"Traenkle.Bailer"}:}{\emph{Tränkle-Bailer Formeln}. These two formulas were the result of a re-examination of the ones proposed
      by Dickes-Steiwer. They try to avoid the usage of the type-token ratio,
-      which is dependent on text length (Tränkle, & Bailer, 1984):
+      which is dependent on text length (Tränkle & Bailer, 1984):
      \deqn{TB1 = 224.6814 - \left(79.8304 \times \frac{C}{W} \right) - \left(12.24032 \times \frac{W}{St} \right) - \left(1.292857 \times \frac{100 \times{} W_{prep}}{W} \right)}
      \deqn{TB2 = 234.1063 - \left(96.11069 \times \frac{C}{W} \right) - \left(2.05444 \times \frac{100 \times{} W_{prep}}{W} \right) - \left(1.02805 \times \frac{100 \times{} W_{conj}}{W} \right)}
      Where \eqn{W_{prep}} refers to the number of prepositions,

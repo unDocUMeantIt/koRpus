@@ -48,6 +48,21 @@ The slot might have additional columns, depending on the input material.}
   \item{\code{chars.p.word}:}{Average running word length}
 }
 The slot might have additional columns, depending on the input material.}
+
+\item{\code{bigrams}}{A data.frame listing all tokens that co-occurred next to each other in the corpus:
+\describe{
+ \item{\code{token1}:}{The first token}
+ \item{\code{token2}:}{The second token that appeared right next to the first}
+ \item{\code{freq}:}{How often the co-occurrance was present}
+ \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
+}}
+
+\item{\code{cooccur}}{Similar to \code{bigrams},
+      but listing co-occurrences anywhere in one sentence:
+\item{\code{token1}:}{The first token}
+\item{\code{token2}:}{The second token that appeared in the same sentence}
+\item{\code{freq}:}{How often the co-occurrance was present}
+\item{\code{sig}:}{Log-likelihood significance of the co-occurrende}}
 }}
 \references{
 [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}

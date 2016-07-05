@@ -5,7 +5,8 @@
 \title{Import LCC data}
 \usage{
 read.corp.LCC(LCC.path, format = "flatfile", fileEncoding = "UTF-8",
-  n = -1, keep.temp = FALSE, prefix = NULL)
+  n = -1, keep.temp = FALSE, prefix = NULL, bigrams = FALSE,
+  cooccurence = FALSE)
 }
 \arguments{
 \item{LCC.path}{A character string,
@@ -29,6 +30,13 @@ the function ends.}
 \item{prefix}{Character string,
       giving the prefix for the file names in the archive. Needed for newer LCC tar archives
 if they are already decompressed (autodetected if \code{LCC.path} points to the tar archive directly).}
+
+\item{bigrams}{Logical, whether infomration on bigrams should be imported.
+This is is \code{FALSE} by default, because it might make the objects quite large.
+Note that this will only work in \code{n = -1} because otherwise the tokens cannot be looked up.}
+
+\item{cooccurence}{Logical, like \code{bigrams},
+      but for infomration on co-occurences of tokens in a sentence.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
@@ -42,6 +50,10 @@ The LCC database can either be unpacked or still a .tar/.tar.gz/.zip archive. If
 all necessary files will be extracted to a temporal location automatically,
       and by default removed again
 when the function has finished reading from it.
+
+Newer LCC archives no longer feature the \code{*-meta.txt} file,
+      resulting in less meta informtion in the object.
+In these cases, the total number of tokens is calculated as the sum of types' frequencies.
 }
 \note{
 Please note that MySQL support is not implemented yet.
