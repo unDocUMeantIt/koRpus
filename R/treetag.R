@@ -199,7 +199,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     have.preset <- use.splitter <- FALSE
     if("preset" %in% names(TT.options)){
       ## minimum requirements for new presets:
-      #  TT.splitter         <- c() # done before tokenization
+      #  TT.splitter        <- c() # done before tokenization
       #  TT.tokenizer       <- file.path(TT.cmd, "...")
       #  TT.tagger          <- file.path(TT.bin, "...")
       #  TT.abbrev          <- c()

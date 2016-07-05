@@ -28,16 +28,16 @@ set.lang.support("hyphen",
 )
 
 set.lang.support("treetag",
-  list("fr-utf8"=list(
-    ## preset: "fr-utf8"
-    # tags "utf-8" encoded text files
+  list("fr"=list(
+    ## preset: "fr"
+    # tags utf-8 encoded text files
     # Alexandre Brulet added this French section
     lang="fr",
     encoding="UTF-8",
     preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
+      TT.abbrev      <- file.path(TT.lib, "french-abbreviations-utf8")
       if(isTRUE(unix.OS)){
         # preset for unix systems
-        TT.abbrev      <- file.path(TT.lib, "french-abbreviations-utf8")
         return(
           list(
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
@@ -48,14 +48,13 @@ set.lang.support("treetag",
             TT.lookup         = c(),
             TT.filter         = c(),
 
-            TT.tknz.opts      = paste("-a", TT.abbrev),
+            TT.tknz.opts      = paste("-f -a", TT.abbrev),
             TT.lookup.command = c(),
             TT.filter.command = c()
           )
         )
       } else {
         # preset for windows systems
-        TT.abbrev      <- file.path(TT.lib, "french-abbreviations-utf8")
         return(
           list(
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
@@ -66,57 +65,13 @@ set.lang.support("treetag",
             TT.lookup         = c(),
             TT.filter         = c(),
 
-            TT.tknz.opts      = paste("-a", TT.abbrev),
+            TT.tknz.opts      = paste("-f -a", TT.abbrev),
             TT.lookup.command = c(),
             TT.filter.command = c()
           )
         )
       }
-    }),
-    "fr"=list(
-      # tags "latin1" encoded text files
-      lang="fr",
-      encoding="Latin1",
-      preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
-        if(isTRUE(unix.OS)){
-          # preset for unix systems
-          TT.abbrev      <- file.path(TT.lib, "french-abbreviations")
-          return(
-            list(
-              TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger         = file.path(TT.bin, "tree-tagger"),
-              TT.abbrev         = TT.abbrev,
-              TT.params         = file.path(TT.lib, "french.par"),
-              TT.lexicon        = c(),
-              TT.lookup         = c(),
-              TT.filter         = c(),
-
-              TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command = c(),
-              TT.filter.command = c()
-            )
-          )
-        } else {
-          # preset for windows systems
-          TT.abbrev      <- file.path(TT.lib, "french-abbreviations")
-          return(
-            list(
-              TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
-              TT.abbrev         = TT.abbrev,
-              TT.params         = file.path(TT.lib, "french.par"),
-              TT.lexicon        = c(),
-              TT.lookup         = c(),
-              TT.filter         = c(),
-
-              TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command = c(),
-              TT.filter.command = c()
-            )
-          )
-        }
-      }
-    )
+    })
   )
 )
 

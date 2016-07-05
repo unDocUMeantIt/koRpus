@@ -30,7 +30,7 @@ set.lang.support("hyphen",
 set.lang.support("treetag",
   list("es"=list(
     ## preset: "es"
-    # tags utf-8 encoded text files
+    # tags UTF-8 encoded text files
     # Earl Brown added this Spanish section
     lang="es",
     encoding="UTF-8",

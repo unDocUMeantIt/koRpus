@@ -1529,8 +1529,13 @@ paste.tokenized.text <- function(txt){
 
 ## function checkLangPreset()
 # checks if a given language preset is defined at all, and either returns TRUE/error or the full preset definition
-# TODO: turn this into tests for all TT.options
 checkLangPreset <- function(preset, returnPresetDefinition=TRUE){
+  # koRpus dropped support for non-UTF-8 presets and renamed former presets omitting the "-utf8" suffix
+  # to not break compatibility, we'll just gracefully remove the suffix
+  if(grepl("utf8", preset)){
+    preset <- gsub("-utf8$", "", preset)
+    warning(paste0("UTF-8 is now the default encoding, please rename your preset from \"", preset, "-utf8\" into just \"", preset, "\"!"), call.=FALSE)
+  } else {}
   preset.definition <- as.list(as.environment(.koRpus.env))[["langSup"]][["treetag"]][["presets"]][[preset]]
   if(isTRUE(returnPresetDefinition)){
     if(is.null(preset.definition)){
@@ -1596,7 +1601,7 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
   } else {}
 
   # basic options, cannot be toyed with
-  result[["TT.opts"]] <- "-token -lemma -sgml -pt-with-lemma"
+  result[["TT.opts"]] <- "-token -lemma -sgml -pt-with-lemma -quiet"
   # allow some dedicated options to be set without jeopardizing the output format
   if(!is.null(TT.options[["no.unknown"]])){
     result[["TT.opts"]] <- ifelse(

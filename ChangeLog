@@ -29,7 +29,8 @@ added:
     which was needed mostly to implement the TreeTagger script for portuguese
     (available in the separate package koRpus.lang.pt), but also for updates of languages
     that were already supported
-    
+  - updated the RKWard plugin (UTF-8 defaults, added dutch and portuguese, added Brouwer
+    formula)
   
 changes in version 0.06-5 (2016-06-05)
 fixed:

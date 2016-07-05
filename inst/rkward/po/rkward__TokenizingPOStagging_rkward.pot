@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: http://p.sf.net/rkward/bugs\n"
-"POT-Creation-Date: 2015-11-20 20:44+0100\n"
+"Report-Msgid-Bugs-To: https://mail.kde.org/mailman/listinfo/kde-i18n-doc\n"
+"POT-Creation-Date: 2016-07-05 21:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,532 +25,537 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:11
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:17
 #. i18n: ectx: <about name="...">
 msgid "koRpus"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:11
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:17
 #. i18n: ectx: <about shortinfo="...">
 msgid "RKWard GUI for the koRpus package."
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:20
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:26
 #. i18n: ectx: <about> <author given="...">
 msgctxt "Author name"
 msgid "Meik"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:20
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:26
 #. i18n: ectx: <about> <author family="...">
 msgctxt "Author name"
 msgid "Michalke"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:34
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:40
 #. i18n: ectx: <components> <component label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Hyphenation.xml:11
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Hyphenation.xml:15
 #. i18n: ectx: (Hyphenation) <dialog label="...">
 msgid "Hyphenation"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Hyphenation.js:21
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Hyphenation.js:24
 #. i18n: ectx: (Loaded from Hyphenation)
 msgid "Hyphenation results"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Hyphenation.xml:17
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Hyphenation.xml:21
 #. i18n: ectx: (Hyphenation) <dialog label="Hyphenation"> <varslot label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:25
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:29
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <varslot label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:28
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:32
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Data and Basic Indices"> <varslot label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:28
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:32
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="Frequency Analysis"> <tab label="Data"> <varslot label="...">
 msgid "Tokenized text object (valid class: kRp.tagged)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Hyphenation.xml:20
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Hyphenation.xml:24
 #. i18n: ectx: (Hyphenation) <dialog label="Hyphenation"> <checkbox label="...">
 msgid "List hyphenation results in output"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Hyphenation.xml:22
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Hyphenation.xml:26
 #. i18n: ectx: (Hyphenation) <dialog label="Hyphenation"> <saveobject label="...">
 msgid "Keep hyphenated text object"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:41
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:47
 #. i18n: ectx: <components> <component label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:17
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:21
 #. i18n: ectx: (Readability) <dialog label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:18
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:22
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="...">
 msgid "Readability"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.js:160
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.js:165
 #. i18n: ectx: (Loaded from Readability)
 msgid "Readability results"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:19
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:23
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:22
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:26
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="...">
 msgid "Data and Basic Indices"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:26
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:30
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <varslot label="...">
 msgid "Hyphenated text object (optional, valid class: kRp.hyphen)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:31
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:35
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "Automated Readability Index (ARI)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:32
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:36
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "ARI (NRI)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:33
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:37
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "Coleman-Liau"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:34
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:38
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "Danielson-Bryan (D 1+2)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:37
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:41
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "Dickes-Steiwer Handformel"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:38
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:42
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "Fucks' Stilcharakteristik"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:39
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:43
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "Läsbarhetsindex (LIX)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:40
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:44
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <checkbox label="...">
 msgid "Readability Index (RIX)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:44
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:48
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Data and Basic Indices"> <saveobject label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:56
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:60
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Data and Basic Indices"> <saveobject label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:35
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:39
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="Frequency Analysis"> <tab label="Data"> <saveobject label="...">
 msgid "Keep results"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:48
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:52
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="...">
 msgid "Using Syllables"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:50
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:54
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <text>
 msgid ""
 "Selecting any of these indices will automatically activate syllable count."
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:55
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:59
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Coleman (C 1-4)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:56
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:60
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Easy Listening Formula"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:57
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:61
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Farr-Jenkins-Paterson"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:58
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:62
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Farr-Jenkins-Paterson (Powers-Sumner-Kearl)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:59
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:63
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch Reading Ease"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:60
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:64
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch (DE, Amstad)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:61
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:65
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch (ES, Fernandez-Huerta)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:62
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:66
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch (ES, Szigriszt)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:63
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:67
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch (FR, Kandel-Moles)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:64
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:68
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch (NL, Douma)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:65
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:69
+#. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
+msgid "Flesch (NL, Brouwer)"
+msgstr ""
+
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:70
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch Reading Ease (Powers-Sumner-Kearl)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:66
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:71
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Flesch-Kincaid Grade Level"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:67
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:72
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "FOG (Gunning)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:68
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:73
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "FOG (Powers-Sumner-Kearl)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:72
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:77
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "FOG (NRI)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:73
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:78
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "FORCAST"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:74
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:79
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "FORCAST (RGL)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:75
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:80
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Kuntzsch's Text-Redundanz-Index"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:76
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:81
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Linsear Write"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:77
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:82
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "SMOG"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:78
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:83
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "SMOG (formula C)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:79
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:84
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "SMOG (simple)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:80
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:85
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "SMOG (DE, »Qu«)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:81
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:86
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Strain Index"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:82
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:87
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Tuldava"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:83
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:88
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Wheeler-Smith"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:84
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:89
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Wheeler-Smith (DE)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:85
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:90
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Syllables"> <checkbox label="...">
 msgid "Wiener Sachtextformeln (nWS 1-4)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:92
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:97
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="...">
 msgid "Using Word Lists"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:94
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:99
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <text>
 msgid ""
 "If you select any of these indices you will also need to provide word lists "
 "as indicated below."
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:99
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:104
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Bormuth Mean Cloze + Grade"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:100
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:105
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Dale-Chall (1995)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:101
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:106
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Dale-Chall (Powers-Sumner-Kearl)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:102
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:107
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Dale-Chall (1948)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:106
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:111
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Degrees of Reading Power"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:107
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:112
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Harris-Jacobson"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:108
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:113
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Spache"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:109
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:114
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <checkbox label="...">
 msgid "Spache (old)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:115
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:120
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <browser label="...">
 msgid "Long Dale-Chall word list (*.txt, also used for Bormuth/DRP):"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:116
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:121
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <browser label="...">
 msgid "Short Dale-Chall word list (*.txt):"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/Readability.xml:117
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/Readability.xml:122
 #. i18n: ectx: (Readability) <dialog label="Readability"> <tabbook label="Readability"> <tab label="Using Word Lists"> <browser label="...">
 msgid "Harris-Jacobson word list (grades 1 and 2, *.txt):"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:48
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:54
 #. i18n: ectx: <components> <component label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:20
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:24
 #. i18n: ectx: (Lexical Diversity) <dialog label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:21
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:25
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="...">
 msgid "Lexical Diversity"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "Lexical diversity results"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "MSTTR segment size"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "MTLD factor size"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "MTLD-MA min. tokens/factor"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "HD-D random sample size"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "MATTR window size"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:96
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:100
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Global options"> <checkbox label="...">
 msgid "Case sensitive"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:97
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:101
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Global options"> <checkbox label="...">
 msgid "Lemmatize"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:163
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:164
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "Keep MTLD/MTLD-MA details"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.js:166
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.js:167
 #. i18n: ectx: (Loaded from Lexical Diversity)
 msgid "Identified types in text"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:30
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:34
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Data and Basic Indices"> <frame label="...">
 msgid "Measures of lexical diversity"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:33
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:37
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:68
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:72
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Type Token Ratio (TTR)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:34
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:38
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
 msgid "Mean Segmental TTR (MSTTR)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:35
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:39
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:69
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:73
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Moving Average TTR (MATTR)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:36
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:40
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:70
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:74
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Herdan's C"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:37
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:41
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:71
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:75
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Root TTR"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:38
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:42
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:72
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:76
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Corrected TTR (CTTR)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:39
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:43
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:73
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:77
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Uber Index"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:43
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:47
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:77
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:81
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Summer"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:44
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:48
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:78
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:82
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Yule's K"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:45
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:49
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:79
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:83
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Maas (a, lg(V0))"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:46
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:50
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:80
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:84
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "HD-D (idealized vocd-D)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:47
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:51
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:81
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:85
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Measure of Textual Lexical Diversity (MTLD)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:48
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:52
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Measures of lexical diversity"> <checkbox label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:82
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:86
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <checkbox label="...">
 msgid "Moving Average MTLD (MTLD-MA)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:53
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:57
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Data and Basic Indices"> <frame label="...">
 msgid "Output"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:54
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:58
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Output"> <checkbox label="...">
 msgid "List all identified types"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:60
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:64
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="...">
 msgid "Characteristics"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:61
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:65
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Characteristics"> <frame label="...">
 msgid "Calculate impact of text length"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:62
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:66
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <text>
 msgid ""
 "The classic TTR is dependent on text legth. You can examine this effect by "
@@ -558,343 +563,333 @@ msgid ""
 "text. You can then plot these characteristics."
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:86
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:90
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Calculate impact of text length"> <frame label="...">
 msgid "Accuracy"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:87
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:91
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Accuracy"> <spinbox label="...">
 msgid "Step size between calculations (tokens)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:91
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:95
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="...">
 msgid "Options"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:95
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:99
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Options"> <frame label="...">
 msgid "Global options"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:98
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:102
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Global options"> <checkbox label="...">
 msgid "Keep types/tokens in result object"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:99
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:103
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="Global options"> <input label="...">
 msgid "Base for logarithm (must be numeric)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:104
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:108
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Options"> <frame label="...">
 msgid "MSTTR"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:105
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:109
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="MSTTR"> <spinbox label="...">
 msgid "Segment size (tokens)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:108
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:112
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Options"> <frame label="...">
 msgid "MATTR"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:109
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:113
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="MATTR"> <spinbox label="...">
 msgid "Window size (tokens)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:116
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:120
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Options"> <frame label="...">
 msgid "HD-D"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:117
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:121
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="HD-D"> <spinbox label="...">
 msgid "Random sample size (tokens)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:122
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:126
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> <tabbook label="Lexical Diversity"> <tab label="Options"> <frame label="...">
 msgid "MTLD/MTLD-MA"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:123
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:127
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="MTLD/MTLD-MA"> <spinbox label="...">
 msgid "Factor size"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:124
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:128
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="MTLD/MTLD-MA"> <spinbox label="...">
 msgid "Minimum number of tokens"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/LexicalDiversity.xml:125
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/LexicalDiversity.xml:129
 #. i18n: ectx: (Lexical Diversity) <dialog label="Lexical Diversity"> [...] <frame label="MTLD/MTLD-MA"> <checkbox label="...">
 msgid "Keep all details (slow!)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:55
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:61
 #. i18n: ectx: <components> <component label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:20
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:24
 #. i18n: ectx: (Frequency Analysis) <dialog label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:21
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:25
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="...">
 msgid "Frequency Analysis"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.js:48
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.js:48
 #. i18n: ectx: (Loaded from Frequency Analysis)
 msgid "Frequency analysis results"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.js:51
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.js:51
 #. i18n: ectx: (Loaded from Frequency Analysis)
 msgid "Frequencies of types & token (by word class)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:22
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:26
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="Frequency Analysis"> <tab label="...">
 msgid "Data"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:29
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:33
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="Frequency Analysis"> <tab label="Data"> <varslot label="...">
 msgid "Analyse against frequency object (valid class: kRp.corp.freq)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:31
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:35
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="Frequency Analysis"> <tab label="Data"> <frame label="...">
 msgid "Descriptive statistics"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:32
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:36
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <frame label="Descriptive statistics"> <checkbox label="...">
 msgid "Term frequency/inverse document frequency statistics (tf-idf)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:33
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:37
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <frame label="Descriptive statistics"> <checkbox label="...">
 msgid "Show frequencies of types & token (by word class)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:39
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:43
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="Frequency Analysis"> <tab label="...">
 msgid "Corpora"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:40
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:44
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> <tabbook label="Frequency Analysis"> <tab label="Corpora"> <frame label="...">
 msgid "Frequencies from language corpora"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:41
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:45
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <frame label="Frequencies from language corpora"> <dropdown label="...">
 msgid "Use corpus database"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:42
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:46
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <dropdown label="Use corpus database"> <option label="...">
 msgid "none"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:43
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:47
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <dropdown label="Use corpus database"> <option label="...">
 msgid "Leipzig Corpora Collection (*-text.tar.gz) "
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:44
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:48
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <dropdown label="Use corpus database"> <option label="...">
 msgid "Celex (*.CD)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:46
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:50
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <frame label="Frequencies from language corpora"> <browser label="...">
 msgid "Database file"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:47
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:51
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <frame label="Frequencies from language corpora"> <spinbox label="...">
 msgid "Number of running words"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:49
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/FrequencyAnalysis.xml:53
 #. i18n: ectx: (Frequency Analysis) <dialog label="Frequency Analysis"> [...] <frame label="Frequencies from language corpora"> <saveobject label="...">
 msgid "Keep corpus object"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:62
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:68
 #. i18n: ectx: <components> <component label="...">
 msgid "Tokenizing & POS tagging"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.js:60
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.js:58
 #. i18n: ectx: (Loaded from POS Tagging)
 msgid "Tokenizing & POS tagging results"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.js:60
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.js:58
 #. i18n: ectx: (Loaded from POS Tagging)
 msgid "Text"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.js:60
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.js:58
 #. i18n: ectx: (Loaded from POS Tagging)
 msgid "Language"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.js:61
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.js:59
 #. i18n: ectx: (Loaded from POS Tagging)
 msgid "Word class distribution"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.js:64
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.js:62
 #. i18n: ectx: (Loaded from POS Tagging)
 msgid "Tagged text"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:15
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:19
 #. i18n: ectx: (POS Tagging) <dialog label="...">
 msgid "POS Tagging"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:18
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:22
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <radio label="...">
 msgid "Select operation mode"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:19
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:23
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <radio label="Select operation mode"> <option label="...">
 msgid "Tokenize with tokenize()"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:20
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:24
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <radio label="Select operation mode"> <option label="...">
 msgid "Tokenize and tag with TreeTagger"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:23
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:27
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <browser label="...">
 msgid "TreeTagger root folder:"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:24
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:28
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <text>
 msgid ""
 "The TreeTagger folder is the one containing the bin, cmd and lib folders"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:27
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:31
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="...">
 msgid "Text language:"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:28
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:32
+#. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
+msgid "Dutch"
+msgstr ""
+
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:33
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
 msgid "English"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:29
-#. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
-msgid "French (UTF-8)"
-msgstr ""
-
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:30
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:34
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
 msgid "French"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:31
-#. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
-msgid "German (UTF-8)"
-msgstr ""
-
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:32
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:35
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
 msgid "German"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:33
-#. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
-msgid "Italian (UTF-8)"
-msgstr ""
-
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:34
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:36
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
 msgid "Italian"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:35
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:37
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
-msgid "Spanish (UTF-8)"
+msgid "Portuguese"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:36
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:38
+#. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
+msgid "Russian"
+msgstr ""
+
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:39
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
 msgid "Spanish"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:37
-#. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <dropdown label="Text language:"> <option label="...">
-msgid "Russian (UTF-8)"
-msgstr ""
-
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:39
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:41
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <browser label="...">
 msgid "Text to analyze:"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:41
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:43
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <frame label="...">
 msgid "tokenize() options"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:42
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:44
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <frame label="tokenize() options"> <checkbox label="...">
 msgid "Detect headlines (treated as sentences)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:43
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:45
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <frame label="tokenize() options"> <checkbox label="...">
 msgid "Detect paragraphs"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:47
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:49
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <checkbox label="...">
 msgid "List tokenized results in output (slow for long texts!)"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:49
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/plugins/TokenizingPOStagging.xml:51
 #. i18n: ectx: (POS Tagging) <dialog label="POS Tagging"> <saveobject label="...">
 msgid "Keep tagged text object"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:71
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:77
 #. i18n: ectx: <hierarchy> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:82
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:88
 #. i18n: ectx: <hierarchy> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:93
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:99
 #. i18n: ectx: <hierarchy> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:104
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:110
 #. i18n: ectx: <hierarchy> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:115
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:121
 #. i18n: ectx: <hierarchy> <menu label="...">
 msgid "Analysis"
 msgstr ""
 
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:75
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:81
 #. i18n: ectx: <hierarchy> <menu label="Analysis"> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:86
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:92
 #. i18n: ectx: <hierarchy> <menu label="Analysis"> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:97
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:103
 #. i18n: ectx: <hierarchy> <menu label="Analysis"> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:108
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:114
 #. i18n: ectx: <hierarchy> <menu label="Analysis"> <menu label="...">
-#. i18n: file: /tmp/RtmpQOW58O/koRpus/inst/rkward/koRpus.pluginmap:119
+#. i18n: file: /home/m/daten/R/koRpus/git//koRpus/inst/rkward/koRpus.pluginmap:125
 #. i18n: ectx: <hierarchy> <menu label="Analysis"> <menu label="...">
 msgid "Text Analysis"
 msgstr ""

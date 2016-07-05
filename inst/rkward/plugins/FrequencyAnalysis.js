@@ -1,23 +1,24 @@
+// this code was generated using the rkwarddev package.
+// perhaps don't make changes here, but in the rkwarddev script instead!
+// 
+// look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R
 
 
 
-
-function preprocess(){
+function preprocess(is_preview){
   // add requirements etc. here
 
 }
 
-function calculate(){
+function calculate(is_preview){
   // read in variables from dialog
   var varHyphenTagged = getValue("varHyphenTagged");
   var varkRpFreqObj = getValue("varkRpFreqObj");
   var tfidf = getValue("tfidf");
   var freqShowTypes = getValue("freqShowTypes");
-  var saveFrq = getValue("saveFrq");
   var corpusDB = getValue("corpusDB");
   var corpDBdir = getValue("corpDBdir");
   var CelexRunWd = getValue("CelexRunWd");
-  var saveCorpFrq = getValue("saveCorpFrq");
 
   // the R code to be evaluated
   if(!varkRpFreqObj) {
@@ -41,10 +42,8 @@ function calculate(){
   echo("\n)\n\n");
 }
 
-function printout(){
+function printout(is_preview){
   // printout the results
-
-
   var freqShowTypes = getValue("freqShowTypes");
   new Header(i18n("Frequency analysis results")).print();
   echo("rk.print(summary(freq.analysis.obj))\n\n");

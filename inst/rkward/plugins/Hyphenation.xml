@@ -1,12 +1,16 @@
 <!DOCTYPE rkplugin >
 <document>
+  <!-- this code was generated using the rkwarddev package.
+    perhaps don't make changes here, but in the rkwarddev script instead!
+    
+    look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R -->
   <code file="Hyphenation.js" />
   <help file="Hyphenation.rkh" />
-  <!--   <dependencies>
-        </dependencies> -->
+  <!-- <dependencies>
+      </dependencies> -->
   <logic>
-    <!--     <convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" /> -->
-    <!--     <connect governor="!edit!.state" client="!edit!.enabled" /> -->
+    <!-- <convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" /> -->
+    <!-- <connect governor="!edit!.state" client="!edit!.enabled" /> -->
   </logic>
   <dialog label="Hyphenation">
     <row id="rowHyph">

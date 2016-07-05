@@ -1,13 +1,16 @@
+// this code was generated using the rkwarddev package.
+// perhaps don't make changes here, but in the rkwarddev script instead!
+// 
+// look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R
 
 
 
-
-function preprocess(){
+function preprocess(is_preview){
   // add requirements etc. here
 
 }
 
-function calculate(){
+function calculate(is_preview){
   // read in variables from dialog
   var varHyphenTagged = getValue("varHyphenTagged");
   var TTR = getValue("TTR");
@@ -24,7 +27,6 @@ function calculate(){
   var MTLD = getValue("MTLD");
   var MTLDMA = getValue("MTLDMA");
   var showTypes = getValue("showTypes");
-  var saveLD = getValue("saveLD");
   var TTRChar = getValue("TTRChar");
   var MATTRChar = getValue("MATTRChar");
   var CldChar = getValue("CldChar");
@@ -148,10 +150,8 @@ function calculate(){
   echo(",\n\tquiet=TRUE\n)\n\n");
 }
 
-function printout(){
+function printout(is_preview){
   // printout the results
-
-
   var LDsegment = getValue("LDsegment");
   var LDfactorSize = getValue("LDfactorSize");
   var LDminTokens = getValue("LDminTokens");

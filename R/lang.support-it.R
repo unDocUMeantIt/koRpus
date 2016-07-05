@@ -28,16 +28,16 @@ set.lang.support("hyphen",
 )
 
 set.lang.support("treetag",
-  list("it-utf8"=list(
-    ## preset: "it-utf8"
-    # tags "utf-8" encoded text files
+  list("it"=list(
+    ## preset: "it"
+    # tags UTF-8 encoded text files
     # Alberto Mirisola added this Italian section
     lang="it",
     encoding="UTF-8",
     preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
+      TT.abbrev    <- file.path(TT.lib, "italian-abbreviations")
       if(isTRUE(unix.OS)){
         # preset for unix systems
-        TT.abbrev    <- file.path(TT.lib, "italian-abbreviations")
         return(
           list(
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
@@ -45,14 +45,13 @@ set.lang.support("treetag",
             TT.abbrev         = TT.abbrev,
             TT.params         = file.path(TT.lib, "italian-utf8.par"),
 
-            TT.tknz.opts      = paste("-a", TT.abbrev),
+            TT.tknz.opts      = paste("-i -a", TT.abbrev),
             TT.lookup.command = c(),
             TT.filter.command = c()
           )
         )
       } else {
         # preset for windows systems
-        TT.abbrev    <- file.path(TT.lib, "italian-abbreviations")
         return(
           list(
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
@@ -66,45 +65,7 @@ set.lang.support("treetag",
           )
         )
       }
-    }),
-    "it"=list(
-      # tags "latin1" encoded text files
-      lang="it",
-      encoding="Latin1",
-      preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
-        if(isTRUE(unix.OS)){
-          # preset for unix systems
-          TT.abbrev <- file.path(TT.lib, "italian-abbreviations")
-          return(
-            list(
-              TT.tokenizer     = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger        = file.path(TT.bin, "tree-tagger"),
-              TT.abbrev        = TT.abbrev,
-              TT.params        = file.path(TT.lib, "italian.par"),
-
-              TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command = c(),
-              TT.filter.command = c()
-            )
-          )
-        } else {
-          # preset for windows systems
-          TT.abbrev <- file.path(TT.lib, "italian-abbreviations")
-          return(
-            list(
-              TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
-              TT.abbrev         = TT.abbrev,
-              TT.params         = file.path(TT.lib, "italian.par"),
-
-              TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command = c(),
-              TT.filter.command = c()
-            )
-          )
-        }
-      }
-    )
+    })
   )
 )
 

@@ -31,7 +31,7 @@ set.lang.support("treetag",
   list("ru"=list(
     ## preset: "ru"
     lang="ru",
-    encoding="",
+    encoding="UTF-8",
     preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
       if(isTRUE(unix.OS)){
         # preset for unix systems
@@ -40,7 +40,7 @@ set.lang.support("treetag",
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
             TT.tagger         = file.path(TT.bin, "tree-tagger"),
             TT.abbrev         = c(),
-            TT.params         = file.path(TT.lib, "russian.par"),
+            TT.params         = file.path(TT.lib, "russian-utf8.par"),
 
             TT.tknz.opts      = c(),
             TT.lookup.command = c(),
@@ -54,7 +54,7 @@ set.lang.support("treetag",
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
             TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
             TT.abbrev         = c(),
-            TT.params         = file.path(TT.lib, "russian.par"),
+            TT.params         = file.path(TT.lib, "russian-utf8.par"),
 
             TT.tknz.opts      = c(),
             TT.lookup.command = c(),
