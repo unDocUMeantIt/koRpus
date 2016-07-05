@@ -31,69 +31,23 @@ set.lang.support("hyphen",
 )
 
 set.lang.support("treetag",
-  list("de-utf8"=list(
-    ## preset: "de-utf8"
+  list("de"=list(
+    ## preset: "de"
     lang="de",
     encoding="UTF-8",
     preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
+      TT.abbrev  <- file.path(TT.lib, "german-abbreviations-utf8")
+      TT.lexicon <- file.path(TT.lib, "german-lexicon-utf8.txt")
+      TT.lookup  <- file.path(TT.cmd, "lookup.perl")
+      TT.filter  <- file.path(TT.cmd, "filter-german-tags")
       if(isTRUE(unix.OS)){
         # preset for unix systems
-        TT.abbrev <- file.path(TT.lib, "german-abbreviations-utf8")
-        TT.lexicon <- file.path(TT.lib, "german-lexicon-utf8.txt")
-        TT.lookup <- file.path(TT.cmd, "lookup.perl")
-        TT.filter <- file.path(TT.cmd, "filter-german-tags")
         return(
           list(
-            TT.tokenizer    = file.path(TT.cmd, "utf8-tokenize.perl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger"),
-            TT.abbrev      = TT.abbrev,
-            TT.params      = file.path(TT.lib, "german-utf8.par"),
-            TT.lexicon      = TT.lexicon,
-            TT.lookup      = TT.lookup,
-            TT.filter      = TT.filter,
-
-            TT.tknz.opts    = paste("-a", TT.abbrev),
-            TT.lookup.command  = paste("perl", TT.lookup, TT.lexicon, "|"),
-            TT.filter.command  = paste("|", TT.filter)
-          )
-        )
-      } else {
-        # preset for windows systems
-        TT.abbrev <- file.path(TT.lib, "german-abbreviations-utf8")
-        return(
-          list(
-            TT.tokenizer    = file.path(TT.cmd, "utf8-tokenize.perl"),
-            TT.tagger      = file.path(TT.bin, "tree-tagger.exe"),
-            TT.abbrev      = TT.abbrev,
-            TT.params      = file.path(TT.lib, "german-utf8.par"),
-            TT.lexicon      = c(),
-            TT.lookup      = c(),
-            TT.filter      = c(),
-
-            TT.tknz.opts    = paste("-a", TT.abbrev),
-            TT.lookup.command  = c(),
-            TT.filter.command  = c()
-          )
-        )
-      }
-    }),
-  "de"=list(
-    ## preset: "de"
-    lang="de",
-    encoding="Latin1",
-    preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
-      if(isTRUE(unix.OS)){
-        # preset for unix systems
-        TT.abbrev  <- file.path(TT.lib, "german-abbreviations")
-        TT.lexicon  <- file.path(TT.lib, "german-lexicon.txt")
-        TT.lookup  <- file.path(TT.cmd, "lookup.perl")
-        TT.filter  <- file.path(TT.cmd, "filter-german-tags")
-        return(
-          list(
-            TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
             TT.tagger         = file.path(TT.bin, "tree-tagger"),
             TT.abbrev         = TT.abbrev,
-            TT.params         = file.path(TT.lib, "german.par"),
+            TT.params         = file.path(TT.lib, "german-utf8.par"),
             TT.lexicon        = TT.lexicon,
             TT.lookup         = TT.lookup,
             TT.filter         = TT.filter,
@@ -105,13 +59,12 @@ set.lang.support("treetag",
         )
       } else {
         # preset for windows systems
-        TT.abbrev  <- file.path(TT.lib, "german-abbreviations")
         return(
           list(
-            TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
             TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
             TT.abbrev         = TT.abbrev,
-            TT.params         = file.path(TT.lib, "german.par"),
+            TT.params         = file.path(TT.lib, "german-utf8.par"),
             TT.lexicon        = c(),
             TT.lookup         = c(),
             TT.filter         = c(),

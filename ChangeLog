@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.06-6 (2016-06-14)
+changes in version 0.07-1 (2016-06-14)
 unreleased:
   - this version is under development
 fixed:
@@ -11,6 +11,10 @@ fixed:
     if none is present, and also supporting *-words.txt files with duplicate columns
   - some typos in the ChangeLog...
 changed:
+  - the support for non-UTF-8 presets for was removed, since TreeTagger is only
+    endorsing UTF-8 encoding itself for a while; the old preset names will
+    continue to work for the time being, but if possible you should already rename
+    them from "<lang>-utf8" into just "<lang>" in your scripts
   - massively improved the speed of hyphen by using a new method for exploding
     words into their sub-parts. in tests the new method only takes about 70% of the time
   - new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
@@ -21,9 +25,11 @@ changed:
 added:
   - read.corp.LCC() can now import the information on bigrams and co-occurences of tokens
     in a sentence
-  - language support now also uses TT.splitter and TT.splitter.opts, which was needed
-    to implement the TreeTagger script for portuguese (available in the separate package
-    koRpus.lang.pt)
+  - language support now also uses TT.splitter, TT.splitter.opts, and TT.pre.tagger,
+    which was needed mostly to implement the TreeTagger script for portuguese
+    (available in the separate package koRpus.lang.pt), but also for updates of languages
+    that were already supported
+    
   
 changes in version 0.06-5 (2016-06-05)
 fixed:

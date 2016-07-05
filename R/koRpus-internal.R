@@ -1561,6 +1561,7 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
     "preset",
     "tokenizer",
     "tknz.opts",
+    "pre.tagger",
     "tagger",
     "abbrev",
     "params",

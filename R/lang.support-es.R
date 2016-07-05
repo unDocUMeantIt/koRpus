@@ -28,18 +28,18 @@ set.lang.support("hyphen",
 )
 
 set.lang.support("treetag",
-  list("es-utf8"=list(
-    ## preset: "es-utf8"
-    # tags "utf-8" encoded text files
+  list("es"=list(
+    ## preset: "es"
+    # tags utf-8 encoded text files
     # Earl Brown added this Spanish section
     lang="es",
     encoding="UTF-8",
     preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
+      TT.abbrev    <- file.path(TT.lib, "spanish-abbreviations")
+      TT.lexicon   <- file.path(TT.lib, "spanish-mwls-utf8")
+      TT.lookup    <- file.path(TT.cmd, "mwl-lookup.perl")
       if(isTRUE(unix.OS)){
         # preset for unix systems
-        TT.abbrev    <- file.path(TT.lib, "spanish-abbreviations")
-        TT.lexicon    <- file.path(TT.lib, "spanish-mwls-utf8")
-        TT.lookup    <- file.path(TT.cmd, "mwl-lookup.perl")
         return(
           list(
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
@@ -57,7 +57,6 @@ set.lang.support("treetag",
         )
       } else {
         # preset for windows systems
-        TT.abbrev    <- file.path(TT.lib, "spanish-abbreviations")
         return(
           list(
             TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
@@ -74,52 +73,7 @@ set.lang.support("treetag",
           )
         )
       }
-    }),
-    "es"=list(
-      # tags "latin1" encoded text files
-      lang="es",
-      encoding="Latin1",
-      preset=function(TT.cmd, TT.bin, TT.lib, unix.OS){
-        if(isTRUE(unix.OS)){
-          # preset for unix systems
-          TT.abbrev <- file.path(TT.lib, "spanish-abbreviations")
-          TT.lexicon <- file.path(TT.lib, "spanish-mwls")
-          TT.lookup <- file.path(TT.cmd, "mwl-lookup.perl")
-          return(
-            list(
-              TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger         = file.path(TT.bin, "tree-tagger"),
-              TT.abbrev         = TT.abbrev,
-              TT.params         = file.path(TT.lib, "spanish.par"),
-              TT.lexicon        = TT.lexicon,
-              TT.lookup         = TT.lookup,
-              TT.filter         = c(),
-
-              TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command = paste(TT.lookup, "-f", TT.lexicon, "|"),
-              TT.filter.command = c()
-            )
-          )
-        } else {
-          # preset for windows systems
-          TT.abbrev <- file.path(TT.lib, "spanish-abbreviations")
-          return(
-            list(
-              TT.tokenizer      = file.path(TT.cmd, "tokenize.pl"),
-              TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
-              TT.abbrev         = TT.abbrev,
-              TT.params         = file.path(TT.lib, "spanish.par"),
-              TT.lexicon        = c(),
-              TT.filter         = c(),
-
-              TT.tknz.opts      = paste("-a", TT.abbrev),
-              TT.lookup.command = c(),
-              TT.filter.command = c()
-            )
-          )
-        }
-      }
-    )
+    })
   )
 )
 
