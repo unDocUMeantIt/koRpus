@@ -1567,7 +1567,9 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
     "lexicon",
     "lookup",
     "filter",
-    "no.unknown"
+    "no.unknown",
+    "splitter",
+    "splitter.opts"
   )
   undefined.options <- !optNames %in% validOptions
   if(any(undefined.options)){
