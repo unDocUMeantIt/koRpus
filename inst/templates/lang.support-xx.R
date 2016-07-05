@@ -95,6 +95,8 @@ lang.support.xx <- function() {
             TT.lexicon  <- file.path(TT.lib, "xyzedish-lexicon.txt")
             TT.lookup   <- file.path(TT.cmd, "lookup.perl")
             TT.filter   <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
+            # generally, the parts below are combined in this order by treetag():
+            # TT.tokenizer TT.tknz.opts "|" TT.lookup.command TT.tagger TT.opts TT.params TT.filter.command
             return(
               list(
                 # you should change these according to the TreeTagger script

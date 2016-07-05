@@ -123,10 +123,12 @@ local({
           "family=\"", name.family, "\", email=\"", email, "\", role=c(\"aut\", \"cre\")))"),
         Maintainer=paste0(name.full, " <", email, ">"),
         Depends="R (>= 3.3.0), koRpus (>= 0.06-3), methods",
-        Description=paste0("Adds support for the ", language.long, " language to the koRpus package.
-            Due to some restrictions on CRAN, the full package sources are only available from the project homepage.
-            To ask for help, report bugs, suggest feature improvements, or discuss the global development of the package,
-            please subscribe to the koRpus-dev mailing list: https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de"),
+        Description=paste0(
+          "Adds support for the ", language.long, " language to the koRpus package.",
+          "Due to some restrictions on CRAN, the full package sources are only available from the project homepage.",
+          "To ask for help, report bugs, suggest feature improvements, or discuss the global development of the package,",
+          "please subscribe to the koRpus-dev mailing list: https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de"
+        ),
         License="GPL (>= 3)",
         Encoding="UTF-8",
         LazyLoad="yes",
