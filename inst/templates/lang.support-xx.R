@@ -75,31 +75,32 @@ lang.support.xx <- function() {
 
   # here you have to adjust the parameters according to the contents of the TreeTagger
   # scripts for your language (see ?set.lang.support for details)
-  #  - if there's both UTF-8 and Latin1 scripts, add them both (as "xx-utf8" and "xx")
+  #  - UTF-8 scripts are the default in TreeTagger now, add them as "xx"
   #  - add both the unix and windows equivalents
   #  - if some setting is missing, just set it to an empty vector (c())
   koRpus::set.lang.support(target="treetag",
     value=list(
-      "xx-utf8"=list(
-        ## preset: "xx-utf8"
-        # tags "utf-8" encoded text files
+      "xx"=list(
+        ## preset: "xx"
+        # tags UTF-8 encoded text files
         lang      = "xx",
         encoding  = "UTF-8",
         preset    = function(TT.cmd, TT.bin, TT.lib, unix.OS){
+          # note: these objects are set here for convenience, the
+          # actual important part is the return value below
+          TT.abbrev   <- file.path(TT.lib, "xyzedish-abbreviations")
+          TT.lexicon  <- file.path(TT.lib, "xyzedish-lexicon.txt")
+          TT.lookup   <- file.path(TT.cmd, "lookup.perl")
+          TT.filter   <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
+          # generally, the parts below are combined in this order by treetag():
+          # TT.splitter TT.splitter.opts TT.tokenizer TT.tknz.opts "|" TT.lookup.command TT.pre.tagger TT.tagger TT.opts TT.params TT.filter.command
           if(isTRUE(unix.OS)){
             # preset for unix systems
-
-            # note: these objects are set here for convenience, the
-            # actual important part is the return value below
-            TT.abbrev   <- file.path(TT.lib, "xyzedish-abbreviations")
-            TT.lexicon  <- file.path(TT.lib, "xyzedish-lexicon.txt")
-            TT.lookup   <- file.path(TT.cmd, "lookup.perl")
-            TT.filter   <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
-            # generally, the parts below are combined in this order by treetag():
-            # TT.tokenizer TT.tknz.opts "|" TT.lookup.command TT.tagger TT.opts TT.params TT.filter.command
             return(
               list(
                 # you should change these according to the TreeTagger script
+                TT.splitter         = file.path(TT.cmd, "xyzedish-splitter.perl"),
+                TT.splitter.opts    = paste("| sed \"s/\\([\\)\\\"\\'\\?\\!]\\)\\([\\.\\,\\;\\:]\\)/ \\1 \\2/g\" |"),
                 TT.tokenizer        = file.path(TT.cmd, "utf8-tokenize.perl"),
                 TT.tagger           = file.path(TT.bin, "tree-tagger"),
                 TT.abbrev           = TT.abbrev,
@@ -110,15 +111,16 @@ lang.support.xx <- function() {
 
                 TT.tknz.opts        = paste("-a", TT.abbrev),
                 TT.lookup.command   = paste("perl", TT.lookup, TT.lexicon, "|"),
-                TT.filter.command   = paste("|", TT.filter)
+                TT.filter.command   = paste("|", TT.filter),
+                TT.pre.tagger       = "grep -v '^$' |"
               )
             )
           } else {
             # preset for windows systems
-            TT.abbrev   <- file.path(TT.lib, "xyzedish-abbreviations")
-            TT.filter   <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
             return(
               list(
+                TT.splitter         = file.path(TT.cmd, "xyzedish-splitter.perl"),
+                TT.splitter.opts    = paste("| sed \"s/\\([\\)\\\"\\'\\?\\!]\\)\\([\\.\\,\\;\\:]\\)/ \\1 \\2/g\" |"),
                 TT.tokenizer        = file.path(TT.cmd, "utf8-tokenize.perl"),
                 TT.tagger           = file.path(TT.bin, "tree-tagger.exe"),
                 TT.abbrev           = TT.abbrev,
@@ -129,59 +131,12 @@ lang.support.xx <- function() {
 
                 TT.tknz.opts        = paste("-a", TT.abbrev),
                 TT.lookup.command   = c(),
-                TT.filter.command   = c()
+                TT.filter.command   = c(),
+                TT.pre.tagger       = "grep -v '^$' |"
               )
             )
           }
-        }),
-      "xx"=list(
-        # tags "latin1" encoded text files
-        lang      = "xx",
-        encoding  = "Latin1",
-        preset    = function(TT.cmd, TT.bin, TT.lib, unix.OS){
-          if(isTRUE(unix.OS)){
-            # preset for unix systems
-            TT.abbrev   <- file.path(TT.lib, "xyzedish-abbreviations")
-            TT.lexicon  <- file.path(TT.lib, "xyzedish-lexicon.txt")
-            TT.lookup   <- file.path(TT.cmd, "lookup.perl")
-            TT.filter   <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
-            return(
-              list(
-                TT.tokenizer        = file.path(TT.cmd, "tokenize.pl"),
-                TT.tagger           = file.path(TT.bin, "tree-tagger"),
-                TT.abbrev           = TT.abbrev,
-                TT.params           = file.path(TT.lib, "xyzedish.par"),
-                TT.lexicon          = TT.lexicon,
-                TT.lookup           = TT.lookup,
-                TT.filter           = TT.filter,
-
-                TT.tknz.opts        = paste("-a", TT.abbrev),
-                TT.lookup.command   = paste("perl", TT.lookup, TT.lexicon, "|"),
-                TT.filter.command   = paste("|", TT.filter)
-              )
-            )
-          } else {
-            # preset for windows systems
-            TT.abbrev   <- file.path(TT.lib, "xyzedish-abbreviations")
-            TT.filter   <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
-            return(
-              list(
-                TT.tokenizer        = file.path(TT.cmd, "tokenize.pl"),
-                TT.tagger           = file.path(TT.bin, "tree-tagger.exe"),
-                TT.abbrev           = TT.abbrev,
-                TT.params           = file.path(TT.lib, "xyzedish.par"),
-                TT.lexicon          = c(),
-                TT.lookup           = c(),
-                TT.filter           = TT.filter,
-
-                TT.tknz.opts        = paste("-a", TT.abbrev),
-                TT.lookup.command   = c(),
-                TT.filter.command   = c()
-              )
-            )
-          }
-        }
-      )
+        })
     )
   )
 
