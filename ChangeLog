@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.07-1 (2016-07-05)
+changes in version 0.07-1 (2016-07-06)
 unreleased:
   - this version is under development
 fixed:
@@ -11,6 +11,7 @@ fixed:
     *-meta.txt file if none is present, and also supporting *-words.txt files with
     duplicate columns
   - some typos in the ChangeLog...
+  - fixed manual page for class kRp.corp.freq
 changed:
   - the support for non-UTF-8 presets for was removed, since TreeTagger is
     only endorsing UTF-8 encoding itself for a while; the old preset names will
@@ -32,7 +33,7 @@ added:
     portuguese (available in the separate package koRpus.lang.pt), but also for
     updates of languages that were already supported
   - updated the RKWard plugin (UTF-8 defaults, added dutch and portuguese,
-    added Brouwer formula) 
+    added Brouwer formula)
 
 changes in version 0.06-5 (2016-06-05)
 fixed:

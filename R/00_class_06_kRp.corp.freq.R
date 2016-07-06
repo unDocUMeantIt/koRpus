@@ -23,47 +23,49 @@
 #'
 #' @slot meta Metadata on the corpora (dee details).
 #' @slot words Absolute word frequencies. It has at least the following columns:
-#'   \describe{
-#'    \item{\code{num}:}{Some word ID from the DB, integer}
-#'    \item{\code{word}:}{The word itself}
-#'    \item{\code{lemma}:}{The lemma of the word}
-#'    \item{\code{tag}:}{A part-of-speech tag}
-#'    \item{\code{wclass}:}{The word class}
-#'    \item{\code{lttr}:}{The number of characters}
-#'    \item{\code{freq}:}{The frequency of that word in the corpus DB}
-#'    \item{\code{pct}:}{Percentage of appearance in DB}
-#'    \item{\code{pmio}:}{Appearance per million words in DB}
-#'    \item{\code{log10}:}{Base 10 logarithm of word frequency}
-#'    \item{\code{rank.avg}:}{Rank in corpus data, \code{\link{rank}} ties method "average"}
-#'    \item{\code{rank.min}:}{Rank in corpus data, \code{\link{rank}} ties method "min"}
-#'    \item{\code{rank.rel.avg}:}{Relative rank, i.e. percentile of \code{"rank.avg"}}
-#'    \item{\code{rank.rel.min}:}{Relative rank, i.e. percentile of \code{"rank.min"}}
-#'    \item{\code{inDocs}:}{The absolute number of documents in the corpus containing the word}
-#'    \item{\code{idf}:}{The inverse document frequency}
-#'  }
-#'  The slot might have additional columns, depending on the input material.
+#'    \describe{
+#'      \item{\code{num}:}{Some word ID from the DB, integer}
+#'      \item{\code{word}:}{The word itself}
+#'      \item{\code{lemma}:}{The lemma of the word}
+#'      \item{\code{tag}:}{A part-of-speech tag}
+#'      \item{\code{wclass}:}{The word class}
+#'      \item{\code{lttr}:}{The number of characters}
+#'      \item{\code{freq}:}{The frequency of that word in the corpus DB}
+#'      \item{\code{pct}:}{Percentage of appearance in DB}
+#'      \item{\code{pmio}:}{Appearance per million words in DB}
+#'      \item{\code{log10}:}{Base 10 logarithm of word frequency}
+#'      \item{\code{rank.avg}:}{Rank in corpus data, \code{\link{rank}} ties method "average"}
+#'      \item{\code{rank.min}:}{Rank in corpus data, \code{\link{rank}} ties method "min"}
+#'      \item{\code{rank.rel.avg}:}{Relative rank, i.e. percentile of \code{"rank.avg"}}
+#'      \item{\code{rank.rel.min}:}{Relative rank, i.e. percentile of \code{"rank.min"}}
+#'      \item{\code{inDocs}:}{The absolute number of documents in the corpus containing the word}
+#'      \item{\code{idf}:}{The inverse document frequency}
+#'    }
+#'    The slot might have additional columns, depending on the input material.
 #' @slot desc Descriptive information. It contains six numbers from the \code{meta} information, for convenient accessibility:
-#'   \describe{
-#'    \item{\code{tokens}:}{Number of running word forms}
-#'    \item{\code{types}:}{Number of distinct word forms}
-#'    \item{\code{words.p.sntc}:}{Average sentence length in words}
-#'    \item{\code{chars.p.sntc}:}{Average sentence length in characters}
-#'    \item{\code{chars.p.wform}:}{Average word form length}
-#'    \item{\code{chars.p.word}:}{Average running word length}
-#'  }
-#'  The slot might have additional columns, depending on the input material.
+#'    \describe{
+#'      \item{\code{tokens}:}{Number of running word forms}
+#'      \item{\code{types}:}{Number of distinct word forms}
+#'      \item{\code{words.p.sntc}:}{Average sentence length in words}
+#'      \item{\code{chars.p.sntc}:}{Average sentence length in characters}
+#'      \item{\code{chars.p.wform}:}{Average word form length}
+#'      \item{\code{chars.p.word}:}{Average running word length}
+#'    }
+#'    The slot might have additional columns, depending on the input material.
 #' @slot bigrams A data.frame listing all tokens that co-occurred next to each other in the corpus:
-#'   \describe{
-#'    \item{\code{token1}:}{The first token}
-#'    \item{\code{token2}:}{The second token that appeared right next to the first}
-#'    \item{\code{freq}:}{How often the co-occurrance was present}
-#'    \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
-#'   }
+#'    \describe{
+#'      \item{\code{token1}:}{The first token}
+#'      \item{\code{token2}:}{The second token that appeared right next to the first}
+#'      \item{\code{freq}:}{How often the co-occurrance was present}
+#'      \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
+#'    }
 #' @slot cooccur Similar to \code{bigrams}, but listing co-occurrences anywhere in one sentence:
-#'    \item{\code{token1}:}{The first token}
-#'    \item{\code{token2}:}{The second token that appeared in the same sentence}
-#'    \item{\code{freq}:}{How often the co-occurrance was present}
-#'    \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
+#'    \describe{
+#'      \item{\code{token1}:}{The first token}
+#'      \item{\code{token2}:}{The second token that appeared in the same sentence}
+#'      \item{\code{freq}:}{How often the co-occurrance was present}
+#'      \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
+#'    }
 #' @name kRp.corp.freq,-class
 #' @aliases kRp.corp.freq,-class kRp.corp.freq-class
 #' @import methods

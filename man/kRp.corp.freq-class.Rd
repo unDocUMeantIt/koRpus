@@ -17,7 +17,7 @@ The slot \code{meta} simply contains all information from the "meta.txt" of the 
 \item{\code{meta}}{Metadata on the corpora (dee details).}
 
 \item{\code{words}}{Absolute word frequencies. It has at least the following columns:
- \describe{
+\describe{
   \item{\code{num}:}{Some word ID from the DB, integer}
   \item{\code{word}:}{The word itself}
   \item{\code{lemma}:}{The lemma of the word}
@@ -39,7 +39,7 @@ The slot might have additional columns, depending on the input material.}
 
 \item{\code{desc}}{Descriptive information. It contains six numbers from the \code{meta} information,
       for convenient accessibility:
- \describe{
+\describe{
   \item{\code{tokens}:}{Number of running word forms}
   \item{\code{types}:}{Number of distinct word forms}
   \item{\code{words.p.sntc}:}{Average sentence length in words}
@@ -51,18 +51,20 @@ The slot might have additional columns, depending on the input material.}
 
 \item{\code{bigrams}}{A data.frame listing all tokens that co-occurred next to each other in the corpus:
 \describe{
- \item{\code{token1}:}{The first token}
- \item{\code{token2}:}{The second token that appeared right next to the first}
- \item{\code{freq}:}{How often the co-occurrance was present}
- \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
+  \item{\code{token1}:}{The first token}
+  \item{\code{token2}:}{The second token that appeared right next to the first}
+  \item{\code{freq}:}{How often the co-occurrance was present}
+  \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
 }}
 
 \item{\code{cooccur}}{Similar to \code{bigrams},
       but listing co-occurrences anywhere in one sentence:
-\item{\code{token1}:}{The first token}
-\item{\code{token2}:}{The second token that appeared in the same sentence}
-\item{\code{freq}:}{How often the co-occurrance was present}
-\item{\code{sig}:}{Log-likelihood significance of the co-occurrende}}
+\describe{
+  \item{\code{token1}:}{The first token}
+  \item{\code{token2}:}{The second token that appeared in the same sentence}
+  \item{\code{freq}:}{How often the co-occurrance was present}
+  \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
+}}
 }}
 \references{
 [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
