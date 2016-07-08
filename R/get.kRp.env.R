@@ -52,7 +52,8 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
   lang <- kRp.vars[["lang"]]
   TT.options <- kRp.vars[["TT.options"]]
   hyph.cache.file <- kRp.vars[["hyph.cache.file"]]
-  if (all(c(is.null(TT.cmd), is.null(lang), is.null(TT.options), is.null(hyph.cache.file)))){
+  hyph.max.word.length <- kRp.vars[["hyph.max.word.length"]]
+  if (all(is.null(TT.cmd), is.null(lang), is.null(TT.options), is.null(hyph.cache.file), is.null(hyph.max.word.length))){
     stop(simpleError("You must at least set one (valid) parameter!"))
   } else {}
   if(!all(is.logical(unlist(kRp.vars)))){
@@ -99,6 +100,16 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
     } else {
       if(isTRUE(errorIfUnset)){
         stop(simpleError("No hyphenation cache file specified!"))
+      } else {}
+    }
+  } else {}
+
+  if(isTRUE(hyph.max.word.length)){
+    if(exists("hyph.max.word.length", envir=.koRpus.env, inherits=FALSE)){
+      tt.env$hyph.max.word.length <- get("hyph.max.word.length", envir=.koRpus.env)
+    } else {
+      if(isTRUE(errorIfUnset)){
+        stop(simpleError("No maximum word length specified!"))
       } else {}
     }
   } else {}

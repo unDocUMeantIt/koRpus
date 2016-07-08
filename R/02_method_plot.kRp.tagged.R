@@ -46,7 +46,7 @@ setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 #' @docType methods
 #' @rdname plot-methods
 #' @aliases plot,kRp.tagged,missing-method
-#' @include 00_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.tagged.R
 #' @import graphics
 setMethod("plot", signature(x="kRp.tagged", y="missing"), function(x, what="wclass", ...){
   if(identical(what, "wclass")){

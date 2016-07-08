@@ -35,7 +35,8 @@
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters Either a numeric vector with named magic numbers, defining the relevant parameters for the index, or
-#'    a valid character string naming a preset for implemented languages (\code{"de"}, \code{"es"}, \code{"nl"}, \code{"fr"}).
+#'    a valid character string naming a preset for implemented languages (\code{"de"}, \code{"es"}, \code{"es-s"},
+#'    \code{"nl"}, \code{"nl-b"}, \code{"fr"}).
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
 #' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

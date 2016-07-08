@@ -58,11 +58,11 @@ clozify <- function(words, replace.by="_"){
 #' @param replace.by Character, will be used as the replacement for the removed words.
 #' @param fixed Integer numberic, defines the length of the replacement (\code{replace.by} will
 #'    be repeated this much times). If set to 0, the replacement wil be as long as the replaced word.
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_02_kRp.TTR.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_02_kRp.TTR.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R

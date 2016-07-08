@@ -30,9 +30,7 @@
 # 1 x 6: .word.
 #        123456
 #
-# we're safe for words up to 50 characters
-hyph.max.word.length <- 50
-explode.letters <- function(max.word.length=50){
+explode.letters <- function(max.word.length=hyph.max.word.length){
   result <- lapply(
     1:max.word.length,
     function(wl){
@@ -57,7 +55,7 @@ explode.letters <- function(max.word.length=50){
 all.patterns <- explode.letters()
 
 # calculate the number of expected patterns
-num.patters <- function(nchar, min.pattern=2, max.pattern=5){
+num.patters <- function(nchar, min.pattern=2L, max.pattern=5L){
   all.pat <- sum(min.pattern:max.pattern - nchar + 1)
   sum(all.pat - nchar + 1)
   sapply(
@@ -68,11 +66,12 @@ num.patters <- function(nchar, min.pattern=2, max.pattern=5){
   )
 }
 
+
 ## function explode.word()
 # using the provided patterns, split an actual word into its subpatterns
 # - min.pattern/max.pattern: set the minimum and maximum length of available
 #   patterns, makes no sense to split further in the first place
-explode.word <- function(word, min.pattern=2, max.pattern=5){
+explode.word <- function(word, min.pattern=2L, max.pattern=5L){
   word.length <- nchar(word)
   if(word.length > hyph.max.word.length){
     stop(
@@ -89,6 +88,7 @@ explode.word <- function(word, min.pattern=2, max.pattern=5){
     result <- data.frame(frag=word, on=1, off=min(word.length, min.pattern))
   } else {
     result.list <- sapply(
+#       as.list(as.environment(.koRpus.env))[["all.patterns"]][[word.length]][min.pattern:min(word.length, max.pattern)],
       all.patterns[[word.length]][min.pattern:min(word.length, max.pattern)],
       function(sub.length){
         sapply(

@@ -22,7 +22,7 @@
 ## if this signature changes, check freq.analysis() as well! ##
 ###############################################################
 
-#' @include 00_class_03_kRp.txt.freq.R
+#' @include 01_class_03_kRp.txt.freq.R
 kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, force.lang=NULL,
                        tagger="kRp.env", corp.rm.class="nonpunct",
                        corp.rm.tag=c(), tfidf=TRUE, ...){

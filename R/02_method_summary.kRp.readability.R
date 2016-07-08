@@ -25,8 +25,8 @@
 #' \dontrun{
 #' summary(flesch(tagged.txt))
 #' }
-#' @include 00_class_10_kRp.readability.R
-#' @include 01_method_summary.kRp.lang.R
+#' @include 01_class_10_kRp.readability.R
+#' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.readability"), function(object, flat=FALSE){
 
   # function to add stuff to the matrix,

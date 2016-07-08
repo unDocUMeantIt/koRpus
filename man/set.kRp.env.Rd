@@ -15,6 +15,8 @@ set.kRp.env(..., validate = TRUE)
   \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{treetag}.}
   \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data,
       used by \code{hyphen}.}
+  \item{hyph.max.word.length}{ An integer number defining the lagest number of characters expected in one word,
+      used by \code{hyphen}.}
 }
 To explicitly unset a value again, set it to an empty character string (e.g.,
       \code{lang=""}).}

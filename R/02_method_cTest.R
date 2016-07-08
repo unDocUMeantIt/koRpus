@@ -65,7 +65,7 @@ cTestify <- function(words, replace.by="_"){
 #'    and define, which sentences are to be left untouched, counted in sentences from beginning and end of the text.
 #'    The default is to ignore the first and last sentence.
 #' @param replace.by Character, will be used as the replacement for the removed word halves.
-#' @include 00_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.tagged.R
 setMethod("cTest",
     signature(obj="kRp.tagged"),
     function (obj, every=2, min.length=3, intact=c(start=1, end=1), replace.by="_"){

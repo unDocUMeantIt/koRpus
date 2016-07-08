@@ -20,32 +20,19 @@
 # they are not exported, hence not to be called by users themselves
 # and are therefore only documented by the comments in this file.
 
-# empty environment for TreeTagger information
-.koRpus.env <- new.env()
-
 # define class union to make life easier
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_02_kRp.TTR.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
-#' @include 00_class_06_kRp.corp.freq.R
-#' @include 00_class_08_kRp.hyphen.R
-#' @include 00_class_07_kRp.hyph.pat.R
-#' @include 00_class_09_kRp.lang.R
-#' @include 00_class_10_kRp.readability.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_02_kRp.TTR.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_06_kRp.corp.freq.R
+#' @include 01_class_08_kRp.hyphen.R
+#' @include 01_class_07_kRp.hyph.pat.R
+#' @include 01_class_09_kRp.lang.R
+#' @include 01_class_10_kRp.readability.R
 #' @include kRp.filter.wclass.R
 setClassUnion("kRp.taggedText", members=c("kRp.tagged", "kRp.analysis", "kRp.txt.freq", "kRp.txt.trans"))
-
-
-## wrapper for paste0() needed?
-if(isTRUE(R_system_version(getRversion()) < 2.15)){
-  # if this is an older R version, we need a wrapper function for paste0()
-  # which was introduced with R 2.15 as a more efficient shortcut to paste(..., sep="")
-  paste0 <- function(..., collapse=NULL){
-    return(paste(..., sep="", collapse=collapse))
-  }
-} else {}
 
 
 ## function check.file()

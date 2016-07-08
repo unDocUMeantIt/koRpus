@@ -37,8 +37,8 @@
 #' @export
 #' @rdname kRp.analysis-class
 
-#' @include 00_class_02_kRp.TTR.R
-#' @include 00_class_03_kRp.txt.freq.R
+#' @include 01_class_02_kRp.TTR.R
+#' @include 01_class_03_kRp.txt.freq.R
 setClass("kRp.analysis",
     representation=representation(
     lex.div="kRp.TTR"),
@@ -52,7 +52,7 @@ setClass("kRp.analysis",
 )
 
 
-#' @include 00_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.tagged.R
 setAs(from="kRp.analysis", to="kRp.tagged", function(from){
     lang <- from@lang
     tagged.df <- as.data.frame(from@TT.res[, valid.TT.res.kRp.tagged])
@@ -62,8 +62,8 @@ setAs(from="kRp.analysis", to="kRp.tagged", function(from){
 )
 
 
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
 setAs(from="kRp.analysis", to="kRp.txt.freq", function(from){
     lang <- from@lang
     desc <- from@desc

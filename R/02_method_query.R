@@ -95,7 +95,7 @@ setGeneric("query", function(obj, ...) standardGeneric("query"))
 #' @docType methods
 #' @rdname query-methods
 #' @aliases query,kRp.corp.freq-method
-#' @include 00_class_06_kRp.corp.freq.R
+#' @include 01_class_06_kRp.corp.freq.R
 setMethod("query",
     signature(obj="kRp.corp.freq"),
     function (obj, var=NULL, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE){
@@ -165,7 +165,7 @@ setMethod("query",
 #' @docType methods
 #' @rdname query-methods
 #' @aliases query,kRp.tagged-method
-#' @include 00_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.tagged.R
 setMethod("query",
     signature(obj="kRp.tagged"),
     function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE){

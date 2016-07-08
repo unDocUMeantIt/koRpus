@@ -24,9 +24,9 @@
 #' \dontrun{
 #' summary(freq.analysis(tagged.txt))
 #' }
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 01_method_summary.kRp.lang.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.txt.freq"), function(object){
 
   summary.table <- t(data.frame(

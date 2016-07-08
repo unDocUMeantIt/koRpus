@@ -24,8 +24,8 @@
 #' \dontrun{
 #' flesch(tagged.txt)
 #' }
-#' @include 00_class_10_kRp.readability.R
-#' @include 01_method_show.kRp.lang.R
+#' @include 01_class_10_kRp.readability.R
+#' @include 02_method_show.kRp.lang.R
 setMethod("show", signature(object="kRp.readability"), function(object){
 
   if(sum(!is.na(object@ARI)) == 0){

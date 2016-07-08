@@ -89,10 +89,10 @@
 setGeneric("hyphen", function(words, ...) standardGeneric("hyphen"))
 
 #' @export
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 #' @aliases hyphen,kRp.taggedText-method
 #' @rdname hyphen-methods

@@ -114,7 +114,7 @@ setMethod("describe<-",
 #' @docType methods
 #' @aliases
 #'    describe,kRp.hyphen-method
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_08_kRp.hyphen.R
 setMethod("describe",
   signature=signature(obj="kRp.hyphen"),
   function (obj){
@@ -128,7 +128,7 @@ setMethod("describe",
 #' @docType methods
 #' @aliases
 #'    describe<-,kRp.hyphen-method
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_08_kRp.hyphen.R
 setMethod("describe<-",
   signature=signature(obj="kRp.hyphen"),
   function (obj, value){
@@ -180,7 +180,7 @@ setMethod("language<-",
 #' @docType methods
 #' @aliases
 #'    language,kRp.hyphen-method
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_08_kRp.hyphen.R
 setMethod("language",
   signature=signature(obj="kRp.hyphen"),
   function (obj){
@@ -194,7 +194,7 @@ setMethod("language",
 #' @docType methods
 #' @aliases
 #'    language<-,kRp.hyphen-method
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_08_kRp.hyphen.R
 setMethod("language<-",
   signature=signature(obj="kRp.hyphen"),
   function (obj, value){
@@ -220,7 +220,7 @@ setGeneric("hyphenText", function(obj) standardGeneric("hyphenText"))
 #' @aliases
 #'    hyphenText,-methods
 #'    hyphenText,kRp.hyphen-method
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_08_kRp.hyphen.R
 setMethod("hyphenText",
   signature=signature(obj="kRp.hyphen"),
   function (obj){
@@ -239,7 +239,7 @@ setGeneric("hyphenText<-", function(obj, value) standardGeneric("hyphenText<-"))
 #' @aliases
 #'    hyphenText<-,-methods
 #'    hyphenText<-,kRp.hyphen-method
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_08_kRp.hyphen.R
 setMethod("hyphenText<-",
   signature=signature(obj="kRp.hyphen"),
   function (obj, value){

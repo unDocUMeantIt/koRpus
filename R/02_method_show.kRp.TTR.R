@@ -24,8 +24,8 @@
 #' \dontrun{
 #' MTLD(tagged.txt)
 #' }
-#' @include 00_class_02_kRp.TTR.R
-#' @include 01_method_show.kRp.lang.R
+#' @include 01_class_02_kRp.TTR.R
+#' @include 02_method_show.kRp.lang.R
 setMethod("show", signature(object="kRp.TTR"), function(object){
 
   if(length(object@tt$num.tokens) > 0){

@@ -43,7 +43,7 @@ setGeneric("show")
 #' @export
 #' @docType methods
 #' @rdname show-methods
-#' @include 00_class_09_kRp.lang.R
+#' @include 01_class_09_kRp.lang.R
 setMethod("show", signature(object="kRp.lang"), function(object){
   estim.lang <- object@lang.name
   estim.lang.uli <- object@lang

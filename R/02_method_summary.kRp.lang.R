@@ -39,7 +39,7 @@
 #' summary(guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt/"))
 #' }
 #' @rdname summary-methods
-#' @include 00_class_09_kRp.lang.R
+#' @include 01_class_09_kRp.lang.R
 #' @aliases summary,kRp.lang-method
 #' @export
 #' @docType methods
