@@ -1114,7 +1114,50 @@ text.1st.letter <- function(word, case){
 #   <e2><80><99> -> \u2019 right single quotation mark
 #   <e2><80><93> -> \u2013 en dash
 taggz <- function(tokens, abbrev=NULL, heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")), ign.comp="", sntc=c(".","!","?",";",":")){
+  tagged.text <- data.table(token=tokens, tag="unk.kRp")
+  Encoding(tagged.text$token) <- "UTF-8"
+  Encoding(tagged.text$tag) <- "UTF-8"
+  tagged.text[token == "" & tag == "unk.kRp", tag := "unk"]
+  # all letters, assume it's a word
+  tagged.text[!grepl(paste("[^\\p{L}\\p{M}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "word.kRp"]
+  # all digits, assume it's a number
+  tagged.text[!grepl(paste("[^\\p{N}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "no.kRp"]
+  # assume it's an abbreviation
+  tagged.text[token %in% abbrev & tag == "unk.kRp", tag := "abbr.kRp"]
+  # assume it's a sentence ending
+  tagged.text[token %in% sntc & tag == "unk.kRp", tag := ".kRp"]
+  # all dots
+  tagged.text[!grepl("[^.]", token, perl=TRUE) & tag == "unk.kRp", tag := "-kRp"]
+  tagged.text[token == "," & tag == "unk.kRp", tag := ",kRp"]
+  tagged.text[!grepl(paste("[^\\p{Ps}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "(kRp"]
+#       } else if(tkn %in% c("(","{","[")){
+#         return(c(token=tkn, tag="(kRp"))
+  tagged.text[!grepl(paste("[^\\p{Pe}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := ")kRp"]
+#       } else if(tkn %in% c(")","}","]")){
+#         return(c(token=tkn, tag=")kRp"))
+#       } else if(tkn %in% c("-","\u2013")){
+#         return(c(token=tkn, tag="-kRp"))
+  tagged.text[token %in% c("\"","'","''","`","``","\u2019","\u2019\u2019") & tag == "unk.kRp", tag := "''kRp"]
+  tagged.text[!grepl(paste("[^\"\\p{Pi}\\p{Pf}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "''kRp"]
+  tagged.text[!grepl(paste("[^\\p{Pd}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "-kRp"]
+  # any other punctuation
+  tagged.text[!grepl(paste("[^\\p{P}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "-kRp"]
+  # simple heuristics for abbreviations
+  tagged.text[!grepl(paste("[^\\p{L}\\p{M}.",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "abbr.kRp"]
+  # simple heuristics for pre- and suffixes
+  tagged.text[!grepl(paste("[^\\p{L}\\p{M}\\p{N}",paste(unique(unlist(heur.fix), ign.comp), collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "word.kRp"]
+  # automatic healine or paragraph detection:
+  tagged.text[token == "<kRp.h>" & tag == "unk.kRp", tag := "hon.kRp"]
+  tagged.text[token == "</kRp.h>" & tag == "unk.kRp", tag := "hoff.kRp"]
+  tagged.text[token == "<kRp.p/>" & tag == "unk.kRp", tag := "p.kRp"]
 
+  tagged.text <- as.matrix(tagged.text)
+  
+  return(tagged.text)
+} ## end function taggz()
+
+taggz.old <- function(tokens, abbrev=NULL, heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")), ign.comp="", sntc=c(".","!","?",";",":")){
+  tagged.text <- data
   tagged.text <- sapply(tokens, function(tkn){
       if(identical(tkn, "")){
         return(c(token=tkn, tag="unk"))
@@ -1140,7 +1183,7 @@ taggz <- function(tokens, abbrev=NULL, heur.fix=list(pre=c("\u2019","'"), suf=c(
       } else if(!grepl(paste("[^\\p{Pe}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
         return(c(token=tkn, tag=")kRp"))
        } else if(tkn %in% c("\"","'","''","`","``","\u2019","\u2019\u2019")){
-         return(c(token=tkn, tag="''kRp"))
+        return(c(token=tkn, tag="''kRp"))
       } else if(!grepl(paste("[^\"\\p{Pi}\\p{Pf}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
         return(c(token=tkn, tag="''kRp"))
       } else if(!grepl(paste("[^\\p{Pd}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
@@ -1182,7 +1225,7 @@ taggz <- function(tokens, abbrev=NULL, heur.fix=list(pre=c("\u2019","'"), suf=c(
   rownames(tagged.text) <- NULL
   
   return(tagged.text)
-} ## end function taggz()
+} ## end function taggz.old()
 
 
 ## function tokenz()

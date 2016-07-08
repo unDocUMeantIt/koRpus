@@ -13,7 +13,7 @@ Package: \tab koRpus\cr
 Type: \tab Package\cr
 Version: \tab 0.07-1\cr
 Date: \tab 2016-07-08\cr
-Depends: \tab R (>= 2.10.0),methods\cr
+Depends: \tab R (>= 2.10.0),data.table,methods\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr
 License: \tab GPL (>= 3)\cr
