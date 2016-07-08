@@ -88,24 +88,17 @@ explode.word <- function(word, min.pattern=2L, max.pattern=5L){
     result <- data.frame(frag=word, on=1, off=min(word.length, min.pattern))
   } else {
     result.list <- sapply(
-#       as.list(as.environment(.koRpus.env))[["all.patterns"]][[word.length]][min.pattern:min(word.length, max.pattern)],
-      all.patterns[[word.length]][min.pattern:min(word.length, max.pattern)],
-      function(sub.length){
-        sapply(
-          sub.length,
-          function(lttrs){
-            return(
-              # already include a dummy 'match' row
-              c(
-                substr(word, lttrs[1], max(lttrs)), # frag
-                lttrs[1],                           # on
-                max(lttrs),                         # off
-                NA                                  # match
-              )
-                
-            )
-          },
-          USE.NAMES=FALSE
+      unlist(all.patterns[[word.length]][min.pattern:min(word.length, max.pattern)], recursive=FALSE),
+      function(lttrs){
+        return(
+          # already include a dummy 'match' row
+          c(
+            substr(word, lttrs[1], max(lttrs)), # frag
+            lttrs[1],                           # on
+            max(lttrs),                         # off
+            NA                                  # match
+          )
+            
         )
       },
       USE.NAMES=FALSE
@@ -306,7 +299,7 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
   results <- new("kRp.hyphen", lang=lang, desc=desc.stat.res, hyphen=hyph.df)
 
   return(results)
-}
+} ## end function kRp.hyphen.calc()
 
 
 ## function load.hyph.pattern()
