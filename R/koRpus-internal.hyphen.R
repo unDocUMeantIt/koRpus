@@ -235,30 +235,19 @@ write.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, e
   return(invisible(NULL))
 } ## end function write.hyph.cache.file()
 
-
 ## function hyphen.word()
 # this helper function is being called by kRp.hyphen.calc(), see below
 hyphen.word <- function(
     word,
-    prgBar,
     hyph.pattern=NULL,
     min.length=4,
     rm.hyph=TRUE,
-    quiet=FALSE,
     cache=TRUE,
     lang=NULL,
     min.pattern=2,
     max.pattern=5,
-    .iter.counter=NULL,
     writeBackCache=NULL
   ){
-    if(!isTRUE(quiet)){
-      # update prograss bar
-      iteration.counter <- get("counter", envir=.iter.counter)
-      setTxtProgressBar(prgBar, iteration.counter)
-      assign("counter", iteration.counter + 1, envir=.iter.counter)
-    } else {}
-
     if(isTRUE(cache)){
       # get the cache, or start a new one if needed
       recent.cache <- get.hyph.cache(lang=lang)
@@ -281,6 +270,10 @@ hyphen.word <- function(
     } else {}
     # non-letters like leading dots confuse the algorithm. we'll remove any non-alphabetic character
     word <- gsub("[^\\p{L}]+", "", word, perl=TRUE)
+    # if this removed all of the token, guess we're finished
+    if (identical(word, "")){
+      return(c(syll=1, word=word.orig))
+    } else {}
     ## convert to lowercase
     word <- tolower(word)
     ## transform "word" to ".word."
@@ -327,19 +320,19 @@ hyphen.word <- function(
       hyph.word <- gsub("-+", "-", hyph.word)
       if(isTRUE(cache)){
 #         hyph.result <- data.frame(token=word.orig, syll=syllables, word=hyph.word, stringsAsFactors=FALSE)
-        hyph.result <- c(token=word.orig, syll=syllables, word=hyph.word)
+        hyph.result <- c(token=word.orig, syll=syllables, word=as.character(hyph.word))
       } else {
 #         hyph.result <- data.frame(syll=syllables, word=hyph.word, stringsAsFactors=FALSE)
-        hyph.result <- c(syll=syllables, word=hyph.word)
+        hyph.result <- c(syll=syllables, word=as.character(hyph.word))
       }
     } else {
       ## no hyphenation
       if(isTRUE(cache)){
 #         hyph.result <- data.frame(token=word.orig, syll=1, word=word, stringsAsFactors=FALSE)
-        hyph.result <- c(token=word.orig, syll=1, word=word)
+        hyph.result <- c(token=word.orig, syll=1, word=as.character(word))
       } else {
 #         hyph.result <- data.frame(syll=1, word=word, stringsAsFactors=FALSE)
-        hyph.result <- c(syll=1, word=word)
+        hyph.result <- c(syll=1, word=as.character(word))
       }
     }
     if(isTRUE(cache)){
@@ -413,39 +406,48 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
   ## main loop
   # build a vector with all possible word fragments
   # check for matches of the fragment vector in the pattern db
+  uniqueWords <- unique(words)
 
   # counter to get some feedback
   .iter.counter <- new.env()
   assign("counter", 1, envir=.iter.counter)
   if(!isTRUE(quiet)){
     # give some feedback, so we know the machine didn't just freeze...
-    prgBar <- txtProgressBar(min=0, max=length(words), style=3)
+    prgBar <- txtProgressBar(min=0, max=length(uniqueWords), style=3)
   } else {}
-  hyphenate.results <- t(sapply(words, hyphen.word,
-    prgBar=prgBar,
-    hyph.pattern=hyph.pattern,
-    min.length=min.length,
-    rm.hyph=rm.hyph,
-    quiet=quiet,
-    cache=cache,
-    lang=lang,
-    min.pattern=min.pat,
-    max.pattern=max.pat,
-    .iter.counter=.iter.counter,
-    writeBackCache=writeBackCache,
-    USE.NAMES=FALSE
-  ))
+
+  ## initialize result data.frame
+  hyph.df <- data.frame(
+    syll=0,
+    word="",
+    token=as.character(words),
+    stringsAsFactors=FALSE)
+
+  for (nw in uniqueWords){
+    if(!isTRUE(quiet)){
+      # update prograss bar
+      iteration.counter <- get("counter", envir=.iter.counter)
+      setTxtProgressBar(prgBar, iteration.counter)
+      assign("counter", iteration.counter + 1, envir=.iter.counter)
+    } else {}
+    hyphenate.results <- hyphen.word(
+      nw,
+      hyph.pattern=hyph.pattern,
+      min.length=min.length,
+      rm.hyph=rm.hyph,
+      cache=cache,
+      lang=lang,
+      min.pattern=min.pat,
+      max.pattern=max.pat,
+      writeBackCache=writeBackCache
+    )[c("syll","word")]
+    hyph.df[hyph.df[["token"]] == nw, "syll"] <- as.numeric(hyphenate.results["syll"])
+    hyph.df[hyph.df[["token"]] == nw, "word"] <- hyphenate.results["word"]
+  }
   if(!isTRUE(quiet)){
     # close prograss bar
     close(prgBar)
   } else {}
-
-  ## final result tuning
-  hyph.df <- data.frame(
-    syll=as.numeric(hyphenate.results[,"syll"]),
-    word=as.character(hyphenate.results[,"word"]),
-    stringsAsFactors=FALSE)
-  dimnames(hyph.df)[[1]] <- c(1:dim(hyph.df)[[1]])
 
   ## compute descriptive statistics
   num.syll <- sum(hyph.df$syll, na.rm=TRUE)
@@ -468,7 +470,7 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
     write.hyph.cache.file(lang=lang, file=get.kRp.env(hyph.cache.file=TRUE, errorIfUnset=FALSE), quiet=quiet)
   } else {}
 
-  results <- new("kRp.hyphen", lang=lang, desc=desc.stat.res, hyphen=hyph.df)
+  results <- new("kRp.hyphen", lang=lang, desc=desc.stat.res, hyphen=hyph.df[c("syll","word")])
 
   return(results)
 } ## end function kRp.hyphen.calc()
