@@ -110,6 +110,249 @@ explode.word <- function(word, min.pattern=2L, max.pattern=5L){
 } ## function explode.word()
 
 
+## function get.hyph.cache()
+get.hyph.cache <- function(lang){
+  # simply get cache from current koRpus environment
+  # returns NULL if none exists
+  return(mget("hyphenCache", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCache"]][[lang]])
+}
+## end function get.hyph.cache()
+
+
+## function check.hyph.cache()
+# called by hyphen(), returns either the chached entry, or NULL
+check.hyph.cache <- function(lang, token, cache=get.hyph.cache(lang=lang)){
+  if(is.null(cache)){
+    # no cache, no hit...
+    return(NULL)
+  } else {}
+  # check if this word was hyphenated before
+  cached.word <- cache[cache[,"token"] == token,]
+  if(nrow(cached.word) == 1){
+    return(subset(cached.word, select=-token))
+  } else {
+    return(NULL)
+  }
+} ## end function check.hyph.cache()
+
+
+## function set.hyph.cache()
+# writes (probably new) cache data back to the environment
+# "append" can be a new row of data
+set.hyph.cache <- function(lang, append=NULL, cache=get.hyph.cache(lang=lang), unique=FALSE){
+  # append result to cache
+  if(!is.null(append)){
+    if(!identical(c("token", "syll", "word"), colnames(append))){
+      stop(simpleError("hyphen() cache only knows of columns \"token\", \"syll\" and \"word\"!"))
+    } else {}
+    # could be there is no cache yet
+    if(is.null(cache)){
+      cache <- as.data.frame(append, stringsAsFactors=FALSE)
+    } else if(isTRUE(unique)){
+      cache <- unique(rbind(cache, append))
+    } else {
+      cache <- rbind(cache, append)
+    }
+  } else {
+    if(is.null(cache)){
+      # hm, if both is null, don't do anything
+      return(invisible(NULL))
+    } else {}
+  }
+
+  all.kRp.env.hyph <- mget("hyphenCache", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCache"]]
+  if(is.null(all.kRp.env.hyph)){
+    all.kRp.env.hyph <- list()
+  } else {}
+  all.kRp.env.hyph[[lang]] <- cache
+  assign("hyphenCache", all.kRp.env.hyph, envir=as.environment(.koRpus.env))
+  return(invisible(NULL))
+} ## end function set.hyph.cache()
+
+
+## function read.hyph.cache.file()
+# reads a dumped chace file, if "file" is not NULL and does exist
+read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, errorIfUnset=FALSE), quiet=FALSE){
+  if(is.null(file)){
+    return(invisible(NULL))
+  } else {}
+
+  cache.file.path <- normalizePath(file, mustWork=FALSE)
+  if(!file.exists(cache.file.path)){
+    if(!isTRUE(quiet)){
+      message(paste0("Cache file does not exist yet:\n  ", cache.file.path))
+    } else {}
+    return(invisible(NULL))
+  } else {
+    # only reload the file if it changed or wasn't loaded at all yet
+    cacheFileInfo.new <- file.info(cache.file.path)
+    cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCacheFile"]]
+    if(identical(cacheFileInfo.new, cacheFileInfo.old[[lang]])){
+      # file doesn't seem to have changed
+      return(invisible(NULL))
+    } else if(is.null(cacheFileInfo.old)){
+      # this must be the first time we try to read the file
+      cacheFileInfo.old <- list()
+    } else {}
+
+    # set koRpus.hyph.cache to NULL to suppress R CMD check warning
+    koRpus.hyph.cache <- NULL
+    load(cache.file.path)
+    # data will be checked by set.hyph.cache(), so no need to worry here
+    # but the loaded data must contain a data.table named "koRpus.hyph.cache"
+    if(is.null(koRpus.hyph.cache)){
+      stop(simpleError("The cache file you provided does not contain koRpus-ready hyphenation data!"))
+    } else {}
+    # set new file data to prevent from reloading if unchanged
+    cacheFileInfo.old[[lang]] <- cacheFileInfo.new
+    assign("hyphenCacheFile", cacheFileInfo.old, envir=as.environment(.koRpus.env))
+  }
+
+  # write loaded data to environment
+  set.hyph.cache(lang=lang, append=koRpus.hyph.cache, cache=get.hyph.cache(lang=lang), unique=TRUE)
+
+  return(invisible(NULL))
+} ## end function read.hyph.cache.file()
+
+
+## function write.hyph.cache.file()
+# dumps cache data into a file, if "file" is not NULL. if it doesn't exist, it will be created
+write.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, errorIfUnset=FALSE), quiet=FALSE){
+  if(is.null(file)){
+    return(invisible(NULL))
+  } else {}
+
+  cache.file.path <- normalizePath(file, mustWork=FALSE)
+  if(!file.exists(cache.file.path)){
+    if(!isTRUE(quiet)){
+      message(paste0("Cache file does not exist and will be created:\n  ", cache.file.path))
+    } else {}
+  } else {}
+
+  koRpus.hyph.cache <- get.hyph.cache(lang=lang)
+  save(koRpus.hyph.cache, file=cache.file.path)
+
+  return(invisible(NULL))
+} ## end function write.hyph.cache.file()
+
+
+## function hyphen.word()
+# this helper function is being called by kRp.hyphen.calc(), see below
+hyphen.word <- function(
+    word,
+    prgBar,
+    hyph.pattern=NULL,
+    min.length=4,
+    rm.hyph=TRUE,
+    quiet=FALSE,
+    cache=TRUE,
+    lang=NULL,
+    min.pattern=2,
+    max.pattern=5,
+    .iter.counter=NULL,
+    writeBackCache=NULL
+  ){
+    if(!isTRUE(quiet)){
+      # update prograss bar
+      iteration.counter <- get("counter", envir=.iter.counter)
+      setTxtProgressBar(prgBar, iteration.counter)
+      assign("counter", iteration.counter + 1, envir=.iter.counter)
+    } else {}
+
+    if(isTRUE(cache)){
+      # get the cache, or start a new one if needed
+      recent.cache <- get.hyph.cache(lang=lang)
+      # check if the word has been hyphenated before...
+      cached.word <- check.hyph.cache(lang=lang, token=word, cache=recent.cache)
+      # ... and if so, we can stop here
+      if(!is.null(cached.word)){
+        return(cached.word)
+      } else {}
+    } else {}
+
+    # consider min length of word?
+    if(nchar(word) < min.length){
+      return(c(syll=1, word=word))
+    } else {}
+    word.orig <- word
+    ## remove hyphens in word
+    if(isTRUE(rm.hyph)){
+      word <- gsub("-", "", word)
+    } else {}
+    # non-letters like leading dots confuse the algorithm. we'll remove any non-alphabetic character
+    word <- gsub("[^\\p{L}]+", "", word, perl=TRUE)
+    ## convert to lowercase
+    word <- tolower(word)
+    ## transform "word" to ".word."
+    word.dotted <- paste0(".", word, ".")
+    word.length <- nchar(word.dotted)
+
+    # create word fragments ".wo", ".wor"... "rd."
+    matched.patterns <- explode.word(word.dotted, min.pattern=min.pattern, max.pattern=max.pattern)
+    # find all matching patterns of the word fragments
+    matched.patterns["match",] <- hyph.pattern[match(matched.patterns["frag",], hyph.pattern[,"char"]),"nums"]
+    # now let's add the found matches and find the maximum
+    matched.pat.index <- !is.na(matched.patterns["match",])
+    if(sum(matched.pat.index) > 0){
+      pattern.matrix <- sapply(which(matched.pat.index), function(got.match){
+          word.on <- max(1, (as.numeric(matched.patterns["on",got.match]) - 1))
+          word.off <- as.numeric(matched.patterns["off",got.match])
+          match.num.code <- unlist(strsplit(matched.patterns["match",got.match], split=""))
+          results <- c(rep(0, word.on - 1), match.num.code, rep(0, word.length - word.off))
+        })
+      # this is the vector with the max values for the dotted word
+      pattern.max <- as.numeric(apply(pattern.matrix, 1, max))
+
+      # we'll never hyphenate before a word...
+      pattern.max <- pattern.max[-c(1, length(pattern.max))]
+      # ... never after the first or before the last letter
+      pattern.max[c(1,length(pattern.max)-1,length(pattern.max))] <- 0
+
+      # filter odd positions (count syllables)
+      possible.hyphs <- (pattern.max %% 2) != 0
+      syllables <- sum(possible.hyphs) + 1
+      # recreate word with hyphens
+      add.hyphen <- which(possible.hyphs)
+      if(isTRUE(rm.hyph)){
+        hyph.word <- unlist(strsplit(gsub("-", "", word.orig), split=""))
+      } else {
+        hyph.word <- unlist(strsplit(word.orig, split=""))
+      }
+      for (letter in add.hyphen) {
+        hyph.word[letter] <- paste0(hyph.word[letter], "-")
+      }
+      hyph.word <- paste(hyph.word, collapse="")
+      # in cases where previous hyphenations were already removed and here returned,
+      # don't return double them up
+      hyph.word <- gsub("-+", "-", hyph.word)
+      if(isTRUE(cache)){
+#         hyph.result <- data.frame(token=word.orig, syll=syllables, word=hyph.word, stringsAsFactors=FALSE)
+        hyph.result <- c(token=word.orig, syll=syllables, word=hyph.word)
+      } else {
+#         hyph.result <- data.frame(syll=syllables, word=hyph.word, stringsAsFactors=FALSE)
+        hyph.result <- c(syll=syllables, word=hyph.word)
+      }
+    } else {
+      ## no hyphenation
+      if(isTRUE(cache)){
+#         hyph.result <- data.frame(token=word.orig, syll=1, word=word, stringsAsFactors=FALSE)
+        hyph.result <- c(token=word.orig, syll=1, word=word)
+      } else {
+#         hyph.result <- data.frame(syll=1, word=word, stringsAsFactors=FALSE)
+        hyph.result <- c(syll=1, word=word)
+      }
+    }
+    if(isTRUE(cache)){
+      # append result to environment
+      set.hyph.cache(lang=lang, append=t(hyph.result), cache=recent.cache)
+      assign("changed", TRUE, envir=writeBackCache)
+      return(hyph.result[c("syll", "word")])
+    } else {
+      return(hyph.result)
+    }
+} ## end function hyphen.word()
+
+
 # this internal function does the real hyphenations,
 # so it's mostly called by hyphen()
 
@@ -152,7 +395,9 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
     # set a variable to check if we changed the data at all, to later skip the writing back part if possible
     writeBackCache <- new.env()
     assign("changed", FALSE, envir=writeBackCache)
-  } else {}
+  } else {
+    writeBackCache <- NULL
+  }
 
   if(!isTRUE(quiet)){
     # feed back the hypenation we're using
@@ -165,7 +410,7 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
   min.pat <- min(nchar(hyph.pattern[,"char"]))
   max.pat <- max(nchar(hyph.pattern[,"char"]))
 
-  ## main function
+  ## main loop
   # build a vector with all possible word fragments
   # check for matches of the fragment vector in the pattern db
 
@@ -176,106 +421,33 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
     # give some feedback, so we know the machine didn't just freeze...
     prgBar <- txtProgressBar(min=0, max=length(words), style=3)
   } else {}
-
-  hyphenate.results <- t(sapply(words, function(word){
-    if(!isTRUE(quiet)){
-      # update prograss bar
-      iteration.counter <- get("counter", envir=.iter.counter)
-      setTxtProgressBar(prgBar, iteration.counter)
-      assign("counter", iteration.counter + 1, envir=.iter.counter)
-    } else {}
-
-    if(isTRUE(cache)){
-      # get the cache, or start a new one if needed
-      recent.cache <- get.hyph.cache(lang=lang)
-      # check if the word has been hyphenated before...
-      cached.word <- check.hyph.cache(lang=lang, token=word, cache=recent.cache)
-      # ... and if so, we can stop here
-      if(!is.null(cached.word)){
-        return(cached.word)
-      } else {}
-    } else {}
-
-    # consider min length of word?
-    if(nchar(word) < min.length){
-      return(data.frame(syll=1, word=word, stringsAsFactors=FALSE))
-    } else {}
-    word.orig <- word
-    ## remove hyphens in word
-    if(isTRUE(rm.hyph)){
-      word <- gsub("-", "", word)
-    } else {}
-    # non-letters like leading dots confuse the algorithm. we'll remove any non-alphabetic character
-    word <- gsub("[^\\p{L}]+", "", word, perl=TRUE)
-    ## convert to lowercase
-    word <- tolower(word)
-    ## transform "word" to ".word."
-    word.dotted <- paste0(".", word, ".")
-    word.length <- nchar(word.dotted)
-
-    # create word fragments ".wo", ".wor"... "rd."
-    matched.patterns <- explode.word(word.dotted, min.pattern=min.pat, max.pattern=max.pat)
-    # find all matching patterns of the word fragments
-    matched.patterns["match",] <- hyph.pattern[match(matched.patterns["frag",], hyph.pattern[,"char"]),"nums"]
-    # now let's add the found matches and find the maximum
-    matched.pat.index <- !is.na(matched.patterns["match",])
-    if(sum(matched.pat.index) > 0){
-      pattern.matrix <- sapply(which(matched.pat.index), function(got.match){
-          word.on <- max(1, (as.numeric(matched.patterns["on",got.match]) - 1))
-          word.off <- as.numeric(matched.patterns["off",got.match])
-          match.num.code <- unlist(strsplit(matched.patterns["match",got.match], split=""))
-          results <- c(rep(0, word.on - 1), match.num.code, rep(0, word.length - word.off))
-        })
-      # this is the vector with the max values for the dotted word
-      pattern.max <- as.numeric(apply(pattern.matrix, 1, max))
-
-      # we'll never hyphenate before a word...
-      pattern.max <- pattern.max[-c(1, length(pattern.max))]
-      # ... never after the first or before the last letter
-      pattern.max[c(1,length(pattern.max)-1,length(pattern.max))] <- 0
-
-      # filter odd positions (count syllables)
-      possible.hyphs <- (pattern.max %% 2) != 0
-      syllables <- sum(possible.hyphs) + 1
-      # recreate word with hyphens
-      add.hyphen <- which(possible.hyphs)
-      if(isTRUE(rm.hyph)){
-        hyph.word <- unlist(strsplit(gsub("-", "", word.orig), split=""))
-      } else {
-        hyph.word <- unlist(strsplit(word.orig, split=""))
-      }
-      for (letter in add.hyphen) {
-        hyph.word[letter] <- paste0(hyph.word[letter], "-")
-      }
-      hyph.word <- paste(hyph.word, collapse="")
-      # in cases where previous hyphenations were already removed and here returned,
-      # don't return double them up
-      hyph.word <- gsub("-+", "-", hyph.word)
-      hyph.result <- data.frame(token=word.orig, syll=syllables, word=hyph.word, stringsAsFactors=FALSE)
-    } else {
-      ## no hyphenation
-      hyph.result <- data.frame(token=word.orig, syll=1, word=word, stringsAsFactors=FALSE)
-    }
-    if(isTRUE(cache)){
-      # append result to environment
-      set.hyph.cache(lang=lang, append=hyph.result, cache=recent.cache)
-      assign("changed", TRUE, envir=writeBackCache)
-    } else {}
-    return(subset(hyph.result, select=-token))
-  }))
+  hyphenate.results <- t(sapply(words, hyphen.word,
+    prgBar=prgBar,
+    hyph.pattern=hyph.pattern,
+    min.length=min.length,
+    rm.hyph=rm.hyph,
+    quiet=quiet,
+    cache=cache,
+    lang=lang,
+    min.pattern=min.pat,
+    max.pattern=max.pat,
+    .iter.counter=.iter.counter,
+    writeBackCache=writeBackCache,
+    USE.NAMES=FALSE
+  ))
   if(!isTRUE(quiet)){
     # close prograss bar
     close(prgBar)
   } else {}
 
-  # final result tuning
+  ## final result tuning
   hyph.df <- data.frame(
     syll=as.numeric(hyphenate.results[,"syll"]),
     word=as.character(hyphenate.results[,"word"]),
     stringsAsFactors=FALSE)
   dimnames(hyph.df)[[1]] <- c(1:dim(hyph.df)[[1]])
 
-  # compute descriptive statistics
+  ## compute descriptive statistics
   num.syll <- sum(hyph.df$syll, na.rm=TRUE)
   syll.distrib <- value.distribs(hyph.df$syll)
   syll.uniq.distrib <- value.distribs(unique(hyph.df)$syll)

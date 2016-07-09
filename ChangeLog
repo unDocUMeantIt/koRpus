@@ -26,6 +26,7 @@ changed:
   - set.lang.support() now checks for duplicate tag definitions and throws an
     error if any were found
   - renamed class and method files to set some environment first
+  - moved several internal hyphenation functions to koRpus-internal.hyphen.R
 added:
   - read.corp.LCC() can now import the information on bigrams and
     co-occurences of tokens in a sentence
