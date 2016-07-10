@@ -46,7 +46,11 @@ the language specified must be supported by both \code{\link[koRpus:treetag]{tre
       the text will be hyphenated automatically. All syllable handling will
 be skipped automatically if it's not needed for the selected indices.}
 
-\item{index}{A character vector, indicating which indices should actually be computed.}
+\item{index}{A character vector,
+      indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
+will be tried (meaning all variations of all measures). If set to \code{"fast"},
+      a subset of the default values is used that is
+known to compute fast (currently, this only excludes "FOG").}
 
 \item{parameters}{A list with named magic numbers,
       defining the relevant parameters for each index. If none are given,
@@ -247,6 +251,10 @@ Wrapper function: \code{\link[koRpus:flesch.kincaid]{flesch.kincaid}}
       proper nouns and combinations of only easy words will not be counted as hard words,
      and the syllables of verbs ending in "-ed",
       "-es" or "-ing" will be counted without these suffixes.
+     
+     Due to the need to re-hyphenate combined words after splitting them up,
+      this formula takes considerably longer to compute than most others.
+     If will be omitted if you set \code{index="fast"} instead of the default.
 
 Wrapper function: \code{\link[koRpus:FOG]{FOG}}
    }

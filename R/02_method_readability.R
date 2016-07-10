@@ -157,6 +157,9 @@
 #'      \deqn{FOG_{new} = \frac{\frac{W_{<3Sy} + (3 * W_{3Sy})}{\frac{100 \times St}{W}} - 3}{2}}
 #'      If the text was POS-tagged accordingly, proper nouns and combinations of only easy words will not be counted as hard words,
 #'      and the syllables of verbs ending in "-ed", "-es" or "-ing" will be counted without these suffixes.
+#'      
+#'      Due to the need to re-hyphenate combined words after splitting them up, this formula takes considerably longer to compute than most others.
+#'      If will be omitted if you set \code{index="fast"} instead of the default.
 #'
 #'      Wrapper function: \code{\link[koRpus:FOG]{FOG}}
 #'    }
@@ -285,7 +288,9 @@
 #'    the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus:hyphen]{hyphen}}
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically. All syllable handling will
 #'    be skipped automatically if it's not needed for the selected indices.
-#' @param index A character vector, indicating which indices should actually be computed.
+#' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
+#'    will be tried (meaning all variations of all measures). If set to \code{"fast"}, a subset of the default values is used that is
+#'    known to compute fast (currently, this only excludes "FOG").
 #' @param parameters A list with named magic numbers, defining the relevant parameters for each index. If none are given,
 #'    the default values are used.
 #' @param word.lists A named list providing the word lists for indices which need one. If \code{NULL} or missing, the indices will be

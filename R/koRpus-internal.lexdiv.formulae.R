@@ -113,10 +113,15 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   } else {
     txt.all.tokens <- txt.all.clean[,"token"]
   }
-  txt.type.freq <- type.freq(txt.all.clean, case.sens=case.sens, lemma=FALSE)
-  txt.lemma.freq <- type.freq(txt.all.clean, case.sens=case.sens, lemma=TRUE, fail.if.no.lemmas=lemmatize)
-  txt.all.types <- txt.type.freq[,"type"]
-  txt.all.lemmas <- txt.lemma.freq[,"type"]
+  if(isTRUE(keep.tokens)){
+    txt.type.freq <- type.freq(txt.all.clean, case.sens=case.sens, lemma=FALSE)
+    txt.lemma.freq <- type.freq(txt.all.clean, case.sens=case.sens, lemma=TRUE, fail.if.no.lemmas=lemmatize)
+    txt.all.types <- txt.type.freq[,"type"]
+    txt.all.lemmas <- txt.lemma.freq[,"type"]
+  } else {
+    txt.all.types <- type.freq(txt.all.clean, case.sens=case.sens, lemma=FALSE, vector.only=TRUE)
+    txt.all.lemmas <- type.freq(txt.all.clean, case.sens=case.sens, lemma=TRUE, fail.if.no.lemmas=lemmatize, vector.only=TRUE)
+  }
   if(!isTRUE(case.sens)){
     txt.all.tokens <- tolower(txt.all.tokens)
   } else {}
@@ -203,12 +208,12 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
 
   ## Yule's K, frequency correction
   if("K" %in% measure){
-    lex.div.results@K.ld <- k.calc(txt.all.tokens)
+    lex.div.results@K.ld <- k.calc(txt.all.tokens, txt.types=txt.all.types)
   } else {}
 
   ## calculate HD-D
   if("HD-D" %in% measure){
-    lex.div.results@HDD <- hdd.calc(txt.all.tokens, drawn=rand.sample)
+    lex.div.results@HDD <- hdd.calc(txt.all.tokens, drawn=rand.sample, hdd.types=txt.all.types)
   } else {}
 
   ## calculate MTLD
@@ -231,53 +236,28 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   } else {}
 
   ## calculate TTR, C, R, CTTR, U, S and Maas characteristics
-  # set up the base function
-  ttr.calc.chars <- function(txt.tokens, type="TTR", log.base=log.base){
-    if(!isTRUE(quiet)){
-      message(paste0(type, ".char: Calculate ",type," values"))
-      # give some feedback, so we know the machine didn't just freeze...
-      prgBar <- txtProgressBar(min=0, max=num.all.steps, style=3)
-    } else {}
-    char.results <- t(sapply(1:num.all.steps, function(x){
-          curr.token <- x * char.steps
-          if(!isTRUE(quiet)){
-            # update progress bar
-            setTxtProgressBar(prgBar, x)
-          } else {}
-          char.temp <- c(token=curr.token, value=ttr.calc(txt.tokens=txt.all.tokens[1:curr.token], type=type, log.base=log.base))
-          return(char.temp)
-        }
-      ))
-    if(!isTRUE(quiet)){
-      # close prograss bar
-      close(prgBar)
-    } else {}
-    return(char.results)
-  }
-
-  # do the actual calculations
   if("TTR" %in% char){
-    lex.div.results@TTR.char <- ttr.calc.chars(txt.all.tokens, type="TTR")
+    lex.div.results@TTR.char <- ttr.calc.chars(txt.all.tokens, type="TTR", steps=num.all.steps, char.steps=char.steps, quiet=quiet)
   } else {}
 
   if("C" %in% char){
-    lex.div.results@C.char <- ttr.calc.chars(txt.all.tokens, type="C", log.base=log.base)
+    lex.div.results@C.char <- ttr.calc.chars(txt.all.tokens, type="C", log.base=log.base, steps=num.all.steps, char.steps=char.steps, quiet=quiet)
   } else {}
 
   if("R" %in% char){
-    lex.div.results@R.char <- ttr.calc.chars(txt.all.tokens, type="R")
+    lex.div.results@R.char <- ttr.calc.chars(txt.all.tokens, type="R", steps=num.all.steps, char.steps=char.steps, quiet=quiet)
   } else {}
 
   if("CTTR" %in% char){
-    lex.div.results@CTTR.char <- ttr.calc.chars(txt.all.tokens, type="CTTR")
+    lex.div.results@CTTR.char <- ttr.calc.chars(txt.all.tokens, type="CTTR", steps=num.all.steps, char.steps=char.steps, quiet=quiet)
   } else {}
 
   if("U" %in% char){
-    lex.div.results@U.char <- ttr.calc.chars(txt.all.tokens, type="U", log.base=log.base)
+    lex.div.results@U.char <- ttr.calc.chars(txt.all.tokens, type="U", log.base=log.base, steps=num.all.steps, char.steps=char.steps, quiet=quiet)
   } else {}
 
   if("S" %in% char){
-    lex.div.results@S.char <- ttr.calc.chars(txt.all.tokens, type="S", log.base=log.base)
+    lex.div.results@S.char <- ttr.calc.chars(txt.all.tokens, type="S", log.base=log.base, steps=num.all.steps, char.steps=char.steps, quiet=quiet)
   } else {}
 
   if("MATTR" %in% char && num.all.tokens > window){
@@ -294,7 +274,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   } else {}
 
   if("Maas" %in% char){
-    lex.div.results@Maas.char <- ttr.calc.chars(txt.all.tokens, type="Maas", log.base=log.base)
+    lex.div.results@Maas.char <- ttr.calc.chars(txt.all.tokens, type="Maas", log.base=log.base, steps=num.all.steps, char.steps=char.steps, quiet=quiet)
     maas.lgV.chars <- function(base){
       if(!isTRUE(quiet)){
         # give some feedback, so we know the machine didn't just freeze...
@@ -523,16 +503,19 @@ ttr.calc <- function(txt.tokens=NULL, txt.types=NULL, num.tokens=NULL, num.types
 
 ## function k.calc()
 # function to calculate Yule's K
-k.calc <- function(txt.tokens){
+k.calc <- function(txt.tokens, txt.types=NULL){
   N <- length(txt.tokens)
-  txt.types <- unique(txt.tokens)
+  if(is.null(txt.types)){
+    stopifnot(!is.null(txt.tokens))
+    txt.types <- unique(txt.tokens)
+  } else {}
   # first analize types for their frequencies
   type.freqs <- sapply(txt.types, function(x){
-      return(sum(match(txt.tokens, x), na.rm=TRUE))
+      return(sum(txt.tokens %in% x, na.rm=TRUE))
     })
   # now count the frequencies of frequencies
   freq.freqs <- t(sapply(unique(type.freqs), function(x){
-      frq.frq <- sum(match(type.freqs, x), na.rm=TRUE)
+      frq.frq <- sum(type.freqs %in% x, na.rm=TRUE)
       return(c(X=x, fx=frq.frq))
     }))
   # calculate the sum of all fx * X^2
@@ -547,13 +530,16 @@ k.calc <- function(txt.tokens){
 
 ## function hdd.calc()
 # function to calculate HD-D
-hdd.calc <- function(hdd.tokens, drawn){
-  hdd.types <- unique(hdd.tokens)
+hdd.calc <- function(hdd.tokens, drawn, hdd.types=NULL){
+  if(is.null(hdd.types)){
+    stopifnot(!is.null(hdd.tokens))
+    hdd.types <- unique(hdd.tokens)
+  } else {}
   num.hdd.tokens <- length(hdd.tokens)
   num.hdd.types <- length(hdd.types)
   # get probability from hypergeometric distribution for each type
   hdd.type.probs <- sapply(hdd.types, function(x){
-      num.types.in.tokens <- sum(match(hdd.tokens, x), na.rm=TRUE)
+      num.types.in.tokens <- sum(hdd.tokens %in% x, na.rm=TRUE)
       num.nontypes <- num.hdd.tokens - num.types.in.tokens
       # probability of having the type at least once is the inverse of not drawing it at all
       # if 'drawn' is larger than number of tokens, set probability to 1
@@ -934,3 +920,29 @@ MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, 
 
   return(mtldma.results)
 } ## end function MTLDMA.calc()
+
+
+## function ttr.calc.chars()
+ttr.calc.chars <- function(tokens, type="TTR", log.base=10, steps, char.steps=5, quiet=FALSE){
+  if(!isTRUE(quiet)){
+    message(paste0(type, ".char: Calculate ",type," values"))
+    # give some feedback, so we know the machine didn't just freeze...
+    prgBar <- txtProgressBar(min=0, max=steps, style=3)
+  } else {}
+  char.results <- t(sapply(1:steps, function(x){
+        curr.token <- x * char.steps
+        if(!isTRUE(quiet)){
+          # update progress bar
+          setTxtProgressBar(prgBar, x)
+        } else {}
+        char.temp <- c(token=curr.token, value=ttr.calc(txt.tokens=tokens[1:curr.token], type=type, log.base=log.base))
+        return(char.temp)
+      }
+    ))
+  if(!isTRUE(quiet)){
+    # close prograss bar
+    close(prgBar)
+  } else {}
+  return(char.results)
+} ## end function ttr.calc.chars()
+

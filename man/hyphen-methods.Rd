@@ -14,8 +14,7 @@ hyphen(words, ...)
   corp.rm.tag = c(), quiet = FALSE, cache = TRUE)
 
 \S4method{hyphen}{character}(words, hyph.pattern = NULL, min.length = 4,
-  rm.hyph = TRUE, corp.rm.class = "nonpunct", corp.rm.tag = c(),
-  quiet = FALSE, cache = TRUE)
+  rm.hyph = TRUE, quiet = FALSE, cache = TRUE)
 }
 \arguments{
 \item{words}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},

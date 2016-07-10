@@ -573,8 +573,9 @@ word.freq <- function(txt, corp.freq, rel, zero.NAs=FALSE){
 ## function type.freq()
 # this function will identify unique types in a tagged text object
 # and count how often it appears in the text
-# txt must be a tagged text object
-type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.no.lemmas=TRUE){
+# - txt: must be a tagged text object
+# - vector.only: if the numbers and letters are not needed, return the vector of types an quit
+type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.no.lemmas=TRUE, vector.only=FALSE){
   # shall we count all tokens or their lemmas?
   if(isTRUE(lemma)){
     # do a sanity check, are lemmata present?
@@ -596,31 +597,29 @@ type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.n
   if(!isTRUE(case.sens)){
     all.tokens[[relevant.tokens]] <- tolower(all.tokens[[relevant.tokens]])
   } else {}
-  all.types <- unique(all.tokens[[relevant.tokens]])
-  num.tokens <- dim(all.tokens)[[1]]
-  num.types <- length(all.types)
-  corp.freq <- data.frame(type=all.types, lttr=0, freq=0, stringsAsFactors=FALSE)
-  type.counter <- 1
-  for (tp in all.types){
+  corp.freq <- unique(all.tokens)
+  colnames(corp.freq) <- c("type","lttr")
+  if(isTRUE(vector.only)){
+    return(corp.freq[["type"]])
+  } else {
+    corp.freq[["freq"]] <- 0
+    num.tokens <- nrow(all.tokens)
+    num.types <- nrow(corp.freq)
     if(isTRUE(verbose)){
-      cat(paste0("\t", floor(100*type.counter/num.types), "% complete, processing ", relevant.tokens, " ", type.counter, " of ", num.types, ": \"", tp, "\""))
-      tp.freq <- sum(match(all.tokens[[relevant.tokens]], tp), na.rm=TRUE)
-      cat(paste0(" (found ", tp.freq, " times in ", num.tokens, " ", relevant.tokens, "s)\n"))
-    } else {
-      tp.freq <- sum(match(all.tokens[[relevant.tokens]], tp), na.rm=TRUE)
+      type.counter <- 1
+    } else {}
+    for (tp in seq_along(corp.freq[["type"]])){
+      corp.freq[tp, "freq"] <- sum(all.tokens[[relevant.tokens]] %in% corp.freq[tp, "type"], na.rm=TRUE)
+      if(isTRUE(verbose)){
+        message(paste0("\t", floor(100*type.counter/num.types), "% complete, processing ", relevant.tokens, " ", type.counter, " of ", num.types, ": \"", corp.freq[tp, "type"], "\""))
+        message(paste0(" (found ", corp.freq[tp, "freq"], " times in ", num.tokens, " ", relevant.tokens, "s)\n"))
+        type.counter <- type.counter + 1
+      } else {}
     }
-    tp.letters <- all.tokens[match(tp, all.tokens[[relevant.tokens]]),"lttr"]
-    corp.freq[corp.freq[["token"]] == tp,] <- c(token=tp, lttr=tp.letters, freq=tp.freq)
-    type.counter <- type.counter + 1
+    # order results
+    corp.freq <- corp.freq[order(corp.freq[,"freq"], corp.freq[,"lttr"], decreasing=TRUE),]
+    rownames(corp.freq) <- NULL
   }
-  # remove first empty row
-  corp.freq <- corp.freq[-1,]
-  # correct data types
-  corp.freq$lttr <- as.numeric(corp.freq$lttr)
-  corp.freq$freq <- as.numeric(corp.freq$freq)
-  # order results
-  corp.freq <- corp.freq[order(corp.freq[,"freq"], corp.freq[,"lttr"], decreasing=TRUE),]
-  dimnames(corp.freq)[[1]] <- 1:dim(corp.freq)[[1]]
   return(corp.freq)
 } ## end function type.freq()
 

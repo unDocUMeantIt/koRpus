@@ -110,7 +110,7 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
       lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag)
 
     results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet, cache=cache, lang=lang)
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, lang=lang)
 
     return(results)
   }
@@ -120,12 +120,10 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
 #' @aliases hyphen,character-method
 #' @rdname hyphen-methods
 setMethod("hyphen", signature(words="character"), function(words,
-    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
-    corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE, cache=TRUE){
+    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
 
     results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet, cache=cache)
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache)
 
     return(results)
   }

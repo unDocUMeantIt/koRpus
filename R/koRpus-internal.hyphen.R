@@ -356,8 +356,7 @@ hyphen.word <- function(
 # min.length is set to 4 because we'll never hyphenate after the first of before the last letter, so
 # words with three letters or less cannot be hyphenated
 kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
-    corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE, cache=TRUE, lang=NULL){
+  quiet=FALSE, cache=TRUE, lang=NULL){
 
   stopifnot(is.character(words))
 
@@ -444,6 +443,7 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
     hyph.df[hyph.df[["token"]] == nw, "syll"] <- as.numeric(hyphenate.results["syll"])
     hyph.df[hyph.df[["token"]] == nw, "word"] <- hyphenate.results["word"]
   }
+
   if(!isTRUE(quiet)){
     # close prograss bar
     close(prgBar)
