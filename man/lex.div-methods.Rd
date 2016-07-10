@@ -10,22 +10,22 @@
 lex.div(txt, ...)
 
 \S4method{lex.div}{kRp.taggedText}(txt, segment = 100, factor.size = 0.72,
-  min.tokens = 9, rand.sample = 42, window = 100, case.sens = FALSE,
-  lemmatize = FALSE, detailed = FALSE, measure = c("TTR", "MSTTR",
-  "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"),
-  char = c("TTR", "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D",
-  "MTLD", "MTLD-MA"), char.steps = 5, log.base = 10, force.lang = NULL,
-  keep.tokens = FALSE, corp.rm.class = "nonpunct", corp.rm.tag = c(),
-  quiet = FALSE)
+  min.tokens = 9, MTLDMA.steps = 1, rand.sample = 42, window = 100,
+  case.sens = FALSE, lemmatize = FALSE, detailed = FALSE,
+  measure = c("TTR", "MSTTR", "MATTR", "C", "R", "CTTR", "U", "S", "K",
+  "Maas", "HD-D", "MTLD", "MTLD-MA"), char = c("TTR", "MATTR", "C", "R",
+  "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"), char.steps = 5,
+  log.base = 10, force.lang = NULL, keep.tokens = FALSE,
+  corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
 
 \S4method{lex.div}{character}(txt, segment = 100, factor.size = 0.72,
-  min.tokens = 9, rand.sample = 42, window = 100, case.sens = FALSE,
-  lemmatize = FALSE, detailed = FALSE, measure = c("TTR", "MSTTR",
-  "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"),
-  char = c("TTR", "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D",
-  "MTLD", "MTLD-MA"), char.steps = 5, log.base = 10, force.lang = NULL,
-  keep.tokens = FALSE, corp.rm.class = "nonpunct", corp.rm.tag = c(),
-  quiet = FALSE)
+  min.tokens = 9, MTLDMA.steps = 1, rand.sample = 42, window = 100,
+  case.sens = FALSE, lemmatize = FALSE, detailed = FALSE,
+  measure = c("TTR", "MSTTR", "MATTR", "C", "R", "CTTR", "U", "S", "K",
+  "Maas", "HD-D", "MTLD", "MTLD-MA"), char = c("TTR", "MATTR", "C", "R",
+  "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"), char.steps = 5,
+  log.base = 10, force.lang = NULL, keep.tokens = FALSE,
+  corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
 }
 \arguments{
 \item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}},
@@ -42,6 +42,12 @@ lex.div(txt, ...)
 
 \item{min.tokens}{An integer value,
       how many tokens a full factor must at least have to be considered for the MTLD-MA result.}
+
+\item{MTLDMA.steps}{An integer value for MTLD-MA,
+      defining the step size for the moving window, in tokens. The original proposal
+uses an incremet of 1. If you increase this value, computation will be faster,
+      but your value can only remain a good estimate if
+the text is long enough.}
 
 \item{rand.sample}{An integer value,
       how many tokens should be assumed to be drawn for calculating HD-D.}
@@ -65,7 +71,7 @@ if all factors should be kept in the object. This slows down calculations consid
 \item{char}{A character vector defining whether data for plotting characteristic curves should be calculated. Valid elements are 
 "TTR","MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD" and "MTLD-MA".}
 
-\item{char.steps}{An integer value defining the stepwidth for characteristic curves,
+\item{char.steps}{An integer value defining the step size for characteristic curves,
       in tokens.}
 
 \item{log.base}{A numeric value defining the base of the logarithm. See \code{\link[base:log]{log}} for details.}

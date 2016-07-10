@@ -192,6 +192,7 @@ setMethod("show", signature(object="kRp.TTR"), function(object){
     cat("\n\nMoving-Average Measure of Textual Lexical Diversity\n")
     cat("             MTLD-MA:", round(object@MTLDMA$MTLDMA, digits=2))
     cat("\n    SD tokens/factor:", round(object@MTLDMA$sd, digits=2))
+    cat("\n           Step size:", round(object@MTLDMA$steps, digits=0))
     cat("\n         Factor size:", round(object@param$factor.size, digits=2))
     cat("\n         Min. tokens:", round(object@param$min.tokens, digits=0), "\n")
   } else {}

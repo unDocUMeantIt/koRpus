@@ -63,9 +63,9 @@ forward and backward,
 
 \item{\code{MTLDMA}}{Moving-average MTLD, including the actual "MTLDMA",
       its standard deviation, a list ("all") with detailed
-information on factorization and a named list with information on the number or tokens in each factor,
-      as well as their mean
-and standard deviation ("lengths"). NA if not calculated.}
+information on factorization, the step size,
+      and a named list with information on the number or tokens in each factor,
+as well as their mean and standard deviation ("lengths"). NA if not calculated.}
 
 \item{\code{TTR.char}}{TTR values, starting with the first steplength of tokens,
       then adding the next one, progressing until

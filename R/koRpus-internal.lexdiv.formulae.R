@@ -29,7 +29,7 @@
 ## if this signature changes, check lex.div() as well! ##
 #########################################################
 
-kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=9, rand.sample=42, window=100,
+kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=9, MTLDMA.steps=1, rand.sample=42, window=100,
     case.sens=FALSE, lemmatize=FALSE, detailed=FALSE,
     measure=c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
     char=c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
@@ -226,12 +226,12 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
     # characteristics need detailed results, so discard another setting if present to speed up things
     # the alternative would be to calculate this twice, so it's a no-brainer
     # to comply with user preferences, we'll drop the detailed stuff again, see MTLDMA.char section!
-    if("MTLD-MA" %in% char && !isTRUE(detailed)){
+    if("MTLD-MA" %in% char){
       detailed.mtldma <- TRUE
     } else {
       detailed.mtldma <- detailed
     }
-    lex.div.results@MTLDMA <- MTLDMA.calc(txt.all.tokens, factor.size=factor.size, num.tokens=num.all.tokens, min.tokens=min.tokens,
+    lex.div.results@MTLDMA <- MTLDMA.calc(txt.all.tokens, factor.size=factor.size, num.tokens=num.all.tokens, min.tokens=min.tokens, steps=MTLDMA.steps,
       detailed=detailed.mtldma, quiet=quiet)
   } else {}
 
@@ -852,7 +852,7 @@ MTLD.calc <- function(txt.tokens, factor.size, num.tokens=NULL, back.only=FALSE,
 
 
 ## function MTLDMA.calc()
-MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, detailed=FALSE, quiet=TRUE){
+MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, steps=MTLDMA.steps, detailed=FALSE, quiet=TRUE){
   if(is.null(num.tokens)){
     num.tokens <- length(txt.tokens)
   } else {}
@@ -882,7 +882,7 @@ MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, 
       break
     } else {}
     mtldma.list[[start.with]] <- sub.calc.result
-    nextToken <- nextToken + 1
+    nextToken <- nextToken + steps
   }
   if(!isTRUE(quiet)){
     # ew're done -- update and close progress bar
@@ -911,6 +911,7 @@ MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, 
     MTLDMA=mtldma.res.value,
     sd=mtldma.res.sd,
     all=all.res,
+    steps=steps,
     lengths=list(
       all=mtldma.len.compl,
       mean=mtldma.len.mean,

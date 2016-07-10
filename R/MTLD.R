@@ -30,6 +30,9 @@
 #' @param txt An object of either class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.analysis-class}}, containing the tagged text to be analyzed.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
 #' @param min.tokens An integer value, how many tokens a full factor must at least have to be considered for the MTLD-MA result.
+#' @param steps An integer value for MTLD-MA, defining the step size for the moving window, in tokens. The original proposal
+#'    uses an incremet of 1. If you increase this value, computation will be faster, but your value can only remain a good estimate if
+#'    the text is long enough.
 #' @param detailed Logical, whether full details of the analysis should be calculated. It defines
 #'    if all factors should be kept in the object. This slows down calculations considerably.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
@@ -48,7 +51,7 @@
 #' MTLD(tagged.text)
 #' }
 
-MTLD <- function(txt, factor.size=0.72, min.tokens=9, detailed=FALSE, char=FALSE, MA=FALSE, ...){
+MTLD <- function(txt, factor.size=0.72, min.tokens=9, detailed=FALSE, char=FALSE, MA=FALSE, steps=1, ...){
   if(isTRUE(MA)){
     measure <- "MTLD-MA"
   } else {
@@ -61,6 +64,6 @@ MTLD <- function(txt, factor.size=0.72, min.tokens=9, detailed=FALSE, char=FALSE
     char.value <- c()
   }
 
-  results <- lex.div(txt=txt, factor.size=factor.size, min.tokens=min.tokens, detailed=detailed, measure=measure, char=char.value, ...)
+  results <- lex.div(txt=txt, factor.size=factor.size, min.tokens=min.tokens, MTLDMA.steps=steps, detailed=detailed, measure=measure, char=char.value, ...)
   return(results)
 }

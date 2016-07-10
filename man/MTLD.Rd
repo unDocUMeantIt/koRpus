@@ -5,7 +5,7 @@
 \title{Lexical diversity: Measure of Textual Lexical Diversity (MTLD)}
 \usage{
 MTLD(txt, factor.size = 0.72, min.tokens = 9, detailed = FALSE,
-  char = FALSE, MA = FALSE, ...)
+  char = FALSE, MA = FALSE, steps = 1, ...)
 }
 \arguments{
 \item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.analysis-class}},
@@ -25,6 +25,12 @@ if all factors should be kept in the object. This slows down calculations consid
 
 \item{MA}{Logical,
       defining whether the newer moving-average algorithm (MTLD-MA) should be calculated.}
+
+\item{steps}{An integer value for MTLD-MA, defining the step size for the moving window,
+      in tokens. The original proposal
+uses an incremet of 1. If you increase this value, computation will be faster,
+      but your value can only remain a good estimate if
+the text is long enough.}
 
 \item{...}{Further valid options for the main function,
       see \code{\link[koRpus:lex.div]{lex.div}} for details.}

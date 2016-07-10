@@ -45,8 +45,8 @@
 #'    factors and their mean value ("factors"), and a named list with information on the number or tokens in each factor, both
 #'    forward and backward, as well as their mean and standard deviation ("lengths"). NA if not calculated.
 #' @slot MTLDMA Moving-average MTLD, including the actual "MTLDMA", its standard deviation, a list ("all") with detailed
-#'    information on factorization and a named list with information on the number or tokens in each factor, as well as their mean
-#'    and standard deviation ("lengths"). NA if not calculated.
+#'    information on factorization, the step size, and a named list with information on the number or tokens in each factor,
+#'    as well as their mean and standard deviation ("lengths"). NA if not calculated.
 #' @slot TTR.char TTR values, starting with the first steplength of tokens, then adding the next one, progressing until
 #'    the whole text is analyzed. The matrix has two colums, one for the respective step ("token") and one for the actual values
 #'    ("value"). Can be used to plot TTR characteristic curves. NA if not calculated.
@@ -125,7 +125,7 @@ setClass("kRp.TTR",
       HDD=list(HDD=NA, type.probs=NA, summary=NA, sd=NA),
       MTLD=list(MTLD=NA, all.forw=NA, all.back=NA, factors=c(forw=NA, mean=NA, back=NA),
         lengths=list(forw=NA, forw.compl=NA, mean=NA, mean.compl=NA, sd=NA, sd.compl=NA, back=NA, back.compl=NA)),
-      MTLDMA=list(MTLDMA=NA, sd=NA, all=NA, lengths=list(factors=NA, mean=NA, sd=NA)),
+      MTLDMA=list(MTLDMA=NA, sd=NA, all=NA, steps=NA, lengths=list(factors=NA, mean=NA, sd=NA)),
       TTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
       MATTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
       C.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
@@ -166,7 +166,7 @@ setValidity("kRp.TTR", function(object){
 
     if(!identical(MSTTR.names, c("MSTTR", "TTR.seg", "dropped")) |
         !identical(MTLD.names, c("MTLD", "all.forw", "all.back", "factors", "lengths")) |
-        !identical(MTLDMA.names, c("MTLDMA", "factors", "mean", "lengths"))){
+        !identical(MTLDMA.names, c("MTLDMA", "sd", "all", "steps", "lengths"))){
       stop(simpleError("Invalid object: Wrong names (slot \"MSTTR\", \"MTLD\" or \"MTLDMA\")."))
     } else {}
 
