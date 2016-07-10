@@ -22,6 +22,7 @@ test_that("basic tokenizing", {
   sampleTextFile <- normalizePath("sample_text.txt")
   sampleTextStandard <- dget("sample_text_tokenized_dput.txt")
   sampleTextObj <- readLines(sampleTextFile)
+  sampleTokenizedToken <- dget("tokenized_single_token_dput.txt")
 
   # without a local TreeTagger installation, these tests will be limited
   # to what is possible with tokenize()
@@ -35,6 +36,9 @@ test_that("basic tokenizing", {
     textToTag, lang="en", stopwords=c("it's","one","for","you","and","me"))
   close(textToTag)
 
+  # this was fixed in koRpus 0.06-4, checking it's still working
+  tokenizedToken <- tokenize("singleton", format="obj", lang="en")
+
   # we can't compare with "is_identical_to() because the percentages may slightly differ
   expect_that(tokenizedTextFile,
     equals(sampleTextStandard))
@@ -42,26 +46,31 @@ test_that("basic tokenizing", {
     equals(sampleTextStandard))
   expect_that(tokenizedTextConnection,
     equals(sampleTextStandard))
+  expect_that(tokenizedToken,
+    equals(sampleTokenizedToken))
 })
 
 test_that("lexical diversity", {
   sampleTextTokenized <- dget("sample_text_tokenized_dput.txt")
   sampleTextStandard <- dget("sample_text_lexdiv_dput.txt")
+  sampleTextStandardTTRChar <- dget("sample_text_TTRChar_dput.txt")
 
-  # don't test characteristics because it's such a drain on resources
   # the summary method does some rounding which should be robust enough
   # to replicate results on other machines
-  lexdivTextObj <- summary(lex.div(sampleTextTokenized, char=NULL))
+  lexdivTextObj <- summary(lex.div(sampleTextTokenized, char=NULL, quiet=TRUE))
+  TTRCharTextObj <- slot(TTR(sampleTextTokenized, char=TRUE, quiet=TRUE), "TTR.char")
 
   expect_that(lexdivTextObj,
     equals(sampleTextStandard))
+  expect_that(TTRCharTextObj,
+    equals(sampleTextStandardTTRChar))
 })
 
 test_that("hyphenation/syllable count", {
   sampleTextTokenized <- dget("sample_text_tokenized_dput.txt")
   sampleTextStandard <- dget("sample_text_hyphen_dput.txt")
 
-  hyphenTextObj <- hyphen(sampleTextTokenized)
+  hyphenTextObj <- hyphen(sampleTextTokenized, quiet=TRUE)
 
   expect_that(hyphenTextObj,
     equals(sampleTextStandard))

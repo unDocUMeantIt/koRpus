@@ -1,0 +1,27 @@
+new("kRp.tagged"
+    , lang = "en"
+    , desc = structure(list(all.chars = 10L, lines = 1L, normalized.space = 9L, 
+    chars.no.space = 9L, punct = 0L, digits = 0L, letters = structure(c(9, 
+    0, 0, 0, 0, 0, 0, 0, 0, 1), .Names = c("all", "l1", "l2", 
+    "l3", "l4", "l5", "l6", "l7", "l8", "l9")), letters.only = 9L, 
+    char.distrib = structure(c(0, 0, 1, 0, 0, 100, 0, 0, 1, 0, 
+    0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 1, 
+    0, 0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 
+    1, 0, 0, 100, 1, 1, 0, 100, 100, 0), .Dim = c(6L, 9L), .Dimnames = list(
+        c("num", "cum.sum", "cum.inv", "pct", "cum.pct", "pct.inv"
+        ), c("1", "2", "3", "4", "5", "6", "7", "8", "9"))), 
+    lttr.distrib = structure(c(0, 0, 1, 0, 0, 100, 0, 0, 1, 0, 
+    0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 1, 
+    0, 0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 1, 0, 0, 100, 0, 0, 
+    1, 0, 0, 100, 1, 1, 0, 100, 100, 0), .Dim = c(6L, 9L), .Dimnames = list(
+        c("num", "cum.sum", "cum.inv", "pct", "cum.pct", "pct.inv"
+        ), c("1", "2", "3", "4", "5", "6", "7", "8", "9"))), 
+    words = 1L, sentences = 0L, avg.sentc.length = Inf, avg.word.length = 9), .Names = c("all.chars", 
+"lines", "normalized.space", "chars.no.space", "punct", "digits", 
+"letters", "letters.only", "char.distrib", "lttr.distrib", "words", 
+"sentences", "avg.sentc.length", "avg.word.length"))
+    , TT.res = structure(list(token = "singleton", tag = "word.kRp", lemma = "", 
+    lttr = 9, wclass = "word", desc = "Word (kRp internal)", 
+    stop = NA, stem = NA), .Names = c("token", "tag", "lemma", 
+"lttr", "wclass", "desc", "stop", "stem"), row.names = 1L, class = "data.frame")
+)
