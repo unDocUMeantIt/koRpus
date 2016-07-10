@@ -812,7 +812,7 @@ mtld.sub.calc <- function(txt.tokens, factor.size, num.tokens=NULL, detailed=FAL
 
 ## function MTLD.calc()
 # calculate MTLD
-# to get only the backwards data (used for characteristics), set "back.only=TRUE)"
+# to get only the backwards data (used for characteristics), set "back.only=TRUE"
 MTLD.calc <- function(txt.tokens, factor.size, num.tokens=NULL, back.only=FALSE, detailed=FALSE){
   if(is.null(num.tokens)){
     num.tokens <- length(txt.tokens)
