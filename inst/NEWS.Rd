@@ -2,11 +2,6 @@
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
 \section{Changes in koRpus version 0.07-1 (2016-07-11)}{
-  \subsection{unreleased}{
-    \itemize{
-      \item this version is under development
-    }
-  }
   \subsection{fixed}{
     \itemize{
       \item the \code{treetag()} function actually omittet options for the tokenizer due to

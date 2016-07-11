@@ -1,7 +1,10 @@
 ChangeLog for package koRpus
 
-changes in version 0.07-1 (2016-07-11)
+changes in version 0.07-2 (2016-07-11)
 unreleased:
+  - this version is under development
+
+changes in version 0.07-1 (2016-07-11)
 fixed:
   - the treetag() function actually omittet options for the tokenizer due to
     a never updated variable and a wrong setting later on; this has been the
