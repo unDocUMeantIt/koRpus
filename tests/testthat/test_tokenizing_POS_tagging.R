@@ -69,11 +69,19 @@ test_that("lexical diversity", {
 test_that("hyphenation/syllable count", {
   sampleTextTokenized <- dget("sample_text_tokenized_dput.txt")
   sampleTextStandard <- dget("sample_text_hyphen_dput.txt")
+  sampleTextStandardChanged <- dget("sample_text_correcthyph_dput.txt")
 
-  hyphenTextObj <- hyphen(sampleTextTokenized, quiet=TRUE)
+  hyphenTextObjNoCache <- hyphen(sampleTextTokenized, cache=FALSE, quiet=TRUE)
+  hyphenTextObjCache <- hyphen(sampleTextTokenized, quiet=TRUE)
+  # chcanging hyphenation
+  hyphenTextObjChanged <- correct.hyph(hyphenTextObjCache, "Papua", "Pa-pu-a")
 
-  expect_that(hyphenTextObj,
+  expect_that(hyphenTextObjNoCache,
     equals(sampleTextStandard))
+  expect_that(hyphenTextObjCache,
+    equals(sampleTextStandard))
+  expect_that(hyphenTextObjChanged,
+    equals(sampleTextStandardChanged))
 })
 
 test_that("readability", {
