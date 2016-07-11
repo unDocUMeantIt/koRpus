@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.07-1 (2016-07-10)
+changes in version 0.07-1 (2016-07-11)
 unreleased:
   - this version is under development
 fixed:
@@ -51,9 +51,9 @@ added:
   - new unit tests for lex.div(), tokenize() and readability()
   - new options to set index="fast" in readability() to drop FPG from the
     defaults for faster calculations
-  - new option MTLDMA.steps to increase the step size for MTLD-MA. this diverts
-    from the original proposal, but if your text is long enough, you will get
-    a very good estimate and only need a fraction of the computing time
+  - new option MTLDMA.steps to increase the step size for MTLD-MA. this
+    diverts from the original proposal, but if your text is long enough, you will
+    get a very good estimate and only need a fraction of the computing time
 
 changes in version 0.06-5 (2016-06-05)
 fixed:
