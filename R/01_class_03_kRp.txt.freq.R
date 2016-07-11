@@ -16,45 +16,38 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' S4 Class kRp.txt.trans
+#' S4 Class kRp.txt.freq
 #'
-#' This class is used for objects that are returned by \code{\link[koRpus:kRp.text.transform]{kRp.text.transform}}.
+#' This class is used for objects that are returned by \code{\link[koRpus:freq.analysis]{freq.analysis}}.
 #'
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object.
-#' @slot desc Descriptive statistics of the tagged text.
-#' @slot TT.res A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged}, plus
-#'    the new columns \code{token.old} and \code{equal}).
-#' @slot diff A list with atomic vectors, describing the amount of diffences between both text variants (percentage):
-#'    \describe{
-#'      \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation, that were altered.}
-#'      \item{\code{words}:}{Percentage of altered words only.}
-#'      \item{\code{all.chars}:}{Percentage of all characters, including punctuation, that were altered.}
-#'      \item{\code{letters}:}{Percentage of altered letters in words only.}
-#'    }
-#' @name kRp.txt.trans,-class
-#' @aliases kRp.txt.trans,-class kRp.txt.trans-class
+#' @slot TT.res A data.frame with a version of the fully tagged text (like \code{TT.res} in class \code{koRpus.tagged}, plus frequency data).
+#' @slot desc A list with detailed descriptive statistics on the analyzed text.
+#' @slot freq.analysis A list with information on the word frequencies of the analyzed text.
+#' @name kRp.txt.freq,-class
+#' @aliases kRp.txt.freq,-class kRp.txt.freq-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @export
-#' @rdname kRp.txt.trans-class
-#' @include 00_class_01_kRp.tagged.R
-setClass("kRp.txt.trans",
+#' @rdname kRp.txt.freq-class
+#' @include 01_class_01_kRp.tagged.R
+setClass("kRp.txt.freq",
     representation=representation(
-    diff="list"),
+    freq.analysis="list"),
   prototype=prototype(
     lang=character(),
+    TT.res=data.frame(),
     desc=list(),
-    TT.res=data.frame(token=NA, tag=NA, lemma=NA, lttr=NA, wclass=NA, desc=NA, token.old=NA, equal=NA),
-    diff=list()),
+    freq.analysis=list()),
   contains=c("kRp.tagged")
 )
 
-#' @include 00_class_01_kRp.tagged.R
-setAs(from="kRp.txt.trans", to="kRp.tagged", function(from){
-    lang <- from@lang
+
+#' @include 01_class_01_kRp.tagged.R
+setAs(from="kRp.txt.freq", to="kRp.tagged", function(from){
     tagged.df <- as.data.frame(from@TT.res[, valid.TT.res.kRp.tagged])
-    retagged.object <- new("kRp.tagged", lang=lang, TT.res=tagged.df)
+    retagged.object <- new("kRp.tagged", lang=from@lang, desc=from@desc, TT.res=tagged.df)
     return(retagged.object)
     }
 )

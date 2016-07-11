@@ -46,16 +46,14 @@ TTRootText <- rk.XML.text(
   "The TreeTagger folder is the one containing the bin, cmd and lib folders",
   id.name="TTRootText")
 language <- rk.XML.dropdown(label="Text language:", options=list(
+    "Dutch"=c(val="nl"),
     "English"=c(val="en", chk=TRUE),
-    "French (UTF-8)"=c(val="fr-utf8"),
     "French"=c(val="fr"),
-    "German (UTF-8)"=c(val="de-utf8"),
     "German"=c(val="de"),
-    "Italian (UTF-8)"=c(val="it-utf8"),
     "Italian"=c(val="it"),
-    "Spanish (UTF-8)"=c(val="es-utf8"),
-    "Spanish"=c(val="es"),
-    "Russian (UTF-8)"=c(val="ru")
+    "Portuguese"=c(val="pt"),
+    "Russian"=c(val="ru"),
+    "Spanish"=c(val="es")
   ),
   id.name="language"
 )
@@ -123,6 +121,16 @@ kRp.POS.lgc.sect <- rk.XML.logic(
 )
 
 ## JavaScript
+kRp.POS.js.prep <- rk.paste.JS(
+  rk.JS.vars(language),
+  js(
+    if(language == "nl"){
+      echo("require(koRpus.lang.nl)\n")
+    } else if(language == "pt"){
+      echo("require(koRpus.lang.pt)\n")
+    } else {}
+  )
+)
 kRp.POS.js.lang <- rk.JS.vars("TTLang")
 kRp.POS.js.calc <- rk.paste.JS(
   # these are probably fetched as boolean, ensure we get the character values
@@ -130,17 +138,7 @@ kRp.POS.js.calc <- rk.paste.JS(
   kRp.POS.js.arr.tkparag <- rk.JS.vars(detectParagraphs, var.prefix="value"),
   kRp.POS.js.array <- rk.JS.array("detect", variables=list(id(kRp.POS.js.arr.tkheadl), id(kRp.POS.js.arr.tkparag)), opt.sep=",\\n\\t"),
   js(
-    if(language == "de-utf8"){
-      id("var ", kRp.POS.js.lang, " = \"de\";")
-    } else if(language == "fr-utf8"){
-      id("var ", kRp.POS.js.lang, " = \"fr\";")
-    } else if(language == "es-utf8"){
-      id("var ", kRp.POS.js.lang, " = \"es\";")
-    } else if(language == "it-utf8"){
-      id("var ", kRp.POS.js.lang, " = \"it\";")
-    } else {
-      id("var ", kRp.POS.js.lang, " = ", language, ";")
-    }
+    id("var ", kRp.POS.js.lang, " = ", language, ";")
   ),
   js(
     if(operationMode == "file"){
@@ -273,6 +271,7 @@ readabilityNeedSylls <- rk.XML.col(
       FleschSzigriszt <- rk.XML.cbox(label="Flesch (ES, Szigriszt)", value="Flesch.Szigriszt", id.name="FleschSzigriszt"),
       FleschFR <- rk.XML.cbox(label="Flesch (FR, Kandel-Moles)", value="Flesch.fr", id.name="FleschFR"),
       FleschNL <- rk.XML.cbox(label="Flesch (NL, Douma)", value="Flesch.nl", id.name="FleschNL"),
+      FleschNLB <- rk.XML.cbox(label="Flesch (NL, Brouwer)", value="Flesch.nl-b", id.name="FleschNLB"),
       FleschPSK <- rk.XML.cbox(label="Flesch Reading Ease (Powers-Sumner-Kearl)", value="Flesch.PSK", id.name="FleschPSK"),
       FleschKincaid <- rk.XML.cbox(label="Flesch-Kincaid Grade Level", value="Flesch.Kincaid", id.name="FleschKincaid"),
       FOG <- rk.XML.cbox(label="FOG (Gunning)", value="FOG", id.name="FOG"),
@@ -395,6 +394,7 @@ kRp.rdb.js.calc <- rk.paste.JS(
   FleschES.val <- rk.JS.vars(FleschES, var.prefix="value"),
   FleschSzigriszt.val <- rk.JS.vars(FleschSzigriszt, var.prefix="value"),
   FleschNL.val <- rk.JS.vars(FleschNL, var.prefix="value"),
+  FleschNLB.val <- rk.JS.vars(FleschNLB, var.prefix="value"),
   FleschDE.val <- rk.JS.vars(FleschDE, var.prefix="value"),
   FleschFR.val <- rk.JS.vars(FleschFR, var.prefix="value"),
   FleschPSK.val <- rk.JS.vars(FleschPSK, var.prefix="value"),
@@ -442,6 +442,7 @@ kRp.rdb.js.calc <- rk.paste.JS(
     id(FleschSzigriszt.val),
     id(FleschFR.val),
     id(FleschNL.val),
+    id(FleschNLB.val),
     id(FleschPSK.val),
     id(FleschKincaid.val),
     id(FOG.val),
@@ -992,8 +993,10 @@ rk.kRp.dir <<- rk.plugin.skeleton(
   xml=list(
     logic=kRp.POS.lgc.sect,
     dialog=kRp.dialog.POS),
-  js=list(results.header=FALSE,
+  js=list(
+    results.header=FALSE,
     require="koRpus",
+    preprocess=kRp.POS.js.prep,
     calculate=kRp.POS.js.calc,
     printout=kRp.POS.js.print#,
 #    load.silencer=var.chk.suppress

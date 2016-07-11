@@ -69,6 +69,7 @@
 #' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus]{kRp.tagged-class}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
+#' @import data.table
 #' @export
 #' @examples
 #' \dontrun{

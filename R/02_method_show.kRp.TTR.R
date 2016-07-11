@@ -24,8 +24,8 @@
 #' \dontrun{
 #' MTLD(tagged.txt)
 #' }
-#' @include 00_class_02_kRp.TTR.R
-#' @include 01_method_show.kRp.lang.R
+#' @include 01_class_02_kRp.TTR.R
+#' @include 02_method_show.kRp.lang.R
 setMethod("show", signature(object="kRp.TTR"), function(object){
 
   if(length(object@tt$num.tokens) > 0){
@@ -192,6 +192,7 @@ setMethod("show", signature(object="kRp.TTR"), function(object){
     cat("\n\nMoving-Average Measure of Textual Lexical Diversity\n")
     cat("             MTLD-MA:", round(object@MTLDMA$MTLDMA, digits=2))
     cat("\n    SD tokens/factor:", round(object@MTLDMA$sd, digits=2))
+    cat("\n           Step size:", round(object@MTLDMA$steps, digits=0))
     cat("\n         Factor size:", round(object@param$factor.size, digits=2))
     cat("\n         Min. tokens:", round(object@param$min.tokens, digits=0), "\n")
   } else {}

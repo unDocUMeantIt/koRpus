@@ -1,5 +1,7 @@
 # koRpus
 
+[![Flattr this git repo](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=m.eik&url=https://github.com/unDocUMeantIt/koRpus&title=koRpus&language=en_GB&tags=github&category=software)
+
 koRpus is an [R](https://r-project.org) package for text analysis. This includes, amongst others,
 a wrapper for the POS tagger [TreeTagger](http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/),
 functions for automatic language detection, hyphenation, several indices of lexical diversity
@@ -44,6 +46,16 @@ want to subscribe to the package's [RSS feed](http://r.reaktanz.de/pckg/koRpus/R
 
 If you're running a Debian based operating system, you might be interested in the
 [precompiled *.deb packages](http://r.reaktanz.de/pckg/koRpus/deb_repo.html).
+
+### Installation via GitHub
+
+To install it directly from GitHub, you can use `install_github()` from the [devtools](https://github.com/hadley/devtools) package:
+
+```
+library(devtools)
+install_github("unDocUMeantIt/koRpus") # stable release
+install_github("unDocUMeantIt/koRpus", ref="develop") # development release
+```
 
 ## Contributing
 

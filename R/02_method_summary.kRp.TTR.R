@@ -24,8 +24,8 @@
 #' \dontrun{
 #' summary(lex.div(tagged.txt))
 #' }
-#' @include 00_class_02_kRp.TTR.R
-#' @include 01_method_summary.kRp.lang.R
+#' @include 01_class_02_kRp.TTR.R
+#' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.TTR"), function(object){
 
   # function to add stuff to the matrix,

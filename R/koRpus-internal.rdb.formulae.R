@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -131,105 +131,6 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     return(dput(default.params, control="useSource"))
   } else {}
 
-  # this function tries to get the actual word vector out of a given
-  # word list, be it a vector, matrix, data.frame or file name
-  read.word.list <- function(word.list){
-    if(length(word.list) == 1 && is.numeric(word.list)){
-        # we got a number, seems to be no word list, but already the result
-        return(word.list)
-      } else {}
-    if(((is.data.frame(word.list) | is.matrix(word.list)) & isTRUE(ncol(word.list) == 1)) |
-      (is.vector(word.list) & length(word.list) > 1)){
-      local.word.list <- as.character(unlist(word.list))
-    } else if(check.file(word.list, mode="exist")){
-      wl.file.con <- file(word.list, open="r", encoding=fileEncoding)
-      local.word.list <- as.character(unlist(readLines(wl.file.con)))
-      close(wl.file.con)
-    }
-    return(local.word.list)
-  }
-
-  # this part calculates the percentage of words in the analyzed text
-  # that are not found in a given list of words. this list must be
-  # a data.frame/matrix with one column or a vector.
-  difficult.words <- function(words.only, word.list, only.once=FALSE){
-    # define the built-in word lists
-    # it's not enough to have the data file around
-    ## this much doesn't work as of now, we can't ship any word list due to copyright restrictions
-    # the code is left intact though, should we get permission to include word lists in the future...
-    if(length(word.list) == 1){
-      if(is.numeric(word.list)){
-        # we got numbers, seems to be no word list, but almost already the result
-        if(!is.numeric(words.only)){
-          # ok, this is not a number, so i guess it's actual words, let's simply count them
-          words.only <- length(words.only)
-        } else {}
-        pct.not.listed <- word.list * 100 / words.only
-        result <- list(words.not.listed=word.list, num.not.listed=word.list, pct.not.listed=pct.not.listed,
-          num.listed=(words.only-word.list), pct.listed=(100-pct.not.listed))
-        return(result)
-      } else if(word.list %in% c(
-        # list internal lists here ...
-        "some.free.word.list")){
-          wlist.to.load <- parse(text=paste0("if(!exists(\"", word.list, "\", envir=.koRpus.env, inherits=FALSE)){
-            data(", word.list, ", package=\"koRpus\", envir=.koRpus.env)} else {}
-            local.word.list <- as.vector(unlist(get(\"", word.list, "\", envir=.koRpus.env)))"))
-          eval(wlist.to.load)
-      } else {
-        stop(simpleError(paste0("Invalid word list: \"", word.list, "\".\nPlease provide a valid file name, or a data.frame/matrix with one column, or a character vector!")))
-      }
-    } else if((is.vector(word.list)) & length(word.list) > 1){
-      local.word.list <- word.list
-    } else {
-      stop(simpleError(paste0("Invalid word list: \"", word.list, "\".\nPlease provide a valid file name, or a data.frame/matrix with one column, or a character vector!")))
-    }
-    # make sure it's a vector, and we don't care about cases
-    local.word.list <- tolower(local.word.list)
-    local.tokens <- tolower(words.only)
-    # Space counts unfamiliar words only once
-    if(isTRUE(only.once)){
-      words.not.listed <- unique(words.only[!local.tokens %in% local.word.list])
-      # number of tokens not on the list
-      num.not.listed <- sum(!unique(local.tokens) %in% local.word.list)
-    } else {
-      words.not.listed <- words.only[!local.tokens %in% local.word.list]
-      # number of tokens not on the list
-      num.not.listed <- sum(!local.tokens %in% local.word.list)
-    }
-    pct.not.listed <- num.not.listed * 100 / length(local.tokens)
-    result <- list(words.not.listed=words.not.listed, num.not.listed=num.not.listed, pct.not.listed=pct.not.listed,
-      num.listed=(length(local.tokens)-num.not.listed), pct.listed=(100-pct.not.listed))
-    return(result)
-  }
-
-  long.words <- function(min.num, letters=FALSE){
-    if(isTRUE(letters)){
-      # will return the number of words with at least min.num characters!
-      if(min.num %in% colnames(txt.desc[["lttr.distrib"]])){
-        # can be that column name and numer are different, e.g. no words with three letters
-        # therefore, we transform the number into character
-        result <- txt.desc[["lttr.distrib"]]["cum.inv", as.character(min.num)]
-      } else {
-        result <- 0
-      }
-    } else {
-      if(min.num %in% colnames(slot(hyphen, "desc")[["syll.distrib"]])){
-        result <- slot(hyphen, "desc")[["syll.distrib"]]["cum.inv", as.character(min.num)]
-      } else {
-        result <- 0
-      }
-    }
-    return(result)
-  }
-
-  check.flavour <- function(given, default, default.name="default"){
-    if(identical(given, default)){
-      return(default.name)
-    } else {
-      return(c("custom"))
-    }
-  }
-
   # check for given magic numbers
   if(!is.list(parameters) | identical(length(parameters), 0)){
     stop(simpleError("Missing accurate paramteter list!"))
@@ -255,13 +156,21 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   if(identical(index, "all")){
     index <- all.valid.indices
   } else {}
+  if(identical(index, "fast")){
+    # this should be like the defaults but without FOG
+    index <- c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
+        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
+        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
+        "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
+        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+        "Wheeler.Smith")
+  } else {}
 
   need.sylls <- c("Coleman", "ELF", "Farr.Jenkins.Paterson", "Farr.Jenkins.Paterson.PSK",
     "Flesch", "Flesch.Brouwer", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
     "Flesch.nl", "Flesch.nl-b", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
     "Linsear.Write", "nWS", "SMOG", "SMOG.C", "SMOG.de", "SMOG.simple",
     "Strain", "TRI", "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
-
 
   if(isTRUE(analyze.text)){
     #######################
@@ -540,7 +449,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       valid.params <- c("clz", "meanc", "grade")
       valid.params.meanc <- c("const", "awl", "afw", "asl1", "asl2", "asl3")
       valid.params.grade <- c("const", "m1", "m2", "m3", "c1", "c2", "c3", "mc1", "mc2", "mc3")
-      bormuth.word.list <- read.word.list(word.lists[["Bormuth"]])
+      bormuth.word.list <- read.word.list(word.lists[["Bormuth"]], encoding=fileEncoding)
       if("Bormuth" %in% names(parameters)){
         flavour <- check.flavour(parameters$Bormuth, default.parameters$Bormuth)
         prms <- parameters$Bormuth
@@ -706,7 +615,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     } else {
       flavour <- "default"
       valid.params <- c("const", "dword", "asl")
-      dale.chall.word.list <- read.word.list(word.lists[["Dale.Chall"]])
+      dale.chall.word.list <- read.word.list(word.lists[["Dale.Chall"]], encoding=fileEncoding)
       if("Dale.Chall" %in% names(parameters)){
         flavour <- check.flavour(parameters$Dale.Chall, default.parameters$Dale.Chall, default.name="New Dale-Chall (1995)")
         prms <- parameters$Dale.Chall
@@ -854,7 +763,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     }
     kRp.check.params(names(prms), valid.params, where="ELF")
     kRp.check.params(valid.params, names(prms), where="ELF", missing=TRUE)
-    ELF.exsyls <- long.words(prms[["syll"]] - 1)
+    ELF.exsyls <- long.words(prms[["syll"]] - 1, hyphen=hyphen)
     ELF.score <- ELF.exsyls / num.sentences
     slot(all.results, "ELF") <- list(flavour=flavour, num.exsyls=ELF.exsyls, ELF=ELF.score)
   } else {}
@@ -1170,7 +1079,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     } else {
       flavour <- "default"
       valid.params <- c("char", "hj1", "hj2", "hj3", "hj4", "hj5")
-      hj.word.list <- read.word.list(word.lists[["Harris.Jacobson"]])
+      hj.word.list <- read.word.list(word.lists[["Harris.Jacobson"]], encoding=fileEncoding)
       if("Harris.Jacobson" %in% names(parameters)){
         flavour <- check.flavour(parameters$Harris.Jacobson, default.parameters$Harris.Jacobson)
         prms <- parameters$Harris.Jacobson
@@ -1187,7 +1096,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       hj.diff.words.nol <- hj.diff.words.all.txt[["words.not.listed"]]
 
       # percentage of long words
-      hj.long.words <- (long.words(prms[["char"]], letters=TRUE) * 100) / num.words
+      hj.long.words <- (long.words(prms[["char"]], txt.desc=txt.desc) * 100) / num.words
 
       if(!any(c("hj1", "hj2", "hj3", "hj4", "hj5") %in% names(prms))){
       stop(simpleError("Harris.Jacobson: you need to specify parameters for at least *one* of the five formulas!"))
@@ -1273,7 +1182,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     }
     kRp.check.params(names(prms), valid.params, where="LIX")
     kRp.check.params(valid.params, names(prms), where="LIX", missing=TRUE)
-    LIX.long.words <- long.words(prms[["char"]], letters=TRUE)
+    LIX.long.words <- long.words(prms[["char"]], txt.desc=txt.desc)
     LIX.idx <- (num.words / num.sentences) + ((LIX.long.words * prms[["const"]]) / num.words)
     LIX.rating <- get.grade.level(LIX.idx, measure="LIX")
     LIX.grade <- get.grade.level(LIX.idx, measure="LIX.grade")
@@ -1292,8 +1201,8 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     }
     kRp.check.params(names(prms), valid.params, where="Linsear.Write")
     kRp.check.params(valid.params, names(prms), where="Linsear.Write", missing=TRUE)
-    hard.words <- (long.words(prms[["long.syll"]] - 1) * 100) / num.words
-    easy.words <- 100 - ((long.words(prms[["short.syll"]]) * 100) / num.words)
+    hard.words <- (long.words(prms[["long.syll"]] - 1, hyphen=hyphen) * 100) / num.words
+    easy.words <- 100 - ((long.words(prms[["short.syll"]], hyphen=hyphen) * 100) / num.words)
     Linsear.Write.raw <- (easy.words + (hard.words * 3)) / sntc.per100
     if(Linsear.Write.raw > prms[["thrs"]]){
       Linsear.Write.RM <- Linsear.Write.raw / 2
@@ -1317,9 +1226,9 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     # we don't necessarily need all params
     kRp.check.params(c("ms.syll", "iw.char", "es.syll"), names(prms), where="nWS", missing=TRUE)
 
-    wien.MS <- long.words(prms[["ms.syll"]] - 1) / num.words
+    wien.MS <- long.words(prms[["ms.syll"]] - 1, hyphen=hyphen) / num.words
     wien.SL <- avg.sntc.len
-    wien.IW <- long.words(prms[["iw.char"]], letters=TRUE) / num.words
+    wien.IW <- long.words(prms[["iw.char"]], txt.desc=txt.desc) / num.words
     wien.ES <- slot(hyphen, "desc")[["syll.distrib"]]["cum.sum", prms[["es.syll"]]] / num.words
 
     if(!any(c("nws1", "nws2", "nws3", "nws4") %in% names(prms))){
@@ -1381,7 +1290,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     }
     kRp.check.params(names(prms), valid.params, where="RIX")
     kRp.check.params(valid.params, names(prms), where="RIX", missing=TRUE)
-    RIX.long.words <- long.words(prms[["char"]], letters=TRUE)
+    RIX.long.words <- long.words(prms[["char"]], txt.desc=txt.desc)
     RIX.idx <- RIX.long.words / num.sentences
     RIX.grade <- get.grade.level(RIX.idx, measure="RIX")
     slot(all.results, "RIX") <- list(flavour=flavour, index=RIX.idx, grade=RIX.grade[["grade"]], grade.min=RIX.grade[["grade.min"]])
@@ -1411,7 +1320,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     }
     kRp.check.params(names(prms), valid.params, where="SMOG")
     kRp.check.params(valid.params, names(prms), where="SMOG", missing=TRUE)
-    SMOG.grade <- prms[["sqrt"]] * sqrt((prms[["fact"]] * (long.words(prms[["syll"]] - 1) / num.sentences)) + prms[["sqrt.const"]]) + prms[["const"]]
+    SMOG.grade <- prms[["sqrt"]] * sqrt((prms[["fact"]] * (long.words(prms[["syll"]] - 1, hyphen=hyphen) / num.sentences)) + prms[["sqrt.const"]]) + prms[["const"]]
     slot(all.results, "SMOG") <- list(flavour=flavour, grade=SMOG.grade, age=SMOG.grade + 5)
   } else {}
   # recursive calls for alternative shortcuts
@@ -1439,7 +1348,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     } else {
       flavour <- "default"
       valid.params <- c("asl", "dword", "const")
-      spache.word.list <- read.word.list(word.lists[["Spache"]])
+      spache.word.list <- read.word.list(word.lists[["Spache"]], encoding=fileEncoding)
       if("Spache" %in% names(parameters)){
         flavour <- check.flavour(parameters$Spache, default.parameters$Spache, default.name="Revised formula (1978)")
         prms <- parameters$Spache
@@ -1559,7 +1468,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     }
     kRp.check.params(names(prms), valid.params, where="TRI")
     kRp.check.params(valid.params, names(prms), where="TRI", missing=TRUE)
-    num.one.syll <- num.words - long.words(prms[["syll"]])
+    num.one.syll <- num.words - long.words(prms[["syll"]], hyphen=hyphen)
     TRI <- (num.one.syll * prms[["word"]]) - (num.punct * prms[["pnct"]]) - (num.foreign * prms[["frgn"]]) - prms[["const"]]
     slot(all.results, "TRI") <- list(flavour=flavour, short=num.one.syll, punct=num.punct, foreign=num.foreign, TRI=TRI)
   } else {}
@@ -1600,7 +1509,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     }
     kRp.check.params(names(prms), valid.params, where="Wheeler.Smith")
     kRp.check.params(valid.params, names(prms), where="Wheeler.Smith", missing=TRUE)
-    Wheeler.Smith.long.words <- 10 * long.words(prms[["syll"]] - 1) / num.words
+    Wheeler.Smith.long.words <- 10 * long.words(prms[["syll"]] - 1, hyphen=hyphen) / num.words
     Wheeler.Smith.score <- avg.sntc.len * Wheeler.Smith.long.words
     Wheeler.Smith.grade <- get.grade.level(Wheeler.Smith.score, measure=grade.measure)
     slot(all.results, "Wheeler.Smith") <- list(flavour=flavour, score=Wheeler.Smith.score,
@@ -1634,3 +1543,115 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   } else {}
   return(all.results)
 }
+
+############################
+## internal helper functions
+
+## function read.word.list()
+# this function tries to get the actual word vector out of a given
+# word list, be it a vector, matrix, data.frame or file name
+read.word.list <- function(word.list, encoding="UTF-8"){
+  if(length(word.list) == 1 && is.numeric(word.list)){
+      # we got a number, seems to be no word list, but already the result
+      return(word.list)
+    } else {}
+  if(((is.data.frame(word.list) | is.matrix(word.list)) & isTRUE(ncol(word.list) == 1)) |
+    (is.vector(word.list) & length(word.list) > 1)){
+    local.word.list <- as.character(unlist(word.list))
+  } else if(check.file(word.list, mode="exist")){
+    wl.file.con <- file(word.list, open="r", encoding=encoding)
+    local.word.list <- as.character(unlist(readLines(wl.file.con)))
+    close(wl.file.con)
+  }
+  return(local.word.list)
+} ## function read.word.list()
+
+## function long.words()
+long.words <- function(min.num, txt.desc=NULL, hyphen=NULL){
+  if(!is.null(txt.desc)){
+    # will return the number of words with at least min.num characters!
+    if(min.num %in% colnames(txt.desc[["lttr.distrib"]])){
+      # can be that column name and numer are different, e.g. no words with three letters
+      # therefore, we transform the number into character
+      result <- txt.desc[["lttr.distrib"]]["cum.inv", as.character(min.num)]
+    } else {
+      result <- 0
+    }
+  } else if(!is.null(hyphen)){
+    if(min.num %in% colnames(slot(hyphen, "desc")[["syll.distrib"]])){
+      result <- slot(hyphen, "desc")[["syll.distrib"]]["cum.inv", as.character(min.num)]
+    } else {
+      result <- 0
+    }
+  } else {
+    stop(simpleError("internal bug: long.words() called without data!"))
+  }
+  return(result)
+} ## end function long.words()
+
+
+## function difficult.words()
+# this part calculates the percentage of words in the analyzed text
+# that are not found in a given list of words. this list must be
+# a data.frame/matrix with one column or a vector.
+difficult.words <- function(words.only, word.list, only.once=FALSE){
+  # define the built-in word lists
+  # it's not enough to have the data file around
+  ## this much doesn't work as of now, we can't ship any word list due to copyright restrictions
+  # the code is left intact though, should we get permission to include word lists in the future...
+  if(length(word.list) == 1){
+    if(is.numeric(word.list)){
+      # we got numbers, seems to be no word list, but almost already the result
+      if(!is.numeric(words.only)){
+        # ok, this is not a number, so i guess it's actual words, let's simply count them
+        words.only <- length(words.only)
+      } else {}
+      pct.not.listed <- word.list * 100 / words.only
+      result <- list(words.not.listed=word.list, num.not.listed=word.list, pct.not.listed=pct.not.listed,
+        num.listed=(words.only-word.list), pct.listed=(100-pct.not.listed))
+      return(result)
+    } else if(word.list %in% c(
+      # list internal lists here ...
+      "some.free.word.list")){
+        wlist.to.load <- parse(text=paste0("if(!exists(\"", word.list, "\", envir=.koRpus.env, inherits=FALSE)){
+          data(", word.list, ", package=\"koRpus\", envir=.koRpus.env)} else {}
+          local.word.list <- as.vector(unlist(get(\"", word.list, "\", envir=.koRpus.env)))"))
+        eval(wlist.to.load)
+    } else {
+      stop(simpleError(paste0("Invalid word list: \"", word.list, "\".\nPlease provide a valid file name, or a data.frame/matrix with one column, or a character vector!")))
+    }
+  } else if((is.vector(word.list)) & length(word.list) > 1){
+    local.word.list <- word.list
+  } else {
+    stop(simpleError(paste0("Invalid word list: \"", word.list, "\".\nPlease provide a valid file name, or a data.frame/matrix with one column, or a character vector!")))
+  }
+  # make sure it's a vector, and we don't care about cases
+  local.word.list <- tolower(local.word.list)
+  local.tokens <- tolower(words.only)
+  # Space counts unfamiliar words only once
+  if(isTRUE(only.once)){
+    words.not.listed <- unique(words.only[!local.tokens %in% local.word.list])
+    # number of tokens not on the list
+    num.not.listed <- sum(!unique(local.tokens) %in% local.word.list)
+  } else {
+    words.not.listed <- words.only[!local.tokens %in% local.word.list]
+    # number of tokens not on the list
+    num.not.listed <- sum(!local.tokens %in% local.word.list)
+  }
+  pct.not.listed <- num.not.listed * 100 / length(local.tokens)
+  result <- list(words.not.listed=words.not.listed, num.not.listed=num.not.listed, pct.not.listed=pct.not.listed,
+    num.listed=(length(local.tokens)-num.not.listed), pct.listed=(100-pct.not.listed))
+  return(result)
+} ## end function difficult.words()
+
+
+## function check.flavour()
+# checks if a word list was called with a customized parameter set
+# by mere name comparison
+check.flavour <- function(given, default, default.name="default"){
+  if(identical(given, default)){
+    return(default.name)
+  } else {
+    return(c("custom"))
+  }
+} ## function check.flavour()

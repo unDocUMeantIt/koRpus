@@ -1,17 +1,19 @@
+// this code was generated using the rkwarddev package.
+// perhaps don't make changes here, but in the rkwarddev script instead!
+// 
+// look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R
 
 
 
-
-function preprocess(){
+function preprocess(is_preview){
   // add requirements etc. here
 
 }
 
-function calculate(){
+function calculate(is_preview){
   // read in variables from dialog
   var varHyphenTagged = getString("varHyphenTagged");
   var varTaggedHyphenated = getString("varTaggedHyphenated");
-  var saveReadb = getString("saveReadb");
   var readbWLldc = getString("readbWLldc");
   var readbWLsdc = getString("readbWLsdc");
   var readbWLHaJa = getString("readbWLHaJa");
@@ -33,6 +35,7 @@ function calculate(){
   var FleschSzigriszt = getBoolean("FleschSzigriszt.state");
   var FleschFR = getBoolean("FleschFR.state");
   var FleschNL = getBoolean("FleschNL.state");
+  var FleschNLB = getBoolean("FleschNLB.state");
   var FleschPSK = getBoolean("FleschPSK.state");
   var FleschKincaid = getBoolean("FleschKincaid.state");
   var FOG = getBoolean("FOG.state");
@@ -79,6 +82,7 @@ function calculate(){
   var valueFleschES = getValue("FleschES");
   var valueFleschSzigriszt = getValue("FleschSzigriszt");
   var valueFleschNL = getValue("FleschNL");
+  var valueFleschNLB = getValue("FleschNLB");
   var valueFleschDE = getValue("FleschDE");
   var valueFleschFR = getValue("FleschFR");
   var valueFleschPSK = getValue("FleschPSK");
@@ -107,7 +111,7 @@ function calculate(){
   var valueWheelerSmithDE = getValue("WheelerSmithDE");
   // define the array arrIndex for values of R option "index"
   var arrIndex = new Array();
-  arrIndex.push(valueARI, valueARINRI, valueBormuth, valueColeman, valueColemanLiau, valueDaleChall, valueDaleChallPSK, valueDaleChallOld, valueDanielsonBryan, valueDickesSteiwer, valueDRP, valueELF, valueFarrJenkinsPaterson, valueFarrJenkinsPatersonPSK, valueFlesch, valueFleschDE, valueFleschES, valueFleschSzigriszt, valueFleschFR, valueFleschNL, valueFleschPSK, valueFleschKincaid, valueFOG, valueFOGPSK, valueFOGNRI, valueFORCAST, valueFORCASTRGL, valueFucks, valueHarrisJacobson, valueLinsearWrite, valueLIX, valueNWS, valueQu, valueRIX, valueSMOG, valueSMOGC, valueSMOGsimple, valueSpache, valueSpacheOld, valueStrain, valueTRI, valueTuldava, valueWheelerSmith, valueWheelerSmithDE);
+  arrIndex.push(valueARI, valueARINRI, valueBormuth, valueColeman, valueColemanLiau, valueDaleChall, valueDaleChallPSK, valueDaleChallOld, valueDanielsonBryan, valueDickesSteiwer, valueDRP, valueELF, valueFarrJenkinsPaterson, valueFarrJenkinsPatersonPSK, valueFlesch, valueFleschDE, valueFleschES, valueFleschSzigriszt, valueFleschFR, valueFleschNL, valueFleschNLB, valueFleschPSK, valueFleschKincaid, valueFOG, valueFOGPSK, valueFOGNRI, valueFORCAST, valueFORCASTRGL, valueFucks, valueHarrisJacobson, valueLinsearWrite, valueLIX, valueNWS, valueQu, valueRIX, valueSMOG, valueSMOGC, valueSMOGsimple, valueSpache, valueSpacheOld, valueStrain, valueTRI, valueTuldava, valueWheelerSmith, valueWheelerSmithDE);
   // clean array arrIndex from empty strings
   arrIndex = arrIndex.filter(String);
   // set the actual variable optIndex for R option "index=c()"
@@ -119,26 +123,26 @@ function calculate(){
 
   // define the array arrRdbWordLists for values of R option "word.lists"
   var arrRdbWordLists = new Array();
-    if((Bormuth || DRP) && readbWLldc) {
-      arrRdbWordLists.push("\n\t\tBormuth=\"" + readbWLldc + "\"");
-    } else {
-      arrRdbWordLists.push();
-    }
-    if((DaleChall || DaleChallPSK || DaleChallOld) && readbWLldc) {
-      arrRdbWordLists.push("\n\t\tDale.Chall=\"" + readbWLldc + "\"");
-    } else {
-      arrRdbWordLists.push();
-    }
-    if(HarrisJacobson && readbWLHaJa) {
-      arrRdbWordLists.push("\n\t\tHarris.Jacobson=\"" + readbWLHaJa + "\"");
-    } else {
-      arrRdbWordLists.push();
-    }
-    if((Spache || SpacheOld) && readbWLsdc) {
-      arrRdbWordLists.push("\n\t\tSpache=\"" + readbWLsdc + "\"");
-    } else {
-      arrRdbWordLists.push();
-    }
+  if((Bormuth || DRP) && readbWLldc) {
+    arrRdbWordLists.push("\n\t\tBormuth=\"" + readbWLldc + "\"");
+  } else {
+    arrRdbWordLists.push();
+  }
+  if((DaleChall || DaleChallPSK || DaleChallOld) && readbWLldc) {
+    arrRdbWordLists.push("\n\t\tDale.Chall=\"" + readbWLldc + "\"");
+  } else {
+    arrRdbWordLists.push();
+  }
+  if(HarrisJacobson && readbWLHaJa) {
+    arrRdbWordLists.push("\n\t\tHarris.Jacobson=\"" + readbWLHaJa + "\"");
+  } else {
+    arrRdbWordLists.push();
+  }
+  if((Spache || SpacheOld) && readbWLsdc) {
+    arrRdbWordLists.push("\n\t\tSpache=\"" + readbWLsdc + "\"");
+  } else {
+    arrRdbWordLists.push();
+  }
   // clean array arrRdbWordLists from empty strings
   arrRdbWordLists = arrRdbWordLists.filter(String);
   // set the actual variable rdbWordLists with all values for R option "word.lists"
@@ -156,10 +160,9 @@ function calculate(){
   echo(",\n\tquiet=TRUE\n)\n\n");
 }
 
-function printout(){
+function printout(is_preview){
   // printout the results
   new Header(i18n("Readability results")).print();
-
   echo("rk.results(summary(readability.obj))\n");
   //// save result object
   // read in saveobject variables

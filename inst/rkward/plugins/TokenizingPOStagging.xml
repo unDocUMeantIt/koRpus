@@ -1,9 +1,13 @@
 <!DOCTYPE rkplugin >
 <document>
+  <!-- this code was generated using the rkwarddev package.
+    perhaps don't make changes here, but in the rkwarddev script instead!
+    
+    look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R -->
   <code file="TokenizingPOStagging.js" />
   <help file="TokenizingPOStagging.rkh" />
-  <!--   <dependencies>
-        </dependencies> -->
+  <!-- <dependencies>
+      </dependencies> -->
   <logic>
     <convert id="lgc_oprtnMdf" sources="operationMode.string" mode="equals" standard="file" />
     <convert id="lgc_oprtnMTT" sources="operationMode.string" mode="equals" standard="fileTreeTagger" />
@@ -25,16 +29,14 @@
             The TreeTagger folder is the one containing the bin, cmd and lib folders
           </text>
           <dropdown id="language" label="Text language:">
+            <option label="Dutch" value="nl" />
             <option label="English" value="en" checked="true" />
-            <option label="French (UTF-8)" value="fr-utf8" />
             <option label="French" value="fr" />
-            <option label="German (UTF-8)" value="de-utf8" />
             <option label="German" value="de" />
-            <option label="Italian (UTF-8)" value="it-utf8" />
             <option label="Italian" value="it" />
-            <option label="Spanish (UTF-8)" value="es-utf8" />
+            <option label="Portuguese" value="pt" />
+            <option label="Russian" value="ru" />
             <option label="Spanish" value="es" />
-            <option label="Russian (UTF-8)" value="ru" />
           </dropdown>
           <browser label="Text to analyze:" type="file" id="textFile" filter="*.txt" />
         </frame>

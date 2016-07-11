@@ -1,19 +1,28 @@
+// this code was generated using the rkwarddev package.
+// perhaps don't make changes here, but in the rkwarddev script instead!
+// 
+// look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R
 
 
 
-
-function preprocess(){
+function preprocess(is_preview){
   // add requirements etc. here
   echo("require(koRpus)\n");
+
+  var language = getValue("language");
+  if(language == "nl") {
+    echo("require(koRpus.lang.nl)\n");  
+  } else if(language == "pt") {
+    echo("require(koRpus.lang.pt)\n");  
+  } else {}
 }
 
-function calculate(){
+function calculate(is_preview){
   // read in variables from dialog
   var operationMode = getString("operationMode");
   var TTRootDir = getString("TTRootDir");
   var language = getString("language");
   var textFile = getString("textFile");
-  var saveTaggedText = getString("saveTaggedText");
   var detectHeadlines = getBoolean("detectHeadlines.state");
   var detectParagraphs = getBoolean("detectParagraphs.state");
   var showTagged = getBoolean("showTagged.state");
@@ -33,17 +42,7 @@ function calculate(){
     var optDetect = "";
   }
 
-  if(language == "de-utf8") {
-    var TTLang = "de";  
-  } else if(language == "fr-utf8") {
-    var TTLang = "fr";  
-  } else if(language == "es-utf8") {
-    var TTLang = "es";  
-  } else if(language == "it-utf8") {
-    var TTLang = "it";  
-  } else {
-    var TTLang = language;  
-  }
+  var TTLang = language;
   if(operationMode == "file") {
     echo("tagged.text.obj <- tokenize(\n\t\"" + textFile + "\",\n\tlang=\"" + TTLang + "\"" + optDetect + "\n)\n\n");  
   } else {
@@ -51,10 +50,8 @@ function calculate(){
   }
 }
 
-function printout(){
+function printout(is_preview){
   // printout the results
-
-
   var textFile = getValue("textFile");
   var language = getValue("language");
   var showTagged = getValue("showTagged");

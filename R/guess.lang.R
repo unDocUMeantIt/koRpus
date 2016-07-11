@@ -114,7 +114,7 @@ guess.lang <- function(txt.file, udhr.path, comp.length=300, keep.udhr=FALSE, qu
 
   # sort results by diff
   udhr.results <- udhr.results[order(udhr.results[["diff"]]),]
-  dimnames(udhr.results)[[1]] <- 1:length(dimnames(udhr.results)[[1]])
+  dimnames(udhr.results)[[1]] <- seq_along(dimnames(udhr.results)[[1]])
 
   # get the best match
   lang.estim <- udhr.results[1,"name"]

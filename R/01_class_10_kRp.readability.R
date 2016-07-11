@@ -111,8 +111,8 @@
 #' @export
 #' @rdname kRp.readability-class
 
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_08_kRp.hyphen.R
 
 setClass("kRp.readability",
     representation=representation(

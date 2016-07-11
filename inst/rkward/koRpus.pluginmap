@@ -6,6 +6,12 @@
   po_id="TokenizingPOStagging_rkward"
   priority="medium"
 >
+  <!-- 
+    this code was generated using the rkwarddev package.
+    perhaps don't make changes here, but in the rkwarddev script instead!
+    
+    look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R 
+  -->
   <dependencies rkward_min_version="0.6.3">
   </dependencies>
   <about 
@@ -13,7 +19,7 @@
     shortinfo="RKWard GUI for the koRpus package."
     longinfo="RKWard GUI for the koRpus package."
     version="0.01-0"
-    releasedate="2015-11-20"
+    releasedate="2016-07-05"
     url="http://EXAMPLE.com"
     license="GPL (&gt;= 3)"
   >

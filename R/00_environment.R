@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -15,13 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
+## setting up the internal environment
 
-#' @export
-#' @docType methods
-#' @aliases show,kRp.corp.freq-method
-#' @rdname show-methods
-#' @include 00_class_06_kRp.corp.freq.R
-#' @include 01_method_show.kRp.lang.R
-setMethod("show", signature(object="kRp.corp.freq"), function(object){
-  show(slot(object, "words"))
-})
+# empty environment for TreeTagger information
+.koRpus.env <- new.env()
+
+# we're safe for words up to 200 characters for hyphenation
+hyph.max.word.length <- 200L
+
+## wrapper for paste0() needed?
+if(isTRUE(R_system_version(getRversion()) < 2.15)){
+  # if this is an older R version, we need a wrapper function for paste0()
+  # which was introduced with R 2.15 as a more efficient shortcut to paste(..., sep="")
+  paste0 <- function(..., collapse=NULL){
+    return(paste(..., sep="", collapse=collapse))
+  }
+} else {}

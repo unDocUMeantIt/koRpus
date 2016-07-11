@@ -1,9 +1,13 @@
 <!DOCTYPE rkplugin >
 <document>
+  <!-- this code was generated using the rkwarddev package.
+    perhaps don't make changes here, but in the rkwarddev script instead!
+    
+    look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R -->
   <code file="FrequencyAnalysis.js" />
   <help file="FrequencyAnalysis.rkh" />
-  <!--   <dependencies>
-        </dependencies> -->
+  <!-- <dependencies>
+      </dependencies> -->
   <logic>
     <convert id="lgc_vrkRpFrO" sources="varkRpFreqObj.available" mode="and" />
     <connect governor="lgc_vrkRpFrO.not" client="freqSourceFrame.enabled" />

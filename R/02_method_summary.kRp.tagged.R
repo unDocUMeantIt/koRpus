@@ -54,8 +54,8 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #'    TT.options=list(path="~/bin/treetagger", preset="en"))
 #' summary(tagged.results)
 #' }
-#' @include 00_class_01_kRp.tagged.R
-#' @include 01_method_summary.kRp.lang.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.tagged"), function(object){
   # to prevent hiccups from R CMD check
   Row.names <- NULL

@@ -53,10 +53,10 @@
 setGeneric("read.corp.custom", function(corpus, ...) standardGeneric("read.corp.custom"))
 
 #' @export
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 #' @aliases read.corp.custom,kRp.taggedText-method
 #' @rdname read.corp.custom-methods

@@ -157,6 +157,9 @@
 #'      \deqn{FOG_{new} = \frac{\frac{W_{<3Sy} + (3 * W_{3Sy})}{\frac{100 \times St}{W}} - 3}{2}}
 #'      If the text was POS-tagged accordingly, proper nouns and combinations of only easy words will not be counted as hard words,
 #'      and the syllables of verbs ending in "-ed", "-es" or "-ing" will be counted without these suffixes.
+#'      
+#'      Due to the need to re-hyphenate combined words after splitting them up, this formula takes considerably longer to compute than most others.
+#'      If will be omitted if you set \code{index="fast"} instead of the default.
 #'
 #'      Wrapper function: \code{\link[koRpus:FOG]{FOG}}
 #'    }
@@ -243,7 +246,7 @@
 #'      Wrapper function: \code{\link[koRpus:strain]{strain}}
 #'    }
 #'    \item{\code{"Traenkle.Bailer"}:}{\emph{Tränkle-Bailer Formeln}. These two formulas were the result of a re-examination of the ones proposed
-#'      by Dickes-Steiwer. They try to avoid the usage of the type-token ratio, which is dependent on text length (Tränkle, & Bailer, 1984):
+#'      by Dickes-Steiwer. They try to avoid the usage of the type-token ratio, which is dependent on text length (Tränkle & Bailer, 1984):
 #'      \deqn{TB1 = 224.6814 - \left(79.8304 \times \frac{C}{W} \right) - \left(12.24032 \times \frac{W}{St} \right) - \left(1.292857 \times \frac{100 \times{} W_{prep}}{W} \right)}
 #'      \deqn{TB2 = 234.1063 - \left(96.11069 \times \frac{C}{W} \right) - \left(2.05444 \times \frac{100 \times{} W_{prep}}{W} \right) - \left(1.02805 \times \frac{100 \times{} W_{conj}}{W} \right)}
 #'      Where \eqn{W_{prep}} refers to the number of prepositions, and \eqn{W_{conj}} to the number of conjunctions.
@@ -285,7 +288,9 @@
 #'    the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus:hyphen]{hyphen}}
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically. All syllable handling will
 #'    be skipped automatically if it's not needed for the selected indices.
-#' @param index A character vector, indicating which indices should actually be computed.
+#' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
+#'    will be tried (meaning all variations of all measures). If set to \code{"fast"}, a subset of the default values is used that is
+#'    known to compute fast (currently, this only excludes "FOG").
 #' @param parameters A list with named magic numbers, defining the relevant parameters for each index. If none are given,
 #'    the default values are used.
 #' @param word.lists A named list providing the word lists for indices which need one. If \code{NULL} or missing, the indices will be
@@ -370,10 +375,10 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 ##################################################################
 
 #' @export
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 #' @aliases readability,kRp.taggedText-method
 #' @rdname readability-methods

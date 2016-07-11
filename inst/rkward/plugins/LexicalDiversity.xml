@@ -1,9 +1,13 @@
 <!DOCTYPE rkplugin >
 <document>
+  <!-- this code was generated using the rkwarddev package.
+    perhaps don't make changes here, but in the rkwarddev script instead!
+    
+    look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R -->
   <code file="LexicalDiversity.js" />
   <help file="LexicalDiversity.rkh" />
-  <!--   <dependencies>
-        </dependencies> -->
+  <!-- <dependencies>
+      </dependencies> -->
   <logic>
     <convert id="lgc_TTRCMATT" sources="TTRChar.state;MATTRChar.state;CldChar.state;RldChar.state;CTTRChar.state;UldChar.state;SldChar.state;KldChar.state;MaasChar.state;HDDChar.state;MTLDChar.state;MTLDMAChar.state" mode="or" />
     <connect governor="lgc_TTRCMATT" client="stepSize.enabled" />
@@ -61,7 +65,7 @@
         <frame label="Calculate impact of text length" id="LDChars">
           <text id="txt_ThcTTRYY">
             The classic TTR is dependent on text legth. You can examine this effect by repeatedly calculating the measures' value for growing
-                portions of your text. You can then plot these characteristics.
+      portions of your text. You can then plot these characteristics.
           </text>
           <row id="row_cLDC1TTRCT">
             <column id="colLDChar1">

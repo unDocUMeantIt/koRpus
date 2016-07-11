@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -89,10 +89,10 @@
 setGeneric("hyphen", function(words, ...) standardGeneric("hyphen"))
 
 #' @export
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 #' @aliases hyphen,kRp.taggedText-method
 #' @rdname hyphen-methods
@@ -108,9 +108,9 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
     lang <- language(tagged.text)
     words <- tagged.txt.rm.classes(taggedText(tagged.text), lemma=FALSE,
       lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag)
- 
+
     results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet, cache=cache, lang=lang)
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, lang=lang)
 
     return(results)
   }
@@ -120,12 +120,10 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
 #' @aliases hyphen,character-method
 #' @rdname hyphen-methods
 setMethod("hyphen", signature(words="character"), function(words,
-    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
-    corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE, cache=TRUE){
+    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
 
     results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet, cache=cache)
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache)
 
     return(results)
   }

@@ -136,6 +136,17 @@ set.lang.support <- function(target, value){
     # to be safe do this as a for loop; this should replace older entries
     # but keep all other intact or just add new ones
     for (this.tags in names(value)){
+      # check for duplicate entries, they would completely mess up tagging results
+      dupes <- c(
+        value[[this.tags]][["tag.class.def.words"]][,"tag"],
+        value[[this.tags]][["tag.class.def.punct"]][,"tag"],
+        value[[this.tags]][["tag.class.def.sentc"]][,"tag"]
+      )
+      if(any(duplicated(dupes))){
+        stop(simpleError(paste0("Some tags are defined multiple times, this is not allowed! Please check these tags:\n    ",
+          paste0(unique(dupes[duplicated(dupes)]), collapse=", ")
+        )))
+      } else {}
       recent.tags[[this.tags]] <- value[[this.tags]]
     }
     all.kRp.env[["langSup"]][["kRp.POS.tags"]][["tags"]] <- recent.tags

@@ -75,10 +75,10 @@ setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=N
 #' @docType methods
 #' @rdname correct-methods
 #' @aliases correct.tag correct.tag,kRp.taggedText-method
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 setMethod("correct.tag",
     signature(obj="kRp.taggedText"),
@@ -137,7 +137,7 @@ setGeneric("correct.hyph", function(obj, word=NULL, hyphen=NULL, cache=TRUE){sta
 #' @rdname correct-methods
 #' @aliases correct.hyph correct.hyph,kRp.hyphen-method
 #' @export
-#' @include 00_class_08_kRp.hyphen.R
+#' @include 01_class_08_kRp.hyphen.R
 setMethod("correct.hyph",
     signature(obj="kRp.hyphen"),
     function (obj, word=NULL, hyphen=NULL, cache=TRUE){

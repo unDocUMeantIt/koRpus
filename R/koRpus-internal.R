@@ -20,32 +20,19 @@
 # they are not exported, hence not to be called by users themselves
 # and are therefore only documented by the comments in this file.
 
-# empty environment for TreeTagger information
-.koRpus.env <- new.env()
-
 # define class union to make life easier
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_02_kRp.TTR.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
-#' @include 00_class_06_kRp.corp.freq.R
-#' @include 00_class_08_kRp.hyphen.R
-#' @include 00_class_07_kRp.hyph.pat.R
-#' @include 00_class_09_kRp.lang.R
-#' @include 00_class_10_kRp.readability.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_02_kRp.TTR.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_06_kRp.corp.freq.R
+#' @include 01_class_08_kRp.hyphen.R
+#' @include 01_class_07_kRp.hyph.pat.R
+#' @include 01_class_09_kRp.lang.R
+#' @include 01_class_10_kRp.readability.R
 #' @include kRp.filter.wclass.R
 setClassUnion("kRp.taggedText", members=c("kRp.tagged", "kRp.analysis", "kRp.txt.freq", "kRp.txt.trans"))
-
-
-## wrapper for paste0() needed?
-if(isTRUE(R_system_version(getRversion()) < 2.15)){
-  # if this is an older R version, we need a wrapper function for paste0()
-  # which was introduced with R 2.15 as a more efficient shortcut to paste(..., sep="")
-  paste0 <- function(..., collapse=NULL){
-    return(paste(..., sep="", collapse=collapse))
-  }
-} else {}
 
 
 ## function check.file()
@@ -243,7 +230,7 @@ clean.text <- function(txt.vct, from.to=NULL, perl=FALSE){
   } else {}
   stopifnot(is.character(txt.vct))
   stopifnot(is.list(from.to))
-  for (idx in 1:length(from.to)){
+  for (idx in seq_along(from.to)){
       from <- names(from.to)[[idx]]
       to <- from.to[[idx]]
       txt.vct <- gsub(from, to, txt.vct, perl=perl)
@@ -586,8 +573,9 @@ word.freq <- function(txt, corp.freq, rel, zero.NAs=FALSE){
 ## function type.freq()
 # this function will identify unique types in a tagged text object
 # and count how often it appears in the text
-# txt must be a tagged text object
-type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.no.lemmas=TRUE){
+# - txt: must be a tagged text object
+# - vector.only: if the numbers and letters are not needed, return the vector of types an quit
+type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.no.lemmas=TRUE, vector.only=FALSE){
   # shall we count all tokens or their lemmas?
   if(isTRUE(lemma)){
     # do a sanity check, are lemmata present?
@@ -609,31 +597,29 @@ type.freq <- function(txt, case.sens=TRUE, verbose=FALSE, lemma=FALSE, fail.if.n
   if(!isTRUE(case.sens)){
     all.tokens[[relevant.tokens]] <- tolower(all.tokens[[relevant.tokens]])
   } else {}
-  all.types <- unique(all.tokens[[relevant.tokens]])
-  num.tokens <- dim(all.tokens)[[1]]
-  num.types <- length(all.types)
-  corp.freq <- data.frame(type="", lttr=0, freq=0, stringsAsFactors=FALSE)
-  type.counter <- 1
-  for (tp in all.types){
+  corp.freq <- unique(all.tokens)
+  colnames(corp.freq) <- c("type","lttr")
+  if(isTRUE(vector.only)){
+    return(corp.freq[["type"]])
+  } else {
+    corp.freq[["freq"]] <- 0
+    num.tokens <- nrow(all.tokens)
+    num.types <- nrow(corp.freq)
     if(isTRUE(verbose)){
-      cat(paste0("\t", floor(100*type.counter/num.types), "% complete, processing ", relevant.tokens, " ", type.counter, " of ", num.types, ": \"", tp, "\""))
-      tp.freq <- sum(match(all.tokens[[relevant.tokens]], tp), na.rm=TRUE)
-      cat(paste0(" (found ", tp.freq, " times in ", num.tokens, " ", relevant.tokens, "s)\n"))
-    } else {
-      tp.freq <- sum(match(all.tokens[[relevant.tokens]], tp), na.rm=TRUE)
+      type.counter <- 1
+    } else {}
+    for (tp in seq_along(corp.freq[["type"]])){
+      corp.freq[tp, "freq"] <- sum(all.tokens[[relevant.tokens]] %in% corp.freq[tp, "type"], na.rm=TRUE)
+      if(isTRUE(verbose)){
+        message(paste0("\t", floor(100*type.counter/num.types), "% complete, processing ", relevant.tokens, " ", type.counter, " of ", num.types, ": \"", corp.freq[tp, "type"], "\""))
+        message(paste0(" (found ", corp.freq[tp, "freq"], " times in ", num.tokens, " ", relevant.tokens, "s)\n"))
+        type.counter <- type.counter + 1
+      } else {}
     }
-    tp.letters <- all.tokens[match(tp, all.tokens[[relevant.tokens]]),"lttr"]
-    corp.freq <- rbind(corp.freq, c(token=tp, lttr=tp.letters, freq=tp.freq))
-    type.counter <- type.counter + 1
+    # order results
+    corp.freq <- corp.freq[order(corp.freq[,"freq"], corp.freq[,"lttr"], decreasing=TRUE),]
+    rownames(corp.freq) <- NULL
   }
-  # remove first empty row
-  corp.freq <- corp.freq[-1,]
-  # correct data types
-  corp.freq$lttr <- as.numeric(corp.freq$lttr)
-  corp.freq$freq <- as.numeric(corp.freq$freq)
-  # order results
-  corp.freq <- corp.freq[order(corp.freq[,"freq"], corp.freq[,"lttr"], decreasing=TRUE),]
-  dimnames(corp.freq)[[1]] <- 1:dim(corp.freq)[[1]]
   return(corp.freq)
 } ## end function type.freq()
 
@@ -772,18 +758,24 @@ text.freq.analysis <- function(txt.commented, corp.freq, corp.rm.class, corp.rm.
 #     optional columns are "lemma", "tag", "wclass", "inDocs" and "idf".
 # "df.meta" must be a data.frame with two columns: "meta" (name of meta information) and its "value".
 # "dscrpt.meta" must be a data.frame with six columns: "tokens" (old: "words"), "types" (old: "dist.words"),
-#   "words.p.sntc", "chars.p.sntc", "chars.p.wform" and "chars.p.word"
+#   "words.p.sntc", "chars.p.sntc", "chars.p.wform" and "chars.p.word"; if NULL its value is set to an empty default
 # "extra.cols" is an optional data.frame with additional columns, e.g. valence data
-create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.dscrpt.meta, extra.cols=NULL){
+create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.dscrpt.meta,
+  matrix.table.bigrams=NULL, matrix.table.cooccur=NULL, extra.cols=NULL){
+  tokenFreq <- as.numeric(matrix.freq[,"freq"])
+  # try to work around missing meta information
+  if(is.na(num.running.words)){
+    num.running.words <- sum(tokenFreq)
+  }
   # calculate rank data
-  rank.avg <- rank(as.numeric(matrix.freq[,"freq"]), ties.method="average")
-  rank.min <- rank(as.numeric(matrix.freq[,"freq"]), ties.method="min")
+  rank.avg <- rank(tokenFreq, ties.method="average")
+  rank.min <- rank(tokenFreq, ties.method="min")
   # for better comparability, compute relative ranks
   # can take values between 0 and 100
   rank.rel.avg <- (rank.avg / max(rank.avg)) * 100
   rank.rel.min <- (rank.min / max(rank.min)) * 100
 
-  words.per.mio <- as.numeric(matrix.freq[,"freq"]) %/% (num.running.words/1000000)
+  words.per.mio <- tokenFreq %/% (num.running.words/1000000)
   log10.per.mio <- log10(words.per.mio)
   # correct for lowest frequency words and log10(0), which returns -Inf
   log10.per.mio[log10.per.mio < 0] <- 0
@@ -821,8 +813,8 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
               tag=have.tag,
               wclass=have.wclass,
               lttr=nchar(matrix.freq[,"word"], allowNA=TRUE),
-              freq=as.numeric(matrix.freq[,"freq"]),
-              pct=as.numeric(matrix.freq[,"freq"])/num.running.words,
+              freq=tokenFreq,
+              pct=tokenFreq/num.running.words,
               pmio=words.per.mio,
               log10=log10.per.mio,
               rank.avg=rank.avg,
@@ -836,8 +828,75 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
   if(!is.null(extra.cols)){
     df.words <- cbind(df.words, extra.cols, stringsAsFactors=FALSE)
   } else {}
-
-  results <- new("kRp.corp.freq", meta=df.meta, words=df.words, desc=df.dscrpt.meta)
+  # set missing information to a valid defaults
+  if(is.null(df.dscrpt.meta)){
+    df.dscrpt.meta <- slot(new("kRp.corp.freq"), "desc")
+  } else {}
+  if(is.null(df.meta)){
+    df.meta <- slot(new("kRp.corp.freq"), "meta")
+  } else {}
+  if(is.null(matrix.table.bigrams)){
+    df.table.bigrams <- slot(new("kRp.corp.freq"), "bigrams")
+  } else {
+    message("Fetching bigram tokens from data... ", appendLF=FALSE)
+    df.table.bigrams <- data.frame(
+      token1=df.words[
+        sapply(
+          as.numeric(matrix.table.bigrams[,"token1"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      token2=df.words[
+        sapply(
+          as.numeric(matrix.table.bigrams[,"token2"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      freq=as.numeric(matrix.table.bigrams[,"freq"]),
+      sig=as.numeric(matrix.table.bigrams[,"sig"])
+    )
+    # sort by frequency
+    message("sorting... ", appendLF=FALSE)
+    df.table.bigrams <- df.table.bigrams[with(df.table.bigrams, order(freq, decreasing=TRUE)),]
+    message("done.")
+  }
+  if(is.null(matrix.table.cooccur)){
+    df.table.cooccur <- slot(new("kRp.corp.freq"), "cooccur")
+  } else {
+    message("Fetching co-occurrence tokens from data... ", appendLF=FALSE)
+    df.table.cooccur <- data.frame(
+      token1=df.words[
+        sapply(
+          as.numeric(matrix.table.cooccur[,"token1"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      token2=df.words[
+        sapply(
+          as.numeric(matrix.table.cooccur[,"token2"]),
+          function(x){
+            which(df.words[,"num"] == x)
+          }
+        ), "word"],
+      freq=as.numeric(matrix.table.cooccur[,"freq"]),
+      sig=as.numeric(matrix.table.cooccur[,"sig"])
+    )
+    # sort by frequency
+    message("sorting... ", appendLF=FALSE)
+    df.table.cooccur <- df.table.cooccur[with(df.table.cooccur, order(freq, decreasing=TRUE)),]
+    message("done.")
+  }
+  results <- new(
+    "kRp.corp.freq",
+    meta=df.meta,
+    words=df.words,
+    desc=df.dscrpt.meta,
+    bigrams=df.table.bigrams,
+    cooccur=df.table.cooccur
+  )
   return(results)
 } ## end function create.corp.freq.object()
 
@@ -970,9 +1029,9 @@ read.udhr <- function(txt.path, quiet=TRUE){
   # as a safety measure, put iso639-3 in quotes
   udhr.XML <- gsub("#iso639-3=", "#\"iso639-3\"=", udhr.XML)
   udhr.XML.list <- strsplit(udhr.XML, split="#")
-  udhr.list <- lapply(1:length(udhr.XML.list), function(cur.entry){eval(parse(text=paste0("c(", paste(udhr.XML.list[[cur.entry]], collapse=", "), ")")))})
+  udhr.list <- lapply(seq_along(udhr.XML.list), function(cur.entry){eval(parse(text=paste0("c(", paste(udhr.XML.list[[cur.entry]], collapse=", "), ")")))})
 
-  names(udhr.list) <- 1:length(udhr.list)
+  names(udhr.list) <- seq_along(udhr.list)
   # correct for missing values and variables
   udhr.list.corr <- sapply(udhr.list, function(udhr.entry){
       # older index files split up l+v and n+nv, newer have combined f and n elements
@@ -1054,72 +1113,46 @@ text.1st.letter <- function(word, case){
 #   <e2><80><99> -> \u2019 right single quotation mark
 #   <e2><80><93> -> \u2013 en dash
 taggz <- function(tokens, abbrev=NULL, heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")), ign.comp="", sntc=c(".","!","?",";",":")){
-
-  tagged.text <- sapply(tokens, function(tkn){
-      if(identical(tkn, "")){
-        return(c(token=tkn, tag="unk"))
-      } else if(!grepl(paste("[^\\p{L}\\p{M}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        # all letters, assume it's a word
-        return(c(token=tkn, tag="word.kRp"))
-      } else if(!grepl(paste("[^\\p{N}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        # all digits, assume it's a number
-        return(c(token=tkn, tag="no.kRp"))
-      } else if(tkn %in% abbrev){
-        # assume it's an abbreviation
-        return(c(token=tkn, tag="abbr.kRp"))
-      } else if(tkn %in% sntc){
-        # assume it's a sentence ending
-        return(c(token=tkn, tag=".kRp"))
-      } else if(!grepl("[^.]", tkn, perl=TRUE)){
-        # all dots
-        return(c(token=tkn, tag="-kRp"))
-      } else if(identical(tkn, ",")){
-        return(c(token=tkn, tag=",kRp"))
-      } else if(!grepl(paste("[^\\p{Ps}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        return(c(token=tkn, tag="(kRp"))
-      } else if(!grepl(paste("[^\\p{Pe}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        return(c(token=tkn, tag=")kRp"))
-       } else if(tkn %in% c("\"","'","''","`","``","\u2019","\u2019\u2019")){
-         return(c(token=tkn, tag="''kRp"))
-      } else if(!grepl(paste("[^\"\\p{Pi}\\p{Pf}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        return(c(token=tkn, tag="''kRp"))
-      } else if(!grepl(paste("[^\\p{Pd}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        return(c(token=tkn, tag="-kRp"))
-      } else if(!grepl(paste("[^\\p{P}",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        # any other punctuation
-        return(c(token=tkn, tag="-kRp"))
+  # make R CMD check happy...
+  token <- tag <- NULL
+  tagged.text <- data.table(token=tokens, tag="unk.kRp")
+  Encoding(tagged.text$token) <- "UTF-8"
+  Encoding(tagged.text$tag) <- "UTF-8"
+  tagged.text[token == "" & tag == "unk.kRp", tag := "unk"]
+  # all letters, assume it's a word
+  tagged.text[!grepl(paste("[^\\p{L}\\p{M}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "word.kRp"]
+  # all digits, assume it's a number
+  tagged.text[!grepl(paste("[^\\p{N}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "no.kRp"]
+  # assume it's an abbreviation
+  tagged.text[token %in% abbrev & tag == "unk.kRp", tag := "abbr.kRp"]
+  # assume it's a sentence ending
+  tagged.text[token %in% sntc & tag == "unk.kRp", tag := ".kRp"]
+  # all dots
+  tagged.text[!grepl("[^.]", token, perl=TRUE) & tag == "unk.kRp", tag := "-kRp"]
+  tagged.text[token == "," & tag == "unk.kRp", tag := ",kRp"]
+  tagged.text[!grepl(paste("[^\\p{Ps}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "(kRp"]
 #       } else if(tkn %in% c("(","{","[")){
 #         return(c(token=tkn, tag="(kRp"))
+  tagged.text[!grepl(paste("[^\\p{Pe}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := ")kRp"]
 #       } else if(tkn %in% c(")","}","]")){
 #         return(c(token=tkn, tag=")kRp"))
 #       } else if(tkn %in% c("-","\u2013")){
 #         return(c(token=tkn, tag="-kRp"))
-      } else if(!grepl(paste("[^\\p{L}\\p{M}.",paste(ign.comp, collapse=""),"]"), tkn, perl=TRUE)){
-        # simple heuristics for abbreviations
-        return(c(token=tkn, tag="abbr.kRp"))
-      } else if(!grepl(paste("[^\\p{L}\\p{M}\\p{N}",paste(unique(unlist(heur.fix), ign.comp), collapse=""),"]"), tkn, perl=TRUE)){
-        # simple heuristics for pre- and suffixes
-        return(c(token=tkn, tag="word.kRp"))
-      # automatic healine or paragraph detection:
-      } else if(identical(tkn, "<kRp.h>")){
-        return(c(token=tkn, tag="hon.kRp"))
-      } else if(identical(tkn, "</kRp.h>")){
-        return(c(token=tkn, tag="hoff.kRp"))
-      } else if(identical(tkn, "<kRp.p/>")){
-        return(c(token=tkn, tag="p.kRp"))
-      } else {
-        return(c(token=tkn, tag="unk.kRp"))
-      }
-    })
+  tagged.text[token %in% c("\"","'","''","`","``","\u2019","\u2019\u2019") & tag == "unk.kRp", tag := "''kRp"]
+  tagged.text[!grepl(paste("[^\"\\p{Pi}\\p{Pf}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "''kRp"]
+  tagged.text[!grepl(paste("[^\\p{Pd}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "-kRp"]
+  # any other punctuation
+  tagged.text[!grepl(paste("[^\\p{P}",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "-kRp"]
+  # simple heuristics for abbreviations
+  tagged.text[!grepl(paste("[^\\p{L}\\p{M}.",paste(ign.comp, collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "abbr.kRp"]
+  # simple heuristics for pre- and suffixes
+  tagged.text[!grepl(paste("[^\\p{L}\\p{M}\\p{N}",paste(unique(unlist(heur.fix), ign.comp), collapse=""),"]"), token, perl=TRUE) & tag == "unk.kRp", tag := "word.kRp"]
+  # automatic healine or paragraph detection:
+  tagged.text[token == "<kRp.h>" & tag == "unk.kRp", tag := "hon.kRp"]
+  tagged.text[token == "</kRp.h>" & tag == "unk.kRp", tag := "hoff.kRp"]
+  tagged.text[token == "<kRp.p/>" & tag == "unk.kRp", tag := "p.kRp"]
 
-  if(length(tokens) > 1){
-    tagged.text <- t(unlist(tagged.text))
-  }  else {
-    tagged.text <- t(tagged.text)
-    colnames(tagged.text) <- c("token", "tag")
-  }
-  # remove the dumb names
-  rownames(tagged.text) <- NULL
+  tagged.text <- as.matrix(tagged.text)
   
   return(tagged.text)
 } ## end function taggz()
@@ -1301,136 +1334,6 @@ headLine <- function(txt, level=1){
 } ## end function headLine()
 
 
-## function get.hyph.cache()
-get.hyph.cache <- function(lang){
-  # simply get cache from current koRpus environment
-  # returns NULL if none exists
-  return(mget("hyphenCache", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCache"]][[lang]])
-}
-## end function get.hyph.cache()
-
-
-## function check.hyph.cache()
-# called by hyphen(), returns either the chached entry, or NULL
-check.hyph.cache <- function(lang, token, cache=get.hyph.cache(lang=lang)){
-  if(is.null(cache)){
-    # no cache, no hit...
-    return(NULL)
-  } else {}
-  # check if this word was hyphenated before
-  cached.word <- cache[cache[,"token"] == token,]
-  if(nrow(cached.word) == 1){
-    return(subset(cached.word, select=-token))
-  } else {
-    return(NULL)
-  }
-}
-## end function check.hyph.cache()
-
-
-## function set.hyph.cache()
-# writes (probably new) cache data back to the environment
-# "append" can be a new row of data
-set.hyph.cache <- function(lang, append=NULL, cache=get.hyph.cache(lang=lang), unique=FALSE){
-  # append result to cache
-  if(!is.null(append)){
-    if(!identical(c("token", "syll", "word"), colnames(append))){
-      stop(simpleError("hyphen() cache only knows of columns \"token\", \"syll\" and \"word\"!"))
-    } else {}
-    # could be there is no cache yet
-    if(is.null(cache)){
-      cache <- append
-    } else if(isTRUE(unique)){
-      cache <- unique(rbind(cache, append))
-    } else {
-      cache <- rbind(cache, append)
-    }
-  } else {
-    if(is.null(cache)){
-      # hm, if both is null, don't do anything
-      return(invisible(NULL))
-    } else {}
-  }
-
-  all.kRp.env.hyph <- mget("hyphenCache", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCache"]]
-  if(is.null(all.kRp.env.hyph)){
-    all.kRp.env.hyph <- list()
-  } else {}
-  all.kRp.env.hyph[[lang]] <- cache
-  assign("hyphenCache", all.kRp.env.hyph, envir=as.environment(.koRpus.env))
-  return(invisible(NULL))
-}
-## end function set.hyph.cache()
-
-
-## function read.hyph.cache.file()
-# reads a dumped chace file, if "file" is not NULL or doesn't exist
-read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, errorIfUnset=FALSE), quiet=FALSE){
-  if(is.null(file)){
-    return(invisible(NULL))
-  } else {}
-
-  cache.file.path <- normalizePath(file, mustWork=FALSE)
-  if(!file.exists(cache.file.path)){
-    if(!isTRUE(quiet)){
-      message(paste0("Cache file does not exist yet:\n  ", cache.file.path))
-    } else {}
-    return(invisible(NULL))
-  } else {
-    # only reload the file if it changed or wasn't loaded at all yet
-    cacheFileInfo.new <- file.info(cache.file.path)
-    cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCacheFile"]]
-    if(identical(cacheFileInfo.new, cacheFileInfo.old[[lang]])){
-      # file doesn't seem to have changed
-      return(invisible(NULL))
-    } else if(is.null(cacheFileInfo.old)){
-      # this must be the first time we try to read the file
-      cacheFileInfo.old <- list()
-    } else {}
-
-    # set koRpus.hyph.cache to NULL to suppress R CMD check warning
-    koRpus.hyph.cache <- NULL
-    load(cache.file.path)
-    # data will be checked by set.hyph.cache(), so no need to worry here
-    # but the loaded data must contain a data.frame named "koRpus.hyph.cache"
-    if(is.null(koRpus.hyph.cache)){
-      stop(simpleError("The cache file you provided does not contain koRpus-ready hyphenation data!"))
-    } else {}
-    # set new file data to prevent from reloading if unchanged
-    cacheFileInfo.old[[lang]] <- cacheFileInfo.new
-    assign("hyphenCacheFile", cacheFileInfo.old, envir=as.environment(.koRpus.env))
-  }
-
-  # write loaded data to environment
-  set.hyph.cache(lang=lang, append=koRpus.hyph.cache, cache=get.hyph.cache(lang=lang), unique=TRUE)
-
-  return(invisible(NULL))
-}
-## end function read.hyph.cache.file()
-
-
-## function write.hyph.cache.file()
-# dumps cache data into a file, if "file" is not NULL. if it doesn't exist, it will be created
-write.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, errorIfUnset=FALSE), quiet=FALSE){
-  if(is.null(file)){
-    return(invisible(NULL))
-  } else {}
-
-  cache.file.path <- normalizePath(file, mustWork=FALSE)
-  if(!file.exists(cache.file.path)){
-    if(!isTRUE(quiet)){
-      message(paste0("Cache file does not exist and will be created:\n  ", cache.file.path))
-    } else {}
-  } else {}
-
-  koRpus.hyph.cache <- get.hyph.cache(lang=lang)
-  save(koRpus.hyph.cache, file=cache.file.path)
-
-  return(invisible(NULL))
-}
-## end function write.hyph.cache.file()
-
-
 ## function matching.lang()
 # helper function to match language definitions,
 # called by treetag()
@@ -1456,8 +1359,13 @@ paste.tokenized.text <- function(txt){
 
 ## function checkLangPreset()
 # checks if a given language preset is defined at all, and either returns TRUE/error or the full preset definition
-# TODO: turn this into tests for all TT.options
 checkLangPreset <- function(preset, returnPresetDefinition=TRUE){
+  # koRpus dropped support for non-UTF-8 presets and renamed former presets omitting the "-utf8" suffix
+  # to not break compatibility, we'll just gracefully remove the suffix
+  if(grepl("utf8", preset)){
+    preset <- gsub("-utf8$", "", preset)
+    warning(paste0("UTF-8 is now the default encoding, please rename your preset from \"", preset, "-utf8\" into just \"", preset, "\"!"), call.=FALSE)
+  } else {}
   preset.definition <- as.list(as.environment(.koRpus.env))[["langSup"]][["treetag"]][["presets"]][[preset]]
   if(isTRUE(returnPresetDefinition)){
     if(is.null(preset.definition)){
@@ -1488,13 +1396,16 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
     "preset",
     "tokenizer",
     "tknz.opts",
+    "pre.tagger",
     "tagger",
     "abbrev",
     "params",
     "lexicon",
     "lookup",
     "filter",
-    "no.unknown"
+    "no.unknown",
+    "splitter",
+    "splitter.opts"
   )
   undefined.options <- !optNames %in% validOptions
   if(any(undefined.options)){
@@ -1520,7 +1431,7 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
   } else {}
 
   # basic options, cannot be toyed with
-  result[["TT.opts"]] <- "-token -lemma -sgml -pt-with-lemma"
+  result[["TT.opts"]] <- "-token -lemma -sgml -pt-with-lemma -quiet"
   # allow some dedicated options to be set without jeopardizing the output format
   if(!is.null(TT.options[["no.unknown"]])){
     result[["TT.opts"]] <- ifelse(

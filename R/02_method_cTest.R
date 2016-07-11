@@ -46,7 +46,7 @@ setGeneric("cTest", function(obj, ...){standardGeneric("cTest")})
 cTestify <- function(words, replace.by="_"){
   num.chars <- nchar(words)
   half.words <- ifelse(num.chars %% 2 == 0, num.chars / 2, (num.chars+1) / 2)
-  word.rest <- sapply(1:length(num.chars), function(idx){
+  word.rest <- sapply(seq_along(num.chars), function(idx){
       return(paste(rep(replace.by, num.chars[idx]-half.words[idx]), collapse=""))
     })
   substr(words, start=half.words+1, stop=num.chars) <- word.rest
@@ -65,7 +65,7 @@ cTestify <- function(words, replace.by="_"){
 #'    and define, which sentences are to be left untouched, counted in sentences from beginning and end of the text.
 #'    The default is to ignore the first and last sentence.
 #' @param replace.by Character, will be used as the replacement for the removed word halves.
-#' @include 00_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.tagged.R
 setMethod("cTest",
     signature(obj="kRp.tagged"),
     function (obj, every=2, min.length=3, intact=c(start=1, end=1), replace.by="_"){
@@ -80,7 +80,7 @@ setMethod("cTest",
     sntc.tags <- kRp.POS.tags(lang=lang, list.tags=TRUE, tags="sentc")
     txt.sntc.ends <- which(tagged.text[["tag"]] %in% sntc.tags)
     # make a list of the sentences, i.e., each element is a data.frame of one sentence
-    txt.sntc.list <- lapply(1:length(txt.sntc.ends), function(idx){
+    txt.sntc.list <- lapply(seq_along(txt.sntc.ends), function(idx){
         txt.from <- ifelse(idx == 1, 1, txt.sntc.ends[idx-1]+1)
         txt.to <- txt.sntc.ends[idx]
         return(tagged.text[txt.from:txt.to,])
@@ -103,7 +103,7 @@ setMethod("cTest",
 
           # now only take every other word (like indicated by "every")
           txtToChangeTRUE <- which(txtToChange)
-          txtToChange[txtToChangeTRUE[!1:length(txtToChangeTRUE) %% every == 0]] <- FALSE
+          txtToChange[txtToChangeTRUE[!seq_along(txtToChangeTRUE) %% every == 0]] <- FALSE
           relevant.text <- this.sntc[txtToChange, "token"]
           textThatWasChanged[[idx]] <- this.sntc[txtToChange, ]
           relevant.text <- cTestify(relevant.text, replace.by=replace.by)
@@ -124,8 +124,8 @@ setMethod("cTest",
     cTestChanged <- list(origText=changed.DF)
 
     # put the altered text back into the tagged object
-     slot(obj, "TT.res") <- result.DF
+    slot(obj, "TT.res") <- result.DF
     slot(obj, "desc")[["cTest"]] <- cTestChanged
-     return(obj)
+    return(obj)
   }
 )

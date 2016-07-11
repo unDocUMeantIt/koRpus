@@ -95,6 +95,9 @@
 #' @param segment An integer value for MSTTR, defining how many tokens should form one segment.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
 #' @param min.tokens An integer value, how many tokens a full factor must at least have to be considered for the MTLD-MA result.
+#' @param MTLDMA.steps An integer value for MTLD-MA, defining the step size for the moving window, in tokens. The original proposal
+#'    uses an incremet of 1. If you increase this value, computation will be faster, but your value can only remain a good estimate if
+#'    the text is long enough.
 #' @param rand.sample An integer value, how many tokens should be assumed to be drawn for calculating HD-D.
 #' @param window An integer value for MATTR, defining how many tokens the moving window should include.
 #' @param case.sens Logical, whether types should be counted case sensitive.
@@ -105,7 +108,7 @@
 #'    "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD" and "MTLD-MA".
 #' @param char A character vector defining whether data for plotting characteristic curves should be calculated. Valid elements are 
 #'    "TTR","MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD" and "MTLD-MA".
-#' @param char.steps An integer value defining the stepwidth for characteristic curves, in tokens.
+#' @param char.steps An integer value defining the step size for characteristic curves, in tokens.
 #' @param log.base A numeric value defining the base of the logarithm. See \code{\link[base:log]{log}} for details.
 #' @param force.lang A character string defining the language to be assumed for the text, by force. See details.
 #' @param keep.tokens Logical. If \code{TRUE} all raw tokens and types will be preserved in the resulting object, in a slot called 
@@ -151,15 +154,15 @@ setGeneric("lex.div", function(txt, ...) standardGeneric("lex.div"))
 ######################################################################
 
 #' @export
-#' @include 00_class_01_kRp.tagged.R
-#' @include 00_class_03_kRp.txt.freq.R
-#' @include 00_class_04_kRp.txt.trans.R
-#' @include 00_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_03_kRp.txt.freq.R
+#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 #' @aliases lex.div lex.div,kRp.taggedText-method
 #' @rdname lex.div-methods
 setMethod("lex.div", signature(txt="kRp.taggedText"), function(txt, segment=100,
-    factor.size=0.72, min.tokens=9, rand.sample=42, window=100,
+    factor.size=0.72, min.tokens=9, MTLDMA.steps=1, rand.sample=42, window=100,
     case.sens=FALSE, lemmatize=FALSE, detailed=FALSE,
     measure=c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
     char=c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
@@ -170,7 +173,7 @@ setMethod("lex.div", signature(txt="kRp.taggedText"), function(txt, segment=100,
     corp.rm.tag=c(), quiet=FALSE){
 
     lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
-      rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
+      MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
       measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
       keep.tokens=keep.tokens, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
 
@@ -182,7 +185,7 @@ setMethod("lex.div", signature(txt="kRp.taggedText"), function(txt, segment=100,
 #' @aliases lex.div,character-method
 #' @rdname lex.div-methods
 setMethod("lex.div", signature(txt="character"), function(txt, segment=100,
-    factor.size=0.72, min.tokens=9, rand.sample=42, window=100,
+    factor.size=0.72, min.tokens=9, MTLDMA.steps=1, rand.sample=42, window=100,
     case.sens=FALSE, lemmatize=FALSE, detailed=FALSE,
     measure=c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
     char=c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
@@ -193,7 +196,7 @@ setMethod("lex.div", signature(txt="character"), function(txt, segment=100,
     corp.rm.tag=c(), quiet=FALSE){
 
     lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
-      rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
+      MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
       measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
       keep.tokens=keep.tokens, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
 

@@ -1,9 +1,13 @@
 <!DOCTYPE rkplugin >
 <document>
+  <!-- this code was generated using the rkwarddev package.
+    perhaps don't make changes here, but in the rkwarddev script instead!
+    
+    look for a file called: $SRC/inst/rkward/rkwarddev_koRpus_plugin_script.R -->
   <code file="Readability.js" />
   <help file="Readability.rkh" />
-  <!--   <dependencies>
-        </dependencies> -->
+  <!-- <dependencies>
+      </dependencies> -->
   <logic>
     <convert id="lgc_DCDCPSKD" sources="DaleChall.state;DaleChallPSK.state;DaleChallOld.state;Bormuth.state;DRP.state" mode="or" />
     <convert id="lgc_SpchSpcO" sources="Spache.state;SpacheOld.state" mode="or" />
@@ -62,6 +66,7 @@
               <checkbox id="FleschSzigriszt" label="Flesch (ES, Szigriszt)" value="Flesch.Szigriszt" />
               <checkbox id="FleschFR" label="Flesch (FR, Kandel-Moles)" value="Flesch.fr" />
               <checkbox id="FleschNL" label="Flesch (NL, Douma)" value="Flesch.nl" />
+              <checkbox id="FleschNLB" label="Flesch (NL, Brouwer)" value="Flesch.nl-b" />
               <checkbox id="FleschPSK" label="Flesch Reading Ease (Powers-Sumner-Kearl)" value="Flesch.PSK" />
               <checkbox id="FleschKincaid" label="Flesch-Kincaid Grade Level" value="Flesch.Kincaid" />
               <checkbox id="FOG" label="FOG (Gunning)" value="FOG" />
@@ -86,7 +91,7 @@
               <stretch />
             </column>
           </row>
-                  Formulae that need syllable count
+          Formulae that need syllable count
         </column>
       </tab>
       <tab label="Using Word Lists" id="tab_UsngWrdL">
@@ -117,7 +122,7 @@
               <browser label="Harris-Jacobson word list (grades 1 and 2, *.txt):" type="file" id="readbWLHaJa" filter="*.txt" required="false" />
             </column>
           </row>
-                  Formulae that need word lists
+          Formulae that need word lists
         </column>
       </tab>
     </tabbook>

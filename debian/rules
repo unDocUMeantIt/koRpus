@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-#								-*- makefile -*-
+# -*- makefile -*-
 # debian/rules file for the Debian/GNU Linux r-other-reaktanz-korpus package
 # Copyright 2016 by m.eik michalke <meik.michalke@hhu.de>
 
