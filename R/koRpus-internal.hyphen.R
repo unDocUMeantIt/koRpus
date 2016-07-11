@@ -54,18 +54,6 @@ explode.letters <- function(max.word.length=hyph.max.word.length){
 # for hyphenation, to speed up the process
 all.patterns <- explode.letters()
 
-# calculate the number of expected patterns
-num.patters <- function(nchar, min.pattern=2L, max.pattern=5L){
-  all.pat <- sum(min.pattern:max.pattern - nchar + 1)
-  sum(all.pat - nchar + 1)
-  sapply(
-    min.pattern:max.pattern,
-    function(npat){
-      
-    }
-  )
-}
-
 
 ## function explode.word()
 # using the provided patterns, split an actual word into its subpatterns
@@ -98,12 +86,10 @@ explode.word <- function(word, min.pattern=2L, max.pattern=5L){
             max(lttrs),                         # off
             NA                                  # match
           )
-            
         )
       },
       USE.NAMES=FALSE
     )
-    #TODO: can this be done simpler? need to turn the list into a data.frame
     result <- matrix(unlist(result.list), nrow=4, dimnames=list(c("frag","on","off","match"),NULL))
   }
   return(result)
