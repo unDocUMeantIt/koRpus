@@ -107,18 +107,30 @@ get.hyph.cache <- function(lang){
 
 ## function check.hyph.cache()
 # called by hyphen(), returns either the chached entry, or NULL
-check.hyph.cache <- function(lang, token, cache=get.hyph.cache(lang=lang)){
+# - missing: if TRUE, all elements of token are looked up at once, and
+#   a vector of all missing tokens is returned, or NULL
+check.hyph.cache <- function(lang, token, cache=get.hyph.cache(lang=lang), missing=FALSE){
+  result <- NULL
   if(is.null(cache)){
     # no cache, no hit...
-    return(NULL)
-  } else {}
-  # check if this word was hyphenated before
-  cached.word <- cache[cache[,"token"] == token,]
-  if(nrow(cached.word) == 1){
-    return(cached.word[c("syll","word")])
+    if(isTRUE(missing)){
+      result <- token
+    } else {}
   } else {
-    return(NULL)
+    if(isTRUE(missing)){
+      missing.tokens <- token[!token %in% cache[,"token"]]
+      if(length(missing.tokens) > 0){
+        result <- missing.tokens
+      } else {}
+    } else {
+      # check if this word was hyphenated before
+      cached.word <- cache[cache[,"token"] == token,]
+      if(nrow(cached.word) == 1){
+        result <- cached.word[c("syll","word")]
+      } else {}
+    }
   }
+  return(result)
 } ## end function check.hyph.cache()
 
 
@@ -221,6 +233,7 @@ write.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, e
   return(invisible(NULL))
 } ## end function write.hyph.cache.file()
 
+
 ## function hyphen.word()
 # this helper function is being called by kRp.hyphen.calc(), see below
 hyphen.word <- function(
@@ -228,24 +241,17 @@ hyphen.word <- function(
     hyph.pattern=NULL,
     min.length=4,
     rm.hyph=TRUE,
-    cache=TRUE,
-    lang=NULL,
     min.pattern=2,
     max.pattern=5,
-    writeBackCache=NULL
+    as.cache=FALSE
   ){
-    if(isTRUE(cache)){
-      # check if the word has been hyphenated before...
-      cached.word <- check.hyph.cache(lang=lang, token=word)
-      # ... and if so, we can stop here
-      if(!is.null(cached.word)){
-        return(cached.word)
-      } else {}
-    } else {}
-
     # consider min length of word?
     if(nchar(word) < min.length){
-      return(c(syll=1, word=word))
+      if(isTRUE(as.cache)){
+        return(c(token=word, syll=1, word=word))
+      } else {
+        return(c(syll=1, word=word))
+      }
     } else {}
     word.orig <- word
     ## remove hyphens in word
@@ -256,7 +262,11 @@ hyphen.word <- function(
     word <- gsub("[^\\p{L}]+", "", word, perl=TRUE)
     # if this removed all of the token, guess we're finished
     if (identical(word, "")){
-      return(c(syll=1, word=word.orig))
+      if(isTRUE(as.cache)){
+        return(c(token=word.orig, syll=1, word=word.orig))
+      } else {
+        return(c(syll=1, word=word.orig))
+      }
     } else {}
     ## convert to lowercase
     word <- tolower(word)
@@ -302,27 +312,21 @@ hyphen.word <- function(
       # in cases where previous hyphenations were already removed and here returned,
       # don't return double them up
       hyph.word <- gsub("-+", "-", hyph.word)
-      if(isTRUE(cache)){
-        hyph.result <- c(token=word.orig, syll=syllables, word=as.character(hyph.word))
+      if(isTRUE(as.cache)){
+        hyph.result <- c(token=word.orig, syll=syllables, word=hyph.word)
       } else {
-        hyph.result <- c(syll=syllables, word=as.character(hyph.word))
+        hyph.result <- c(syll=syllables, word=hyph.word)
       }
     } else {
       ## no hyphenation
-      if(isTRUE(cache)){
-        hyph.result <- c(token=word.orig, syll=1, word=as.character(word))
+      if(isTRUE(as.cache)){
+        hyph.result <- c(token=word, syll=1, word=word)
       } else {
-        hyph.result <- c(syll=1, word=as.character(word))
+        hyph.result <- c(syll=1, word=word)
       }
     }
-    if(isTRUE(cache)){
-      # append result to environment
-      set.hyph.cache(lang=lang, append=t(hyph.result))
-      assign("changed", TRUE, envir=writeBackCache)
-      return(hyph.result[c("syll", "word")])
-    } else {
-      return(hyph.result)
-    }
+    # this will return *three* elements if as.cache is TRUE
+    return(hyph.result)
 } ## end function hyphen.word()
 
 
@@ -387,41 +391,99 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4, rm.hyph=TRUE
   # check for matches of the fragment vector in the pattern db
   uniqueWords <- unique(words)
 
-  # counter to get some feedback
-  .iter.counter <- new.env()
-  assign("counter", 1, envir=.iter.counter)
   if(!isTRUE(quiet)){
+    # counter to get some feedback
+    .iter.counter <- new.env()
+    assign("counter", 1, envir=.iter.counter)
     # give some feedback, so we know the machine didn't just freeze...
     prgBar <- txtProgressBar(min=0, max=length(uniqueWords), style=3)
   } else {}
 
-  ## initialize result data.frame
+  # initialize result data.frame
   hyph.df <- data.frame(
-    syll=0,
+    syll=1,
     word="",
     token=as.character(words),
     stringsAsFactors=FALSE)
 
-  for (nw in uniqueWords){
-    if(!isTRUE(quiet)){
-      # update prograss bar
-      iteration.counter <- get("counter", envir=.iter.counter)
-      setTxtProgressBar(prgBar, iteration.counter)
-      assign("counter", iteration.counter + 1, envir=.iter.counter)
+  if(isTRUE(cache)){
+    # the fastest way to fill the cache is to first check what types are missing,
+    # hyphenate them and append them to cache in *one* go and *then* fetch results
+    # for the actual hyphenation all from cache
+    typesMissingInCache  <- check.hyph.cache(lang=lang, token=uniqueWords, missing=TRUE)
+    if(!is.null(typesMissingInCache)){
+      # throw out uncachable tokens right away
+      typesMissingInCache <- typesMissingInCache[nchar(typesMissingInCache) > min.length]
+      if(length(typesMissingInCache) > 0){
+        if(!isTRUE(quiet)){
+          # reset progress bar with updated value
+          prgBar <- txtProgressBar(min=0, max=length(typesMissingInCache) + length(uniqueWords), style=3)
+        } else {}
+        typesMissingHyphenated <- as.data.frame(t(
+          sapply(
+            typesMissingInCache,
+            function(nw){
+              if(!isTRUE(quiet)){
+                # update prograss bar
+                iteration.counter <- get("counter", envir=.iter.counter)
+                setTxtProgressBar(prgBar, iteration.counter)
+                assign("counter", iteration.counter + 1, envir=.iter.counter)
+              } else {}
+              return(hyphen.word(
+                nw,
+                hyph.pattern=hyph.pattern,
+                min.length=min.length,
+                rm.hyph=rm.hyph,
+                min.pattern=min.pat,
+                max.pattern=max.pat,
+                as.cache=TRUE
+              ))
+            },
+            USE.NAMES=FALSE
+          )),
+          stringsAsFactors=FALSE
+        )
+        typesMissingHyphenated[["syll"]] <- as.numeric(typesMissingHyphenated[["syll"]])
+        set.hyph.cache(lang=lang, append=typesMissingHyphenated)
+        assign("changed", TRUE, envir=writeBackCache)
+      } else {}
     } else {}
-    hyphenate.results <- hyphen.word(
-      nw,
-      hyph.pattern=hyph.pattern,
-      min.length=min.length,
-      rm.hyph=rm.hyph,
-      cache=cache,
-      lang=lang,
-      min.pattern=min.pat,
-      max.pattern=max.pat,
-      writeBackCache=writeBackCache
-    )[c("syll","word")]
-    hyph.df[hyph.df[["token"]] == nw, "syll"] <- as.numeric(hyphenate.results["syll"])
-    hyph.df[hyph.df[["token"]] == nw, "word"] <- hyphenate.results["word"]
+    for (nw in uniqueWords){
+      if(!isTRUE(quiet)){
+        # update prograss bar
+        iteration.counter <- get("counter", envir=.iter.counter)
+        setTxtProgressBar(prgBar, iteration.counter)
+        assign("counter", iteration.counter + 1, envir=.iter.counter)
+      } else {}
+      cached.word <- check.hyph.cache(lang=lang, token=nw)
+      if(is.null(cached.word)){
+        # if a word was not cached, it should have been treated as having 1 syllable
+        hyph.df[hyph.df[["token"]] == nw, "word"] <- nw
+      } else {
+        hyph.df[hyph.df[["token"]] == nw, "syll"] <- as.numeric(cached.word["syll"])
+        hyph.df[hyph.df[["token"]] == nw, "word"] <- cached.word["word"]
+      }
+    }
+  } else {
+    for (nw in uniqueWords){
+      if(!isTRUE(quiet)){
+        # update prograss bar
+        iteration.counter <- get("counter", envir=.iter.counter)
+        setTxtProgressBar(prgBar, iteration.counter)
+        assign("counter", iteration.counter + 1, envir=.iter.counter)
+      } else {}
+      hyphenate.results <- hyphen.word(
+        nw,
+        hyph.pattern=hyph.pattern,
+        min.length=min.length,
+        rm.hyph=rm.hyph,
+        min.pattern=min.pat,
+        max.pattern=max.pat,
+        as.cache=FALSE
+      )[c("syll","word")]
+      hyph.df[hyph.df[["token"]] == nw, "syll"] <- as.numeric(hyphenate.results["syll"])
+      hyph.df[hyph.df[["token"]] == nw, "word"] <- hyphenate.results["word"]
+    }
   }
 
   if(!isTRUE(quiet)){
