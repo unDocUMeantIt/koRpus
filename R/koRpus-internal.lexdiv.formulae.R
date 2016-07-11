@@ -852,7 +852,7 @@ MTLD.calc <- function(txt.tokens, factor.size, num.tokens=NULL, back.only=FALSE,
 
 
 ## function MTLDMA.calc()
-MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, steps=MTLDMA.steps, detailed=FALSE, quiet=TRUE){
+MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, steps=1, detailed=FALSE, quiet=TRUE){
   if(is.null(num.tokens)){
     num.tokens <- length(txt.tokens)
   } else {}

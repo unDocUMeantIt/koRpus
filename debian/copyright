@@ -1,18 +1,30 @@
-The R library koRpus was originally written and is maintained by m.eik michalke <meik.michalke@hhu.de>.
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: koRpus
+Upstream-Contact: m.eik michalke <meik.michalke@hhu.de>
+Comment:
+  The R library koRpus was originally written and is maintained by m.eik michalke <meik.michalke@hhu.de>.
+  .
+  This Debian package was put together by m.eik michalke <meik.michalke@hhu.de>,
+  using the GNU R package roxyPackage.
+  .
+  The package was renamed from its upstream name 'koRpus' to
+  'r-other-reaktanz-korpus' in harmony with the R packaging policy to indicate
+  that the package is external to the CRAN or BioC repositories.
+  .
+  The copyright information given here was offered by the GNU R package
+  DESCRIPTION. The DESCRIPTION file for the original GNU R package can be
+  found in /usr/lib/R/site-library/koRpus/DESCRIPTION.
 
-This Debian package was put together by m.eik michalke <meik.michalke@hhu.de>.
-
-The package was renamed from its upstream name 'koRpus' to
-'r-other-reaktanz-korpus' in harmony with the R packaging policy to indicate
-that the package is external to the CRAN or BioC repositories.
-
-koRpus Copyright (C) 2016 m.eik michalke, released under the
-GNU General Public License (GPL) version 3 or (at your option) any later version.
-
-This software is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE.
-
-You should have received a copy of the license with your Debian system,
-in the file /usr/share/common-licenses/GPL-3, or with the
-source package as the file COPYING or LICENSE.
+Files: *
+Copyright: 2016 m.eik michalke
+License: GPL (>= 3)
+  koRpus Copyright (C) 2016 m.eik michalke, released under the
+  GNU General Public License (GPL) version 3 or (at your option) any later version.
+  .
+  This software is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  or FITNESS FOR A PARTICULAR PURPOSE.
+  .
+  You should have received a copy of the license with your Debian system,
+  in the file /usr/share/common-licenses/GPL-3, or with the
+  source package as the file COPYING or LICENSE.

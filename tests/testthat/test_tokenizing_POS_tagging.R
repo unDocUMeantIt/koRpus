@@ -50,6 +50,8 @@ test_that("basic tokenizing", {
     equals(sampleTokenizedToken))
 })
 
+context("lexical diversity")
+
 test_that("lexical diversity", {
   sampleTextTokenized <- dget("sample_text_tokenized_dput.txt")
   sampleTextStandard <- dget("sample_text_lexdiv_dput.txt")
@@ -66,6 +68,8 @@ test_that("lexical diversity", {
     equals(sampleTextStandardTTRChar))
 })
 
+context("hyphenation/syllable count")
+
 test_that("hyphenation/syllable count", {
   sampleTextTokenized <- dget("sample_text_tokenized_dput.txt")
   sampleTextStandard <- dget("sample_text_hyphen_dput.txt")
@@ -75,6 +79,7 @@ test_that("hyphenation/syllable count", {
   hyphenTextObjCache <- hyphen(sampleTextTokenized, quiet=TRUE)
   # chcanging hyphenation
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjCache, "Papua", "Pa-pu-a")
+  hyphenTextObjChanged <- correct.hyph(hyphenTextObjChanged, "al-so", "also")
 
   expect_that(hyphenTextObjNoCache,
     equals(sampleTextStandard))
@@ -83,6 +88,8 @@ test_that("hyphenation/syllable count", {
   expect_that(hyphenTextObjChanged,
     equals(sampleTextStandardChanged))
 })
+
+context("readability")
 
 test_that("readability", {
   pseudoWordList <- normalizePath("pseudo_word_list.txt")

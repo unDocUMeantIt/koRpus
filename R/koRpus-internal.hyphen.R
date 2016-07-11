@@ -432,7 +432,7 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
     typesMissingInCache  <- check.hyph.cache(lang=lang, token=uniqueWords, missing=TRUE)
     if(!is.null(typesMissingInCache)){
       # throw out uncachable tokens right away
-      typesMissingInCache <- typesMissingInCache[nchar(typesMissingInCache) > min.length]
+      typesMissingInCache <- typesMissingInCache[nchar(typesMissingInCache) >= min.length]
       if(length(typesMissingInCache) > 0){
         if(!isTRUE(quiet)){
           # reset progress bar with updated value
