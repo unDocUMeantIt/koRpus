@@ -129,7 +129,7 @@ check.hyph.cache <- function(lang, token, cache=get.hyph.cache(lang=lang)){
   # check if this word was hyphenated before
   cached.word <- cache[cache[,"token"] == token,]
   if(nrow(cached.word) == 1){
-    return(subset(cached.word, select=-token))
+    return(cached.word[c("syll","word")])
   } else {
     return(NULL)
   }
@@ -199,7 +199,7 @@ read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, er
     koRpus.hyph.cache <- NULL
     load(cache.file.path)
     # data will be checked by set.hyph.cache(), so no need to worry here
-    # but the loaded data must contain a data.table named "koRpus.hyph.cache"
+    # but the loaded data must contain a data.frame named "koRpus.hyph.cache"
     if(is.null(koRpus.hyph.cache)){
       stop(simpleError("The cache file you provided does not contain koRpus-ready hyphenation data!"))
     } else {}
@@ -249,10 +249,8 @@ hyphen.word <- function(
     writeBackCache=NULL
   ){
     if(isTRUE(cache)){
-      # get the cache, or start a new one if needed
-      recent.cache <- get.hyph.cache(lang=lang)
       # check if the word has been hyphenated before...
-      cached.word <- check.hyph.cache(lang=lang, token=word, cache=recent.cache)
+      cached.word <- check.hyph.cache(lang=lang, token=word)
       # ... and if so, we can stop here
       if(!is.null(cached.word)){
         return(cached.word)
@@ -319,25 +317,21 @@ hyphen.word <- function(
       # don't return double them up
       hyph.word <- gsub("-+", "-", hyph.word)
       if(isTRUE(cache)){
-#         hyph.result <- data.frame(token=word.orig, syll=syllables, word=hyph.word, stringsAsFactors=FALSE)
         hyph.result <- c(token=word.orig, syll=syllables, word=as.character(hyph.word))
       } else {
-#         hyph.result <- data.frame(syll=syllables, word=hyph.word, stringsAsFactors=FALSE)
         hyph.result <- c(syll=syllables, word=as.character(hyph.word))
       }
     } else {
       ## no hyphenation
       if(isTRUE(cache)){
-#         hyph.result <- data.frame(token=word.orig, syll=1, word=word, stringsAsFactors=FALSE)
         hyph.result <- c(token=word.orig, syll=1, word=as.character(word))
       } else {
-#         hyph.result <- data.frame(syll=1, word=word, stringsAsFactors=FALSE)
         hyph.result <- c(syll=1, word=as.character(word))
       }
     }
     if(isTRUE(cache)){
       # append result to environment
-      set.hyph.cache(lang=lang, append=t(hyph.result), cache=recent.cache)
+      set.hyph.cache(lang=lang, append=t(hyph.result))
       assign("changed", TRUE, envir=writeBackCache)
       return(hyph.result[c("syll", "word")])
     } else {

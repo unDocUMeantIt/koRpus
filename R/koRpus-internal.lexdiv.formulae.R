@@ -865,15 +865,13 @@ MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, 
 
   # we'll simply run mtld.sub.calc() in a loop with changing start tokens
   # and then average the factor results
-  nextToken <- 1
+  start.with <- 1
   mtldma.list <- list()
-  while (nextToken < num.tokens){
+  while (start.with < num.tokens){
     if(!isTRUE(quiet)){
       # update progress bar
-      setTxtProgressBar(prgBar, nextToken)
+      setTxtProgressBar(prgBar, start.with)
     } else {}
-    start.with <- nextToken
-    num.tokens.sub <- num.tokens - start.with + 1
     mtldma.fct.tokens <- txt.tokens[start.with:num.tokens]
     sub.calc.result <- mtld.sub.nodata(txt.tokens=mtldma.fct.tokens, factor.size=factor.size,
       stopAtFirstFactor=TRUE, detailed=detailed, offset=(start.with - 1))
@@ -882,7 +880,7 @@ MTLDMA.calc <- function(txt.tokens, factor.size, num.tokens=NULL, min.tokens=9, 
       break
     } else {}
     mtldma.list[[start.with]] <- sub.calc.result
-    nextToken <- nextToken + steps
+    start.with <- start.with + steps
   }
   if(!isTRUE(quiet)){
     # ew're done -- update and close progress bar
