@@ -31,7 +31,6 @@
 #'     \item{lang}{ A character string specifying a valid language.}
 #'     \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{treetag}.}
 #'     \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data, used by \code{hyphen}.}
-#'     \item{hyph.max.word.length}{ An integer number defining the lagest number of characters expected in one word, used by \code{hyphen}.}
 #'   }
 #'   To explicitly unset a value again, set it to an empty character string (e.g., \code{lang=""}).
 #' @param validate Logical, if \code{TRUE} given paths will be checked for actual availablity, and the function will fail if files can't be found.
@@ -106,16 +105,6 @@ set.kRp.env <- function(..., validate=TRUE){
       stopifnot(is.character(hyph.cache.file))
       assign("hyph.cache.file", hyph.cache.file, envir=.koRpus.env)
     }
-  } else {}
-
-  if(!is.null(hyph.max.word.length)){
-      # you can't remove this variable
-      if(is.numeric(hyph.max.word.length)){
-        assign("hyph.max.word.length", hyph.max.word.length, envir=.koRpus.env)
-        assign("all.patterns", explode.letters(max.word.length=hyph.max.word.length), envir=.koRpus.env)
-      } else {
-        stop(simpleError("'hyph.max.word.length' must be an integer value!"))
-      }
   } else {}
 
   return(invisible(NULL))
