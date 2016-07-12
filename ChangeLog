@@ -19,7 +19,7 @@ changed:
     only endorsing UTF-8 encoding itself for a while; the old preset names will
     continue to work for the time being, but if possible you should already
     rename them from "<lang>-utf8" into just "<lang>" in your scripts
-  - removed oprions corp.rm.class and corp.rm.tag from method hyphen() for
+  - removed options corp.rm.class and corp.rm.tag from method hyphen() for
     character strings
   - massively improved the speed of hyphen by using a new method for
     exploding words into their sub-parts. in benchmark tests (text with ~30.000 words)
