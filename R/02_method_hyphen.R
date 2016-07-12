@@ -59,7 +59,7 @@
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #' @param cache Logical. \code{hyphen()} can cache results to speed up the process. If this option is set to \code{TRUE}, the
 #'    current cache will be queried and new tokens also be added. Caches are language-specific and reside in an environment,
-#'    i.e., they are cleaned at the end of a session. If you want to save these for later use, see the option \code{hyphen.cache.file}
+#'    i.e., they are cleaned at the end of a session. If you want to save these for later use, see the option \code{hyph.cache.file}
 #'    in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.
 #' @return An object of class \code{\link[koRpus]{kRp.hyphen-class}}
 #' @keywords hyphenation
