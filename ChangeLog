@@ -1,11 +1,19 @@
 ChangeLog for package koRpus
 
-changes in version 0.07-2 (2016-07-11)
+changes in version 0.07-2 (2016-07-14)
 unreleased:
   - this version is under development
 fixed:
   - the show method for Flesch Brouwer was not working properly
-  - if a cache file for hyphen is set but not existing, it will be created automatically
+  - if a cache file for hyphen is set but not existing, it will be created
+    automatically
+changed:
+  - updated shiny app: disabling FOG by default (faster), adding Brouwer
+    and MTLDMA.steps options, adding dutch and portuguese by default,
+    disabled language selection in language guessing tab
+added:
+  - new summary() method for kRp.hyph objects
+  - new show() methods for kRp.hyph and kRp.taggedText objects
 
 changes in version 0.07-1 (2016-07-11)
 fixed:

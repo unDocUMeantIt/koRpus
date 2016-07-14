@@ -34,7 +34,7 @@ Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.d
                family="Brown", email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")),
                person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
 Version: 0.07-2
-Date: 2016-07-11
+Date: 2016-07-14
 RoxygenNote: 5.0.1
 Collate:
     '00_environment.R'
@@ -64,9 +64,12 @@ Collate:
     '02_method_show.kRp.lang.R'
     '02_method_show.kRp.TTR.R'
     '02_method_show.kRp.corp.freq.R'
+    '02_method_show.kRp.hyphen.R'
     '02_method_show.kRp.readability.R'
+    '02_method_show.kRp.taggedText.R'
     '02_method_summary.kRp.lang.R'
     '02_method_summary.kRp.TTR.R'
+    '02_method_summary.kRp.hyphen.R'
     '02_method_summary.kRp.readability.R'
     '02_method_summary.kRp.tagged.R'
     '02_method_summary.kRp.txt.freq.R'
