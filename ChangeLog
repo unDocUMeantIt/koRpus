@@ -3,6 +3,9 @@ ChangeLog for package koRpus
 changes in version 0.07-2 (2016-07-11)
 unreleased:
   - this version is under development
+fixed:
+  - the show method for Flesch Brouwer was not working properly
+  - if a cache file for hyphen is set but not existing, it will be created automatically
 
 changes in version 0.07-1 (2016-07-11)
 fixed:
