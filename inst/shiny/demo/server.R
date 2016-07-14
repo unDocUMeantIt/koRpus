@@ -1,5 +1,7 @@
 library(shiny)
 library(koRpus)
+library(koRpus.lang.nl)
+library(koRpus.lang.pt)
 
 shinyServer(function(input, output){
 
@@ -29,7 +31,7 @@ shinyServer(function(input, output){
         t(describe(hyphenated.text())[["syll.distrib"]])
     })
 
-    LD.results <- reactive(lex.div(tagged.text(), segment=input$LD.segment, factor.size=input$LD.factor, min.tokens=input$LD.minTokens,
+    LD.results <- reactive(lex.div(tagged.text(), segment=input$LD.segment, factor.size=input$LD.factor, min.tokens=input$LD.minTokens, MTLDMA.steps=input$LD.steps,
             rand.sample=input$LD.random, window=input$LD.window, case.sens=input$LD.caseSens, log.base=eval(parse(text=input$LD.logbase)), detailed=FALSE, char=c(), quiet=TRUE))
     output$lexdiv.sum <- renderTable({
         summary(LD.results())
