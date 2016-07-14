@@ -50,7 +50,7 @@ is a valid koRpus object.}
       the
 current cache will be queried and new tokens also be added. Caches are language-specific and reside in an environment,
 i.e., they are cleaned at the end of a session. If you want to save these for later use,
-      see the option \code{hyphen.cache.file}
+      see the option \code{hyph.cache.file}
 in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.}
 }
 \value{

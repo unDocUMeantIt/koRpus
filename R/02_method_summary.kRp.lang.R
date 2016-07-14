@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -16,24 +16,6 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' Summary methods for koRpus objects
-#'
-#' Summary method for S4 objects of classes \code{\link[koRpus]{kRp.lang-class}},
-#' \code{\link[koRpus]{kRp.readability-class}}, \code{\link[koRpus]{kRp.tagged-class}},
-#' \code{\link[koRpus]{kRp.TTR-class}} or \code{\link[koRpus]{kRp.txt.freq-class}}.
-#'
-#' @param object An object of class \code{kRp.lang}, \code{kRp.readability}, 
-#'    \code{kRp.tagged}, \code{kRp.TTR} or \code{kRp.txt.freq}.
-#' @aliases summary,-methods summary,kRp.lang-method summary,kRp.txt.freq-method
-#'    summary,kRp.readability-method summary,kRp.tagged-method summary,kRp.TTR-method
-# @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @seealso
-#'    \code{\link[koRpus]{kRp.lang-class}},
-#'    \code{\link[koRpus]{kRp.readability-class}},
-#'    \code{\link[koRpus]{kRp.tagged-class}},
-#'    \code{\link[koRpus]{kRp.TTR-class}},
-#'    \code{\link[koRpus]{kRp.txt.freq-class}}
-#' @keywords methods
 #' @examples
 #' \dontrun{
 #' summary(guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt/"))
