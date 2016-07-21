@@ -11,6 +11,7 @@ changed:
   - updated shiny app: disabling FOG by default (faster), adding Brouwer
     and MTLDMA.steps options, adding dutch and portuguese by default,
     disabled language selection in language guessing tab
+  - shiny app: using fluidPage() now
 added:
   - new summary() method for kRp.hyph objects
   - new show() methods for kRp.hyph and kRp.taggedText objects
