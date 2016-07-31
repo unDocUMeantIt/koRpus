@@ -102,7 +102,7 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
       internal.tokenizer <- FALSE
       # set a fallback if tagger isn't set but objects.only=FALSE
       if(is.null(tagger)){
-        if(is.null(get.kRp.env(TT.cmd=TRUE))){
+        if(is.null(get.kRp.env(TT.cmd=TRUE, errorIfUnset=FALSE))){
           message("No TreeTagger command specified. Using tokenize() as fallback")
           internal.tokenizer <- TRUE
         } else {
