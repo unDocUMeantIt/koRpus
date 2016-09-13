@@ -11,6 +11,8 @@ fixed:
     Farr, when it was in fact Fang (as correctly said in ?readability);
     vigilantly spotted by Mario Martinez
   - calling lex.div() on untagged character vectors didn't really work yet
+  - guess.lang() had problems with newer UDHR files which included comments
+    in the index.xml file
 changed:
   - updated shiny app: disabling FOG by default (faster), adding Brouwer and
     MTLDMA.steps options, adding dutch and portuguese by default, disabled

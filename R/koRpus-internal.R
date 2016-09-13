@@ -1022,8 +1022,10 @@ read.udhr <- function(txt.path, quiet=TRUE){
   #   udhr.list <- xmlSApply(xmlRoot(udhr.xml), xmlAttrs)
   ## since there was no windows package XML for R 2.13, this is a primitive parser which does the job:
   udhr.XML <- readLines(file.path(udhr.path, "index.xml"), warn=FALSE)
+  # remove comments
+  udhr.XML <- gsub("[[:space:]]*<!--(.*)-->", "", udhr.XML[grep("<udhr ", udhr.XML)])
   # filter out only the interesting parts
-  udhr.XML <- gsub("([[:space:]]+<udhr )(.*)/>", "\\2", udhr.XML[grep("<udhr ", udhr.XML)], perl=TRUE)
+  udhr.XML <- gsub("([[:space:]]+<udhr )(.*)/>", "\\2", udhr.XML, perl=TRUE)
   # split vector into a list with ell elements; then we have basically what xmlParse() and xmlSApply() returned
   udhr.XML <- gsub("([[:alnum:]]+)=('[^']+'|'')[[:space:]]+", "\\1=\\2#", udhr.XML, perl=TRUE)
   # as a safety measure, put iso639-3 in quotes
