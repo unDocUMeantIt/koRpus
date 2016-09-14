@@ -308,8 +308,8 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
         TT.tknz.opts <- list()
       } else {}
       given.tknz.options <- names(TT.tknz.opts)
-      tokenize.options <- c("split", "ign.comp", "heuristics", "heur.fix", "abbrev",
-        "sentc.end", "detect", "clean.raw", "perl")
+      tokenize.options <- c("split", "ign.comp", "heuristics", "heur.fix",
+        "sentc.end", "detect", "clean.raw", "perl", "stopwords", "stemmer")
       for (this.opt in tokenize.options){
         if(!this.opt %in% given.tknz.options) {
           TT.tknz.opts[[this.opt]] <- eval(formals(tokenize)[[this.opt]])
@@ -337,7 +337,9 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
         sentc.end=TT.tknz.opts[["sentc.end"]],
         detect=TT.tknz.opts[["detect"]],
         clean.raw=TT.tknz.opts[["clean.raw"]],
-        perl=TT.tknz.opts[["perl"]]
+        perl=TT.tknz.opts[["perl"]],
+        stopwords=TT.tknz.opts[["stopwords"]],
+        stemmer=TT.tknz.opts[["stemmer"]]
       )
       # TreeTagger can produce mixed encoded results if fed with UTF-8 in Latin1 mode
       tknz.results <- iconv(tknz.results, from="UTF-8", to=input.enc)
