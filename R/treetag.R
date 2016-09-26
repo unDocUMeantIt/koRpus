@@ -313,6 +313,9 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       for (this.opt in tokenize.options){
         if(!this.opt %in% given.tknz.options) {
           TT.tknz.opts[[this.opt]] <- eval(formals(tokenize)[[this.opt]])
+          if(isTRUE(debug)){
+            message(paste0(this.opt, "=", paste0(TT.tknz.opts[[this.opt]], collapse=", ")))
+          } else {}
         } else {}
       }
       if(!"abbrev" %in% given.tknz.options) {
