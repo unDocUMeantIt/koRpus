@@ -51,7 +51,7 @@ set.lang.support("treetag",
             TT.lookup         = TT.lookup,
             TT.filter         = TT.filter,
 
-            TT.tknz.opts      = paste("-e -a", TT.abbrev),
+            TT.tknz.opts      = paste("-e"),
             TT.lookup.command = paste("perl", TT.lookup, TT.lexicon, "|"),
             TT.filter.command = paste("|", TT.filter),
             TT.pre.tagger     = "grep -v '^$' |"

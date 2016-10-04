@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.07-2 (2016-09-17)
+changes in version 0.07-2 (2016-10-04)
 unreleased:
   - this version is under development
 fixed:
@@ -15,6 +15,9 @@ fixed:
     in the index.xml file
   - shiny app: was omitting the row names of tables in newer versions of
     shiny
+  - treetag() appended the abbreviation list two times in english preset
+  - TT.options checks in treetag() do no longer ask for mandatory options
+    if TT.cmd is not "manual"
 changed:
   - updated shiny app: disabling FOG by default (faster), adding Brouwer and
     MTLDMA.steps options, adding dutch and portuguese by default, disabled
