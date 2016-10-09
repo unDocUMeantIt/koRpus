@@ -24,6 +24,7 @@ changed:
     language selection in language guessing tab
   - shiny app: using fluidPage() now
   - shiny app: set tables to use bootstrap striped layout
+  - reaktanz.de supports HTTPS now, updated references
 added:
   - new summary() method for kRp.hyph objects
   - new show() methods for kRp.hyph and kRp.taggedText objects
