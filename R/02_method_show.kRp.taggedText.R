@@ -24,20 +24,25 @@
 #' @include koRpus-internal.R
 setMethod("show", signature(object="kRp.taggedText"), function(object){
   txt <- taggedText(object)
-  # the TT.res slot can change its columns, this must be dealt with dynamically
-  middle <- txt[1,]
-  for (thisCol in seq_along(middle)){
-    # haha, checking for middle class :-D
-    middle.class <- class(middle[thisCol])
-    middle[1,thisCol] <- switch(middle.class,
-      character="",
-      numeric=0,
-      logical=NA,
-      ""
-    )
+  # only print head an tail of long texts
+  if(isTRUE(nrow(txt) > 13)){
+    # the TT.res slot can change its columns, this must be dealt with dynamically
+    middle <- txt[1,]
+    for (thisCol in seq_along(middle)){
+      # haha, checking for middle class :-D
+      middle.class <- class(middle[thisCol])
+      middle[1,thisCol] <- switch(middle.class,
+        character="",
+        numeric=0,
+        logical=NA,
+        ""
+      )
+    }
+    middle[["wclass"]] <- "[...]"
+    rownames(middle) <- ""
+    show.mtx <- rbind(head(txt), middle, tail(txt))
+    show(show.mtx)
+  } else {
+    show(txt)
   }
-  middle[["wclass"]] <- "[...]"
-  rownames(middle) <- ""
-  show.mtx <- rbind(head(txt), middle, tail(txt))
-  show(show.mtx)
 })
