@@ -1,6 +1,21 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.10-1 (2016-12-21)}{
+  \subsection{unreleased}{
+    \itemize{
+      \item this release is under development
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item CRAN doesn't accept leading zeroes in version numbers any longer and asked me to change 0.07 into 0.7.
+        i'd rather play this safe, so i'm jumping right to 0.10 to keep the versioning consistent fo all users.
+        the reason for this policy change was not explained to me, could be anything from "we think it looks ugly" to
+        "it breaks our build systems".
+    }
+  }
+}
 \section{Changes in koRpus version 0.07-2 (2016-12-21)}{
   \subsection{fixed}{
     \itemize{
