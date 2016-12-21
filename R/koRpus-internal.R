@@ -102,7 +102,7 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
       internal.tokenizer <- FALSE
       # set a fallback if tagger isn't set but objects.only=FALSE
       if(is.null(tagger)){
-        if(is.null(get.kRp.env(TT.cmd=TRUE))){
+        if(is.null(get.kRp.env(TT.cmd=TRUE, errorIfUnset=FALSE))){
           message("No TreeTagger command specified. Using tokenize() as fallback")
           internal.tokenizer <- TRUE
         } else {
@@ -1022,8 +1022,10 @@ read.udhr <- function(txt.path, quiet=TRUE){
   #   udhr.list <- xmlSApply(xmlRoot(udhr.xml), xmlAttrs)
   ## since there was no windows package XML for R 2.13, this is a primitive parser which does the job:
   udhr.XML <- readLines(file.path(udhr.path, "index.xml"), warn=FALSE)
+  # remove comments
+  udhr.XML <- gsub("[[:space:]]*<!--(.*)-->", "", udhr.XML[grep("<udhr ", udhr.XML)])
   # filter out only the interesting parts
-  udhr.XML <- gsub("([[:space:]]+<udhr )(.*)/>", "\\2", udhr.XML[grep("<udhr ", udhr.XML)], perl=TRUE)
+  udhr.XML <- gsub("([[:space:]]+<udhr )(.*)/>", "\\2", udhr.XML, perl=TRUE)
   # split vector into a list with ell elements; then we have basically what xmlParse() and xmlSApply() returned
   udhr.XML <- gsub("([[:alnum:]]+)=('[^']+'|'')[[:space:]]+", "\\1=\\2#", udhr.XML, perl=TRUE)
   # as a safety measure, put iso639-3 in quotes
@@ -1383,40 +1385,41 @@ checkLangPreset <- function(preset, returnPresetDefinition=TRUE){
 ## function checkTTOptions()
 # this helper function does some basic validity checks on provided TT.options
 # if all goes well, returns a named list with valid settings
+# if manual.config=FALSE returns an empty list because options are omitted anyway
 checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
+  result <- list()
   if(!is.null(TT.options) & !is.list(TT.options)){
     warning("You provided \"TT.options\", but not as a list!")
   } else {}
   optNames <- names(TT.options)
-  result <- list()
-
-  # basic check for valid element names
-  validOptions <- c(
-    "path",
-    "preset",
-    "tokenizer",
-    "tknz.opts",
-    "pre.tagger",
-    "tagger",
-    "abbrev",
-    "params",
-    "lexicon",
-    "lookup",
-    "filter",
-    "no.unknown",
-    "splitter",
-    "splitter.opts"
-  )
-  undefined.options <- !optNames %in% validOptions
-  if(any(undefined.options)){
-    stop(simpleError(paste0(
-      "You used undefined names in TT.options:\n  \"",
-      paste0(optNames[undefined.options], collapse="\", \""),
-      "\""
-    )))
-  } else {}
 
   if(isTRUE(manual.config)){
+    # basic check for valid element names
+    validOptions <- c(
+      "path",
+      "preset",
+      "tokenizer",
+      "tknz.opts",
+      "pre.tagger",
+      "tagger",
+      "abbrev",
+      "params",
+      "lexicon",
+      "lookup",
+      "filter",
+      "no.unknown",
+      "splitter",
+      "splitter.opts"
+    )
+    undefined.options <- !optNames %in% validOptions
+    if(any(undefined.options)){
+      stop(simpleError(paste0(
+        "You used undefined names in TT.options:\n  \"",
+        paste0(optNames[undefined.options], collapse="\", \""),
+        "\""
+      )))
+    } else {}
+
     if(!"path" %in% optNames){
       stop(simpleError("Manual TreeTagger configuration demanded, but not even a path was defined!"))
     } else {
@@ -1428,37 +1431,37 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
       # check if this is really a TreeTagger root directory
       sapply(c(result[["TT.bin"]], result[["TT.cmd"]], result[["TT.lib"]]), function(chk.dir){check.file(chk.dir, mode="dir")})
     }
-  } else {}
 
-  # basic options, cannot be toyed with
-  result[["TT.opts"]] <- "-token -lemma -sgml -pt-with-lemma -quiet"
-  # allow some dedicated options to be set without jeopardizing the output format
-  if(!is.null(TT.options[["no.unknown"]])){
-    result[["TT.opts"]] <- ifelse(
-      isTRUE(TT.options[["no.unknown"]]),
-      paste0(result[["TT.opts"]], " -no-unknown"),
-      result[["TT.opts"]]
-    )
-  } else {}
-
-  if(!is.null(TT.options[["preset"]])){
-    result[["preset"]] <- checkLangPreset(preset=TT.options[["preset"]])
-  } else {
-    # if no preset was defined, we need some more information
-    if(isTRUE(TT.tknz)){
-      needed.options <- c("tokenizer", "tagger", "params")
-    } else {
-      needed.options <- c("tagger", "params")
-    }
-    missing.options <- !needed.options %in% optNames
-    if(any(missing.options)){
-      stop(simpleError(paste0(
-        "Manual TreeTagger configuration demanded, but not enough optinons given!\n  Missing options: \"",
-        paste0(needed.options[missing.options], collapse="\", \""),
-        "\""
-      )))
+    # basic options, cannot be toyed with
+    result[["TT.opts"]] <- "-token -lemma -sgml -pt-with-lemma -quiet"
+    # allow some dedicated options to be set without jeopardizing the output format
+    if(!is.null(TT.options[["no.unknown"]])){
+      result[["TT.opts"]] <- ifelse(
+        isTRUE(TT.options[["no.unknown"]]),
+        paste0(result[["TT.opts"]], " -no-unknown"),
+        result[["TT.opts"]]
+      )
     } else {}
-  }
+
+    if(!is.null(TT.options[["preset"]])){
+      result[["preset"]] <- checkLangPreset(preset=TT.options[["preset"]])
+    } else {
+      # if no preset was defined, we need some more information
+      if(isTRUE(TT.tknz)){
+        needed.options <- c("tokenizer", "tagger", "params")
+      } else {
+        needed.options <- c("tagger", "params")
+      }
+      missing.options <- !needed.options %in% optNames
+      if(any(missing.options)){
+        stop(simpleError(paste0(
+          "Manual TreeTagger configuration demanded, but not enough optinons given!\n  Missing options: \"",
+          paste0(needed.options[missing.options], collapse="\", \""),
+          "\""
+        )))
+      } else {}
+    }
+  } else {}
 
   return(result)
 } ## end function checkTTOptions()

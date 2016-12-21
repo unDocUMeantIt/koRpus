@@ -91,7 +91,8 @@
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
 #' @param txt An object of either class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
-#'    \code{\link[koRpus]{kRp.analysis-class}} or  \code{\link[koRpus]{kRp.txt.trans-class}}, containing the tagged text to be analyzed.
+#'    \code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}}, containing the tagged text to be analyzed.
+#'    If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.
 #' @param segment An integer value for MSTTR, defining how many tokens should form one segment.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
 #' @param min.tokens An integer value, how many tokens a full factor must at least have to be considered for the MTLD-MA result.

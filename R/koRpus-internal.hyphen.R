@@ -196,34 +196,31 @@ read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, er
 
   cache.file.path <- normalizePath(file, mustWork=FALSE)
   if(!file.exists(cache.file.path)){
-    if(!isTRUE(quiet)){
-      message(paste0("Cache file does not exist yet:\n  ", cache.file.path))
-    } else {}
+    # if the file is not there yet, create one
+    write.hyph.cache.file(lang=lang, quiet=quiet)
+  } else {}
+  # only reload the file if it changed or wasn't loaded at all yet
+  cacheFileInfo.new <- file.info(cache.file.path)
+  cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCacheFile"]]
+  if(identical(cacheFileInfo.new, cacheFileInfo.old[[lang]])){
+    # file doesn't seem to have changed
     return(invisible(NULL))
-  } else {
-    # only reload the file if it changed or wasn't loaded at all yet
-    cacheFileInfo.new <- file.info(cache.file.path)
-    cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCacheFile"]]
-    if(identical(cacheFileInfo.new, cacheFileInfo.old[[lang]])){
-      # file doesn't seem to have changed
-      return(invisible(NULL))
-    } else if(is.null(cacheFileInfo.old)){
-      # this must be the first time we try to read the file
-      cacheFileInfo.old <- list()
-    } else {}
+  } else if(is.null(cacheFileInfo.old)){
+    # this must be the first time we try to read the file
+    cacheFileInfo.old <- list()
+  } else {}
 
-    # set koRpus.hyph.cache to NULL to suppress R CMD check warning
-    koRpus.hyph.cache <- NULL
-    load(cache.file.path)
-    # data will be checked by set.hyph.cache(), so no need to worry here
-    # but the loaded data must contain a data.frame named "koRpus.hyph.cache"
-    if(is.null(koRpus.hyph.cache)){
-      stop(simpleError("The cache file you provided does not contain koRpus-ready hyphenation data!"))
-    } else {}
-    # set new file data to prevent from reloading if unchanged
-    cacheFileInfo.old[[lang]] <- cacheFileInfo.new
-    assign("hyphenCacheFile", cacheFileInfo.old, envir=as.environment(.koRpus.env))
-  }
+  # set koRpus.hyph.cache to NULL to suppress R CMD check warning
+  koRpus.hyph.cache <- NULL
+  load(cache.file.path)
+  # data will be checked by set.hyph.cache(), so no need to worry here
+  # but the loaded data must contain a data.frame named "koRpus.hyph.cache"
+  if(is.null(koRpus.hyph.cache)){
+    stop(simpleError("The cache file you provided does not contain koRpus-ready hyphenation data!"))
+  } else {}
+  # set new file data to prevent from reloading if unchanged
+  cacheFileInfo.old[[lang]] <- cacheFileInfo.new
+  assign("hyphenCacheFile", cacheFileInfo.old, envir=as.environment(.koRpus.env))
 
   # write loaded data to environment
   set.hyph.cache(lang=lang, append=koRpus.hyph.cache, cache=get.hyph.cache(lang=lang), unique=TRUE)

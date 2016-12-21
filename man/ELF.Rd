@@ -2,7 +2,7 @@
 % Please edit documentation in R/ELF.R
 \name{ELF}
 \alias{ELF}
-\title{Readability: Farr's Easy Listening Formula (ELF)}
+\title{Readability: Fang's Easy Listening Formula (ELF)}
 \usage{
 ELF(txt.file, hyphen = NULL, parameters = c(syll = 1), ...)
 }
@@ -29,7 +29,7 @@ An object of class \code{\link[koRpus]{kRp.readability-class}}.
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.
 }
 \details{
-This function calculates Farr's Easy Listening Formula (ELF). In contrast to
+This function calculates Fang's Easy Listening Formula (ELF). In contrast to
 \code{\link[koRpus:readability]{readability}},
       which by default calculates all possible indices,
 this function will only calculate the index value.

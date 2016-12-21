@@ -30,8 +30,9 @@ lex.div(txt, ...)
 \arguments{
 \item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}},
       \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}} or  \code{\link[koRpus]{kRp.txt.trans-class}},
-      containing the tagged text to be analyzed.}
+\code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}},
+      containing the tagged text to be analyzed.
+If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.}
 
 \item{...}{Only used for the method generic.}
 

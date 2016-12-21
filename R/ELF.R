@@ -16,11 +16,11 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' Readability: Farr's Easy Listening Formula (ELF)
+#' Readability: Fang's Easy Listening Formula (ELF)
 #' 
 #' This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.
 #'
-#' This function calculates Farr's Easy Listening Formula (ELF). In contrast to
+#' This function calculates Fang's Easy Listening Formula (ELF). In contrast to
 #' \code{\link[koRpus:readability]{readability}}, which by default calculates all possible indices,
 #' this function will only calculate the index value.
 #'

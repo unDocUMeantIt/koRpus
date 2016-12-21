@@ -1,5 +1,7 @@
 library(shiny)
 library(koRpus)
+library(koRpus.lang.nl)
+library(koRpus.lang.pt)
 
 shinyServer(function(input, output){
 
@@ -21,19 +23,19 @@ shinyServer(function(input, output){
         desc.data <- cbind(basic.desc.data, syll.desc.data)
         rownames(desc.data) <- c("Value")
         t(desc.data)
-    })
+    }, striped=TRUE, rownames=TRUE)
     output$desc.lttr.disrib <- renderTable({
         t(describe(tagged.text())[["lttr.distrib"]])
-    })
+    }, striped=TRUE, rownames=TRUE)
     output$syll.disrib <- renderTable({
         t(describe(hyphenated.text())[["syll.distrib"]])
-    })
+    }, striped=TRUE, rownames=TRUE)
 
-    LD.results <- reactive(lex.div(tagged.text(), segment=input$LD.segment, factor.size=input$LD.factor, min.tokens=input$LD.minTokens,
+    LD.results <- reactive(lex.div(tagged.text(), segment=input$LD.segment, factor.size=input$LD.factor, min.tokens=input$LD.minTokens, MTLDMA.steps=input$LD.steps,
             rand.sample=input$LD.random, window=input$LD.window, case.sens=input$LD.caseSens, log.base=eval(parse(text=input$LD.logbase)), detailed=FALSE, char=c(), quiet=TRUE))
     output$lexdiv.sum <- renderTable({
         summary(LD.results())
-    })
+    }, striped=TRUE, rownames=FALSE)
     output$lexdiv.res <- renderPrint({
         LD.results()
     })
@@ -41,7 +43,7 @@ shinyServer(function(input, output){
     RD.results <- reactive(readability(tagged.text(), hyphen=hyphenated.text(), index=input$RD.indices, quiet=TRUE))
     output$readability.sum <- renderTable({
         summary(RD.results())
-    })
+    }, striped=TRUE, rownames=FALSE)
     output$readability.res <- renderPrint({
         RD.results()
     })
