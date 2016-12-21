@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: m.eik michalke <meik.michalke@hhu.de>
 Build-Depends-Indep: debhelper (>> 7.0.0), r-base-dev (>= 3.3.0), cdbs, r-cran-data.table
 Standards-Version: 3.9.3.1
-Homepage: http://reaktanz.de/?c=hacking&s=koRpus
+Homepage: https://reaktanz.de/?c=hacking&s=koRpus
 
 Package: r-other-reaktanz-korpus
 Architecture: all
@@ -17,8 +17,8 @@ Description: GNU R package: A set of tools to analyze texts. Includes, amongst o
  plugin packages. Note: For full functionality a local installation of TreeTagger is recommended. 'koRpus' also includes a plugin for
  the R GUI and IDE RKWard, providing graphical dialogs for its basic features. The respective R package 'rkward' cannot be installed
  directly from a repository, as it is a part of RKWard. To make full use of this feature, please install RKWard from
- https://rkward.kde.org (plugins are detected automatically). Due to some restrictions on CRAN, the full package sources are only
- available from the project homepage. To ask for help, report bugs, suggest feature improvements, or discuss the global development of
- the package, please subscribe to the koRpus-dev mailing list (https://ml06.ispgateway.de/mailman/ listinfo/korpus-dev_r.reaktanz.de).
-Homepage: http://reaktanz.de/?c=hacking&s=koRpus
+ <https://rkward.kde.org> (plugins are detected automatically). Due to some restrictions on CRAN, the full package sources are only
+ available from the project homepage. To ask for help, report bugs, request features, or discuss the development of the package,
+ please subscribe to the koRpus-dev mailing list (<http://korpusml.reaktanz.de>).
+Homepage: https://reaktanz.de/?c=hacking&s=koRpus
 Suggests: r-cran-testthat, r-cran-tm, r-cran-snowballc, r-cran-shiny

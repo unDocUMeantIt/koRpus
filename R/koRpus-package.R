@@ -4,13 +4,13 @@
 #' Package: \tab koRpus\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.07-2\cr
-#' Date: \tab 2016-07-31\cr
+#' Date: \tab 2016-12-21\cr
 #' Depends: \tab R (>= 2.10.0),methods,data.table\cr
 #' Enhances: \tab rkward\cr
 #' Encoding: \tab UTF-8\cr
 #' License: \tab GPL (>= 3)\cr
 #' LazyLoad: \tab yes\cr
-#' URL: \tab http://reaktanz.de/?c=hacking&s=koRpus\cr
+#' URL: \tab https://reaktanz.de/?c=hacking&s=koRpus\cr
 #' }
 #'
 #' A set of tools to analyze texts. Includes, amongst others, functions for automatic
@@ -22,12 +22,11 @@
 #' a local installation of TreeTagger is recommended. 'koRpus' also includes a plugin for
 #' the R GUI and IDE RKWard, providing graphical dialogs for its basic features. The respective
 #' R package 'rkward' cannot be installed directly from a repository, as it is a part of
-#' RKWard. To make full use of this feature, please install RKWard from https://rkward.kde.org
+#' RKWard. To make full use of this feature, please install RKWard from <https://rkward.kde.org>
 #' (plugins are detected automatically). Due to some restrictions on CRAN, the full package
-#' sources are only available from the project homepage. To ask for help, report bugs, suggest
-#' feature improvements, or discuss the global development of the package, please subscribe
-#' to the koRpus-dev mailing list
-#' (https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de).
+#' sources are only available from the project homepage. To ask for help, report bugs,
+#' request features, or discuss the development of the package, please subscribe to the koRpus-dev
+#' mailing list (<http://korpusml.reaktanz.de>).
 #'
 #' @aliases koRpus-package
 #' @name koRpus-package
