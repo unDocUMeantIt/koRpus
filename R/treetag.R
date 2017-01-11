@@ -402,6 +402,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       }
     } else {
       if(isTRUE(TT.tknz)){
+        TT.call.file <- paste0("\"", takeAsFile, "\"")
         if(isTRUE(use.splitter)){
           TT.splitter <- paste(TT.splitter, TT.call.file, TT.splitter.opts)
           TT.call.file <- ""
