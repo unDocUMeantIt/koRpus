@@ -64,6 +64,11 @@ development of the package, please either subscribe to the
 [koRpus-dev mailing list](https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de), or
 use the issue tracker on GitHub.
 
+### Branches
+
+Please note that all development happens in the `develop` branch. Pull requests against the `master`
+branch will be rejected, as it is reserved for the current stable release.
+
 ## Licence
 
 Copyright 2012-2017 Meik Michalke <meik.michalke@hhu.de>
