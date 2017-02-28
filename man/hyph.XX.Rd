@@ -62,4 +62,3 @@ Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.
    \code{\link[koRpus:manage.hyph.pat]{manage.hyph.pat}}
 }
 \keyword{datasets}
-

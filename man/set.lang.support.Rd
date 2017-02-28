@@ -117,6 +117,7 @@ hyphenation pattern file. Make sure you use the correct name scheme (e.g. "hyph.
 compression. Please refer to the \code{"hyphen"} section for details on how to add these patterns to
 a running \code{koRpus} session or a language support package.
 }
+
 \examples{
 \dontrun{
 set.lang.support("hyphen",
@@ -124,4 +125,3 @@ set.lang.support("hyphen",
 )
 }
 }
-

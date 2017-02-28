@@ -160,11 +160,6 @@ tagged.results <- treetag("~/my.data/speech.txt",
 tagged.noStopWords <- kRp.filter.wclass(tagged.results, "stopword")
 }
 }
-\author{
-m.eik michalke \email{meik.michalke@hhu.de},
-      support for various laguages was contributed by Earl Brown (Spanish), Alberto Mirisola (Italian) and
-   Alexandre Brulet (French).
-}
 \references{
 Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
    \emph{International Conference on New Methods in Language Processing}, Manchester, UK,
@@ -177,5 +172,9 @@ Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
       \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
 \code{\link[koRpus]{kRp.tagged-class}}
 }
+\author{
+m.eik michalke \email{meik.michalke@hhu.de},
+      support for various laguages was contributed by Earl Brown (Spanish), Alberto Mirisola (Italian) and
+   Alexandre Brulet (French).
+}
 \keyword{misc}
-

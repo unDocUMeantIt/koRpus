@@ -46,4 +46,3 @@ spache(tagged.text, word.list=spache.revised.wl)
 }
 }
 \keyword{readability}
-

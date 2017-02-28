@@ -41,4 +41,3 @@ this function will only calculate the index value.
 }
 }
 \keyword{readability}
-

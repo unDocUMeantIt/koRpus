@@ -3,8 +3,8 @@
 \docType{methods}
 \name{read.corp.custom}
 \alias{read.corp.custom}
-\alias{read.corp.custom,character-method}
 \alias{read.corp.custom,kRp.taggedText-method}
+\alias{read.corp.custom,character-method}
 \alias{read.corp.custom,list-method}
 \title{Import custom corpus data}
 \usage{
@@ -70,4 +70,3 @@ ru.corp <- read.corp.custom("~/mydata/corpora/russian_corpus/")
 \code{\link[koRpus]{kRp.corp.freq-class}}
 }
 \keyword{corpora}
-

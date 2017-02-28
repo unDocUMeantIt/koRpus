@@ -21,5 +21,5 @@ This class is used for objects that are returned by \code{\link[koRpus:freq.anal
 
 \item{\code{freq.analysis}}{A list with information on the word frequencies of the analyzed text.}
 }}
-\keyword{classes}
 
+\keyword{classes}

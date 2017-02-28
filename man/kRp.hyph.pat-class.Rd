@@ -21,5 +21,5 @@ This class is used for objects that are returned by \code{\link[koRpus:read.hyph
   \item{\code{nums}:}{The hyphenation number code for the pattern.}
 }}
 }}
-\keyword{classes}
 
+\keyword{classes}

@@ -55,4 +55,3 @@ flesch(german.tagged.text, parameters="de")
 \code{\link[koRpus:farr.jenkins.paterson]{farr.jenkins.paterson}} for a simplified Flesch formula.
 }
 \keyword{readability}
-

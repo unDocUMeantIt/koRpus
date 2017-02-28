@@ -3,8 +3,8 @@
 \docType{methods}
 \name{readability}
 \alias{readability}
-\alias{readability,character-method}
 \alias{readability,kRp.taggedText-method}
+\alias{readability,character-method}
 \title{Measure readability}
 \usage{
 readability(txt.file, ...)
@@ -471,4 +471,3 @@ Anderson,
    [1] \url{http://strainindex.wordpress.com/2007/09/25/hello-world/}
 }
 \keyword{readability}
-

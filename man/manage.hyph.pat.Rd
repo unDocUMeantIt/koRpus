@@ -68,4 +68,3 @@ manage.hyph.pat("en", rm="rticl")
    \code{\link[koRpus:hyphen]{hyphen}}
 }
 \keyword{hyphenation}
-

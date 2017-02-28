@@ -53,4 +53,3 @@ V\"o, M. L.-H., Conrad, M., Kuchinke, L., Hartfeld, K., Hofmann, M.F. & Jacobs,
    \code{\link[koRpus:kRp.text.analysis]{kRp.text.analysis}}
 }
 \keyword{corpora}
-

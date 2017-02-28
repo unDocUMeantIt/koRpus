@@ -53,4 +53,3 @@ Farr, J.N., Jenkins, J.J. & Paterson,
 \code{\link[koRpus:flesch]{flesch}}
 }
 \keyword{readability}
-

@@ -68,4 +68,3 @@ McCarthy, P. M. & Jarvis, S. (2010). MTLD, vocd-D,
  \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
 }
 \keyword{LD}
-

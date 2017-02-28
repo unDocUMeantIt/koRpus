@@ -22,5 +22,5 @@ This class is used for objects that are returned by \code{\link[koRpus:hyphen]{h
   \item{\code{word}:}{The hyphenated word}
 }}
 }}
-\keyword{classes}
 
+\keyword{classes}

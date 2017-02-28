@@ -28,4 +28,3 @@ first and last letter of each word is left intact,
       while all characters inbetween are being
 randomized.
 }
-

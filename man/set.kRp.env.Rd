@@ -47,4 +47,3 @@ get.kRp.env(TT.cmd=TRUE)
 \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
 }
 \keyword{misc}
-

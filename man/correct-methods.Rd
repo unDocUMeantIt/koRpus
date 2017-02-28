@@ -2,10 +2,12 @@
 % Please edit documentation in R/02_method_correct.R
 \docType{methods}
 \name{correct.tag}
-\alias{correct.hyph}
-\alias{correct.hyph,kRp.hyphen-method}
 \alias{correct.tag}
 \alias{correct.tag,kRp.taggedText-method}
+\alias{correct.tag}
+\alias{correct.hyph}
+\alias{correct.hyph,kRp.hyphen-method}
+\alias{correct.hyph}
 \title{Methods to correct koRpus objects}
 \usage{
 correct.tag(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
@@ -94,4 +96,3 @@ hyphenated.txt <- correct.hyph(hyphenated.txt, "Hilfe", "Hil-fe")
    \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}.
 }
 \keyword{methods}
-

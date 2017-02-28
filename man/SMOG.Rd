@@ -53,4 +53,3 @@ Bamberger, R. & Vanecek,
       G.H. (1969). SMOG grading -- A new readability formula. \emph{Journal of Reading}, 12(8), 639--646.
 }
 \keyword{readability}
-

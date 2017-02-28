@@ -62,4 +62,3 @@ Harris, A.J. & Jacobson,
       M.D. (1974). Revised Harris-Jacobson readability formulas. In \emph{18th Annual Meeting of the College Reading Association}, Bethesda.
 }
 \keyword{readability}
-

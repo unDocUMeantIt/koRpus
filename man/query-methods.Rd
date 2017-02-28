@@ -80,6 +80,7 @@ second query will be made to the results of the first.
 This method calls \code{\link[base]{subset}},
       which might actually be even more flexible if you need more control.
 }
+
 \examples{
 \dontrun{
 # look up frequencies for the word "aber"
@@ -112,4 +113,3 @@ query(tagged.txt, "lemma", "he")
 \code{\link[koRpus]{kRp.corp.freq-class}}, \code{\link[base]{subset}}
 }
 \keyword{methods}
-

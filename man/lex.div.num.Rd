@@ -52,4 +52,3 @@ Maas, H.-D.,
 \code{\link[koRpus:lex.div]{lex.div}}
 }
 \keyword{LD}
-

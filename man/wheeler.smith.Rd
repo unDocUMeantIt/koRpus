@@ -51,4 +51,3 @@ Bamberger, R. & Vanecek,
      31, 397--399.
 }
 \keyword{readability}
-

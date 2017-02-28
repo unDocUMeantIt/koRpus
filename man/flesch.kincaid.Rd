@@ -40,4 +40,3 @@ flesch.kincaid(tagged.text)
 }
 }
 \keyword{readability}
-

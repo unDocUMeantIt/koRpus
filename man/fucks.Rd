@@ -40,4 +40,3 @@ Fucks,
       W. (1955). Der Unterschied des Prosastils von Dichtern und anderen Schriftstellern. \emph{Sprachforum}, 1, 233--244.
 }
 \keyword{readability}
-

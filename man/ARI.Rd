@@ -49,4 +49,3 @@ DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Inf
       R.J. (1967). \emph{Automated readability index}. AMRL-TR-66-22. Wright-Paterson AFB, Ohio: Aerospace Medical Division.
 }
 \keyword{readability}
-

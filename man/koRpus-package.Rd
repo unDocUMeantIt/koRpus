@@ -46,4 +46,3 @@ m.eik michalke, with contributions from Earl Brown, Alberto Mirisola, Alexandre 
       Laura Hauser
 }
 \keyword{package}
-

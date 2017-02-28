@@ -51,4 +51,3 @@ coleman(tagged.text)
 }
 }
 \keyword{readability}
-

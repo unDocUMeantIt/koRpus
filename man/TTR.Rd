@@ -40,4 +40,3 @@ TTR(tagged.text)
  \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
 }
 \keyword{LD}
-

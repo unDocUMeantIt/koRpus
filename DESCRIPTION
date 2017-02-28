@@ -34,7 +34,7 @@ Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.d
                person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
 Version: 0.10-1
 Date: 2016-12-21
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Collate:
     '00_environment.R'
     '01_class_01_kRp.tagged.R'

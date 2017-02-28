@@ -53,4 +53,3 @@ segment.optimizer(2014, favour.min=FALSE)
 \code{\link[koRpus:lex.div]{lex.div}}, \code{\link[koRpus:MSTTR]{MSTTR}}
 }
 \keyword{LD}
-
