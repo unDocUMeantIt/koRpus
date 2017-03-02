@@ -37,4 +37,3 @@ This function strips off defined word classes of tagged text objects.
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 }
 \keyword{misc}
-

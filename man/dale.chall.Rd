@@ -45,4 +45,3 @@ dale.chall(tagged.text, word.list=new.dale.chall.wl)
 }
 }
 \keyword{readability}
-

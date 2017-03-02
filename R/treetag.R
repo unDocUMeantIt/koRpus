@@ -363,8 +363,13 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
         } else {}
         TT.lexicon      <- file.path(TT.lib, TT.options[["lexicon"]])
         check.file(TT.lookup, mode="exist")
-        check.file(TT.lexicon, mode="exist")
-        TT.lookup.command  <- paste(TT.lookup, TT.lexicon, "|")
+        lexiconExists <- check.file(TT.lexicon, mode="exist", stopOnFail=FALSE)
+        if(isTRUE(lexiconExists)){
+          TT.lookup.command  <- paste(TT.lookup, TT.lexicon, "|")
+        } else {
+          TT.lookup.command  <- c()
+          warning(paste0("Can't find the lexicon file, hence omitted! Please ensure this path is valid:\n  ", TT.lexicon), call.=FALSE)
+        }
       }
     } else {
       if(!isTRUE(have.preset)){
@@ -372,7 +377,11 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       } else {
         if(!identical(TT.lookup.command, c())){
           check.file(TT.lookup, mode="exist")
-          check.file(TT.lexicon, mode="exist")
+          lexiconExists <- check.file(TT.lexicon, mode="exist", stopOnFail=FALSE)
+          if(!isTRUE(lexiconExists)){
+            TT.lookup.command  <- c()
+            warning(paste0("Can't find the lexicon file, hence omitted! Please ensure this path is valid:\n  ", TT.lexicon), call.=FALSE)
+          } else {}
         } else {}
       }
     }
@@ -402,6 +411,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       }
     } else {
       if(isTRUE(TT.tknz)){
+        TT.call.file <- paste0("\"", takeAsFile, "\"")
         if(isTRUE(use.splitter)){
           TT.splitter <- paste(TT.splitter, TT.call.file, TT.splitter.opts)
           TT.call.file <- ""

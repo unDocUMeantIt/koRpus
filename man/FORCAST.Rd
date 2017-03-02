@@ -46,4 +46,3 @@ Klare, G.R. (1975). Assessing readability. \emph{Reading Research Quarterly}, 10
       62--102.
 }
 \keyword{readability}
-

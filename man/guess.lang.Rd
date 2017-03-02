@@ -63,4 +63,3 @@ Benedetto, D., Caglioti, E. & Loreto,
 [2] \url{http://unicode.org/udhr}
 }
 \keyword{misc}
-

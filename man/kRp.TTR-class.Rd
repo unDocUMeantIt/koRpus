@@ -112,5 +112,5 @@ the whole text is analyzed. The matrix has two colums,
 \item{\code{MTLDMA.char}}{Equivalent to TTR.char,
       but calculated using the moving-average MTLD algorithm. NA if not calculated.}
 }}
-\keyword{classes}
 
+\keyword{classes}

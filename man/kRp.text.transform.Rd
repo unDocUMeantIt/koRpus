@@ -50,4 +50,3 @@ kRp.text.transform(tagged.text.obj, scheme="random", paste=TRUE)
 }
 }
 \keyword{misc}
-

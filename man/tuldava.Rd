@@ -46,4 +46,3 @@ This index originally has no parameter weights. To be able the use weights anywa
 }
 }
 \keyword{readability}
-

@@ -66,9 +66,9 @@ The slot might have additional columns, depending on the input material.}
   \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
 }}
 }}
+
 \references{
 [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
 [2] \url{http://celex.mpi.nl}
 }
 \keyword{classes}
-

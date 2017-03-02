@@ -32,4 +32,3 @@ kRp.text.paste(tagged.text.obj)
 }
 }
 \keyword{misc}
-

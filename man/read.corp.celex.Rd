@@ -37,4 +37,3 @@ freq.analysis("/some/text.txt", corp.freq=my.Celex.data)
 \code{\link[koRpus]{kRp.corp.freq-class}}
 }
 \keyword{corpora}
-

@@ -1,6 +1,25 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.10-1 (2017-03-01)}{
+  \subsection{fixed}{
+    \itemize{
+      \item windows users could run into an error of an undefined object
+        (TT.call.file) when using \code{treetag()}
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item CRAN doesn't accept leading zeroes in version numbers any longer and
+        asked me to change 0.07 into 0.7. i'd rather play this safe, so i'm jumping
+        right to 0.10 to keep the versioning consistent fo all users. the reason for
+        this policy change was not explained to me, could be anything from "we
+        think it looks ugly" to "it breaks our build systems".
+      \item allowing \code{treetag()} to run even when a defined lexicon file is not found.
+        this previously resulted in an error and now causes only a warning message.
+    }
+  }
+}
 \section{Changes in koRpus version 0.07-2 (2016-12-21)}{
   \subsection{fixed}{
     \itemize{

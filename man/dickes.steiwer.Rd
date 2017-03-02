@@ -42,4 +42,3 @@ This formula doesn't need syllable count.
 }
 }
 \keyword{readability}
-

@@ -39,4 +39,3 @@ plot(tagged.results)
 }
 \keyword{methods}
 \keyword{plot}
-

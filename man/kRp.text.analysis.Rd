@@ -70,4 +70,3 @@ kRp.text.analysis("/some/text.txt")
    \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}, \code{\link[koRpus:lex.div]{lex.div}}
 }
 \keyword{misc}
-

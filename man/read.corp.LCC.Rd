@@ -84,4 +84,3 @@ Quasthoff, U., Richter, M. & Biemann,
 \code{\link[koRpus]{kRp.corp.freq-class}}
 }
 \keyword{corpora}
-

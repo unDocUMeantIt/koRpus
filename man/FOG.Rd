@@ -54,4 +54,3 @@ DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Inf
      \emph{Journal of Educational Psychology}, 49(2), 99--105.
 }
 \keyword{readability}
-

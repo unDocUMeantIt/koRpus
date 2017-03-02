@@ -31,4 +31,3 @@ It is included in this package not really to be used, but to maybe inspire you,
       to toy around with the code and help me to
 come up with something useful in the end...
 }
-

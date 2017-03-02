@@ -24,5 +24,5 @@ identical to the slot \code{TT.res} of function \code{treetag} or \code{freq.ana
 
 \item{\code{freq.analysis}}{Information on the word frequencies of the analyzed text.}
 }}
-\keyword{classes}
 
+\keyword{classes}

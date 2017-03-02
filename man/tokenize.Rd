@@ -135,4 +135,3 @@ tokenized.noStopWords <- kRp.filter.wclass(tokenized.obj, "stopword")
 }
 }
 \keyword{misc}
-

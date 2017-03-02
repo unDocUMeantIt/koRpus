@@ -28,8 +28,8 @@ This class is used for objects that are returned by \code{\link[koRpus:treetag]{
   \item{\code{stem}:}{Stemmed token.}
 }}
 }}
+
 \note{
 There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 }
 \keyword{classes}
-

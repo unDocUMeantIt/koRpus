@@ -46,4 +46,3 @@ Anderson,
       J. (1983). Lix and Rix: Variations on a little-known readability index. \emph{Journal of Reading}, 26(6), 490--496.
 }
 \keyword{readability}
-

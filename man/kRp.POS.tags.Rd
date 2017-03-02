@@ -68,10 +68,6 @@ it can still be useful to directly examine available POS tags.
 \examples{
 tags.de <- kRp.POS.tags("de")
 }
-\author{
-m.eik michalke \email{meik.michalke@hhu.de},
-      support for Spanish contributed by Earl Brown \email{ekbrown@ksu.edu}, support for Italian contributed by Alberto Mirisola.
-}
 \references{
 Santorini,
       B. (1991). \emph{Part-of-Speech Tagging Guidelines for the Penn Treebank Project}.
@@ -88,5 +84,8 @@ Sharoff, S., Kopotev, M., Erjavec, T., Feldman, A. & Divjak,
 \seealso{
 \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
 }
+\author{
+m.eik michalke \email{meik.michalke@hhu.de},
+      support for Spanish contributed by Earl Brown \email{ekbrown@ksu.edu}, support for Italian contributed by Alberto Mirisola.
+}
 \keyword{misc}
-

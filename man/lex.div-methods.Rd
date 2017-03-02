@@ -3,8 +3,9 @@
 \docType{methods}
 \name{lex.div}
 \alias{lex.div}
-\alias{lex.div,character-method}
 \alias{lex.div,kRp.taggedText-method}
+\alias{lex.div}
+\alias{lex.div,character-method}
 \title{Analyze lexical diversity}
 \usage{
 lex.div(txt, ...)
@@ -221,4 +222,3 @@ Covington, M.A. & McFall,
    \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
 }
 \keyword{LD}
-

@@ -3,8 +3,8 @@
 \docType{methods}
 \name{hyphen}
 \alias{hyphen}
-\alias{hyphen,character-method}
 \alias{hyphen,kRp.taggedText-method}
+\alias{hyphen,character-method}
 \title{Automatic hyphenation}
 \usage{
 hyphen(words, ...)
@@ -102,4 +102,3 @@ Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.
    \code{\link[koRpus:manage.hyph.pat]{manage.hyph.pat}}
 }
 \keyword{hyphenation}
-

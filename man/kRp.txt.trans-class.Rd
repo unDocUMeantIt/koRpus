@@ -31,5 +31,5 @@ the new columns \code{token.old} and \code{equal}).}
   \item{\code{letters}:}{Percentage of altered letters in words only.}
 }}
 }}
-\keyword{classes}
 
+\keyword{classes}

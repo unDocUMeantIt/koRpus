@@ -2,14 +2,16 @@
 % Please edit documentation in R/02_method_types_tokens.R
 \docType{methods}
 \name{types}
-\alias{tokens}
-\alias{tokens,character-method}
-\alias{tokens,kRp.TTR-method}
-\alias{tokens,kRp.taggedText-method}
 \alias{types}
-\alias{types,character-method}
+\alias{tokens}
 \alias{types,kRp.TTR-method}
+\alias{types}
+\alias{tokens,kRp.TTR-method}
+\alias{tokens}
 \alias{types,kRp.taggedText-method}
+\alias{tokens,kRp.taggedText-method}
+\alias{types,character-method}
+\alias{tokens,character-method}
 \title{Get types and tokens of a given text}
 \usage{
 types(txt, ...)
@@ -97,4 +99,3 @@ tokens(tagged.text)
    \code{\link[koRpus:lex.div]{lex.div}}
 }
 \keyword{LD}
-

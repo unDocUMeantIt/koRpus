@@ -3,8 +3,8 @@
 \docType{methods}
 \name{freq.analysis}
 \alias{freq.analysis}
-\alias{freq.analysis,character-method}
 \alias{freq.analysis,kRp.taggedText-method}
+\alias{freq.analysis,character-method}
 \title{Analyze word frequencies}
 \usage{
 freq.analysis(txt.file, ...)
@@ -81,4 +81,3 @@ freq.analysis("~/some/text.txt", corp.freq=my.LCC.data)
    \code{\link[koRpus]{kRp.corp.freq-class}}
 }
 \keyword{misc}
-

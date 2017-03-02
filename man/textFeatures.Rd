@@ -55,4 +55,3 @@ Brennan, M., Afroz, S., & Greenstadt,
       D.I. (1996). Neural Network Applications in Stylometry: The Federalist Papers.
      \emph{Computers and the Humanities}, 30, 1--10.
 }
-

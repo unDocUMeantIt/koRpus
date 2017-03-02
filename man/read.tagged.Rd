@@ -82,4 +82,3 @@ Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
    \code{\link[koRpus]{kRp.tagged-class}}
 }
 \keyword{misc}
-

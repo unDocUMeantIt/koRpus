@@ -158,5 +158,5 @@ for detailed onformation.}
 
 \item{\code{Wiener.STF}}{The "flavour" of the parameter settings and the calculated value of the Wiener Sachtextformel. NA if not calculated.}
 }}
-\keyword{classes}
 
+\keyword{classes}

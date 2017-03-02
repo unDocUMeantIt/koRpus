@@ -22,5 +22,5 @@ This class is used for objects that are returned by \code{\link[koRpus:guess.lan
 
 \item{\code{udhr}}{A data.frame with full analysis results for each language tried.}
 }}
-\keyword{classes}
 
+\keyword{classes}

@@ -39,4 +39,3 @@ strain(tagged.text)
 }
 }
 \keyword{readability}
-

@@ -47,4 +47,3 @@ read.hyph.pat("~/patterns/hyph-en-us.pat.txt", lang="en_us")
    \code{\link[koRpus:manage.hyph.pat]{manage.hyph.pat}}
 }
 \keyword{hyphenation}
-

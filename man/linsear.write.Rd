@@ -40,4 +40,3 @@ linsear.write(tagged.text)
 }
 }
 \keyword{readability}
-

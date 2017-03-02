@@ -44,4 +44,3 @@ DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Inf
      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
 }
 \keyword{readability}
-
