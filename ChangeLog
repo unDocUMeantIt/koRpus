@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.10-2 (2017-03-02)
+unreleased:
+  - this release is under development
+
 changes in version 0.10-1 (2017-03-01)
 fixed:
   - windows users could run into an error of an undefined object
