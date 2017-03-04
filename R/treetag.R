@@ -166,16 +166,10 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
   # TreeTagger won't be able to use a connection object, so to make these usable,
   # we have to write its content to a temporary file first
   if(inherits(file, "connection") | identical(format, "obj")){
-    conn.tempfile <- tempfile(pattern="tempTextFromObject", fileext=".txt")
+    takeAsFile <- dumpTextToTempfile(text=file, encoding=encoding)
     if(!isTRUE(debug)){
-      on.exit(unlink(conn.tempfile), add=TRUE)
+      on.exit(unlink(takeAsFile), add=TRUE)
     } else {}
-    if(inherits(file, "connection")){
-      writeLines(readLines(file, encoding=ifelse(is.null(encoding), "", encoding)), con=conn.tempfile)
-    } else {
-      writeLines(file, con=conn.tempfile)
-    }
-    takeAsFile <- conn.tempfile
   } else {
     # does the text file exist?
     takeAsFile <- normalizePath(file)

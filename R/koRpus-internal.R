@@ -285,6 +285,29 @@ treetag.com <- function(tagged.text, lang){
 } ## end function treetag.com()
 
 
+## function dumpTextToTempfile()
+# text: either plain text vector or a connection (where its content needs to be dumped to a file)
+# encoding: output file encoding (will default to UTF-8 if NULL)
+# pattern: tempfile name pattern
+# fileext: tempfile name extension
+dumpTextToTempfile <- function(text, encoding=NULL, pattern="tempTextFromObject", fileext=".txt"){
+  conn.tempfile.path <- tempfile(pattern=pattern, fileext=fileext)
+  # encoding can always become an issue; try to stick to UTF-8 if no other encoding was specified
+  if(is.null(encoding)){
+    conn.tempfile <- file(conn.tempfile.path, open="w", encoding="UTF-8")
+  } else {
+    conn.tempfile <- file(conn.tempfile.path, open="w", encoding=encoding)
+  }
+  on.exit(close(conn.tempfile))
+  if(inherits(text, "connection")){
+    writeLines(readLines(text, encoding=ifelse(is.null(encoding), "", encoding)), con=conn.tempfile)
+  } else {
+    writeLines(text, con=conn.tempfile)
+  }
+  return(conn.tempfile.path)
+} ## end function dumpTextToTempfile()
+
+
 ## function stopAndStem()
 # tagged.text is a data.frame from treetag() or tokenize(), to become TT.res
 stopAndStem <- function(tagged.text.df, stopwords=NULL, stemmer=NULL, lowercase=TRUE){

@@ -1,8 +1,11 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-2 (2017-03-02)
+changes in version 0.10-2 (2017-03-04)
 unreleased:
   - this release is under development
+changed:
+  - if no encoding is provided and treetag() needs to write temporary files,
+    output file encoding is now forced into UTF-8
 
 changes in version 0.10-1 (2017-03-01)
 fixed:
