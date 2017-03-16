@@ -61,7 +61,7 @@ set.lang.support("treetag",
         # preset for windows systems
         return(
           list(
-            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.pl"),
+            TT.tokenizer      = file.path(TT.cmd, "utf8-tokenize.perl"),
             TT.tagger         = file.path(TT.bin, "tree-tagger.exe"),
             TT.abbrev         = TT.abbrev,
             TT.params         = file.path(TT.lib, "english-utf8.par"),
@@ -72,7 +72,7 @@ set.lang.support("treetag",
             TT.tknz.opts      = paste("-e -a", TT.abbrev),
             TT.lookup.command = c(),
             TT.filter.command = paste("|", TT.filter),
-            TT.pre.tagger     = "grep -v '^$' |"
+            TT.pre.tagger     = c()
           )
         )
       }
