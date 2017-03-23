@@ -29,7 +29,7 @@
 #' @export
 #' @docType methods
 #' @param ... Additional arguments to the method (as described in this document).
-#' @return And object of class kRp.tagged, with an additional list \code{cloze} in its
+#' @return An object of class kRp.tagged, with an additional list \code{cloze} in its
 #'    \code{desc} slot, listing the words which were changed.
 #' @rdname clozeDelete-methods
 setGeneric("clozeDelete", function(obj, ...){standardGeneric("clozeDelete")})
