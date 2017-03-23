@@ -132,7 +132,6 @@ setMethod("correct.tag",
 #' @export
 setGeneric("correct.hyph", function(obj, word=NULL, hyphen=NULL, cache=TRUE){standardGeneric("correct.hyph")})
 
-#' @export
 #' @docType methods
 #' @rdname correct-methods
 #' @aliases correct.hyph correct.hyph,kRp.hyphen-method
