@@ -112,7 +112,7 @@ get.hyph.cache <- function(lang){
 
 
 ## function check.hyph.cache()
-# called by hyphen(), returns either the chached entry, or NULL
+# called by hyphen(), returns either the cached entry, or NULL
 # - missing: if TRUE, all elements of token are looked up at once, and
 #   a vector of all missing tokens is returned, or NULL
 check.hyph.cache <- function(lang, token, cache=get.hyph.cache(lang=lang), missing=FALSE){
