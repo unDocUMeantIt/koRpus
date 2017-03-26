@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-2 (2017-03-16)
+changes in version 0.10-2 (2017-03-26)
 unreleased:
   - this release is under development
 fixed:
@@ -12,7 +12,7 @@ changed:
     output file encoding is now forced into UTF-8
   - hyphen(): caching now uses an environment instead of a data.frame
   - hyphen(): cached results are now looked up much more efficient, speeding up
-    the process drastically (about 200 times faster in my benchmarks!)
+    the process drastically (about 100 times faster in my benchmarks!)
   - source code: moved all wrapper functions for readability() and lex.div()
     from individual source files to one wrapper file, respectively. the source
     tree became a bit overcrowded over the years
