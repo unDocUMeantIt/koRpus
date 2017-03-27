@@ -323,7 +323,13 @@ hyphen.word <- function(
     # create word fragments ".wo", ".wor"... "rd."
     matched.patterns <- explode.word(word.dotted, min.pattern=min.pattern, max.pattern=max.pattern)
     # find all matching patterns of the word fragments
-    matched.patterns["match",] <- hyph.pattern[match(matched.patterns["frag",], hyph.pattern[,"char"]),"nums"]
+    matched.patterns["match",] <- sapply(matched.patterns["frag",],
+      function(f){
+        in.patterns <- slot(hyph.pattern, "pattern")[[f]]
+        return(ifelse(is.null(in.patterns), NA, in.patterns[["nums"]]))
+      },
+      USE.NAMES=FALSE
+    )
     # now let's add the found matches and find the maximum
     matched.pat.index <- !is.na(matched.patterns["match",])
     if(sum(matched.pat.index) > 0){
@@ -332,7 +338,9 @@ hyphen.word <- function(
           word.off <- as.numeric(matched.patterns["off",got.match])
           match.num.code <- unlist(strsplit(matched.patterns["match",got.match], split=""))
           results <- c(rep(0, word.on - 1), match.num.code, rep(0, word.length - word.off))
-        })
+        },
+        USE.NAMES=FALSE
+      )
       # this is the vector with the max values for the dotted word
       pattern.max <- as.numeric(apply(pattern.matrix, 1, max))
 
@@ -405,10 +413,13 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
     if(!inherits(hyph.pattern, "kRp.hyph.pat")){
       # the internal function load.hyph.pattern() will return what we need
       hyph.pattern <- load.hyph.pattern(hyph.pattern)
-    } else {}
+    } else {
+      # optimize the pattern object
+      hyph.pattern <- optimize.hyph.pattern(hyph.pattern)
+    }
     # the other way: take language from hyph.pattern
     # overwrites lang in tagged.text
-    lang <- hyph.pattern@lang
+    lang <- slot(hyph.pattern, "lang")
   }
   if(isTRUE(cache)){
     # check if cached hyphenation data has been set with set.kRp.env().
@@ -425,12 +436,10 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
     # feed back the hypenation we're using
     message(paste0("Hyphenation (language: ", lang, ")"))
   } else {}
-  # extract only the pattern matrix
-  hyph.pattern <- hyph.pattern@pattern
 
   # min-lenth and max-length of patterns
-  min.pat <- min(nchar(hyph.pattern[,"char"]))
-  max.pat <- max(nchar(hyph.pattern[,"char"]))
+  min.pat <- slot(hyph.pattern, "min.pat")
+  max.pat <- slot(hyph.pattern, "max.pat")
 
   ## main loop
   # build a vector with all possible word fragments
@@ -554,6 +563,36 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
 } ## end function kRp.hyphen.calc()
 
 
+## function optimize.hyph.pattern()
+# replaces the pattern matrix with a hashed environment
+optimize.hyph.pattern <- function(hyph.pat){
+  pattern.matrix <- slot(hyph.pat, "pattern")
+  pattern.list <- setNames(
+    object=lapply(
+      seq_along(pattern.matrix[,"char"]),
+      function(n){
+        return(
+          list(
+            # nums must remain character to keep leading zeroes!
+            nums=as.character(pattern.matrix[n,"nums"]),
+            orig=as.character(pattern.matrix[n,"orig"])
+          )
+        )
+      }
+    ),
+    nm=pattern.matrix[,"char"]
+  )
+  # "kRp.hyph.pat.env" in an internal class, defined in 01_class_07_kRp.hyph.pat.R
+  new.hyph.pat <- new("kRp.hyph.pat.env",
+    lang=slot(hyph.pat, "lang"),
+    min.pat=min(nchar(pattern.matrix[,"char"])),
+    max.pat=max(nchar(pattern.matrix[,"char"])),
+    pattern=as.environment(pattern.list)
+  )
+  return(new.hyph.pat)
+} ## end function optimize.hyph.pattern()
+
+
 ## function load.hyph.pattern()
 load.hyph.pattern <- function(lang){
   # to avoid needless NOTEs from R CMD check
@@ -569,9 +608,14 @@ load.hyph.pattern <- function(lang){
   } else {
     hyph.package <- "koRpus"
   }
+  # well populate the internal environment with optimized patterns
   if(!exists(paste0("hyph.", lang), envir=as.environment(.koRpus.env), inherits=FALSE)){
     data(list=paste0("hyph.", lang), package=hyph.package, envir=as.environment(.koRpus.env))
+    optimized.pattern <- optimize.hyph.pattern(get(paste0("hyph.", lang), envir=as.environment(.koRpus.env)))
+    # replace hyph.XX with optimized object
+    assign(paste0("hyph.", lang), optimized.pattern, envir=as.environment(.koRpus.env))
   } else {}
-  hyph.pat <- get(paste0("hyph.", lang), envir=as.environment(.koRpus.env))
-  return(hyph.pat)
+  hyph.pat.optim <- get(paste0("hyph.", lang), envir=as.environment(.koRpus.env))
+  # return optimized patterns
+  return(hyph.pat.optim)
 } ## end function load.hyph.pattern()
