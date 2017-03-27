@@ -17,6 +17,8 @@ changed:
     to convert them on the fly, but if this fails you should remove the old files
   - hyphen(): cached results are now looked up much more efficient, speeding up
     the process drastically (about 100 times faster in my benchmarks!)
+  - hyphen(): hyphenation patterns are now internally converted to environments
+    which speeds up uncached runs (or first runs with cache) noticeably
   - readability(): default parameters are now always fetched by the internal
     function default.params(), individually for each index
   - source code: moved all wrapper functions for readability() and lex.div()
