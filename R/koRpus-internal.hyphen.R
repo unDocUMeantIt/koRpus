@@ -228,7 +228,26 @@ read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, er
   # but the loaded data must contain an environment named "koRpus.hyph.cache"
   if(is.null(koRpus.hyph.cache)){
     stop(simpleError("The cache file you provided does not contain koRpus-ready hyphenation data!"))
-  } else {}
+  } else {
+    # cache format changed with 0.10-2, make sure we're good
+    if(is.data.frame(koRpus.hyph.cache)){
+      warning("Cache file format has changed, trying conversion. If you run into errors, delete your old cache files!", call.=FALSE)
+      koRpus.hyph.cache <- setNames(
+        object=lapply(
+          seq_along(koRpus.hyph.cache[["token"]]),
+          function(n){
+            return(
+              list(
+                syll=as.numeric(koRpus.hyph.cache[n,"syll"]),
+                word=as.character(koRpus.hyph.cache[n,"word"])
+              )
+            )
+          }
+        ),
+        nm=koRpus.hyph.cache[["token"]]
+      )
+    } else {}
+  }
   # set new file data to prevent from reloading if unchanged
   cacheFileInfo.old[[lang]] <- cacheFileInfo.new
   assign("hyphenCacheFile", cacheFileInfo.old, envir=as.environment(.koRpus.env))
