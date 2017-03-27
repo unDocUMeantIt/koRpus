@@ -201,7 +201,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       txt.freq <- txt.file
       tagged.words.only <- kRp.filter.wclass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag)
       if(is.null(slot(txt.freq, "desc")$all.words)){
-        slot(txt.freq, "desc")$all.words <- slot(tagged.words.only, "TT.res")[["token"]]
+        slot(txt.freq, "desc")$all.words <- taggedText(tagged.words.only)[["token"]]
       } else {}
     } else {
       txt.freq <- freq.analysis(txt.file=txt.file, desc.stat=TRUE, force.lang=lang,
@@ -403,7 +403,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("asl", "awl", "const")
     if("ARI" %in% names(parameters)){
-      flavour <- check.flavour(parameters$ARI, default.parameters$ARI)
+      flavour <- check.flavour(parameters$ARI, default.params("ARI"))
       prms <- parameters$ARI
       if(identical(prms, "NRI")){
         flavour <- "NRI"
@@ -414,7 +414,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
         prms <- c(asl=1, awl=9, const=0)
       } else {}
     } else {
-      prms <- default.parameters$ARI
+      prms <- default.params("ARI")
     }
     kRp.check.params(names(prms), valid.params, where="ARI")
     kRp.check.params(valid.params, names(prms), where="ARI", missing=TRUE)
@@ -988,41 +988,47 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     if(isTRUE(analyze.text)){
       # exclude certain words
       # proper nouns/names will completely be omitted
-      FOG.names <- which(slot(tagged.words.only, "TT.res")[["wclass"]] == "name")
+      FOG.names <- which(taggedText(tagged.words.only)[["wclass"]] == "name")
       # check for verbs ending in -es, -ed, or -ing (or anything else set in prms[["suffix"]])
       # these endings must not be counted as syllables
-      FOG.verbs <- which(slot(tagged.words.only, "TT.res")[["wclass"]] == "verb")
+      FOG.verbs <- which(taggedText(tagged.words.only)[["wclass"]] == "verb")
       FOG.verb.suffix <- paste0("(", paste(FOG.suffix, collapse="|"), ")$")
-      FOG.verbs <- FOG.verbs[grepl(FOG.verb.suffix, slot(tagged.words.only, "TT.res")[FOG.verbs,"token"])]
+      FOG.verbs <- FOG.verbs[grepl(FOG.verb.suffix, taggedText(tagged.words.only)[FOG.verbs,"token"])]
       # count one syllable less for these
       if(length(FOG.verbs) > 0){
-        FOG.dropped[["verbs"]] <- slot(tagged.words.only, "TT.res")[FOG.verbs[slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] == FOG.sylls],]
+        FOG.dropped[["verbs"]] <- taggedText(tagged.words.only)[FOG.verbs[slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] == FOG.sylls],]
         slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] <- slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] - 1
       } else {}
       # syllables of combined words must be counted separately
       # \p{Pd} matches dashes, indicating hyphenated/combined words
-      FOG.combi <- which(grepl("\\p{Pd}", slot(tagged.words.only, "TT.res")[["token"]], perl=TRUE))
+      FOG.combi <- which(grepl("\\p{Pd}", taggedText(tagged.words.only)[["token"]], perl=TRUE))
       # next step: split into seperate parts, count syllables for each and
       # drop all if none of the parts is long enough on its own
       FOG.combi.dopped <- c()
       for(combi in FOG.combi){
-        ## TODO: should this be cached or not?
-        FOG.this.combi <- hyphen(unlist(strsplit(slot(tagged.words.only, "TT.res")[combi, "token"], "\\p{Pd}", perl=TRUE)), hyph.pattern=lang, quiet=TRUE)
-        if(all(slot(FOG.this.combi, "hyphen")[["syll"]] < FOG.sylls)){
-          # don't count this as a hard word
+        combi.to.check <- unlist(strsplit(taggedText(tagged.words.only)[combi, "token"], "\\p{Pd}", perl=TRUE))
+        # quite liberal check here, just to ensure that we don't run into empty strings, e.g. when a single dash was tagged as a word
+        if(any(nchar(combi.to.check) >= FOG.sylls)){
+          ## TODO: should this be cached or not?
+          FOG.this.combi <- hyphen(combi.to.check, hyph.pattern=lang, quiet=TRUE)
+          if(all(slot(FOG.this.combi, "hyphen")[["syll"]] < FOG.sylls)){
+            # don't count this as a hard word
+            FOG.combi.dopped <- combi
+          } else {}
+        } else {
           FOG.combi.dopped <- combi
-        } else {}
+        }
       }
 
       FOG.num.syll <- slot(FOG.hyphen, "hyphen")$syll
       FOG.all.dropped <- c()
       # disarm the found names
       if(length(FOG.names) > 0){
-        FOG.dropped[["names"]] <- slot(tagged.words.only, "TT.res")[FOG.names,]
+        FOG.dropped[["names"]] <- taggedText(tagged.words.only)[FOG.names,]
         FOG.all.dropped <- c(FOG.all.dropped, FOG.names)
       } else {}
       if(length(FOG.combi.dopped) > 0){
-        FOG.dropped[["combi"]] <- slot(tagged.words.only, "TT.res")[FOG.combi.dopped,]
+        FOG.dropped[["combi"]] <- taggedText(tagged.words.only)[FOG.combi.dopped,]
         FOG.all.dropped <- c(FOG.all.dropped, FOG.combi.dopped)
       } else {}
       if(length(FOG.all.dropped) > 0){
