@@ -347,9 +347,9 @@ hyphen.word <- function(
     } else {
       ## no hyphenation
       if(isTRUE(as.cache)){
-        hyph.result <- list(syll=1, word=word)
+        hyph.result <- list(syll=1, word=word.orig)
       } else {
-        hyph.result <- c(syll=1, word=word)
+        hyph.result <- c(syll=1, word=word.orig)
       }
     }
     # this will return *three* elements if as.cache is TRUE
@@ -422,8 +422,6 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
     # counter to get some feedback
     .iter.counter <- new.env()
     assign("counter", 1, envir=.iter.counter)
-    # give some feedback, so we know the machine didn't just freeze...
-    prgBar <- txtProgressBar(min=0, max=length(uniqueWords), style=3)
   } else {}
 
   if(isTRUE(cache)){
@@ -436,8 +434,8 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
       typesMissingInCache <- typesMissingInCache[nchar(typesMissingInCache) >= min.length]
       if(length(typesMissingInCache) > 0){
         if(!isTRUE(quiet)){
-          # reset progress bar with updated value
-          prgBar <- txtProgressBar(min=0, max=length(typesMissingInCache) + length(uniqueWords), style=3)
+          # give some feedback, so we know the machine didn't just freeze...
+          prgBar <- txtProgressBar(min=0, max=length(typesMissingInCache), style=3)
         } else {}
         typesMissingHyphenated <- setNames(
           object=lapply(
@@ -465,16 +463,19 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
         typesMissingHyphenated[["syll"]] <- as.numeric(typesMissingHyphenated[["syll"]])
         set.hyph.cache(lang=lang, append=typesMissingHyphenated)
         assign("changed", TRUE, envir=writeBackCache)
+        if(!isTRUE(quiet)){
+          # close prograss bar
+          close(prgBar)
+        } else {}
       } else {}
     } else {}
     # fetch results from cache in one go
-    hyph.df <- check.hyph.cache(lang=lang, token=uniqueWords, multiple=TRUE)
-    if(!isTRUE(quiet)){
-      # update prograss bar
-      setTxtProgressBar(prgBar, length(uniqueWords))
-      assign("counter", length(uniqueWords), envir=.iter.counter)
-    } else {}
+    hyph.df <- check.hyph.cache(lang=lang, token=words, multiple=TRUE)
   } else {
+    if(!isTRUE(quiet)){
+      # give some feedback, so we know the machine didn't just freeze...
+      prgBar <- txtProgressBar(min=0, max=length(uniqueWords), style=3)
+    } else {}
     # initialize result data.frame
     hyph.df <- data.frame(
       syll=1,
@@ -501,12 +502,11 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
       hyph.df[hyph.df[["token"]] == nw, "syll"] <- as.numeric(hyphenate.results["syll"])
       hyph.df[hyph.df[["token"]] == nw, "word"] <- hyphenate.results["word"]
     }
+    if(!isTRUE(quiet)){
+      # close prograss bar
+      close(prgBar)
+    } else {}
   }
-
-  if(!isTRUE(quiet)){
-    # close prograss bar
-    close(prgBar)
-  } else {}
 
   ## compute descriptive statistics
   num.syll <- sum(hyph.df$syll, na.rm=TRUE)
