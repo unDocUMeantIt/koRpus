@@ -167,7 +167,7 @@ set.hyph.cache <- function(lang, append=NULL, cache=get.hyph.cache(lang=lang)){
     locked <- mget("hyphenCacheLock", envir=as.environment(.koRpus.env), ifnotfound=list(hyphenCacheLock=FALSE))[["hyphenCacheLock"]]
   }
   # now *we* lock the cache
-  assign("hyphenCacheLock", TRUE, envir=as.environment(.koRpus.env), inherits=TRUE)
+  assign("hyphenCacheLock", list(hyphenCacheLock=TRUE), pos=as.environment(.koRpus.env))
   all.kRp.env.hyph <- mget("hyphenCache", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCache"]]
   if(is.null(all.kRp.env.hyph)){
     all.kRp.env.hyph <- new.env()
@@ -176,16 +176,16 @@ set.hyph.cache <- function(lang, append=NULL, cache=get.hyph.cache(lang=lang)){
   if(!is.null(append)){
     # could be there is no cache yet
     if(is.null(cache)){
-      cache <- new.env()
+      cache <- list()
     } else {}
     # using arbitrary character stuff for names might fail
     try(
-      cache <- as.environment(modifyList(as.list(cache), append))
+      cache <- as.environment(modifyList(as.list(cache), as.list(append)))
     )
   } else {
     if(is.null(cache)){
       # hm, if both is null, don't do anything
-      assign("hyphenCacheLock", FALSE, envir=as.environment(.koRpus.env), inherits=TRUE)
+      assign("hyphenCacheLock", list(hyphenCacheLock=FALSE), pos=as.environment(.koRpus.env))
       return(invisible(NULL))
     } else {}
   }
@@ -193,7 +193,7 @@ set.hyph.cache <- function(lang, append=NULL, cache=get.hyph.cache(lang=lang)){
   all.kRp.env.hyph[[lang]] <- cache
   assign("hyphenCache", all.kRp.env.hyph, envir=as.environment(.koRpus.env))
   # unlock cache
-  assign("hyphenCacheLock", FALSE, envir=as.environment(.koRpus.env), inherits=TRUE)
+  assign("hyphenCacheLock", list(hyphenCacheLock=FALSE), pos=as.environment(.koRpus.env))
   return(invisible(NULL))
 } ## end function set.hyph.cache()
 
@@ -274,6 +274,10 @@ write.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, e
   } else {}
 
   koRpus.hyph.cache <- get.hyph.cache(lang=lang)
+  # if there is no cache yet, make it an empty environment
+  if(is.null(koRpus.hyph.cache)){
+    koRpus.hyph.cache <- list()
+  } else {}
   save(koRpus.hyph.cache, file=cache.file.path)
 
   return(invisible(NULL))
