@@ -610,12 +610,20 @@ load.hyph.pattern <- function(lang){
   }
   # well populate the internal environment with optimized patterns
   if(!exists(paste0("hyph.", lang), envir=as.environment(.koRpus.env), inherits=FALSE)){
+    # we'll load the hyphen pattern, get it here and check its format
+    # this way packages can carry both old and new pattern formats
     data(list=paste0("hyph.", lang), package=hyph.package, envir=as.environment(.koRpus.env))
-    optimized.pattern <- optimize.hyph.pattern(get(paste0("hyph.", lang), envir=as.environment(.koRpus.env)))
-    # replace hyph.XX with optimized object
-    assign(paste0("hyph.", lang), optimized.pattern, envir=as.environment(.koRpus.env))
-  } else {}
-  hyph.pat.optim <- get(paste0("hyph.", lang), envir=as.environment(.koRpus.env))
+    hyph.pat.optim <- get(paste0("hyph.", lang), envir=as.environment(.koRpus.env))
+    if(!inherits(hyph.pat.optim, "kRp.hyph.pat.env")){
+      # optimization is only needed for packages with old pattern objects
+      # this should not be an issue, as it's quite fast and happens only once a pattern set is loaded
+      hyph.pat.optim <- optimize.hyph.pattern(hyph.pat.optim)
+      # replace hyph.XX with optimized object
+      assign(paste0("hyph.", lang), hyph.pat.optim, envir=as.environment(.koRpus.env))
+    } else {}
+  } else {
+    hyph.pat.optim <- get(paste0("hyph.", lang), envir=as.environment(.koRpus.env))
+  }
   # return optimized patterns
   return(hyph.pat.optim)
 } ## end function load.hyph.pattern()
