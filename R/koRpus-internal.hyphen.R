@@ -404,6 +404,10 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
 
   # to avoid needless NOTEs from R CMD check
   token <- NULL
+  # set a variable to check if we changed the data at all, to later skip the writing back part if possible
+  # this is only relevant if cache=TRUE, but needs to be present for a check later on
+  writeBackCache <- new.env()
+  assign("changed", FALSE, envir=writeBackCache)
 
   # check for hyphenation pattern.
   if(is.null(hyph.pattern)){
@@ -429,12 +433,7 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
     # check if cached hyphenation data has been set with set.kRp.env().
     # if so, the data will directly be coped to koRpus' environment
     read.hyph.cache.file(lang=lang, file=get.kRp.env(hyph.cache.file=TRUE, errorIfUnset=FALSE), quiet=quiet)
-    # set a variable to check if we changed the data at all, to later skip the writing back part if possible
-    writeBackCache <- new.env()
-    assign("changed", FALSE, envir=writeBackCache)
-  } else {
-    writeBackCache <- NULL
-  }
+  } else {}
 
   if(!isTRUE(quiet)){
     # feed back the hypenation we're using
