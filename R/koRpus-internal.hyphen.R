@@ -213,7 +213,7 @@ read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, er
   } else {}
   # only reload the file if it changed or wasn't loaded at all yet
   cacheFileInfo.new <- file.mtime(cache.file.path)
-  cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))
+  cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCacheFile"]]
   if(identical(cacheFileInfo.new, cacheFileInfo.old[[lang]])){
     # file doesn't seem to have changed
     return(invisible(NULL))
@@ -221,7 +221,6 @@ read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, er
     # this must be the first time we try to read the file
     cacheFileInfo.old <- list()
   } else {}
-
   # set koRpus.hyph.cache to NULL to suppress R CMD check warning
   koRpus.hyph.cache <- NULL
   load(cache.file.path)
