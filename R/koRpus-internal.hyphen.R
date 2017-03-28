@@ -180,7 +180,8 @@ set.hyph.cache <- function(lang, append=NULL, cache=get.hyph.cache(lang=lang)){
     } else {}
     # using arbitrary character stuff for names might fail
     try(
-      cache <- as.environment(modifyList(as.list(cache), as.list(append)))
+      # 'all.names=TRUE' is needed to not lose all tokens that begin with a dot!
+      cache <- as.environment(modifyList(as.list(cache, all.names=TRUE), as.list(append, all.names=TRUE)))
     )
   } else {
     if(is.null(cache)){
@@ -211,8 +212,8 @@ read.hyph.cache.file <- function(lang, file=get.kRp.env(hyph.cache.file=TRUE, er
     write.hyph.cache.file(lang=lang, quiet=quiet)
   } else {}
   # only reload the file if it changed or wasn't loaded at all yet
-  cacheFileInfo.new <- file.info(cache.file.path)
-  cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))[["hyphenCacheFile"]]
+  cacheFileInfo.new <- file.mtime(cache.file.path)
+  cacheFileInfo.old <- mget("hyphenCacheFile", envir=as.environment(.koRpus.env), ifnotfound=list(NULL))
   if(identical(cacheFileInfo.new, cacheFileInfo.old[[lang]])){
     # file doesn't seem to have changed
     return(invisible(NULL))
@@ -459,11 +460,9 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
   if(isTRUE(cache)){
     # the fastest way to fill the cache is to first check what types are missing,
     # hyphenate them and append them to cache in *one* go and *then* fetch results
-    # for the actual hyphenation all from cache
-    typesMissingInCache  <- check.hyph.cache(lang=lang, token=uniqueWords, missing=TRUE)
+    # for the actual hyphenation all from cache; omit uncachable tokens in the first place
+    typesMissingInCache  <- check.hyph.cache(lang=lang, token=uniqueWords[nchar(uniqueWords) >= min.length], missing=TRUE)
     if(!is.null(typesMissingInCache)){
-      # throw out uncachable tokens right away
-      typesMissingInCache <- typesMissingInCache[nchar(typesMissingInCache) >= min.length]
       if(length(typesMissingInCache) > 0){
         if(!isTRUE(quiet)){
           # give some feedback, so we know the machine didn't just freeze...
@@ -555,7 +554,7 @@ kRp.hyphen.calc <- function(words, hyph.pattern=NULL, min.length=4L, rm.hyph=TRU
     syll.per100=syll.per100
   )
 
-  if(isTRUE(cache) && isTRUE(get("changed", envir=writeBackCache))){
+  if(all(isTRUE(cache), isTRUE(get("changed", envir=writeBackCache)))){
     # check if cached hyphenation data has been set with set.kRp.env().
     # if so and if we added to it here, the current data will be written back to that file
     write.hyph.cache.file(lang=lang, file=get.kRp.env(hyph.cache.file=TRUE, errorIfUnset=FALSE), quiet=quiet)
