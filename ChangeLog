@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-2 (2017-03-26)
+changes in version 0.10-2 (2017-03-29)
 unreleased:
   - this release is under development
 fixed:
@@ -24,6 +24,10 @@ changed:
   - source code: moved all wrapper functions for readability() and lex.div()
     from individual source files to one wrapper file, respectively. the source
     tree became a bit overcrowded over the years
+added:
+  - new options redability(index="validation") and lex.div(measure="validation")
+    show current the status of validation. this info was previously only
+    available as comments in the source code and is now directly available.
 removed:
   - WSFT(): deprecated wrapper, was replaced by nWS() in 2012
 

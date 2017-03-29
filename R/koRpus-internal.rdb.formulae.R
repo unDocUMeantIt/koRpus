@@ -1548,7 +1548,8 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   if(!isTRUE(quiet) && any(needs.warning)){
     warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
     paste(index[needs.warning], collapse=", "),
-    "\n  Use the results with caution, even if they seem plausible!"), call.=FALSE)
+    "\n  Use the results with caution, even if they seem plausible!",
+    "\n  See readability(index=\"validation\") for more details."), call.=FALSE)
   } else {}
   return(all.results)
 }

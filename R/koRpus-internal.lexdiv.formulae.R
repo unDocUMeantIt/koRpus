@@ -123,19 +123,20 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   - TTR                  [TAL]
   - U                    [AYG]
   - MTLD-MA              [JMC]
-  
+
   These measures produce plausible results, but need checking:
   - MATTR
   - S
   - K
-  
+
   Tools used:
   AYG: http://aihaiyang.com/synlex/lexical
   TAL: http://www.textalyser.net
-  
+
   Other:
   JMC: re-calculations by jarvis & mccarthy (thanks!!!)
-  MAS: example data in the original paper by Maas"
+  MAS: example data in the original paper by Maas
+  "
   ))
   return(invisible(NULL))
   } else {}
@@ -538,7 +539,8 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   if(!isTRUE(quiet) && any(needs.warning)){
     warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
     paste(measure[needs.warning], collapse=", "),
-    "\n  Use the results with caution, even if they seem plausible!"), call.=FALSE)
+    "\n  Use the results with caution, even if they seem plausible!",
+    "\n  See lex.div(measure=\"validation\") for more details."), call.=FALSE)
   } else {}
   return(lex.div.results)
 } ## end function kRp.lex.div.formulae()

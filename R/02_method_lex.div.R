@@ -105,10 +105,12 @@
 #' @param lemmatize Logical, whether analysis should be carried out on the lemmatized tokens rather than all running word forms.
 #' @param detailed Logical, whether full details of the analysis should be calculated. This currently affects MTLD and MTLD-MA, defining
 #'    if all factors should be kept in the object. This slows down calculations considerably.
-#' @param measure A character vector defining the measures which should be calculated. Valid elements are "TTR", "MSTTR", "MATTR", "C", "R", 
-#'    "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD" and "MTLD-MA".
+#' @param measure A character vector defining the measures which should be calculated. Valid elements are \code{"TTR"}, \code{"MSTTR"},
+#'    \code{"MATTR"}, \code{"C"}, \code{"R"}, \code{"CTTR"}, \code{"U"}, \code{"S"}, \code{"K"}, \code{"Maas"}, \code{"HD-D"}, \code{"MTLD"}
+#'    and \code{"MTLD-MA"}. You can also set it to \code{"validation"} to get information on the current status of validation.
 #' @param char A character vector defining whether data for plotting characteristic curves should be calculated. Valid elements are 
-#'    "TTR","MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD" and "MTLD-MA".
+#'    \code{"TTR"}, \code{"MATTR"}, \code{"C"}, \code{"R"}, \code{"CTTR"}, \code{"U"}, \code{"S"}, \code{"K"}, \code{"Maas"}, \code{"HD-D"},
+#'    \code{"MTLD"} and \code{"MTLD-MA"}.
 #' @param char.steps An integer value defining the step size for characteristic curves, in tokens.
 #' @param log.base A numeric value defining the base of the logarithm. See \code{\link[base:log]{log}} for details.
 #' @param force.lang A character string defining the language to be assumed for the text, by force. See details.
@@ -202,5 +204,21 @@ setMethod("lex.div", signature(txt="character"), function(txt, segment=100,
       keep.tokens=keep.tokens, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
 
     return(lex.div.results)
+  }
+)
+
+#' @export
+#' @aliases lex.div,missing-method
+#' @rdname lex.div-methods
+setMethod("lex.div", signature(txt="missing"), function(txt, measure){
+
+    # only prints the validation info
+    if(identical(measure, "validation")){
+      kRp.lex.div.formulae(measure="validation")
+    } else {
+      stop(simpleError("If 'txt' is missing, the only valid value for 'measure' is \"validation\"!"))
+    }
+
+    return(invisible(NULL))
   }
 )
