@@ -56,72 +56,77 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       txt.features=list(), ...){
 
   ## TODO: validation
-  # the following implementations have already been checked against various tools
-  # to validate the correctness of calculation. this doesn't mean they always came to identical
-  # results at once, since the accuracy of input data (like number of syllables or sentences)
-  # varies considerably. but if these differences were manually corrected, the results were similar:
-  # - ARI                   [OUT, RDS, FRT, WDC]
-  #   - NRI                 [RDS (labeled as "simplified")]
-  # - Bormuth Mean Cloze    [RDS]
-  # - Coleman-Liau          [OUT, RDS]
-  # - Dale-Chall            [RDS]
-  #   - PSK                 [RDS]
-  #   - Dale-Chall (1948)   [OKP]
-  # - DRP                   [RDS]
-  # - Farr-Jenkins-Paterson [RDS]
-  #   - PSK                 [RDS]
-  # - Flesch                [OUT, RDS, TAL, LLB, JRT, WDC]
-  #   - PSK                 [RDS]
-  #   - Szigriszt (es)      [INF]
-  #   - Flesch.es           [INF]
-  # - Flesch-Kincaid        [OUT, RDS, JRT, WDC]
-  # - FOG                   [GFI, RDS, OUT, JRT, WDC]
-  #   - PSK                 [RDS]
-  # - FORCAST               [RDS]
-  # - Harris-Jacobson (HJ2) [RDS]
-  # - LIX                   [RDS]
-  # - Linsear Write         [FRT]
-  # - RIX                   [RDS]
-  # - SMOG                  [OUT, RDS, WDC]
-  # - Spache                [RDS]
-  # - Wheeler-Smith         [RDS, WHE]
-  #
-  # these measures produce plausible results, but need checking:
-  # - ARI simplified
-  # - Coleman Formulas (1-4)
-  # - Danielson-Bryan (1-2)
-  # - Dickes-Steiwer's Handformel
-  # - Easy Listening Formula
-  # - Flesch.de
-  # - Flesch.fr
-  # - Flesch.nl
-  #   - some papers use 0.33 and other 0.93 for the average sentence length parameter!
-  # - Flesch.Brouwer (nl)
-  # - Fucks
-  # - Harris-Jacobson (1-5)
-  # - Neue Wiener Sachtextformeln (1-4)
-  # - SMOG Qu
-  # - SMOG C
-  # - Strain
-  # - Traenkle-Bailer
-  #
-  # these measures look bogus:
-  # - TRI
-  #
-  # tools used:
-  # FRT: http://www.readabilityformulas.com/free-readability-formula-tests.php
-  # GFI: http://gunning-fog-index.com
-  # INF: INFLESZ v1.0, http://www.legibilidad.com/home/descargas.html
-  # JRT: http://juicystudio.com/services/readability.php
-  # LLB: http://www.leichtlesbar.ch
-  # OKP: http://www.lefthandlogic.com/htmdocs/tools/okapi/okapi.php
-  # OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
-  # RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
-  # TAL: http://www.textalyser.net
-  # WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
-  # 
-  # other:
-  # WHE: example from original article by Wheeler & Smith
+  if(identical(index, "validation")){
+  message(paste0("
+  The following implementations have already been checked against various tools
+  to validate the correctness of calculation. This doesn't mean they always came to identical
+  results at once, since the accuracy of input data (like number of syllables or sentences)
+  varies considerably. But if these differences were manually corrected, the results were similar/identical:
+  - ARI                   [OUT, RDS, FRT, WDC]
+    - NRI                 [RDS (labeled as \"simplified\")]
+  - Bormuth Mean Cloze    [RDS]
+  - Coleman-Liau          [OUT, RDS]
+  - Dale-Chall            [RDS]
+    - PSK                 [RDS]
+    - Dale-Chall (1948)   [OKP]
+  - DRP                   [RDS]
+  - Farr-Jenkins-Paterson [RDS]
+    - PSK                 [RDS]
+  - Flesch                [OUT, RDS, TAL, LLB, JRT, WDC]
+    - PSK                 [RDS]
+    - Szigriszt (es)      [INF]
+    - Flesch.es           [INF]
+  - Flesch-Kincaid        [OUT, RDS, JRT, WDC]
+  - FOG                   [GFI, RDS, OUT, JRT, WDC]
+    - PSK                 [RDS]
+  - FORCAST               [RDS]
+  - Harris-Jacobson (HJ2) [RDS]
+  - LIX                   [RDS]
+  - Linsear Write         [FRT]
+  - RIX                   [RDS]
+  - SMOG                  [OUT, RDS, WDC]
+  - Spache                [RDS]
+  - Wheeler-Smith         [RDS, WHE]
+  
+  These measures produce plausible results, but need checking:
+  - ARI simplified
+  - Coleman Formulas (1-4)
+  - Danielson-Bryan (1-2)
+  - Dickes-Steiwer's Handformel
+  - Easy Listening Formula
+  - Flesch.de
+  - Flesch.fr
+  - Flesch.nl
+    - some papers use 0.33 and other 0.93 for the average sentence length parameter!
+  - Flesch.Brouwer (nl)
+  - Fucks
+  - Harris-Jacobson (1-5)
+  - Neue Wiener Sachtextformeln (1-4)
+  - SMOG Qu
+  - SMOG C
+  - Strain
+  - Traenkle-Bailer
+  
+  These measures look bogus:
+  - TRI
+  
+  Tools used:
+  FRT: http://www.readabilityformulas.com/free-readability-formula-tests.php
+  GFI: http://gunning-fog-index.com
+  INF: INFLESZ v1.0, http://www.legibilidad.com/home/descargas.html
+  JRT: http://juicystudio.com/services/readability.php
+  LLB: http://www.leichtlesbar.ch
+  OKP: http://www.lefthandlogic.com/htmdocs/tools/okapi/okapi.php
+  OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
+  RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
+  TAL: http://www.textalyser.net
+  WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
+  
+  Other:
+  WHE: example from original article by Wheeler & Smith"
+  ))
+  return(invisible(NULL))
+  } else {}
 
   # see if just the default parameters should be returned:
   if(identical(parameters, "dput")){
