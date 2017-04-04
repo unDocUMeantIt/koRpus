@@ -290,7 +290,8 @@
 #'    be skipped automatically if it's not needed for the selected indices.
 #' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
 #'    will be tried (meaning all variations of all measures). If set to \code{"fast"}, a subset of the default values is used that is
-#'    known to compute fast (currently, this only excludes "FOG").
+#'    known to compute fast (currently, this only excludes "FOG"). You can also set it to \code{"validation"} to get information on the current
+#'    status of validation.
 #' @param parameters A list with named magic numbers, defining the relevant parameters for each index. If none are given,
 #'    the default values are used.
 #' @param word.lists A named list providing the word lists for indices which need one. If \code{NULL} or missing, the indices will be
@@ -458,5 +459,21 @@ setMethod("readability", signature(txt.file="character"), function(txt.file, hyp
         analyze.text=TRUE, ...)
 
     return(all.results)
+  }
+)
+
+#' @export
+#' @aliases readability,missing-method
+#' @rdname readability-methods
+setMethod("readability", signature(txt.file="missing"), function(txt.file, index){
+
+    # only prints the validation info
+    if(identical(index, "validation")){
+      kRp.rdb.formulae(index="validation")
+    } else {
+      stop(simpleError("If 'txt.file' is missing, the only valid value for 'index' is \"validation\"!"))
+    }
+
+    return(invisible(NULL))
   }
 )

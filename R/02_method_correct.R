@@ -132,7 +132,6 @@ setMethod("correct.tag",
 #' @export
 setGeneric("correct.hyph", function(obj, word=NULL, hyphen=NULL, cache=TRUE){standardGeneric("correct.hyph")})
 
-#' @export
 #' @docType methods
 #' @rdname correct-methods
 #' @aliases correct.hyph correct.hyph,kRp.hyphen-method
@@ -144,7 +143,7 @@ setMethod("correct.hyph",
       lang <- obj@lang
       local.obj.copy <- obj
 
-      if(!is.null(word) & !is.null(hyphen)){
+      if(all(!is.null(word), !is.null(hyphen))){
         # recount syllables
         new.syll <- sum(grepl("-", unlist(strsplit(hyphen, split="")))) + 1
 
@@ -171,18 +170,10 @@ setMethod("correct.hyph",
           recent.cache <- all.kRp.env.hyph[[lang]]
           # could be there is no such entries in the environment yet
           if(is.null(recent.cache)){
-            recent.cache <- data.frame(token="", syll=0, word="", stringsAsFactors=FALSE)[-1,]
-          } else {
-            # check if this word was hyphenated before
-            token <- gsub("-", "", word)
-            inCache <- which(recent.cache[,"token"] == token)
-            if(length(inCache) > 0){
-              recent.cache[inCache,"syll"] <- new.syll
-              recent.cache[inCache,"word"] <- hyphen
-            } else {
-              recent.cache <- rbind(recent.cache, c(word, new.syll, hyphen))
-            }
-          }
+            recent.cache <- new.env()
+          } else {}
+          token <- gsub("-", "", word)
+          recent.cache[[token]] <- list(syll=new.syll, word=hyphen)
           # write back the changes
           all.kRp.env.hyph[[lang]] <- recent.cache
           assign("hyphenCache", all.kRp.env.hyph, envir=as.environment(.koRpus.env))

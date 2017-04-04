@@ -20,7 +20,7 @@
 # and have been moved here to make the code more readable itself ;-)
 
 ## set default parameters
-default.params <- function(){
+default.params <- function(index=NULL, var=NULL){
   default.parameters <- list(
     ARI=c(asl=0.5, awl=4.71, const=21.43),
     Bormuth=list(
@@ -71,6 +71,31 @@ default.params <- function(){
     Tuldava=c(syll=1, word1=1, word2=1, sent=1),
     Wheeler.Smith=c(syll=2)
   )
+  if(is.null(index)){
+    return(default.parameters)
+  } else if(identical(index, "dput")){
+    return(dput(default.parameters, control="useSource"))
+  } else if(all(index %in% names(default.parameters))){
+    if(length(index) == 1){
+      if(!is.null(var)){
+        stopifnot(var %in% names(default.parameters[[index]]))
+        return(default.parameters[[index]][[var]])
+      } else {
+        return(default.parameters[[index]])
+      }
+    } else {
+      return(default.parameters[index])
+    }
+  } else {
+    stop(
+      simpleError(
+        paste0(
+          "Unknown readability index: ",
+          paste0(index[!index %in% names(default.parameters)], collapse=", ")
+        )
+      )
+    )
+  }
 }
 
 ## grade levels

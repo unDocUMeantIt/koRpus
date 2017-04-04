@@ -6,6 +6,7 @@
 \alias{lex.div,kRp.taggedText-method}
 \alias{lex.div}
 \alias{lex.div,character-method}
+\alias{lex.div,missing-method}
 \title{Analyze lexical diversity}
 \usage{
 lex.div(txt, ...)
@@ -27,6 +28,8 @@ lex.div(txt, ...)
   "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"), char.steps = 5,
   log.base = 10, force.lang = NULL, keep.tokens = FALSE,
   corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
+
+\S4method{lex.div}{missing}(txt, measure)
 }
 \arguments{
 \item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}},
@@ -66,12 +69,16 @@ the text is long enough.}
       whether full details of the analysis should be calculated. This currently affects MTLD and MTLD-MA, defining
 if all factors should be kept in the object. This slows down calculations considerably.}
 
-\item{measure}{A character vector defining the measures which should be calculated. Valid elements are "TTR",
-      "MSTTR", "MATTR", "C", "R", 
-"CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD" and "MTLD-MA".}
+\item{measure}{A character vector defining the measures which should be calculated. Valid elements are \code{"TTR"},
+      \code{"MSTTR"},
+\code{"MATTR"}, \code{"C"}, \code{"R"}, \code{"CTTR"}, \code{"U"}, \code{"S"}, \code{"K"},
+      \code{"Maas"}, \code{"HD-D"}, \code{"MTLD"}
+and \code{"MTLD-MA"}. You can also set it to \code{"validation"} to get information on the current status of validation.}
 
 \item{char}{A character vector defining whether data for plotting characteristic curves should be calculated. Valid elements are 
-"TTR","MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD" and "MTLD-MA".}
+\code{"TTR"}, \code{"MATTR"}, \code{"C"}, \code{"R"}, \code{"CTTR"}, \code{"U"},
+      \code{"S"}, \code{"K"}, \code{"Maas"}, \code{"HD-D"},
+\code{"MTLD"} and \code{"MTLD-MA"}.}
 
 \item{char.steps}{An integer value defining the step size for characteristic curves,
       in tokens.}

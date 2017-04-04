@@ -5,6 +5,7 @@
 \alias{readability}
 \alias{readability,kRp.taggedText-method}
 \alias{readability,character-method}
+\alias{readability,missing-method}
 \title{Measure readability}
 \usage{
 readability(txt.file, ...)
@@ -30,6 +31,8 @@ readability(txt.file, ...)
   Spache = NULL), fileEncoding = "UTF-8", tagger = "kRp.env",
   force.lang = NULL, sentc.tag = "sentc", nonword.class = "nonpunct",
   nonword.tag = c(), quiet = FALSE, ...)
+
+\S4method{readability}{missing}(txt.file, index)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
@@ -50,7 +53,9 @@ be skipped automatically if it's not needed for the selected indices.}
       indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
 will be tried (meaning all variations of all measures). If set to \code{"fast"},
       a subset of the default values is used that is
-known to compute fast (currently, this only excludes "FOG").}
+known to compute fast (currently,
+      this only excludes "FOG"). You can also set it to \code{"validation"} to get information on the current
+status of validation.}
 
 \item{parameters}{A list with named magic numbers,
       defining the relevant parameters for each index. If none are given,

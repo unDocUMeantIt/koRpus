@@ -56,79 +56,82 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       txt.features=list(), ...){
 
   ## TODO: validation
-  # the following implementations have already been checked against various tools
-  # to validate the correctness of calculation. this doesn't mean they always came to identical
-  # results at once, since the accuracy of input data (like number of syllables or sentences)
-  # varies considerably. but if these differences were manually corrected, the results were similar:
-  # - ARI                   [OUT, RDS, FRT, WDC]
-  #   - NRI                 [RDS (labeled as "simplified")]
-  # - Bormuth Mean Cloze    [RDS]
-  # - Coleman-Liau          [OUT, RDS]
-  # - Dale-Chall            [RDS]
-  #   - PSK                 [RDS]
-  #   - Dale-Chall (1948)   [OKP]
-  # - DRP                   [RDS]
-  # - Farr-Jenkins-Paterson [RDS]
-  #   - PSK                 [RDS]
-  # - Flesch                [OUT, RDS, TAL, LLB, JRT, WDC]
-  #   - PSK                 [RDS]
-  #   - Szigriszt (es)      [INF]
-  #   - Flesch.es           [INF]
-  # - Flesch-Kincaid        [OUT, RDS, JRT, WDC]
-  # - FOG                   [GFI, RDS, OUT, JRT, WDC]
-  #   - PSK                 [RDS]
-  # - FORCAST               [RDS]
-  # - Harris-Jacobson (HJ2) [RDS]
-  # - LIX                   [RDS]
-  # - Linsear Write         [FRT]
-  # - RIX                   [RDS]
-  # - SMOG                  [OUT, RDS, WDC]
-  # - Spache                [RDS]
-  # - Wheeler-Smith         [RDS, WHE]
-  #
-  # these measures produce plausible results, but need checking:
-  # - ARI simplified
-  # - Coleman Formulas (1-4)
-  # - Danielson-Bryan (1-2)
-  # - Dickes-Steiwer's Handformel
-  # - Easy Listening Formula
-  # - Flesch.de
-  # - Flesch.fr
-  # - Flesch.nl
-  #   - some papers use 0.33 and other 0.93 for the average sentence length parameter!
-  # - Flesch.Brouwer (nl)
-  # - Fucks
-  # - Harris-Jacobson (1-5)
-  # - Neue Wiener Sachtextformeln (1-4)
-  # - SMOG Qu
-  # - SMOG C
-  # - Strain
-  # - Traenkle-Bailer
-  #
-  # these measures look bogus:
-  # - TRI
-  #
-  # tools used:
-  # FRT: http://www.readabilityformulas.com/free-readability-formula-tests.php
-  # GFI: http://gunning-fog-index.com
-  # INF: INFLESZ v1.0, http://www.legibilidad.com/home/descargas.html
-  # JRT: http://juicystudio.com/services/readability.php
-  # LLB: http://www.leichtlesbar.ch
-  # OKP: http://www.lefthandlogic.com/htmdocs/tools/okapi/okapi.php
-  # OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
-  # RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
-  # TAL: http://www.textalyser.net
-  # WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
-  # 
-  # other:
-  # WHE: example from original article by Wheeler & Smith
+  if(identical(index, "validation")){
+  message(paste0("
+  The following implementations have already been checked against various tools
+  to validate the correctness of calculation. This doesn't mean they always came to identical
+  results at once, since the accuracy of input data (like number of syllables or sentences)
+  varies considerably. But if these differences were manually corrected, the results were similar/identical:
+  - ARI                   [OUT, RDS, FRT, WDC]
+    - NRI                 [RDS (labeled as \"simplified\")]
+  - Bormuth Mean Cloze    [RDS]
+  - Coleman-Liau          [OUT, RDS]
+  - Dale-Chall            [RDS]
+    - PSK                 [RDS]
+    - Dale-Chall (1948)   [OKP]
+  - DRP                   [RDS]
+  - Farr-Jenkins-Paterson [RDS]
+    - PSK                 [RDS]
+  - Flesch                [OUT, RDS, TAL, LLB, JRT, WDC]
+    - PSK                 [RDS]
+    - Szigriszt (es)      [INF]
+    - Flesch.es           [INF]
+  - Flesch-Kincaid        [OUT, RDS, JRT, WDC]
+  - FOG                   [GFI, RDS, OUT, JRT, WDC]
+    - PSK                 [RDS]
+  - FORCAST               [RDS]
+  - Harris-Jacobson (HJ2) [RDS]
+  - LIX                   [RDS]
+  - Linsear Write         [FRT]
+  - RIX                   [RDS]
+  - SMOG                  [OUT, RDS, WDC]
+  - Spache                [RDS]
+  - Wheeler-Smith         [RDS, WHE]
+  
+  These measures produce plausible results, but need checking:
+  - ARI simplified
+  - Coleman Formulas (1-4)
+  - Danielson-Bryan (1-2)
+  - Dickes-Steiwer's Handformel
+  - Easy Listening Formula
+  - Flesch.de
+  - Flesch.fr
+  - Flesch.nl
+    - some papers use 0.33 and other 0.93 for the average sentence length parameter!
+  - Flesch.Brouwer (nl)
+  - Fucks
+  - Harris-Jacobson (1-5)
+  - Neue Wiener Sachtextformeln (1-4)
+  - SMOG Qu
+  - SMOG C
+  - Strain
+  - Traenkle-Bailer
+  
+  These measures look bogus:
+  - TRI
+  
+  Tools used:
+  FRT: http://www.readabilityformulas.com/free-readability-formula-tests.php
+  GFI: http://gunning-fog-index.com
+  INF: INFLESZ v1.0, http://www.legibilidad.com/home/descargas.html
+  JRT: http://juicystudio.com/services/readability.php
+  LLB: http://www.leichtlesbar.ch
+  OKP: http://www.lefthandlogic.com/htmdocs/tools/okapi/okapi.php
+  OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
+  RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
+  TAL: http://www.textalyser.net
+  WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
+  
+  Other:
+  WHE: example from original article by Wheeler & Smith"
+  ))
+  return(invisible(NULL))
+  } else {}
 
-  ## set default parameters as fallback
-  # default.params() is defined in koRpus-internal.readability.R
-  default.parameters <- default.params()
   # see if just the default parameters should be returned:
   if(identical(parameters, "dput")){
-    return(dput(default.params, control="useSource"))
+    # default.params() is defined in koRpus-internal.readability.R
+    return(default.params("dput"))
   } else {}
 
   # check for given magic numbers
@@ -201,7 +204,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       txt.freq <- txt.file
       tagged.words.only <- kRp.filter.wclass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag)
       if(is.null(slot(txt.freq, "desc")$all.words)){
-        slot(txt.freq, "desc")$all.words <- slot(tagged.words.only, "TT.res")[["token"]]
+        slot(txt.freq, "desc")$all.words <- taggedText(tagged.words.only)[["token"]]
       } else {}
     } else {
       txt.freq <- freq.analysis(txt.file=txt.file, desc.stat=TRUE, force.lang=lang,
@@ -283,7 +286,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     # check if the "Dickes.Steiwer" parameters are set for TTR
     DS.case.sens <- ifelse(
       is.null(parameters$Dickes.Steiwer$case.sens),
-      default.parameters$Dickes.Steiwer$case.sens,
+      default.params("Dickes.Steiwer", "case.sens"),
       parameters$Dickes.Steiwer$case.sens)
     num.TTR <- slot(TTR(tagged.text, case.sens=DS.case.sens, quiet=TRUE), "TTR")
     # some word classes needed by one formula or the other
@@ -403,7 +406,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("asl", "awl", "const")
     if("ARI" %in% names(parameters)){
-      flavour <- check.flavour(parameters$ARI, default.parameters$ARI)
+      flavour <- check.flavour(parameters$ARI, default.params("ARI"))
       prms <- parameters$ARI
       if(identical(prms, "NRI")){
         flavour <- "NRI"
@@ -414,7 +417,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
         prms <- c(asl=1, awl=9, const=0)
       } else {}
     } else {
-      prms <- default.parameters$ARI
+      prms <- default.params("ARI")
     }
     kRp.check.params(names(prms), valid.params, where="ARI")
     kRp.check.params(valid.params, names(prms), where="ARI", missing=TRUE)
@@ -451,10 +454,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       valid.params.grade <- c("const", "m1", "m2", "m3", "c1", "c2", "c3", "mc1", "mc2", "mc3")
       bormuth.word.list <- read.word.list(word.lists[["Bormuth"]], encoding=fileEncoding)
       if("Bormuth" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Bormuth, default.parameters$Bormuth)
+        flavour <- check.flavour(parameters$Bormuth, default.params("Bormuth"))
         prms <- parameters$Bormuth
       } else {
-        prms <- default.parameters$Bormuth
+        prms <- default.params("Bormuth")
       }
       kRp.check.params(names(prms), valid.params, where="Bormuth")
       kRp.check.params("meanc", names(prms), where="Bormuth", missing=TRUE)
@@ -474,7 +477,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
         if("clz" %in% names(prms)){
           cloze.crit <- prms[["clz"]] / 100
         } else {
-          cloze.crit <- default.parameters$Bormuth[["clz"]] / 100
+          cloze.crit <- default.params("Bormuth", "clz") / 100
         }
         # here comes the rather long formula...
         bm.grade <- prms.grade[["const"]] + (prms.grade[["m1"]] * bmc) - (prms.grade[["m2"]] * bmc^2) + (prms.grade[["m3"]] * bmc^3) +
@@ -503,10 +506,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       flavour <- "default"
       valid.params <- c("syll", "clz1", "clz2", "clz3", "clz4")
       if("Coleman" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Coleman, default.parameters$Coleman)
+        flavour <- check.flavour(parameters$Coleman, default.params("Coleman"))
         prms <- parameters$Coleman
       } else {
-        prms <- default.parameters$Coleman
+        prms <- default.params("Coleman")
       }
       kRp.check.params(names(prms), valid.params, where="Coleman")
       # we don't necessarily need all params
@@ -571,10 +574,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     valid.params.grade <- c("ecp", "const")
     valid.params.short <- c("awl", "spw", "const")
     if("Coleman.Liau" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Coleman.Liau, default.parameters$Coleman.Liau)
+      flavour <- check.flavour(parameters$Coleman.Liau, default.params("Coleman.Liau"))
       prms <- parameters$Coleman.Liau
     } else {
-      prms <- default.parameters$Coleman.Liau
+      prms <- default.params("Coleman.Liau")
     }
 
     kRp.check.params(names(prms), valid.params, where="Coleman.Liau")
@@ -617,10 +620,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       valid.params <- c("const", "dword", "asl")
       dale.chall.word.list <- read.word.list(word.lists[["Dale.Chall"]], encoding=fileEncoding)
       if("Dale.Chall" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Dale.Chall, default.parameters$Dale.Chall, default.name="New Dale-Chall (1995)")
+        flavour <- check.flavour(parameters$Dale.Chall, default.params("Dale.Chall"), default.name="New Dale-Chall (1995)")
         prms <- parameters$Dale.Chall
       } else {
-        prms <- default.parameters$Dale.Chall
+        prms <- default.params("Dale.Chall")
       }
       if(identical(prms, "PSK")){
         flavour <- "Powers-Sumner-Kearl"
@@ -678,10 +681,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("db1", "db2")
     if("Danielson.Bryan" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Danielson.Bryan, default.parameters$Danielson.Bryan)
+      flavour <- check.flavour(parameters$Danielson.Bryan, default.params("Danielson.Bryan"))
       prms <- parameters$Danielson.Bryan
     } else{
-      prms <- default.parameters$Danielson.Bryan
+      prms <- default.params("Danielson.Bryan")
     }
 
     kRp.check.params(names(prms), valid.params, where="parameters$Danielson.Bryan")
@@ -740,10 +743,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("const", "awl", "asl", "ttr", "case.sens")
     if("Dickes.Steiwer" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Dickes.Steiwer, default.parameters$Dickes.Steiwer)
+      flavour <- check.flavour(parameters$Dickes.Steiwer, default.params("Dickes.Steiwer"))
       prms <- parameters$Dickes.Steiwer
     } else{
-      prms <- default.parameters$Dickes.Steiwer
+      prms <- default.params("Dickes.Steiwer")
     }
     kRp.check.params(names(prms), valid.params, where="Dickes.Steiwer")
     kRp.check.params(valid.params, names(prms), where="Dickes.Steiwer", missing=TRUE)
@@ -756,10 +759,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("syll")
     if("ELF" %in% names(parameters)){
-      flavour <- check.flavour(parameters$ELF, default.parameters$ELF)
+      flavour <- check.flavour(parameters$ELF, default.params("ELF"))
       prms <- parameters$ELF
     } else {
-      prms <- default.parameters$ELF
+      prms <- default.params("ELF")
     }
     kRp.check.params(names(prms), valid.params, where="ELF")
     kRp.check.params(valid.params, names(prms), where="ELF", missing=TRUE)
@@ -788,14 +791,14 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("const", "asl", "monsy")
     if("Farr.Jenkins.Paterson" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Farr.Jenkins.Paterson, default.parameters$Farr.Jenkins.Paterson)
+      flavour <- check.flavour(parameters$Farr.Jenkins.Paterson, default.params("Farr.Jenkins.Paterson"))
       prms <- parameters$Farr.Jenkins.Paterson
       if(identical(prms, "PSK")){
        flavour <- "Powers-Sumner-Kearl"
        prms <- c(const=8.4335, asl=-0.0923, monsy=-0.0648)
       } else {}
     } else {
-      prms <- default.parameters$Farr.Jenkins.Paterson
+      prms <- default.params("Farr.Jenkins.Paterson")
     }
     kRp.check.params(names(prms), valid.params, where="Farr.Jenkins.Paterson")
     kRp.check.params(valid.params, names(prms), where="Farr.Jenkins.Paterson", missing=TRUE)
@@ -815,7 +818,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "en (Flesch)"
     valid.params <- c("const", "asl", "asw")
     if("Flesch" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Flesch, default.parameters$Flesch, "en (Flesch)")
+      flavour <- check.flavour(parameters$Flesch, default.params("Flesch"), "en (Flesch)")
       prms <- parameters$Flesch
       if(identical(prms, "en")){
         flavour <- "en (Flesch)"
@@ -855,7 +858,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
         prms <- c(const=-2.2029, asl=-0.0778, asw=-4.55)
       } else {}
     } else {
-      prms <- default.parameters$Flesch
+      prms <- default.params("Flesch")
     }
       kRp.check.params(names(prms), valid.params, where="Flesch")
       kRp.check.params(valid.params, names(prms), where="Flesch", missing=TRUE)
@@ -911,10 +914,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("asl", "asw", "const")
     if("Flesch.Kincaid" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Flesch.Kincaid, default.parameters$Flesch.Kincaid)
+      flavour <- check.flavour(parameters$Flesch.Kincaid, default.params("Flesch.Kincaid"))
       prms <- parameters$Flesch.Kincaid
     } else {
-      prms <- default.parameters$Flesch.Kincaid
+      prms <- default.params("Flesch.Kincaid")
     }
     kRp.check.params(names(prms), valid.params, where="Flesch.Kincaid")
     kRp.check.params(valid.params, names(prms), where="Flesch.Kincaid", missing=TRUE)
@@ -927,14 +930,14 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("syll", "const", "mult")
     if("FORCAST" %in% names(parameters)){
-      flavour <- check.flavour(parameters$FORCAST, default.parameters$FORCAST)
+      flavour <- check.flavour(parameters$FORCAST, default.params("FORCAST"))
       prms <- parameters$FORCAST
       if(identical(prms, "RGL")){
         flavour <- "precise reading grade level"
         prms <- c(syll=1, const=20.43, mult=.11)
       } else {}
     } else {
-      prms <- default.parameters$FORCAST
+      prms <- default.params("FORCAST")
     }
     kRp.check.params(names(prms), valid.params, where="FORCAST")
     kRp.check.params(valid.params, names(prms), where="FORCAST", missing=TRUE)
@@ -962,21 +965,21 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("syll", "const", "suffix")
     if("FOG" %in% names(parameters)){
-      flavour <- check.flavour(parameters$FOG, default.parameters$FOG)
+      flavour <- check.flavour(parameters$FOG, default.params("FOG"))
       prms <- parameters$FOG
       # we need syllable and suffix parameters for all variants
       if("syll" %in% names(prms)){
         FOG.sylls <- prms[["syll"]]
       } else {
-        FOG.sylls <- default.parameters$FOG[["syll"]]
+        FOG.sylls <- default.params("FOG", "syll")
       }
       if("suffix" %in% names(prms)){
         FOG.suffix <- prms[["suffix"]]
       } else {
-        FOG.suffix <- default.parameters$FOG[["suffix"]]
+        FOG.suffix <- default.params("FOG", "suffix")
       }
     } else {
-      prms <- default.parameters$FOG
+      prms <- default.params("FOG")
       FOG.sylls <- prms[["syll"]]
       FOG.suffix <- prms[["suffix"]]
     }
@@ -988,41 +991,47 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     if(isTRUE(analyze.text)){
       # exclude certain words
       # proper nouns/names will completely be omitted
-      FOG.names <- which(slot(tagged.words.only, "TT.res")[["wclass"]] == "name")
+      FOG.names <- which(taggedText(tagged.words.only)[["wclass"]] == "name")
       # check for verbs ending in -es, -ed, or -ing (or anything else set in prms[["suffix"]])
       # these endings must not be counted as syllables
-      FOG.verbs <- which(slot(tagged.words.only, "TT.res")[["wclass"]] == "verb")
+      FOG.verbs <- which(taggedText(tagged.words.only)[["wclass"]] == "verb")
       FOG.verb.suffix <- paste0("(", paste(FOG.suffix, collapse="|"), ")$")
-      FOG.verbs <- FOG.verbs[grepl(FOG.verb.suffix, slot(tagged.words.only, "TT.res")[FOG.verbs,"token"])]
+      FOG.verbs <- FOG.verbs[grepl(FOG.verb.suffix, taggedText(tagged.words.only)[FOG.verbs,"token"])]
       # count one syllable less for these
       if(length(FOG.verbs) > 0){
-        FOG.dropped[["verbs"]] <- slot(tagged.words.only, "TT.res")[FOG.verbs[slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] == FOG.sylls],]
+        FOG.dropped[["verbs"]] <- taggedText(tagged.words.only)[FOG.verbs[slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] == FOG.sylls],]
         slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] <- slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] - 1
       } else {}
       # syllables of combined words must be counted separately
       # \p{Pd} matches dashes, indicating hyphenated/combined words
-      FOG.combi <- which(grepl("\\p{Pd}", slot(tagged.words.only, "TT.res")[["token"]], perl=TRUE))
+      FOG.combi <- which(grepl("\\p{Pd}", taggedText(tagged.words.only)[["token"]], perl=TRUE))
       # next step: split into seperate parts, count syllables for each and
       # drop all if none of the parts is long enough on its own
       FOG.combi.dopped <- c()
       for(combi in FOG.combi){
-        ## TODO: should this be cached or not?
-        FOG.this.combi <- hyphen(unlist(strsplit(slot(tagged.words.only, "TT.res")[combi, "token"], "\\p{Pd}", perl=TRUE)), hyph.pattern=lang, quiet=TRUE)
-        if(all(slot(FOG.this.combi, "hyphen")[["syll"]] < FOG.sylls)){
-          # don't count this as a hard word
+        combi.to.check <- unlist(strsplit(taggedText(tagged.words.only)[combi, "token"], "\\p{Pd}", perl=TRUE))
+        # quite liberal check here, just to ensure that we don't run into empty strings, e.g. when a single dash was tagged as a word
+        if(all(any(nchar(combi.to.check) >= FOG.sylls), all(nchar(combi.to.check) >= 1))){
+          ## TODO: should this be cached or not?
+          FOG.this.combi <- hyphen(combi.to.check, hyph.pattern=lang, quiet=TRUE)
+          if(all(slot(FOG.this.combi, "hyphen")[["syll"]] < FOG.sylls)){
+            # don't count this as a hard word
+            FOG.combi.dopped <- combi
+          } else {}
+        } else {
           FOG.combi.dopped <- combi
-        } else {}
+        }
       }
 
       FOG.num.syll <- slot(FOG.hyphen, "hyphen")$syll
       FOG.all.dropped <- c()
       # disarm the found names
       if(length(FOG.names) > 0){
-        FOG.dropped[["names"]] <- slot(tagged.words.only, "TT.res")[FOG.names,]
+        FOG.dropped[["names"]] <- taggedText(tagged.words.only)[FOG.names,]
         FOG.all.dropped <- c(FOG.all.dropped, FOG.names)
       } else {}
       if(length(FOG.combi.dopped) > 0){
-        FOG.dropped[["combi"]] <- slot(tagged.words.only, "TT.res")[FOG.combi.dopped,]
+        FOG.dropped[["combi"]] <- taggedText(tagged.words.only)[FOG.combi.dopped,]
         FOG.all.dropped <- c(FOG.all.dropped, FOG.combi.dopped)
       } else {}
       if(length(FOG.all.dropped) > 0){
@@ -1081,10 +1090,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       valid.params <- c("char", "hj1", "hj2", "hj3", "hj4", "hj5")
       hj.word.list <- read.word.list(word.lists[["Harris.Jacobson"]], encoding=fileEncoding)
       if("Harris.Jacobson" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Harris.Jacobson, default.parameters$Harris.Jacobson)
+        flavour <- check.flavour(parameters$Harris.Jacobson, default.params("Harris.Jacobson"))
         prms <- parameters$Harris.Jacobson
       } else {
-        prms <- default.parameters$Harris.Jacobson
+        prms <- default.params("Harris.Jacobson")
       }
 
       kRp.check.params(names(prms), valid.params, where="Harris.Jacobson")
@@ -1175,10 +1184,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("char", "const")
     if("LIX" %in% names(parameters)){
-      flavour <- check.flavour(parameters$LIX, default.parameters$LIX)
+      flavour <- check.flavour(parameters$LIX, default.params("LIX"))
       prms <- parameters$LIX
     } else {
-      prms <- default.parameters$LIX
+      prms <- default.params("LIX")
     }
     kRp.check.params(names(prms), valid.params, where="LIX")
     kRp.check.params(valid.params, names(prms), where="LIX", missing=TRUE)
@@ -1194,10 +1203,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("short.syll", "long.syll", "thrs")
     if("Linsear.Write" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Linsear.Write, default.parameters$Linsear.Write)
+      flavour <- check.flavour(parameters$Linsear.Write, default.params("Linsear.Write"))
       prms <- parameters$Linsear.Write
     } else {
-      prms <- default.parameters$Linsear.Write
+      prms <- default.params("Linsear.Write")
     }
     kRp.check.params(names(prms), valid.params, where="Linsear.Write")
     kRp.check.params(valid.params, names(prms), where="Linsear.Write", missing=TRUE)
@@ -1217,10 +1226,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("ms.syll", "iw.char", "es.syll", "nws1", "nws2", "nws3", "nws4")
     if("nWS" %in% names(parameters)){
-      flavour <- check.flavour(parameters$nWS, default.parameters$nWS)
+      flavour <- check.flavour(parameters$nWS, default.params("nWS"))
       prms <- parameters$nWS
     } else {
-      prms <- default.parameters$nWS
+      prms <- default.params("nWS")
     }
     kRp.check.params(names(prms), valid.params, where="nWS")
     # we don't necessarily need all params
@@ -1283,10 +1292,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("char")
     if("RIX" %in% names(parameters)){
-      flavour <- check.flavour(parameters$RIX, default.parameters$RIX)
+      flavour <- check.flavour(parameters$RIX, default.params("RIX"))
       prms <- parameters$RIX
     } else {
-      prms <- default.parameters$RIX
+      prms <- default.params("RIX")
     }
     kRp.check.params(names(prms), valid.params, where="RIX")
     kRp.check.params(valid.params, names(prms), where="RIX", missing=TRUE)
@@ -1301,7 +1310,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("sqrt", "fact", "syll", "const", "sqrt.const")
     if("SMOG" %in% names(parameters)){
-      flavour <- check.flavour(parameters$SMOG, default.parameters$SMOG)
+      flavour <- check.flavour(parameters$SMOG, default.params("SMOG"))
       prms <- parameters$SMOG
       if(identical(prms, "de")){
         flavour <- "de (\"Qu\", Bamberger-Vanecek)"
@@ -1316,7 +1325,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
         prms <- c(sqrt=1, fact=30, syll=3, const=3, sqrt.const=0)
       } else {}
     } else {
-      prms <- default.parameters$SMOG
+      prms <- default.params("SMOG")
     }
     kRp.check.params(names(prms), valid.params, where="SMOG")
     kRp.check.params(valid.params, names(prms), where="SMOG", missing=TRUE)
@@ -1350,14 +1359,14 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       valid.params <- c("asl", "dword", "const")
       spache.word.list <- read.word.list(word.lists[["Spache"]], encoding=fileEncoding)
       if("Spache" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Spache, default.parameters$Spache, default.name="Revised formula (1978)")
+        flavour <- check.flavour(parameters$Spache, default.params("Spache"), default.name="Revised formula (1978)")
         prms <- parameters$Spache
         if(identical(prms, "old")){
           flavour <- "First formula (1953)"
           prms <- list(asl=0.141, dword=0.086, const=0.839)
         } else {}
       } else {
-        prms <- default.parameters$Spache
+        prms <- default.params("Spache")
       }
       kRp.check.params(names(prms), valid.params, where="Spache")
       kRp.check.params(valid.params, names(prms), where="Spache", missing=TRUE)
@@ -1388,10 +1397,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("sent", "const")
     if("Strain" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Strain, default.parameters$Strain)
+      flavour <- check.flavour(parameters$Strain, default.params("Strain"))
       prms <- parameters$Strain
     } else {
-      prms <- default.parameters$Strain
+      prms <- default.params("Strain")
     }
     kRp.check.params(names(prms), valid.params, where="Strain")
     kRp.check.params(valid.params, names(prms), where="Strain", missing=TRUE)
@@ -1411,10 +1420,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       flavour <- "default"
       valid.params <- c("TB1", "TB2")
       if("Traenkle.Bailer" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Traenkle.Bailer, default.parameters$Traenkle.Bailer)
+        flavour <- check.flavour(parameters$Traenkle.Bailer, default.params("Traenkle.Bailer"))
         prms <- parameters$Traenkle.Bailer
       } else{
-        prms <- default.parameters$Traenkle.Bailer
+        prms <- default.params("Traenkle.Bailer")
       }
       kRp.check.params(names(prms), valid.params, where="Traenkle.Bailer")
 
@@ -1461,10 +1470,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("syll", "word", "pnct", "frgn", "const")
     if("TRI" %in% names(parameters)){
-      flavour <- check.flavour(parameters$TRI, default.parameters$TRI)
+      flavour <- check.flavour(parameters$TRI, default.params("TRI"))
       prms <- parameters$TRI
     } else{
-      prms <- default.parameters$TRI
+      prms <- default.params("TRI")
     }
     kRp.check.params(names(prms), valid.params, where="TRI")
     kRp.check.params(valid.params, names(prms), where="TRI", missing=TRUE)
@@ -1478,10 +1487,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     flavour <- "default"
     valid.params <- c("syll", "word1", "word2", "sent")
     if("Tuldava" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Tuldava, default.parameters$Tuldava)
+      flavour <- check.flavour(parameters$Tuldava, default.params("Tuldava"))
       prms <- parameters$Tuldava
     } else{
-      prms <- default.parameters$Tuldava
+      prms <- default.params("Tuldava")
     }
     kRp.check.params(names(prms), valid.params, where="Tuldava")
     kRp.check.params(valid.params, names(prms), where="Tuldava", missing=TRUE)
@@ -1496,16 +1505,16 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     valid.params <- c("syll")
     grade.measure <- "Wheeler.Smith"
     if("Wheeler.Smith" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Wheeler.Smith, default.parameters$Wheeler.Smith)
+      flavour <- check.flavour(parameters$Wheeler.Smith, default.params("Wheeler.Smith"))
       prms <- parameters$Wheeler.Smith
       grade.measure <- "Wheeler.Smith"
       if(identical(prms, "de")){
         flavour <- "de (Bamberger & Vanecek)"
-        prms <- default.parameters$Wheeler.Smith
+        prms <- default.params("Wheeler.Smith")
         grade.measure <- "Wheeler.Smith.de"
       } else {}
     } else {
-      prms <- default.parameters$Wheeler.Smith
+      prms <- default.params("Wheeler.Smith")
     }
     kRp.check.params(names(prms), valid.params, where="Wheeler.Smith")
     kRp.check.params(valid.params, names(prms), where="Wheeler.Smith", missing=TRUE)
@@ -1539,7 +1548,8 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   if(!isTRUE(quiet) && any(needs.warning)){
     warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
     paste(index[needs.warning], collapse=", "),
-    "\n  Use the results with caution, even if they seem plausible!"), call.=FALSE)
+    "\n  Use the results with caution, even if they seem plausible!",
+    "\n  See readability(index=\"validation\") for more details."), call.=FALSE)
   } else {}
   return(all.results)
 }

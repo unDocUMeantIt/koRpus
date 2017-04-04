@@ -107,33 +107,39 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
 # - check MTLD charactersitics -- can't this be simplified to save a lot of time?
 
   ## TODO: validation
-  # the following implementations have already been checked against various tools
-  # to validate the correctness of calculation. this doesn't mean they always came to identical
-  # results at once, since the accuracy of input data (like number of tokens) might vary.
-  # but if these differences were manually corrected, the results were similar/identical:
-  # - C                    [AYG]
-  # - CTTR                 [AYG]
-  # - HD-D                 [JMC]
-  # - Maas                 [MAS]
-  # - MSTTR                [AYG]
-  # - MTLD                 [JMC]
-  # - R                    [AYG]
-  # - TTR                  [TAL]
-  # - U                    [AYG]
-  # - MTLD-MA              [JMC]
-  # 
-  # these measures produce plausible results, but need checking:
-  # - MATTR
-  # - S
-  # - K
-  # 
-  # tools used:
-  # AYG: http://aihaiyang.com/synlex/lexical
-  # TAL: http://www.textalyser.net
-  # 
-  # other:
-  # JMC: re-calculations by jarvis & mccarthy (thanks!!!)
-  # MAS: example data in the original paper by Maas
+  if(identical(measure, "validation")){
+  message(paste0("
+  The following implementations have already been checked against various tools
+  to validate the correctness of calculation. This doesn't mean they always came to identical
+  results at once, since the accuracy of input data (like number of tokens) might vary.
+  But if these differences were manually corrected, the results were similar/identical:
+  - C                    [AYG]
+  - CTTR                 [AYG]
+  - HD-D                 [JMC]
+  - Maas                 [MAS]
+  - MSTTR                [AYG]
+  - MTLD                 [JMC]
+  - R                    [AYG]
+  - TTR                  [TAL]
+  - U                    [AYG]
+  - MTLD-MA              [JMC]
+
+  These measures produce plausible results, but need checking:
+  - MATTR
+  - S
+  - K
+
+  Tools used:
+  AYG: http://aihaiyang.com/synlex/lexical
+  TAL: http://www.textalyser.net
+
+  Other:
+  JMC: re-calculations by jarvis & mccarthy (thanks!!!)
+  MAS: example data in the original paper by Maas
+  "
+  ))
+  return(invisible(NULL))
+  } else {}
 
   if(!is.numeric(factor.size) | factor.size > 1 | factor.size < 0){
     stop(simpleError(paste("Invalid factor size value (must be 0 < factor.size < 1):",factor.size)))
@@ -533,7 +539,8 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   if(!isTRUE(quiet) && any(needs.warning)){
     warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
     paste(measure[needs.warning], collapse=", "),
-    "\n  Use the results with caution, even if they seem plausible!"), call.=FALSE)
+    "\n  Use the results with caution, even if they seem plausible!",
+    "\n  See lex.div(measure=\"validation\") for more details."), call.=FALSE)
   } else {}
   return(lex.div.results)
 } ## end function kRp.lex.div.formulae()

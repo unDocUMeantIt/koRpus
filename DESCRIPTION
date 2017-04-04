@@ -1,8 +1,6 @@
 Package: koRpus
 Type: Package
 Title: An R Package for Text Analysis
-Author: m.eik michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
-Maintainer: m.eik michalke <meik.michalke@hhu.de>
 Depends: R (>= 2.10.0),methods,data.table
 Enhances: rkward
 Suggests: testthat,tm,SnowballC,shiny
@@ -24,8 +22,8 @@ URL: https://reaktanz.de/?c=hacking&s=koRpus
 Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl",
                family="Brown", email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")),
                person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
-Version: 0.10-1
-Date: 2017-03-01
+Version: 0.10-2
+Date: 2017-04-04
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'
@@ -64,39 +62,8 @@ Collate:
     '02_method_summary.kRp.tagged.R'
     '02_method_summary.kRp.txt.freq.R'
     '02_method_types_tokens.R'
-    'ARI.R'
-    'C.ld.R'
-    'CTTR.R'
-    'DRP.R'
-    'ELF.R'
-    'FOG.R'
-    'FORCAST.R'
-    'HDD.R'
-    'K.ld.R'
-    'LIX.R'
-    'MATTR.R'
-    'MSTTR.R'
-    'MTLD.R'
-    'R.ld.R'
-    'RIX.R'
-    'S.ld.R'
-    'SMOG.R'
-    'TRI.R'
-    'TTR.R'
-    'U.ld.R'
-    'bormuth.R'
-    'coleman.R'
-    'coleman.liau.R'
-    'dale.chall.R'
-    'danielson.bryan.R'
-    'dickes.steiwer.R'
-    'farr.jenkins.paterson.R'
-    'flesch.R'
-    'flesch.kincaid.R'
-    'fucks.R'
     'get.kRp.env.R'
     'guess.lang.R'
-    'harris.jacobson.R'
     'hyph.XX-data.R'
     'jumbleWords.R'
     'kRp.POS.tags.R'
@@ -121,10 +88,7 @@ Collate:
     'lang.support-it.R'
     'lang.support-ru.R'
     'lex.div.num.R'
-    'linsear.write.R'
-    'maas.R'
     'manage.hyph.pat.R'
-    'nWS.R'
     'read.BAWL.R'
     'read.corp.LCC.R'
     'read.corp.celex.R'
@@ -133,12 +97,9 @@ Collate:
     'readability.num.R'
     'segment.optimizer.R'
     'set.kRp.env.R'
-    'spache.R'
-    'strain.R'
     'textFeatures.R'
     'tokenize.R'
-    'traenkle.bailer.R'
     'treetag.R'
-    'tuldava.R'
-    'wheeler.smith.R'
+    'wrapper_functions_lex.div.R'
+    'wrapper_functions_readability.R'
 RoxygenNote: 6.0.1

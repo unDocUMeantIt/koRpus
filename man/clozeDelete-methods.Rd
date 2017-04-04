@@ -34,7 +34,7 @@ be repeated this much times). If set to 0,
       the replacement wil be as long as the replaced word.}
 }
 \value{
-And object of class kRp.tagged, with an additional list \code{cloze} in its
+An object of class kRp.tagged, with an additional list \code{cloze} in its
    \code{desc} slot, listing the words which were changed.
 }
 \description{
