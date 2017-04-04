@@ -1,32 +1,31 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-2 (2017-03-29)
-unreleased:
-  - this release is under development
+changes in version 0.10-2 (2017-04-04)
 fixed:
-  - leftover typo in lang.support-en.R referencing "utf8-tokenize.pl" instead of
-    "utf8-tokenize.perl" in the windows preset and a call to grep that is not
-    present in Treetagger's *.bat file
-  - readability(): fixed a minor issue with the internal handling of wrongly tagged
-    dashes in the FOG formula (shouldn't have any effect on results)
+  - leftover typo in lang.support-en.R referencing "utf8-tokenize.pl" instead
+    of "utf8-tokenize.perl" in the windows preset and a call to grep that is
+    not present in Treetagger's *.bat file
+  - readability(): fixed a minor issue with the internal handling of wrongly
+    tagged dashes in the FOG formula (shouldn't have any effect on results)
 changed:
   - if no encoding is provided and treetag() needs to write temporary files,
     output file encoding is now forced into UTF-8
-  - hyphen(): caching now uses an environment instead of a data.frame. this means
-    that old cache files will need to be changed as well. hyphen() will try
-    to convert them on the fly, but if this fails you should remove the old files
-  - hyphen(): cached results are now looked up much more efficient, speeding up
-    the process drastically (about 100 times faster in my benchmarks!)
-  - hyphen(): hyphenation patterns are now internally converted to environments
-    which speeds up uncached runs (or first runs with cache) noticeably
+  - hyphen(): caching now uses an environment instead of a data.frame. this
+    means that old cache files will need to be changed as well. hyphen() will
+    try to convert them on the fly, but if this fails you should remove the old
+    files
+  - hyphen(): cached results are now looked up much more efficient, speeding
+    up the process drastically (about 100 times faster in my benchmarks!)
+  - hyphen(): hyphenation patterns are now internally converted to
+    environments which speeds up uncached runs (or first runs with cache) noticeably
   - readability(): default parameters are now always fetched by the internal
     function default.params(), individually for each index
   - source code: moved all wrapper functions for readability() and lex.div()
     from individual source files to one wrapper file, respectively. the source
     tree became a bit overcrowded over the years
 added:
-  - new options redability(index="validation") and lex.div(measure="validation")
-    show current the status of validation. this info was previously only
+  - new options redability(index="validation") and
+    lex.div(measure="validation") show current the status of validation. this info was previously only
     available as comments in the source code and is now directly available.
 removed:
   - WSFT(): deprecated wrapper, was replaced by nWS() in 2012

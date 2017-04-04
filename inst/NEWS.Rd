@@ -1,6 +1,48 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.10-2 (2017-04-04)}{
+  \subsection{fixed}{
+    \itemize{
+      \item leftover typo in lang.support-en.R referencing "utf8-tokenize.pl" instead
+        of "utf8-tokenize.perl" in the windows preset and a call to grep that is
+        not present in Treetagger's *.bat file
+      \item \code{readability()}: fixed a minor issue with the internal handling of wrongly
+        tagged dashes in the FOG formula (shouldn't have any effect on results)
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item if no encoding is provided and \code{treetag()} needs to write temporary files,
+        output file encoding is now forced into UTF-8
+      \item \code{hyphen()}: caching now uses an environment instead of a data.frame. this
+        means that old cache files will need to be changed as well. \code{hyphen()} will
+        try to convert them on the fly, but if this fails you should remove the old
+        files
+      \item \code{hyphen()}: cached results are now looked up much more efficient, speeding
+        up the process drastically (about 100 times faster in my benchmarks!)
+      \item \code{hyphen()}: hyphenation patterns are now internally converted to
+        environments which speeds up uncached runs (or first runs with cache) noticeably
+      \item \code{readability()}: default parameters are now always fetched by the internal
+        function \code{default.params()}, individually for each index
+      \item source code: moved all wrapper functions for \code{readability()} and \code{lex.div()}
+        from individual source files to one wrapper file, respectively. the source
+        tree became a bit overcrowded over the years
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item new options redability(index=\code{"validation"}) and
+        lex.div(measure=\code{"validation"}) show current the status of validation. this info was previously only
+        available as comments in the source code and is now directly available.
+    }
+  }
+  \subsection{removed}{
+    \itemize{
+      \item \code{WSFT()}: deprecated wrapper, was replaced by \code{nWS()} in 2012
+    }
+  }
+}
 \section{Changes in koRpus version 0.10-1 (2017-03-01)}{
   \subsection{fixed}{
     \itemize{
