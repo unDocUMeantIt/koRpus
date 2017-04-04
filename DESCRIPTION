@@ -1,6 +1,8 @@
 Package: koRpus
 Type: Package
 Title: An R Package for Text Analysis
+Author: m.eik michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
+Maintainer: m.eik michalke <meik.michalke@hhu.de>
 Depends: R (>= 2.10.0),methods,data.table
 Enhances: rkward
 Suggests: testthat,tm,SnowballC,shiny
@@ -22,8 +24,8 @@ URL: https://reaktanz.de/?c=hacking&s=koRpus
 Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl",
                family="Brown", email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")),
                person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
-Version: 0.10-2
-Date: 2017-04-04
+Version: 0.10-3
+Date: 2017-04-05
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'

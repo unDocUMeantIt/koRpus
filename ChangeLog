@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.10-3 (2017-04-05)
+unreleased:
+  - this release is under development
+
 changes in version 0.10-2 (2017-04-04)
 fixed:
   - leftover typo in lang.support-en.R referencing "utf8-tokenize.pl" instead
