@@ -3,6 +3,13 @@ ChangeLog for package koRpus
 changes in version 0.10-3 (2017-04-05)
 unreleased:
   - this release is under development
+fixed:
+  - kRp.lang: fixed the show() and summary() methods to omit country information
+    which was dropped from the UDHR data a while ago
+changed:
+  - kRp.lang: depending on the information available in the UDHR data, the show()
+    and summary() methods' output is now dynamically adjusted; summary() now
+    also lists the columns "iso639-3" and "bcp47" by default
 
 changes in version 0.10-2 (2017-04-04)
 fixed:

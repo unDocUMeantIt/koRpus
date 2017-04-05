@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -29,14 +29,19 @@ setMethod("summary", signature(object="kRp.lang"), function(object){
   # show the main results
   show(object)
 
+  udhr <- slot(object, "udhr")
   # then some statistics
   cat("Distribution of compression differences:\n")
-  print(summary(object@udhr[["diff"]]))
-  cat("\n  SD:", round(sd(object@udhr[["diff"]]), digits=2), "\n\n")
+  print(summary(udhr[["diff"]]))
+  cat("\n  SD:", round(sd(udhr[["diff"]]), digits=2), "\n\n")
 
-  langs.available <- nrow(object@udhr)
-  top5 <- top5.shown <- subset(head(object@udhr, n=5), select=c("name","uli","country","region","diff","diff.std"))
-  last5 <- last5.shown <- subset(tail(object@udhr, n=5), select=c("name","uli","country","region","diff","diff.std"))
+  langs.available <- nrow(udhr)
+  selectCols <- c("name","uli","iso639-3","bcp47","country","region","diff","diff.std")
+  # the 'country' data was only present in the index.xml until ~2014
+  # let's omit all columns that aren't available
+  selectCols <- selectCols[selectCols %in% colnames(udhr)]
+  top5 <- top5.shown <- subset(head(udhr, n=5), select=selectCols)
+  last5 <- last5.shown <- subset(tail(udhr, n=5), select=selectCols)
   # nicen up the visible output
   lang.name.len <- max(nchar(c(top5.shown[["name"]], last5.shown[["name"]])))
   lang.region.len <- max(nchar(c(top5.shown[["region"]], last5.shown[["region"]])))

@@ -43,15 +43,23 @@
 #' @rdname show-methods
 #' @include 01_class_09_kRp.lang.R
 setMethod("show", signature(object="kRp.lang"), function(object){
-  estim.lang <- object@lang.name
-  estim.lang.uli <- object@lang
-  estim.lang.country <- object@udhr[1,"country"]
-  estim.lang.region <- object@udhr[1,"region"]
-  langs.available <- dim(object@udhr)[1]
+  estim.lang <- slot(object, "lang.name")
+  estim.lang.uli <- slot(object, "lang")
+  estim.lang.udhr <- slot(object, "udhr")
+  haveCountry <- "country" %in% colnames(estim.lang.udhr)
+  if(isTRUE(haveCountry)){
+    estim.lang.country <- estim.lang.udhr[1,"country"]
+  } else {}
+  estim.lang.region <- estim.lang.udhr[1,"region"]
+  langs.available <- nrow(estim.lang.udhr)
 
   cat("\n  Estimated language: ", estim.lang,
      "\n          Identifier: ", estim.lang.uli,
-     "\n             Country: ", estim.lang.country, " (", estim.lang.region,")\n",
+    if(isTRUE(haveCountry)){
+      paste0("\n             Country: ", estim.lang.country, " (", estim.lang.region,")\n")
+    } else {
+      paste0("\n              Region: ", estim.lang.region,"\n")
+    },
      "\n", langs.available, " different languages were checked.\n\n",
      sep="")
 
