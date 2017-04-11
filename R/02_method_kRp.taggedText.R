@@ -26,6 +26,7 @@
 #'   \item{\code{describe()} }{returns the \code{desc} slot.}
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
 #'   \item{\code{hyphenText()} }{returns the \code{hyphen} slot from objects of class \code{kRp.hyphen}.}
+#'   \item{\code{[} }{Can be used as a shortcut to index the results of \code{taggedText()} or \code{hyphenText()}.}
 #' }
 #' @rdname kRp.taggedText-methods
 #' @docType methods
@@ -70,6 +71,66 @@ setMethod("taggedText<-",
   }
 )
 
+#' @rdname kRp.taggedText-methods
+#' @param x An object of class \code{kRp.taggedText} or \code{kRp.hyphen}.
+#' @param i Defines the row selector (\code{[}) or the name to match (\code{[[}).
+#' @param j Defines the column selector.
+#' @export
+#' @docType methods
+#' @aliases
+#'    [,-methods
+#'    [,kRp.taggedText,ANY,ANY-method
+#' @include koRpus-internal.R
+setMethod("[",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i, j){
+    return(taggedText(x)[i, j])
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [<-,-methods
+#'    [<-,kRp.taggedText,ANY,ANY,ANY-method
+#' @include koRpus-internal.R
+setMethod("[<-",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i, j, value){
+    taggedText(x)[i, j] <- value
+    return(x)
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[,-methods
+#'    [[,kRp.taggedText,ANY-method
+#' @include koRpus-internal.R
+setMethod("[[",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i){
+    return(taggedText(x)[[i]])
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[<-,-methods
+#'    [[<-,kRp.taggedText,ANY,ANY-method
+#' @include koRpus-internal.R
+setMethod("[[<-",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i, value){
+    taggedText(x)[[i]] <- value
+    return(x)
+  }
+)
 
 #' @export
 #' @docType methods
@@ -245,5 +306,63 @@ setMethod("hyphenText<-",
   function (obj, value){
     slot(obj, name="hyphen") <- value
     return(obj)
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [,-methods
+#'    [,kRp.hyphen,ANY,ANY-method
+#' @include 01_class_08_kRp.hyphen.R
+setMethod("[",
+  signature=signature(x="kRp.hyphen"),
+  function (x, i, j){
+    return(hyphenText(x)[i, j])
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [<-,-methods
+#'    [<-,kRp.hyphen,ANY,ANY,ANY-method
+#' @include 01_class_08_kRp.hyphen.R
+setMethod("[<-",
+  signature=signature(x="kRp.hyphen"),
+  function (x, i, j, value){
+    hyphenText(x)[i, j] <- value
+    return(x)
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[,-methods
+#'    [[,kRp.hyphen,ANY-method
+#' @include 01_class_08_kRp.hyphen.R
+setMethod("[[",
+  signature=signature(x="kRp.hyphen"),
+  function (x, i){
+    return(hyphenText(x)[[i]])
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[<-,-methods
+#'    [[<-,kRp.hyphen,ANY,ANY-method
+#' @include 01_class_08_kRp.hyphen.R
+setMethod("[[<-",
+  signature=signature(x="kRp.hyphen"),
+  function (x, i, value){
+    hyphenText(x)[[i]] <- value
+    return(x)
   }
 )

@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-3 (2017-04-05)
+changes in version 0.10-3 (2017-04-11)
 unreleased:
   - this release is under development
 fixed:
@@ -10,6 +10,10 @@ changed:
   - kRp.lang: depending on the information available in the UDHR data, the show()
     and summary() methods' output is now dynamically adjusted; summary() now
     also lists the columns "iso639-3" and "bcp47" by default
+added:
+  - new "[" and "[[" methods can be used to directly address the data.frames
+    in tagged or hyphenated objects. that is, you don't have to call taggedText()
+    or hyphenText() first, it will be done internally
 
 changes in version 0.10-2 (2017-04-04)
 fixed:
