@@ -165,7 +165,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
 
   # TreeTagger won't be able to use a connection object, so to make these usable,
   # we have to write its content to a temporary file first
-  if(inherits(file, "connection") | identical(format, "obj")){
+  if(any(inherits(file, "connection"), identical(format, "obj"))){
     takeAsFile <- dumpTextToTempfile(text=file, encoding=encoding)
     if(!isTRUE(debug)){
       on.exit(unlink(takeAsFile), add=TRUE)
@@ -308,7 +308,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
         if(!this.opt %in% given.tknz.options) {
           TT.tknz.opts[[this.opt]] <- eval(formals(tokenize)[[this.opt]])
           if(isTRUE(debug)){
-            message(paste0(this.opt, "=", paste0(TT.tknz.opts[[this.opt]], collapse=", ")))
+            message(paste0("        ", this.opt, "=", paste0(TT.tknz.opts[[this.opt]], collapse=", ")))
           } else {}
         } else {}
       }
@@ -340,7 +340,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       )
       # TreeTagger can produce mixed encoded results if fed with UTF-8 in Latin1 mode
       tknz.results <- iconv(tknz.results, from="UTF-8", to=input.enc)
-      message(paste0("Assuming '", input.enc, "' as encoding for the input file. If the results turn out to be erroneous, check the file for invalid characters, e.g. em.dashes or fancy quotes, and/or consider setting 'encoding' manually."))
+      on.exit(message(paste0("Assuming '", input.enc, "' as encoding for the input file. If the results turn out to be erroneous, check the file for invalid characters, e.g. em.dashes or fancy quotes, and/or consider setting 'encoding' manually.")))
       cat(paste(tknz.results, collapse="\n"), file=tknz.tempfile)
       if(!isTRUE(debug)){
         on.exit(unlink(tknz.tempfile), add=TRUE)
