@@ -14,6 +14,8 @@ added:
   - new "[" and "[[" methods can be used to directly address the data.frames
     in tagged or hyphenated objects. that is, you don't have to call taggedText()
     or hyphenText() first, it will be done internally
+  - treetag(): a new check will throw an informative error message if TreeTagger
+    didn't return something the function can use
 
 changes in version 0.10-2 (2017-04-04)
 fixed:

@@ -474,7 +474,26 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     tagged.text <- tagged.text[grep("^[^<]", tagged.text)]
   } else {}
 
-  tagged.mtrx <- matrix(unlist(strsplit(tagged.text, "\t")), ncol=3, byrow=TRUE, dimnames=list(c(),c("token","tag","lemma")))
+  ## try to catch error in local TreeTagger setup
+  # when TreeTagger is not set up correctly, the system call will not fail loudly
+  # but simply not return any useful data. this in turn will definitely cause
+  # treetag() to fail with an error. we'll make it obvious that probably not
+  # not koRpus is to blame for this -- but it could also be preset bugs!
+  tagged.text <- unlist(strsplit(tagged.text, "\t"))
+  if(is.null(tagged.text)){
+    stop(simpleError(paste0(
+      "Awww, this should not happen: TreeTagger didn't return any useful data.\n",
+      "  This can happen if the local TreeTagger setup is incomplete or different from what presets expected.\n",
+      "  You should re-run your command with the option 'debug=TRUE'. That will print all relevant configuration.\n",
+      "  Look for a line starting with 'sys.tt.call:' and try to execute the full command following it in a\n",
+      "  command line terminal. Do not close this R session in the meantime, as 'debug=TRUE' will keep temporary\n",
+      "  files that might be needed.\n",
+      "  If running the command after 'sys.tt.call:' does fail, you'll need to fix the TreeTagger setup.\n",
+      "  If it does *not* fail but produce a table with proper results, please contact the author!"
+    )))
+  } else {
+    tagged.mtrx <- matrix(tagged.text, ncol=3, byrow=TRUE, dimnames=list(c(),c("token","tag","lemma")))
+  }
 
   # add sentence endings as defined
   if(isTRUE(apply.sentc.end)){
