@@ -405,22 +405,17 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       }
     } else {
       if(isTRUE(TT.tknz)){
-        TT.call.file <- paste0("\"", takeAsFile, "\"")
+        TT.call.file <- winPath(paste0("\"", takeAsFile, "\""))
         if(isTRUE(use.splitter)){
-          TT.splitter <- paste(TT.splitter, TT.call.file, TT.splitter.opts)
+          TT.splitter <- paste(winPath(TT.splitter), TT.call.file, TT.splitter.opts)
           TT.call.file <- ""
         } else {}
-        sys.tt.call <- paste(TT.splitter, "perl ", TT.tokenizer, TT.tknz.opts, TT.call.file, "|",
-          TT.lookup.command, TT.pre.tagger, TT.tagger, TT.params, TT.opts, TT.filter.command)
+        sys.tt.call <- paste(TT.splitter, "perl ", winPath(TT.tokenizer), TT.tknz.opts, TT.call.file, "|",
+          winPath(TT.lookup.command), TT.pre.tagger, winPath(TT.tagger), winPath(TT.params), TT.opts, TT.filter.command)
       } else {
-        sys.tt.call <- paste("type ", tknz.tempfile, "|",
-          TT.lookup.command, TT.pre.tagger, TT.tagger, TT.params, TT.opts, TT.filter.command)
+        sys.tt.call <- paste("type ", winPath(tknz.tempfile), "|",
+          winPath(TT.lookup.command), TT.pre.tagger, winPath(TT.tagger), winPath(TT.params), TT.opts, TT.filter.command)
       }
-      # all of sudden, the constructions of file paths stopped working,
-      # so we're forced to do something really, really ugly and replace
-      # all R-like "/" separators with the windows-like "\\" manually.
-      sys.tt.call <- gsub("/", "\\\\", sys.tt.call)
-      # just for the record: i really *hate* windows!
     }
 
   } else {

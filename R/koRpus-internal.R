@@ -1488,3 +1488,14 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
 
   return(result)
 } ## end function checkTTOptions()
+
+
+## function winPath()
+# all of sudden, the constructions of file paths stopped working for some windows users,
+# so we're forced to do something really, really ugly and replace all R-like "/"
+# file separators with the windows-like "\\" manually.
+winPath <- function(path){
+  return(gsub("/", "\\\\", path))
+}
+# just for the record: i really *hate* windows!
+## end function winPath()
