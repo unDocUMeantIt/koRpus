@@ -416,6 +416,11 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
         sys.tt.call <- paste("type ", tknz.tempfile, "|",
           TT.lookup.command, TT.pre.tagger, TT.tagger, TT.params, TT.opts, TT.filter.command)
       }
+      # all of sudden, the constructions of file paths stopped working,
+      # so we're forced to do something really, really ugly and replace
+      # all R-like "/" separators with the windows-like "\\" manually.
+      sys.tt.call <- gsub("/", "\\\\", sys.tt.call)
+      # just for the record: i really *hate* windows!
     }
 
   } else {
