@@ -7,6 +7,12 @@
 \alias{lex.div}
 \alias{lex.div,character-method}
 \alias{lex.div,missing-method}
+\alias{[,kRp.TTR-method}
+\alias{[,-methods}
+\alias{[,kRp.TTR,ANY-method}
+\alias{[[,kRp.TTR-method}
+\alias{[[,-methods}
+\alias{[[,kRp.TTR,ANY-method}
 \title{Analyze lexical diversity}
 \usage{
 lex.div(txt, ...)
@@ -30,6 +36,10 @@ lex.div(txt, ...)
   corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
 
 \S4method{lex.div}{missing}(txt, measure)
+
+\S4method{[}{kRp.TTR}(x, i)
+
+\S4method{[[}{kRp.TTR}(x, i)
 }
 \arguments{
 \item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}},
@@ -201,7 +211,10 @@ default behaviour,
 }
 \examples{
 \dontrun{
-lex.div(tagged.text)
+ld.results <- lex.div(tagged.text)
+
+# there is [ and [[ methods for these objects
+ld.results[["MSTTR"]]
 }
 }
 \references{

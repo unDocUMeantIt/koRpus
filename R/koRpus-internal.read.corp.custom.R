@@ -30,7 +30,7 @@ kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", for
   } else if(is.list(corpus)) {
     tokenizedTexts <- corpus
     tokensList <- lapply(tokenizedTexts, function(this.tagged.txt){
-        return(taggedText(this.tagged.txt)[["token"]])
+        return(this.tagged.txt[["token"]])
       })
     tokens <- unlist(tokensList)
   } else {
@@ -43,13 +43,13 @@ kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", for
           return(tag.kRp.txt(txt=txt.full.path, tagger=tagger, lang=force.lang, objects.only=FALSE, format=format, ...))
         })
       tokensList <- lapply(tokenizedTexts, function(this.tagged.txt){
-          return(taggedText(this.tagged.txt)[["token"]])
+          return(this.tagged.txt[["token"]])
         })
       names(tokensList) <- txt.files
       tokens <- unlist(tokensList)
     } else {
       tokenizedTexts <- list(tag.kRp.txt(txt=corpus, tagger=tagger, lang=force.lang, objects.only=FALSE, format=format, ...))
-      tokens <- taggedText(tokenizedTexts[[1]])[["token"]]
+      tokens <- tokenizedTexts[[1]][["token"]]
       tokensList <- list(vector=tokens)
     }
   }
@@ -151,7 +151,7 @@ kRp.read.corp.custom.calc <- function(corpus, format="file", quiet=TRUE, caseSen
   # add wclass, lemma and tag info from tagged objects
   allExtraInfo <- subAllExtraInfo <- data.frame(token=NA, tag=NA, lemma=NA, wclass=NA)[-1,]
   for (thisText in data[["tokenizedTexts"]]){
-    allExtraInfo <- rbind(allExtraInfo, taggedText(thisText)[,c("token","tag", "lemma", "wclass")])
+    allExtraInfo <- rbind(allExtraInfo, thisText[,c("token","tag", "lemma", "wclass")])
   }
   if(!isTRUE(caseSens)){
     allExtraInfo[["token"]] <- tolower(allExtraInfo[["token"]])

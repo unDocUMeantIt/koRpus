@@ -6,6 +6,12 @@
 \alias{readability,kRp.taggedText-method}
 \alias{readability,character-method}
 \alias{readability,missing-method}
+\alias{[,kRp.readability-method}
+\alias{[,-methods}
+\alias{[,kRp.readability,ANY-method}
+\alias{[[,kRp.readability-method}
+\alias{[[,-methods}
+\alias{[[,kRp.readability,ANY-method}
 \title{Measure readability}
 \usage{
 readability(txt.file, ...)
@@ -33,6 +39,10 @@ readability(txt.file, ...)
   nonword.tag = c(), quiet = FALSE, ...)
 
 \S4method{readability}{missing}(txt.file, index)
+
+\S4method{[}{kRp.readability}(x, i)
+
+\S4method{[[}{kRp.readability}(x, i)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
@@ -406,7 +416,10 @@ mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 }
 \examples{
 \dontrun{
-readability(tagged.text)
+rdb.results <- readability(tagged.text)
+
+# there is [ and [[ methods for these objects
+rdb.results[["ARI"]]
 }
 }
 \references{

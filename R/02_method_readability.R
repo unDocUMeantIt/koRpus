@@ -366,7 +366,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' readability(tagged.text)
+#' rdb.results <- readability(tagged.text)
+#'
+#' # there is [ and [[ methods for these objects
+#' rdb.results[["ARI"]]
 #' }
 
 setGeneric("readability", function(txt.file, ...) standardGeneric("readability"))
@@ -475,5 +478,31 @@ setMethod("readability", signature(txt.file="missing"), function(txt.file, index
     }
 
     return(invisible(NULL))
+  }
+)
+
+#' @rdname readability-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [,-methods
+#'    [,kRp.readability,ANY-method
+setMethod("[",
+  signature=signature(x="kRp.readability"),
+  function (x, i){
+    return(summary(x, flat=TRUE)[i])
+  }
+)
+
+#' @rdname readability-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[,-methods
+#'    [[,kRp.readability,ANY-method
+setMethod("[[",
+  signature=signature(x="kRp.readability"),
+  function (x, i){
+    return(summary(x, flat=TRUE)[[i]])
   }
 )

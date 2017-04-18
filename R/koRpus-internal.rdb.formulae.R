@@ -204,7 +204,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       txt.freq <- txt.file
       tagged.words.only <- kRp.filter.wclass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag)
       if(is.null(slot(txt.freq, "desc")$all.words)){
-        slot(txt.freq, "desc")$all.words <- taggedText(tagged.words.only)[["token"]]
+        slot(txt.freq, "desc")$all.words <- tagged.words.only[["token"]]
       } else {}
     } else {
       txt.freq <- freq.analysis(txt.file=txt.file, desc.stat=TRUE, force.lang=lang,
@@ -991,25 +991,25 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     if(isTRUE(analyze.text)){
       # exclude certain words
       # proper nouns/names will completely be omitted
-      FOG.names <- which(taggedText(tagged.words.only)[["wclass"]] == "name")
+      FOG.names <- which(tagged.words.only[["wclass"]] == "name")
       # check for verbs ending in -es, -ed, or -ing (or anything else set in prms[["suffix"]])
       # these endings must not be counted as syllables
-      FOG.verbs <- which(taggedText(tagged.words.only)[["wclass"]] == "verb")
+      FOG.verbs <- which(tagged.words.only[["wclass"]] == "verb")
       FOG.verb.suffix <- paste0("(", paste(FOG.suffix, collapse="|"), ")$")
-      FOG.verbs <- FOG.verbs[grepl(FOG.verb.suffix, taggedText(tagged.words.only)[FOG.verbs,"token"])]
+      FOG.verbs <- FOG.verbs[grepl(FOG.verb.suffix, tagged.words.only[FOG.verbs,"token"])]
       # count one syllable less for these
       if(length(FOG.verbs) > 0){
-        FOG.dropped[["verbs"]] <- taggedText(tagged.words.only)[FOG.verbs[slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] == FOG.sylls],]
+        FOG.dropped[["verbs"]] <- tagged.words.only[FOG.verbs[slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] == FOG.sylls],]
         slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] <- slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] - 1
       } else {}
       # syllables of combined words must be counted separately
       # \p{Pd} matches dashes, indicating hyphenated/combined words
-      FOG.combi <- which(grepl("\\p{Pd}", taggedText(tagged.words.only)[["token"]], perl=TRUE))
+      FOG.combi <- which(grepl("\\p{Pd}", tagged.words.only[["token"]], perl=TRUE))
       # next step: split into seperate parts, count syllables for each and
       # drop all if none of the parts is long enough on its own
       FOG.combi.dopped <- c()
       for(combi in FOG.combi){
-        combi.to.check <- unlist(strsplit(taggedText(tagged.words.only)[combi, "token"], "\\p{Pd}", perl=TRUE))
+        combi.to.check <- unlist(strsplit(tagged.words.only[combi, "token"], "\\p{Pd}", perl=TRUE))
         # quite liberal check here, just to ensure that we don't run into empty strings, e.g. when a single dash was tagged as a word
         if(all(any(nchar(combi.to.check) >= FOG.sylls), all(nchar(combi.to.check) >= 1))){
           ## TODO: should this be cached or not?
@@ -1027,11 +1027,11 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       FOG.all.dropped <- c()
       # disarm the found names
       if(length(FOG.names) > 0){
-        FOG.dropped[["names"]] <- taggedText(tagged.words.only)[FOG.names,]
+        FOG.dropped[["names"]] <- tagged.words.only[FOG.names,]
         FOG.all.dropped <- c(FOG.all.dropped, FOG.names)
       } else {}
       if(length(FOG.combi.dopped) > 0){
-        FOG.dropped[["combi"]] <- taggedText(tagged.words.only)[FOG.combi.dopped,]
+        FOG.dropped[["combi"]] <- tagged.words.only[FOG.combi.dopped,]
         FOG.all.dropped <- c(FOG.all.dropped, FOG.combi.dopped)
       } else {}
       if(length(FOG.all.dropped) > 0){

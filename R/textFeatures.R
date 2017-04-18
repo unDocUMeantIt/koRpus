@@ -85,7 +85,7 @@ textFeatures <- function(text, hyphen=NULL){
     stop(simpleError("Please tokenize text first!"))
   }
 
-  text.types <- length(tolower(unique(taggedText(tagged.text.nopunct)[["token"]])))
+  text.types <- length(tolower(unique(tagged.text.nopunct[["token"]])))
   # get syllable count
   if(is.null(hyphen)){
     text.hyph <- hyphen(tagged.text.nopunct, quiet=TRUE)

@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-3 (2017-04-17)
+changes in version 0.10-3 (2017-04-18)
 unreleased:
   - this release is under development
 fixed:
@@ -15,10 +15,18 @@ changed:
     and summary() methods' output is now dynamically adjusted; summary() now
     also lists the columns "iso639-3" and "bcp47" by default
   - treetag(): debug output for tokenize() looks a little nicer
+  - kRp.text.transform(): the old function is now deprecated and was replaced
+    by a proper S4 method called text.transform(). the old one will work for
+    the moment, but you'll get a warning
 added:
+  - summary(): method for class kRp.TTR now also supports the logical "flat"
+    argument
   - new "[" and "[[" methods can be used to directly address the data.frames
     in tagged or hyphenated objects. that is, you don't have to call taggedText()
     or hyphenText() first, it will be done internally
+  - new "[" and "[[" methods have also been added for objects of classes kRp.TTR
+    and kRp.readability for quick access to their summary() results (index by
+    measure)
   - treetag(): a new check will throw an informative error message if TreeTagger
     didn't return something the function can use
 

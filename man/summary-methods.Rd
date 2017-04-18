@@ -15,7 +15,7 @@
 \usage{
 \S4method{summary}{kRp.lang}(object)
 
-\S4method{summary}{kRp.TTR}(object)
+\S4method{summary}{kRp.TTR}(object, flat = FALSE)
 
 \S4method{summary}{kRp.hyphen}(object)
 
@@ -29,6 +29,8 @@
 \item{object}{An object of class \code{kRp.hyphen}, \code{kRp.lang},
       \code{kRp.readability}, 
 \code{kRp.tagged}, \code{kRp.TTR} or \code{kRp.txt.freq}.}
+
+\item{flat}{Logical, if TRUE a named vector with results is returned}
 
 \item{flat}{Logical, if TRUE only a named vector of main results is returned}
 }

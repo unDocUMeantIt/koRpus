@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -146,7 +146,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' lex.div(tagged.text)
+#' ld.results <- lex.div(tagged.text)
+#' 
+#' # there is [ and [[ methods for these objects
+#' ld.results[["MSTTR"]]
 #' }
 
 #' @param ... Only used for the method generic.
@@ -220,5 +223,31 @@ setMethod("lex.div", signature(txt="missing"), function(txt, measure){
     }
 
     return(invisible(NULL))
+  }
+)
+
+#' @rdname lex.div-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [,-methods
+#'    [,kRp.TTR,ANY-method
+setMethod("[",
+  signature=signature(x="kRp.TTR"),
+  function (x, i){
+    return(summary(x, flat=TRUE)[i])
+  }
+)
+
+#' @rdname lex.div-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[,-methods
+#'    [[,kRp.TTR,ANY-method
+setMethod("[[",
+  signature=signature(x="kRp.TTR"),
+  function (x, i){
+    return(summary(x, flat=TRUE)[[i]])
   }
 )
