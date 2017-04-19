@@ -19,6 +19,7 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
 URL: https://reaktanz.de/?c=hacking&s=koRpus
+BugReports: https://github.com/unDocUMeantIt/koRpus
 Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl",
                family="Brown", email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")),
                person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
