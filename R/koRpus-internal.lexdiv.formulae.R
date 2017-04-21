@@ -74,6 +74,27 @@ TnT <- function(txt, force.lang=NULL, corp.rm.class="nonpunct",
   if(!isTRUE(case.sens)){
     result[["txt.all.tokens"]] <- tolower(result[["txt.all.tokens"]])
   } else {}
+  if(isTRUE(keep.tokens)){
+    if(isTRUE(case.sens)){
+      allTokensTxt <- tagged.text[["token"]]
+    } else {
+      allTokensTxt <- tolower(tagged.text[["token"]])
+    }
+    result[["type.in.txt"]] <- sapply(
+      result[["txt.all.types"]],
+      function(thisType){
+        which(allTokensTxt %in% thisType)
+      }
+    )
+    result[["type.in.result"]] <- sapply(
+      result[["txt.all.types"]],
+      function(thisType){
+        which(result[["txt.all.tokens"]] %in% thisType)
+      }
+    )
+  } else {
+    result[["type.in.txt"]] <- result[["type.in.result"]] <- NULL
+  }
   result[["num.all.tokens"]] <- length(result[["txt.all.tokens"]])
   result[["num.all.types"]] <- length(result[["txt.all.types"]])
   result[["num.all.lemmas"]] <- length(result[["txt.all.lemmas"]])
@@ -529,9 +550,27 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
 
   # keep raw text material only if explicitly told so
   if(isTRUE(keep.tokens)){
-    lex.div.results@tt <- list(tokens=txt.all.tokens, types=txt.type.freq, lemmas=txt.lemma.freq, num.tokens=num.all.tokens, num.types=num.all.types, num.lemmas=num.all.lemmas)
+    lex.div.results@tt <- list(
+      tokens=txt.all.tokens,
+      types=txt.type.freq,
+      lemmas=txt.lemma.freq,
+      type.in.txt=basicTnT[["type.in.txt"]],
+      type.in.result=basicTnT[["type.in.result"]],
+      num.tokens=num.all.tokens,
+      num.types=num.all.types,
+      num.lemmas=num.all.lemmas
+    )
   } else {
-    lex.div.results@tt <- list(tokens=character(), types=character(), lemmas=character(), num.tokens=num.all.tokens, num.types=num.all.types, num.lemmas=num.all.lemmas)
+    lex.div.results@tt <- list(
+      tokens=character(),
+      types=character(),
+      lemmas=character(),
+      type.in.txt=list(),
+      type.in.result=list(),
+      num.tokens=num.all.tokens,
+      num.types=num.all.types,
+      num.lemmas=num.all.lemmas
+    )
   }
 
   ## for the time being, give a warning until all implementations have been validated

@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-3 (2017-04-18)
+changes in version 0.10-3 (2017-04-21)
 unreleased:
   - this release is under development
 fixed:
@@ -18,6 +18,11 @@ changed:
   - kRp.text.transform(): the old function is now deprecated and was replaced
     by a proper S4 method called text.transform(). the old one will work for
     the moment, but you'll get a warning
+  - the tt slot in class kRp.TTR gained two new entries called "type.in.txt" and
+    "type.in.result", which will contain a list of all types with the index where
+    it is to be found in the original text or the lex.div() results respectively,
+    if keep.tokens=TRUE; the indices might differ because the result might be
+    stripped of certain word classes
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument
