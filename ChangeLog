@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-3 (2017-04-21)
+changes in version 0.10-3 (2017-04-22)
 unreleased:
   - this release is under development
 fixed:
@@ -21,7 +21,7 @@ changed:
   - the tt slot in class kRp.TTR gained two new entries called "type.in.txt" and
     "type.in.result", which will contain a list of all types with the index where
     it is to be found in the original text or the lex.div() results respectively,
-    if keep.tokens=TRUE; the indices might differ because the result might be
+    if type.index=TRUE; the indices might differ because the result might be
     stripped of certain word classes
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
@@ -34,6 +34,8 @@ added:
     measure)
   - treetag(): a new check will throw an informative error message if TreeTagger
     didn't return something the function can use
+  - lex.div() et al.: new option "type.index" to produce the indices described
+    above in the "changed" section
 
 changes in version 0.10-2 (2017-04-04)
 fixed:

@@ -24,7 +24,8 @@ lex.div(txt, ...)
   "Maas", "HD-D", "MTLD", "MTLD-MA"), char = c("TTR", "MATTR", "C", "R",
   "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"), char.steps = 5,
   log.base = 10, force.lang = NULL, keep.tokens = FALSE,
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
+  type.index = FALSE, corp.rm.class = "nonpunct", corp.rm.tag = c(),
+  quiet = FALSE)
 
 \S4method{lex.div}{character}(txt, segment = 100, factor.size = 0.72,
   min.tokens = 9, MTLDMA.steps = 1, rand.sample = 42, window = 100,
@@ -33,7 +34,8 @@ lex.div(txt, ...)
   "Maas", "HD-D", "MTLD", "MTLD-MA"), char = c("TTR", "MATTR", "C", "R",
   "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"), char.steps = 5,
   log.base = 10, force.lang = NULL, keep.tokens = FALSE,
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
+  type.index = FALSE, corp.rm.class = "nonpunct", corp.rm.tag = c(),
+  quiet = FALSE)
 
 \S4method{lex.div}{missing}(txt, measure)
 
@@ -98,9 +100,14 @@ and \code{"MTLD-MA"}. You can also set it to \code{"validation"} to get informat
 \item{force.lang}{A character string defining the language to be assumed for the text,
       by force. See details.}
 
-\item{keep.tokens}{Logical. If \code{TRUE} all raw tokens and types will be preserved in the resulting object,
-      in a slot called 
+\item{keep.tokens}{Logical. If \code{TRUE},
+      all raw tokens and types will be preserved in the resulting object, in a slot called 
 \code{tt}. For the types, also their frequency in the analyzed text will be listed.}
+
+\item{type.index}{Logical. If \code{TRUE},
+      the \code{tt} slot will contain two named lists of all types with the indices where that particular
+type is to be found in the original tagged text (\code{type.in.txt}) or the list of tokens in these results (\code{type.in.result}),
+respectively.}
 
 \item{corp.rm.class}{A character vector with word classes which should be dropped. The default value
 \code{"nonpunct"} has special meaning and will cause the result of
