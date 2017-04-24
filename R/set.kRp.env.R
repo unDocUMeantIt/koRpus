@@ -16,13 +16,13 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' A function to set information on your koRpus environmenton
+#' A function to set information on your koRpus environment
 #'
 #' The function \code{set.kRp.env} can be called once before any of the analysing functions. It writes information
 #' on your session environment regarding the koRpus package, e.g. path to a local TreeTagger installation,
 #' to a hidden environment.
 #'
-#' To get the contents of the hitten environment, the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
+#' To get the contents of the hidden environment, the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
 #' can be used.
 #'
 #' @param ... Named parameters to set in the koRpus environment. Valid arguments are:
@@ -53,8 +53,7 @@ set.kRp.env <- function(..., validate=TRUE){
   lang <- kRp.vars[["lang"]]
   TT.options <- kRp.vars[["TT.options"]]
   hyph.cache.file <- kRp.vars[["hyph.cache.file"]]
-  hyph.max.word.length <- kRp.vars[["hyph.max.word.length"]]
-  if (all(is.null(TT.cmd), is.null(lang), is.null(TT.options), is.null(hyph.cache.file), is.null(hyph.max.word.length))){
+  if (all(is.null(TT.cmd), is.null(lang), is.null(TT.options), is.null(hyph.cache.file))){
     stop(simpleError("You must at least set one (valid) parameter!"))
   } else {}
 
