@@ -16,15 +16,33 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#' Summary methods for koRpus objects
+#'
+#' Summary method for S4 objects of classes
+#' \code{\link[koRpus]{kRp.lang-class}},
+#' \code{\link[koRpus]{kRp.readability-class}},
+#' \code{\link[koRpus]{kRp.tagged-class}},
+#' \code{\link[koRpus]{kRp.TTR-class}} or
+#' \code{\link[koRpus]{kRp.txt.freq-class}}.
+#'
+#' @param object An object of class, \code{kRp.lang}, \code{kRp.readability}, 
+#'    \code{kRp.tagged}, \code{kRp.TTR} or \code{kRp.txt.freq}.
+#' @seealso
+#'    \code{\link[koRpus]{kRp.lang-class}},
+#'    \code{\link[koRpus]{kRp.readability-class}},
+#'    \code{\link[koRpus]{kRp.tagged-class}},
+#'    \code{\link[koRpus]{kRp.TTR-class}},
+#'    \code{\link[koRpus]{kRp.txt.freq-class}}
+#' @keywords methods
+#' @rdname summary-methods
+#' @export
+#' @docType methods
 #' @examples
 #' \dontrun{
 #' summary(guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt/"))
 #' }
-#' @rdname summary-methods
 #' @include 01_class_09_kRp.lang.R
 #' @aliases summary,kRp.lang-method
-#' @export
-#' @docType methods
 setMethod("summary", signature(object="kRp.lang"), function(object){
   # show the main results
   show(object)

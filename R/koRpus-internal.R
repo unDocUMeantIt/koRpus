@@ -27,8 +27,6 @@
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_06_kRp.corp.freq.R
-#' @include 01_class_08_kRp.hyphen.R
-#' @include 01_class_07_kRp.hyph.pat.R
 #' @include 01_class_09_kRp.lang.R
 #' @include 01_class_10_kRp.readability.R
 #' @include kRp.filter.wclass.R
@@ -939,16 +937,7 @@ noInf.summary <- function(data, add.sd=FALSE){
 
 ## function is.supported.lang()
 # determins if a language is supported, and returns the correct identifier
-is.supported.lang <- function(lang.ident, support="hyphen"){
-  if(identical(support, "hyphen")){
-    hyphen.supported <- as.list(as.environment(.koRpus.env))[["langSup"]][["hyphen"]][["supported"]]
-    if(lang.ident %in% names(hyphen.supported)){
-      res.ident <- hyphen.supported[[lang.ident]]
-    } else {
-      stop(simpleError(paste0("Unknown language: \"", lang.ident, "\".\nPlease provide a valid hyphenation pattern!")))
-    }
-  } else {}
-
+is.supported.lang <- function(lang.ident, support="treetag"){
   if(identical(support, "treetag")){
     treetag.supported <- as.list(as.environment(.koRpus.env))[["langSup"]][["kRp.POS.tags"]][["tags"]]
     if(lang.ident %in% names(treetag.supported)){

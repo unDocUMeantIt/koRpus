@@ -25,8 +25,7 @@
 #'   \item{\code{taggedText()} }{returns the \code{TT.res} slot.}
 #'   \item{\code{describe()} }{returns the \code{desc} slot.}
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
-#'   \item{\code{hyphenText()} }{returns the \code{hyphen} slot from objects of class \code{kRp.hyphen}.}
-#'   \item{\code{[} }{Can be used as a shortcut to index the results of \code{taggedText()} or \code{hyphenText()}.}
+#'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
 #' }
 #' @rdname kRp.taggedText-methods
 #' @docType methods
@@ -170,34 +169,6 @@ setMethod("describe<-",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    describe,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("describe",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj){
-    result <- slot(obj, name="desc")
-    return(result)
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    describe<-,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("describe<-",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj, value){
-    slot(obj, name="desc") <- value
-    return(obj)
-  }
-)
-
 #' @export
 #' @docType methods
 #' @rdname kRp.taggedText-methods
@@ -236,133 +207,9 @@ setMethod("language<-",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    language,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("language",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj){
-    result <- slot(obj, name="lang")
-    return(result)
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    language<-,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("language<-",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj, value){
-    slot(obj, name="lang") <- value
-    return(obj)
-  }
-)
-
 #' @param obj An arbitrary \code{R} object.
 #' @rdname kRp.taggedText-methods
 #' @export
 is.taggedText <- function(obj){
   inherits(obj, "kRp.taggedText")
 }
-
-#' @export
-#' @docType methods
-#' @rdname kRp.taggedText-methods
-setGeneric("hyphenText", function(obj) standardGeneric("hyphenText"))
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    hyphenText,-methods
-#'    hyphenText,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("hyphenText",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj){
-    result <- slot(obj, name="hyphen")
-    return(result)
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-setGeneric("hyphenText<-", function(obj, value) standardGeneric("hyphenText<-"))
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    hyphenText<-,-methods
-#'    hyphenText<-,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("hyphenText<-",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj, value){
-    slot(obj, name="hyphen") <- value
-    return(obj)
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    [,-methods
-#'    [,kRp.hyphen,ANY,ANY-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("[",
-  signature=signature(x="kRp.hyphen"),
-  function (x, i, j){
-    return(hyphenText(x)[i, j])
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    [<-,-methods
-#'    [<-,kRp.hyphen,ANY,ANY,ANY-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("[<-",
-  signature=signature(x="kRp.hyphen"),
-  function (x, i, j, value){
-    hyphenText(x)[i, j] <- value
-    return(x)
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    [[,-methods
-#'    [[,kRp.hyphen,ANY-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("[[",
-  signature=signature(x="kRp.hyphen"),
-  function (x, i){
-    return(hyphenText(x)[[i]])
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    [[<-,-methods
-#'    [[<-,kRp.hyphen,ANY,ANY-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("[[<-",
-  signature=signature(x="kRp.hyphen"),
-  function (x, i, value){
-    hyphenText(x)[[i]] <- value
-    return(x)
-  }
-)

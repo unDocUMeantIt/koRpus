@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -39,6 +39,7 @@
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
+#' @importFrom sylly set.sylly.env
 #' @export
 #' @examples
 #' \dontrun{
@@ -99,12 +100,7 @@ set.kRp.env <- function(..., validate=TRUE){
   } else {}
 
   if(!is.null(hyph.cache.file)){
-    if(identical(hyph.cache.file, "")){
-      rm("hyph.cache.file", envir=.koRpus.env)
-    } else {
-      stopifnot(is.character(hyph.cache.file))
-      assign("hyph.cache.file", hyph.cache.file, envir=.koRpus.env)
-    }
+    sylly::set.sylly.env(hyph.cache.file=hyph.cache.file)
   } else {}
 
   return(invisible(NULL))

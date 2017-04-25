@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -38,6 +38,7 @@
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @seealso \code{\link[koRpus:set.kRp.env]{set.kRp.env}}
+#' @importFrom sylly get.sylly.env
 #' @export
 #' @examples
 #' \dontrun{
@@ -95,23 +96,11 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
   } else {}
 
   if(isTRUE(hyph.cache.file)){
-    if(exists("hyph.cache.file", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$hyph.cache.file <- get("hyph.cache.file", envir=.koRpus.env)
-    } else {
-      if(isTRUE(errorIfUnset)){
-        stop(simpleError("No hyphenation cache file specified!"))
-      } else {}
-    }
+    tt.env$hyph.cache.file <- sylly::get.sylly.env(hyph.cache.file=TRUE)
   } else {}
 
   if(isTRUE(hyph.max.word.length)){
-    if(exists("hyph.max.word.length", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$hyph.max.word.length <- get("hyph.max.word.length", envir=.koRpus.env)
-    } else {
-      if(isTRUE(errorIfUnset)){
-        stop(simpleError("No maximum word length specified!"))
-      } else {}
-    }
+    tt.env$hyph.max.word.length <- sylly::get.sylly.env(hyph.max.word.length=TRUE)
   } else {}
 
   if(length(tt.env) == 1){

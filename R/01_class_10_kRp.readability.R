@@ -112,7 +112,6 @@
 #' @rdname kRp.readability-class
 
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_08_kRp.hyphen.R
 
 setClass("kRp.readability",
     representation=representation(

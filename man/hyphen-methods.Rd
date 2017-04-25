@@ -15,7 +15,7 @@
 \code{\link[koRpus]{kRp.analysis-class}},
       or a character vector with words to be hyphenated.}
 
-\item{hyph.pattern}{Either an object of class \code{\link[koRpus]{kRp.hyph.pat-class}}, or
+\item{hyph.pattern}{Either an object of class \code{\link[sylly]{kRp.hyph.pat-class}}, or
 a valid character string naming the language of the patterns to be used. See details.}
 
 \item{min.length}{Integer,
@@ -45,35 +45,12 @@ i.e., they are cleaned at the end of a session. If you want to save these for la
 in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.hyphen-class}}
+An object of class \code{\link[sylly]{kRp.hyphen-class}}
 }
 \description{
 These methods implement word hyphenation, based on Liang's algorithm.
-}
-\details{
-For this to work the function must be told which pattern set it should use to
-find the right hyphenation spots. If \code{words} is already a tagged object,
-its language definition might be used. Otherwise, in addition to the words to
-be processed you must specify \code{hyph.pattern}. You have two options: If you
-want to use one of the built-in language patterns, just set it to the according
-language abbrevation. As of this version valid choices are:
-\itemize{
- \item {\code{"de"}} {--- German (new spelling, since 1996)}
- \item {\code{"de.old"}} {--- German (old spelling, 1901--1996)}
- \item {\code{"en"}} {--- English (UK)}
- \item {\code{"en.us"}} {--- English (US)}
- \item {\code{"es"}} {--- Spanish}
- \item {\code{"fr"}} {--- French}
- \item {\code{"it"}} {--- Italian}
- \item {\code{"ru"}} {--- Russian}
-}
-In case you'd rather use your own pattern set, \code{hyph.pattern} can be an
-object of class \code{kRp.hyph.pat}, alternatively.
-
-The built-in hyphenation patterns were derived from the patterns available on CTAN[1]
-under the terms of the LaTeX Project Public License[2],
-      see \code{\link[koRpus:hyph.XX]{hyph.XX}}
-for detailed information.
+For details, please refer to the documentation for the generic
+\code{\link[sylly:hyphen]{hyphen}} method in the \code{sylly} package.
 }
 \examples{
 \dontrun{
@@ -89,7 +66,7 @@ Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.
 [2] \url{http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
 }
 \seealso{
-\code{\link[koRpus:read.hyph.pat]{read.hyph.pat}},
-   \code{\link[koRpus:manage.hyph.pat]{manage.hyph.pat}}
+\code{\link[sylly:read.hyph.pat]{read.hyph.pat}},
+   \code{\link[sylly:manage.hyph.pat]{manage.hyph.pat}}
 }
 \keyword{hyphenation}

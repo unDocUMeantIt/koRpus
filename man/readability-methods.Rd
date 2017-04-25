@@ -55,7 +55,7 @@ the language specified must be supported by both \code{\link[koRpus:treetag]{tre
 
 \item{...}{Additional options for the specified \code{tagger} function}
 
-\item{hyphen}{An object of class kRp.hyphen. If \code{NULL},
+\item{hyphen}{An object of class \code{\link[sylly]{kRp.hyphen-class}}. If \code{NULL},
       the text will be hyphenated automatically. All syllable handling will
 be skipped automatically if it's not needed for the selected indices.}
 

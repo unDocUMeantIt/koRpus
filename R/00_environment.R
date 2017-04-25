@@ -1,4 +1,4 @@
-# Copyright 2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -19,9 +19,6 @@
 
 # empty environment for TreeTagger information
 .koRpus.env <- new.env()
-
-# we're safe for words up to 200 characters for hyphenation
-hyph.max.word.length <- 200L
 
 ## wrapper for paste0() needed?
 if(isTRUE(R_system_version(getRversion()) < 2.15)){
