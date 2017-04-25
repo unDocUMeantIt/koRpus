@@ -57,7 +57,7 @@ At the very least you must provide it with the text, of course, and name the lan
 \begin{Schunk}
   \begin{Sinput}
 > tagged.text <- treetag("~/docs/sample_text.txt", treetagger="manual",
-    lang="en", TT.options=c(path="~/bin/treetagger/", preset="en"))
+    lang="en", TT.options=list(path="~/bin/treetagger/", preset="en"))
   \end{Sinput}
 \end{Schunk}
 
