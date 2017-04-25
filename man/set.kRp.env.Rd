@@ -2,7 +2,7 @@
 % Please edit documentation in R/set.kRp.env.R
 \name{set.kRp.env}
 \alias{set.kRp.env}
-\title{A function to set information on your koRpus environmenton}
+\title{A function to set information on your koRpus environment}
 \usage{
 set.kRp.env(..., validate = TRUE)
 }
@@ -33,7 +33,7 @@ on your session environment regarding the koRpus package,
 to a hidden environment.
 }
 \details{
-To get the contents of the hitten environment,
+To get the contents of the hidden environment,
       the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
 can be used.
 }

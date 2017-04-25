@@ -4,8 +4,8 @@
 #' Package: \tab koRpus\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.10-3\cr
-#' Date: \tab 2017-04-22\cr
-#' Depends: \tab R (>= 2.10.0),methods,data.table\cr
+#' Date: \tab 2017-04-25\cr
+#' Depends: \tab R (>= 2.10.0),methods,data.table,sylly\cr
 #' Enhances: \tab rkward\cr
 #' Encoding: \tab UTF-8\cr
 #' License: \tab GPL (>= 3)\cr

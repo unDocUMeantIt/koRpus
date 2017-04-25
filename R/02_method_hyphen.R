@@ -74,20 +74,11 @@
 #' [1] \url{http://tug.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/}
 #'
 #' [2] \url{http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
-#' @export
 #' @import methods
-#' @rdname hyphen-methods
 #' @examples
 #' \dontrun{
 #' hyphen(tagged.text)
 #' }
-
-#################################################################
-## if this signature changes, check kRp.hyphen.calc() as well! ##
-#################################################################
-#' @param ... Only used for the method generic.
-setGeneric("hyphen", function(words, ...) standardGeneric("hyphen"))
-
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
@@ -116,15 +107,25 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
   }
 )
 
-#' @export
-#' @aliases hyphen,character-method
-#' @rdname hyphen-methods
-setMethod("hyphen", signature(words="character"), function(words,
-    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
+#################################################################
+## if this signature changes, check kRp.hyphen.calc() as well! ##
+#################################################################
 
-    results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, quiet=quiet, cache=cache)
+## the generic is now being defined in the sylly package
+# #' @param ... Only used for the method generic.
+# setGeneric("hyphen", function(words, ...) standardGeneric("hyphen"))
 
-    return(results)
-  }
-)
+## the character method is now being defined in the sylly package
+# #' @export
+# #' @aliases hyphen,character-method
+# #' @rdname hyphen-methods
+# setMethod("hyphen", signature(words="character"), function(words,
+#     hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
+# 
+#     results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
+#       rm.hyph=rm.hyph, quiet=quiet, cache=cache)
+# 
+#     return(results)
+#   }
+# )
+# 
