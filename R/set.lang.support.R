@@ -72,7 +72,7 @@
 #' @section "hyphen":
 #' 
 #' Using the target "hyphen" will cause a call to the equivalent of this function in the \code{sylly} package.
-#' See the documentation of its \code{\link[sylly:set.lang.support]{set.lang.support}} function for details.
+#' See the documentation of its \code{\link[sylly:set.hyph.support]{set.hyph.support}} function for details.
 #' 
 #' @param target  One of "kRp.POS.tags", "treetag", or "hyphen", depending on what support is to be added.
 #' @param value A named list that upholds exactly the structure defined here for its respective \code{target}.
@@ -82,14 +82,14 @@
 #'   list("xyz"="xyz")
 #' )
 #' }
-#' @importFrom sylly set.lang.support
+#' @importFrom sylly set.hyph.support
 #' @export
 set.lang.support <- function(target, value){
 
   all.kRp.env <- as.list(as.environment(.koRpus.env))
 
   if(identical(target, "hyphen")){
-    sylly::set.lang.support(target=target)
+    sylly::set.hyph.support(target=target)
   } else if(identical(target, "kRp.POS.tags")){
     recent.tags <- all.kRp.env[["langSup"]][["kRp.POS.tags"]][["tags"]]
     # could be there is no such entries in the environment yet
