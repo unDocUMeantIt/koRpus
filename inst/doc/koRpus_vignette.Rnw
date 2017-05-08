@@ -57,7 +57,7 @@ At the very least you must provide it with the text, of course, and name the lan
 \begin{Schunk}
   \begin{Sinput}
 > tagged.text <- treetag("~/docs/sample_text.txt", treetagger="manual",
-    lang="en", TT.options=c(path="~/bin/treetagger/", preset="en"))
+    lang="en", TT.options=list(path="~/bin/treetagger/", preset="en"))
   \end{Sinput}
 \end{Schunk}
 
@@ -421,7 +421,7 @@ $determiner
 
 \subsection{Readability}
 
-The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.\footnote{Whether this is the case can be looked up in the documentation.} To achieve this, the function \texttt{hyphen()} takes objects of class \texttt{kRp.tagged} and applies an hyphenation algorithm \cite{liang_word_1983} to each word. This algorithm was originally developed for automatic word hyphenation in \LaTeX{}, and is gracefully misused here to fulfill a slightly different service.
+The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.\footnote{Whether this is the case can be looked up in the documentation.} To achieve this, the method \texttt{hyphen()} takes objects of class \texttt{kRp.tagged} and applies an hyphenation algorithm \cite{liang_word_1983} to each word. This algorithm was originally developed for automatic word hyphenation in \LaTeX{}, and is gracefully misused here to fulfill a slightly different service.\footnote{The \texttt{hyphen()} method was originally implemented as part of the \texttt{koRpus} package, but was later split off into its own package called \texttt{sylly}.}
 
 \begin{Schunk}
   \begin{Sinput}
@@ -433,7 +433,7 @@ The package comes with implementations of several readability formulae. Some of 
 
 This seperate hyphenation step can actually be skipped, as \texttt{readability()} will do it automatically if needed. But similar to TreeTagger, \texttt{hyphen()} will most likely not produce perfect results. As a rule of thumb, if in doubt it seems to behave rather conservative, that is, is underestimates the real number of syllables in a text. This, however, would of course affect the results of several readability formulae.
 
-So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a function called \texttt{correct.hyph()} to help you clean these results of errors later on. The most comfortable way to do this is to call \texttt{hyphenText(hyph.txt.en)}, which will get you a data frame with two colums, \texttt{word} (the hyphenated words) and \texttt{syll} (the number of syllables), in a spread sheet editor:\footnote{For example, this can be comfortably done with RKWard: \url{http://rkward.sourceforge.net}}
+So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a function called \texttt{correct.hyph()} to help you clean these results of errors later on. The most comfortable way to do this is to call \texttt{hyphenText(hyph.txt.en)}, which will get you a data frame with two colums, \texttt{word} (the hyphenated words) and \texttt{syll} (the number of syllables), in a spread sheet editor:\footnote{For example, this can be comfortably done with RKWard: \url{http://rkward.kde.org}}
 
 \begin{Schunk}
   \begin{Sinput}

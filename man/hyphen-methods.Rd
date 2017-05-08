@@ -3,11 +3,19 @@
 \docType{methods}
 \name{hyphen,kRp.taggedText-method}
 \alias{hyphen,kRp.taggedText-method}
+\alias{hyphen_df,kRp.taggedText-method}
+\alias{hyphen_c,kRp.taggedText-method}
 \title{Automatic hyphenation}
 \usage{
 \S4method{hyphen}{kRp.taggedText}(words, hyph.pattern = NULL,
   min.length = 4, rm.hyph = TRUE, corp.rm.class = "nonpunct",
-  corp.rm.tag = c(), quiet = FALSE, cache = TRUE)
+  corp.rm.tag = c(), quiet = FALSE, cache = TRUE, as = "kRp.hyphen")
+
+\S4method{hyphen_df}{kRp.taggedText}(words, hyph.pattern = NULL,
+  min.length = 4, rm.hyph = TRUE, quiet = FALSE, cache = TRUE)
+
+\S4method{hyphen_c}{kRp.taggedText}(words, hyph.pattern = NULL,
+  min.length = 4, rm.hyph = TRUE, quiet = FALSE, cache = TRUE)
 }
 \arguments{
 \item{words}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
@@ -43,9 +51,18 @@ current cache will be queried and new tokens also be added. Caches are language-
 i.e., they are cleaned at the end of a session. If you want to save these for later use,
       see the option \code{hyph.cache.file}
 in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.}
+
+\item{as}{A character string defining the class of the object to be returned. Defaults to \code{"kRp.hyphen"},
+      but can also be
+set to \code{"data.frame"} or \code{"numeric"},
+      returning only the central \code{data.frame} or the numeric vector of counted syllables,
+respectively. For the latter two options,
+      you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.}
 }
 \value{
-An object of class \code{\link[sylly]{kRp.hyphen-class}}
+An object of class \code{\link[sylly]{kRp.hyphen-class}},
+      \code{data.frame} or a numeric vector, depending on the value
+   of the \code{as} argument.
 }
 \description{
 These methods implement word hyphenation, based on Liang's algorithm.

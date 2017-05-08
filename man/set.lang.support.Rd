@@ -84,7 +84,7 @@ package sources, most of it should be almost self-explaining.
 
 
 Using the target "hyphen" will cause a call to the equivalent of this function in the \code{sylly} package.
-See the documentation of its \code{\link[sylly:set.lang.support]{set.lang.support}} function for details.
+See the documentation of its \code{\link[sylly:set.hyph.support]{set.hyph.support}} function for details.
 }
 
 \examples{

@@ -36,6 +36,20 @@ added:
     didn't return something the function can use
   - lex.div() et al.: new option "type.index" to produce the indices described
     above in the "changed" section
+  - hyphen(): new option "as" to set the return value class, still defaults
+    to "kRp.hyph", but can also be "data.frame" or "numeric"
+  - new shortcut methods hyphen_df() and hyphen_c() use different defaults for
+    "as"
+removed:
+  - hyphen(): all parts of the package that were specific for hyphenation were
+    removed as they are now part of the new sylly package. this includes the
+    class definitions (kRp.hyph.pat and kRp.hyphen) and methods (correct(),
+    hyphen(), show() and summary()) for those classes, as long as they in turn
+    are not süecific to koRpus. the hyphenation definitions were also removed
+    from the language support files, as they are now part of individual language
+    packages for the sylly package (sylly.en, sylly.de, etc.) that this package
+    now depends on. you should, however, notice no difference in using the
+    package, everything should just work like it did before this split.
 
 changes in version 0.10-2 (2017-04-04)
 fixed:

@@ -40,7 +40,11 @@
 #'    current cache will be queried and new tokens also be added. Caches are language-specific and reside in an environment,
 #'    i.e., they are cleaned at the end of a session. If you want to save these for later use, see the option \code{hyph.cache.file}
 #'    in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.
-#' @return An object of class \code{\link[sylly]{kRp.hyphen-class}}
+#' @param as A character string defining the class of the object to be returned. Defaults to \code{"kRp.hyphen"}, but can also be
+#'    set to \code{"data.frame"} or \code{"numeric"}, returning only the central \code{data.frame} or the numeric vector of counted syllables,
+#'    respectively. For the latter two options, you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.
+#' @return An object of class \code{\link[sylly]{kRp.hyphen-class}}, \code{data.frame} or a numeric vector, depending on the value
+#'    of the \code{as} argument.
 #' @keywords hyphenation
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso
@@ -75,7 +79,7 @@
 setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
     hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
     corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE, cache=TRUE){
+    corp.rm.tag=c(), quiet=FALSE, cache=TRUE, as="kRp.hyphen"){
 
     # get class kRp.tagged from words object
     # the internal function tag.kRp.txt() will return the object unchanged if it
@@ -89,7 +93,33 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
       hyph.pattern <- lang
     } else {}
     results <- sylly::hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, quiet=quiet, cache=cache)
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, as=as)
+
+    return(results)
+  }
+)
+
+#' @export
+#' @aliases hyphen_df,kRp.taggedText-method
+#' @rdname hyphen-methods
+setMethod("hyphen_df", signature(words="kRp.taggedText"), function(words,
+    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
+
+    results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, as="data.frame")
+
+    return(results)
+  }
+)
+
+#' @export
+#' @aliases hyphen_c,kRp.taggedText-method
+#' @rdname hyphen-methods
+setMethod("hyphen_c", signature(words="kRp.taggedText"), function(words,
+    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
+
+    results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, as="numeric")
 
     return(results)
   }
