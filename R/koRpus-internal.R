@@ -251,33 +251,59 @@ language.setting <- function(tagged.object, force.lang){
 } ## end function language.setting()
 
 
-## function treetag.com()
-treetag.com <- function(tagged.text, lang){
-
-  tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
-
-  # get are all valid tags
+## function validate_tags()
+# takes a character vector of POS tags and a language identifier
+# checks all tags for validity
+validate_tags <- function(tags, lang){
+  # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
 
   # only proceed if all tag values are valid
-  all.found.tags <- unique(tagged.text$tag)
+  all.found.tags <- unique(tags)
   invalid.found.tags <- all.found.tags[!all.found.tags %in% tag.class.def[,"tag"]]
   if(length(invalid.found.tags) > 0){
-    TT.res.uniq <- unique(tagged.text)
-    TT.res.invalid <- TT.res.uniq[TT.res.uniq[,"tag"] %in% invalid.found.tags, ]
-    print(TT.res.invalid)
     stop(simpleError(paste0("Invalid tag(s) found: ", paste(invalid.found.tags, collapse = ", "),
       "\n  This is probably due to a missing tag in kRp.POS.tags() and",
       "\n  needs to be fixed. It would be nice if you could forward the",
       "\n  above error dump as a bug report to the package maintaner!\n")))
   } else {}
+  return(invisible(TRUE))
+}
+## end function validate_tags()
+
+
+## function explain_tags()
+# takes a character vector of POS tags and a language identifier
+# returns an equivalent character vector with explainations of each tag
+explain_tags <- function(tags, lang, cols=c("wclass","desc")){
+  # get all valid tags
+  tag.class.def <- kRp.POS.tags(lang)
+  tags_explained <- as.matrix(t(
+    sapply(
+      tags,
+      function(tag){
+        tag.class.def[tag.class.def[,"tag"] == tag, cols]
+      },
+      USE.NAMES=FALSE
+    )
+  ))
+  return(tags_explained)
+}
+## end function explain_tags()
+
+
+## function treetag.com()
+treetag.com <- function(tagged.text, lang){
+
+  tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
+
+  validate_tags(tags=tagged.text$tag, lang=lang)
 
   # count number of letters, add column "lttr"
   tagged.text <- cbind(tagged.text, lttr=as.numeric(nchar(tagged.text[,"token"])))
 
   # add further columns "wclass" and "desc"
-  comments <- as.matrix(t(sapply(tagged.text[,"tag"], function(tag){tag.class.def[tag.class.def[,"tag"] == tag, 2:3]})))
-  commented <- cbind(tagged.text, comments, stringsAsFactors=FALSE)
+  commented <- cbind(tagged.text, explain_tags(tags=tagged.text$tag, lang=lang), stringsAsFactors=FALSE)
 
   return(commented)
 } ## end function treetag.com()

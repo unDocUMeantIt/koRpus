@@ -23,6 +23,8 @@ changed:
     it is to be found in the original text or the lex.div() results respectively,
     if type.index=TRUE; the indices might differ because the result might be
     stripped of certain word classes
+  - treetag()/tokenize(): internal workflow for adding word class and description of
+    tags war modularized for more detailed control
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument
