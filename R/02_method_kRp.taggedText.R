@@ -131,10 +131,8 @@ setMethod("[[<-",
   }
 )
 
-#' @export
-#' @docType methods
-#' @rdname kRp.taggedText-methods
-setGeneric("describe", function(obj) standardGeneric("describe"))
+## the standard generic for describe() is defined in the sylly package
+#' @importFrom sylly describe
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -150,10 +148,8 @@ setMethod("describe",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-setGeneric("describe<-", function(obj, value) standardGeneric("describe<-"))
+## the standard generic for describe()<- is defined in the sylly package
+#' @importFrom sylly describe<-
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -169,10 +165,8 @@ setMethod("describe<-",
   }
 )
 
-#' @export
-#' @docType methods
-#' @rdname kRp.taggedText-methods
-setGeneric("language", function(obj) standardGeneric("language"))
+## the standard generic for language() is defined in the sylly package
+#' @importFrom sylly language
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -188,10 +182,8 @@ setMethod("language",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-setGeneric("language<-", function(obj, value) standardGeneric("language<-"))
+## the standard generic for language()<- is defined in the sylly package
+#' @importFrom sylly language<-
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
