@@ -244,8 +244,7 @@ language.setting <- function(tagged.object, force.lang){
   if(is.null(force.lang)){
     lang <- tagged.object@lang
   } else {
-    ## TODO: language validation!
-    lang <- force.lang
+    lang <- is.supported.lang(lang.ident=force.lang)
   }
   return(lang)
 } ## end function language.setting()
