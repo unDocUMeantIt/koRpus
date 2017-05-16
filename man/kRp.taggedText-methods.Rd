@@ -20,24 +20,20 @@
 \alias{[[<-,kRp.taggedText-method}
 \alias{[[<-,-methods}
 \alias{[[<-,kRp.taggedText,ANY,ANY-method}
-\alias{describe}
 \alias{describe,kRp.taggedText-method}
 \alias{describe,-methods}
-\alias{describe<-}
 \alias{describe<-,kRp.taggedText-method}
 \alias{describe<-,-methods}
-\alias{language}
 \alias{language,kRp.taggedText-method}
 \alias{language,-methods}
-\alias{language<-}
 \alias{language<-,kRp.taggedText-method}
 \alias{language<-,-methods}
 \alias{is.taggedText}
 \title{Getter/setter methods for koRpus objects}
 \usage{
-taggedText(obj)
+taggedText(obj, add.desc = FALSE)
 
-\S4method{taggedText}{kRp.taggedText}(obj)
+\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE)
 
 taggedText(obj) <- value
 
@@ -51,19 +47,11 @@ taggedText(obj) <- value
 
 \S4method{[[}{kRp.taggedText}(x, i) <- value
 
-describe(obj)
-
 \S4method{describe}{kRp.taggedText}(obj)
-
-describe(obj) <- value
 
 \S4method{describe}{kRp.taggedText}(obj) <- value
 
-language(obj)
-
 \S4method{language}{kRp.taggedText}(obj)
-
-language(obj) <- value
 
 \S4method{language}{kRp.taggedText}(obj) <- value
 
@@ -71,6 +59,10 @@ is.taggedText(obj)
 }
 \arguments{
 \item{obj}{An arbitrary \code{R} object.}
+
+\item{add.desc}{Logical,
+      determines whether the \code{desc} column should be re-written with descriptions
+for all POS tags.}
 
 \item{value}{The new value to replace the current with.}
 

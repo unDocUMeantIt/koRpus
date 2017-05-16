@@ -31,7 +31,9 @@
 #'        you want to set \code{TT.options} as well. Set to \code{"tokenize"} to use \code{\link[koRpus:tokenize]{tokenize}}.}
 #'     \item{lang}{ A character string specifying a valid language.}
 #'     \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{\link[koRpus:treetag]{treetag}}.}
-#'     \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data, used by \code{\link[koRpus:hyphen]{hyphen}}.}
+#'     \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data, used by
+#'        \code{\link[koRpus:hyphen]{hyphen}}.}
+#'     \item{add.desc}{ A logical value, whether tag descriptions should be added directly to tagged text objects.}
 #'   }
 #'   To explicitly unset a value again, set it to an empty character string (e.g., \code{lang=""}).
 #' @param validate Logical, if \code{TRUE} given paths will be checked for actual availablity, and the function will fail if files can't be found.
@@ -54,7 +56,8 @@ set.kRp.env <- function(..., validate=TRUE){
   lang <- kRp.vars[["lang"]]
   TT.options <- kRp.vars[["TT.options"]]
   hyph.cache.file <- kRp.vars[["hyph.cache.file"]]
-  if (all(is.null(TT.cmd), is.null(lang), is.null(TT.options), is.null(hyph.cache.file))){
+  add.desc <- kRp.vars[["add.desc"]]
+  if(all(sapply(c(TT.cmd, lang, TT.options, hyph.cache.file, add.desc), is.null))){
     stop(simpleError("You must at least set one (valid) parameter!"))
   } else {}
 
@@ -101,6 +104,14 @@ set.kRp.env <- function(..., validate=TRUE){
 
   if(!is.null(hyph.cache.file)){
     sylly::set.sylly.env(hyph.cache.file=hyph.cache.file)
+  } else {}
+
+  if(!is.null(add.desc)){
+    if(is.logical(add.desc)){
+      assign("add.desc", add.desc, envir=.koRpus.env)
+    } else {
+      stop(simpleError("'add.desc' must be TRUE or FALSE!"))
+    }
   } else {}
 
   return(invisible(NULL))

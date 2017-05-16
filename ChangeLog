@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-3 (2017-04-22)
+changes in version 0.10-3 (2017-05-16)
 unreleased:
   - this release is under development
 fixed:
@@ -24,7 +24,10 @@ changed:
     if type.index=TRUE; the indices might differ because the result might be
     stripped of certain word classes
   - treetag()/tokenize(): internal workflow for adding word class and description of
-    tags war modularized for more detailed control
+    tags war modularized for more detailed control. you can now toggle whether you
+    want the verbose description of each tag added directly to objects with the
+    new argument "add.desc". it is set in the environment by set.kRp.env() and
+    defaults to FALSE, making the objects about 5% smaller in memory.
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument
@@ -42,6 +45,10 @@ added:
     to "kRp.hyph", but can also be "data.frame" or "numeric"
   - new shortcut methods hyphen_df() and hyphen_c() use different defaults for
     "as"
+  - treetag()/tokenize(): new option "add.desc" (see changed section)
+  - taggedText(): new option "add.desc" to (re-)write the "desc" column in the
+    data.frame, useful if it was omitted during treetag()/tokenize() but you
+    want to add it later without retagging everything
 removed:
   - hyphen(): all parts of the package that were specific for hyphenation were
     removed as they are now part of the new sylly package. this includes the
@@ -52,6 +59,8 @@ removed:
     packages for the sylly package (sylly.en, sylly.de, etc.) that this package
     now depends on. you should, however, notice no difference in using the
     package, everything should just work like it did before this split.
+  - the standard generics for describe() and language() were removed because they
+    are now defined in the sylly package
 
 changes in version 0.10-2 (2017-04-04)
 fixed:

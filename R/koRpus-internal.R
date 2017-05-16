@@ -273,26 +273,30 @@ validate_tags <- function(tags, lang){
 
 ## function explain_tags()
 # takes a character vector of POS tags and a language identifier
-# returns an equivalent character vector with explainations of each tag
+# returns either an equivalent character vector with explainations of each tag,
+# or a matrix if 'cols' is > 1
 explain_tags <- function(tags, lang, cols=c("wclass","desc")){
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
-  tags_explained <- as.matrix(t(
-    sapply(
-      tags,
-      function(tag){
-        tag.class.def[tag.class.def[,"tag"] == tag, cols]
-      },
-      USE.NAMES=FALSE
-    )
-  ))
+  tags_explained <- sapply(
+    tags,
+    function(tag){
+      tag.class.def[tag.class.def[,"tag"] == tag, cols]
+    },
+    USE.NAMES=FALSE
+  )
+  if(length(cols) > 1){
+   tags_explained <- as.matrix(t(tags_explained))
+  } else {
+   tags_explained <- as.character(tags_explained)
+  }
   return(tags_explained)
 }
 ## end function explain_tags()
 
 
 ## function treetag.com()
-treetag.com <- function(tagged.text, lang){
+treetag.com <- function(tagged.text, lang, add.desc=TRUE){
 
   tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
 
@@ -302,9 +306,18 @@ treetag.com <- function(tagged.text, lang){
   tagged.text <- cbind(tagged.text, lttr=as.numeric(nchar(tagged.text[,"token"])))
 
   # add further columns "wclass" and "desc"
-  commented <- cbind(tagged.text, explain_tags(tags=tagged.text$tag, lang=lang), stringsAsFactors=FALSE)
+  if(isTRUE(add.desc)){
+    tagged.text <- cbind(
+      tagged.text,
+      explain_tags(tags=tagged.text$tag, lang=lang, cols=c("wclass","desc")),
+      stringsAsFactors=FALSE
+    )
+  } else {
+    tagged.text[["wclass"]] <- explain_tags(tags=tagged.text$tag, lang=lang, cols="wclass")
+    tagged.text[["desc"]] <- NA
+  }
 
-  return(commented)
+  return(tagged.text)
 } ## end function treetag.com()
 
 

@@ -7,7 +7,8 @@
 treetag(file, treetagger = "kRp.env", rm.sgml = TRUE, lang = "kRp.env",
   apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
   encoding = NULL, TT.options = NULL, debug = FALSE, TT.tknz = TRUE,
-  format = "file", stopwords = NULL, stemmer = NULL)
+  format = "file", stopwords = NULL, stemmer = NULL,
+  add.desc = "kRp.env")
 }
 \arguments{
 \item{file}{Either a connection or a character vector, valid path to a file,
@@ -26,7 +27,7 @@ parameter.}
 \item{rm.sgml}{Logical, whether SGML tags should be ignored and removed from output}
 
 \item{lang}{A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
-If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.}
+If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.}
 
 \item{apply.sentc.end}{Logical,
       whethter the tokens defined in \code{sentc.end} should be searched and set to a sentence ending tag.}
@@ -112,6 +113,10 @@ a character vector. If the latter,
       you can set \code{SnowballC::wordStem} if you have
 the \code{SnowballC} package installed. As of now,
       you cannot provide further arguments to this function.}
+
+\item{add.desc}{Logical. If \code{TRUE},
+      the tag description (column \code{"desc"} of the data.frame) will be added directly
+to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE},

@@ -27,6 +27,8 @@
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
 #'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
 #' }
+#' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
+#'    for all POS tags. 
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
@@ -34,7 +36,7 @@
 #' \dontrun{
 #' taggedText(tagged.txt)
 #' }
-setGeneric("taggedText", function(obj) standardGeneric("taggedText"))
+setGeneric("taggedText", function(obj, add.desc=FALSE) standardGeneric("taggedText"))
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -44,8 +46,15 @@ setGeneric("taggedText", function(obj) standardGeneric("taggedText"))
 #' @include koRpus-internal.R
 setMethod("taggedText",
   signature=signature(obj="kRp.taggedText"),
-  function (obj){
+  function (obj, add.desc=FALSE){
     result <- slot(obj, name="TT.res")
+    if(isTRUE(add.desc)){
+      result[["desc"]] <- explain_tags(
+        tags=result[["tag"]],
+        lang=language(obj),
+        cols="desc"
+      )
+    } else {}
     return(result)
   }
 )

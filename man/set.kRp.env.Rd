@@ -15,7 +15,10 @@ set.kRp.env(..., validate = TRUE)
   \item{lang}{ A character string specifying a valid language.}
   \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{\link[koRpus:treetag]{treetag}}.}
   \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data,
-      used by \code{\link[koRpus:hyphen]{hyphen}}.}
+      used by
+     \code{\link[koRpus:hyphen]{hyphen}}.}
+  \item{add.desc}{ A logical value,
+      whether tag descriptions should be added directly to tagged text objects.}
 }
 To explicitly unset a value again, set it to an empty character string (e.g.,
       \code{lang=""}).}

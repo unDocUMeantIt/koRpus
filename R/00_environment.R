@@ -19,6 +19,8 @@
 
 # empty environment for TreeTagger information
 .koRpus.env <- new.env()
+# set default for tag descriptions in objects
+.koRpus.env[["add.desc"]] <- FALSE
 
 ## wrapper for paste0() needed?
 if(isTRUE(R_system_version(getRversion()) < 2.15)){

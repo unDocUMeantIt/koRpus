@@ -15,6 +15,8 @@ get.kRp.env(..., errorIfUnset = TRUE)
       whether the set TT.options for \code{treetag} should be returned.}
   \item{hyph.cache.file}{ Logical,
       whether the set hyphenation cache file for \code{hyphen} should be returned.}
+  \item{add.desc}{ Logical,
+      whether tag descriptions should be added directly to tagged text objects.}
 }}
 
 \item{errorIfUnset}{Logical, if \code{TRUE} and the desired property is not set at all,
