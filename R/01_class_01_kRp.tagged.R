@@ -15,6 +15,23 @@
 # You should have received a copy of the GNU General Public License
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
+init.kRp.tagged.df <- function(){
+  return(data.frame(
+    token=NA,
+    tag=NA,
+    lemma=NA,
+    lttr=NA,
+    wclass=NA,
+    desc=NA,
+    stop=NA,
+    stem=NA,
+    index=NA,
+    sentence=NA,
+    document=NA
+  ))
+}
+
+valid.TT.res.kRp.tagged <- c("token","tag","lemma","lttr","wclass","desc","stop","stem","index","sentence","document")
 
 #' S4 Class kRp.tagged
 #'
@@ -32,6 +49,9 @@
 #'      \item{\code{desc}:}{A short description of the POS tag.}
 #'      \item{\code{stop}:}{Logical, \code{TRUE} if token is a stopword.}
 #'      \item{\code{stem}:}{Stemmed token.}
+#'      \item{\code{index}:}{Number of token in this document.}
+#'      \item{\code{sentence}:}{Number of sentence in this document.}
+#'      \item{\code{document}:}{Optional document identifier.}
 #'    }
 #' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 #' @name kRp.tagged,-class
@@ -50,19 +70,9 @@ setClass("kRp.tagged",
     prototype(
       lang=character(),
       desc=list(),
-      TT.res=data.frame(
-        token=NA,
-        tag=NA,
-        lemma=NA,
-        lttr=NA,
-        wclass=NA,
-        desc=NA,
-        stop=NA,
-        stem=NA)
+      TT.res=init.kRp.tagged.df()
     )
 )
-
-valid.TT.res.kRp.tagged <- c("token","tag","lemma","lttr","wclass","desc","stop","stem")
 
 setValidity("kRp.tagged", function(object){
     TT.res <- object@TT.res

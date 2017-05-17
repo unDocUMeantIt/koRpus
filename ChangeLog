@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-3 (2017-05-16)
+changes in version 0.10-3 (2017-05-17)
 unreleased:
   - this release is under development
 fixed:
@@ -11,6 +11,8 @@ fixed:
     shell() calls. this hasn't been an issue earlier, but is worked around now
     anyway. hope this doesn't cause new issues...
 changed:
+  - kRp.tagged: the TT.res data.frame of the object class has new columns "index",
+    "sentence" and "document"
   - kRp.lang: depending on the information available in the UDHR data, the show()
     and summary() methods' output is now dynamically adjusted; summary() now
     also lists the columns "iso639-3" and "bcp47" by default

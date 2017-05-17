@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -15,9 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
-
-## temporarily turned off most of the roxygen comments
-## class docs will remain static until roxygen2 supports "@slot"
 
 #' S4 Class kRp.analysis
 #'
