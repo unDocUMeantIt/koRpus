@@ -162,7 +162,7 @@ basic.text.descriptives <- function(txt){
 
 ## function basic.tagged.descriptives()
 # txt must be an object of class kRp.tagged
-basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE){
+basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, document=NA){
   if(is.null(lang)){
     lang <- txt@lang
   } else {}
@@ -212,8 +212,10 @@ basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL
         sentences=txt.stend,
         avg.sentc.length=avg.sentc.length,
         avg.word.length=avg.word.length
-      ))
-   }
+      )
+    )
+  }
+  results[["document"]] <- document
   return(results)
 } ## end function basic.tagged.descriptives()
 

@@ -66,6 +66,7 @@
 #'    \code{stopwords=tm::stopwords("en")} to use the english stopwords provided by the \code{tm} package.
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
+#' @param document Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus]{kRp.tagged-class}}.
@@ -109,7 +110,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
           ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
           abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
           detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
-          add.desc="kRp.env"){
+          document=NA, add.desc="kRp.env"){
 
   if(is.null(fileEncoding)){
     fileEncoding <- ""
@@ -179,7 +180,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
     # create object, combine descriptives afterwards
     tokens <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
     ## descriptive statistics
-    tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector)
+    tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, document=document)
   } else {}
 
   return(tokens)

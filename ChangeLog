@@ -13,6 +13,8 @@ fixed:
 changed:
   - kRp.tagged: the TT.res data.frame of the object class has new columns "index",
     "sentence" and "document"
+  - tokenize()/treetag()/read.tagged(): these functions now add token index and
+    sentence number to the resulting objects; document ID is added if provided
   - kRp.lang: depending on the information available in the UDHR data, the show()
     and summary() methods' output is now dynamically adjusted; summary() now
     also lists the columns "iso639-3" and "bcp47" by default

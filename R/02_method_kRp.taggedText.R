@@ -28,7 +28,9 @@
 #'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
 #' }
 #' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
-#'    for all POS tags. 
+#'    for all POS tags.
+#' @param document Logical, if \code{TRUE} the \code{document} column will be a factor with the respective value
+#'    of the \code{desc} slot, i.e., the document ID will be preserved in the data.frame.
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
@@ -36,7 +38,7 @@
 #' \dontrun{
 #' taggedText(tagged.txt)
 #' }
-setGeneric("taggedText", function(obj, add.desc=FALSE) standardGeneric("taggedText"))
+setGeneric("taggedText", function(obj, add.desc=FALSE, document=FALSE) standardGeneric("taggedText"))
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -46,7 +48,7 @@ setGeneric("taggedText", function(obj, add.desc=FALSE) standardGeneric("taggedTe
 #' @include koRpus-internal.R
 setMethod("taggedText",
   signature=signature(obj="kRp.taggedText"),
-  function (obj, add.desc=FALSE){
+  function (obj, add.desc=FALSE, document=FALSE){
     result <- slot(obj, name="TT.res")
     if(isTRUE(add.desc)){
       result[["desc"]] <- explain_tags(
@@ -54,6 +56,9 @@ setMethod("taggedText",
         lang=language(obj),
         cols="desc"
       )
+    } else {}
+    if(isTRUE(document)){
+      result[["document"]] <- as.factor(describe(obj)[["document"]])
     } else {}
     return(result)
   }

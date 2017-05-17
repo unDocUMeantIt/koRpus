@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -45,7 +45,10 @@
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{stemmer=Snowball::SnowballStemmer} if you
 #'    have the \code{Snowball} package installed (or \code{SnowballC::wordStem}). As of now, you cannot provide further arguments to
 #'    this function.
-#' @param rm.sgml Logical, whether SGML tags should be ignored and removed from output
+#' @param rm.sgml Logical, whether SGML tags should be ignored and removed from output.
+#' @param document Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
+#' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
+#'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE}, prints internal variable settings and
 #'    attempts to return the original output if the TreeTagger system call in a matrix.
 #' @keywords misc
@@ -66,7 +69,7 @@
 
 read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger",
   apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE){
+  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, document=NA, add.desc="kRp.env"){
 
   if(identical(lang, "kRp.env")){
     lang <- get.kRp.env(lang=TRUE)
@@ -119,7 +122,7 @@ read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger"
     } else {}
 
     # add word classes, comments and numer of letters ("wclass", "desc", "lttr")
-    tagged.mtrx <- treetag.com(tagged.mtrx, lang=lang)
+    tagged.mtrx <- treetag.com(tagged.mtrx, lang=lang, add.desc=add.desc)
   } else {
     ## additional taggers go here...
     stop(simpleError(paste0("Sorry, but tagger \"", tagger, "\" is not supported.")))
@@ -134,7 +137,7 @@ read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger"
   results <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics
   results@desc <- basic.tagged.descriptives(results, lang=lang,
-    txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]))
+    txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]), document=document)
 
   return(results)
 }

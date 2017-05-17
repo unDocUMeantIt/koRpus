@@ -31,9 +31,10 @@
 \alias{is.taggedText}
 \title{Getter/setter methods for koRpus objects}
 \usage{
-taggedText(obj, add.desc = FALSE)
+taggedText(obj, add.desc = FALSE, document = FALSE)
 
-\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE)
+\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE,
+  document = FALSE)
 
 taggedText(obj) <- value
 
@@ -63,6 +64,10 @@ is.taggedText(obj)
 \item{add.desc}{Logical,
       determines whether the \code{desc} column should be re-written with descriptions
 for all POS tags.}
+
+\item{document}{Logical,
+      if \code{TRUE} the \code{document} column will be filled with the respective value
+of the \code{desc} slot, i.e., the document ID will be preserved in the data.frame.}
 
 \item{value}{The new value to replace the current with.}
 

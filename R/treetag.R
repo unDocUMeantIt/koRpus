@@ -88,6 +88,7 @@
 #'    \code{stopwords=tm::stopwords("en")} to use the english stopwords provided by the \code{tm} package.
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
+#' @param document Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
 #' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
@@ -134,7 +135,7 @@
 
 treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
   apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"), encoding=NULL, TT.options=NULL, debug=FALSE, TT.tknz=TRUE,
-  format="file", stopwords=NULL, stemmer=NULL, add.desc="kRp.env"){
+  format="file", stopwords=NULL, stemmer=NULL, document=NA, add.desc="kRp.env"){
 
   # TreeTagger uses slightly different presets on windows and unix machines,
   # so we'll need to check the OS first
@@ -528,7 +529,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
   txt.vector <- readLines(takeAsFile, encoding=encoding)
   # force text into UTF-8 format
   txt.vector <- enc2utf8(txt.vector)
-  results@desc <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector)
+  results@desc <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector, document=document)
 
   return(results)
 }
