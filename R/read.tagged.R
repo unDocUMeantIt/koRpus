@@ -128,9 +128,8 @@ read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger"
   # probably apply stopword detection and stemming
   tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
   
-  ## TODO:
   # add columns "index", "sentence" and "document"
-  #tagged.mtrx <- indexSentenceDoc(tagged.mtrx)
+  tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, document=NA)
 
   results <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics

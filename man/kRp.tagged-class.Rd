@@ -26,6 +26,9 @@ This class is used for objects that are returned by \code{\link[koRpus:treetag]{
   \item{\code{desc}:}{A short description of the POS tag.}
   \item{\code{stop}:}{Logical, \code{TRUE} if token is a stopword.}
   \item{\code{stem}:}{Stemmed token.}
+  \item{\code{index}:}{Number of token in this document.}
+  \item{\code{sentence}:}{Number of sentence in this document.}
+  \item{\code{document}:}{Optional document identifier.}
 }}
 }}
 

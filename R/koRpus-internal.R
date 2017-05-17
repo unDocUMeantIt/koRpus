@@ -376,6 +376,38 @@ stopAndStem <- function(tagged.text.df, stopwords=NULL, stemmer=NULL, lowercase=
 } ## end function stopAndStem()
 
 
+## function indexSentenceDoc()
+# after stopAndStem(), add columns "index", "sentence" and "document" to data.frame
+indexSentenceDoc <- function(tagged.text.df, lang, document=NA){
+  numTokens <- nrow(tagged.text.df)
+  tagged.text.df[["index"]] <- 1:numTokens
+  sentenceEnding <- kRp.POS.tags(lang=lang, tags=c("sentc"), list.classes=TRUE)
+  endedSentences <- which(tagged.text.df[["wclass"]] %in% sentenceEnding)
+  if(length(endedSentences) > 0){
+    # handle texts that don't end with a sentence ending
+    ## TODO: be smarter here -- if the sentence is a quote, the closing quote comes *after* the fullstop
+    ## we'll just ignore this for now!
+    if(endedSentences[length(endedSentences)] < numTokens){
+      endedSentences[length(endedSentences)] <- numTokens
+    } else {}
+    tagged.text.df[["sentence"]] <- unlist(sapply(
+      seq_along(endedSentences),
+      function(numSentence){
+        if(numSentence > 1){
+          return(rep(numSentence, endedSentences[numSentence] - endedSentences[numSentence - 1]))
+        } else {
+          return(rep(numSentence, endedSentences[numSentence]))
+        }
+      }
+    ))
+  } else {
+    tagged.text.df[["sentence"]] <- NA
+  }
+  tagged.text.df[["document"]] <- document
+  return(tagged.text.df)
+} ## end function indexSentenceDoc()
+
+
 ## function tagged.txt.rm.classes()
 # takes a tagged text object and returns it without punctuation or other defined
 # classes or tags. can also return tokens in lemmatized form.
