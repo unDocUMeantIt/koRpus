@@ -66,7 +66,7 @@ is.taggedText(obj)
 for all POS tags.}
 
 \item{document}{Logical,
-      if \code{TRUE} the \code{document} column will be filled with the respective value
+      if \code{TRUE} the \code{document} column will be a factor with the respective value
 of the \code{desc} slot, i.e., the document ID will be preserved in the data.frame.}
 
 \item{value}{The new value to replace the current with.}

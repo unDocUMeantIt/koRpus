@@ -1,70 +1,72 @@
 ChangeLog for package koRpus
 
-changes in version 0.10-3 (2017-05-17)
+changes in version 0.11-1 (2017-05-19)
 unreleased:
   - this release is under development
 fixed:
-  - kRp.lang: fixed the show() and summary() methods to omit country information
-    which was dropped from the UDHR data a while ago
+  - kRp.lang: fixed the show() and summary() methods to omit country
+    information which was dropped from the UDHR data a while ago
   - treetag(): windows users might run into problems because of differences
     between the file separators R uses internally when they are also used in
     shell() calls. this hasn't been an issue earlier, but is worked around now
     anyway. hope this doesn't cause new issues...
 changed:
-  - kRp.tagged: the TT.res data.frame of the object class has new columns "index",
-    "sentence" and "document"
-  - tokenize()/treetag()/read.tagged(): these functions now add token index and
-    sentence number to the resulting objects; document ID is added if provided
-  - kRp.lang: depending on the information available in the UDHR data, the show()
-    and summary() methods' output is now dynamically adjusted; summary() now
-    also lists the columns "iso639-3" and "bcp47" by default
+  - kRp.tagged: the TT.res data.frame of the object class has new columns
+    "index", "sentence" and "document"
+  - tokenize()/treetag()/read.tagged(): these functions now add token index
+    and sentence number to the resulting objects; document ID is added if
+    provided
+  - kRp.lang: depending on the information available in the UDHR data, the
+    show() and summary() methods' output is now dynamically adjusted; summary()
+    now also lists the columns "iso639-3" and "bcp47" by default
   - treetag(): debug output for tokenize() looks a little nicer
   - kRp.text.transform(): the old function is now deprecated and was replaced
     by a proper S4 method called text.transform(). the old one will work for
     the moment, but you'll get a warning
-  - the tt slot in class kRp.TTR gained two new entries called "type.in.txt" and
-    "type.in.result", which will contain a list of all types with the index where
-    it is to be found in the original text or the lex.div() results respectively,
-    if type.index=TRUE; the indices might differ because the result might be
-    stripped of certain word classes
-  - treetag()/tokenize(): internal workflow for adding word class and description of
-    tags war modularized for more detailed control. you can now toggle whether you
-    want the verbose description of each tag added directly to objects with the
-    new argument "add.desc". it is set in the environment by set.kRp.env() and
-    defaults to FALSE, making the objects about 5% smaller in memory.
+  - the tt slot in class kRp.TTR gained two new entries called "type.in.txt"
+    and "type.in.result", which will contain a list of all types with the
+    index where it is to be found in the original text or the lex.div() results
+    respectively, if type.index=TRUE; the indices might differ because the
+    result might be stripped of certain word classes
+  - treetag()/tokenize(): internal workflow for adding word class and
+    description of tags war modularized for more detailed control. you can now toggle
+    whether you want the verbose description of each tag added directly to
+    objects with the new argument "add.desc". it is set in the environment by
+    set.kRp.env() and defaults to FALSE, making the objects about 5% smaller in
+    memory.
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument
   - new "[" and "[[" methods can be used to directly address the data.frames
-    in tagged or hyphenated objects. that is, you don't have to call taggedText()
-    or hyphenText() first, it will be done internally
-  - new "[" and "[[" methods have also been added for objects of classes kRp.TTR
-    and kRp.readability for quick access to their summary() results (index by
-    measure)
-  - treetag(): a new check will throw an informative error message if TreeTagger
-    didn't return something the function can use
-  - lex.div() et al.: new option "type.index" to produce the indices described
-    above in the "changed" section
+    in tagged or hyphenated objects. that is, you don't have to call
+    taggedText() or hyphenText() first, it will be done internally
+  - new "[" and "[[" methods have also been added for objects of classes
+    kRp.TTR and kRp.readability for quick access to their summary() results (index
+    by measure)
+  - treetag(): a new check will throw an informative error message if
+    TreeTagger didn't return something the function can use
+  - lex.div() et al.: new option "type.index" to produce the indices
+    described above in the "changed" section
   - hyphen(): new option "as" to set the return value class, still defaults
     to "kRp.hyph", but can also be "data.frame" or "numeric"
-  - new shortcut methods hyphen_df() and hyphen_c() use different defaults for
-    "as"
+  - new shortcut methods hyphen_df() and hyphen_c() use different defaults
+    for "as"
   - treetag()/tokenize(): new option "add.desc" (see changed section)
-  - taggedText(): new option "add.desc" to (re-)write the "desc" column in the
-    data.frame, useful if it was omitted during treetag()/tokenize() but you
+  - taggedText(): new option "add.desc" to (re-)write the "desc" column in
+    the data.frame, useful if it was omitted during treetag()/tokenize() but you
     want to add it later without retagging everything
 removed:
-  - hyphen(): all parts of the package that were specific for hyphenation were
-    removed as they are now part of the new sylly package. this includes the
+  - hyphen(): all parts of the package that were specific for hyphenation
+    were removed as they are now part of the new sylly package. this includes the
     class definitions (kRp.hyph.pat and kRp.hyphen) and methods (correct(),
     hyphen(), show() and summary()) for those classes, as long as they in turn
     are not süecific to koRpus. the hyphenation definitions were also removed
-    from the language support files, as they are now part of individual language
-    packages for the sylly package (sylly.en, sylly.de, etc.) that this package
-    now depends on. you should, however, notice no difference in using the
-    package, everything should just work like it did before this split.
-  - the standard generics for describe() and language() were removed because they
-    are now defined in the sylly package
+    from the language support files, as they are now part of individual
+    language packages for the sylly package (sylly.en, sylly.de, etc.) that this
+    package now depends on. you should, however, notice no difference in using
+    the package, everything should just work like it did before this split.
+  - the standard generics for describe() and language() were removed because
+    they are now defined in the sylly package
 
 changes in version 0.10-2 (2017-04-04)
 fixed:
