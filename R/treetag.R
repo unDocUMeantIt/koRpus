@@ -68,7 +68,7 @@
 #'      \item {\code{lexicon}} {Optional: A character string, naming the lexicon file to be used. Interpreted relative to \code{path/lib/}.}
 #'      \item {\code{lookup}} {Optional: A character string, naming the lexicon lookup command. Interpreted relative to \code{path/cmd/}.}
 #'      \item {\code{filter}} {Optional: A character string, naming the output filter to be used. Interpreted relative to \code{path/cmd/}.}
-#'      \item {\code{no.unknown}} {Optional: Logical, can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults of \code{FALSE}.}
+#'      \item {\code{no.unknown}} {Optional: Logical, can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults to \code{FALSE}).}
 #'      \item {\code{splitter}} {Optional: A character string, naming the splitter to be called (before the tokenizer). Interpreted relative to \code{path/cmd/}.}
 #'      \item {\code{splitter.opts}} {Optional: A character string with the options to hand over to the splitter.}
 #'    }
