@@ -29,7 +29,7 @@ changed:
     respectively, if type.index=TRUE; the indices might differ because the
     result might be stripped of certain word classes
   - treetag()/tokenize(): internal workflow for adding word class and
-    description of tags war modularized for more detailed control. you can now toggle
+    description of tags was modularized for more detailed control. you can now toggle
     whether you want the verbose description of each tag added directly to
     objects with the new argument "add.desc". it is set in the environment by
     set.kRp.env() and defaults to FALSE, making the objects about 5% smaller in
@@ -60,7 +60,7 @@ removed:
     were removed as they are now part of the new sylly package. this includes the
     class definitions (kRp.hyph.pat and kRp.hyphen) and methods (correct(),
     hyphen(), show() and summary()) for those classes, as long as they in turn
-    are not süecific to koRpus. the hyphenation definitions were also removed
+    are not specific to koRpus. the hyphenation definitions were also removed
     from the language support files, as they are now part of individual
     language packages for the sylly package (sylly.en, sylly.de, etc.) that this
     package now depends on. you should, however, notice no difference in using
