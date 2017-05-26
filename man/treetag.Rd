@@ -80,7 +80,7 @@ the encoding will either be taken from a preset (if defined in \code{TT.options}
      \item {\code{filter}} {Optional: A character string,
       naming the output filter to be used. Interpreted relative to \code{path/cmd/}.}
      \item {\code{no.unknown}} {Optional: Logical,
-      can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults of \code{FALSE}.}
+      can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults to \code{FALSE}).}
      \item {\code{splitter}} {Optional: A character string,
       naming the splitter to be called (before the tokenizer). Interpreted relative to \code{path/cmd/}.}
      \item {\code{splitter.opts}} {Optional: A character string with the options to hand over to the splitter.}
@@ -115,7 +115,8 @@ the \code{SnowballC} package installed. As of now,
       you cannot provide further arguments to this function.}
 
 \item{document}{Character string,
-      optional identifier of the particular document. Will be added to the \code{desc} slot.}
+      optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"document"} column
+of the \code{TT.res} slot.}
 
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly

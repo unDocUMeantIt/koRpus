@@ -66,7 +66,8 @@
 #'    \code{stopwords=tm::stopwords("en")} to use the english stopwords provided by the \code{tm} package.
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
-#' @param document Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
+#' @param document Character string, optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"document"} column
+#'    of the \code{TT.res} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus]{kRp.tagged-class}}.
@@ -176,7 +177,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
     # probably apply stopword detection and stemming
     tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
     # add columns "index", "sentence" and "document"
-    tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, document=NA)
+    tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, document=document)
     # create object, combine descriptives afterwards
     tokens <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
     ## descriptive statistics

@@ -405,7 +405,7 @@ indexSentenceDoc <- function(tagged.text.df, lang, document=NA){
   } else {
     tagged.text.df[["sentence"]] <- NA
   }
-  tagged.text.df[["document"]] <- document
+  tagged.text.df[["document"]] <- factor(document)
   return(tagged.text.df)
 } ## end function indexSentenceDoc()
 

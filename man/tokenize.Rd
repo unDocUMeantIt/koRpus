@@ -82,7 +82,8 @@ the \code{SnowballC} package installed. As of now,
       you cannot provide further arguments to this function.}
 
 \item{document}{Character string,
-      optional identifier of the particular document. Will be added to the \code{desc} slot.}
+      optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"document"} column
+of the \code{TT.res} slot.}
 
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
