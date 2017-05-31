@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-1 (2017-05-26)
+changes in version 0.11-1 (2017-05-31)
 unreleased:
   - this release is under development
 fixed:
@@ -13,6 +13,11 @@ fixed:
 changed:
   - kRp.tagged: the TT.res data.frame of the object class has new columns
     "index", "sentence" and "document"
+  - kRp.tagged: in TT.res, the columns "tag", "wclass" and "desc" are no
+    longer character vectors but factors. this doesn't actually change
+    the class definition, as TT.res just has to be a data.frame, but it
+    reduces the object size especially for larger texts, and makes it much
+    simpler to do analysis with these objects
   - tokenize()/treetag()/read.tagged(): these functions now add token index
     and sentence number to the resulting objects; document ID is added if
     provided

@@ -299,26 +299,42 @@ explain_tags <- function(tags, lang, cols=c("wclass","desc")){
 
 ## function treetag.com()
 treetag.com <- function(tagged.text, lang, add.desc=TRUE){
-
   tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
-
-  validate_tags(tags=tagged.text$tag, lang=lang)
-
+  validate_tags(tags=tagged.text[["tag"]], lang=lang)
+  # get all valid tags
+  tag.class.def <- kRp.POS.tags(lang)
+ 
+  # make tag a factor with all possible tags for this language as levels
+  tagged.text[["tag"]] <- factor(
+    tagged.text[["tag"]],
+    levels=unique(tag.class.def[,"tag"])
+  )
   # count number of letters, add column "lttr"
-  tagged.text <- cbind(tagged.text, lttr=as.numeric(nchar(tagged.text[,"token"])))
+  tagged.text[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"]))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
-    tagged.text <- cbind(
-      tagged.text,
-      explain_tags(tags=tagged.text$tag, lang=lang, cols=c("wclass","desc")),
-      stringsAsFactors=FALSE
+    tagsExplained <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"))
+    tagsExplained.wclass <- factor(
+      tagsExplained[,"wclass"],
+      levels=unique(tag.class.def[,"wclass"])
     )
+    tagsExplained.desc <- factor(
+      tagsExplained[,"desc"],
+      levels=unique(tag.class.def[,"desc"])
+    )
+    tagged.text[,c("wclass","desc")] <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"))
   } else {
-    tagged.text[["wclass"]] <- explain_tags(tags=tagged.text$tag, lang=lang, cols="wclass")
-    tagged.text[["desc"]] <- NA
+    tagsExplained.wclass <- factor(
+      explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass"),
+      levels=unique(tag.class.def[,"wclass"])
+    )
+    tagsExplained.desc <- NA
   }
 
+  tagged.text[["wclass"]] <- tagsExplained.wclass
+  tagged.text[["desc"]] <- tagsExplained.desc
+    
   return(tagged.text)
 } ## end function treetag.com()
 
