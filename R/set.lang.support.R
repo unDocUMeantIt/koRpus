@@ -96,7 +96,7 @@ set.lang.support <- function(target, value){
   all.kRp.env <- as.list(as.environment(.koRpus.env))
 
   if(identical(target, "hyphen")){
-    sylly::set.hyph.support(target=target)
+    sylly::set.hyph.support(value=value)
   } else if(identical(target, "kRp.POS.tags")){
     recent.tags <- all.kRp.env[["langSup"]][["kRp.POS.tags"]][["tags"]]
     # could be there is no such entries in the environment yet
