@@ -1,8 +1,8 @@
 ## TEMPLATE FILE -- ADJUST TO YOUR LANGUAGE AND PREFERENCES
 ##
 ## you can use this template file to build a proper R package from your
-## lang.support-xx.R and hyph.xx-data.R files. that is, you must have
-## prepared them first before you can adjust and run this script!
+## lang.support-xx.R file. that is, you must have prepared them first
+## before you can adjust and run this script!
 ## 
 ## throughout the template, there are some values you need to replace globally:
 ##   xyzedish: template name for the language (replace with "english", "dutch" etc.)
@@ -17,14 +17,13 @@
 ##########################################################################
 ##
 ## roxyPackage will create all of the directories and files needed for
-## packaging. all you need is the two R files lang.support-xx.R and
-## hyph.xx-data.R, and this script.
+## packaging. all you need is the R file lang.support-xx.R and this script.
 ##   
 ##########################################################################
 ##
 ## this is how it's done:
 
-## 1. place lang.support-xx.R and hyph.xx-data.R in an R directory
+## 1. place lang.support-xx.R in an R directory
 #    
 #     R packages need to have the actual R code in a directory called R,
 #     right below the root directory of the package sources. your package
@@ -33,7 +32,6 @@
 #    
 #       koRpus.lang.xx/
 #         R/
-#           hyph.xx-data.R
 #           lang.support-xx.R
 
 require(roxyPackage)
@@ -60,7 +58,7 @@ local({
     language.short <- "xx"
 
     # the package version number
-    package.version <- "0.01-1"
+    package.version <- "0.1-1"
     package.source.dir <- file.path("/path","to","your","package","sources")
     # roxyPackage sets up a fully functional R package repository,
     # you can set the root directory here, it will be created if not existing.
@@ -122,7 +120,7 @@ local({
           },
           "family=\"", name.family, "\", email=\"", email, "\", role=c(\"aut\", \"cre\")))"),
         Maintainer=paste0(name.full, " <", email, ">"),
-        Depends="R (>= 3.3.0), koRpus (>= 0.06-3), methods",
+        Depends="R (>= 3.3.0), koRpus (>= 0.11-1), sylly.", language.short, ", methods",
         Description=paste0(
           "Adds support for the ", language.long, " language to the koRpus package.",
           "Due to some restrictions on CRAN, the full package sources are only available from the project homepage.",

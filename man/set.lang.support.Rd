@@ -21,7 +21,7 @@ although it's actually more "environemntal", but nevermind.
 
 To add full new language support, say for Xyzedish,
       you basically have to call this function
-three times with different targets, and provide respective hyphenation patterns.
+three times (or at least twice, see hyphen section below) with different targets.
 If you would like to re-use this language support,
       you should consider making it a package.
 
@@ -85,6 +85,17 @@ package sources, most of it should be almost self-explaining.
 
 Using the target "hyphen" will cause a call to the equivalent of this function in the \code{sylly} package.
 See the documentation of its \code{\link[sylly:set.hyph.support]{set.hyph.support}} function for details.
+}
+
+\section{Packaging}{
+
+
+If you would like to create a proper language support package,
+      you should only include the "treetag" and
+"kRp.POS.tags" calls,
+      and the hyphenation patterns should be loaded as a dependency to a package called
+\code{sylly.xx}. You can generate such a sylly package rather quickly by using the private function
+\code{sylly:::sylly_langpack()}.
 }
 
 \examples{

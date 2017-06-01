@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -24,7 +24,7 @@
 #' although it's actually more "environemntal", but nevermind.
 #' 
 #' To add full new language support, say for Xyzedish, you basically have to call this function
-#' three times with different targets, and provide respective hyphenation patterns.
+#' three times (or at least twice, see hyphen section below) with different targets.
 #' If you would like to re-use this language support, you should consider making it a package.
 #' 
 #' Be it a package or a script, it should contain all three calls to this function. If it succeeds,
@@ -73,6 +73,13 @@
 #' 
 #' Using the target "hyphen" will cause a call to the equivalent of this function in the \code{sylly} package.
 #' See the documentation of its \code{\link[sylly:set.hyph.support]{set.hyph.support}} function for details.
+#' 
+#' @section Packaging:
+#'
+#' If you would like to create a proper language support package, you should only include the "treetag" and
+#' "kRp.POS.tags" calls, and the hyphenation patterns should be loaded as a dependency to a package called
+#' \code{sylly.xx}. You can generate such a sylly package rather quickly by using the private function
+#' \code{sylly:::sylly_langpack()}.
 #' 
 #' @param target  One of "kRp.POS.tags", "treetag", or "hyphen", depending on what support is to be added.
 #' @param value A named list that upholds exactly the structure defined here for its respective \code{target}.
