@@ -41,8 +41,14 @@
 #' \dontrun{
 #' summary(guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt/"))
 #' }
-#' @include 01_class_09_kRp.lang.R
+setGeneric("summary")
+
+#' @rdname summary-methods
 #' @aliases summary,kRp.lang-method
+#' @export
+#' @docType methods
+#' @include 01_class_10_kRp.readability.R
+#' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.lang"), function(object){
   # show the main results
   show(object)

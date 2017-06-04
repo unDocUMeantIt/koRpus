@@ -3,7 +3,8 @@
 %   R/02_method_summary.kRp.TTR.R, R/02_method_summary.kRp.readability.R,
 %   R/02_method_summary.kRp.tagged.R, R/02_method_summary.kRp.txt.freq.R
 \docType{methods}
-\name{summary,kRp.lang-method}
+\name{summary}
+\alias{summary}
 \alias{summary,kRp.lang-method}
 \alias{summary,kRp.TTR-method}
 \alias{summary,kRp.readability-method}
@@ -11,6 +12,8 @@
 \alias{summary,kRp.txt.freq-method}
 \title{Summary methods for koRpus objects}
 \usage{
+summary(object, ...)
+
 \S4method{summary}{kRp.lang}(object)
 
 \S4method{summary}{kRp.TTR}(object, flat = FALSE)
