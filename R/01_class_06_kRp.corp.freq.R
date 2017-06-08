@@ -19,9 +19,10 @@
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:read.corp.LCC]{read.corp.LCC}} and \code{\link[koRpus:read.corp.celex]{read.corp.celex}}.
 #'
-#' The slot \code{meta} simply contains all information from the "meta.txt" of the LCC[1] data and remains empty for data from a Celex[2] DB.
+#' The slot \code{meta} simply contains all information from the "meta.txt" of the LCC[1] data and remains
+#' empty for data from a Celex[2] DB.
 #'
-#' @slot meta Metadata on the corpora (dee details).
+#' @slot meta Metadata on the corpora (see details).
 #' @slot words Absolute word frequencies. It has at least the following columns:
 #'    \describe{
 #'      \item{\code{num}:}{Some word ID from the DB, integer}
@@ -66,6 +67,8 @@
 #'      \item{\code{freq}:}{How often the co-occurrance was present}
 #'      \item{\code{sig}:}{Log-likelihood significance of the co-occurrende}
 #'    }
+#' @slot caseSens A single logical value, whether the frequency statistics were calculated case sensitive
+#'    or not.
 #' @name kRp.corp.freq,-class
 #' @aliases kRp.corp.freq,-class kRp.corp.freq-class
 #' @import methods
@@ -83,7 +86,9 @@ setClass("kRp.corp.freq",
       words="data.frame",
       desc="data.frame",
       bigrams="data.frame",
-      cooccur="data.frame"),
+      cooccur="data.frame",
+      caseSens="logical"
+    ),
     prototype(
       meta=data.frame(
           meta=NA,
@@ -126,7 +131,8 @@ setClass("kRp.corp.freq",
           token2=NA,
           freq=NA,
           sig=NA
-        )
+        ),
+      caseSens=FALSE
     )
 )
 

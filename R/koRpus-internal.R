@@ -877,23 +877,44 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
     # first look for tokens that only differ in letter case and
     # replace freq with sum of all occurances
     lowerTokens <- tolower(matrix.freq[,"word"])
-    caseSensTokens <- unique(lowerTokens[duplicated(lowerTokens)])
+#     caseSensTokens <- unique(lowerTokens[duplicated(lowerTokens)])
+#     caseSensFreq <- as.list(rep(0, length(caseSensTokens)))
+#     names(caseSensFreq) <- caseSensTokens
+#     caseSensFreq <- as.environment(caseSensFreq)
+    caseSensFreq <- new.env()
     if(!isTRUE(quiet)){
-      num.tokens <- length(caseSensTokens)
-      message(paste0("Re-calculating token frequencies (case insensitve, affects ", num.tokens, " unique tokens)"))
+      num.tokens <- length(lowerTokens) # length(caseSensTokens)
+      message(paste0("Re-calculating token frequencies (case insensitve, ", num.tokens, " tokens)"))
       # just some feedback, so we know the machine didn't just freeze...
       prgBar <- txtProgressBar(min=0, max=num.tokens, style=3)
     } else {}
 
-    start.with <- 1
-    for (thisToken in caseSensTokens){
-      if(!isTRUE(quiet)){
-        # update progress bar
-        setTxtProgressBar(prgBar, start.with)
-      } else {}
-      tokenFreq[lowerTokens %in% thisToken] <- sum(tokenFreq[lowerTokens %in% thisToken])
-      start.with <- start.with + 1
-    }
+    start.with <- new.env()
+    start.with[["count"]] <- 1
+    # we don't really need this object, sapply updates the environment caseSensFreq
+    tmp <- sapply(
+      seq_along(tokenFreq),
+      function(numToken){
+        if(!isTRUE(quiet)){
+          # update progress bar
+          setTxtProgressBar(prgBar, start.with[["count"]])
+        } else {}
+        thisLowToken <- lowerTokens[numToken]
+        if(is.null(caseSensFreq[[thisLowToken]])){
+          caseSensFreq[[thisLowToken]] <- tokenFreq[numToken]
+        } else {
+          caseSensFreq[[thisLowToken]] <- caseSensFreq[[thisLowToken]] + tokenFreq[numToken]
+        }
+        start.with[["count"]] <- start.with[["count"]] + 1
+      }
+    )
+    tokenFreq <- unlist(sapply(
+      lowerTokens,
+      function(thisToken){
+        caseSensFreq[[thisToken]]
+      },
+      USE.NAMES=FALSE
+    ))
     if(!isTRUE(quiet)){
       setTxtProgressBar(prgBar, num.tokens)
       close(prgBar)
@@ -1032,7 +1053,8 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
     words=df.words,
     desc=df.dscrpt.meta,
     bigrams=df.table.bigrams,
-    cooccur=df.table.cooccur
+    cooccur=df.table.cooccur,
+    caseSens=caseSens
   )
   return(results)
 } ## end function create.corp.freq.object()

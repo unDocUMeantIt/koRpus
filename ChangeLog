@@ -39,6 +39,8 @@ changed:
     objects with the new argument "add.desc". it is set in the environment by
     set.kRp.env() and defaults to FALSE, making the objects about 5% smaller in
     memory.
+  - kRp.corp.freq: the class gained a new slot called "caseSens", documenting whether
+    the frequency statistics were calculated case sensitive (see read.corp.*() below).
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument
