@@ -45,6 +45,9 @@
 #'    This is is \code{FALSE} by default, because it might make the objects quite large.
 #'    Note that this will only work in \code{n = -1} because otherwise the tokens cannot be looked up.
 #' @param cooccurence Logical, like \code{bigrams}, but for infomration on co-occurences of tokens in a sentence.
+#' @param caseSens Logical, if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
+#'    Otherwise, if the imported database supports it, you will get different frequencies for the same tokens in different
+#'    cases (e.\,g., "one" and "One").
 #' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
@@ -67,7 +70,7 @@
 #' freq.analysis(tagged.results, corp.freq=my.LCC.data)
 #' }
 
-read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-1, keep.temp=FALSE, prefix=NULL, bigrams=FALSE, cooccurence=FALSE){
+read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-1, keep.temp=FALSE, prefix=NULL, bigrams=FALSE, cooccurence=FALSE, caseSens=TRUE){
 
   # basic checks before we even proceed...
   if(identical(format, "flatfile")){
@@ -249,7 +252,8 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
               df.meta=table.meta,
               df.dscrpt.meta=dscrpt.meta,
               matrix.table.bigrams=table.bigrams,
-              matrix.table.cooccur=table.cooccur
+              matrix.table.cooccur=table.cooccur,
+              caseSens=caseSens
             )
 
   return(results)

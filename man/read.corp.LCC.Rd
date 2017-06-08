@@ -6,7 +6,7 @@
 \usage{
 read.corp.LCC(LCC.path, format = "flatfile", fileEncoding = "UTF-8",
   n = -1, keep.temp = FALSE, prefix = NULL, bigrams = FALSE,
-  cooccurence = FALSE)
+  cooccurence = FALSE, caseSens = TRUE)
 }
 \arguments{
 \item{LCC.path}{A character string,
@@ -37,6 +37,12 @@ Note that this will only work in \code{n = -1} because otherwise the tokens cann
 
 \item{cooccurence}{Logical, like \code{bigrams},
       but for infomration on co-occurences of tokens in a sentence.}
+
+\item{caseSens}{Logical,
+      if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
+Otherwise, if the imported database supports it,
+      you will get different frequencies for the same tokens in different
+cases (e.\,g., "one" and "One").}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.

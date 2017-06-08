@@ -869,9 +869,37 @@ text.freq.analysis <- function(txt.commented, corp.freq, corp.rm.class, corp.rm.
 # "dscrpt.meta" must be a data.frame with six columns: "tokens" (old: "words"), "types" (old: "dist.words"),
 #   "words.p.sntc", "chars.p.sntc", "chars.p.wform" and "chars.p.word"; if NULL its value is set to an empty default
 # "extra.cols" is an optional data.frame with additional columns, e.g. valence data
+# "casSens" determines whether frequency stats should distinguish between letter cases or consolidate otherwise identical tokens
 create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.dscrpt.meta,
-  matrix.table.bigrams=NULL, matrix.table.cooccur=NULL, extra.cols=NULL){
+  matrix.table.bigrams=NULL, matrix.table.cooccur=NULL, extra.cols=NULL, caseSens=TRUE, quiet=FALSE){
   tokenFreq <- as.numeric(matrix.freq[,"freq"])
+  if(!isTRUE(caseSens)){
+    # first look for tokens that only differ in letter case and
+    # replace freq with sum of all occurances
+    lowerTokens <- tolower(matrix.freq[,"word"])
+    caseSensTokens <- unique(lowerTokens[duplicated(lowerTokens)])
+    if(!isTRUE(quiet)){
+      num.tokens <- length(caseSensTokens)
+      message(paste0("Re-calculating token frequencies (case insensitve, affects ", num.tokens, " unique tokens)"))
+      # just some feedback, so we know the machine didn't just freeze...
+      prgBar <- txtProgressBar(min=0, max=num.tokens, style=3)
+    } else {}
+
+    start.with <- 1
+    for (thisToken in caseSensTokens){
+      if(!isTRUE(quiet)){
+        # update progress bar
+        setTxtProgressBar(prgBar, start.with)
+      } else {}
+      tokenFreq[lowerTokens %in% thisToken] <- sum(tokenFreq[lowerTokens %in% thisToken])
+      start.with <- start.with + 1
+    }
+    if(!isTRUE(quiet)){
+      setTxtProgressBar(prgBar, num.tokens)
+      close(prgBar)
+    } else {}
+  } else {}
+
   # try to work around missing meta information
   if(is.na(num.running.words)){
     num.running.words <- sum(tokenFreq)

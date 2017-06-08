@@ -5,7 +5,7 @@
 \title{Import Celex data}
 \usage{
 read.corp.celex(celex.path, running.words, fileEncoding = "ISO_8859-1",
-  n = -1)
+  n = -1, caseSens = TRUE)
 }
 \arguments{
 \item{celex.path}{A character string, path to a frequency file in Celex format to read.}
@@ -16,6 +16,12 @@ read.corp.celex(celex.path, running.words, fileEncoding = "ISO_8859-1",
 \item{fileEncoding}{A character string naming the encoding of the Celex files.}
 
 \item{n}{An integer value defining how many lines of data should be read if \code{format="flatfile"}. Reads all at -1.}
+
+\item{caseSens}{Logical,
+      if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
+Otherwise, if the imported database supports it,
+      you will get different frequencies for the same tokens in different
+cases (e.\,g., "one" and "One").}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.

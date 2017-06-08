@@ -60,6 +60,8 @@ added:
   - taggedText(): new option "add.desc" to (re-)write the "desc" column in
     the data.frame, useful if it was omitted during treetag()/tokenize() but you
     want to add it later without retagging everything
+  - read.corp.LCC()/read.corp.celex(): added new option "caseSens" to toggle
+    whether frequency statistics should be calculated case sensitive or insensitive
 removed:
   - hyphen(): all parts of the package that were specific for hyphenation
     were removed as they are now part of the new sylly package. this includes the
