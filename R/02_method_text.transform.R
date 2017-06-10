@@ -48,24 +48,24 @@
 #' @import methods
 #' @docType methods
 #' @export
-#' @rdname text.transform-methods
+#' @rdname textTransform-methods
 #' @examples
 #' \dontrun{
 #' tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
-#' kRp.text.transform(tagged.text.obj, scheme="random", paste=TRUE)
+#' textTransform(tagged.text.obj, scheme="random", paste=TRUE)
 #' }
-setGeneric("text.transform", function(txt, scheme, p=0.5, paste=FALSE){standardGeneric("text.transform")})
+setGeneric("textTransform", function(txt, scheme, p=0.5, paste=FALSE){standardGeneric("textTransform")})
 
 #' @export
 #' @docType methods
-#' @rdname text.transform-methods
-#' @aliases text.transform,kRp.taggedText-method
+#' @rdname textTransform-methods
+#' @aliases textTransform,kRp.taggedText-method
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
-setMethod("text.transform",
+setMethod("textTransform",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.taggedText"),
   function(txt, scheme, p=0.5, paste=FALSE){
@@ -194,6 +194,6 @@ setMethod("text.transform",
 #' @param ... Parameters to be passed to the replacement of the function
 #' @export
 kRp.text.transform <- function(...){
-  .Deprecated(new="text.transform")
-  text.transform(...)
+  .Deprecated(new="textTransform")
+  textTransform(...)
 }

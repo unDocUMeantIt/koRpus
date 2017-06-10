@@ -18,7 +18,7 @@
 
 #' S4 Class kRp.txt.trans
 #'
-#' This class is used for objects that are returned by \code{\link[koRpus:kRp.text.transform]{kRp.text.transform}}.
+#' This class is used for objects that are returned by \code{\link[koRpus:textTransform]{textTransform}}.
 #'
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.

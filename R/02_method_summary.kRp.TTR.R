@@ -46,7 +46,6 @@ add.to.sumtab <- function(table, adds, flat=FALSE){
   }
 }
 
-#' @param flat Logical, if TRUE a named vector with results is returned
 #' @export
 #' @docType methods
 #' @rdname summary-methods

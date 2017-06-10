@@ -69,7 +69,9 @@
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
-#' @aliases hyphen,kRp.taggedText-method
+#' @aliases
+#'    hyphen
+#'    hyphen,kRp.taggedText-method
 #' @rdname hyphen-methods
 
 ####################################################################################

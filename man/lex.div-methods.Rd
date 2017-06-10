@@ -8,10 +8,8 @@
 \alias{lex.div,character-method}
 \alias{lex.div,missing-method}
 \alias{[,kRp.TTR-method}
-\alias{[,-methods}
 \alias{[,kRp.TTR,ANY-method}
 \alias{[[,kRp.TTR-method}
-\alias{[[,-methods}
 \alias{[[,kRp.TTR,ANY-method}
 \title{Analyze lexical diversity}
 \usage{
@@ -117,6 +115,10 @@ respectively.}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.
 \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.}
+
+\item{x}{An object of class \code{kRp.TTR}.}
+
+\item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.TTR-class}}.

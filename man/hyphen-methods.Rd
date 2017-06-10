@@ -3,6 +3,7 @@
 \docType{methods}
 \name{hyphen,kRp.taggedText-method}
 \alias{hyphen,kRp.taggedText-method}
+\alias{hyphen}
 \alias{hyphen_df,kRp.taggedText-method}
 \alias{hyphen_c,kRp.taggedText-method}
 \title{Automatic hyphenation}

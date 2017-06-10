@@ -12,9 +12,8 @@ An R Package for Text Analysis.
 Package: \tab koRpus\cr
 Type: \tab Package\cr
 Version: \tab 0.11-1\cr
-Date: \tab 2017-06-08\cr
-Depends: \tab R (>= 2.10.0),methods,data.table,sylly.de,sylly.en,sylly.es,sylly.fr,
-     sylly.it,sylly.ru\cr
+Date: \tab 2017-06-11\cr
+Depends: \tab R (>= 2.10.0),sylly\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr
 License: \tab GPL (>= 3)\cr

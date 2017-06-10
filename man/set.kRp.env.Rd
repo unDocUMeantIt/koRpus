@@ -16,7 +16,7 @@ set.kRp.env(..., validate = TRUE)
   \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{\link[koRpus:treetag]{treetag}}.}
   \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data,
       used by
-     \code{\link[koRpus:hyphen]{hyphen}}.}
+     \code{\link[koRpus]{hyphen}}.}
   \item{add.desc}{ A logical value,
       whether tag descriptions should be added directly to tagged text objects.}
 }

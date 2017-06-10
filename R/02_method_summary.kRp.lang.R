@@ -26,7 +26,8 @@
 #' \code{\link[koRpus]{kRp.txt.freq-class}}.
 #'
 #' @param object An object of class, \code{kRp.lang}, \code{kRp.readability}, 
-#'    \code{kRp.tagged}, \code{kRp.TTR} or \code{kRp.txt.freq}.
+#'    \code{kRp.tagged}, \code{kRp.TTR}, or \code{kRp.txt.freq}.
+#' @param ... Further options, depending on the object class.
 #' @seealso
 #'    \code{\link[koRpus]{kRp.lang-class}},
 #'    \code{\link[koRpus]{kRp.readability-class}},

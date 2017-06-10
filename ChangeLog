@@ -26,7 +26,7 @@ changed:
     now also lists the columns "iso639-3" and "bcp47" by default
   - treetag(): debug output for tokenize() looks a little nicer
   - kRp.text.transform(): the old function is now deprecated and was replaced
-    by a proper S4 method called text.transform(). the old one will work for
+    by a proper S4 method called textTransform(). the old one will work for
     the moment, but you'll get a warning
   - the tt slot in class kRp.TTR gained two new entries called "type.in.txt"
     and "type.in.result", which will contain a list of all types with the

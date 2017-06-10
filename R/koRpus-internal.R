@@ -1264,6 +1264,7 @@ text.1st.letter <- function(word, case){
 # unicode escapes:
 #   <e2><80><99> -> \u2019 right single quotation mark
 #   <e2><80><93> -> \u2013 en dash
+#' @importFrom data.table data.table :=
 taggz <- function(tokens, abbrev=NULL, heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")), ign.comp="", sntc=c(".","!","?",";",":")){
   # make R CMD check happy...
   token <- tag <- NULL

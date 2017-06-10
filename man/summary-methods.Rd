@@ -26,9 +26,9 @@ summary(object, ...)
 }
 \arguments{
 \item{object}{An object of class, \code{kRp.lang}, \code{kRp.readability}, 
-\code{kRp.tagged}, \code{kRp.TTR} or \code{kRp.txt.freq}.}
+\code{kRp.tagged}, \code{kRp.TTR}, or \code{kRp.txt.freq}.}
 
-\item{flat}{Logical, if TRUE a named vector with results is returned}
+\item{...}{Further options, depending on the object class.}
 
 \item{flat}{Logical, if TRUE only a named vector of main results is returned}
 }

@@ -6,7 +6,7 @@
 \alias{kRp.txt.trans-class}
 \title{S4 Class kRp.txt.trans}
 \description{
-This class is used for objects that are returned by \code{\link[koRpus:kRp.text.transform]{kRp.text.transform}}.
+This class is used for objects that are returned by \code{\link[koRpus:textTransform]{textTransform}}.
 }
 \section{Slots}{
 

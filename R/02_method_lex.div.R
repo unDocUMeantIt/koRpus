@@ -232,10 +232,11 @@ setMethod("lex.div", signature(txt="missing"), function(txt, measure){
 )
 
 #' @rdname lex.div-methods
+#' @param x An object of class \code{kRp.TTR}.
+#' @param i Defines the row selector (\code{[}) or the name to match (\code{[[}).
 #' @export
 #' @docType methods
 #' @aliases
-#'    [,-methods
 #'    [,kRp.TTR,ANY-method
 setMethod("[",
   signature=signature(x="kRp.TTR"),
@@ -248,7 +249,6 @@ setMethod("[",
 #' @export
 #' @docType methods
 #' @aliases
-#'    [[,-methods
 #'    [[,kRp.TTR,ANY-method
 setMethod("[[",
   signature=signature(x="kRp.TTR"),

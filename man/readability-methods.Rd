@@ -7,10 +7,8 @@
 \alias{readability,character-method}
 \alias{readability,missing-method}
 \alias{[,kRp.readability-method}
-\alias{[,-methods}
 \alias{[,kRp.readability,ANY-method}
 \alias{[[,kRp.readability-method}
-\alias{[[,-methods}
 \alias{[[,kRp.readability,ANY-method}
 \title{Measure readability}
 \usage{
@@ -51,7 +49,7 @@ readability(txt.file, ...)
       or a character vector which must be be
 a valid path to a file containing the text to be analyzed. If the latter,
       \code{force.lang} must be set as well, and
-the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus:hyphen]{hyphen}}}
+the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus]{hyphen}}}
 
 \item{...}{Additional options for the specified \code{tagger} function}
 
@@ -102,6 +100,10 @@ of consequence if \code{hyphen} is not set!}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.
 \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.}
+
+\item{x}{An object of class \code{kRp.readability}.}
+
+\item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.readability-class}}.
