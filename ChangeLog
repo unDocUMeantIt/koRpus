@@ -41,6 +41,9 @@ changed:
     memory.
   - kRp.corp.freq: the class gained a new slot called "caseSens", documenting whether
     the frequency statistics were calculated case sensitive (see read.corp.*() below).
+  - validity check for objects of class kRp.tagged is a bit more liberal when TT.res
+    doesn't have all expected columns and suggests to call fixObject() (see below)
+    instead of failing with an error
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument
@@ -64,6 +67,8 @@ added:
     want to add it later without retagging everything
   - read.corp.LCC()/read.corp.celex(): added new option "caseSens" to toggle
     whether frequency statistics should be calculated case sensitive or insensitive
+  - new method fixObject() can upgrade old tagged objects from previous koRpus releases,
+    i.e. add missing columns and adjust data types where needed
 removed:
   - hyphen(): all parts of the package that were specific for hyphenation
     were removed as they are now part of the new sylly package. this includes the

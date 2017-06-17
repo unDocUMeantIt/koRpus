@@ -26,11 +26,13 @@
 #'   \item{\code{describe()} }{returns the \code{desc} slot.}
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
 #'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
+#'   \item{\code{fixObject} }{returns the same object upgraded to the object structure of this package version (e.g., new columns, changed names, etc.).}
 #' }
 #' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
 #'    for all POS tags.
-#' @param document Logical, if \code{TRUE} the \code{document} column will be a factor with the respective value
-#'    of the \code{desc} slot, i.e., the document ID will be preserved in the data.frame.
+#' @param document Logical (except for \code{fixObject}), if \code{TRUE} the \code{document} column will be a factor with the respective value
+#'    of the \code{desc} slot, i.\,e., the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
+#'    to set the document name manually.
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
@@ -219,3 +221,44 @@ setMethod("language<-",
 is.taggedText <- function(obj){
   inherits(obj, "kRp.taggedText")
 }
+
+
+#' @rdname kRp.taggedText-methods
+#' @docType methods
+#' @export
+setGeneric("fixObject", function(obj, document=NA) standardGeneric("fixObject"))
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    fixObject,-methods
+#'    fixObject,kRp.taggedText-method
+setMethod("fixObject",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, document=NA){
+    warning("This tool currently only fixes missing columns in the TT.res slot!", call.=FALSE)
+    currentDf <- slot(obj, "TT.res")
+    currentCols <- colnames(currentDf)
+    newDf <- init.kRp.tagged.df(rows=nrow(currentDf))
+    # move all present columns to the new data.frame
+    newDf[,currentCols] <- currentDf[,currentCols]
+    # adjust column classes where needed
+
+    lang <- slot(obj, "lang")
+    tag.class.def <- kRp.POS.tags(lang)
+    for (thisCol in c("tag","wclass","desc")){
+      if(!is.factor(newDf[[thisCol]])){
+        # make tag a factor with all possible tags for this language as levels
+        newDf[[thisCol]] <- factor(
+          newDf[[thisCol]],
+          levels=unique(tag.class.def[,thisCol])
+        )
+      } else {}
+    }
+    newDf <- indexSentenceDoc(newDf, lang=lang, document=document)
+    
+    slot(obj, "TT.res") <- newDf
+
+    return(obj)
+  }
+)

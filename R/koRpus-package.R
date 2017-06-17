@@ -4,7 +4,7 @@
 #' Package: \tab koRpus\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.11-1\cr
-#' Date: \tab 2017-06-11\cr
+#' Date: \tab 2017-06-17\cr
 #' Depends: \tab R (>= 2.10.0),sylly\cr
 #' Enhances: \tab rkward\cr
 #' Encoding: \tab UTF-8\cr

@@ -15,23 +15,24 @@
 # You should have received a copy of the GNU General Public License
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
-init.kRp.tagged.df <- function(){
+init.kRp.tagged.df <- function(rows=1){
+  val <- rep(NA, rows)
   return(data.frame(
-    token=NA,
-    tag=NA,
-    lemma=NA,
-    lttr=NA,
-    wclass=NA,
-    desc=NA,
-    stop=NA,
-    stem=NA,
-    index=NA,
-    sentence=NA,
-    document=NA
+    token=val,
+    tag=val,
+    lemma=val,
+    lttr=val,
+    wclass=val,
+    desc=val,
+    stop=val,
+    stem=val,
+    index=val,
+    sentence=val,
+    document=val
   ))
 }
 
-valid.TT.res.kRp.tagged <- c("token","tag","lemma","lttr","wclass","desc","stop","stem","index","sentence","document")
+valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 
 #' S4 Class kRp.tagged
 #'
@@ -83,7 +84,25 @@ setValidity("kRp.tagged", function(object){
     } else {}
 
     if(!identical(TT.res.names, valid.TT.res.kRp.tagged)){
-      stop(simpleError("Invalid object: Wrong column names in slot \"TT.res\"!"))
+      wrongCols <- TT.res.names[!TT.res.names %in% valid.TT.res.kRp.tagged]
+      missingCols <- valid.TT.res.kRp.tagged[!valid.TT.res.kRp.tagged %in% TT.res.names]
+      if(length(wrongCols) > 0){
+        warning(
+          paste0(
+            "Invalid object: Wrong columns in in slot \"TT.res\", please try fixObject():\n  ",
+            paste0(wrongCols, collapse=", ")
+          ),
+          call.=FALSE
+        )
+      } else {}
+      if(length(missingCols) > 0){
+        warning(
+          paste0(
+            "Invalid object: Missing columns in slot \"TT.res\", please try fixObject():\n  ",
+            paste0(missingCols, collapse=", ")
+          ),
+          call.=FALSE)
+      }
     } else {}
 
   return(TRUE)
