@@ -32,7 +32,7 @@
 #'    for all POS tags.
 #' @param document Logical (except for \code{fixObject}), if \code{TRUE} the \code{document} column will be a factor with the respective value
 #'    of the \code{desc} slot, i.\,e., the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
-#'    to set the document name manually.
+#'    to set the document name manually (the default \code{NA} will preserve existing values and not overwrite them).
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
@@ -236,8 +236,8 @@ setGeneric("fixObject", function(obj, document=NA) standardGeneric("fixObject"))
 setMethod("fixObject",
   signature=signature(obj="kRp.taggedText"),
   function (obj, document=NA){
-    warning("This tool currently only fixes missing columns in the TT.res slot!", call.=FALSE)
     currentDf <- slot(obj, "TT.res")
+    currentDesc <- slot(obj, "desc")
     currentCols <- colnames(currentDf)
     newDf <- init.kRp.tagged.df(rows=nrow(currentDf))
     # move all present columns to the new data.frame
@@ -256,8 +256,14 @@ setMethod("fixObject",
       } else {}
     }
     newDf <- indexSentenceDoc(newDf, lang=lang, document=document)
-    
+
+    # fix desc slot
+    if(any(!"document" %in% names(currentDesc), !is.na(document))){
+      currentDesc[["document"]] <- document
+    } else {}
+
     slot(obj, "TT.res") <- newDf
+    slot(obj, "desc") <- currentDesc
 
     return(obj)
   }

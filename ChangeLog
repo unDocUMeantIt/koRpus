@@ -44,6 +44,7 @@ changed:
   - validity check for objects of class kRp.tagged is a bit more liberal when TT.res
     doesn't have all expected columns and suggests to call fixObject() (see below)
     instead of failing with an error
+  - adjusted unit tests
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument

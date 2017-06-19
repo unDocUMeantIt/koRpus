@@ -61,9 +61,9 @@ taggedText(obj) <- value
 
 is.taggedText(obj)
 
-fixObject(obj)
+fixObject(obj, document = NA)
 
-\S4method{fixObject}{kRp.taggedText}(obj)
+\S4method{fixObject}{kRp.taggedText}(obj, document = NA)
 }
 \arguments{
 \item{obj}{An arbitrary \code{R} object.}
@@ -72,9 +72,11 @@ fixObject(obj)
       determines whether the \code{desc} column should be re-written with descriptions
 for all POS tags.}
 
-\item{document}{Logical,
+\item{document}{Logical (except for \code{fixObject}),
       if \code{TRUE} the \code{document} column will be a factor with the respective value
-of the \code{desc} slot, i.e., the document ID will be preserved in the data.frame.}
+of the \code{desc} slot, i.\,e.,
+      the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
+to set the document name manually (the default \code{NA} will preserve existing values and not overwrite them).}
 
 \item{value}{The new value to replace the current with.}
 
