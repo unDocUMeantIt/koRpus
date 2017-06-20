@@ -30,9 +30,9 @@
 #' }
 #' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
 #'    for all POS tags.
-#' @param document Logical (except for \code{fixObject}), if \code{TRUE} the \code{document} column will be a factor with the respective value
+#' @param doc_id Logical (except for \code{fixObject}), if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
 #'    of the \code{desc} slot, i.\,e., the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
-#'    to set the document name manually (the default \code{NA} will preserve existing values and not overwrite them).
+#'    to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
@@ -40,7 +40,7 @@
 #' \dontrun{
 #' taggedText(tagged.txt)
 #' }
-setGeneric("taggedText", function(obj, add.desc=FALSE, document=FALSE) standardGeneric("taggedText"))
+setGeneric("taggedText", function(obj, add.desc=FALSE, doc_id=FALSE) standardGeneric("taggedText"))
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -50,7 +50,7 @@ setGeneric("taggedText", function(obj, add.desc=FALSE, document=FALSE) standardG
 #' @include koRpus-internal.R
 setMethod("taggedText",
   signature=signature(obj="kRp.taggedText"),
-  function (obj, add.desc=FALSE, document=FALSE){
+  function (obj, add.desc=FALSE, doc_id=FALSE){
     result <- slot(obj, name="TT.res")
     if(isTRUE(add.desc)){
       result[["desc"]] <- explain_tags(
@@ -59,8 +59,8 @@ setMethod("taggedText",
         cols="desc"
       )
     } else {}
-    if(isTRUE(document)){
-      result[["document"]] <- as.factor(describe(obj)[["document"]])
+    if(isTRUE(doc_id)){
+      result[["doc_id"]] <- as.factor(describe(obj)[["doc_id"]])
     } else {}
     return(result)
   }
@@ -226,7 +226,7 @@ is.taggedText <- function(obj){
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
-setGeneric("fixObject", function(obj, document=NA) standardGeneric("fixObject"))
+setGeneric("fixObject", function(obj, doc_id=NA) standardGeneric("fixObject"))
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -235,7 +235,7 @@ setGeneric("fixObject", function(obj, document=NA) standardGeneric("fixObject"))
 #'    fixObject,kRp.taggedText-method
 setMethod("fixObject",
   signature=signature(obj="kRp.taggedText"),
-  function (obj, document=NA){
+  function (obj, doc_id=NA){
     currentDf <- slot(obj, "TT.res")
     currentDesc <- slot(obj, "desc")
     currentCols <- colnames(currentDf)
@@ -255,11 +255,11 @@ setMethod("fixObject",
         )
       } else {}
     }
-    newDf <- indexSentenceDoc(newDf, lang=lang, document=document)
+    newDf <- indexSentenceDoc(newDf, lang=lang, doc_id=doc_id)
 
     # fix desc slot
-    if(any(!"document" %in% names(currentDesc), !is.na(document))){
-      currentDesc[["document"]] <- document
+    if(any(!"doc_id" %in% names(currentDesc), !is.na(doc_id))){
+      currentDesc[["doc_id"]] <- doc_id
     } else {}
 
     slot(obj, "TT.res") <- newDf

@@ -7,7 +7,7 @@
 treetag(file, treetagger = "kRp.env", rm.sgml = TRUE, lang = "kRp.env",
   apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
   encoding = NULL, TT.options = NULL, debug = FALSE, TT.tknz = TRUE,
-  format = "file", stopwords = NULL, stemmer = NULL, document = NA,
+  format = "file", stopwords = NULL, stemmer = NULL, doc_id = NA,
   add.desc = "kRp.env")
 }
 \arguments{
@@ -114,8 +114,8 @@ a character vector. If the latter,
 the \code{SnowballC} package installed. As of now,
       you cannot provide further arguments to this function.}
 
-\item{document}{Character string,
-      optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"document"} column
+\item{doc_id}{Character string,
+      optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
 of the \code{TT.res} slot.}
 
 \item{add.desc}{Logical. If \code{TRUE},

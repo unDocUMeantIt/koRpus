@@ -34,10 +34,9 @@
 \alias{fixObject,-methods}
 \title{Getter/setter methods for koRpus objects}
 \usage{
-taggedText(obj, add.desc = FALSE, document = FALSE)
+taggedText(obj, add.desc = FALSE, doc_id = FALSE)
 
-\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE,
-  document = FALSE)
+\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE, doc_id = FALSE)
 
 taggedText(obj) <- value
 
@@ -61,9 +60,9 @@ taggedText(obj) <- value
 
 is.taggedText(obj)
 
-fixObject(obj, document = NA)
+fixObject(obj, doc_id = NA)
 
-\S4method{fixObject}{kRp.taggedText}(obj, document = NA)
+\S4method{fixObject}{kRp.taggedText}(obj, doc_id = NA)
 }
 \arguments{
 \item{obj}{An arbitrary \code{R} object.}
@@ -72,11 +71,11 @@ fixObject(obj, document = NA)
       determines whether the \code{desc} column should be re-written with descriptions
 for all POS tags.}
 
-\item{document}{Logical (except for \code{fixObject}),
-      if \code{TRUE} the \code{document} column will be a factor with the respective value
+\item{doc_id}{Logical (except for \code{fixObject}),
+      if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
 of the \code{desc} slot, i.\,e.,
       the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
-to set the document name manually (the default \code{NA} will preserve existing values and not overwrite them).}
+to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).}
 
 \item{value}{The new value to replace the current with.}
 

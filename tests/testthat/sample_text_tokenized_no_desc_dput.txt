@@ -37,10 +37,10 @@ new("kRp.tagged"
     "cum.inv", "pct", "cum.pct", "pct.inv"), c("1", "2", "3", 
     "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
     "15", "16"))), words = 556L, sentences = 20L, avg.sentc.length = 27.8, 
-    avg.word.length = 5.24820143884892, document = NA), .Names = c("all.chars", 
+    avg.word.length = 5.24820143884892, doc_id = NA), .Names = c("all.chars", 
 "lines", "normalized.space", "chars.no.space", "punct", "digits", 
 "letters", "letters.only", "char.distrib", "lttr.distrib", "words", 
-"sentences", "avg.sentc.length", "avg.word.length", "document"
+"sentences", "avg.sentc.length", "avg.word.length", "doc_id"
 ))
     , TT.res = structure(list(token = c("Defense", "mechanisms", "Phasmatodea", 
 "species", "exhibit", "mechanisms", "for", "defense", "from", 
@@ -508,7 +508,7 @@ new("kRp.tagged"
     19L, 19L, 19L, 19L, 19L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 
     20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 
     20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 
-    20L, 20L), document = structure(c(NA_integer_, NA_integer_, 
+    20L, 20L), doc_id = structure(c(NA_integer_, NA_integer_, 
     NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, 
     NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, 
     NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, 
@@ -635,5 +635,5 @@ new("kRp.tagged"
     NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, 
     NA_integer_, NA_integer_, NA_integer_), class = "factor", .Label = character(0))), .Names = c("token", 
 "tag", "lemma", "lttr", "wclass", "desc", "stop", "stem", "index", 
-"sentence", "document"), row.names = c(NA, -625L), class = "data.frame")
+"sentence", "doc_id"), row.names = c(NA, -625L), class = "data.frame")
 )

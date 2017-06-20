@@ -17,10 +17,10 @@ new("kRp.tagged"
         c("num", "cum.sum", "cum.inv", "pct", "cum.pct", "pct.inv"
         ), c("1", "2", "3", "4", "5", "6", "7", "8", "9"))), 
     words = 1L, sentences = 0L, avg.sentc.length = Inf, avg.word.length = 9, 
-    document = NA), .Names = c("all.chars", "lines", "normalized.space", 
+    doc_id = NA), .Names = c("all.chars", "lines", "normalized.space", 
 "chars.no.space", "punct", "digits", "letters", "letters.only", 
 "char.distrib", "lttr.distrib", "words", "sentences", "avg.sentc.length", 
-"avg.word.length", "document"))
+"avg.word.length", "doc_id"))
     , TT.res = structure(list(token = "singleton", tag = structure(51L, .Label = c("CC", 
 "CD", "DT", "EX", "FW", "IN", "IN/that", "JJ", "JJR", "JJS", 
 "LS", "MD", "NN", "NNS", "NP", "NPS", "NS", "PDT", "POS", "PP", 
@@ -59,7 +59,7 @@ new("kRp.tagged"
 "Quote (kRp internal)", "Punctuation (kRp internal)", "Headline begins (kRp internal)", 
 "Paragraph (kRp internal)", "Sentence ending punctuation", "Sentence ending punctuation (kRp internal)", 
 "Headline ends (kRp internal)"), class = "factor"), stop = NA, 
-    stem = NA, index = 1L, sentence = NA, document = structure(NA_integer_, .Label = character(0), class = "factor")), .Names = c("token", 
+    stem = NA, index = 1L, sentence = NA, doc_id = structure(NA_integer_, .Label = character(0), class = "factor")), .Names = c("token", 
 "tag", "lemma", "lttr", "wclass", "desc", "stop", "stem", "index", 
-"sentence", "document"), row.names = c(NA, -1L), class = "data.frame")
+"sentence", "doc_id"), row.names = c(NA, -1L), class = "data.frame")
 )

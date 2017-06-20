@@ -28,7 +28,7 @@ init.kRp.tagged.df <- function(rows=1){
     stem=val,
     index=val,
     sentence=val,
-    document=val
+    doc_id=val
   ))
 }
 
@@ -52,7 +52,7 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'      \item{\code{stem}:}{Stemmed token.}
 #'      \item{\code{index}:}{Number of token in this document.}
 #'      \item{\code{sentence}:}{Number of sentence in this document.}
-#'      \item{\code{document}:}{Optional document identifier.}
+#'      \item{\code{doc_id}:}{Optional document identifier.}
 #'    }
 #' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 #' @name kRp.tagged,-class

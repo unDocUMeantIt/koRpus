@@ -7,7 +7,7 @@
 read.tagged(file, lang = "kRp.env", encoding = NULL,
   tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".", "!",
   "?", ";", ":"), stopwords = NULL, stemmer = NULL, rm.sgml = TRUE,
-  document = NA, add.desc = "kRp.env")
+  doc_id = NA, add.desc = "kRp.env")
 }
 \arguments{
 \item{file}{Either a matrix, a connection or a character vector. If the latter,
@@ -50,7 +50,7 @@ this function.}
 
 \item{rm.sgml}{Logical, whether SGML tags should be ignored and removed from output.}
 
-\item{document}{Character string,
+\item{doc_id}{Character string,
       optional identifier of the particular document. Will be added to the \code{desc} slot.}
 
 \item{add.desc}{Logical. If \code{TRUE},

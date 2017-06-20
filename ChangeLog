@@ -12,7 +12,7 @@ fixed:
     anyway. hope this doesn't cause new issues...
 changed:
   - kRp.tagged: the TT.res data.frame of the object class has new columns
-    "index", "sentence" and "document"
+    "index", "sentence" and "doc_id"
   - kRp.tagged: in TT.res, the columns "tag", "wclass" and "desc" are no
     longer character vectors but factors. this doesn't actually change
     the class definition, as TT.res just has to be a data.frame, but it

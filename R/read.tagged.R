@@ -46,7 +46,7 @@
 #'    have the \code{Snowball} package installed (or \code{SnowballC::wordStem}). As of now, you cannot provide further arguments to
 #'    this function.
 #' @param rm.sgml Logical, whether SGML tags should be ignored and removed from output.
-#' @param document Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
+#' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE}, prints internal variable settings and
@@ -69,7 +69,7 @@
 
 read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger",
   apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, document=NA, add.desc="kRp.env"){
+  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env"){
 
   if(identical(lang, "kRp.env")){
     lang <- get.kRp.env(lang=TRUE)
@@ -131,13 +131,13 @@ read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger"
   # probably apply stopword detection and stemming
   tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
   
-  # add columns "index", "sentence" and "document"
-  tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, document=NA)
+  # add columns "index", "sentence" and "doc_id"
+  tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=NA)
 
   results <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics
   results@desc <- basic.tagged.descriptives(results, lang=lang,
-    txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]), document=document)
+    txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]), doc_id=doc_id)
 
   return(results)
 }

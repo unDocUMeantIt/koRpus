@@ -162,7 +162,7 @@ basic.text.descriptives <- function(txt){
 
 ## function basic.tagged.descriptives()
 # txt must be an object of class kRp.tagged
-basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, document=NA){
+basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, doc_id=NA){
   if(is.null(lang)){
     lang <- txt@lang
   } else {}
@@ -215,7 +215,7 @@ basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL
       )
     )
   }
-  results[["document"]] <- document
+  results[["doc_id"]] <- doc_id
   return(results)
 } ## end function basic.tagged.descriptives()
 
@@ -395,8 +395,8 @@ stopAndStem <- function(tagged.text.df, stopwords=NULL, stemmer=NULL, lowercase=
 
 
 ## function indexSentenceDoc()
-# after stopAndStem(), add columns "index", "sentence" and "document" to data.frame
-indexSentenceDoc <- function(tagged.text.df, lang, document=NA){
+# after stopAndStem(), add columns "index", "sentence" and "doc_id" to data.frame
+indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
   numTokens <- nrow(tagged.text.df)
   tagged.text.df[["index"]] <- 1:numTokens
   sentenceEnding <- kRp.POS.tags(lang=lang, tags=c("sentc"), list.classes=TRUE)
@@ -421,7 +421,7 @@ indexSentenceDoc <- function(tagged.text.df, lang, document=NA){
   } else {
     tagged.text.df[["sentence"]] <- NA
   }
-  tagged.text.df[["document"]] <- factor(document)
+  tagged.text.df[["doc_id"]] <- factor(doc_id)
   return(tagged.text.df)
 } ## end function indexSentenceDoc()
 
