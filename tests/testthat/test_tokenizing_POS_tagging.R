@@ -21,27 +21,32 @@ context("tokenizing")
 test_that("basic tokenizing", {
   sampleTextFile <- normalizePath("sample_text.txt")
   sampleTextStandard <- dget("sample_text_tokenized_dput.txt")
+  sampleTextStandardNoDesc <- dget("sample_text_tokenized_no_desc_dput.txt")
   sampleTextObj <- readLines(sampleTextFile)
   sampleTokenizedToken <- dget("tokenized_single_token_dput.txt")
 
   # without a local TreeTagger installation, these tests will be limited
   # to what is possible with tokenize()
   tokenizedTextFile <- tokenize(
-    sampleTextFile, lang="en", stopwords=c("it's","one","for","you","and","me"))
+    sampleTextFile, lang="en", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+  tokenizedTextFileNoDesc <- tokenize(
+    sampleTextFile, lang="en", stopwords=c("it's","one","for","you","and","me"), add.desc=FALSE)
   tokenizedTextObj <- tokenize(
-    sampleTextObj, format="obj", lang="en", stopwords=c("it's","one","for","you","and","me"))
+    sampleTextObj, format="obj", lang="en", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
 
   textToTag <- file(sampleTextFile)
   tokenizedTextConnection <- tokenize(
-    textToTag, lang="en", stopwords=c("it's","one","for","you","and","me"))
+    textToTag, lang="en", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
   close(textToTag)
 
   # this was fixed in koRpus 0.06-4, checking it's still working
-  tokenizedToken <- tokenize("singleton", format="obj", lang="en")
+  tokenizedToken <- tokenize("singleton", format="obj", lang="en", add.desc=TRUE)
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
   expect_that(tokenizedTextFile,
     equals(sampleTextStandard))
+  expect_that(tokenizedTextFileNoDesc,
+    equals(sampleTextStandardNoDesc))
   expect_that(tokenizedTextObj,
     equals(sampleTextStandard))
   expect_that(tokenizedTextConnection,
@@ -49,6 +54,21 @@ test_that("basic tokenizing", {
   expect_that(tokenizedToken,
     equals(sampleTokenizedToken))
 })
+
+test_that("fixing old objects", {
+  sampleTextFile <- normalizePath("sample_text.txt")
+  expect_warning(
+    sampleTextStandardOld <- fixObject(dget("sample_text_tokenized_dput_old.txt"))
+  )
+
+  tokenizedTextFile <- tokenize(
+    sampleTextFile, lang="en", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+
+  # we can't compare with "is_identical_to() because the percentages may slightly differ
+  expect_that(tokenizedTextFile,
+    equals(sampleTextStandardOld))
+})
+
 
 context("lexical diversity")
 
@@ -67,6 +87,7 @@ test_that("lexical diversity", {
   expect_that(TTRCharTextObj,
     equals(sampleTextStandardTTRChar))
 })
+
 
 context("hyphenation/syllable count")
 
@@ -89,6 +110,7 @@ test_that("hyphenation/syllable count", {
     equals(sampleTextStandardChanged))
 })
 
+
 context("readability")
 
 test_that("readability", {
@@ -100,14 +122,16 @@ test_that("readability", {
 
   # Coleman and Traenkle.Bailer will cause a warning because tokenize()
   # does no real POS tagging
-  readabilityTextObj <- summary(readability(sampleTextTokenized,
-    hyphen=sampleTextHyphen,
-    index=c("all"),
-    word.lists=list(
-      Bormuth=pseudoWordList,
-      Dale.Chall=pseudoWordList,
-      Harris.Jacobson=pseudoWordList,
-      Spache=pseudoWordList)), flat=TRUE)
+  expect_warning(
+    readabilityTextObj <- summary(readability(sampleTextTokenized,
+      hyphen=sampleTextHyphen,
+      index=c("all"),
+      word.lists=list(
+        Bormuth=pseudoWordList,
+        Dale.Chall=pseudoWordList,
+        Harris.Jacobson=pseudoWordList,
+        Spache=pseudoWordList)), flat=TRUE)
+  )
 
   expect_that(readabilityTextObj,
     equals(sampleTextStandard))

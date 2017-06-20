@@ -9,7 +9,7 @@ tokenize(txt, format = "file", fileEncoding = NULL, split = "[[:space:]]",
   "'"), suf = c("’", "'")), abbrev = NULL, tag = TRUE, lang = "kRp.env",
   sentc.end = c(".", "!", "?", ";", ":"), detect = c(parag = FALSE, hline =
   FALSE), clean.raw = NULL, perl = FALSE, stopwords = NULL,
-  stemmer = NULL)
+  stemmer = NULL, doc_id = NA, add.desc = "kRp.env")
 }
 \arguments{
 \item{txt}{Either an open connection,
@@ -53,7 +53,7 @@ this file must have the same encoding as defined by \code{fileEncoding}.}
       the text will be rudimentarily tagged and returned as an object
 of class \code{kRp.tagged}.}
 
-\item{lang}{A character string naming the language of the analyzed text. If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
+\item{lang}{A character string naming the language of the analyzed text. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
 
 \item{sentc.end}{A character vector with tokens indicating a sentence ending. Only needed if \code{tag=TRUE}.}
 
@@ -80,6 +80,14 @@ to allow for perl-like regular expressions in \code{clean.raw}.}
       you can set \code{SnowballC::wordStem} if you have
 the \code{SnowballC} package installed. As of now,
       you cannot provide further arguments to this function.}
+
+\item{doc_id}{Character string,
+      optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
+of the \code{TT.res} slot.}
+
+\item{add.desc}{Logical. If \code{TRUE},
+      the tag description (column \code{"desc"} of the data.frame) will be added directly
+to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
 }
 \value{
 If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE},

@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -18,17 +18,16 @@
 
 #' Show methods for koRpus objects
 #'
-#' Show methods for S4 objects of classes \code{\link[koRpus]{kRp.hyphen-class}},
+#' Show methods for S4 objects of classes
 #' \code{\link[koRpus]{kRp.lang-class}},
 #' \code{\link[koRpus]{kRp.readability-class}},
 #' \code{\link[koRpus]{kRp.corp.freq-class}} or
 #' \code{\link[koRpus]{kRp.TTR-class}}.
 #'
-#' @param object An object of class \code{kRp.hyphen}, \code{kRp.lang}, \code{kRp.readability},
+#' @param object An object of class \code{kRp.lang}, \code{kRp.readability},
 #'    \code{kRp.corp.freq}, or \code{kRp.TTR}.
 #' @aliases show,-methods show,kRp.lang-method
 #' @seealso
-#'    \code{\link[koRpus]{kRp.hyphen-class}},
 #'    \code{\link[koRpus]{kRp.lang-class}},
 #'    \code{\link[koRpus]{kRp.readability-class}},
 #'    \code{\link[koRpus]{kRp.corp.freq-class}},
@@ -43,15 +42,23 @@
 #' @rdname show-methods
 #' @include 01_class_09_kRp.lang.R
 setMethod("show", signature(object="kRp.lang"), function(object){
-  estim.lang <- object@lang.name
-  estim.lang.uli <- object@lang
-  estim.lang.country <- object@udhr[1,"country"]
-  estim.lang.region <- object@udhr[1,"region"]
-  langs.available <- dim(object@udhr)[1]
+  estim.lang <- slot(object, "lang.name")
+  estim.lang.uli <- slot(object, "lang")
+  estim.lang.udhr <- slot(object, "udhr")
+  haveCountry <- "country" %in% colnames(estim.lang.udhr)
+  if(isTRUE(haveCountry)){
+    estim.lang.country <- estim.lang.udhr[1,"country"]
+  } else {}
+  estim.lang.region <- estim.lang.udhr[1,"region"]
+  langs.available <- nrow(estim.lang.udhr)
 
   cat("\n  Estimated language: ", estim.lang,
      "\n          Identifier: ", estim.lang.uli,
-     "\n             Country: ", estim.lang.country, " (", estim.lang.region,")\n",
+    if(isTRUE(haveCountry)){
+      paste0("\n             Country: ", estim.lang.country, " (", estim.lang.region,")\n")
+    } else {
+      paste0("\n              Region: ", estim.lang.region,"\n")
+    },
      "\n", langs.available, " different languages were checked.\n\n",
      sep="")
 

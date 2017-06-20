@@ -11,7 +11,7 @@
 ## 
 ## when you're done, remove this block ;-)
 
-# Copyright 2010-2015 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -44,12 +44,13 @@
 #' In particular, this function adds the following:
 #' \itemize{
 #'  \item \code{lang}: The additional language "xx" to be used with koRpus
-#'  \item \code{hyphen}: An additional set of hyphenation patterns (see \code{\link[hyph.xx]{hyph.xx}})
 #'  \item \code{treetag}: The additional presets "xx" and "xx-utf8", implemented according to the respective
 #'    TreeTagger[1] script
 #'  \item \code{POS tags}: An additional set of tags, implemented using the documentation for the corresponding
 #'    TreeTagger parameter set[2]
 #' }
+#' 
+#' To also be able to use hyphenation, the package sylly.xx needs to exist and be loaded.
 #'
 #' @references
 #' [1] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/}
@@ -59,20 +60,6 @@
 # call this function to add further language support
 ## function lang.support.xx()
 lang.support.xx <- function() {
-  # first tell koRpus where to find hyphenation patterns (see ?set.lang.support for details)
-  koRpus::set.lang.support(target="hyphen",
-    value=list(
-      "xx"=c("xx", package="koRpus.lang.xx")
-      # if you want to use a custom hyphenation object called hyph.xx in the running session:
-      #   "xx"=hyph.xx
-      #
-      # should your language need more than one pattern, just extend the list accordingly,
-      # giving additional entries different names, e.g.:
-      #   "xx.old"=c("xx.old", package="koRpus.lang.xx")
-    )
-  )
-
-
   # here you have to adjust the parameters according to the contents of the TreeTagger
   # scripts for your language (see ?set.lang.support for details)
   #  - UTF-8 scripts are the default in TreeTagger now, add them as "xx"

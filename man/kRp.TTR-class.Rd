@@ -15,8 +15,8 @@ This class is used for objects that are returned by \code{\link[koRpus:lex.div]{
 \item{\code{param}}{Relevant parameters of the given analysis,
       as given to the function call, see \code{\link[koRpus:lex.div]{lex.div}} for details.}
 
-\item{\code{tt}}{The analyzed text in tokenized form, with six elements ("tokens",
-      "types", "lemmas", "num.tokens", "num.types", "num.lemmas").}
+\item{\code{tt}}{The analyzed text in tokenized form, with eight elements ("tokens",
+      "types", "lemmas", "type.in.txt", "type.in.result", "num.tokens", "num.types", "num.lemmas").}
 
 \item{\code{TTR}}{Value of the classic type-token ratio. NA if not calculated.}
 

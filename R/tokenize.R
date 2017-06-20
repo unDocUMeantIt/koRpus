@@ -52,7 +52,7 @@
 #'    this file must have the same encoding as defined by \code{fileEncoding}.
 #' @param tag Logical. If \code{TRUE}, the text will be rudimentarily tagged and returned as an object
 #'    of class \code{kRp.tagged}.
-#' @param lang A character string naming the language of the analyzed text. If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
+#' @param lang A character string naming the language of the analyzed text. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @param sentc.end A character vector with tokens indicating a sentence ending. Only needed if \code{tag=TRUE}.
 #' @param detect A named logical vector, indicating by the setting of \code{parag} and \code{hline} whether \code{tokenize} should try
 #'    to detect paragraphs and headlines.
@@ -66,10 +66,13 @@
 #'    \code{stopwords=tm::stopwords("en")} to use the english stopwords provided by the \code{tm} package.
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
+#' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
+#'    of the \code{TT.res} slot.
+#' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
+#'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus]{kRp.tagged-class}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
-#' @import data.table
 #' @export
 #' @examples
 #' \dontrun{
@@ -106,7 +109,8 @@
 tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
           ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
           abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
-          detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL){
+          detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
+          doc_id=NA, add.desc="kRp.env"){
 
   if(is.null(fileEncoding)){
     fileEncoding <- ""
@@ -162,16 +166,21 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
     if(identical(lang, "kRp.env")){
       lang <- get.kRp.env(lang=TRUE)
     } else {}
+    if(identical(add.desc, "kRp.env")){
+      add.desc <- get.kRp.env(add.desc=TRUE)
+    } else {}
     # prepare commenting by adding empty lemma column
     tagged.mtrx <- cbind(tokens, lemma="")
     # add word classes, comments and numer of letters ("wclass", "desc", "lttr")
-    tagged.mtrx <- treetag.com(tagged.mtrx, lang=lang)
+    tagged.mtrx <- treetag.com(tagged.mtrx, lang=lang, add.desc=add.desc)
     # probably apply stopword detection and stemming
     tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
+    # add columns "idx", "sntc" and "doc_id"
+    tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
     # create object, combine descriptives afterwards
     tokens <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
     ## descriptive statistics
-    tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector)
+    tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
   } else {}
 
   return(tokens)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/set.kRp.env.R
 \name{set.kRp.env}
 \alias{set.kRp.env}
-\title{A function to set information on your koRpus environmenton}
+\title{A function to set information on your koRpus environment}
 \usage{
 set.kRp.env(..., validate = TRUE)
 }
@@ -15,7 +15,10 @@ set.kRp.env(..., validate = TRUE)
   \item{lang}{ A character string specifying a valid language.}
   \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{\link[koRpus:treetag]{treetag}}.}
   \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data,
-      used by \code{\link[koRpus:hyphen]{hyphen}}.}
+      used by
+     \code{\link[koRpus]{hyphen}}.}
+  \item{add.desc}{ A logical value,
+      whether tag descriptions should be added directly to tagged text objects.}
 }
 To explicitly unset a value again, set it to an empty character string (e.g.,
       \code{lang=""}).}
@@ -33,7 +36,7 @@ on your session environment regarding the koRpus package,
 to a hidden environment.
 }
 \details{
-To get the contents of the hitten environment,
+To get the contents of the hidden environment,
       the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
 can be used.
 }

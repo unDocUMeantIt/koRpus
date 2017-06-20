@@ -21,7 +21,7 @@
 #' This class is used for objects that are returned by \code{\link[koRpus:freq.analysis]{freq.analysis}}.
 #'
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object.
-#' @slot TT.res A data.frame with a version of the fully tagged text (like \code{TT.res} in class \code{koRpus.tagged}, plus frequency data).
+#' @slot TT.res A data.frame with a version of the fully tagged text (like \code{TT.res} in class \code{kRp.tagged}, plus frequency data).
 #' @slot desc A list with detailed descriptive statistics on the analyzed text.
 #' @slot freq.analysis A list with information on the word frequencies of the analyzed text.
 #' @name kRp.txt.freq,-class

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -114,8 +114,11 @@
 #' @param char.steps An integer value defining the step size for characteristic curves, in tokens.
 #' @param log.base A numeric value defining the base of the logarithm. See \code{\link[base:log]{log}} for details.
 #' @param force.lang A character string defining the language to be assumed for the text, by force. See details.
-#' @param keep.tokens Logical. If \code{TRUE} all raw tokens and types will be preserved in the resulting object, in a slot called 
+#' @param keep.tokens Logical. If \code{TRUE}, all raw tokens and types will be preserved in the resulting object, in a slot called 
 #'    \code{tt}. For the types, also their frequency in the analyzed text will be listed.
+#' @param type.index Logical. If \code{TRUE}, the \code{tt} slot will contain two named lists of all types with the indices where that particular
+#'    type is to be found in the original tagged text (\code{type.in.txt}) or the list of tokens in these results (\code{type.in.result}),
+#'    respectively.
 #' @param corp.rm.class A character vector with word classes which should be dropped. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used.
@@ -146,7 +149,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' lex.div(tagged.text)
+#' ld.results <- lex.div(tagged.text)
+#' 
+#' # there is [ and [[ methods for these objects
+#' ld.results[["MSTTR"]]
 #' }
 
 #' @param ... Only used for the method generic.
@@ -172,13 +178,14 @@ setMethod("lex.div", signature(txt="kRp.taggedText"), function(txt, segment=100,
     char.steps=5, log.base=10,
     force.lang=NULL,
     keep.tokens=FALSE,
+    type.index=FALSE,
     corp.rm.class="nonpunct",
     corp.rm.tag=c(), quiet=FALSE){
 
     lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
       MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
       measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
-      keep.tokens=keep.tokens, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
+      keep.tokens=keep.tokens, type.index=type.index, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
 
     return(lex.div.results)
   }
@@ -195,13 +202,14 @@ setMethod("lex.div", signature(txt="character"), function(txt, segment=100,
     char.steps=5, log.base=10,
     force.lang=NULL,
     keep.tokens=FALSE,
+    type.index=FALSE,
     corp.rm.class="nonpunct",
     corp.rm.tag=c(), quiet=FALSE){
 
     lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
       MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
       measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
-      keep.tokens=keep.tokens, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
+      keep.tokens=keep.tokens, type.index=type.index, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
 
     return(lex.div.results)
   }
@@ -220,5 +228,31 @@ setMethod("lex.div", signature(txt="missing"), function(txt, measure){
     }
 
     return(invisible(NULL))
+  }
+)
+
+#' @rdname lex.div-methods
+#' @param x An object of class \code{kRp.TTR}.
+#' @param i Defines the row selector (\code{[}) or the name to match (\code{[[}).
+#' @export
+#' @docType methods
+#' @aliases
+#'    [,kRp.TTR,ANY-method
+setMethod("[",
+  signature=signature(x="kRp.TTR"),
+  function (x, i){
+    return(summary(x, flat=TRUE)[i])
+  }
+)
+
+#' @rdname lex.div-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[,kRp.TTR,ANY-method
+setMethod("[[",
+  signature=signature(x="kRp.TTR"),
+  function (x, i){
+    return(summary(x, flat=TRUE)[[i]])
   }
 )

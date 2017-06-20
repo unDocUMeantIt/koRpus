@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -24,7 +24,7 @@
 #' although it's actually more "environemntal", but nevermind.
 #' 
 #' To add full new language support, say for Xyzedish, you basically have to call this function
-#' three times with different targets, and provide respective hyphenation patterns.
+#' three times (or at least twice, see hyphen section below) with different targets.
 #' If you would like to re-use this language support, you should consider making it a package.
 #' 
 #' Be it a package or a script, it should contain all three calls to this function. If it succeeds,
@@ -34,33 +34,15 @@
 #' functions of koRpus that need language support:
 #'
 #' \itemize{
-#'    \item hyphen() needs to know which language pattern tests are available as data files (which
-#'       you must provide also)
 #'    \item treetag() needs the preset information from its own start scripts
 #'    \item kRp.POS.tags() needs to learn all possible POS tags that TreeTagger uses for the given
 #'       language
+#'    \item hyphen() needs to know which language pattern tests are available as data files (which
+#'       you must provide also)
 #' }
 #'
 #' All the calls follow the same pattern -- first, you name one of the three targets explained above,
 #' and second, you provide a named list as the \code{value} for the respective \code{target} function.
-#' 
-#' @section "hyphen":
-#' 
-#' The named list usually has one single entry to tell the new language abbreviation, e.g.,
-#' \code{set.lang.support("hyphen", list("xyz"="xyz"))}. However, this will only work if a)
-#' the language support script is a part of the \code{koRpus} package itself, and b) the hyphen pattern
-#' is located in its \code{data} subdirectory.
-#' 
-#' For your custom hyphenation patterns to be found automatically, provide it as the value in the named
-#' list, e.g., \code{set.lang.support("hyphen", list("xyz"=hyph.xyz))}.
-#' This will directly add the patterns to \code{korpus}' environment, so it will be found when
-#' hyphenation is requested for language \code{"xyz"}.
-#' 
-#' If you would like to provide hyphenation as part of a third party language package, you must name the
-#' object \code{hyph.<lang>}, save it to your package's \code{data} subdirectory named
-#' \code{hyph.<lang>.rda}, and append \code{package="<yourpackage>"} to the named list; e.g.,
-#' \code{set.lang.support("hyphen", list("xyz"=c("xyz", package="koRpus.lang.xyz"))}. Only then
-#' \code{koRpus} will look for the pattern object in your package, not its own \code{data} directory.
 #' 
 #' @section "treetag":
 #' 
@@ -87,16 +69,19 @@
 #' Again, please have a look at the commented template and/or existing language support files in the
 #' package sources, most of it should be almost self-explaining.
 #' 
-#' @section Hyphenation patterns:
+#' @section "hyphen":
 #' 
-#' To be able to also do syllable count with the newly added language, you should add a hyphenation pattern
-#' file as well.
-#' Refer to the documentation of read.hyph.pat() to learn how to produce a pattern object from a downloaded
-#' hyphenation pattern file. Make sure you use the correct name scheme (e.g. "hyph.xyz.rda") and good
-#' compression. Please refer to the \code{"hyphen"} section for details on how to add these patterns to
-#' a running \code{koRpus} session or a language support package.
+#' Using the target "hyphen" will cause a call to the equivalent of this function in the \code{sylly} package.
+#' See the documentation of its \code{\link[sylly:set.hyph.support]{set.hyph.support}} function for details.
 #' 
-#' @param target  One of "hyphen", "kRp.POS.tags", or "treetag", depending on what support is to be added.
+#' @section Packaging:
+#'
+#' If you would like to create a proper language support package, you should only include the "treetag" and
+#' "kRp.POS.tags" calls, and the hyphenation patterns should be loaded as a dependency to a package called
+#' \code{sylly.xx}. You can generate such a sylly package rather quickly by using the private function
+#' \code{sylly:::sylly_langpack()}.
+#' 
+#' @param target  One of "kRp.POS.tags", "treetag", or "hyphen", depending on what support is to be added.
 #' @param value A named list that upholds exactly the structure defined here for its respective \code{target}.
 #' @examples
 #' \dontrun{
@@ -104,29 +89,14 @@
 #'   list("xyz"="xyz")
 #' )
 #' }
+#' @importFrom sylly set.hyph.support
 #' @export
 set.lang.support <- function(target, value){
 
   all.kRp.env <- as.list(as.environment(.koRpus.env))
 
   if(identical(target, "hyphen")){
-    recent.pattern <- all.kRp.env[["langSup"]][["hyphen"]][["supported"]]
-    # could be there is no such entries in the environment yet
-    if(is.null(recent.pattern)){
-      recent.pattern <- list()
-    } else {}
-    # to be safe do this as a for loop; this should replace older entries
-    # but keep all other intact or just add new ones
-    for (this.pattern in names(value)){
-      if(inherits(value[[this.pattern]], "kRp.hyph.pat")){
-        # we got a pattern object, directly add it to the environment
-        recent.pattern[[this.pattern]] <- this.pattern
-        assign(paste0("hyph.", this.pattern), value[[this.pattern]], envir=as.environment(.koRpus.env))
-      } else {
-        recent.pattern[[this.pattern]] <- value[[this.pattern]]
-      }
-    }
-    all.kRp.env[["langSup"]][["hyphen"]][["supported"]] <- recent.pattern
+    sylly::set.hyph.support(value=value)
   } else if(identical(target, "kRp.POS.tags")){
     recent.tags <- all.kRp.env[["langSup"]][["kRp.POS.tags"]][["tags"]]
     # could be there is no such entries in the environment yet

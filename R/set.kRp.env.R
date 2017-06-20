@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -16,13 +16,13 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' A function to set information on your koRpus environmenton
+#' A function to set information on your koRpus environment
 #'
 #' The function \code{set.kRp.env} can be called once before any of the analysing functions. It writes information
 #' on your session environment regarding the koRpus package, e.g. path to a local TreeTagger installation,
 #' to a hidden environment.
 #'
-#' To get the contents of the hitten environment, the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
+#' To get the contents of the hidden environment, the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
 #' can be used.
 #'
 #' @param ... Named parameters to set in the koRpus environment. Valid arguments are:
@@ -31,7 +31,9 @@
 #'        you want to set \code{TT.options} as well. Set to \code{"tokenize"} to use \code{\link[koRpus:tokenize]{tokenize}}.}
 #'     \item{lang}{ A character string specifying a valid language.}
 #'     \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{\link[koRpus:treetag]{treetag}}.}
-#'     \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data, used by \code{\link[koRpus:hyphen]{hyphen}}.}
+#'     \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data, used by
+#'        \code{\link[koRpus]{hyphen}}.}
+#'     \item{add.desc}{ A logical value, whether tag descriptions should be added directly to tagged text objects.}
 #'   }
 #'   To explicitly unset a value again, set it to an empty character string (e.g., \code{lang=""}).
 #' @param validate Logical, if \code{TRUE} given paths will be checked for actual availablity, and the function will fail if files can't be found.
@@ -39,6 +41,7 @@
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
+#' @importFrom sylly set.sylly.env
 #' @export
 #' @examples
 #' \dontrun{
@@ -53,8 +56,8 @@ set.kRp.env <- function(..., validate=TRUE){
   lang <- kRp.vars[["lang"]]
   TT.options <- kRp.vars[["TT.options"]]
   hyph.cache.file <- kRp.vars[["hyph.cache.file"]]
-  hyph.max.word.length <- kRp.vars[["hyph.max.word.length"]]
-  if (all(is.null(TT.cmd), is.null(lang), is.null(TT.options), is.null(hyph.cache.file), is.null(hyph.max.word.length))){
+  add.desc <- kRp.vars[["add.desc"]]
+  if(all(sapply(c(TT.cmd, lang, TT.options, hyph.cache.file, add.desc), is.null))){
     stop(simpleError("You must at least set one (valid) parameter!"))
   } else {}
 
@@ -100,11 +103,14 @@ set.kRp.env <- function(..., validate=TRUE){
   } else {}
 
   if(!is.null(hyph.cache.file)){
-    if(identical(hyph.cache.file, "")){
-      rm("hyph.cache.file", envir=.koRpus.env)
+    sylly::set.sylly.env(hyph.cache.file=hyph.cache.file)
+  } else {}
+
+  if(!is.null(add.desc)){
+    if(is.logical(add.desc)){
+      assign("add.desc", add.desc, envir=.koRpus.env)
     } else {
-      stopifnot(is.character(hyph.cache.file))
-      assign("hyph.cache.file", hyph.cache.file, envir=.koRpus.env)
+      stop(simpleError("'add.desc' must be TRUE or FALSE!"))
     }
   } else {}
 

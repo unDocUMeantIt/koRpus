@@ -21,13 +21,6 @@
 
 #' @include set.lang.support.R
 
-set.lang.support("hyphen",
-  list(
-    "en"="en",
-    "en.us"="en.us"
-  )
-)
-
 set.lang.support("treetag",
   list("en"=list(
     ## preset: "en"

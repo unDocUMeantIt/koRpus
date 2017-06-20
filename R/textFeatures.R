@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -24,7 +24,7 @@
 #' @param text An object of class \code{\link[koRpus]{kRp.tagged-class}},
 #'    \code{\link[koRpus]{kRp.txt.freq-class}} or \code{\link[koRpus]{kRp.analysis-class}}. Can
 #'    also be a list of these objects, if you want to analyze more than one text at once.
-#' @param hyphen An object of class \code{\link[koRpus]{kRp.hyphen-class}}, if \code{text} has
+#' @param hyphen An object of class \code{\link[sylly]{kRp.hyphen-class}}, if \code{text} has
 #'    already been hyphenated. If \code{text} is a list and \code{hyphen} is not \code{NULL}, it must
 #'    also be a list with one object for each text, in the same order.
 #' @return A data.frame:
@@ -85,7 +85,7 @@ textFeatures <- function(text, hyphen=NULL){
     stop(simpleError("Please tokenize text first!"))
   }
 
-  text.types <- length(tolower(unique(taggedText(tagged.text.nopunct)[["token"]])))
+  text.types <- length(tolower(unique(tagged.text.nopunct[["token"]])))
   # get syllable count
   if(is.null(hyphen)){
     text.hyph <- hyphen(tagged.text.nopunct, quiet=TRUE)

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -25,8 +25,14 @@
 #'   \item{\code{taggedText()} }{returns the \code{TT.res} slot.}
 #'   \item{\code{describe()} }{returns the \code{desc} slot.}
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
-#'   \item{\code{hyphenText()} }{returns the \code{hyphen} slot from objects of class \code{kRp.hyphen}.}
+#'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
+#'   \item{\code{fixObject} }{returns the same object upgraded to the object structure of this package version (e.g., new columns, changed names, etc.).}
 #' }
+#' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
+#'    for all POS tags.
+#' @param doc_id Logical (except for \code{fixObject}), if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
+#'    of the \code{desc} slot, i.\,e., the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
+#'    to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
@@ -34,7 +40,7 @@
 #' \dontrun{
 #' taggedText(tagged.txt)
 #' }
-setGeneric("taggedText", function(obj) standardGeneric("taggedText"))
+setGeneric("taggedText", function(obj, add.desc=FALSE, doc_id=FALSE) standardGeneric("taggedText"))
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -44,8 +50,18 @@ setGeneric("taggedText", function(obj) standardGeneric("taggedText"))
 #' @include koRpus-internal.R
 setMethod("taggedText",
   signature=signature(obj="kRp.taggedText"),
-  function (obj){
+  function (obj, add.desc=FALSE, doc_id=FALSE){
     result <- slot(obj, name="TT.res")
+    if(isTRUE(add.desc)){
+      result[["desc"]] <- explain_tags(
+        tags=result[["tag"]],
+        lang=language(obj),
+        cols="desc"
+      )
+    } else {}
+    if(isTRUE(doc_id)){
+      result[["doc_id"]] <- as.factor(describe(obj)[["doc_id"]])
+    } else {}
     return(result)
   }
 )
@@ -70,11 +86,69 @@ setMethod("taggedText<-",
   }
 )
 
-
+#' @rdname kRp.taggedText-methods
+#' @param x An object of class \code{kRp.taggedText} or \code{kRp.hyphen}.
+#' @param i Defines the row selector (\code{[}) or the name to match (\code{[[}).
+#' @param j Defines the column selector.
 #' @export
 #' @docType methods
+#' @aliases
+#'    [,-methods
+#'    [,kRp.taggedText,ANY,ANY-method
+#' @include koRpus-internal.R
+setMethod("[",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i, j){
+    return(taggedText(x)[i, j])
+  }
+)
+
 #' @rdname kRp.taggedText-methods
-setGeneric("describe", function(obj) standardGeneric("describe"))
+#' @export
+#' @docType methods
+#' @aliases
+#'    [<-,-methods
+#'    [<-,kRp.taggedText,ANY,ANY,ANY-method
+#' @include koRpus-internal.R
+setMethod("[<-",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i, j, value){
+    taggedText(x)[i, j] <- value
+    return(x)
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[,-methods
+#'    [[,kRp.taggedText,ANY-method
+#' @include koRpus-internal.R
+setMethod("[[",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i){
+    return(taggedText(x)[[i]])
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    [[<-,-methods
+#'    [[<-,kRp.taggedText,ANY,ANY-method
+#' @include koRpus-internal.R
+setMethod("[[<-",
+  signature=signature(x="kRp.taggedText"),
+  function (x, i, value){
+    taggedText(x)[[i]] <- value
+    return(x)
+  }
+)
+
+## the standard generic for describe() is defined in the sylly package
+#' @importFrom sylly describe
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -90,10 +164,8 @@ setMethod("describe",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-setGeneric("describe<-", function(obj, value) standardGeneric("describe<-"))
+## the standard generic for describe()<- is defined in the sylly package
+#' @importFrom sylly describe<-
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -109,38 +181,8 @@ setMethod("describe<-",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    describe,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("describe",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj){
-    result <- slot(obj, name="desc")
-    return(result)
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    describe<-,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("describe<-",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj, value){
-    slot(obj, name="desc") <- value
-    return(obj)
-  }
-)
-
-#' @export
-#' @docType methods
-#' @rdname kRp.taggedText-methods
-setGeneric("language", function(obj) standardGeneric("language"))
+## the standard generic for language() is defined in the sylly package
+#' @importFrom sylly language
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -156,10 +198,8 @@ setMethod("language",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-setGeneric("language<-", function(obj, value) standardGeneric("language<-"))
+## the standard generic for language()<- is defined in the sylly package
+#' @importFrom sylly language<-
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
@@ -175,34 +215,6 @@ setMethod("language<-",
   }
 )
 
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    language,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("language",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj){
-    result <- slot(obj, name="lang")
-    return(result)
-  }
-)
-
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    language<-,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("language<-",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj, value){
-    slot(obj, name="lang") <- value
-    return(obj)
-  }
-)
-
 #' @param obj An arbitrary \code{R} object.
 #' @rdname kRp.taggedText-methods
 #' @export
@@ -210,40 +222,57 @@ is.taggedText <- function(obj){
   inherits(obj, "kRp.taggedText")
 }
 
-#' @export
-#' @docType methods
-#' @rdname kRp.taggedText-methods
-setGeneric("hyphenText", function(obj) standardGeneric("hyphenText"))
-#' @rdname kRp.taggedText-methods
-#' @export
-#' @docType methods
-#' @aliases
-#'    hyphenText,-methods
-#'    hyphenText,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("hyphenText",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj){
-    result <- slot(obj, name="hyphen")
-    return(result)
-  }
-)
 
 #' @rdname kRp.taggedText-methods
-#' @export
 #' @docType methods
-setGeneric("hyphenText<-", function(obj, value) standardGeneric("hyphenText<-"))
+#' @export
+setGeneric("fixObject", function(obj, doc_id=NA) standardGeneric("fixObject"))
 #' @rdname kRp.taggedText-methods
 #' @export
 #' @docType methods
 #' @aliases
-#'    hyphenText<-,-methods
-#'    hyphenText<-,kRp.hyphen-method
-#' @include 01_class_08_kRp.hyphen.R
-setMethod("hyphenText<-",
-  signature=signature(obj="kRp.hyphen"),
-  function (obj, value){
-    slot(obj, name="hyphen") <- value
+#'    fixObject,-methods
+#'    fixObject,kRp.taggedText-method
+setMethod("fixObject",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, doc_id=NA){
+    currentDf <- slot(obj, "TT.res")
+    currentDesc <- slot(obj, "desc")
+    currentCols <- colnames(currentDf)
+    newDf <- init.kRp.tagged.df(rows=nrow(currentDf))
+    # move all present columns to the new data.frame
+    newDf[,currentCols] <- currentDf[,currentCols]
+    # adjust column classes where needed
+
+    lang <- slot(obj, "lang")
+    tag.class.def <- kRp.POS.tags(lang)
+    for (thisCol in c("tag","wclass","desc")){
+      if(
+        all(
+          !is.factor(newDf[[thisCol]]),
+          any(
+            !thisCol %in% "desc",
+            !all(is.na(newDf[[thisCol]]))
+          )
+        )
+      ){
+        # make tag a factor with all possible tags for this language as levels
+        newDf[[thisCol]] <- factor(
+          newDf[[thisCol]],
+          levels=unique(tag.class.def[,thisCol])
+        )
+      } else {}
+    }
+    newDf <- indexSentenceDoc(newDf, lang=lang, doc_id=doc_id)
+
+    # fix desc slot
+    if(any(!"doc_id" %in% names(currentDesc), !is.na(doc_id))){
+      currentDesc[["doc_id"]] <- doc_id
+    } else {}
+
+    slot(obj, "TT.res") <- newDf
+    slot(obj, "desc") <- currentDesc
+
     return(obj)
   }
 )

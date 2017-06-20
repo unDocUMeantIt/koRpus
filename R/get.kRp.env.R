@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -28,6 +28,7 @@
 #'     \item{lang}{ Logical, whether the set language should be returned.}
 #'     \item{TT.options}{ Logical, whether the set TT.options for \code{treetag} should be returned.}
 #'     \item{hyph.cache.file}{ Logical, whether the set hyphenation cache file for \code{hyphen} should be returned.}
+#'     \item{add.desc}{ Logical, whether tag descriptions should be added directly to tagged text objects.}
 #'   }
 #' @param errorIfUnset Logical, if \code{TRUE} and the desired property is not set at all, the function will fail with an error message.
 #' @return A character string or list, possibly including:
@@ -38,6 +39,7 @@
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @seealso \code{\link[koRpus:set.kRp.env]{set.kRp.env}}
+#' @importFrom sylly get.sylly.env
 #' @export
 #' @examples
 #' \dontrun{
@@ -53,7 +55,8 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
   TT.options <- kRp.vars[["TT.options"]]
   hyph.cache.file <- kRp.vars[["hyph.cache.file"]]
   hyph.max.word.length <- kRp.vars[["hyph.max.word.length"]]
-  if (all(is.null(TT.cmd), is.null(lang), is.null(TT.options), is.null(hyph.cache.file), is.null(hyph.max.word.length))){
+  add.desc <- kRp.vars[["add.desc"]]
+  if(all(sapply(c(TT.cmd, lang, TT.options, hyph.cache.file, hyph.max.word.length, add.desc), is.null))){
     stop(simpleError("You must at least set one (valid) parameter!"))
   } else {}
   if(!all(is.logical(unlist(kRp.vars)))){
@@ -95,21 +98,19 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
   } else {}
 
   if(isTRUE(hyph.cache.file)){
-    if(exists("hyph.cache.file", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$hyph.cache.file <- get("hyph.cache.file", envir=.koRpus.env)
-    } else {
-      if(isTRUE(errorIfUnset)){
-        stop(simpleError("No hyphenation cache file specified!"))
-      } else {}
-    }
+    tt.env$hyph.cache.file <- sylly::get.sylly.env(hyph.cache.file=TRUE)
   } else {}
 
   if(isTRUE(hyph.max.word.length)){
-    if(exists("hyph.max.word.length", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$hyph.max.word.length <- get("hyph.max.word.length", envir=.koRpus.env)
+    tt.env$hyph.max.word.length <- sylly::get.sylly.env(hyph.max.word.length=TRUE)
+  } else {}
+
+  if(isTRUE(add.desc)){
+    if(exists("add.desc", envir=.koRpus.env, inherits=FALSE)){
+      tt.env$add.desc <- get("add.desc", envir=.koRpus.env)
     } else {
       if(isTRUE(errorIfUnset)){
-        stop(simpleError("No maximum word length specified!"))
+        stop(simpleError("'add.desc' not specified!"))
       } else {}
     }
   } else {}

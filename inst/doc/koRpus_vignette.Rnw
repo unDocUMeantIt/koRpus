@@ -55,34 +55,66 @@ As explained earlier, splitting the text up into its basic components can be don
 At the very least you must provide it with the text, of course, and name the language it is written in. In addition to that you must specify where you installed TreeTagger. If you look at the package documentation you'll see that \texttt{treetag()} understands a number of options to configure TreeTagger, but in most cases using one of the built-in presets should suffice. TreeTagger comes with batch/shell scripts for installed languages, and the presets of \texttt{treetag()} are basically just R implementations of these scripts.
 
 \begin{Schunk}
-	\begin{Sinput}
-> tagged.text <- treetag("~/docs/sample_text.txt", treetagger="manual",
-    lang="en", TT.options=c(path="~/bin/treetagger/", preset="en"))
-	\end{Sinput}
+  \begin{Sinput}
+> tagged.text <- treetag(
++   file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
++   treetagger="manual",
++   lang="en",
++   TT.options=list(
++     path="~/bin/treetagger/",
++     preset="en"
++   ),
++   doc_id="sample"
++ )
+  \end{Sinput}
 \end{Schunk}
 
-The first argument (file name) and \texttt{lang} should explain themselves. The \texttt{treetagger} option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword "manual", which will cause the interpretation of what is defined by \texttt{TT.options}. To use a preset, just put the \texttt{path} to your local TreeTagger installation and a valid \texttt{preset} name here.\footnote{As of 0.04-38, English, French, Italian, German, Spanish and Russian are implemented, refer to package documentation. Additional languange support is possible by installing the respective \texttt{koRpus.lang.*} package, e.\,g. from \texttt{https://reaktanz.de/R/}}
+The first argument (file name) and \texttt{lang} should explain themselves. The \texttt{treetagger} option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword "manual", which will cause the interpretation of what is defined by \texttt{TT.options}. To use a preset, just put the \texttt{path} to your local TreeTagger installation and a valid \texttt{preset} name here.\footnote{As of 0.04-38, English, French, Italian, German, Spanish and Russian are implemented, refer to package documentation. Additional languange support is possible by installing the respective \texttt{koRpus.lang.*} package, e.\,g. from \texttt{https://reaktanz.de/R/}} The document ID is optional and can be omitted.
 
-The resulting S4 object is of a class called \texttt{kRp.tagged}. For this class of objects, \texttt{koRpus} provides some comfortable methods to extract the portions you're interested in. For example, the main results are to be found in the slot \texttt{TT.res}. In addition to TreeTagger's original output (token, tag and lemma) \texttt{treetag()} also automatically counts letters, assigns tokens to global word classes and explains the rather cryptic POS tags. To get to these results, use the getter method \texttt{taggedText()}:
+The resulting S4 object is of a class called \texttt{kRp.tagged}. If you call the object directly you get a shortened view of it's main content:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
+> tagged.text
+  \end{Sinput}
+  \begin{Soutput}
+    doc_id       token  tag     lemma lttr      wclass desc stop stem idx sntc
+1   sample     Defense   NN   defense    7        noun <NA> <NA> <NA>   1    1
+2   sample  mechanisms  NNS mechanism   10        noun <NA> <NA> <NA>   2    1
+3   sample Phasmatodea   NP <unknown>   11        name <NA> <NA> <NA>   3    1
+4   sample     species   NN   species    7        noun <NA> <NA> <NA>   4    1
+5   sample     exhibit   NN   exhibit    7        noun <NA> <NA> <NA>   5    1
+6   sample  mechanisms  NNS mechanism   10        noun <NA> <NA> <NA>   6    1
+                                                 [...]                        
+612 sample  considered  VBN  consider   10        verb <NA> <NA> <NA> 612   18
+613 sample    inedible   JJ  inedible    8   adjective <NA> <NA> <NA> 613   18
+614 sample          by   IN        by    2 preposition <NA> <NA> <NA> 614   18
+615 sample        some   DT      some    4  determiner <NA> <NA> <NA> 615   18
+616 sample   predators  NNS  predator    9        noun <NA> <NA> <NA> 616   18
+617 sample           . SENT         .    1    fullstop <NA> <NA> <NA> 617   18
+  \end{Soutput}
+\end{Schunk}
+
+For this class of objects, \texttt{koRpus} provides some comfortable methods to extract the portions you're interested in. For example, the main results are to be found in the slot \texttt{TT.res}. In addition to TreeTagger's original output (token, tag and lemma) \texttt{treetag()} also automatically counts letters and assigns tokens to global word classes. To get these results as a data.frame, use the getter method \texttt{taggedText()}:
+
+\begin{Schunk}
+  \begin{Sinput}
 > taggedText(tagged.text)
-	\end{Sinput}
-	\begin{Soutput}
-       token tag     lemma lttr      wclass                              desc
+  \end{Sinput}
+  \begin{Soutput}
+   doc_id     token tag    lemma lttr      wclass desc stop stem idx sntc
 [...]
-30        an  DT        an    2  determiner                        Determiner
-31    attack  NN    attack    6        noun            Noun, singular or mass
-32       has VBZ      have    3        verb Verb, 3rd person singular present
-33      been VBN        be    4        verb             Verb, past participle
-34 initiated VBN  initiate    9        verb             Verb, past participle
-35         (   (         (    1 punctuation                   Opening bracket
-36 secondary  JJ secondary    9   adjective                         Adjective
-37   defense  NN   defense    7        noun            Noun, singular or mass
-38         )   )         )    1 punctuation                   Closing bracket
+26 sample       and  CC      and    3 conjunction   NA   NA   NA  26    1
+27 sample       are VBP       be    3        verb   NA   NA   NA  27    1
+28 sample  deployed VBN   deploy    8        verb   NA   NA   NA  28    1
+29 sample     after  IN    after    5 preposition   NA   NA   NA  29    1
+30 sample        an  DT       an    2  determiner   NA   NA   NA  30    1
+31 sample    attack  NN   attack    6        noun   NA   NA   NA  31    1
+32 sample       has VBZ     have    3        verb   NA   NA   NA  32    1
+33 sample      been VBN       be    4        verb   NA   NA   NA  33    1
+34 sample initiated VBN initiate    9        verb   NA   NA   NA  34    1
 [...]
-	\end{Soutput}
+  \end{Soutput}
 \end{Schunk}
 
 Once you've come this far, i.\,e., having a valid object of class \texttt{kRp.tagged}, all following analyses should run smoothly.
@@ -95,24 +127,58 @@ If \texttt{treetag()} should fail, you should first re-run it with the extra opt
 If you don't need detailed word class analysis, you should be fine using \texttt{koRpus}' own function \texttt{tokenize()}. As you can see, \texttt{tokenize()} comes to the same results regarding the tokens, but is rather limited in recognizing word classes:
 
 \begin{Schunk}
-	\begin{Sinput}
-> tagged.text <- tokenize("~/docs/sample_text.txt", lang="en")
-> taggedText(tagged.text)
-	\end{Sinput}
-	\begin{Soutput}
-       token tag     lemma lttr      wclass                              desc
+  \begin{Sinput}
+> (tagged.text <- tokenize(
++     file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
++     lang="en",
++     doc_id="sample"
++   ))
+  \end{Sinput}
+  \begin{Soutput}
+    doc_id       token      tag lemma lttr   wclass desc stop stem idx sntc
+1   sample     Defense word.kRp          7     word <NA> <NA> <NA>   1    1
+2   sample  mechanisms word.kRp         10     word <NA> <NA> <NA>   2    1
+3   sample Phasmatodea word.kRp         11     word <NA> <NA> <NA>   3    1
+4   sample     species word.kRp          7     word <NA> <NA> <NA>   4    1
+5   sample     exhibit word.kRp          7     word <NA> <NA> <NA>   5    1
+6   sample  mechanisms word.kRp         10     word <NA> <NA> <NA>   6    1
+                                              [...]                        
+620 sample  considered word.kRp         10     word <NA> <NA> <NA> 620   20
+621 sample    inedible word.kRp          8     word <NA> <NA> <NA> 621   20
+622 sample          by word.kRp          2     word <NA> <NA> <NA> 622   20
+623 sample        some word.kRp          4     word <NA> <NA> <NA> 623   20
+624 sample   predators word.kRp          9     word <NA> <NA> <NA> 624   20
+625 sample           .     .kRp          1 fullstop <NA> <NA> <NA> 625   20
+  \end{Soutput}
+\end{Schunk}
+
+\subsubsection{Accessing data from \texttt{koRpus} objects}
+
+In case you want to access a subset of the data in the resulting object, e.\,g., only the column with number of letters or the first five rows, you'll be happy to know there's special \texttt{[} and \texttt{[[} methods for these kinds of objects:
+
+\begin{Schunk}
+  \begin{Sinput}
+> tagged.text[["lttr"]]
+  \end{Sinput}
+  \begin{Soutput}
+  [1]  7 10 11  7  7 10  3  7  4  9  4  4  7  2  6  4  9  2  3  5  5  1  7  7  1
+ [26]  3  3  8  5  2  6  3  4  9  1  9  7  1  1  3  7  9  4  7 12  4 11  2 10  1
+ [51]  4  8  3  5  3 11 11  3  5  2  6  3  6  1  3  3  6  2  4  7  1  4  2  2  9
+ [76]  3  8  9  1  3  7  2  5  2  9 10  4 10  5  8  1  4  7  4  3  7  2  6  5  2
+[101]  5 12  5  1  2 10  1  2 11  1  1  2  1  7 10 10  2 10  7  1  1  6  2  7  4
 [...]
-30        an word.kRp          2        word            Word (kRp internal)
-31    attack word.kRp          6        word            Word (kRp internal)
-32       has word.kRp          3        word            Word (kRp internal)
-33      been word.kRp          4        word            Word (kRp internal)
-34 initiated word.kRp          9        word            Word (kRp internal)
-35         (     (kRp          1 punctuation Opening bracket (kRp internal)
-36 secondary word.kRp          9        word            Word (kRp internal)
-37   defense word.kRp          7        word            Word (kRp internal)
-38         )     )kRp          1 punctuation Closing bracket (kRp internal)
-[...]
-	\end{Soutput}
+  \end{Soutput}
+  \begin{Sinput}
+> tagged.text[1:5,]
+  \end{Sinput}
+  \begin{Soutput}
+  doc_id       token      tag lemma lttr wclass desc stop stem idx sntc
+1 sample     Defense word.kRp          7   word   NA   NA   NA   1    1
+2 sample  mechanisms word.kRp         10   word   NA   NA   NA   2    1
+3 sample Phasmatodea word.kRp         11   word   NA   NA   NA   3    1
+4 sample     species word.kRp          7   word   NA   NA   NA   4    1
+5 sample     exhibit word.kRp          7   word   NA   NA   NA   5    1
+  \end{Soutput}
 \end{Schunk}
 
 \subsubsection{Descriptive statistics}
@@ -120,106 +186,140 @@ If you don't need detailed word class analysis, you should be fine using \texttt
 All results of both \texttt{treetag()} and \texttt{tokenize()} also provide various descriptive statistics calculated from the analyzed text. You can get them by calling \texttt{describe()} on the object. If you deal with these for the first time, it's a good idea to first look at its structure:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > str(describe(tagged.text))
-	\end{Sinput}
-% 	\begin{Soutput}
-% 	\end{Soutput}
+  \end{Sinput}
+%   \begin{Soutput}
+%   \end{Soutput}
 \end{Schunk}
 
 Amongst others, you will find several indices describing the number of characters:
 \begin{description}
-	\item[\texttt{all.chars}:] Counts each character, including all space characters
-	\item[\texttt{normalized.space}:] Like \texttt{all.chars}, but clusters of space characters (incl. line breaks) are counted only as one character
-	\item[\texttt{chars.no.space}:] Counts all characters except any space characters
-	\item[\texttt{letters}:] Counts only letters, excluding(!) digits (which are counted seperately as \texttt{digits})
+  \item[\texttt{all.chars}:] Counts each character, including all space characters
+  \item[\texttt{normalized.space}:] Like \texttt{all.chars}, but clusters of space characters (incl. line breaks) are counted only as one character
+  \item[\texttt{chars.no.space}:] Counts all characters except any space characters
+  \item[\texttt{letters.only}:] Counts only letters, excluding(!) digits (which are counted seperately as \texttt{digits})
 \end{description}
 
 You'll also find the number of \texttt{words} and \texttt{sentences}, as well as average word and sentence lengths, and tables describing how the word length is distributed throughout the text:
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > describe(tagged.text)[["lttr.distrib"]]
-	\end{Sinput}
- 	\begin{Soutput}
+  \end{Sinput}
+   \begin{Soutput}
                  1         2         3         4          5         6
-num      19.000000  92.00000  74.00000  80.00000  51.000000  49.00000
-cum.sum  19.000000 111.00000 185.00000 265.00000 316.000000 365.00000
-cum.inv 537.000000 445.00000 371.00000 291.00000 240.000000 191.00000 [...]
-pct       3.417266  16.54676  13.30935  14.38849   9.172662   8.81295
-cum.pct   3.417266  19.96403  33.27338  47.66187  56.834532  65.64748
-pct.inv  96.582734  80.03597  66.72662  52.33813  43.165468  34.35252
- 	\end{Soutput}
+num      19.000000  92.00000  74.00000  81.00000  51.000000  49.00000
+cum.sum  19.000000 111.00000 185.00000 266.00000 317.000000 366.00000
+cum.inv 537.000000 445.00000 371.00000 290.00000 239.000000 190.00000 [...]
+pct       3.417266  16.54676  13.30935  14.56835   9.172662   8.81295
+cum.pct   3.417266  19.96403  33.27338  47.84173  57.014388  65.82734
+pct.inv  96.582734  80.03597  66.72662  52.15827  42.985612  34.17266
+[...]
+   \end{Soutput}
 \end{Schunk}
 
-For instance, we can learn that the text has 74 words with three letters, 185 with three or less, and 371 with more than three. The last three lines show the percentages, respectively.
+For instance, we see that the text has 74 words with three letters, 185 with three or less, and 371 with more than three. The last three lines show the percentages, respectively.
 
 \subsection{Lexical diversity (type token ratios)}
-To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the \texttt{lex.div()} function:\footnote{Please note that as of version 0.04-18, the correctness of some of these calculations has not been extensively validated yet. The package was released nonetheless, also to find outstanding bugs in the implemented measures. Any information on the validity of its results is very welcome!}
+To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the \texttt{lex.div()} method:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > lex.div(tagged.text)
-	\end{Sinput}
-	\begin{Soutput}
+  \end{Sinput}
+  \begin{Soutput}
 Language: "en"
+MTLDMA: Calculate MTLD-MA values
+  |======================================================================| 100%
 TTR.char: Calculate TTR values
- reached token 1 to 50...
- reached token 1 to 100...
- reached token 1 to 150...
- reached token 1 to 200...
+  |======================================================================| 100%
 [...]
+
 Total number of tokens: 556
 Total number of types:  294
 
 Type-Token Ratio
-   TTR: 0.53
+   TTR: 0.53 
 
 TTR characteristics:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.5297  0.5443  0.5895  0.6139  0.6429  1.0000
+ 0.5297  0.5443  0.5895  0.6139  0.6429  1.0000 
+   SD
+ 0.0879
 
 
 Mean Segmental Type-Token Ratio
                MSTTR: 0.72
+          SD of TTRs: 0.03
         Segment size: 100
       Tokens dropped: 56 
 
 Hint: A segment size of 92 would reduce the drop rate to 4.
       Maybe try ?segment.optimizer()
+
+
+Moving-Average Type-Token Ratio
+               MATTR: 0.73
+          SD of TTRs: 0.03
+         Window size: 100 
+
 [...]
+
 HD-D
-   HD-D: 0.85
+          HD-D: 35.52
+          ATTR: 0.85
+   Sample size: 42 
 
 HD-D characteristics:
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
- 0.7677  0.8436  0.8463  0.8426  0.8504  0.8574  8.0000
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   5.00   35.40   35.53   34.15   35.69   36.01 
+   SD
+ 5.0654
 
 
 Measure of Textual Lexical Diversity
                 MTLD: 97.18
    Number of factors: 5.72
          Factor size: 0.72
-    SD tokens/factor: 36.67 (all factors)
-                      29.27 (complete factors only)
+    SD tokens/factor: 36.45 (all factors)
+                      28.92 (complete factors only)
 
 MTLD characteristics:
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-  14.00   76.14   86.00   81.96   93.21  103.60    1.00 
-	\end{Soutput}
+  14.00   76.00   86.26   81.96   93.26  103.04       1 
+   SD
+ 16.9314
+
+
+Moving-Average Measure of Textual Lexical Diversity
+             MTLD-MA: 102.3
+    SD tokens/factor: 26.91
+           Step size: 1
+         Factor size: 0.72
+         Min. tokens: 9 
+
+MTLD-MA characteristics:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  59.00   89.85   95.51   93.64  102.31  107.42      11 
+   SD
+ 11.3322
+
+Note: Analysis was conducted case insensitive.
+  \end{Soutput}
 \end{Schunk}
 
-The above output is only a small sample and really much longer. Let's look at some particular parts: At first we are informed of the language, which is read from the tagged object. Following that is a growing feedback stream, letting you know how far calculations of a measures' characteristics\footnote{Characteristics can be looked at to examine each measure's dependency on text length. They are calculated by computing each measure repeatedly, beginning with only the first token, then adding the next, progressing until the full text was analyzed.} have progressed. This was added because if all possible measures are being calculated and the text is rather long, this can take quite some time, and it might be uplifting to see that R didn't just freeze. After that the actual results are being printed, using the package's \texttt{show()} method for this particular kind of object. As you can see, it prints the actual value of each measure before a summary of the characteristics\footnote{For informtaion on the 
+The above output is only a small sample and really much longer. Let's look at some particular parts: At first we are informed of the language, which is read from the tagged object. Following that are a number of progress bars regarding the calculations of a measures' characteristics\footnote{Characteristics can be looked at to examine each measure's dependency on text length. They are calculated by computing each measure repeatedly, beginning with only the first token, then adding the next, progressing until the full text was analyzed.}. If all possible measures are being calculated and the text is rather long, this can take quite some time, and it might be uplifting to see that R didn't just freeze. After that the actual results are being printed, using the package's \texttt{show()} method for this particular kind of object. As you can see, it prints the actual value of each measure before a summary of the characteristics\footnote{For informtaion on the 
 measures shown see \citeA{tweedie_how_1998, mccarthy_vocd_2007, mccarthy_mtld_2010}.}.
 
 Some measures return more information than only their actual index value. For instance, when the Mean Segmental Type-Token Ratio is calculated, you'll be informed how much of your text was dropped and hence not examined. A small feature tool of \texttt{koRpus}, \texttt{segment.optimizer()}, automatically recommends you with a different segment size if this could decrease the number of lost tokens.
 
-By default, \texttt{lex.div()} calculates every measure of lexical diversity that was implemented. Of course this is fully configurable, e.\,g. to completely skip the calculation of characteristics just add the option \texttt{char=NULL}. If you're only interested in one particular measure, it might be more convenient to call the according wrapper function instead of \texttt{lex.div()}. For example, to calculate the measures proposed by \citeA{maas_ueber_1972}:
+By default, \texttt{lex.div()} calculates every measure of lexical diversity that was implemented. Of course this is fully configurable, e.\,g. to completely skip the calculation of characteristics just add the option \texttt{char=NULL}. If you're only interested in one particular measure, it might be more convenient to call the according wrapper function instead of \texttt{lex.div()}. For example, to calculate only the measures proposed by \citeA{maas_ueber_1972}:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > maas(tagged.text)
-	\end{Sinput}
-	\begin{Soutput}
+  \end{Sinput}
+  \begin{Soutput}
 Language: "en"
 
 Total number of tokens: 556
@@ -234,31 +334,38 @@ Relative vocabulary growth (first half to full text)
        a: 0.79 
     lgV0: 6.93 
       V': 0.43 (43 new types every 100 tokens)
-	\end{Soutput}
+  \end{Soutput}
 \end{Schunk}
 
-All wrapper functions have characteristics turned off by default. The following example demonstrates how to calculate the classic type-token ratio with characteristics:
+All wrapper functions have characteristics turned off by default. The following example demonstrates how to calculate and plot the classic type-token ratio with characteristics:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > ttr.res <- TTR(tagged.text, char=TRUE)
+  \end{Sinput}
+  \begin{Soutput}
+Language: "en"
+TTR.char: Calculate TTR values
+  |======================================================================| 100%
+  \end{Soutput}
+  \begin{Sinput}
 > plot(ttr.res@TTR.char, type="l", main="TTR degredation over text length")
-	\end{Sinput}
+  \end{Sinput}
 \end{Schunk}
 
-The plot then shows the typical degredation of TTR values with increasing text length:
+The plot shows the typical degredation of TTR values with increasing text length:
 
 \begin{center}
  \includegraphics[width=\textwidth]{ttr.pdf}
 \end{center}
 
-Since this package is intended for research, it should be possible to directly influence all relevant values of each measure and examine the effects. For example, as mentioned before \texttt{segment.optimizer()} recommended a change of segment size for MSTTR to drop less words, which is easily done:
+Since this package is intended for research, it is possible to directly influence all relevant values of each measure and examine the effects. For example, as mentioned before \texttt{segment.optimizer()} recommended a change of segment size for MSTTR to drop less words, which is easily done:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > MSTTR(tagged.text, segment=92)
-	\end{Sinput}
-	\begin{Soutput}
+  \end{Sinput}
+  \begin{Soutput}
 Language: "en"
 
 Total number of tokens: 556
@@ -268,7 +375,7 @@ Mean Segmental Type-Token Ratio
                MSTTR: 0.75
         Segment size: 92
       Tokens dropped: 4 
-	\end{Soutput}
+  \end{Soutput}
 \end{Schunk}
 
 Please see to the documentation for more detailed information on the available measures and their references.
@@ -280,27 +387,27 @@ footnote{Actually, it unterstands two different LCC formats, both the older .zip
 because the needed database archives can be freely downloaded.\footnote{\url{http://corpora.informatik.uni-leipzig.de/download.html}} Once you've downloaded one of these archives, it can be comfortably imported:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > LCC.en <- read.corp.LCC("~/downloads/corpora/eng_news_2010_1M-text.tar")
-	\end{Sinput}
+  \end{Sinput}
 \end{Schunk}
 
 \texttt{read.corp.LCC()} will automatically extract the files it needs from the archive. Alernatively, you can specify the path to the unpacked archive as well. To work with the imported data directly, the tool \texttt{query()} was added to the package. It helps you to comfortably look up certain words, or ranges of interesting values:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > query(LCC.en, "word", "what")
-	\end{Sinput}
-	\begin{Soutput}
+  \end{Sinput}
+  \begin{Soutput}
     num word  freq         pct pmio    log10 rank.avg rank.min rank.rel.avg
 160 210 what 16396 0.000780145  780 2.892095   260759   260759     99.95362
     rank.rel.min
 160     99.95362
-	\end{Soutput}
-	\begin{Sinput}
+  \end{Soutput}
+  \begin{Sinput}
 > query(LCC.en, "pmio", c(780, 790))
-	\end{Sinput}
-	\begin{Soutput}
+  \end{Sinput}
+  \begin{Soutput}
     num  word  freq          pct pmio    log10 rank.avg rank.min rank.rel.avg
 156 206  many 16588 0.0007892806  789 2.897077   260763   260763     99.95515
 157 207   per 16492 0.0007847128  784 2.894316   260762   260762     99.95477
@@ -313,27 +420,27 @@ because the needed database archives can be freely downloaded.\footnote{\url{htt
 158     99.95439
 159     99.95400
 160     99.95362
-	\end{Soutput}
+  \end{Soutput}
 \end{Schunk}
 
 \subsubsection{Conduct a frequency analysis}
 We can now conduct a full frequency analysis of our text:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > freq.analysis.res <- freq.analysis(tagged.text, corp.freq=LCC.en)
-	\end{Sinput}
-% 	\begin{Soutput}
-% 	\end{Soutput}
+  \end{Sinput}
+%   \begin{Soutput}
+%   \end{Soutput}
 \end{Schunk}
 
 The resulting object holds a lot of information, even if no corpus data was used (i.\,e., \texttt{corp.freq=NULL}). To begin with, it contains the two slots \texttt{TT.res} and \texttt{lang}, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into \texttt{kRp.tagged} objects.\footnote{This can easily be done by calling  \texttt{as(freq.analysis.res, "kRp.tagged")}.} However, if corpus data was provided, the tagging results gained three new columns:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > taggedText(freq.analysis.res)
-	\end{Sinput}
-	\begin{Soutput}
+  \end{Sinput}
+  \begin{Soutput}
        token tag     lemma lttr  [...] pmio rank.avg rank.min
 [...]
 30        an  DT        an    2        3817 99.98735 99.98735
@@ -346,7 +453,7 @@ The resulting object holds a lot of information, even if no corpus data was used
 37   defense  NN   defense    7         210 99.77499 99.77499
 38         )   )         )    1         856 99.96052 99.96052
 [...]
-	\end{Soutput}
+  \end{Soutput}
 \end{Schunk}
 
 Perhaps most informatively, \texttt{pmio} shows how often the respective token appears in a million tokens, according to the corpus data. Adding to this, the previously introduced slot \texttt{desc} now contains some more descriptive statistics on our text, and if we provided a corpus database, the slot \texttt{freq.analysis} lists summaries of various frequency information that was calculated.
@@ -358,21 +465,21 @@ If the corpus object also provided inverse document frequency (i.\,e., values in
 Amongst others, the descriptives now also give easy access to character vectors with all words (\texttt{\$all.words}) and all lemmata (\texttt{\$all.lemmata}), all tokens sorted into word classes (e.\,g., all verbs in \texttt{\$classes\$verb})\footnote{This sorting depends on proper POS-tagging, so this will only contain useful data if you used \texttt{treetag()} instead of \texttt{tokenize()}.}, or the number of words in each sentece:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > describe(freq.analysis.res)[["sentc.length"]]
-	\end{Sinput}
- 	\begin{Soutput}
+  \end{Sinput}
+   \begin{Soutput}
  [1] 34 10 37 16 44 31 14 31 34 23 17 43 40 47 22 19 65 29
- 	\end{Soutput}
+   \end{Soutput}
 \end{Schunk}
 
 As a practical example, the list \texttt{\$classes} has proven to be very helpful to debug the results of TreeTagger, which is remarkably accurate, but of course not free from making a mistake now and then. By looking through \texttt{\$classes}, where all tokens are grouped regarding to the global word class TreeTagger attributed to it, at least obvious errors (like names mistakenly taken for a pronoun) are easily found:\footnote{And can then be corrected by using the function \texttt{correct.tag()}}
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > describe(freq.analysis.res)$classes
-	\end{Sinput}
- 	\begin{Soutput}
+  \end{Sinput}
+   \begin{Soutput}
 $conjunction
  [1] "both" "and"  "and"  "and"  "and"  "or"   "or"   "and"  "and"  "or"  
 [11] "and"  "or"   "and"  "or"   "and"  "and"  "and"  "and" 
@@ -386,31 +493,33 @@ $determiner
 [15] "that"    "the"     "the"     "Another" "which"   "the"     "a"      
 [22] "that"    "a"       "The"     "a"       "the"     "that"    "a"      
 [...]
- 	\end{Soutput}
+   \end{Soutput}
 \end{Schunk}
 
 
 \subsection{Readability}
 
-The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.\footnote{Whether this is the case can be looked up in the documentation.} To achieve this, the function \texttt{hyphen()} takes objects of class \texttt{kRp.tagged} and applies an hyphenation algorithm \cite{liang_word_1983} to each word. This algorithm was originally developed for automatic word hyphenation in \LaTeX{}, and is gracefully misused here to fulfill a slightly different service.
+The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.\footnote{Whether this is the case can be looked up in the documentation.} To achieve this, the method \texttt{hyphen()} takes objects of class \texttt{kRp.tagged} and applies an hyphenation algorithm \cite{liang_word_1983} to each word. This algorithm was originally developed for automatic word hyphenation in \LaTeX{}, and is gracefully misused here to fulfill a slightly different service.\footnote{The \texttt{hyphen()} method was originally implemented as part of the \texttt{koRpus} package, but was later split off into its own package called \texttt{sylly}.}
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > hyph.txt.en <- hyphen(tagged.text)
-	\end{Sinput}
-% 	\begin{Soutput}
-% 	\end{Soutput}
+  \end{Sinput}
+  \begin{Soutput}
+Hyphenation (language: en)
+  |======================================================================| 100%
+  \end{Soutput}
 \end{Schunk}
 
 This seperate hyphenation step can actually be skipped, as \texttt{readability()} will do it automatically if needed. But similar to TreeTagger, \texttt{hyphen()} will most likely not produce perfect results. As a rule of thumb, if in doubt it seems to behave rather conservative, that is, is underestimates the real number of syllables in a text. This, however, would of course affect the results of several readability formulae.
 
-So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a function called \texttt{correct.hyph()} to help you clean these results of errors later on. Probably the most comfortable way to do this is to open the slot \texttt{hyph.txt.en@hyphen}, which is a data frame with two colums, \texttt{word} (the hyphenated words) and \texttt{syll} (the number of syllables), in a spread sheet editor:\footnote{For example, this can be comfortably done with RKWard: \url{http://rkward.sourceforge.net}}
+So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a function called \texttt{correct.hyph()} to help you clean these results of errors later on. The most comfortable way to do this is to call \texttt{hyphenText(hyph.txt.en)}, which will get you a data frame with two colums, \texttt{word} (the hyphenated words) and \texttt{syll} (the number of syllables), in a spread sheet editor:\footnote{For example, this can be comfortably done with RKWard: \url{https://rkward.kde.org}}
 
 \begin{Schunk}
-	\begin{Sinput}
->  hyph.txt.en@hyphen
-	\end{Sinput}
- 	\begin{Soutput}
+  \begin{Sinput}
+>  hyphenText(hyph.txt.en)
+  \end{Sinput}
+   \begin{Soutput}
    syll     word
 [...]
 20    1    first
@@ -419,26 +528,26 @@ So, the more accurate the end results should be, the less you should rely on the
 23    2 de-fense
 24    1      and
 [...]
- 	\end{Soutput}
+   \end{Soutput}
 \end{Schunk}
 
 You can then manually correct wrong hyphenations by removing or inserting ``-'' as hyphenation indicators, and call the function without further arguments, which will cause it to recount all syllables:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > hyph.txt.en <- correct.hyph(hyph.txt.en)
-	\end{Sinput}
-% 	\begin{Soutput}
-% 	\end{Soutput}
+  \end{Sinput}
+%   \begin{Soutput}
+%   \end{Soutput}
 \end{Schunk}
 
 Of course the function can also be used to alter entries on its own:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > hyph.txt.en <- correct.hyph(hyph.txt.en, word="primary", hyphen="pri-ma-ry")
-	\end{Sinput}
- 	\begin{Soutput}
+  \end{Sinput}
+   \begin{Soutput}
 Changed
 
    syll    word
@@ -448,98 +557,175 @@ Changed
 
    syll      word
 22    3 pri-ma-ry
- 	\end{Soutput}
+   \end{Soutput}
 \end{Schunk}
 
 The hyphenated text object can now be given to \texttt{readability()}, to calculate the measures of interest:\footnote{Please note that as of version 0.04-18, the correctness of some of these calculations has not been extensively validated yet. The package was released nonetheless, also to find outstanding bugs in the implemented measures. Any information on the validity of its results is very welcome!}
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > readbl.txt <- readability(tagged.text, hyphen=hyph.txt.en, index="all")
-	\end{Sinput}
-% 	\begin{Soutput}
-% 	\end{Soutput}
+  \end{Sinput}
+%   \begin{Soutput}
+%   \end{Soutput}
 \end{Schunk}
 
 Similar to \texttt{lex.div()}, by default \texttt{readability()} calculates almost\footnote{Measures which rely on word lists will be skipped if no list is provided.} all available measures:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > readbl.txt
-	\end{Sinput}
- 	\begin{Soutput}
+  \end{Sinput}
+   \begin{Soutput}
+[...]
 Flesch Reading Ease
   Parameters: en (Flesch) 
-          RE: 39.76 
+          RE: 37.11 
        Grade: >= 13 (college) 
 
 
-Flesch.PSK Reading Ease
+Flesch-PSK Reading Ease
   Parameters: Powers-Sumner-Kearl 
-       Grade: 7.5 
-         Age: 12.5 
+       Grade: 7.57 
+         Age: 12.57 
 [...]
 Gunning Frequency of Gobbledygook (FOG)
   Parameters: Powers-Sumner-Kearl 
-       Score: 7.39 
+       Grade: 7.44 
 [...]
-Coleman Formulas
+Tuldava's Text Difficulty Formula
   Parameters: default 
-    Pronouns: 1.62 (per 100 words)
-     Prepos.: 13.31 (per 100 words)
-   Formula 1: 39% cloze completions
-   Formula 2: 37% cloze completions
-   Formula 3: 35% cloze completions
-   Formula 4: 36% cloze completions
+       Index: 5.56 
+
+
+Wheeler-Smith
+  Parameters: default 
+       Score: 111 
+       Grade: > 4 
 [...]
- 	\end{Soutput}
+   \end{Soutput}
 \end{Schunk}
 
 To get a more condensed overview of the results try the \texttt{summary()} method:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > summary(readbl.txt)
-	\end{Sinput}
- 	\begin{Soutput}
+  \end{Sinput}
+   \begin{Soutput}
 Text language: en 
-                   index                      flavour    raw               grade  age
-1                 Flesch                  en (Flesch)  39.76     >= 13 (college)     
-2                 Flesch          Powers-Sumner-Kearl                        7.5 12.5
-3                 Flesch                  de (Amstad)  55.26 >= 10 (high school)     
-4                 Flesch        es (Fernandez-Huerta)  79.07                   7     
-5                 Flesch            fr (Kandel-Moles)  64.38                 8-9     
-6                 Flesch                   nl (Douma)  73.11                   7     
-7         Flesch-Kincaid                                                   15.39     
-8  Farr-Jenkins-Paterson                               33.76                         
-9  Farr-Jenkins-Paterson          Powers-Sumner-Kearl                       7.37     
-10                   FOG                                                    18.9     
-11                   FOG          Powers-Sumner-Kearl                       7.39     
-12                   FOG                New FOG (NRI)                         19     
-13          Coleman-Liau                                  32               14.26     
-14                  SMOG                                                   15.97     
-15                  SMOG de ("Qu", Bamberger-Vanecek)                      10.32     
-16                   LIX                               65.24                         
-17                   RIX                               10.61      > 12 (college)     
+                   index                      flavour    raw
+1                    ARI                                    
+2                    ARI                          NRI       
+3                    ARI                   simplified  75.03
+4           Coleman-Liau                                  33
+5    Danielson-Bryan DB1                                9.48
+6    Danielson-Bryan DB2                               30.22
+7         Dickes-Steiwer                               33.49
+8                    ELF                                11.1
+9  Farr-Jenkins-Paterson                               36.32
+10 Farr-Jenkins-Paterson          Powers-Sumner-Kearl       
+11                Flesch                  en (Flesch)  37.11
+12                Flesch          Powers-Sumner-Kearl       
+13                Flesch                 nl (Brouwer)  27.33
+14                Flesch               es (Szigriszt)  74.83
+15                Flesch                  de (Amstad)  54.35
+16                Flesch        es (Fernandez-Huerta)  78.12
+17                Flesch            fr (Kandel-Moles)  63.29
+18                Flesch                   nl (Douma)  52.19
+19        Flesch-Kincaid                                    
+20                   FOG                                    
+21                   FOG          Powers-Sumner-Kearl       
+22                   FOG                New FOG (NRI)       
+23               FORCAST                                    
+24               FORCAST  precise reading grade level       
 [...]
- 	\end{Soutput}
+                      grade  age
+1                     17.19     
+2                     15.21     
+3                               
+4                     13.99     
+5                               
+6                      9-12     
+7                               
+8                               
+9           >= 13 (college)     
+10                     7.11     
+11          >= 13 (college)     
+12                     7.57 12.6
+13 >= 16 (college graduate)     
+14                        7     
+15      >= 10 (high school)     
+16                        7     
+17                      8-9     
+18      >= 10 (high school)     
+19                    14.99   20
+20                    18.96     
+21                     7.44     
+22                    20.08     
+23                    10.99   16
+24                    10.52 15.5
+[...]
+   \end{Soutput}
 \end{Schunk}
 
+The \texttt{summary()} method supports an additional flat format, which basically turns the table into a named numeric vector,
+using the raw values (because all indices have raw values, but only a few more than that). This format comes very handy when you
+want to use the output in further calculations:
+
+\begin{Schunk}
+  \begin{Sinput}
+> summary(readbl.txt, flat=TRUE)
+  \end{Sinput}
+   \begin{Soutput}
+                       ARI                   ARI.NRI                ARI.simple 
+                    17.19                     15.21                     75.03 
+             Coleman.Liau       Danielson.Bryan.DB1       Danielson.Bryan.DB2 
+                    33.00                      9.48                     30.22 
+           Dickes.Steiwer                       ELF     Farr.Jenkins.Paterson 
+                    33.49                     11.10                     36.32 
+Farr.Jenkins.Paterson.PSK                    Flesch                Flesch.PSK 
+                     7.11                     37.11                      7.57 
+           Flesch.Brouwer          Flesch.Szigriszt                 Flesch.de 
+                    27.33                     74.83                     54.35 
+                Flesch.es                 Flesch.fr                 Flesch.nl 
+                    78.12                     63.29                     52.19 
+           Flesch.Kincaid                       FOG                   FOG.PSK 
+                    14.99                     18.96                      7.44 
+                  FOG.NRI                   FORCAST               FORCAST.RGL 
+                    20.08                     10.99                     10.52 
+                    Fucks             Linsear.Write                       LIX 
+                   145.90                     19.35                     61.97 
+                     nWS1                      nWS2                      nWS3 
+                    10.03                     10.52                      9.99 
+                     nWS4                       RIX                      SMOG 
+                    11.07                      9.50                     16.47 
+                  SMOG.de                    SMOG.C               SMOG.simple 
+                    10.79                     15.84                     15.79 
+                   Strain                       TRI                   Tuldava 
+                    13.95                    -56.88                      5.56 
+            Wheeler.Smith          Wheeler.Smith.de 
+                   111.00                    111.00 
+  \end{Soutput}
+\end{Schunk}
+ 
 If you're interested in a particular formula, again a wrapper function might be more convenient:
 
 \begin{Schunk}
-	\begin{Sinput}
+  \begin{Sinput}
 > flesch.res <- flesch(tagged.text, hyphen=hyph.txt.en)
 > lix.res <- LIX(tagged.text)   # LIX doesn't need syllable count
 > lix.res
-	\end{Sinput}
- 	\begin{Soutput}
+  \end{Sinput}
+   \begin{Soutput}
 Läsbarhetsindex (LIX)
   Parameters: default 
-       Index: 65.24 
+       Index: 61.97 
+      Rating: very difficult 
+       Grade: > 11 
 
 Text language: en 
- 	\end{Soutput}
+   \end{Soutput}
 \end{Schunk}
 
 \subsubsection{Readability from numeric data}
@@ -553,20 +739,49 @@ Another feature of this package is the detection of the language a text was (mos
 To use the function \texttt{guess.lang()}, you first need to download the reference material. In this implementation, the Universal Declaration of Human Rights in unicode formatting is used, because the document holds the world record of beeing the text translated into the most languages, and is publicly available\footnote{\url{http://www.unicode.org/udhr/download.html}}. Please get the zipped archive with all translations in .txt format. You can, but don't have to unzip the archive. The text to find the language of must also be in a unicode .txt file:
 
 \begin{Schunk}
-	\begin{Sinput}
-> guess.lang("~/docs/sample_text.txt", udhr.path="~/downloads/udhr_txt.zip")
-	\end{Sinput}
- 	\begin{Soutput}
+  \begin{Sinput}
+> guessed <- guess.lang(
++   file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
++   udhr.path="~/downloads/udhr_txt.zip"
++ )
+> summary(guessed)
+  \end{Sinput}
+   \begin{Soutput}
   Estimated language: English
-          Identifier: en
-             Country: UK (Europe)
+          Identifier: eng
+              Region: Europe
 
-377 different languages were checked.
- 	\end{Soutput}
+435 different languages were checked.
+
+Distribution of compression differences:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  136.0   168.0   176.0   190.7   184.0   280.0 
+
+  SD: 38.21 
+
+Top 5 guesses:
+                        name iso639-3 bcp47 region diff  diff.std
+1                    English      eng    en Europe  136 -1.430827
+2                      Scots      sco   sco Europe  136 -1.430827
+3           Pidgin, Nigerian      pcm   pcm Africa  144 -1.221473
+4   Catalan-Valencian-Balear      cat    ca Europe  152 -1.012119
+5                     French      fra    fr Europe  152 -1.012119
+
+Last 5 guesses:
+                        name iso639-3   bcp47 region diff diff.std
+431                  Burmese      mya      my   Asia  280 2.337547
+432                     Shan      shn     shn   Asia  280 2.337547
+433                    Tamil      tam      ta   Asia  280 2.337547
+434     Vietnamese (Han nom)      vie vi-Hani   Asia  280 2.337547
+435             Chinese, Yue      yue     yue   Asia  280 2.337547
+   \end{Soutput}
 \end{Schunk}
 
 \section{Extending \texttt{koRpus}}
 The language support in this package was designed almost modular, so with a little effort you should be able to add new languages yourself. You need the package sources for this, then basically you will have to add a new file to it and rebuild/reinstall the package. More details on this topic can be found in \texttt{inst/README.languages}. Once you got a new language to work with \texttt{koRpus}, I'd be happy to include your module in the official distribution.
+
+\section{Analyzing full corpora}
+Despite its name, the scope of \texttt{koRpus} is single texts. If you would like to do analysis an a full corpus of texts, have a look at the plugin package \texttt{tm.plugin.koRpus}\footnote{\url{https://reaktanz.de/R/pckg/tm.plugin.koRpus/} (package repo) or \url{https://github.com/unDocUMeantIt/tm.plugin.koRpus} (source code)}.
 
 \bibliographystyle{apacite}
 \addcontentsline{toc}{chapter}{\bibname}

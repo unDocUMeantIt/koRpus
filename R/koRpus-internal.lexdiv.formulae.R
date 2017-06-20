@@ -26,7 +26,7 @@
 ## function TnT()
 # this is the most basic preparation of a text for use with lex.div()
 TnT <- function(txt, force.lang=NULL, corp.rm.class="nonpunct",
-    corp.rm.tag=c(), case.sens=FALSE, lemmatize=FALSE, keep.tokens=FALSE, quiet=FALSE){
+    corp.rm.tag=c(), case.sens=FALSE, lemmatize=FALSE, keep.tokens=FALSE, type.index=FALSE, quiet=FALSE){
   result <- list()
   # get class kRp.tagged from txt object
   # the internal function tag.kRp.txt() will return the object unchanged if it
@@ -74,6 +74,27 @@ TnT <- function(txt, force.lang=NULL, corp.rm.class="nonpunct",
   if(!isTRUE(case.sens)){
     result[["txt.all.tokens"]] <- tolower(result[["txt.all.tokens"]])
   } else {}
+  if(isTRUE(type.index)){
+    if(isTRUE(case.sens)){
+      allTokensTxt <- tagged.text[["token"]]
+    } else {
+      allTokensTxt <- tolower(tagged.text[["token"]])
+    }
+    result[["type.in.txt"]] <- sapply(
+      result[["txt.all.types"]],
+      function(thisType){
+        which(allTokensTxt %in% thisType)
+      }
+    )
+    result[["type.in.result"]] <- sapply(
+      result[["txt.all.types"]],
+      function(thisType){
+        which(result[["txt.all.tokens"]] %in% thisType)
+      }
+    )
+  } else {
+    result[["type.in.txt"]] <- result[["type.in.result"]] <- list()
+  }
   result[["num.all.tokens"]] <- length(result[["txt.all.tokens"]])
   result[["num.all.types"]] <- length(result[["txt.all.types"]])
   result[["num.all.lemmas"]] <- length(result[["txt.all.lemmas"]])
@@ -97,6 +118,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
     char.steps=5, log.base=10,
     force.lang=NULL,
     keep.tokens=FALSE,
+    type.index=FALSE,
     corp.rm.class="nonpunct",
     corp.rm.tag=c(), quiet=FALSE){
 
@@ -161,61 +183,16 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
     case.sens=case.sens,
     lemmatize=lemmatize,
     keep.tokens=keep.tokens,
+    type.index=type.index,
     quiet=quiet
   )
   txt.all.tokens <- basicTnT[["txt.all.tokens"]]
   txt.all.types <- basicTnT[["txt.all.types"]]
   txt.all.lemmas <- basicTnT[["txt.all.lemmas"]]
-  txt.type.freq <- basicTnT[["txt.type.freq"]]
-  txt.lemma.freq <- basicTnT[["txt.lemma.freq"]]
   num.all.tokens <- basicTnT[["num.all.tokens"]]
   num.all.types <- basicTnT[["num.all.types"]]
-  num.all.lemmas <- basicTnT[["num.all.lemmas"]]
   num.type.or.lemma <- basicTnT[["num.type.or.lemma"]]
 
-#   # get class kRp.tagged from txt object
-#   # the internal function tag.kRp.txt() will return the object unchanged if it
-#   # is already tagged, so it's safe to call it with the lang set here
-#   tagged.text <- tag.kRp.txt(txt, tagger="tokenize", lang=force.lang, objects.only=FALSE)
-#   # set the language definition
-#   lang <- language.setting(tagged.text, force.lang)
-#   if(!isTRUE(quiet)){
-#     cat("Language: \"",lang,"\"\n", sep="")
-#   } else {}
-# 
-#   if(identical(corp.rm.class, "nonpunct")){
-#     corp.rm.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
-#   } else {}
-# 
-#   # calling internal function tagged.txt.rm.classes()
-#   txt.all.clean <- tagged.txt.rm.classes(tagged.text@TT.res,
-#       # "lemma" only affects the results if "as.vector=TRUE"
-#       # so lemmatizing will be done by type.freq() below
-#       lemma=FALSE, lang=lang,
-#       corp.rm.class=corp.rm.class,
-#       corp.rm.tag=corp.rm.tag,
-#       as.vector=FALSE)
-#   if(isTRUE(lemmatize)){
-#     txt.all.tokens <- txt.all.clean[,"lemma"]
-#   } else {
-#     txt.all.tokens <- txt.all.clean[,"token"]
-#   }
-#   if(isTRUE(keep.tokens)){
-#     txt.type.freq <- type.freq(txt.all.clean, case.sens=case.sens, lemma=FALSE)
-#     txt.lemma.freq <- type.freq(txt.all.clean, case.sens=case.sens, lemma=TRUE, fail.if.no.lemmas=lemmatize)
-#     txt.all.types <- txt.type.freq[,"type"]
-#     txt.all.lemmas <- txt.lemma.freq[,"type"]
-#   } else {
-#     txt.all.types <- type.freq(txt.all.clean, case.sens=case.sens, lemma=FALSE, vector.only=TRUE)
-#     txt.all.lemmas <- type.freq(txt.all.clean, case.sens=case.sens, lemma=TRUE, fail.if.no.lemmas=lemmatize, vector.only=TRUE)
-#   }
-#   if(!isTRUE(case.sens)){
-#     txt.all.tokens <- tolower(txt.all.tokens)
-#   } else {}
-#   num.all.tokens <- length(txt.all.tokens)
-#   num.all.types <- length(txt.all.types)
-#   num.all.lemmas <- length(txt.all.lemmas)
-#   num.type.or.lemma <- ifelse(isTRUE(lemmatize), num.all.lemmas, num.all.types)
   # some sanity checks
   if(num.all.tokens < 100){
     warning("Text is relatively short (<100 tokens), results are probably not reliable!", call.=FALSE)
@@ -529,9 +506,27 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
 
   # keep raw text material only if explicitly told so
   if(isTRUE(keep.tokens)){
-    lex.div.results@tt <- list(tokens=txt.all.tokens, types=txt.type.freq, lemmas=txt.lemma.freq, num.tokens=num.all.tokens, num.types=num.all.types, num.lemmas=num.all.lemmas)
+    lex.div.results@tt <- list(
+      tokens=txt.all.tokens,
+      types=basicTnT[["txt.type.freq"]],
+      lemmas=basicTnT[["txt.lemma.freq"]],
+      type.in.txt=basicTnT[["type.in.txt"]],
+      type.in.result=basicTnT[["type.in.result"]],
+      num.tokens=num.all.tokens,
+      num.types=num.all.types,
+      num.lemmas=basicTnT[["num.all.lemmas"]]
+    )
   } else {
-    lex.div.results@tt <- list(tokens=character(), types=character(), lemmas=character(), num.tokens=num.all.tokens, num.types=num.all.types, num.lemmas=num.all.lemmas)
+    lex.div.results@tt <- list(
+      tokens=character(),
+      types=character(),
+      lemmas=character(),
+      type.in.txt=basicTnT[["type.in.txt"]],
+      type.in.result=basicTnT[["type.in.result"]],
+      num.tokens=num.all.tokens,
+      num.types=num.all.types,
+      num.lemmas=basicTnT[["num.all.lemmas"]]
+    )
   }
 
   ## for the time being, give a warning until all implementations have been validated

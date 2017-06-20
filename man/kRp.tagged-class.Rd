@@ -18,6 +18,7 @@ This class is used for objects that are returned by \code{\link[koRpus:treetag]{
 
 \item{\code{TT.res}}{Results of the called tokenizer and POS tagger. The data.frame has eight columns:
 \describe{
+  \item{\code{doc_id}:}{Optional document identifier.}
   \item{\code{token}:}{The tokenized text.}
   \item{\code{tag}:}{POS tags for each token.}
   \item{\code{lemma}:}{Lemma for each token.}
@@ -26,10 +27,16 @@ This class is used for objects that are returned by \code{\link[koRpus:treetag]{
   \item{\code{desc}:}{A short description of the POS tag.}
   \item{\code{stop}:}{Logical, \code{TRUE} if token is a stopword.}
   \item{\code{stem}:}{Stemmed token.}
-}}
+  \item{\code{idx}:}{Index number of token in this document.}
+  \item{\code{sntc}:}{Number of sentence in this document.}
+}
+This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].}
 }}
 
 \note{
 There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
+}
+\references{
+[1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
 }
 \keyword{classes}
