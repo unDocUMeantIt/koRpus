@@ -42,7 +42,7 @@ Authors@R: c(person(given="m.eik", family="michalke",
         role=c("ctb")), person(given="Alexandre", family="Brulet",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
-Version: 0.11-1
+Version: 0.11-2
 Date: 2017-06-20
 Collate: 
     '00_environment.R'

@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.11-2 (2017-06-20)
+unreleased:
+  - this release is under development
+
 changes in version 0.11-1 (2017-06-20)
 fixed:
   - kRp.lang: fixed the show() and summary() methods to omit country
