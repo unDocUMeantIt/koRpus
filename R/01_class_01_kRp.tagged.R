@@ -18,6 +18,7 @@
 init.kRp.tagged.df <- function(rows=1){
   val <- rep(NA, rows)
   return(data.frame(
+    doc_id=val,
     token=val,
     tag=val,
     lemma=val,
@@ -27,8 +28,7 @@ init.kRp.tagged.df <- function(rows=1){
     stop=val,
     stem=val,
     index=val,
-    sentence=val,
-    doc_id=val
+    sentence=val
   ))
 }
 
@@ -42,6 +42,7 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #' @slot desc Descriptive statistics of the tagged text.
 #' @slot TT.res Results of the called tokenizer and POS tagger. The data.frame has eight columns:
 #'    \describe{
+#'      \item{\code{doc_id}:}{Optional document identifier.}
 #'      \item{\code{token}:}{The tokenized text.}
 #'      \item{\code{tag}:}{POS tags for each token.}
 #'      \item{\code{lemma}:}{Lemma for each token.}
@@ -52,12 +53,14 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'      \item{\code{stem}:}{Stemmed token.}
 #'      \item{\code{index}:}{Number of token in this document.}
 #'      \item{\code{sentence}:}{Number of sentence in this document.}
-#'      \item{\code{doc_id}:}{Optional document identifier.}
 #'    }
+#'    This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].
 #' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 #' @name kRp.tagged,-class
 #' @aliases kRp.tagged,-class kRp.tagged-class
 #' @import methods
+#' @references
+#'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @export

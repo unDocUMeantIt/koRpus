@@ -247,7 +247,15 @@ setMethod("fixObject",
     lang <- slot(obj, "lang")
     tag.class.def <- kRp.POS.tags(lang)
     for (thisCol in c("tag","wclass","desc")){
-      if(!is.factor(newDf[[thisCol]])){
+      if(
+        all(
+          !is.factor(newDf[[thisCol]]),
+          any(
+            !thisCol %in% "desc",
+            !all(is.na(newDf[[thisCol]]))
+          )
+        )
+      ){
         # make tag a factor with all possible tags for this language as levels
         newDf[[thisCol]] <- factor(
           newDf[[thisCol]],

@@ -300,17 +300,21 @@ explain_tags <- function(tags, lang, cols=c("wclass","desc")){
 ## function treetag.com()
 treetag.com <- function(tagged.text, lang, add.desc=TRUE){
   tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
+  # initialize empty target data.frame to define the order of columns
+  newDf <- init.kRp.tagged.df(rows=nrow(tagged.text))
+  newDf[,c("token","lemma")] <- tagged.text[,c("token","lemma")]
+
   validate_tags(tags=tagged.text[["tag"]], lang=lang)
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
  
   # make tag a factor with all possible tags for this language as levels
-  tagged.text[["tag"]] <- factor(
+  newDf[["tag"]] <- factor(
     tagged.text[["tag"]],
     levels=unique(tag.class.def[,"tag"])
   )
   # count number of letters, add column "lttr"
-  tagged.text[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"]))
+  newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"]))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
@@ -323,7 +327,6 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
       tagsExplained[,"desc"],
       levels=unique(tag.class.def[,"desc"])
     )
-    tagged.text[,c("wclass","desc")] <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"))
   } else {
     tagsExplained.wclass <- factor(
       explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass"),
@@ -332,10 +335,10 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     tagsExplained.desc <- NA
   }
 
-  tagged.text[["wclass"]] <- tagsExplained.wclass
-  tagged.text[["desc"]] <- tagsExplained.desc
+  newDf[["wclass"]] <- tagsExplained.wclass
+  newDf[["desc"]] <- tagsExplained.desc
     
-  return(tagged.text)
+  return(newDf)
 } ## end function treetag.com()
 
 
@@ -372,22 +375,22 @@ stopAndStem <- function(tagged.text.df, stopwords=NULL, stemmer=NULL, lowercase=
     } else {}
     # treat all tokens and stopwords in lower case?
     if(isTRUE(lowercase)){
-      this.token <- tolower(tagged.text.df[,"token"])
+      this.token <- tolower(tagged.text.df[["token"]])
       stopwords <- tolower(stopwords)
     } else {
-      this.token <- tagged.text.df[,"token"]
+      this.token <- tagged.text.df[["token"]]
     }
     # check if token is a stopword, add column "lttr"
-    tagged.text.df <- cbind(tagged.text.df, stop=this.token %in% stopwords, stringsAsFactors=FALSE)
+    tagged.text.df[["stop"]] <- this.token %in% stopwords
   } else {
-    tagged.text.df <- cbind(tagged.text.df, stop=NA, stringsAsFactors=FALSE)
+    tagged.text.df[["stop"]] <- NA
   }
 
   # check for stemming
   if(inherits(stemmer, "R_Weka_stemmer_interface") || is.function(stemmer)){
-    tagged.text.df <- cbind(tagged.text.df, stem=stemmer(tagged.text.df[,"token"]), stringsAsFactors=FALSE)
+    tagged.text.df[["stem"]] <- stemmer(tagged.text.df[,"token"])
   } else {
-    tagged.text.df <- cbind(tagged.text.df, stem=NA, stringsAsFactors=FALSE)
+    tagged.text.df[["stem"]] <- NA
   }
 
   return(tagged.text.df)
