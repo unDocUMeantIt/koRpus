@@ -175,7 +175,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
     tagged.mtrx <- treetag.com(tagged.mtrx, lang=lang, add.desc=add.desc)
     # probably apply stopword detection and stemming
     tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
-    # add columns "index", "sentence" and "doc_id"
+    # add columns "idx", "sntc" and "doc_id"
     tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
     # create object, combine descriptives afterwards
     tokens <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)

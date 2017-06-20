@@ -62,7 +62,7 @@ new("kRp.tagged"
     "Punctuation (kRp internal)", "Headline begins (kRp internal)", 
     "Paragraph (kRp internal)", "Sentence ending punctuation", 
     "Sentence ending punctuation (kRp internal)", "Headline ends (kRp internal)"
-    ), class = "factor"), stop = NA, stem = NA, index = 1L, sentence = NA), .Names = c("doc_id", 
+    ), class = "factor"), stop = NA, stem = NA, idx = 1L, sntc = NA), .Names = c("doc_id", 
 "token", "tag", "lemma", "lttr", "wclass", "desc", "stop", "stem", 
-"index", "sentence"), row.names = c(NA, -1L), class = "data.frame")
+"idx", "sntc"), row.names = c(NA, -1L), class = "data.frame")
 )

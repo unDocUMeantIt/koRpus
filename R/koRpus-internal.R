@@ -398,10 +398,10 @@ stopAndStem <- function(tagged.text.df, stopwords=NULL, stemmer=NULL, lowercase=
 
 
 ## function indexSentenceDoc()
-# after stopAndStem(), add columns "index", "sentence" and "doc_id" to data.frame
+# after stopAndStem(), add columns "idx", "sntc" and "doc_id" to data.frame
 indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
   numTokens <- nrow(tagged.text.df)
-  tagged.text.df[["index"]] <- 1:numTokens
+  tagged.text.df[["idx"]] <- 1:numTokens
   sentenceEnding <- kRp.POS.tags(lang=lang, tags=c("sentc"), list.classes=TRUE)
   endedSentences <- which(tagged.text.df[["wclass"]] %in% sentenceEnding)
   if(length(endedSentences) > 0){
@@ -411,7 +411,7 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
     if(endedSentences[length(endedSentences)] < numTokens){
       endedSentences[length(endedSentences)] <- numTokens
     } else {}
-    tagged.text.df[["sentence"]] <- unlist(sapply(
+    tagged.text.df[["sntc"]] <- unlist(sapply(
       seq_along(endedSentences),
       function(numSentence){
         if(numSentence > 1){
@@ -422,7 +422,7 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
       }
     ))
   } else {
-    tagged.text.df[["sentence"]] <- NA
+    tagged.text.df[["sntc"]] <- NA
   }
   tagged.text.df[["doc_id"]] <- factor(doc_id)
   return(tagged.text.df)

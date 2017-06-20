@@ -639,8 +639,8 @@ NA_integer_, NA_integer_, NA_integer_), class = "factor", .Label = character(0))
     NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
     NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
     NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
-    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), index = 1:625, 
-    sentence = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), idx = 1:625, 
+    sntc = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
     1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
     1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 2L, 2L, 
     2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 3L, 3L, 3L, 3L, 3L, 3L, 
@@ -689,5 +689,5 @@ NA_integer_, NA_integer_, NA_integer_), class = "factor", .Label = character(0))
     20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 
     20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L, 20L)), .Names = c("doc_id", 
 "token", "tag", "lemma", "lttr", "wclass", "desc", "stop", "stem", 
-"index", "sentence"), row.names = c(NA, -625L), class = "data.frame")
+"idx", "sntc"), row.names = c(NA, -625L), class = "data.frame")
 )

@@ -10,9 +10,9 @@ fixed:
     anyway. hope this doesn't cause new issues...
 changed:
   - kRp.tagged: the TT.res data.frame of the object class has new columns
-    "doc_id", "index", and "sentence", with "doc_id" now being the first column
-    before "token" to comply with the Text Interchange Formats proposed by
-    rOpenSci
+    "doc_id", "idx" (index), and "sntc" (sentence), with "doc_id" now being the
+    first column before "token" to comply with the Text Interchange Formats
+    proposed by rOpenSci
   - kRp.tagged: in TT.res, the columns "tag", "wclass" and "desc" are no
     longer character vectors but factors. this doesn't actually change the class
     definition, as TT.res just has to be a data.frame, but it reduces the
