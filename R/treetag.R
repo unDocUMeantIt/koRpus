@@ -471,6 +471,8 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     tagged.text <- shell(sys.tt.call, translate=TRUE, ignore.stderr=TRUE, intern=TRUE)
   }
   tagged.text <- enc2utf8(tagged.text)
+  # explicitly declare UTF-8 so there's no doubt about it
+  Encoding(tagged.text) <- "UTF-8"
 
   ## workaround
   # in seldom cases TreeTagger seems to return duplicate tab stops
