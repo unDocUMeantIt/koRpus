@@ -8,6 +8,8 @@ fixed:
     due to a missing newline at the end of the tempfile (thanks to adam
     spannbauer for both reporting and fixing it)
   - treetag(): hopefully fixed a nasty encoding issue on windows, again
+added:
+  - tif_as_tokens_df(): new method to get TT.res in fully TIF compliant format
 
 changes in version 0.11-1 (2017-06-20)
 fixed:

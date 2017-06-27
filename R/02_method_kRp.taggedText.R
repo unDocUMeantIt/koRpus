@@ -27,6 +27,7 @@
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
 #'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
 #'   \item{\code{fixObject} }{returns the same object upgraded to the object structure of this package version (e.g., new columns, changed names, etc.).}
+#'   \item{\code{tif_as_tokens_df} }{returns the \code{TT.res} slot in a TIF[1] compliant format, i.e., \code{doc_id} is not a factor but a character vector.}
 #' }
 #' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
 #'    for all POS tags.
@@ -36,6 +37,8 @@
 #' @rdname kRp.taggedText-methods
 #' @docType methods
 #' @export
+#' @references
+#'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
 #' @examples
 #' \dontrun{
 #' taggedText(tagged.txt)
@@ -274,5 +277,26 @@ setMethod("fixObject",
     slot(obj, "desc") <- currentDesc
 
     return(obj)
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @docType methods
+#' @export
+setGeneric("tif_as_tokens_df", function(tokens) standardGeneric("tif_as_tokens_df"))
+#' @rdname kRp.taggedText-methods
+#' @param tokens An object of class \code{\link[koRpus]{kRp.tagged-class}}.
+#' @export
+#' @docType methods
+#' @aliases
+#'    tif_as_tokens_df,-methods
+#'    tif_as_tokens_df,kRp.taggedText-method
+setMethod("tif_as_tokens_df",
+  signature=signature(tokens="kRp.taggedText"),
+  function(tokens){
+    result <- taggedText(tokens)
+    # TIF needs doc_id to be a character vector, not a factor
+    result[["doc_id"]] <- as.character(result[["doc_id"]])
+    return(result)
   }
 )
