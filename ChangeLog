@@ -7,6 +7,7 @@ fixed:
   - treetag(): with TT.tknz=FALSE, the last letter of a text was truncated
     due to a missing newline at the end of the tempfile (thanks to adam
     spannbauer for both reporting and fixing it)
+  - treetag(): hopefully fixed a nasty encoding issue on windows, again
 
 changes in version 0.11-1 (2017-06-20)
 fixed:
