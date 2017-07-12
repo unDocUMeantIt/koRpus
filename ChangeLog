@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-2 (2017-06-20)
+changes in version 0.11-2 (2017-07-12)
 unreleased:
   - this release is under development
 fixed:
@@ -8,6 +8,8 @@ fixed:
     due to a missing newline at the end of the tempfile (thanks to adam
     spannbauer for both reporting and fixing it)
   - treetag(): hopefully fixed a nasty encoding issue on windows, again
+  - treetag(): fixed an issue that could be triggered by hard to tokenize
+    texts exceeding a default limit of summary() for factors
 added:
   - tif_as_tokens_df(): new method to get TT.res in fully TIF compliant format
 

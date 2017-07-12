@@ -522,7 +522,13 @@ count.sentences <- function(txt, tags){
 ## function value.distribs()
 value.distribs <- function(value.vect, omit.missings=TRUE){
   vector.length <- length(unlist(value.vect))
-  vector.summary <- summary(as.factor(value.vect))
+  # some hard to tokenize texts can end up with really strange values here,
+  # exceeding the threshold of maxsum=100 for summary() on factors.
+  # as a result, the as.numeric(names()) a few lines below will fail because
+  # vector.summary has one last entry called "(Other)".
+  # so we'll dynamically adjust maxsum to the needed value
+  value.factor <- as.factor(value.vect)
+  vector.summary <- summary(value.factor, maxsum=length(levels(value.factor)))
 
   # try to fill up missing values with 0, e.g., found no words with 5 characters
   if(!isTRUE(omit.missings)){
