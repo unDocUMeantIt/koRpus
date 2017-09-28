@@ -7,7 +7,7 @@
 \alias{lex.div}
 \alias{lex.div,character-method}
 \alias{lex.div,missing-method}
-\alias{[,kRp.TTR,ANY,ANY,ANY-method}
+\alias{[,kRp.TTR-method}
 \alias{[,kRp.TTR,ANY-method}
 \alias{[[,kRp.TTR-method}
 \alias{[[,kRp.TTR,ANY-method}
@@ -37,7 +37,7 @@ lex.div(txt, ...)
 
 \S4method{lex.div}{missing}(txt, measure)
 
-\S4method{[}{kRp.TTR,ANY,ANY,ANY}(x, i)
+\S4method{[}{kRp.TTR}(x, i)
 
 \S4method{[[}{kRp.TTR}(x, i)
 }

@@ -1,14 +1,16 @@
 Package: koRpus
 Type: Package
 Title: An R Package for Text Analysis
-Author: m.eik michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
+Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
         [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
-Maintainer: m.eik michalke <meik.michalke@hhu.de>
+Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 2.10.0),sylly
 Imports:
         data.table,methods,sylly.de,sylly.en,sylly.es,sylly.fr,sylly.it,sylly.ru
 Enhances: rkward
 Suggests: testthat,tm,SnowballC,shiny
+Additional_repositories:
+        https://undocumeantit.github.io/repos/sylly_langpacks
 Description: A set of tools to analyze texts. Includes, amongst others,
         functions for automatic language detection, hyphenation,
         several indices of lexical diversity (e.g., type token ratio,
@@ -18,24 +20,29 @@ Description: A set of tools to analyze texts. Includes, amongst others,
         Leipzig Corpora Collection file formats) and measures like
         tf-idf. Support for additional languages can be added
         on-the-fly or by plugin packages. Note: For full functionality
-        a local installation of TreeTagger is recommended. 'koRpus'
-        also includes a plugin for the R GUI and IDE RKWard, providing
-        graphical dialogs for its basic features. The respective R
-        package 'rkward' cannot be installed directly from a
-        repository, as it is a part of RKWard. To make full use of this
-        feature, please install RKWard from <https://rkward.kde.org>
-        (plugins are detected automatically). Due to some restrictions
-        on CRAN, the full package sources are only available from the
-        project homepage. To ask for help, report bugs, request
-        features, or discuss the development of the package, please
-        subscribe to the koRpus-dev mailing list
+        a local installation of TreeTagger is recommended. During
+        installation, language support for English, German, Spanish,
+        French, Italian and Russian will be fetched from the
+        'sylly_langpacks' repository. It is recommended to add it to
+        your list of package repositories permanently, to receive
+        updates for these packages and be able to install support for
+        further languages. 'koRpus' also includes a plugin for the R
+        GUI and IDE RKWard, providing graphical dialogs for its basic
+        features. The respective R package 'rkward' cannot be installed
+        directly from a repository, as it is a part of RKWard. To make
+        full use of this feature, please install RKWard from
+        <https://rkward.kde.org> (plugins are detected automatically).
+        Due to some restrictions on CRAN, the full package sources are
+        only available from the project homepage. To ask for help,
+        report bugs, request features, or discuss the development of
+        the package, please subscribe to the koRpus-dev mailing list
         (<http://korpusml.reaktanz.de>).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
 URL: https://reaktanz.de/?c=hacking&s=koRpus
 BugReports: https://github.com/unDocUMeantIt/koRpus/issues
-Authors@R: c(person(given="m.eik", family="michalke",
+Authors@R: c(person(given="Meik", family="Michalke",
         email="meik.michalke@hhu.de", role=c("aut", "cre")),
         person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
         role=c("ctb")), person(given="Alberto", family="Mirisola",
@@ -43,7 +50,7 @@ Authors@R: c(person(given="m.eik", family="michalke",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
 Version: 0.11-2
-Date: 2017-06-27
+Date: 2017-09-28
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'

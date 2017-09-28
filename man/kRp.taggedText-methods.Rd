@@ -8,11 +8,12 @@
 \alias{taggedText<-}
 \alias{taggedText<-,kRp.taggedText-method}
 \alias{taggedText<-,-methods}
-\alias{[,kRp.taggedText,ANY,ANY,ANY-method}
+\alias{[,kRp.taggedText-method}
 \alias{[,-methods}
 \alias{[,kRp.taggedText,ANY,ANY-method}
-\alias{[<-,kRp.taggedText,ANY,ANY,ANY-method}
+\alias{[<-,kRp.taggedText-method}
 \alias{[<-,-methods}
+\alias{[<-,kRp.taggedText,ANY,ANY,ANY-method}
 \alias{[[,kRp.taggedText-method}
 \alias{[[,-methods}
 \alias{[[,kRp.taggedText,ANY-method}
@@ -44,9 +45,9 @@ taggedText(obj) <- value
 
 \S4method{taggedText}{kRp.taggedText}(obj) <- value
 
-\S4method{[}{kRp.taggedText,ANY,ANY,ANY}(x, i, j)
+\S4method{[}{kRp.taggedText}(x, i, j)
 
-\S4method{[}{kRp.taggedText,ANY,ANY,ANY}(x, i, j) <- value
+\S4method{[}{kRp.taggedText}(x, i, j) <- value
 
 \S4method{[[}{kRp.taggedText}(x, i)
 

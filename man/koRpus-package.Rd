@@ -12,7 +12,7 @@ An R Package for Text Analysis.
 Package: \tab koRpus\cr
 Type: \tab Package\cr
 Version: \tab 0.11-2\cr
-Date: \tab 2017-06-27\cr
+Date: \tab 2017-09-28\cr
 Depends: \tab R (>= 2.10.0),sylly\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr
@@ -29,20 +29,22 @@ functions for language corpora are also provided,
       to enable frequency analyses (supports Celex
 and Leipzig Corpora Collection file formats) and measures like tf-idf. Support for
 additional languages can be added on-the-fly or by plugin packages. Note: For full functionality
-a local installation of TreeTagger is recommended. 'koRpus' also includes a plugin for
-the R GUI and IDE RKWard,
-      providing graphical dialogs for its basic features. The respective
-R package 'rkward' cannot be installed directly from a repository, as it is a part of
-RKWard. To make full use of this feature,
-      please install RKWard from <https://rkward.kde.org>
-(plugins are detected automatically). Due to some restrictions on CRAN, the full package
-sources are only available from the project homepage. To ask for help, report bugs,
-request features, or discuss the development of the package,
-      please subscribe to the koRpus-dev
-mailing list (<http://korpusml.reaktanz.de>).
+a local installation of TreeTagger is recommended. During installation, language support
+for English, German, Spanish, French, Italian and Russian will be fetched from the
+'sylly_langpacks' repository. It is recommended to add it to your list of package repositories
+permanently, to receive updates for these packages and be able to install support for
+further languages. 'koRpus' also includes a plugin for the R GUI and IDE RKWard, providing
+graphical dialogs for its basic features. The respective R package 'rkward' cannot be installed
+directly from a repository, as it is a part of RKWard. To make full use of this feature,
+please install RKWard from <https://rkward.kde.org> (plugins are detected automatically).
+Due to some restrictions on CRAN, the full package sources are only available from the
+project homepage. To ask for help, report bugs, request features,
+      or discuss the development
+of the package, please subscribe to the koRpus-dev mailing list
+(<http://korpusml.reaktanz.de>).
 }
 \author{
-m.eik michalke, with contributions from Earl Brown, Alberto Mirisola, Alexandre Brulet,
+Meik Michalke, with contributions from Earl Brown, Alberto Mirisola, Alexandre Brulet,
       Laura Hauser
 }
 \keyword{package}
