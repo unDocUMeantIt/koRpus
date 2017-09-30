@@ -57,6 +57,11 @@
 #'
 #' [2] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/xyzedish-tagset.txt}
 #' @export
+#' @importFrom koRpus set.lang.support
+#' @examples
+#' \dontrun{
+#' lang.support.xx()
+#' }
 # call this function to add further language support
 ## function lang.support.xx()
 lang.support.xx <- function() {
@@ -181,6 +186,8 @@ lang.support.xx <- function() {
 # putting the lang.support.xx() function directly inside an internal
 # .onAttach() function:
 #
+# #' @importFrom sylly.xx hyph.support.xx
 # .onAttach <- function(...) {
 #   lang.support.xx()
+#   sylly.xx::hyph.support.xx()
 # }

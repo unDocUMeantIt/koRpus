@@ -112,7 +112,7 @@ local({
     package.description <- data.frame(
         Package=package.name,
         Type="Package",
-        Title=paste0("Language support for koRpus: ", language.long),
+        Title=paste0("Language Support for 'koRpus': ", language.long),
         Author= paste0(name.full, " [aut, cre]"),
         AuthorsR=paste0("c(person(given=\"", name.first, "\", ",
           if(!is.null(name.middle) & !identical(name.middle, "")){
