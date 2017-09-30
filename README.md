@@ -57,6 +57,11 @@ install_github("unDocUMeantIt/koRpus") # stable release
 install_github("unDocUMeantIt/koRpus", ref="develop") # development release
 ```
 
+### Additional languages
+
+Have a look at the [l10n](https://undocumeantit.github.io/repos) repository for packages called `koRpus.lang.*`.
+By installing and loading these packages, you can add support for more languages to koRpus.
+
 ## Contributing
 
 To ask for help, report bugs, suggest feature improvements, or discuss the global
