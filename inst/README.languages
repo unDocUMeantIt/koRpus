@@ -1,8 +1,8 @@
 README file for language support in koRpus
 ==========================================
 
-As of koRpus 0.06-2, you can add new supported languages to the package on-the-fly from a running session, or (more elegant) by adding the appropriate function calls to a package of its own. It is still possible, but no longer necessary nor recommended, to add new language support to the koRpus package sources itself and rebuild the package.
+As of koRpus 0.06-2, you can add new supported languages to the package on-the-fly from a running session, or (more elegant) by adding the appropriate function calls to a package of its own. Before you do so, you should check whether there already is a support package (named 'koRpus.lang.*') for the language you are looking for in the 'l10n' repository: https://undocumeantit.github.io/repos/
 
-There's two main sources to learn how to achieve this: the manual page ?set.lang.support and the commented template script you should find in the templates directory of your local koRpus installation.
+If not, there's two main sources to learn how to add your own: The manual page ?set.lang.support and the commented template script you should find in the templates directory of your local koRpus installation.
 
 For a really quick and comfortable method to turn that script into a proper R package, I recommend checking out http://reaktanz.de/?c=hacking&s=roxyPackage

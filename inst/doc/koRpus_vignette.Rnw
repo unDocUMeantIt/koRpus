@@ -778,10 +778,10 @@ Last 5 guesses:
 \end{Schunk}
 
 \section{Extending \texttt{koRpus}}
-The language support in this package was designed almost modular, so with a little effort you should be able to add new languages yourself. You need the package sources for this, then basically you will have to add a new file to it and rebuild/reinstall the package. More details on this topic can be found in \texttt{inst/README.languages}. Once you got a new language to work with \texttt{koRpus}, I'd be happy to include your module in the official distribution.
+The language support of this package has a modular design. There are some pre-built language packages in the \texttt{l10n} repository,\footnote{\url{https://undocumeantit.github.io/repos/}} and with a little effort you should be able to add new languages yourself. You need the package sources for this, then basically you will have to add a new file to it and rebuild/reinstall the package. More details on this topic can be found in \texttt{inst/README.languages}. Once you got a new language to work with \texttt{koRpus}, I'd be happy to include your module in the official distribution.
 
 \section{Analyzing full corpora}
-Despite its name, the scope of \texttt{koRpus} is single texts. If you would like to do analysis an a full corpus of texts, have a look at the plugin package \texttt{tm.plugin.koRpus}\footnote{\url{https://reaktanz.de/R/pckg/tm.plugin.koRpus/} (package repo) or \url{https://github.com/unDocUMeantIt/tm.plugin.koRpus} (source code)}.
+Despite its name, the scope of \texttt{koRpus} is single texts. If you would like to do analysis an a full corpus of texts, have a look at the plugin package \texttt{tm.plugin.koRpus}.\footnote{\url{https://reaktanz.de/R/pckg/tm.plugin.koRpus/} (package repo) or \url{https://github.com/unDocUMeantIt/tm.plugin.koRpus} (source code)}
 
 \bibliographystyle{apacite}
 \addcontentsline{toc}{chapter}{\bibname}
