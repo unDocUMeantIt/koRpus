@@ -8,7 +8,8 @@ Depends: R (>= 2.10.0),sylly
 Imports:
         data.table,methods,sylly.de,sylly.en,sylly.es,sylly.fr,sylly.it,sylly.ru
 Enhances: rkward
-Suggests: testthat,tm,SnowballC,shiny
+Suggests: testthat,tm,SnowballC,shiny,knitr,rmarkdown
+VignetteBuilder: knitr
 Additional_repositories: https://undocumeantit.github.io/repos/l10n
 Description: A set of tools to analyze texts. Includes, amongst others,
         functions for automatic language detection, hyphenation,
@@ -49,7 +50,7 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
 Version: 0.11-2
-Date: 2017-09-28
+Date: 2017-10-24
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'

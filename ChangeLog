@@ -10,6 +10,8 @@ fixed:
   - treetag(): hopefully fixed a nasty encoding issue on windows, again
   - treetag(): fixed an issue that could be triggered by hard to tokenize
     texts exceeding a default limit of summary() for factors
+  - treetag()/tokenize(): silenced warnings of readLines() for missing final
+    EOL of input files
 changed:
   - language support: while the sylly package is released on CRAN now, its
     separate language packages were not allowed to be published there as well.

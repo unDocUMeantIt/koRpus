@@ -528,7 +528,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
   if(is.null(encoding)){
     encoding <- ""
   } else {}
-  txt.vector <- readLines(takeAsFile, encoding=encoding)
+  txt.vector <- readLines(takeAsFile, encoding=encoding, warn=FALSE)
   # force text into UTF-8 format
   txt.vector <- enc2utf8(txt.vector)
   results@desc <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector, doc_id=doc_id)

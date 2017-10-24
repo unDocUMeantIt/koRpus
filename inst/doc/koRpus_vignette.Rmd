@@ -1,0 +1,737 @@
+---
+title: "Using the koRpus Package for Text Analysis"
+author: "m.eik michalke"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: cerulean
+    highlight: kate
+    toc: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
+bibliography: koRpus_lit.bib
+abstract: >
+  The R package `koRpus` aims to be a versatile tool for text analysis, with an emphasis on scientific research on that topic.
+  It implements dozens of formulae to measure readability and lexical diversity. On a more basic level `koRpus` can be used
+  as an R wrapper for third party products, like the tokenizer and POS tagger TreeTagger or language corpora of the Leipzig Corpora Collection.
+  This vignette takes a brief tour around its core components, shows how they can be used and gives some insight on design decisions.
+vignette: >
+  %\VignetteIndexEntry{Using the koRpus Package for Text Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8x]{inputenc}
+  \usepackage[apaciteclassic]{apacite}
+---
+
+
+
+# What is koRpus?
+Work on `koRpus` started in February 2011, primarily with the goal in mind to examine how similar different texts are. Since then,
+it quickly grew into an R package which implements dozens of formulae for readability and lexical diversity, and wrappers for language corpus databases and
+a tokenizer/POS tagger.
+
+# Recommendations
+## TreeTagger
+At the very beginning of almost every analysis with this package, the text you want to examine has to be sliced into its components, and the components
+must be identified and named. That is, it has to be split into its semantic parts (tokens), words, numbers, punctuation marks. After that, each token will
+be tagged regarding its part-of-speech (POS). For both of these steps, `koRpus` can use the third party software TreeTagger [@schmid_TT_1994].\footnote{
+<http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/DecisionTreeTagger.html>
+}
+Especially for Windows users installation of TreeTagger might be a little more complex -- e.g., it depends on Perl^[For a free implementation try <http://strawberryperl.com>], and you need a tool to extract .tar.gz archives^[Like <http://7-zip.org>]. Detailed installations instructions are beyond the scope of this vignette.
+
+If you don't want to use TreeTagger, `koRpus` provides a simple tokenizer of its own called `tokenize()`. While the tokenizing itself works quite well, `tokenize()` is not as elaborate as is TreeTagger when it comes to POS tagging, as it can merely tell words from numbers, punctuation and abbreviations. Although this is sufficient for most readability formulae, you can't evaluate word classes in detail. If that's what you want, a TreeTagger installation is needed.
+
+## Word lists
+Some of the readability formulae depend on special word lists  [like @dale_formula_1948, bormuth_cloze_1968, spache_new_1953]. For copyright reasons these lists are not included as of now. This means, as long as you don't have copies of these lists, you can't calculate these particular measures, but of course all others. The expected format to use a list with this package is a simple text file with one word per line, preferably in UTF-8 encoding.
+
+## Language corpora
+The frequency analysis functions in this package can look up how often each word in a text is used in its language, given that a corpus database is provided. Databases
+in Celex format are support, as is the Leipzig Corpora Collection [@quasthoff_LCC_2006] file format. To use such a database with this package, you simply need to download one of the .zip/.tar files.
+
+## Translated Human Rights Declaration
+If you want to estimate the language of a text, reference texts in known languages are needed. In `koRpus`, the Universal Declaration of Human Rights with its more that 350 translations^[<http://www.unicode.org/udhr/download.html>] is used.
+
+# A sample session
+From now on it is assumed that the above requirements are correctly installed and working. If an optional component is used it will be noted. Further, we'll need a sample text to analyze.
+We'll use the section on defense mechanisms of Phasmatodea from Wikipedia^[<http://en.wikipedia.org/wiki/Phasmatodea\#Defense\_mechanisms>] for this purpose.
+
+## Tokenizing and POS tagging
+As explained earlier, splitting the text up into its basic components can be done by TreeTagger. To achieve this and have the results available in R, the function `treetag()` is used.
+
+### `treetag()`
+At the very least you must provide it with the text, of course, and name the language it is written in. In addition to that you must specify where you installed TreeTagger. If you look at the package documentation you'll see that `treetag()` understands a number of options to configure TreeTagger, but in most cases using one of the built-in presets should suffice. TreeTagger comes with batch/shell scripts for installed languages, and the presets of `treetag()` are basically just R implementations of these scripts.
+
+```{r, eval=FALSE}
+> tagged.text <- treetag(
++   file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
++   treetagger="manual",
++   lang="en",
++   TT.options=list(
++     path="~/bin/treetagger/",
++     preset="en"
++   ),
++   doc_id="sample"
++ )
+```
+
+The first argument (file name) and `lang` should explain themselves. The `treetagger` option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword "manual", which will cause the interpretation of what is defined by `TT.options`. To use a preset, just put the `path` to your local TreeTagger installation and a valid `preset` name here.^[As of 0.04-38, English, French, Italian, German, Spanish and Russian are implemented, refer to package documentation. Additional languange support is possible by installing the respective `koRpus.lang.*` package, e.g. from `https://reaktanz.de/R/`] The document ID is optional and can be omitted.
+
+The resulting S4 object is of a class called `kRp.tagged`. If you call the object directly you get a shortened view of it's main content:
+
+```{r, eval=FALSE}
+> tagged.text
+```
+<!-- \begin{Soutput}
+    doc_id       token  tag     lemma lttr      wclass desc stop stem idx sntc
+1   sample     Defense   NN   defense    7        noun <NA> <NA> <NA>   1    1
+2   sample  mechanisms  NNS mechanism   10        noun <NA> <NA> <NA>   2    1
+3   sample Phasmatodea   NP <unknown>   11        name <NA> <NA> <NA>   3    1
+4   sample     species   NN   species    7        noun <NA> <NA> <NA>   4    1
+5   sample     exhibit   NN   exhibit    7        noun <NA> <NA> <NA>   5    1
+6   sample  mechanisms  NNS mechanism   10        noun <NA> <NA> <NA>   6    1
+                                                 [...]                        
+612 sample  considered  VBN  consider   10        verb <NA> <NA> <NA> 612   18
+613 sample    inedible   JJ  inedible    8   adjective <NA> <NA> <NA> 613   18
+614 sample          by   IN        by    2 preposition <NA> <NA> <NA> 614   18
+615 sample        some   DT      some    4  determiner <NA> <NA> <NA> 615   18
+616 sample   predators  NNS  predator    9        noun <NA> <NA> <NA> 616   18
+617 sample           . SENT         .    1    fullstop <NA> <NA> <NA> 617   18
+\end{Soutput} -->
+
+For this class of objects, `koRpus` provides some comfortable methods to extract the portions you're interested in. For example, the main results are to be found in the slot `TT.res`. In addition to TreeTagger's original output (token, tag and lemma) `treetag()` also automatically counts letters and assigns tokens to global word classes. To get these results as a data.frame, use the getter method `taggedText()`:
+
+```{r, eval=FALSE}
+> taggedText(tagged.text)
+```
+<!-- \begin{Soutput}
+   doc_id     token tag    lemma lttr      wclass desc stop stem idx sntc
+[...]
+26 sample       and  CC      and    3 conjunction   NA   NA   NA  26    1
+27 sample       are VBP       be    3        verb   NA   NA   NA  27    1
+28 sample  deployed VBN   deploy    8        verb   NA   NA   NA  28    1
+29 sample     after  IN    after    5 preposition   NA   NA   NA  29    1
+30 sample        an  DT       an    2  determiner   NA   NA   NA  30    1
+31 sample    attack  NN   attack    6        noun   NA   NA   NA  31    1
+32 sample       has VBZ     have    3        verb   NA   NA   NA  32    1
+33 sample      been VBN       be    4        verb   NA   NA   NA  33    1
+34 sample initiated VBN initiate    9        verb   NA   NA   NA  34    1
+[...]
+\end{Soutput} -->
+
+Once you've come this far, i.e., having a valid object of class `kRp.tagged`, all following analyses should run smoothly.
+
+#### Troubleshooting
+If `treetag()` should fail, you should first re-run it with the extra option `debug=TRUE`. Most interestingly, that will print the contents of `sys.tt.call`, which is the TreeTagger command given to your operating system for execution. With that it should be possible to examine where exactly the erroneous behavior starts.
+
+### Alternative: `tokenize()`
+
+If you don't need detailed word class analysis, you should be fine using `koRpus`' own function `tokenize()`. As you can see, `tokenize()` comes to the same results regarding the tokens, but is rather limited in recognizing word classes:
+
+```{r, eval=FALSE}
+> (tagged.text <- tokenize(
++     file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
++     lang="en",
++     doc_id="sample"
++   ))
+```
+<!-- \begin{Soutput}
+    doc_id       token      tag lemma lttr   wclass desc stop stem idx sntc
+1   sample     Defense word.kRp          7     word <NA> <NA> <NA>   1    1
+2   sample  mechanisms word.kRp         10     word <NA> <NA> <NA>   2    1
+3   sample Phasmatodea word.kRp         11     word <NA> <NA> <NA>   3    1
+4   sample     species word.kRp          7     word <NA> <NA> <NA>   4    1
+5   sample     exhibit word.kRp          7     word <NA> <NA> <NA>   5    1
+6   sample  mechanisms word.kRp         10     word <NA> <NA> <NA>   6    1
+                                              [...]                        
+620 sample  considered word.kRp         10     word <NA> <NA> <NA> 620   20
+621 sample    inedible word.kRp          8     word <NA> <NA> <NA> 621   20
+622 sample          by word.kRp          2     word <NA> <NA> <NA> 622   20
+623 sample        some word.kRp          4     word <NA> <NA> <NA> 623   20
+624 sample   predators word.kRp          9     word <NA> <NA> <NA> 624   20
+625 sample           .     .kRp          1 fullstop <NA> <NA> <NA> 625   20
+\end{Soutput} -->
+
+### Accessing data from `koRpus` objects
+
+In case you want to access a subset of the data in the resulting object, e.g., only the column with number of letters or the first five rows, you'll be happy to know there's special `[` and `[[` methods for these kinds of objects:
+
+```{r, eval=FALSE}
+> tagged.text[["lttr"]]
+```
+<!-- \begin{Soutput}
+  [1]  7 10 11  7  7 10  3  7  4  9  4  4  7  2  6  4  9  2  3  5  5  1  7  7  1
+ [26]  3  3  8  5  2  6  3  4  9  1  9  7  1  1  3  7  9  4  7 12  4 11  2 10  1
+ [51]  4  8  3  5  3 11 11  3  5  2  6  3  6  1  3  3  6  2  4  7  1  4  2  2  9
+ [76]  3  8  9  1  3  7  2  5  2  9 10  4 10  5  8  1  4  7  4  3  7  2  6  5  2
+[101]  5 12  5  1  2 10  1  2 11  1  1  2  1  7 10 10  2 10  7  1  1  6  2  7  4
+[...]
+\end{Soutput} -->
+```{r, eval=FALSE}
+> tagged.text[1:5,]
+```
+<!-- \begin{Soutput}
+  doc_id       token      tag lemma lttr wclass desc stop stem idx sntc
+1 sample     Defense word.kRp          7   word   NA   NA   NA   1    1
+2 sample  mechanisms word.kRp         10   word   NA   NA   NA   2    1
+3 sample Phasmatodea word.kRp         11   word   NA   NA   NA   3    1
+4 sample     species word.kRp          7   word   NA   NA   NA   4    1
+5 sample     exhibit word.kRp          7   word   NA   NA   NA   5    1
+\end{Soutput} -->
+
+### Descriptive statistics
+
+All results of both `treetag()` and `tokenize()` also provide various descriptive statistics calculated from the analyzed text. You can get them by calling `describe()` on the object. If you deal with these for the first time, it's a good idea to first look at its structure:
+
+```{r, eval=FALSE}
+> str(describe(tagged.text))
+```
+<!-- <!-- \begin{Soutput -->
+%\end{Soutput} -->
+
+Amongst others, you will find several indices describing the number of characters:
+\begin{description}
+  \item[`all.chars`:] Counts each character, including all space characters
+  \item[`normalized.space`:] Like `all.chars`, but clusters of space characters (incl. line breaks) are counted only as one character
+  \item[`chars.no.space`:] Counts all characters except any space characters
+  \item[`letters.only`:] Counts only letters, excluding(!) digits (which are counted seperately as `digits`)
+\end{description}
+
+You'll also find the number of `words` and `sentences`, as well as average word and sentence lengths, and tables describing how the word length is distributed throughout the text:
+
+```{r, eval=FALSE}
+> describe(tagged.text)[["lttr.distrib"]]
+```
+<!-- \begin{Soutput}
+                 1         2         3         4          5         6
+num      19.000000  92.00000  74.00000  81.00000  51.000000  49.00000
+cum.sum  19.000000 111.00000 185.00000 266.00000 317.000000 366.00000
+cum.inv 537.000000 445.00000 371.00000 290.00000 239.000000 190.00000 [...]
+pct       3.417266  16.54676  13.30935  14.56835   9.172662   8.81295
+cum.pct   3.417266  19.96403  33.27338  47.84173  57.014388  65.82734
+pct.inv  96.582734  80.03597  66.72662  52.15827  42.985612  34.17266
+[...]
+\end{Soutput} -->
+
+For instance, we see that the text has 74 words with three letters, 185 with three or less, and 371 with more than three. The last three lines show the percentages, respectively.
+
+## Lexical diversity (type token ratios)
+To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the `lex.div()` method:
+
+```{r, eval=FALSE}
+> lex.div(tagged.text)
+```
+<!-- \begin{Soutput}
+Language: "en"
+MTLDMA: Calculate MTLD-MA values
+  |======================================================================| 100%
+TTR.char: Calculate TTR values
+  |======================================================================| 100%
+[...]
+
+Total number of tokens: 556
+Total number of types:  294
+
+Type-Token Ratio
+   TTR: 0.53 
+
+TTR characteristics:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.5297  0.5443  0.5895  0.6139  0.6429  1.0000 
+   SD
+ 0.0879
+
+Mean Segmental Type-Token Ratio
+               MSTTR: 0.72
+          SD of TTRs: 0.03
+        Segment size: 100
+      Tokens dropped: 56 
+
+Hint: A segment size of 92 would reduce the drop rate to 4.
+      Maybe try ?segment.optimizer()
+
+Moving-Average Type-Token Ratio
+               MATTR: 0.73
+          SD of TTRs: 0.03
+         Window size: 100 
+
+[...]
+
+HD-D
+          HD-D: 35.52
+          ATTR: 0.85
+   Sample size: 42 
+
+HD-D characteristics:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   5.00   35.40   35.53   34.15   35.69   36.01 
+   SD
+ 5.0654
+
+Measure of Textual Lexical Diversity
+                MTLD: 97.18
+   Number of factors: 5.72
+         Factor size: 0.72
+    SD tokens/factor: 36.45 (all factors)
+                      28.92 (complete factors only)
+
+MTLD characteristics:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  14.00   76.00   86.26   81.96   93.26  103.04       1 
+   SD
+ 16.9314
+
+Moving-Average Measure of Textual Lexical Diversity
+             MTLD-MA: 102.3
+    SD tokens/factor: 26.91
+           Step size: 1
+         Factor size: 0.72
+         Min. tokens: 9 
+
+MTLD-MA characteristics:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  59.00   89.85   95.51   93.64  102.31  107.42      11 
+   SD
+ 11.3322
+
+Note: Analysis was conducted case insensitive.
+\end{Soutput} -->
+
+The above output is only a small sample and really much longer. Let's look at some particular parts: At first we are informed of the language, which is read from the tagged object. Following that are a number of progress bars regarding the calculations of a measures' characteristics^[Characteristics can be looked at to examine each measure's dependency on text length. They are calculated by computing each measure repeatedly, beginning with only the first token, then adding the next, progressing until the full text was analyzed.]. If all possible measures are being calculated and the text is rather long, this can take quite some time, and it might be uplifting to see that R didn't just freeze. After that the actual results are being printed, using the package's `show()` method for this particular kind of object. As you can see, it prints the actual value of each measure before a summary of the characteristics\footnote{For informtaion on the 
+measures shown see \citeA{tweedie_how_1998, mccarthy_vocd_2007, mccarthy_mtld_2010}.}.
+
+Some measures return more information than only their actual index value. For instance, when the Mean Segmental Type-Token Ratio is calculated, you'll be informed how much of your text was dropped and hence not examined. A small feature tool of `koRpus`, `segment.optimizer()`, automatically recommends you with a different segment size if this could decrease the number of lost tokens.
+
+By default, `lex.div()` calculates every measure of lexical diversity that was implemented. Of course this is fully configurable, e.g. to completely skip the calculation of characteristics just add the option `char=NULL`. If you're only interested in one particular measure, it might be more convenient to call the according wrapper function instead of `lex.div()`. For example, to calculate only the measures proposed by \citeA{maas_ueber_1972}:
+
+```{r, eval=FALSE}
+> maas(tagged.text)
+```
+<!-- \begin{Soutput}
+Language: "en"
+
+Total number of tokens: 556
+Total number of types:  294
+
+Maas' Indices
+       a: 0.19 
+    lgV0: 5.64 
+   lgeV0: 12.99 
+
+Relative vocabulary growth (first half to full text)
+       a: 0.79 
+    lgV0: 6.93 
+      V': 0.43 (43 new types every 100 tokens)
+\end{Soutput} -->
+
+All wrapper functions have characteristics turned off by default. The following example demonstrates how to calculate and plot the classic type-token ratio with characteristics:
+
+```{r, eval=FALSE}
+> ttr.res <- TTR(tagged.text, char=TRUE)
+```
+<!-- \begin{Soutput}
+Language: "en"
+TTR.char: Calculate TTR values
+  |======================================================================| 100%
+\end{Soutput} -->
+```{r, eval=FALSE}
+> plot(ttr.res```TTR.char, type="l", main="TTR degredation over text length")
+```
+
+The plot shows the typical degredation of TTR values with increasing text length:
+
+\begin{center}
+ \includegraphics[width=\textwidth]{ttr.pdf}
+\end{center}
+
+Since this package is intended for research, it is possible to directly influence all relevant values of each measure and examine the effects. For example, as mentioned before `segment.optimizer()` recommended a change of segment size for MSTTR to drop less words, which is easily done:
+
+```{r, eval=FALSE}
+> MSTTR(tagged.text, segment=92)
+```
+<!-- \begin{Soutput}
+Language: "en"
+
+Total number of tokens: 556
+Total number of types:  294
+
+Mean Segmental Type-Token Ratio
+               MSTTR: 0.75
+        Segment size: 92
+      Tokens dropped: 4 
+\end{Soutput} -->
+
+Please see to the documentation for more detailed information on the available measures and their references.
+
+## Frequency analysis
+### Importing language corpora data
+This package has rudimentary support to import corpus databases.^[The package also has a function called `read.corp.custom()` which can be used to process language corpora yourself, and store the results in an object of class `kRp.corp.freq`, which is the class returned by `read.corp.LCC()` and `read.corp.celex()` as well. That is, if you can't get any already analyzed corpus database but have a huge language corpus at hand, you can create your own frequency database. But be warned that depending on corpus size and your hardware, this might take ages. On the other hand, `read.corp.custom()` will provide inverse document frequency (idf) values for all types, which is necessary to compute tf-idf with `freq.analysis()`] That is, it can read frequency data for words into an R object and use this object for further analysis. Next to the Celex^[<http://celex.mpi.nl>] database format (`read.corp.celex()`), it can read the LCC flatfile format\
+footnote{Actually, it unterstands two different LCC formats, both the older .zip and the newer .tar archive format.} (`read.corp.LCC()`). The latter might be of special interest, 
+because the needed database archives can be freely downloaded.^[<http://corpora.informatik.uni-leipzig.de/download.html>] Once you've downloaded one of these archives, it can be comfortably imported:
+
+```{r, eval=FALSE}
+> LCC.en <- read.corp.LCC("~/downloads/corpora/eng_news_2010_1M-text.tar")
+```
+
+`read.corp.LCC()` will automatically extract the files it needs from the archive. Alernatively, you can specify the path to the unpacked archive as well. To work with the imported data directly, the tool `query()` was added to the package. It helps you to comfortably look up certain words, or ranges of interesting values:
+
+```{r, eval=FALSE}
+> query(LCC.en, "word", "what")
+```
+<!-- \begin{Soutput}
+    num word  freq         pct pmio    log10 rank.avg rank.min rank.rel.avg
+160 210 what 16396 0.000780145  780 2.892095   260759   260759     99.95362
+    rank.rel.min
+160     99.95362
+\end{Soutput} -->
+```{r, eval=FALSE}
+> query(LCC.en, "pmio", c(780, 790))
+```
+<!-- \begin{Soutput}
+    num  word  freq          pct pmio    log10 rank.avg rank.min rank.rel.avg
+156 206  many 16588 0.0007892806  789 2.897077   260763   260763     99.95515
+157 207   per 16492 0.0007847128  784 2.894316   260762   260762     99.95477
+158 208  down 16468 0.0007835708  783 2.893762   260761   260761     99.95439
+159 209 since 16431 0.0007818103  781 2.892651   260760   260760     99.95400
+160 210  what 16396 0.0007801450  780 2.892095   260759   260759     99.95362
+    rank.rel.min
+156     99.95515
+157     99.95477
+158     99.95439
+159     99.95400
+160     99.95362
+\end{Soutput} -->
+
+### Conduct a frequency analysis
+We can now conduct a full frequency analysis of our text:
+
+```{r, eval=FALSE}
+> freq.analysis.res <- freq.analysis(tagged.text, corp.freq=LCC.en)
+```
+<!-- <!-- \begin{Soutput -->
+%\end{Soutput} -->
+
+The resulting object holds a lot of information, even if no corpus data was used (i.e., `corp.freq=NULL`). To begin with, it contains the two slots `TT.res` and `lang`, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into `kRp.tagged` objects.^[This can easily be done by calling  `as(freq.analysis.res, "kRp.tagged")`.] However, if corpus data was provided, the tagging results gained three new columns:
+
+```{r, eval=FALSE}
+> taggedText(freq.analysis.res)
+```
+<!-- \begin{Soutput}
+       token tag     lemma lttr  [...] pmio rank.avg rank.min
+[...]
+30        an  DT        an    2        3817 99.98735 99.98735
+31    attack  NN    attack    6         163 99.70370 99.70370
+32       has VBZ      have    3        4318 99.98888 99.98888
+33      been VBN        be    4        2488 99.98313 99.98313
+34 initiated VBN  initiate    9          11 97.32617 97.32137
+35         (   (         (    1         854 99.96013 99.96013
+36 secondary  JJ secondary    9          21 98.23846 98.23674
+37   defense  NN   defense    7         210 99.77499 99.77499
+38         )   )         )    1         856 99.96052 99.96052
+[...]
+\end{Soutput} -->
+
+Perhaps most informatively, `pmio` shows how often the respective token appears in a million tokens, according to the corpus data. Adding to this, the previously introduced slot `desc` now contains some more descriptive statistics on our text, and if we provided a corpus database, the slot `freq.analysis` lists summaries of various frequency information that was calculated.
+
+If the corpus object also provided inverse document frequency (i.e., values in column `idf`) data, `freq.analysis()` will automatically compute tf-idf statistics and put them in a column called `tfidf`.
+
+### New to the `desc` slot
+
+Amongst others, the descriptives now also give easy access to character vectors with all words (`$all.words`) and all lemmata (`$all.lemmata`), all tokens sorted into word classes (e.g., all verbs in `$classes$verb`)^[This sorting depends on proper POS-tagging, so this will only contain useful data if you used `treetag()` instead of `tokenize()`.], or the number of words in each sentece:
+
+```{r, eval=FALSE}
+> describe(freq.analysis.res)[["sentc.length"]]
+```
+<!-- \begin{Soutput}
+ [1] 34 10 37 16 44 31 14 31 34 23 17 43 40 47 22 19 65 29
+\end{Soutput} -->
+
+As a practical example, the list `$classes` has proven to be very helpful to debug the results of TreeTagger, which is remarkably accurate, but of course not free from making a mistake now and then. By looking through `$classes`, where all tokens are grouped regarding to the global word class TreeTagger attributed to it, at least obvious errors (like names mistakenly taken for a pronoun) are easily found:^[And can then be corrected by using the function `correct.tag()`]
+
+```{r, eval=FALSE}
+> describe(freq.analysis.res)$classes
+```
+<!-- \begin{Soutput}
+$conjunction
+ [1] "both" "and"  "and"  "and"  "and"  "or"   "or"   "and"  "and"  "or"  
+[11] "and"  "or"   "and"  "or"   "and"  "and"  "and"  "and" 
+
+$number
+[1] "20"  "one"
+
+$determiner
+ [1] "an"      "the"     "an"      "The"     "the"     "the"     "some"   
+ [8] "that"    "Some"    "the"     "a"       "a"       "a"       "the"    
+[15] "that"    "the"     "the"     "Another" "which"   "the"     "a"      
+[22] "that"    "a"       "The"     "a"       "the"     "that"    "a"      
+[...]
+\end{Soutput} -->
+
+
+## Readability
+
+The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.^[Whether this is the case can be looked up in the documentation.] To achieve this, the method `hyphen()` takes objects of class `kRp.tagged` and applies an hyphenation algorithm [@liang_word_1983] to each word. This algorithm was originally developed for automatic word hyphenation in \LaTeX{}, and is gracefully misused here to fulfill a slightly different service.^[The `hyphen()` method was originally implemented as part of the `koRpus` package, but was later split off into its own package called `sylly`.]
+
+```{r, eval=FALSE}
+> hyph.txt.en <- hyphen(tagged.text)
+```
+<!-- \begin{Soutput}
+Hyphenation (language: en)
+  |======================================================================| 100%
+\end{Soutput} -->
+
+This seperate hyphenation step can actually be skipped, as `readability()` will do it automatically if needed. But similar to TreeTagger, `hyphen()` will most likely not produce perfect results. As a rule of thumb, if in doubt it seems to behave rather conservative, that is, is underestimates the real number of syllables in a text. This, however, would of course affect the results of several readability formulae.
+
+So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a function called `correct.hyph()` to help you clean these results of errors later on. The most comfortable way to do this is to call `hyphenText(hyph.txt.en)`, which will get you a data frame with two colums, `word` (the hyphenated words) and `syll` (the number of syllables), in a spread sheet editor:^[For example, this can be comfortably done with RKWard: <https://rkward.kde.org>]
+
+```{r, eval=FALSE}
+>  hyphenText(hyph.txt.en)
+```
+<!-- \begin{Soutput}
+   syll     word
+[...]
+20    1    first
+21    1    place
+22    1  primary
+23    2 de-fense
+24    1      and
+[...]
+\end{Soutput} -->
+
+You can then manually correct wrong hyphenations by removing or inserting ``-'' as hyphenation indicators, and call the function without further arguments, which will cause it to recount all syllables:
+
+```{r, eval=FALSE}
+> hyph.txt.en <- correct.hyph(hyph.txt.en)
+```
+<!-- <!-- \begin{Soutput -->
+%\end{Soutput} -->
+
+Of course the function can also be used to alter entries on its own:
+
+```{r, eval=FALSE}
+> hyph.txt.en <- correct.hyph(hyph.txt.en, word="primary", hyphen="pri-ma-ry")
+```
+<!-- \begin{Soutput}
+Changed
+
+   syll    word
+22    1 primary
+
+  into
+
+   syll      word
+22    3 pri-ma-ry
+\end{Soutput} -->
+
+The hyphenated text object can now be given to `readability()`, to calculate the measures of interest:^[Please note that as of version 0.04-18, the correctness of some of these calculations has not been extensively validated yet. The package was released nonetheless, also to find outstanding bugs in the implemented measures. Any information on the validity of its results is very welcome!]
+
+```{r, eval=FALSE}
+> readbl.txt <- readability(tagged.text, hyphen=hyph.txt.en, index="all")
+```
+<!-- <!-- \begin{Soutput -->
+%\end{Soutput} -->
+
+Similar to `lex.div()`, by default `readability()` calculates almost^[Measures which rely on word lists will be skipped if no list is provided.] all available measures:
+
+```{r, eval=FALSE}
+> readbl.txt
+```
+<!-- \begin{Soutput}
+[...]
+Flesch Reading Ease
+  Parameters: en (Flesch) 
+          RE: 37.11 
+       Grade: >= 13 (college) 
+
+Flesch-PSK Reading Ease
+  Parameters: Powers-Sumner-Kearl 
+       Grade: 7.57 
+         Age: 12.57 
+[...]
+Gunning Frequency of Gobbledygook (FOG)
+  Parameters: Powers-Sumner-Kearl 
+       Grade: 7.44 
+[...]
+Tuldava's Text Difficulty Formula
+  Parameters: default 
+       Index: 5.56 
+
+Wheeler-Smith
+  Parameters: default 
+       Score: 111 
+       Grade: > 4 
+[...]
+\end{Soutput} -->
+
+To get a more condensed overview of the results try the `summary()` method:
+
+```{r, eval=FALSE}
+> summary(readbl.txt)
+```
+<!-- \begin{Soutput}
+Text language: en 
+                   index                      flavour    raw
+1                    ARI                                    
+2                    ARI                          NRI       
+3                    ARI                   simplified  75.03
+4           Coleman-Liau                                  33
+5    Danielson-Bryan DB1                                9.48
+6    Danielson-Bryan DB2                               30.22
+7         Dickes-Steiwer                               33.49
+8                    ELF                                11.1
+9  Farr-Jenkins-Paterson                               36.32
+10 Farr-Jenkins-Paterson          Powers-Sumner-Kearl       
+11                Flesch                  en (Flesch)  37.11
+12                Flesch          Powers-Sumner-Kearl       
+13                Flesch                 nl (Brouwer)  27.33
+14                Flesch               es (Szigriszt)  74.83
+15                Flesch                  de (Amstad)  54.35
+16                Flesch        es (Fernandez-Huerta)  78.12
+17                Flesch            fr (Kandel-Moles)  63.29
+18                Flesch                   nl (Douma)  52.19
+19        Flesch-Kincaid                                    
+20                   FOG                                    
+21                   FOG          Powers-Sumner-Kearl       
+22                   FOG                New FOG (NRI)       
+23               FORCAST                                    
+24               FORCAST  precise reading grade level       
+[...]
+                      grade  age
+1                     17.19     
+2                     15.21     
+3                               
+4                     13.99     
+5                               
+6                      9-12     
+7                               
+8                               
+9           >= 13 (college)     
+10                     7.11     
+11          >= 13 (college)     
+12                     7.57 12.6
+13 >= 16 (college graduate)     
+14                        7     
+15      >= 10 (high school)     
+16                        7     
+17                      8-9     
+18      >= 10 (high school)     
+19                    14.99   20
+20                    18.96     
+21                     7.44     
+22                    20.08     
+23                    10.99   16
+24                    10.52 15.5
+[...]
+\end{Soutput} -->
+
+The `summary()` method supports an additional flat format, which basically turns the table into a named numeric vector,
+using the raw values (because all indices have raw values, but only a few more than that). This format comes very handy when you
+want to use the output in further calculations:
+
+```{r, eval=FALSE}
+> summary(readbl.txt, flat=TRUE)
+```
+<!-- \begin{Soutput}
+                       ARI                   ARI.NRI                ARI.simple 
+                    17.19                     15.21                     75.03 
+             Coleman.Liau       Danielson.Bryan.DB1       Danielson.Bryan.DB2 
+                    33.00                      9.48                     30.22 
+           Dickes.Steiwer                       ELF     Farr.Jenkins.Paterson 
+                    33.49                     11.10                     36.32 
+Farr.Jenkins.Paterson.PSK                    Flesch                Flesch.PSK 
+                     7.11                     37.11                      7.57 
+           Flesch.Brouwer          Flesch.Szigriszt                 Flesch.de 
+                    27.33                     74.83                     54.35 
+                Flesch.es                 Flesch.fr                 Flesch.nl 
+                    78.12                     63.29                     52.19 
+           Flesch.Kincaid                       FOG                   FOG.PSK 
+                    14.99                     18.96                      7.44 
+                  FOG.NRI                   FORCAST               FORCAST.RGL 
+                    20.08                     10.99                     10.52 
+                    Fucks             Linsear.Write                       LIX 
+                   145.90                     19.35                     61.97 
+                     nWS1                      nWS2                      nWS3 
+                    10.03                     10.52                      9.99 
+                     nWS4                       RIX                      SMOG 
+                    11.07                      9.50                     16.47 
+                  SMOG.de                    SMOG.C               SMOG.simple 
+                    10.79                     15.84                     15.79 
+                   Strain                       TRI                   Tuldava 
+                    13.95                    -56.88                      5.56 
+            Wheeler.Smith          Wheeler.Smith.de 
+                   111.00                    111.00 
+\end{Soutput} -->
+
+ 
+If you're interested in a particular formula, again a wrapper function might be more convenient:
+
+```{r, eval=FALSE}
+> flesch.res <- flesch(tagged.text, hyphen=hyph.txt.en)
+> lix.res <- LIX(tagged.text)   # LIX doesn't need syllable count
+> lix.res
+```
+<!-- \begin{Soutput}
+Läsbarhetsindex (LIX)
+  Parameters: default 
+       Index: 61.97 
+      Rating: very difficult 
+       Grade: > 11 
+
+Text language: en 
+\end{Soutput} -->
+
+### Readability from numeric data
+
+It is possible to calculate the readability measures from the relevant key values directly, rather than analyze an actual text, by using `readability.num()` instead of `readability()`. If you need to reanalyze a particular text, this can be considerably faster. Therefore, all objects returned by `readability()` can directly be fed to `readability.num()`, since all relevant data is present in the `desc` slot. 
+
+## Language detection
+
+Another feature of this package is the detection of the language a text was (most probably) written in. This is done by gzipping reference texts in known languages, gzipping them again with addition of a small sample of the text in unknown language, and determining the case where the additional sample causes the smallest increase in file size (\citeNP<as described in>{benedetto_gzip_2002}). By default, the compressed objects will be created in memory only.
+
+To use the function `guess.lang()`, you first need to download the reference material. In this implementation, the Universal Declaration of Human Rights in unicode formatting is used, because the document holds the world record of beeing the text translated into the most languages, and is publicly available^[<http://www.unicode.org/udhr/download.html>]. Please get the zipped archive with all translations in .txt format. You can, but don't have to unzip the archive. The text to find the language of must also be in a unicode .txt file:
+
+```{r, eval=FALSE}
+> guessed <- guess.lang(
++   file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
++   udhr.path="~/downloads/udhr_txt.zip"
++ )
+> summary(guessed)
+```
+<!-- \begin{Soutput}
+  Estimated language: English
+          Identifier: eng
+              Region: Europe
+
+435 different languages were checked.
+
+Distribution of compression differences:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  136.0   168.0   176.0   190.7   184.0   280.0 
+
+  SD: 38.21 
+
+Top 5 guesses:
+                        name iso639-3 bcp47 region diff  diff.std
+1                    English      eng    en Europe  136 -1.430827
+2                      Scots      sco   sco Europe  136 -1.430827
+3           Pidgin, Nigerian      pcm   pcm Africa  144 -1.221473
+4   Catalan-Valencian-Balear      cat    ca Europe  152 -1.012119
+5                     French      fra    fr Europe  152 -1.012119
+
+Last 5 guesses:
+                        name iso639-3   bcp47 region diff diff.std
+431                  Burmese      mya      my   Asia  280 2.337547
+432                     Shan      shn     shn   Asia  280 2.337547
+433                    Tamil      tam      ta   Asia  280 2.337547
+434     Vietnamese (Han nom)      vie vi-Hani   Asia  280 2.337547
+435             Chinese, Yue      yue     yue   Asia  280 2.337547
+\end{Soutput} -->
+
+# Extending `koRpus`
+The language support of this package has a modular design. There are some pre-built language packages in the `l10n` repository,^[<https://undocumeantit.github.io/repos/>] and with a little effort you should be able to add new languages yourself. You need the package sources for this, then basically you will have to add a new file to it and rebuild/reinstall the package. More details on this topic can be found in `inst/README.languages`. Once you got a new language to work with `koRpus`, I'd be happy to include your module in the official distribution.
+
+# Analyzing full corpora
+Despite its name, the scope of `koRpus` is single texts. If you would like to do analysis an a full corpus of texts, have a look at the plugin package `tm.plugin.koRpus`.^[<https://reaktanz.de/R/pckg/tm.plugin.koRpus/> (package repo) or <https://github.com/unDocUMeantIt/tm.plugin.koRpus> (source code)]
+
+
+# References
