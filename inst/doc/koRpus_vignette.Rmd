@@ -12,6 +12,7 @@ output:
       smooth_scroll: false
     toc_depth: 3
 bibliography: koRpus_lit.bib
+csl: apa.csl
 abstract: >
   The R package `koRpus` aims to be a versatile tool for text analysis, with an emphasis on scientific research on that topic.
   It implements dozens of formulae to measure readability and lexical diversity. On a more basic level `koRpus` can be used
@@ -21,7 +22,6 @@ vignette: >
   %\VignetteIndexEntry{Using the koRpus Package for Text Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8x]{inputenc}
-  \usepackage[apaciteclassic]{apacite}
 ---
 
 ```{r, include=FALSE, cache=FALSE}
@@ -47,7 +47,7 @@ Especially for Windows users installation of TreeTagger might be a little more c
 If you don't want to use TreeTagger, `koRpus` provides a simple tokenizer of its own called `tokenize()`. While the tokenizing itself works quite well, `tokenize()` is not as elaborate as is TreeTagger when it comes to POS tagging, as it can merely tell words from numbers, punctuation and abbreviations. Although this is sufficient for most readability formulae, you can't evaluate word classes in detail. If that's what you want, a TreeTagger installation is needed.
 
 ## Word lists
-Some of the readability formulae depend on special word lists  [like @dale_formula_1948; @bormuth_cloze_1968; @spache_new_1953]. For copyright reasons these lists are not included as of now. This means, as long as you don't have copies of these lists, you can't calculate these particular measures, but of course all others. The expected format to use a list with this package is a simple text file with one word per line, preferably in UTF-8 encoding.
+Some of the readability formulae depend on special word lists  [like @bormuth_cloze_1968; @dale_formula_1948; @spache_new_1953]. For copyright reasons these lists are not included as of now. This means, as long as you don't have copies of these lists, you can't calculate these particular measures, but of course all others. The expected format to use a list with this package is a simple text file with one word per line, preferably in UTF-8 encoding.
 
 ## Language corpora
 The frequency analysis functions in this package can look up how often each word in a text is used in its language, given that a corpus database is provided. Databases
@@ -72,7 +72,7 @@ At the very least you must provide it with the text, of course, and name the lan
 -->
 ```{r, eval=FALSE}
 tagged.text <- treetag(
-  file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
+  "sample_text.txt",
   treetagger="manual",
   lang="en",
   TT.options=list(
@@ -86,7 +86,7 @@ tagged.text <- treetag(
   we work around that issue by silently loading the tagged text from a dput file
 -->
 ```{r, include=FALSE, cache=FALSE}
-tagged.text <- dget(file.path(find.package("koRpus"),"tests","testthat","sample_text_treetagged_dput.txt"))
+tagged.text <- dget("sample_text_treetagged_dput.txt")
 ```
 
 The first argument (file name) and `lang` should explain themselves. The `treetagger` option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword "manual", which will cause the interpretation of what is defined by `TT.options`. To use a preset, just put the `path` to your local TreeTagger installation and a valid `preset` name here.^[As of 0.04-38, English, French, Italian, German, Spanish and Russian are implemented, refer to package documentation. Additional languange support is possible by installing the respective `koRpus.lang.*` package, e.g. from `https://reaktanz.de/R/`] The document ID is optional and can be omitted.
@@ -108,7 +108,7 @@ If you don't need detailed word class analysis, you should be fine using `koRpus
 
 ```{r}
 (tokenized.text <- tokenize(
-    file.path(find.package("koRpus"),"tests","testthat","sample_text.txt"),
+    "sample_text.txt",
     lang="en",
     doc_id="sample"
 ))
@@ -143,10 +143,14 @@ The `[` and `[[` methods are basically a useful shortcut replacements for `tagge
 
 ### Descriptive statistics
 
-All results of both `treetag()` and `tokenize()` also provide various descriptive statistics calculated from the analyzed text. You can get them by calling `describe()` on the object. If you deal with these for the first time, it's a good idea to first look at its structure:
+All results of both `treetag()` and `tokenize()` also provide various descriptive statistics calculated from the analyzed text. You can get them by calling `describe()` on the object:
 
-```{r}
-str(describe(tagged.text))
+```{r, eval=FALSE}
+describe(tagged.text)
+```
+```{r, echo=FALSE}
+(txt_desc <- describe(tagged.text))
+txt_desc_lttr <- txt_desc[["lttr.distrib"]]
 ```
 
 Amongst others, you will find several indices describing the number of characters:
@@ -156,26 +160,10 @@ Amongst others, you will find several indices describing the number of character
 * `chars.no.space`: Counts all characters except any space characters
 * `letters.only`: Counts only letters, excluding(!) digits (which are counted seperately as `digits`)
 
-You'll also find the number of `words` and `sentences`, as well as average word and sentence lengths, and tables describing how the word length is distributed throughout the text:
-
-```{r}
-describe(tagged.text)[["lttr.distrib"]]
-```
-<!-- \begin{Soutput}
-                 1         2         3         4          5         6
-num      19.000000  92.00000  74.00000  81.00000  51.000000  49.00000
-cum.sum  19.000000 111.00000 185.00000 266.00000 317.000000 366.00000
-cum.inv 537.000000 445.00000 371.00000 290.00000 239.000000 190.00000 [...]
-pct       3.417266  16.54676  13.30935  14.56835   9.172662   8.81295
-cum.pct   3.417266  19.96403  33.27338  47.84173  57.014388  65.82734
-pct.inv  96.582734  80.03597  66.72662  52.15827  42.985612  34.17266
-[...]
-\end{Soutput} -->
-
-For instance, we see that the text has 74 words with three letters, 185 with three or less, and 371 with more than three. The last three lines show the percentages, respectively.
+You'll also find the number of `words` and `sentences`, as well as average word and sentence lengths, and tables describing how the word length is distributed throughout the text (`lttr.distrib`). For instance, we see that the text has `r txt_desc_lttr["num",3]` words with three letters, `r txt_desc_lttr["cum.sum",3]` with three or less, and `r txt_desc_lttr["cum.inv",3]` with more than three. The last three lines show the percentages, respectively.
 
 ## Lexical diversity (type token ratios)
-To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the `lex.div()` method. You can call it on the object with no further arguments (like `lex.div(tagged.text)`), but in this example we'll limit the analysis to a few measures^[For informtaion on the measures shown see @tweedie_how_1998, @mccarthy_vocd_2007, @mccarthy_mtld_2010.]:
+To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the `lex.div()` method. You can call it on the object with no further arguments (like `lex.div(tagged.text)`), but in this example we'll limit the analysis to a few measures:^[For informtaion on the measures shown see @tweedie_how_1998, @mccarthy_vocd_2007, @mccarthy_mtld_2010.]
 
 ```{r, eval=FALSE}
 lex.div(
@@ -295,7 +283,7 @@ If the corpus object also provided inverse document frequency (i.e., values in c
 
 ### New to the `desc` slot
 
-Amongst others, the descriptives now also give easy access to character vectors with all words (`$all.words`) and all lemmata (`$all.lemmata`), all tokens sorted into word classes (e.g., all verbs in `$classes$verb`)^[This sorting depends on proper POS-tagging, so this will only contain useful data if you used `treetag()` instead of `tokenize()`.], or the number of words in each sentece:
+Amongst others, the descriptives now also give easy access to character vectors with all words (`$all.words`) and all lemmata (`$all.lemmata`), all tokens sorted^[This sorting depends on proper POS-tagging, so this will only contain useful data if you used `treetag()` instead of `tokenize()`.] into word classes (e.g., all verbs in `$classes$verb`), or the number of words in each sentece:
 
 ```{r, eval=FALSE}
 describe(freq.analysis.res)[["sentc.length"]]
@@ -328,7 +316,7 @@ describe(freq.analysis.res)$classes
 
 ## Readability
 
-The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.^[Whether this is the case can be looked up in the documentation.] To achieve this, the method `hyphen()` takes objects of class `kRp.tagged` and applies an hyphenation algorithm [@liang_word_1983] to each word. This algorithm was originally developed for automatic word hyphenation in \LaTeX{}, and is gracefully misused here to fulfill a slightly different service.^[The `hyphen()` method was originally implemented as part of the `koRpus` package, but was later split off into its own package called `sylly`.]
+The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.^[Whether this is the case can be looked up in the documentation.] To achieve this, the method `hyphen()` takes objects of class `kRp.tagged` and applies an hyphenation algorithm [@liang_word_1983] to each word. This algorithm was originally developed for automatic word hyphenation in $\LaTeX$, and is gracefully misused here to fulfill a slightly different service.^[The `hyphen()` method was originally implemented as part of the `koRpus` package, but was later split off into its own package called `sylly`.]
 
 ```{r, eval=FALSE}
 (hyph.txt.en <- hyphen(tagged.text))
@@ -354,8 +342,22 @@ hyph.txt.en <- correct.hyph(hyph.txt.en)
 
 But the method can also be used to alter entries directly, which might be simpler and cleaner than manual changes:
 
-```{r}
+<!-- this can cause errors if updated hyphen patterns lead to slighty different results in the first place -->
+```{r, eval=FALSE}
 hyph.txt.en <- correct.hyph(hyph.txt.en, word="mech-a-nisms", hyphen="mech-a-ni-sms")
+```
+```
+## Changed
+## 
+##   syll         word
+## 2    3 mech-a-nisms
+## 6    3 mech-a-nisms
+## 
+##   into
+## 
+##   syll          word
+## 2    4 mech-a-ni-sms
+## 6    4 mech-a-ni-sms
 ```
 
 The hyphenated text object can now be given to `readability()`, to calculate the measures of interest:^[Please note that as of version 0.04-18, the correctness of some of these calculations has not been extensively validated yet. The package was released nonetheless, also to find outstanding bugs in the implemented measures. Any information on the validity of its results is very welcome!]
@@ -401,9 +403,9 @@ It is possible to calculate the readability measures from the relevant key value
 
 ## Language detection
 
-Another feature of this package is the detection of the language a text was (most probably) written in. This is done by gzipping reference texts in known languages, gzipping them again with addition of a small sample of the text in unknown language, and determining the case where the additional sample causes the smallest increase in file size (\citeNP<as described in>{benedetto_gzip_2002}). By default, the compressed objects will be created in memory only.
+Another feature of this package is the detection of the language a text was (most probably) written in. This is done by gzipping reference texts in known languages, gzipping them again with addition of a small sample of the text in unknown language, and determining the case where the additional sample causes the smallest increase in file size [as described in @benedetto_gzip_2002]. By default, the compressed objects will be created in memory only.
 
-To use the function `guess.lang()`, you first need to download the reference material. In this implementation, the Universal Declaration of Human Rights in unicode formatting is used, because the document holds the world record of beeing the text translated into the most languages, and is [publicly available](http://www.unicode.org/udhr/download.html). Please get the zipped archive with all translations in .txt format. You can, but don't have to unzip the archive. The text to find the language of must also be in a unicode .txt file:
+To use the function `guess.lang()`, you first need to download the reference material. In this implementation, the Universal Declaration of Human Rights in unicode formatting is used, because the document holds the world record of beeing the text translated into the most languages, and is [publicly available](https://www.unicode.org/udhr/downloads.html). Please get the zipped archive with all translations in .txt format. You can, but don't have to unzip the archive. The text to find the language of must also be in a unicode .txt file:
 
 ```{r, eval=FALSE}
 guessed <- guess.lang(
@@ -448,5 +450,8 @@ The language support of this package has a modular design. There are some pre-bu
 # Analyzing full corpora
 Despite its name, the scope of `koRpus` is single texts. If you would like to do analysis an a full corpus of texts, have a look at the [plugin package `tm.plugin.koRpus`](https://github.com/unDocUMeantIt/tm.plugin.koRpus).
 
+# Aknowledgements
+
+The APA style used in this vignette was kindly provided by the [CSL project](https://CitationStyles.org), licensed under [Creative Commons Attribution-ShareAlike 3.0 Unported license](http://creativecommons.org/licenses/by-sa/3.0/).
 
 # References
