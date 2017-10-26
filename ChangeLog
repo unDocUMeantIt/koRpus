@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-2 (2017-07-12)
+changes in version 0.11-2 (2017-10-26)
 unreleased:
   - this release is under development
 fixed:
@@ -19,6 +19,7 @@ changed:
     "Additional_repositories" field to the DESCRIPTION file. so the sylly.XX
     package dependencies are now being resolved by installing from that
     repo instead of CRAN
+  - vignette is now in RMarkdown/HTML format; the SWeave/PDF version was dropped
 added:
   - tif_as_tokens_df(): new method to get TT.res in fully TIF compliant format
 
