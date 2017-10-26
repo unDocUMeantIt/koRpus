@@ -450,8 +450,8 @@ The language support of this package has a modular design. There are some pre-bu
 # Analyzing full corpora
 Despite its name, the scope of `koRpus` is single texts. If you would like to do analysis an a full corpus of texts, have a look at the [plugin package `tm.plugin.koRpus`](https://github.com/unDocUMeantIt/tm.plugin.koRpus).
 
-# Aknowledgements
+# Acknowledgements
 
-The APA style used in this vignette was kindly provided by the [CSL project](https://CitationStyles.org), licensed under [Creative Commons Attribution-ShareAlike 3.0 Unported license](http://creativecommons.org/licenses/by-sa/3.0/).
+The APA style used in this vignette was kindly provided by the [CSL project](http://CitationStyles.org), licensed under [Creative Commons Attribution-ShareAlike 3.0 Unported license](https://creativecommons.org/licenses/by-sa/3.0/).
 
 # References
