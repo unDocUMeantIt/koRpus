@@ -11,6 +11,8 @@ output:
       collapsed: false
       smooth_scroll: false
     toc_depth: 3
+    includes: 
+      in_header: vignette_header.html
 bibliography: koRpus_lit.bib
 csl: apa.csl
 abstract: >
@@ -24,12 +26,18 @@ vignette: >
   \usepackage[utf8x]{inputenc}
 ---
 
+```{r setup, include=FALSE}
+header_con <- file("vignette_header.html")
+writeLines('<meta name="flattr:id" content="4zdzgd" />', header_con)
+close(header_con)
+```
 ```{r, include=FALSE, cache=FALSE}
 library(koRpus)
 ```
 ```{r, set-options, echo=FALSE, cache=FALSE}
 options(width=85)
 ```
+
 
 # What is koRpus?
 Work on `koRpus` started in February 2011, primarily with the goal in mind to examine how similar different texts are. Since then,
