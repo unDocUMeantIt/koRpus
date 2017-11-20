@@ -44,7 +44,7 @@ record for being translated into the most different languages, and is publicly a
 \note{
 For this implementation the documents provided by the "UDHR in Unicode" project[2] have been used.
 Their translations are \emph{not part of this package} and must be downloaded seperately to use \code{guess.lang}!
-You need the ZIP archive containing \emph{all the plain text files} from \url{http://unicode.org/udhr/downloads.html}.
+You need the ZIP archive containing \emph{all the plain text files} from \url{https://unicode.org/udhr/downloads.html}.
 }
 \examples{
 \dontrun{
@@ -60,6 +60,6 @@ Benedetto, D., Caglioti, E. & Loreto,
 
 [1] \url{http://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
 
-[2] \url{http://unicode.org/udhr}
+[2] \url{https://unicode.org/udhr}
 }
 \keyword{misc}
