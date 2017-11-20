@@ -23,7 +23,7 @@ abstract: >
 vignette: >
   %\VignetteIndexEntry{Using the koRpus Package for Text Analysis}
   %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8x]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}

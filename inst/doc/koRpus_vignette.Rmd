@@ -23,7 +23,7 @@ abstract: >
 vignette: >
   %\VignetteIndexEntry{Using the koRpus Package for Text Analysis}
   %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8x]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -62,7 +62,7 @@ The frequency analysis functions in this package can look up how often each word
 in Celex format are support, as is the Leipzig Corpora Collection [@quasthoff_LCC_2006] file format. To use such a database with this package, you simply need to download one of the .zip/.tar files.
 
 ## Translated Human Rights Declaration
-If you want to estimate the language of a text, reference texts in known languages are needed. In `koRpus`, the [Universal Declaration of Human Rights with its more than 350 translations](http://www.unicode.org/udhr/download.html) is used.
+If you want to estimate the language of a text, reference texts in known languages are needed. In `koRpus`, the [Universal Declaration of Human Rights with its more than 350 translations](https://www.unicode.org/udhr/downloads.html) is used.
 
 # A sample session
 From now on it is assumed that the above requirements are correctly installed and working. If an optional component is used it will be noted. Further, we'll need a sample text to analyze.
