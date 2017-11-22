@@ -2,15 +2,19 @@
 title: "Using the koRpus Package for Text Analysis"
 author: "m.eik michalke"
 date: "`r Sys.Date()`"
-output: 
-  html_document:
-    theme: cerulean
-    highlight: kate
+output:
+#  html_document:
+#    theme: cerulean
+#    highlight: kate
+#    toc_float: 
+#      collapsed: false
+#      smooth_scroll: false
+  rmarkdown::html_vignette:
+    #css: roxyPackage.css
     toc: true
-    toc_float: 
-      collapsed: false
-      smooth_scroll: false
     toc_depth: 3
+    fig_width: 5
+    fig_height: 5
     includes: 
       in_header: vignette_header.html
 bibliography: koRpus_lit.bib

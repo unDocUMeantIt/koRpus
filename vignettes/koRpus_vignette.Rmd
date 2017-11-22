@@ -2,9 +2,8 @@
 title: "Using the koRpus Package for Text Analysis"
 author: "m.eik michalke"
 date: "`r Sys.Date()`"
-output: 
-  html_document:
-    theme: cerulean
+output:
+  rmarkdown::html_vignette:
     highlight: kate
     toc: true
     toc_float: 
