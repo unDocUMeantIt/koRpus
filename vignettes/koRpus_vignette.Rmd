@@ -4,12 +4,7 @@ author: "m.eik michalke"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
-    highlight: kate
     toc: true
-    toc_float: 
-      collapsed: false
-      smooth_scroll: false
-    toc_depth: 3
     includes: 
       in_header: vignette_header.html
 bibliography: koRpus_lit.bib
