@@ -25,7 +25,7 @@
 #' (often referred to as CSV2). Once you have successfully imported the word list, you can use the object to perform frequency analysis.
 #'
 #' @param csv A character string, path to the BAWL-R in CSV2 format.
-#' @param fileEncoding A character string naming the encoding of the file, if neccessary.
+#' @param fileEncoding A character string naming the encoding of the file, if necessary.
 #' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
