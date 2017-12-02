@@ -4,11 +4,11 @@ Title: An R Package for Text Analysis
 Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
         [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
-Depends: R (>= 2.10.0),sylly
-Imports:
-        data.table,methods,sylly.de,sylly.en,sylly.es,sylly.fr,sylly.it,sylly.ru
+Depends: R (>= 2.10.0),sylly (>= 0.1-4)
+Imports: data.table,methods
 Enhances: rkward
-Suggests: testthat,tm,SnowballC,shiny,knitr,rmarkdown
+Suggests:
+        testthat,tm,SnowballC,shiny,knitr,rmarkdown,sylly.de,sylly.en,sylly.es,sylly.fr,sylly.it,sylly.ru
 VignetteBuilder: knitr
 Additional_repositories: https://undocumeantit.github.io/repos/l10n
 Description: A set of tools to analyze texts. Includes, amongst others,
@@ -50,7 +50,7 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
 Version: 0.11-2
-Date: 2017-11-30
+Date: 2017-12-02
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'
