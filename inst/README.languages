@@ -5,4 +5,4 @@ As of koRpus 0.06-2, you can add new supported languages to the package on-the-f
 
 If not, there's two main sources to learn how to add your own: The manual page ?set.lang.support and the commented template script you should find in the templates directory of your local koRpus installation.
 
-For a really quick and comfortable method to turn that script into a proper R package, I recommend checking out http://reaktanz.de/?c=hacking&s=roxyPackage
+For a really quick and comfortable method to turn that script into a proper R package, I recommend checking out https://reaktanz.de/?c=hacking&s=roxyPackage
