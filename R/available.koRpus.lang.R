@@ -50,13 +50,38 @@
 #' install.packages("koRpus.lang.de", repos="https://undocumeantit.github.io/repos/l10n/")
 #' }
 available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l10n/"){
-  all_available <- available.packages(repos=repos)
-  available_koRpus_lang_package <- grepl("koRpus.lang.*", all_available[,"Package"])
-  supported_lang <- unique(all_available[available_koRpus_lang_package,"Package"])
+  all_available <- check_koRpus_lang(available=TRUE, repos=repos, available.only=TRUE)
+
+  if(length(all_available) < 1){
+    message("No language support packages found in the repository.")
+    return(invisible(NULL))
+  } else {}
+
+  supported_lang <- names(all_available)
+  installed <- sapply(
+    all_available,
+    function(this_package){
+      if(isTRUE(this_package[["installed"]])){
+        status <- " [installed"
+        if(isTRUE(this_package[["loaded"]])){
+          status <- paste0(status, ", loaded]")
+        } else {
+          status <- paste0(status, "]")
+        }
+      } else {
+        status <- ""
+      }
+      return(status)
+    }
+  )
 
   lang_msg <- paste0(
     "The following language support packages are currently available:\n\n  ",
-    paste0(supported_lang, collapse="\n  "), "\n"
+    paste0(
+      paste0(supported_lang, installed),
+      collapse="\n  "
+    ),
+    "\n"
   )
 
   message(lang_msg)

@@ -1636,3 +1636,53 @@ winPath <- function(path){
 }
 # just for the record: i really *hate* windows!
 ## end function winPath()
+
+
+## function check_koRpus_lang()
+# checks what koRpus.lang.* packages are currently installed or loaded
+# returns a named list with a list for each installed package, providing
+# entries named "available", "installed", "loaded", and "title"
+# availabe: also check for all available packages in 'repos'
+# available.only: omit all installed packages which cannot be found in 'repos'
+check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.github.io/repos/l10n/", available.only=FALSE){
+  result <- list()
+  if(isTRUE(available)){
+    available_packages <- available.packages(repos=repos)
+    available_koRpus_lang <- grepl("koRpus.lang.*", available_packages[,"Package"])
+    supported_lang <- unique(available_packages[available_koRpus_lang,"Package"])
+  } else {
+    available_koRpus_lang <- FALSE
+    supported_lang <- NULL
+  }
+
+  loaded_packages <- loadedNamespaces()
+  loaded_koRpus_lang <- grepl("koRpus.lang.*", loaded_packages)
+  installed_packages <- installed.packages(fields="Title")
+  installed_koRpus_lang <- grepl("koRpus.lang.*", installed_packages[,"Package"])
+
+  have_koRpus_lang <- any(installed_koRpus_lang, available_koRpus_lang)
+
+  if(isTRUE(have_koRpus_lang)){
+    if(isTRUE(available.only)){
+      all_packages <- supported_lang
+    } else {
+      all_packages <- unique(c(installed_packages[installed_koRpus_lang,"Package"], supported_lang))
+    }
+    for (this_package in all_packages){
+      result[[this_package]] <- list(available=NA, installed=FALSE, loaded=FALSE, title="(unknown)")
+      if(all(isTRUE(available), this_package %in% supported_lang)){
+        result[[this_package]][["available"]] <- TRUE
+      } else {}
+      if(this_package %in% unique(installed_packages[installed_koRpus_lang,"Package"])){
+        result[[this_package]][["installed"]] <- TRUE
+        this_package_index <- which.min(!installed_packages[,"Package"] %in% this_package)
+        result[[this_package]][["title"]] <- installed_packages[this_package_index,"Title"]
+      } else {}
+      if(this_package %in% unique(loaded_packages[loaded_koRpus_lang])){
+        result[[this_package]][["loaded"]] <- TRUE
+      } else {}
+    }
+  } else {}
+  
+  return(result)
+} ## end function check_koRpus_lang()

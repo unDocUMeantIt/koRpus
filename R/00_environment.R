@@ -50,33 +50,45 @@ if(isTRUE(R_system_version(getRversion()) < 2.15)){
 
   ## check for language support packages
   # koRpus is rather useless without at least one language support package loaded
-  all_loaded_namepsaces <- loadedNamespaces()
-  any_loaded_koRpus_lang <- any(grepl("koRpus.lang.*", all_loaded_namepsaces))
+  # but we only need to check this once
+  if(!isTRUE(.koRpus.env[["checked_lang_support"]])){
+    all_installed <- check_koRpus_lang(available=FALSE)
+    have_koRpus_lang <- length(all_installed) > 0
 
-  all_installed_packages <- installed.packages(fields="Title")
-  is_koRpus_lang_package <- grepl("koRpus.lang.*", all_installed_packages[,"Package"])
-  have_koRpus_lang <- any(is_koRpus_lang_package)
+    additional_info <- paste0("For a list of available language packages, please call:\n\n  available.koRpus.lang()\n")
 
-  additional_info <- paste0("\n\nFor a list of available language packages, please call:\n\n  available.koRpus.lang()\n")
-
-  if(!isTRUE(any_loaded_koRpus_lang)){
     if(isTRUE(have_koRpus_lang)){
-      supported_lang <- unique(all_installed_packages[is_koRpus_lang_package,"Package"])
-      supported_lang_title <- unique(all_installed_packages[is_koRpus_lang_package,"Title"])
+      supported_lang <- names(all_installed)
+      installed <- sapply(
+        all_installed,
+        function(this_package){
+          status <- paste0(" -- ", this_package[["title"]])
+          if(isTRUE(this_package[["loaded"]])){
+            status <- paste0(status, " [loaded]")
+          } else {}
+          return(status)
+        }
+      )
       lang_msg <- paste0(
-        "\nFound the following language support packages on this system: \n\n  ",
-        paste0(supported_lang, " -- ", supported_lang_title, collapse="\n  "), "\n\n",
-        "Please load the respective packages for all languages you need.",
+        "\nFound the following language support packages installed on this system: \n\n  ",
+        paste0(
+          paste0(supported_lang, installed),
+          collapse="\n  "
+        ), "\n\n",
+        if(!any(grepl("loaded", installed))){
+          paste0("Please load the respective packages for all languages you need.\n\n")
+        },
         additional_info
       )
       message(lang_msg)
     } else {
       lang_msg <- paste0(
         "\nNo language support packages for koRpus found on this system!\n",
-        "You need to install support packages for all languages you want to analyze.",
+        "You need to install support packages for all languages you want to analyze.\n\n",
         additional_info
       )
       warning(lang_msg, call.=FALSE)
     }
+    .koRpus.env[["checked_lang_support"]] <- TRUE
   } else {}
 }
