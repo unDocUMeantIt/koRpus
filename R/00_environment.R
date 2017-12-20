@@ -57,7 +57,7 @@ if(isTRUE(R_system_version(getRversion()) < 2.15)){
   is_koRpus_lang_package <- grepl("koRpus.lang.*", all_installed_packages[,"Package"])
   have_koRpus_lang <- any(is_koRpus_lang_package)
 
-  additional_info <- paste0("\n\nFor a list of available language packages, please call:\n\n  koRpus:::available.koRpus.lang()\n")
+  additional_info <- paste0("\n\nFor a list of available language packages, please call:\n\n  available.koRpus.lang()\n")
 
   if(!isTRUE(any_loaded_koRpus_lang)){
     if(isTRUE(have_koRpus_lang)){
@@ -79,23 +79,4 @@ if(isTRUE(R_system_version(getRversion()) < 2.15)){
       warning(lang_msg, call.=FALSE)
     }
   } else {}
-}
-
-# this function prints info on available language packages
-available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l10n/"){
-  all_available <- available.packages(repos=repos)
-  available_koRpus_lang_package <- grepl("koRpus.lang.*", all_available[,"Package"])
-  supported_lang <- unique(all_available[available_koRpus_lang_package,"Package"])
-
-  lang_msg <- paste0(
-    "The following language support packages are currently available:\n\n  ",
-    paste0(supported_lang, collapse="\n  "), "\n\n",
-    "Installation (replace \"koRpus.lang.**\" with a valid package name):\n\n  ",
-    "install.packages(\"koRpus.lang.**\", repo=\"https://undocumeantit.github.io/repos/l10n/\")\n\n",
-    "For further information please visit:\n",
-    "  https://undocumeantit.github.io/repos/\n"
-  )
-
-  message(lang_msg)
-  return(invisible(NULL))
 }

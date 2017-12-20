@@ -22,6 +22,8 @@ changed:
   - vignette is now in RMarkdown/HTML format; the SWeave/PDF version was dropped
 added:
   - tif_as_tokens_df(): new method to get TT.res in fully TIF compliant format
+  - new functions available.koRpus.lang() and install.koRpus.lang() for more
+    convenient handling of language support packages.
 
 changes in version 0.11-1 (2017-06-20)
 fixed:

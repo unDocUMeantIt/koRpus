@@ -50,7 +50,7 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
 Version: 0.11-2
-Date: 2017-12-02
+Date: 2017-12-20
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'
@@ -86,8 +86,10 @@ Collate:
     '02_method_summary.kRp.txt.freq.R'
     '02_method_text.transform.R'
     '02_method_types_tokens.R'
+    'available.koRpus.lang.R'
     'get.kRp.env.R'
     'guess.lang.R'
+    'install.koRpus.lang.R'
     'jumbleWords.R'
     'kRp.POS.tags.R'
     'kRp.cluster.R'

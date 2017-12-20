@@ -9,7 +9,7 @@ read.BAWL(csv, fileEncoding = NULL)
 \arguments{
 \item{csv}{A character string, path to the BAWL-R in CSV2 format.}
 
-\item{fileEncoding}{A character string naming the encoding of the file, if neccessary.}
+\item{fileEncoding}{A character string naming the encoding of the file, if necessary.}
 }
 \value{
 An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
