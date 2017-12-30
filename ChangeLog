@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-2 (2017-10-26)
+changes in version 0.11-2 (2017-12-30)
 unreleased:
   - this release is under development
 fixed:
@@ -17,13 +17,22 @@ changed:
     separate language packages were not allowed to be published there as well.
     a special repository was therefore set up on gitub and added via the
     "Additional_repositories" field to the DESCRIPTION file. so the sylly.XX
-    package dependencies are now being resolved by installing from that
-    repo instead of CRAN
+    packages are now being resolved by installing from that repo instead of CRAN.
+    however, not having the sylly.XX packages on CRAN made it necessary to
+    further modularize the package and complete remove all out-of-the-box language
+    support (see removed section)
+  - package loading: when koRpus is being loaded, it now checks for available
+    (i.e. already installed) language packages. if none are found, it asks you
+    to install one. i'm sorry for the unconvenience
   - vignette is now in RMarkdown/HTML format; the SWeave/PDF version was dropped
 added:
   - tif_as_tokens_df(): new method to get TT.res in fully TIF compliant format
   - new functions available.koRpus.lang() and install.koRpus.lang() for more
     convenient handling of language support packages.
+removed:
+  - language support: koRpus previously supported some languages directly (de,
+    en, es, fr, it, and ru). this support had to be removed and is now available
+    as separate language packages via https://undocumeantit.github.io/repos/l10n
 
 changes in version 0.11-1 (2017-06-20)
 fixed:
