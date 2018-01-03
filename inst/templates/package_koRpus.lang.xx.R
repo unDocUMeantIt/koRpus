@@ -5,7 +5,7 @@
 ## before you can adjust and run this script!
 ## 
 ## throughout the template, there are some values you need to replace globally:
-##   xyzedish: template name for the language (replace with "english", "dutch" etc.)
+##   Xyzedish: template name for the language (replace with "English", "Dutch" etc.)
 ##   xx:       template name for the language abbreviation (replace with "en", "nl" etc.)
 ## 
 ## when you're done, remove this block ;-)
@@ -54,7 +54,7 @@ local({
     email <- "first.family@example.org"
     
     # name of the language
-    language.long <- "Xyzdish"
+    language.long <- "Xyzedish"
     language.short <- "xx"
 
     # the package version number

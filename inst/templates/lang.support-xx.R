@@ -6,6 +6,7 @@
 ## and adjust it to your needs.
 ## 
 ## throughout the template, there are some values you need to replace globally:
+##   Xyzedish: capitalized template name for the language (replace with "English", "Dutch" etc.)
 ##   xyzedish: template name for the language (replace with "english", "dutch" etc.)
 ##   xx:       template name for the language abbreviation (replace with "en", "nl" etc.)
 ## 
@@ -35,9 +36,9 @@
 ## a note on the use in packages:
 # if you use this template as basis for a language package, please update the
 # roxygen2 documentation notes:
-#' Language support for xyzedish
+#' Language support for Xyzedish
 #' 
-#' This function adds support for xyzedish to the koRpus package. You should not
+#' This function adds support for Xyzedish to the koRpus package. You should not
 #' need to call it manually, as that is done automatically when this package is
 #' loaded.
 #' 
