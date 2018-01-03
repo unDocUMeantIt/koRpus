@@ -45,8 +45,7 @@
 #' In particular, this function adds the following:
 #' \itemize{
 #'  \item \code{lang}: The additional language "xx" to be used with koRpus
-#'  \item \code{treetag}: The additional presets "xx" and "xx-utf8", implemented according to the respective
-#'    TreeTagger[1] script
+#'  \item \code{treetag}: The additional preset "xx", implemented according to the respective TreeTagger[1] script
 #'  \item \code{POS tags}: An additional set of tags, implemented using the documentation for the corresponding
 #'    TreeTagger parameter set[2]
 #' }
