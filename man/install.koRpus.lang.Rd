@@ -34,6 +34,8 @@ See \code{\link[koRpus:set.lang.support]{set.lang.support}} for more details on 
 \dontrun{
 # install support for German
 install.koRpus.lang("de")
+# load the package
+library("koRpus.lang.de")
 }
 }
 \seealso{
