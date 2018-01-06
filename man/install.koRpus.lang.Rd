@@ -12,8 +12,9 @@ install.koRpus.lang(lang,
       one or more valid language identifiers (like \code{en} for English or \code{de}
 for German).}
 
-\item{repos}{The URL to the repository to query. You should probably leave this to the
-default, but if you would like to use a third party repository, you're free to do so.}
+\item{repos}{The URL to additional repositories to query. You should probably leave this to the
+default, but if you would like to use a third party repository, you're free to do so. The
+value is temporarily appended to the repos currently returned by \code{getOption("repos")}.}
 
 \item{...}{Additional options for \code{install.packages}.}
 }

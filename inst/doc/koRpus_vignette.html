@@ -12,7 +12,7 @@
 
 <meta name="author" content="m.eik michalke" />
 
-<meta name="date" content="2017-11-30" />
+<meta name="date" content="2018-01-06" />
 
 <title>Using the koRpus Package for Text Analysis</title>
 
@@ -81,7 +81,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Using the koRpus Package for Text Analysis</h1>
 <h4 class="author"><em>m.eik michalke</em></h4>
-<h4 class="date"><em>2017-11-30</em></h4>
+<h4 class="date"><em>2018-01-06</em></h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>The R package <code>koRpus</code> aims to be a versatile tool for text analysis, with an emphasis on scientific research on that topic. It implements dozens of formulae to measure readability and lexical diversity. On a more basic level <code>koRpus</code> can be used as an R wrapper for third party products, like the tokenizer and POS tagger TreeTagger or language corpora of the Leipzig Corpora Collection. This vignette takes a brief tour around its core components, shows how they can be used and gives some insight on design decisions.</p>
@@ -98,6 +98,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#translated-human-rights-declaration">Translated Human Rights Declaration</a></li>
 </ul></li>
 <li><a href="#a-sample-session">A sample session</a><ul>
+<li><a href="#loading-a-language-package">Loading a language package</a></li>
 <li><a href="#tokenizing-and-pos-tagging">Tokenizing and POS tagging</a><ul>
 <li><a href="#treetag"><code>treetag()</code></a></li>
 <li><a href="#alternative-tokenize">Alternative: <code>tokenize()</code></a></li>
@@ -150,6 +151,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="a-sample-session" class="section level1">
 <h1>A sample session</h1>
 <p>From now on it is assumed that the above requirements are correctly installed and working. If an optional component is used it will be noted. Further, we’ll need a sample text to analyze. We’ll use the section on <a href="http://en.wikipedia.org/wiki/Phasmatodea#Defense_mechanisms">defense mechanisms of Phasmatodea</a> from Wikipedia for this purpose.</p>
+<div id="loading-a-language-package" class="section level2">
+<h2>Loading a language package</h2>
+<p>In order to do some analysis, you need to load a language support package for each language you would like to work with. For instance, in this vignette we’re analyzing an English sample text. Language support packages for <code>koRpus</code> are named <code>koRpus.lang.**</code>, where <code>**</code> is a two-character ID for the respective language, like <code>en</code> for English.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install the language support package</span>
+<span class="kw">install.koRpus.lang</span>(<span class="st">&quot;en&quot;</span>)
+<span class="co"># load the package</span>
+<span class="kw">library</span>(koRpus.lang.en)</code></pre></div>
+<p>When <code>koRpus</code> itself is loaded, it will list you all language packages found on your system. To get a list of all installable packages, call <code>available.koRpus.lang()</code>.</p>
+</div>
 <div id="tokenizing-and-pos-tagging" class="section level2">
 <h2>Tokenizing and POS tagging</h2>
 <p>As explained earlier, splitting the text up into its basic components can be done by TreeTagger. To achieve this and have the results available in R, the function <code>treetag()</code> is used.</p>
@@ -173,7 +183,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!--
   we work around that issue by silently loading the tagged text from a dput file
 -->
-<p>The first argument (file name) and <code>lang</code> should explain themselves. The <code>treetagger</code> option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword “manual”, which will cause the interpretation of what is defined by <code>TT.options</code>. To use a preset, just put the <code>path</code> to your local TreeTagger installation and a valid <code>preset</code> name here.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> The document ID is optional and can be omitted.</p>
+<p>The first argument (file name) and <code>lang</code> should explain themselves. The <code>treetagger</code> option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword “manual”, which will cause the interpretation of what is defined by <code>TT.options</code>. To use a preset, just put the <code>path</code> to your local TreeTagger installation and a valid <code>preset</code> name here.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a> The document ID is optional and can be omitted.</p>
 <p>The resulting S4 object is of a class called <code>kRp.tagged</code>. If you call the object directly you get a shortened view of it’s main content:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tagged.text</code></pre></div>
 <pre><code>##     doc_id       token  tag     lemma lttr      wclass desc stop stem idx sntc
@@ -355,7 +365,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="lexical-diversity-type-token-ratios" class="section level2">
 <h2>Lexical diversity (type token ratios)</h2>
-<p>To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the <code>lex.div()</code> method. You can call it on the object with no further arguments (like <code>lex.div(tagged.text)</code>), but in this example we’ll limit the analysis to a few measures:<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<p>To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the <code>lex.div()</code> method. You can call it on the object with no further arguments (like <code>lex.div(tagged.text)</code>), but in this example we’ll limit the analysis to a few measures:<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lex.div</span>(
   tagged.text,
   <span class="dt">measure=</span><span class="kw">c</span>(<span class="st">&quot;TTR&quot;</span>, <span class="st">&quot;MSTTR&quot;</span>, <span class="st">&quot;MATTR&quot;</span>,<span class="st">&quot;HD-D&quot;</span>, <span class="st">&quot;MTLD&quot;</span>, <span class="st">&quot;MTLD-MA&quot;</span>),
@@ -439,7 +449,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##  9.6766</code></pre>
 <pre><code>## 
 ## Note: Analysis was conducted case insensitive.</code></pre>
-<p>Let’s look at some particular parts: At first we are informed of the total number of types, tokens and lemmas (if available). After that the actual results are being printed, using the package’s <code>show()</code> method for this particular kind of object. As you can see, it prints the actual value of each measure before a summary of the characteristics.<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></p>
+<p>Let’s look at some particular parts: At first we are informed of the total number of types, tokens and lemmas (if available). After that the actual results are being printed, using the package’s <code>show()</code> method for this particular kind of object. As you can see, it prints the actual value of each measure before a summary of the characteristics.<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></p>
 <p>Some measures return more information than just their actual index value. For instance, when the Mean Segmental Type-Token Ratio is calculated, you’ll be informed how much of your text was dropped and hence not examined. A small feature tool of <code>koRpus</code>, <code>segment.optimizer()</code>, automatically recommends you with a different segment size if this could decrease the number of lost tokens.</p>
 <p>By default, <code>lex.div()</code> calculates every measure of lexical diversity that was implemented. Of course this is fully configurable, e.g. to completely skip the calculation of characteristics just add the option <code>char=NULL</code>. If you’re only interested in one particular measure, it might be more convenient to call the according wrapper function instead of <code>lex.div()</code>. For example, to calculate only the measures proposed by <span class="citation">Maas (1972)</span>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">maas</span>(tagged.text)</code></pre></div>
@@ -486,7 +496,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Frequency analysis</h2>
 <div id="importing-language-corpora-data" class="section level3">
 <h3>Importing language corpora data</h3>
-<p>This package has rudimentary support to import corpus databases.<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> That is, it can read frequency data for words into an R object and use this object for further analysis. Next to the <a href="http://celex.mpi.nl">Celex</a> database format (<code>read.corp.celex()</code>), it can read the LCC flatfile format<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> (<code>read.corp.LCC()</code>). The latter might be of special interest, because the needed database archives can be <a href="http://corpora.informatik.uni-leipzig.de/download.html">freely downloaded</a>. Once you’ve downloaded one of these archives, it can be comfortably imported:</p>
+<p>This package has rudimentary support to import corpus databases.<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> That is, it can read frequency data for words into an R object and use this object for further analysis. Next to the <a href="http://celex.mpi.nl">Celex</a> database format (<code>read.corp.celex()</code>), it can read the LCC flatfile format<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a> (<code>read.corp.LCC()</code>). The latter might be of special interest, because the needed database archives can be <a href="http://corpora.informatik.uni-leipzig.de/download.html">freely downloaded</a>. Once you’ve downloaded one of these archives, it can be comfortably imported:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">LCC.en &lt;-<span class="st"> </span><span class="kw">read.corp.LCC</span>(<span class="st">&quot;~/downloads/corpora/eng_news_2010_1M-text.tar&quot;</span>)</code></pre></div>
 <p><code>read.corp.LCC()</code> will automatically extract the files it needs from the archive. Alernatively, you can specify the path to the unpacked archive as well. To work with the imported data directly, the tool <code>query()</code> was added to the package. It helps you to comfortably look up certain words, or ranges of interesting values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">query</span>(LCC.en, <span class="st">&quot;word&quot;</span>, <span class="st">&quot;what&quot;</span>)</code></pre></div>
@@ -513,7 +523,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3>Conduct a frequency analysis</h3>
 <p>We can now conduct a full frequency analysis of our text:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">freq.analysis.res &lt;-<span class="st"> </span><span class="kw">freq.analysis</span>(tagged.text, <span class="dt">corp.freq=</span>LCC.en)</code></pre></div>
-<p>The resulting object holds a lot of information, even if no corpus data was used (i.e., <code>corp.freq=NULL</code>). To begin with, it contains the two slots <code>TT.res</code> and <code>lang</code>, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into <code>kRp.tagged</code> objects.<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a> However, if corpus data was provided, the tagging results gained three new columns:</p>
+<p>The resulting object holds a lot of information, even if no corpus data was used (i.e., <code>corp.freq=NULL</code>). To begin with, it contains the two slots <code>TT.res</code> and <code>lang</code>, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into <code>kRp.tagged</code> objects.<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a> However, if corpus data was provided, the tagging results gained three new columns:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">taggedText</span>(freq.analysis.res)</code></pre></div>
 <pre><code>##        token tag     lemma lttr  [...] pmio rank.avg rank.min
 [...]
@@ -532,10 +542,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="new-to-the-desc-slot" class="section level3">
 <h3>New to the <code>desc</code> slot</h3>
-<p>Amongst others, the descriptives now also give easy access to character vectors with all words (<code>$all.words</code>) and all lemmata (<code>$all.lemmata</code>), all tokens sorted<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a> into word classes (e.g., all verbs in <code>$classes$verb</code>), or the number of words in each sentece:</p>
+<p>Amongst others, the descriptives now also give easy access to character vectors with all words (<code>$all.words</code>) and all lemmata (<code>$all.lemmata</code>), all tokens sorted<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a> into word classes (e.g., all verbs in <code>$classes$verb</code>), or the number of words in each sentece:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describe</span>(freq.analysis.res)[[<span class="st">&quot;sentc.length&quot;</span>]]</code></pre></div>
 <pre><code>##  [1] 34 10 37 16 44 31 14 31 34 23 17 43 40 47 22 19 65 29</code></pre>
-<p>As a practical example, the list <code>$classes</code> has proven to be very helpful to debug the results of TreeTagger, which is remarkably accurate, but of course not free from making a mistake now and then. By looking through <code>$classes</code>, where all tokens are grouped regarding to the global word class TreeTagger attributed to it, at least obvious errors (like names mistakenly taken for a pronoun) are easily found:<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></p>
+<p>As a practical example, the list <code>$classes</code> has proven to be very helpful to debug the results of TreeTagger, which is remarkably accurate, but of course not free from making a mistake now and then. By looking through <code>$classes</code>, where all tokens are grouped regarding to the global word class TreeTagger attributed to it, at least obvious errors (like names mistakenly taken for a pronoun) are easily found:<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describe</span>(freq.analysis.res)$classes</code></pre></div>
 <pre><code>## $conjunction
 ## [1] &quot;both&quot; &quot;and&quot;  &quot;and&quot;  &quot;and&quot;  &quot;and&quot;  &quot;or&quot;   &quot;or&quot;   &quot;and&quot;  &quot;and&quot;  &quot;or&quot;  
@@ -554,7 +564,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="readability" class="section level2">
 <h2>Readability</h2>
-<p>The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a> To achieve this, the method <code>hyphen()</code> takes objects of class <code>kRp.tagged</code> and applies an hyphenation algorithm <span class="citation">(Liang, 1983)</span> to each word. This algorithm was originally developed for automatic word hyphenation in <span class="math inline">\(\LaTeX\)</span>, and is gracefully misused here to fulfill a slightly different service.<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a></p>
+<p>The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a> To achieve this, the method <code>hyphen()</code> takes objects of class <code>kRp.tagged</code> and applies an hyphenation algorithm <span class="citation">(Liang, 1983)</span> to each word. This algorithm was originally developed for automatic word hyphenation in <span class="math inline">\(\LaTeX\)</span>, and is gracefully misused here to fulfill a slightly different service.<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(hyph.txt.en &lt;-<span class="st"> </span><span class="kw">hyphen</span>(tagged.text))</code></pre></div>
 <!-- cache must be off, otherwise the correction further down might not work reliably -->
 <pre><code>##     syll           word
@@ -572,7 +582,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 555    1           some
 ## 556    3    pred-a-tors</code></pre>
 <p>This seperate hyphenation step can actually be skipped, as <code>readability()</code> will do it automatically if needed. But similar to TreeTagger, <code>hyphen()</code> will most likely not produce perfect results. As a rule of thumb, if in doubt it seems to behave rather conservative, that is, is underestimates the real number of syllables in a text. This, however, would of course affect the results of several readability formulae.</p>
-<p>So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a method called <code>correct.hyph()</code> to help you clean these results of errors later on. The most straight forward way to do this is to call <code>hyphenText(hyph.txt.en)</code>, which will get you a data frame with two colums, <code>word</code> (the hyphenated words) and <code>syll</code> (the number of syllables), in a spread sheet editor:<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></p>
+<p>So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a method called <code>correct.hyph()</code> to help you clean these results of errors later on. The most straight forward way to do this is to call <code>hyphenText(hyph.txt.en)</code>, which will get you a data frame with two colums, <code>word</code> (the hyphenated words) and <code>syll</code> (the number of syllables), in a spread sheet editor:<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">hyphenText</span>(hyph.txt.en))</code></pre></div>
 <pre><code>##   syll           word
 ## 1    2       De-fense
@@ -597,9 +607,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##   syll          word
 ## 2    4 mech-a-ni-sms
 ## 6    4 mech-a-ni-sms</code></pre>
-<p>The hyphenated text object can now be given to <code>readability()</code>, to calculate the measures of interest:<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a></p>
+<p>The hyphenated text object can now be given to <code>readability()</code>, to calculate the measures of interest:<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">readbl.txt &lt;-<span class="st"> </span><span class="kw">readability</span>(tagged.text, <span class="dt">hyphen=</span>hyph.txt.en)</code></pre></div>
-<p>Similar to <code>lex.div()</code>, by default <code>readability()</code> calculates almost<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a> all available measures:</p>
+<p>Similar to <code>lex.div()</code>, by default <code>readability()</code> calculates almost<a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a> all available measures:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">readbl.txt</code></pre></div>
 <pre><code>## 
 ## Automated Readability Index (ARI)
@@ -909,19 +919,20 @@ lix.res</code></pre></div>
 <ol>
 <li id="fn1"><p>For a free implementation try <a href="http://strawberryperl.com" class="uri">http://strawberryperl.com</a><a href="#fnref1">↩</a></p></li>
 <li id="fn2"><p>Like <a href="http://7-zip.org" class="uri">http://7-zip.org</a><a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>As of 0.04-38, English, French, Italian, German, Spanish and Russian are implemented, refer to package documentation. Additional languange support is possible by installing the respective <code>koRpus.lang.*</code> package, e.g. from <code>https://reaktanz.de/R/</code><a href="#fnref3">↩</a></p></li>
-<li id="fn4"><p>For informtaion on the measures shown see <span class="citation">Tweedie &amp; Baayen (1998)</span>, <span class="citation">McCarthy &amp; Jarvis (2007)</span>, <span class="citation">McCarthy &amp; Jarvis (2010)</span>.<a href="#fnref4">↩</a></p></li>
-<li id="fn5"><p>Characteristics can be looked at to examine each measure’s dependency on text length. They are calculated by computing each measure repeatedly, beginning with only the first token, then adding the next, progressing until the full text was analyzed.<a href="#fnref5">↩</a></p></li>
-<li id="fn6"><p>The package also has a function called <code>read.corp.custom()</code> which can be used to process language corpora yourself, and store the results in an object of class <code>kRp.corp.freq</code>, which is the class returned by <code>read.corp.LCC()</code> and <code>read.corp.celex()</code> as well. That is, if you can’t get any already analyzed corpus database but have a huge language corpus at hand, you can create your own frequency database. But be warned that depending on corpus size and your hardware, this might take ages. On the other hand, <code>read.corp.custom()</code> will provide inverse document frequency (idf) values for all types, which is necessary to compute tf-idf with <code>freq.analysis()</code><a href="#fnref6">↩</a></p></li>
-<li id="fn7"><p>Actually, it unterstands two different LCC formats, both the older .zip and the newer .tar archive format.<a href="#fnref7">↩</a></p></li>
-<li id="fn8"><p>This can easily be done by calling <code>as(freq.analysis.res, &quot;kRp.tagged&quot;)</code>.<a href="#fnref8">↩</a></p></li>
-<li id="fn9"><p>This sorting depends on proper POS-tagging, so this will only contain useful data if you used <code>treetag()</code> instead of <code>tokenize()</code>.<a href="#fnref9">↩</a></p></li>
-<li id="fn10"><p>And can then be corrected by using the function <code>correct.tag()</code><a href="#fnref10">↩</a></p></li>
-<li id="fn11"><p>Whether this is the case can be looked up in the documentation.<a href="#fnref11">↩</a></p></li>
-<li id="fn12"><p>The <code>hyphen()</code> method was originally implemented as part of the <code>koRpus</code> package, but was later split off into its own package called <code>sylly</code>.<a href="#fnref12">↩</a></p></li>
-<li id="fn13"><p>For example, this can be comfortably done with RKWard: <a href="https://rkward.kde.org" class="uri">https://rkward.kde.org</a><a href="#fnref13">↩</a></p></li>
-<li id="fn14"><p>Please note that as of version 0.04-18, the correctness of some of these calculations has not been extensively validated yet. The package was released nonetheless, also to find outstanding bugs in the implemented measures. Any information on the validity of its results is very welcome!<a href="#fnref14">↩</a></p></li>
-<li id="fn15"><p>Measures which rely on word lists will be skipped if no list is provided.<a href="#fnref15">↩</a></p></li>
+<li id="fn3"><p>Unfortunately, these language packages did not get the approval of the CRAN maintainers and are officially hosted at (<a href="https://undocumeantit.github.io/repos/l10n" class="uri">https://undocumeantit.github.io/repos/l10n</a>)[<a href="https://undocumeantit.github.io/repos/l10n" class="uri">https://undocumeantit.github.io/repos/l10n</a>]. For your convenience the function <code>install.koRpus.lang()</code> can be used to easily install them anyway.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Presets are defined in the language support packages, usually named like their respective two-character language identifier. Refer to their documentation.<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>For informtaion on the measures shown see <span class="citation">Tweedie &amp; Baayen (1998)</span>, <span class="citation">McCarthy &amp; Jarvis (2007)</span>, <span class="citation">McCarthy &amp; Jarvis (2010)</span>.<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>Characteristics can be looked at to examine each measure’s dependency on text length. They are calculated by computing each measure repeatedly, beginning with only the first token, then adding the next, progressing until the full text was analyzed.<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>The package also has a function called <code>read.corp.custom()</code> which can be used to process language corpora yourself, and store the results in an object of class <code>kRp.corp.freq</code>, which is the class returned by <code>read.corp.LCC()</code> and <code>read.corp.celex()</code> as well. That is, if you can’t get any already analyzed corpus database but have a huge language corpus at hand, you can create your own frequency database. But be warned that depending on corpus size and your hardware, this might take ages. On the other hand, <code>read.corp.custom()</code> will provide inverse document frequency (idf) values for all types, which is necessary to compute tf-idf with <code>freq.analysis()</code><a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>Actually, it unterstands two different LCC formats, both the older .zip and the newer .tar archive format.<a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p>This can easily be done by calling <code>as(freq.analysis.res, &quot;kRp.tagged&quot;)</code>.<a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p>This sorting depends on proper POS-tagging, so this will only contain useful data if you used <code>treetag()</code> instead of <code>tokenize()</code>.<a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p>And can then be corrected by using the function <code>correct.tag()</code><a href="#fnref11">↩</a></p></li>
+<li id="fn12"><p>Whether this is the case can be looked up in the documentation.<a href="#fnref12">↩</a></p></li>
+<li id="fn13"><p>The <code>hyphen()</code> method was originally implemented as part of the <code>koRpus</code> package, but was later split off into its own package called <code>sylly</code>.<a href="#fnref13">↩</a></p></li>
+<li id="fn14"><p>For example, this can be comfortably done with RKWard: <a href="https://rkward.kde.org" class="uri">https://rkward.kde.org</a><a href="#fnref14">↩</a></p></li>
+<li id="fn15"><p>Please note that as of version 0.04-18, the correctness of some of these calculations has not been extensively validated yet. The package was released nonetheless, also to find outstanding bugs in the implemented measures. Any information on the validity of its results is very welcome!<a href="#fnref15">↩</a></p></li>
+<li id="fn16"><p>Measures which rely on word lists will be skipped if no list is provided.<a href="#fnref16">↩</a></p></li>
 </ol>
 </div>
 

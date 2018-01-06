@@ -26,7 +26,7 @@
 #' is replaced by a valid language identifier (like \code{en} for English or \code{de}
 #' for German). See \code{\link[koRpus:set.lang.support]{set.lang.support}} for more details.
 #' 
-#' This function downloads the package list from the official localization repository
+#' This function downloads the package list from (also) the official localization repository
 #' for koRpus and lists all currently available language packages that you could install
 #' and load. Apart from than it does not download or install anything.
 #' 
@@ -34,8 +34,9 @@
 #' \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}, or
 #' \code{\link[utils:install.packages]{install.packages}} (see examples).
 #'
-#' @param repos The URL to the repository to query. You should probably leave this to the
-#'    default, but if you would like to use a third party repository, you're free to do so.
+#' @param repos The URL to additional repositories to query. You should probably leave this to the
+#'    default, but if you would like to use a third party repository, you're free to do so. The
+#'    value is temporarily appended to the repos currently returned by \code{getOption("repos")}.
 #' @return Returns an invisible character vector with all available language packages.
 #' @seealso \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}, 
 #' @export
@@ -50,6 +51,9 @@
 #' install.packages("koRpus.lang.de", repos="https://undocumeantit.github.io/repos/l10n/")
 #' }
 available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l10n/"){
+  # append repos, don't replace them
+  repos <- c(getOption("repos"), l10n=repos)
+
   all_available <- check_koRpus_lang(available=TRUE, repos=repos, available.only=TRUE)
 
   if(length(all_available) < 1){

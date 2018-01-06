@@ -7,8 +7,9 @@
 available.koRpus.lang(repos = "https://undocumeantit.github.io/repos/l10n/")
 }
 \arguments{
-\item{repos}{The URL to the repository to query. You should probably leave this to the
-default, but if you would like to use a third party repository, you're free to do so.}
+\item{repos}{The URL to additional repositories to query. You should probably leave this to the
+default, but if you would like to use a third party repository, you're free to do so. The
+value is temporarily appended to the repos currently returned by \code{getOption("repos")}.}
 }
 \value{
 Returns an invisible character vector with all available language packages.
@@ -24,7 +25,7 @@ These language support packages are named \code{koRpus.lang.**}, where \code{**}
 is replaced by a valid language identifier (like \code{en} for English or \code{de}
 for German). See \code{\link[koRpus:set.lang.support]{set.lang.support}} for more details.
 
-This function downloads the package list from the official localization repository
+This function downloads the package list from (also) the official localization repository
 for koRpus and lists all currently available language packages that you could install
 and load. Apart from than it does not download or install anything.
 

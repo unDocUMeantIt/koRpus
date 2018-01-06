@@ -25,8 +25,9 @@
 #'
 #' @param lang Character vector, one or more valid language identifiers (like \code{en} for English or \code{de}
 #'    for German).
-#' @param repos The URL to the repository to query. You should probably leave this to the
-#'    default, but if you would like to use a third party repository, you're free to do so.
+#' @param repos The URL to additional repositories to query. You should probably leave this to the
+#'    default, but if you would like to use a third party repository, you're free to do so. The
+#'    value is temporarily appended to the repos currently returned by \code{getOption("repos")}.
 #' @param ... Additional options for \code{install.packages}.
 #' @return Does not return any useful objects, just calls \code{\link[utils:install.packages]{install.packages}}.
 #' @seealso \code{\link[utils:install.packages]{install.packages}}, \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}}
@@ -39,9 +40,12 @@
 #' library("koRpus.lang.de")
 #' }
 install.koRpus.lang <- function(lang, repos="https://undocumeantit.github.io/repos/l10n/", ...){
+  # append repos, don't replace them
+  repos <- c(getOption("repos"), l10n=repos)
   lang_packages <- paste0("koRpus.lang.", lang)
   all_available <- suppressMessages(available.koRpus.lang(repos=repos))
   valid_pckg <- lang_packages %in% all_available
+
   if(all(valid_pckg)){
     install.packages(pkgs=lang_packages, repos=repos, ...)
   } else {
