@@ -36,7 +36,7 @@ or supposed bug fixes, and get feedback before the next release goes to CRAN.
 Installation is fairly easy, too:
 
 ```
-install.packages("koRpus", repo="https://reaktanz.de/R")
+install.packages("koRpus", repo=c(getOption("repos"), reaktanz="https://reaktanz.de/R"))
 ```
 
 To automatically get updates, consider adding the repository to your R configuration.  You might also
