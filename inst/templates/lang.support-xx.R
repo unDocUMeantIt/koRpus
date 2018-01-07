@@ -6,6 +6,7 @@
 ## and adjust it to your needs.
 ## 
 ## throughout the template, there are some values you need to replace globally:
+##   Xyzedish: capitalized template name for the language (replace with "English", "Dutch" etc.)
 ##   xyzedish: template name for the language (replace with "english", "dutch" etc.)
 ##   xx:       template name for the language abbreviation (replace with "en", "nl" etc.)
 ## 
@@ -35,17 +36,16 @@
 ## a note on the use in packages:
 # if you use this template as basis for a language package, please update the
 # roxygen2 documentation notes:
-#' Language support for xyzedish
+#' Language support for Xyzedish
 #' 
-#' This function adds support for xyzedish to the koRpus package. You should not
+#' This function adds support for Xyzedish to the koRpus package. You should not
 #' need to call it manually, as that is done automatically when this package is
 #' loaded.
 #' 
 #' In particular, this function adds the following:
 #' \itemize{
 #'  \item \code{lang}: The additional language "xx" to be used with koRpus
-#'  \item \code{treetag}: The additional presets "xx" and "xx-utf8", implemented according to the respective
-#'    TreeTagger[1] script
+#'  \item \code{treetag}: The additional preset "xx", implemented according to the respective TreeTagger[1] script
 #'  \item \code{POS tags}: An additional set of tags, implemented using the documentation for the corresponding
 #'    TreeTagger parameter set[2]
 #' }
@@ -57,6 +57,11 @@
 #'
 #' [2] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/xyzedish-tagset.txt}
 #' @export
+#' @importFrom koRpus set.lang.support
+#' @examples
+#' \dontrun{
+#' lang.support.xx()
+#' }
 # call this function to add further language support
 ## function lang.support.xx()
 lang.support.xx <- function() {
@@ -181,6 +186,8 @@ lang.support.xx <- function() {
 # putting the lang.support.xx() function directly inside an internal
 # .onAttach() function:
 #
+# #' @importFrom sylly.xx hyph.support.xx
 # .onAttach <- function(...) {
 #   lang.support.xx()
+#   sylly.xx::hyph.support.xx()
 # }

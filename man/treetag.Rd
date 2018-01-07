@@ -26,8 +26,9 @@ parameter.}
 
 \item{rm.sgml}{Logical, whether SGML tags should be ignored and removed from output}
 
-\item{lang}{A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
-If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.}
+\item{lang}{A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} and
+\code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}}for all supported languages. If set to \code{"kRp.env"} this is
+fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.}
 
 \item{apply.sentc.end}{Logical,
       whethter the tokens defined in \code{sentc.end} should be searched and set to a sentence ending tag.}
@@ -45,15 +46,9 @@ the encoding will either be taken from a preset (if defined in \code{TT.options}
    \itemize{
      \item {\code{path}} {Mandatory: The absolute path to the TreeTagger root directory. That is where its subfolders \code{bin},
       \code{cmd} and \code{lib} are located.}
-     \item {\code{preset}} {Optional: If you choose one of the pre-defined presets here:
-     \itemize{
-       \item {\code{"de"}} {German}
-       \item {\code{"en"}} {English}
-       \item {\code{"es"}} {Spanish}
-       \item {\code{"fr"}} {French}
-       \item {\code{"it"}} {Italian}
-       \item {\code{"ru"}} {Russian}
-     }
+     \item {\code{preset}} {Optional: If you choose one of the pre-defined presets of one of the available language packages (like \code{"de"} for German,
+      see
+       \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}} for details),
        you can omit all the following elements,
       because they will be filled with defaults. Of course this only makes sense if you have a
        working default installation. Note that since koRpus 0.07-1,

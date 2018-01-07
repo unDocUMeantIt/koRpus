@@ -118,7 +118,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
 
   # basic checks before we even proceed...
   if(inherits(txt, "connection")){
-    takeAsTxt <- readLines(txt, encoding=fileEncoding)
+    takeAsTxt <- readLines(txt, encoding=fileEncoding, warn=FALSE)
     read.txt.files <- FALSE
   } else if(identical(format, "file")){
     # valid path? file or directory?
@@ -143,7 +143,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
     # read in files
     # make sure we end up with UTF-8 to avoid nasty character problems
     txt.vector <- unlist(lapply(txt.file, function(txt){
-        readLines(txt, encoding=fileEncoding)
+        readLines(txt, encoding=fileEncoding, warn=FALSE)
       }))
     # force text into UTF-8 format
     txt.vector <- enc2utf8(txt.vector)

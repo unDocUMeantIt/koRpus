@@ -35,24 +35,11 @@ This function can be used to get a set of part-of-speech (POS) tags for a given 
 with the ones used by TreeTagger.
 }
 \details{
-Currently supported languages are:
-\itemize{
- \item \code{"de"} --- German, according to the STTS guidelines (Schiller, Teufel,
-      Stockert, & Thielen, 1995)
- \item \code{"en"} --- English, according to the Penn Treebank guidelines (Santorini,
-      1991)
- \item \code{"es"} --- Spanish,
-      according to \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/spanish-tagset.txt}
- \item \code{"fr"} --- French,
-      according to \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/french-tagset.html}
- \item \code{"it"} --- Italian,
-      according to \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/italian-tagset.txt}
-   and \url{http://sslmit.unibo.it/~baroni/collocazioni/itwac.tagset.txt}, respectively
- \item \code{"ru"} --- Russian, according to the MSD tagset by Sharoff, Kopotev, Erjavec,
-      Feldman & Divjak (2008)
-}
+Use \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}} to get a list of all supported languages. Language
+support packages must be installed an loaded to be usable with \code{kRp.POS.tags}.
 For the internal tokenizer a small subset of tags is also defined,
-      available through \code{lang="kRp"}. If you don't know the language your text was written in,
+      available through \code{lang="kRp"}.
+If you don't know the language your text was written in,
       the function \code{\link[koRpus:guess.lang]{guess.lang}}
 should be able to detect it.
 
@@ -66,26 +53,15 @@ The function is not so much intended to be used directly,
 it can still be useful to directly examine available POS tags.
 }
 \examples{
+tags.internal <- kRp.POS.tags("kRp")
+\dontrun{
+library(koRpus.lang.de)
 tags.de <- kRp.POS.tags("de")
 }
-\references{
-Santorini,
-      B. (1991). \emph{Part-of-Speech Tagging Guidelines for the Penn Treebank Project}.
-   URL: \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/Penn-Treebank-Tagset.pdf}
-
- Schiller, A., Teufel, S., Stockert, C. & Thielen,
-      C. (1995). \emph{Vorl\"aufge Guidelines f\"ur das Tagging deutscher Textcorpora mit STTS}.
-   URL: \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/stts_guide.pdf}
-
-Sharoff, S., Kopotev, M., Erjavec, T., Feldman, A. & Divjak,
-      D. (2008). \emph{Designing and evaluating Russian tagsets}. In: Proc. LREC 2008, Marrakech.
-   URL: \url{http://corpus.leeds.ac.uk/mocky/}
 }
 \seealso{
-\code{\link[koRpus:get.kRp.env]{get.kRp.env}}
-}
-\author{
-m.eik michalke \email{meik.michalke@hhu.de},
-      support for Spanish contributed by Earl Brown \email{ekbrown@ksu.edu}, support for Italian contributed by Alberto Mirisola.
+\code{\link[koRpus:get.kRp.env]{get.kRp.env}},
+   \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}},
+   \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}
 }
 \keyword{misc}

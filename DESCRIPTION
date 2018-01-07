@@ -1,14 +1,16 @@
 Package: koRpus
 Type: Package
 Title: An R Package for Text Analysis
-Author: m.eik michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
+Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
         [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
-Maintainer: m.eik michalke <meik.michalke@hhu.de>
-Depends: R (>= 2.10.0),sylly
-Imports:
-        data.table,methods,sylly.de,sylly.en,sylly.es,sylly.fr,sylly.it,sylly.ru
+Maintainer: Meik Michalke <meik.michalke@hhu.de>
+Depends: R (>= 2.10.0),sylly (>= 0.1-4)
+Imports: data.table,methods
 Enhances: rkward
-Suggests: testthat,tm,SnowballC,shiny
+Suggests:
+        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
+VignetteBuilder: knitr
+Additional_repositories: https://undocumeantit.github.io/repos/l10n
 Description: A set of tools to analyze texts. Includes, amongst others,
         functions for automatic language detection, hyphenation,
         several indices of lexical diversity (e.g., type token ratio,
@@ -18,32 +20,37 @@ Description: A set of tools to analyze texts. Includes, amongst others,
         Leipzig Corpora Collection file formats) and measures like
         tf-idf. Support for additional languages can be added
         on-the-fly or by plugin packages. Note: For full functionality
-        a local installation of TreeTagger is recommended. 'koRpus'
-        also includes a plugin for the R GUI and IDE RKWard, providing
-        graphical dialogs for its basic features. The respective R
-        package 'rkward' cannot be installed directly from a
-        repository, as it is a part of RKWard. To make full use of this
-        feature, please install RKWard from <https://rkward.kde.org>
-        (plugins are detected automatically). Due to some restrictions
-        on CRAN, the full package sources are only available from the
-        project homepage. To ask for help, report bugs, request
-        features, or discuss the development of the package, please
-        subscribe to the koRpus-dev mailing list
-        (<http://korpusml.reaktanz.de>).
+        a local installation of TreeTagger is recommended. After
+        installation, additional language support needs to be fetched
+        from the 'l10n' repository
+        <https://undocumeantit.github.io/repos/l10n>. It is recommended
+        to add it to your list of package repositories permanently, to
+        receive updates for these packages and be able to install
+        support for further languages. 'koRpus' also includes a plugin
+        for the R GUI and IDE RKWard, providing graphical dialogs for
+        its basic features. The respective R package 'rkward' cannot be
+        installed directly from a repository, as it is a part of
+        RKWard. To make full use of this feature, please install RKWard
+        from <https://rkward.kde.org> (plugins are detected
+        automatically). Due to some restrictions on CRAN, the full
+        package sources are only available from the project homepage.
+        To ask for help, report bugs, request features, or discuss the
+        development of the package, please subscribe to the koRpus-dev
+        mailing list (<http://korpusml.reaktanz.de>).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
 URL: https://reaktanz.de/?c=hacking&s=koRpus
 BugReports: https://github.com/unDocUMeantIt/koRpus/issues
-Authors@R: c(person(given="m.eik", family="michalke",
+Authors@R: c(person(given="Meik", family="Michalke",
         email="meik.michalke@hhu.de", role=c("aut", "cre")),
         person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
         role=c("ctb")), person(given="Alberto", family="Mirisola",
         role=c("ctb")), person(given="Alexandre", family="Brulet",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
-Version: 0.11-1
-Date: 2017-06-20
+Version: 0.11-2
+Date: 2018-01-07
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'
@@ -79,8 +86,10 @@ Collate:
     '02_method_summary.kRp.txt.freq.R'
     '02_method_text.transform.R'
     '02_method_types_tokens.R'
+    'available.koRpus.lang.R'
     'get.kRp.env.R'
     'guess.lang.R'
+    'install.koRpus.lang.R'
     'jumbleWords.R'
     'kRp.POS.tags.R'
     'kRp.cluster.R'
@@ -94,13 +103,6 @@ Collate:
     'koRpus-internal.read.corp.custom.R'
     'koRpus-internal.roxy.all.R'
     'koRpus-package.R'
-    'set.lang.support.R'
-    'lang.support-de.R'
-    'lang.support-en.R'
-    'lang.support-es.R'
-    'lang.support-fr.R'
-    'lang.support-it.R'
-    'lang.support-ru.R'
     'lex.div.num.R'
     'read.BAWL.R'
     'read.corp.LCC.R'
@@ -109,6 +111,7 @@ Collate:
     'readability.num.R'
     'segment.optimizer.R'
     'set.kRp.env.R'
+    'set.lang.support.R'
     'textFeatures.R'
     'tokenize.R'
     'treetag.R'

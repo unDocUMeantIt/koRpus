@@ -222,7 +222,7 @@ setClass("kRp.readability",
 )
 
 setValidity("kRp.readability", function(object){
-  ## TODO: this can probably be improved if neccessary
+  ## TODO: this can probably be improved if necessary
     TT.res <- object@TT.res
     TT.res.names <- dimnames(TT.res)[[2]]
 

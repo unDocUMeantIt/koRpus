@@ -1,0 +1,29 @@
+new("kRp.hyph.pat"
+    , lang = "xy"
+    , pattern = structure(c(".im5b", ".in1", ".in3d", "bigu3", "b1il", "b2ile", 
+"c3ni", "1c2o2", "4co.", "co3mo4", "comp4", "con1", "e5gur", 
+"e1h2", "e5ho", "enov3", "en2s", "ens5al", "2erz", "4es.", "es5am", 
+"hdu4", "he2", "4he.", "ib3era", "ib1i", "ibio4", "id3ul", "ie2", 
+"4iec", "in4aw", "2inc", "inc4tua", "it5icu", "it1ie", "it3ig", 
+"5lisse", "l1it", "l2it.", "2m1ous", "m1p", "m3pa", "nres5tr", 
+"4n1s", "ns2c", "n3sh2", "n2si", "n2si", "ns3ib", "ns3ib", "n4sic", 
+"4olyt", "2om", "o1ma", "pprob5a", "1pr2", "prac1", "rd5ous", 
+"r2e", "4re.", "siast5", "4s1ib", "s3icat", ".imb", ".in", ".ind", 
+"bigu", "bil", "bile", "cni", "co", "co.", "como", "comp", "con", 
+"egur", "eh", "eho", "enov", "ens", "ensal", "erz", "es.", "esam", 
+"hdu", "he", "he.", "ibera", "ibi", "ibio", "idul", "ie", "iec", 
+"inaw", "inc", "inctua", "iticu", "itie", "itig", "lisse", "lit", 
+"lit.", "mous", "mp", "mpa", "nrestr", "ns", "nsc", "nsh", "nsi", 
+"nsi", "nsib", "nsib", "nsic", "olyt", "om", "oma", "pproba", 
+"pr", "prac", "rdous", "re", "re.", "siast", "sib", "sicat", 
+"0050", "001", "0030", "00003", "0100", "02000", "0300", "122", 
+"4000", "00304", "00004", "0001", "05000", "012", "0500", "00003", 
+"0020", "000500", "2000", "4000", "00500", "0004", "002", "4000", 
+"003000", "0010", "00004", "00300", "002", "4000", "00400", "2000", 
+"0004000", "005000", "00100", "00300", "500000", "0100", "02000", 
+"21000", "010", "0300", "0000500", "410", "0020", "0302", "0200", 
+"0200", "00300", "00300", "04000", "40000", "200", "0100", "0000050", 
+"102", "00001", "005000", "020", "4000", "000005", "4100", "030000"
+), .Dim = c(63L, 3L), .Dimnames = list(NULL, c("orig", "char", 
+"nums")))
+)

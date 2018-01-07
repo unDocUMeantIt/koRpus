@@ -1,5 +1,5 @@
 new("kRp.tagged"
-    , lang = "en"
+    , lang = "xy"
     , desc = structure(list(all.chars = 10L, lines = 1L, normalized.space = 9L, 
     chars.no.space = 9L, punct = 0L, digits = 0L, letters = structure(c(9, 
     0, 0, 0, 0, 0, 0, 0, 0, 1), .Names = c("all", "l1", "l2", 
