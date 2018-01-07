@@ -1,5 +1,11 @@
 ChangeLog for package koRpus
 
+changes in version 0.11-3 (2018-01-07)
+unreleased:
+  - this release is under development
+changed:
+  - depends on R >= 3.0.0 now
+
 changes in version 0.11-2 (2018-01-07)
 attention:
   - this is a testing release introducing major changes in the way language
