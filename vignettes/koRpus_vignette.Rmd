@@ -27,7 +27,91 @@ close(header_con)
 ```
 ```{r, include=FALSE, cache=FALSE}
 library(koRpus)
-library(koRpus.lang.en)
+# manually add tag definition, the koRpus.lang.en package might be missing
+koRpus::set.lang.support("kRp.POS.tags",
+  ## tag and class definitions
+  # en -- english
+  list("en"=list(
+    tag.class.def.words=matrix(c(
+      "CC", "conjunction", "Coordinating conjunction",
+      "CD", "number", "Cardinal number",
+      "DT", "determiner", "Determiner",
+      "EX", "existential", "Existential there",
+      "FW", "foreign", "Foreign word",
+      "IN", "preposition", "Preposition or subordinating conjunction",
+      "IN/that", "preposition", "Preposition or subordinating conjunction",
+      "JJ", "adjective", "Adjective",
+      "JJR", "adjective", "Adjective, comparative",
+      "JJS", "adjective", "Adjective, superlative",
+      "LS", "listmarker", "List item marker",
+      "MD", "modal", "Modal",
+      "NN", "noun", "Noun, singular or mass",
+      "NNS", "noun", "Noun, plural",
+      "NP", "name", "Proper noun, singular",
+      "NPS", "name", "Proper noun, plural",
+      "NS", "noun", "Noun, plural", # undocumented, bug in parameter file?
+      "PDT", "predeterminer", "Predeterminer",
+      "POS", "possesive", "Possessive ending",
+      "PP", "pronoun", "Personal pronoun",
+      "PP$", "pronoun", "Possessive pronoun",
+      "RB", "adverb", "Adverb",
+      "RBR", "adverb", "Adverb, comparative",
+      "RBS", "adverb", "Adverb, superlative",
+      "RP", "particle", " Particle",
+      "SYM", "symbol", "Symbol",
+      "TO", "to", "to",
+      "UH", "interjection", "Interjection",
+      "VB", "verb", "Verb, base form of \"to be\"",
+      "VBD", "verb", "Verb, past tense of \"to be\"",
+      "VBG", "verb", "Verb, gerund or present participle of \"to be\"",
+      "VBN", "verb", "Verb, past participle of \"to be\"",
+      "VBP", "verb", "Verb, non-3rd person singular present of \"to be\"",
+      "VBZ", "verb", "Verb, 3rd person singular present of \"to be\"",
+      "VH", "verb", "Verb, base form of \"to have\"",
+      "VHD", "verb", "Verb, past tense of \"to have\"",
+      "VHG", "verb", "Verb, gerund or present participle of \"to have\"",
+      "VHN", "verb", "Verb, past participle of \"to have\"",
+      "VHP", "verb", "Verb, non-3rd person singular present of \"to have\"",
+      "VHZ", "verb", "Verb, 3rd person singular present of \"to have\"",
+      "VV", "verb", "Verb, base form",
+      "VVD", "verb", "Verb, past tense",
+      "VVG", "verb", "Verb, gerund or present participle",
+      "VVN", "verb", "Verb, past participle",
+      "VVP", "verb", "Verb, non-3rd person singular present",
+      "VVZ", "verb", "Verb, 3rd person singular present",
+      "WDT", "determiner", "Wh-determiner",
+      "WP", "pronoun", "Wh-pronoun",
+      "WP$", "pronoun", "Possessive wh-pronoun",
+      "WRB", "adverb", "Wh-adverb"
+      ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc"))),
+    tag.class.def.punct=matrix(c(
+      ",", "comma", "Comma", # not in guidelines
+      "(", "punctuation", "Opening bracket", # not in guidelines
+      ")", "punctuation", "Closing bracket", # not in guidelines
+      ":", "punctuation", "Punctuation", # not in guidelines
+      "``", "punctuation", "Quote", # not in guidelines
+      "''", "punctuation", "End quote", # not in guidelines
+      "#", "punctuation", "Punctuation", # not in guidelines
+      "$", "punctuation", "Punctuation" # not in guidelines
+      ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc"))),
+    tag.class.def.sentc=matrix(c(
+      "SENT", "fullstop", "Sentence ending punctuation" # not in guidelines
+      ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
+    )
+  )
+)
+# we'll also fool hyphen() into believing "en" is an available language,
+# while actually using a previously hyphenated object
+fake.hyph.en <- new(
+  "kRp.hyph.pat",
+  lang="en",
+  pattern=matrix(
+    c(".im5b", ".imb", "0050"),
+    ncol=3,
+    dimnames=list(c(), c("orig", "char", "nums"))
+  )
+)
+set.hyph.support(list("en"=fake.hyph.en))
 ```
 ```{r, set-options, echo=FALSE, cache=FALSE}
 options(width=85)
@@ -142,14 +226,7 @@ In case you want to access a subset of the data in the resulting object, e.g., o
 ```{r}
 head(tagged.text[["lttr"]], n=50)
 ```
-<!-- \begin{Soutput}
-  [1]  7 10 11  7  7 10  3  7  4  9  4  4  7  2  6  4  9  2  3  5  5  1  7  7  1
- [26]  3  3  8  5  2  6  3  4  9  1  9  7  1  1  3  7  9  4  7 12  4 11  2 10  1
- [51]  4  8  3  5  3 11 11  3  5  2  6  3  6  1  3  3  6  2  4  7  1  4  2  2  9
- [76]  3  8  9  1  3  7  2  5  2  9 10  4 10  5  8  1  4  7  4  3  7  2  6  5  2
-[101]  5 12  5  1  2 10  1  2 11  1  1  2  1  7 10 10  2 10  7  1  1  6  2  7  4
-[...]
-\end{Soutput} -->
+
 ```{r}
 tagged.text[1:5,]
 ```
@@ -336,9 +413,11 @@ The package comes with implementations of several readability formulae. Some of 
 ```{r, eval=FALSE}
 (hyph.txt.en <- hyphen(tagged.text))
 ```
-<!-- cache must be off, otherwise the correction further down might not work reliably -->
-```{r, echo=FALSE}
-(hyph.txt.en <- hyphen(tagged.text, quiet=TRUE, cache=FALSE))
+```{r, include=FALSE, cache=FALSE}
+hyph.txt.en <- dget("sample_text_hyphenated_dput.txt")
+```
+```{r}
+hyph.txt.en
 ```
 
 This seperate hyphenation step can actually be skipped, as `readability()` will do it automatically if needed. But similar to TreeTagger, `hyphen()` will most likely not produce perfect results. As a rule of thumb, if in doubt it seems to behave rather conservative, that is, is underestimates the real number of syllables in a text. This, however, would of course affect the results of several readability formulae.

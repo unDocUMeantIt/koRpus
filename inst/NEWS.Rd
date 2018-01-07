@@ -1,6 +1,60 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.11-2 (2018-01-07)}{
+  \subsection{attention}{
+    \itemize{
+      \item this is a testing release introducing major changes in the way language
+        support is handled (see other changes in this log). tl;dr: you must install
+        additional koRpus.lang.** packages to fully restore the previous
+        functionality, i.e., all supported languages. see ?install.koRpus.lang
+    }
+  }
+  \subsection{fixed}{
+    \itemize{
+      \item \code{treetag()}: with TT.tknz=FALSE, the last letter of a text was truncated
+        due to a missing newline at the end of the tempfile (thanks to adam
+        spannbauer for both reporting and fixing it)
+      \item \code{treetag()}: hopefully fixed a nasty encoding issue on windows, again
+      \item \code{treetag()}: fixed an issue that could be triggered by hard to tokenize
+        texts exceeding a default limit of \code{summary()} for factors
+      \item \code{treetag()}/tokenize(): silenced warnings of \code{readLines()} for missing final
+        EOL of input files
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item language support: while the sylly package is released on CRAN now, its
+        separate language packages were not allowed to be published there as well. a
+        special repository was therefore set up on gitub and added via the
+        \code{"Additional_repositories"} field to the DESCRIPTION file. however, not having the
+        sylly.XX packages on CRAN made it necessary to further modularize the
+        package and complete remove all out-of-the-box language support (see removed
+        section). all these support packages for language are now being resolved
+        by installing from that repo instead of CRAN.
+      \item package loading: when koRpus is being loaded, it now checks for available
+        (i.e. already installed) language packages. if none are found, it asks
+        you to install one. i'm sorry for the unconvenience
+      \item vignette is now in RMarkdown/HTML format; the SWeave/PDF version was
+        dropped
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item \code{tif_as_tokens_df()}: new method to get TT.res in fully TIF compliant format
+      \item new functions \code{available.koRpus.lang()} and \code{install.koRpus.lang()} for more
+        convenient handling of language support packages.
+    }
+  }
+  \subsection{removed}{
+    \itemize{
+      \item language support: koRpus previously supported some languages directly
+        (de, en, es, fr, it, and ru). this support had to be removed and is now
+        available as separate language packages via
+        https://undocumeantit.github.io/repos/l10n
+    }
+  }
+}
 \section{Changes in koRpus version 0.11-1 (2017-06-20)}{
   \subsection{fixed}{
     \itemize{

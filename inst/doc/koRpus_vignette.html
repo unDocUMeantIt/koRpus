@@ -12,7 +12,7 @@
 
 <meta name="author" content="m.eik michalke" />
 
-<meta name="date" content="2018-01-06" />
+<meta name="date" content="2018-01-07" />
 
 <title>Using the koRpus Package for Text Analysis</title>
 
@@ -81,7 +81,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Using the koRpus Package for Text Analysis</h1>
 <h4 class="author"><em>m.eik michalke</em></h4>
-<h4 class="date"><em>2018-01-06</em></h4>
+<h4 class="date"><em>2018-01-07</em></h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <p>The R package <code>koRpus</code> aims to be a versatile tool for text analysis, with an emphasis on scientific research on that topic. It implements dozens of formulae to measure readability and lexical diversity. On a more basic level <code>koRpus</code> can be used as an R wrapper for third party products, like the tokenizer and POS tagger TreeTagger or language corpora of the Leipzig Corpora Collection. This vignette takes a brief tour around its core components, shows how they can be used and gives some insight on design decisions.</p>
@@ -247,14 +247,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(tagged.text[[<span class="st">&quot;lttr&quot;</span>]], <span class="dt">n=</span><span class="dv">50</span>)</code></pre></div>
 <pre><code>##  [1]  7 10 11  7  7 10  3  7  4  9  4  4  7  2  6  4  9  2  3  5  5  1  7  7  1  3  3
 ## [28]  8  5  2  6  3  4  9  1  9  8  1  3  7  9  4  7 12  4 11  2 10  1  4</code></pre>
-<!-- \begin{Soutput}
-  [1]  7 10 11  7  7 10  3  7  4  9  4  4  7  2  6  4  9  2  3  5  5  1  7  7  1
- [26]  3  3  8  5  2  6  3  4  9  1  9  7  1  1  3  7  9  4  7 12  4 11  2 10  1
- [51]  4  8  3  5  3 11 11  3  5  2  6  3  6  1  3  3  6  2  4  7  1  4  2  2  9
- [76]  3  8  9  1  3  7  2  5  2  9 10  4 10  5  8  1  4  7  4  3  7  2  6  5  2
-[101]  5 12  5  1  2 10  1  2 11  1  1  2  1  7 10 10  2 10  7  1  1  6  2  7  4
-[...]
-\end{Soutput} -->
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tagged.text[<span class="dv">1</span>:<span class="dv">5</span>,]</code></pre></div>
 <pre><code>##   doc_id       token tag     lemma lttr wclass desc stop stem idx sntc
 ## 1 sample     Defense  NN   defense    7   noun   NA   NA   NA   1    1
@@ -566,7 +558,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Readability</h2>
 <p>The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a> To achieve this, the method <code>hyphen()</code> takes objects of class <code>kRp.tagged</code> and applies an hyphenation algorithm <span class="citation">(Liang, 1983)</span> to each word. This algorithm was originally developed for automatic word hyphenation in <span class="math inline">\(\LaTeX\)</span>, and is gracefully misused here to fulfill a slightly different service.<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(hyph.txt.en &lt;-<span class="st"> </span><span class="kw">hyphen</span>(tagged.text))</code></pre></div>
-<!-- cache must be off, otherwise the correction further down might not work reliably -->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hyph.txt.en</code></pre></div>
 <pre><code>##     syll           word
 ## 1      2       De-fense
 ## 2      3   mech-a-nisms

@@ -1,26 +1,18 @@
 Source: r-other-reaktanz-korpus
 Section: gnu-r
 Priority: optional
-Maintainer: m.eik michalke <meik.michalke@hhu.de>
+Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Build-Depends-Indep: debhelper (>> 9.0.0), r-base-dev (>= 2.10.0),
- cdbs, r-cran-sylly | r-other-reaktanz-sylly, r-cran-data.table,
- r-cran-sylly.de | r-other-reaktanz-sylly.de, r-cran-sylly.en |
- r-other-reaktanz-sylly.en, r-cran-sylly.es |
- r-other-reaktanz-sylly.es, r-cran-sylly.fr |
- r-other-reaktanz-sylly.fr, r-cran-sylly.it |
- r-other-reaktanz-sylly.it, r-cran-sylly.ru | r-other-reaktanz-sylly.ru
+ cdbs, r-cran-sylly (>= 0.1-4) | r-other-reaktanz-sylly (>= 0.1-4),
+ r-cran-data.table
 Standards-Version: 3.9.3.1
 Homepage: https://reaktanz.de/?c=hacking&s=koRpus
 
 Package: r-other-reaktanz-korpus
 Architecture: all
 Section: gnu-r
-Depends: r-base-core (>= 3.4.0), r-cran-sylly | r-other-reaktanz-sylly,
- r-cran-data.table, r-cran-sylly.de | r-other-reaktanz-sylly.de,
- r-cran-sylly.en | r-other-reaktanz-sylly.en, r-cran-sylly.es |
- r-other-reaktanz-sylly.es, r-cran-sylly.fr |
- r-other-reaktanz-sylly.fr, r-cran-sylly.it |
- r-other-reaktanz-sylly.it, r-cran-sylly.ru | r-other-reaktanz-sylly.ru
+Depends: r-base-core (>= 3.4.0), r-cran-sylly (>= 0.1-4) |
+ r-other-reaktanz-sylly (>= 0.1-4), r-cran-data.table
 Description: GNU R package "An R Package for Text Analysis"
  .
  A set of tools to analyze texts. Includes, amongst others, functions
@@ -31,15 +23,32 @@ Description: GNU R package "An R Package for Text Analysis"
  analyses (supports Celex and Leipzig Corpora Collection file formats)
  and measures like tf-idf. Support for additional languages can be
  added on-the-fly or by plugin packages. Note: For full functionality a
- local installation of TreeTagger is recommended. 'koRpus' also
- includes a plugin for the R GUI and IDE RKWard, providing graphical
- dialogs for its basic features. The respective R package 'rkward'
- cannot be installed directly from a repository, as it is a part of
- RKWard. To make full use of this feature, please install RKWard from
+ local installation of TreeTagger is recommended. After installation,
+ additional language support needs to be fetched from the 'l10n'
+ repository <https://undocumeantit.github.io/repos/l10n>. It is
+ recommended to add it to your list of package repositories
+ permanently, to receive updates for these packages and be able to
+ install support for further languages. 'koRpus' also includes a plugin
+ for the R GUI and IDE RKWard, providing graphical dialogs for its
+ basic features. The respective R package 'rkward' cannot be installed
+ directly from a repository, as it is a part of RKWard. To make full
+ use of this feature, please install RKWard from
  <https://rkward.kde.org> (plugins are detected automatically). Due to
  some restrictions on CRAN, the full package sources are only available
  from the project homepage. To ask for help, report bugs, request
  features, or discuss the development of the package, please subscribe
  to the koRpus-dev mailing list (<http://korpusml.reaktanz.de>).
 Homepage: https://reaktanz.de/?c=hacking&s=koRpus
-Suggests: r-cran-testthat, r-cran-tm, r-cran-snowballc, r-cran-shiny
+Suggests: r-cran-testthat, r-cran-tm, r-cran-snowballc, r-cran-shiny,
+ r-cran-knitr, r-cran-rmarkdown, r-cran-korpus.lang.de |
+ r-other-reaktanz-korpus.lang.de |
+ r-other-undocumeantit-korpus.lang.de, r-cran-korpus.lang.en |
+ r-other-reaktanz-korpus.lang.en |
+ r-other-undocumeantit-korpus.lang.en, r-cran-korpus.lang.es |
+ r-other-reaktanz-korpus.lang.es |
+ r-other-undocumeantit-korpus.lang.es, r-cran-korpus.lang.fr |
+ r-other-reaktanz-korpus.lang.fr |
+ r-other-undocumeantit-korpus.lang.fr, r-cran-korpus.lang.it |
+ r-other-reaktanz-korpus.lang.it |
+ r-other-undocumeantit-korpus.lang.it, r-cran-korpus.lang.ru |
+ r-other-reaktanz-korpus.lang.ru | r-other-undocumeantit-korpus.lang.ru
