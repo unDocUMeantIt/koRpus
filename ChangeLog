@@ -5,6 +5,8 @@ unreleased:
   - this release is under development
 changed:
   - depends on R >= 3.0.0 now
+  - improved available.koRpus.lang() to make it more obvious how to install
+    language support packages, and which
 
 changes in version 0.11-2 (2018-01-07)
 attention:

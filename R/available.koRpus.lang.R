@@ -63,8 +63,9 @@ available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l
 
   supported_lang <- names(all_available)
   installed <- sapply(
-    all_available,
-    function(this_package){
+    supported_lang,
+    function(this_lang){
+      this_package <- all_available[[this_lang]]
       if(isTRUE(this_package[["installed"]])){
         status <- " [installed"
         if(isTRUE(this_package[["loaded"]])){
@@ -73,7 +74,7 @@ available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l
           status <- paste0(status, "]")
         }
       } else {
-        status <- ""
+        status <- paste0(" --> install.koRpus.lang(\"", gsub("koRpus\\.lang\\.", "", this_lang), "\")")
       }
       return(status)
     }
