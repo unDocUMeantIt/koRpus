@@ -38,7 +38,7 @@
 #'    default, but if you would like to use a third party repository, you're free to do so. The
 #'    value is temporarily appended to the repos currently returned by \code{getOption("repos")}.
 #' @return Returns an invisible character vector with all available language packages.
-#' @seealso \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}, 
+#' @seealso \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}
 #' @export
 #' @examples
 #' \dontrun{
@@ -54,7 +54,7 @@ available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l
   # append repos, don't replace them
   repos <- c(getOption("repos"), l10n=repos)
 
-  all_available <- check_koRpus_lang(available=TRUE, repos=repos, available.only=TRUE)
+  all_available <- check_lang_packages(available=TRUE, repos=repos, available.only=TRUE)
 
   if(length(all_available) < 1){
     message("No language support packages found in the repository.")

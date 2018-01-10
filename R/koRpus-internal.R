@@ -1638,17 +1638,19 @@ winPath <- function(path){
 ## end function winPath()
 
 
-## function check_koRpus_lang()
+## function check_lang_packages()
 # checks what koRpus.lang.* packages are currently installed or loaded
 # returns a named list with a list for each installed package, providing
 # entries named "available", "installed", "loaded", and "title"
 # availabe: also check for all available packages in 'repos'
 # available.only: omit all installed packages which cannot be found in 'repos'
-check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.github.io/repos/l10n/", available.only=FALSE){
+check_lang_packages <- function(available=FALSE, repos="https://undocumeantit.github.io/repos/l10n/", available.only=FALSE, pattern="koRpus.lang.*"){
+  ### this function should be kept close to identical to the respective function
+  ### in the 'sylly' package, except for the pattern
   result <- list()
   if(isTRUE(available)){
     available_packages <- available.packages(repos=repos)
-    available_koRpus_lang <- grepl("koRpus.lang.*", available_packages[,"Package"])
+    available_koRpus_lang <- grepl(pattern, available_packages[,"Package"])
     supported_lang <- unique(available_packages[available_koRpus_lang,"Package"])
   } else {
     available_koRpus_lang <- FALSE
@@ -1656,9 +1658,9 @@ check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.gith
   }
 
   loaded_packages <- loadedNamespaces()
-  loaded_koRpus_lang <- grepl("koRpus.lang.*", loaded_packages)
+  loaded_koRpus_lang <- grepl(pattern, loaded_packages)
   installed_packages <- installed.packages(fields="Title")
-  installed_koRpus_lang <- grepl("koRpus.lang.*", installed_packages[,"Package"])
+  installed_koRpus_lang <- grepl(pattern, installed_packages[,"Package"])
 
   have_koRpus_lang <- any(installed_koRpus_lang, available_koRpus_lang)
 
@@ -1685,4 +1687,4 @@ check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.gith
   } else {}
   
   return(result)
-} ## end function check_koRpus_lang()
+} ## end function check_lang_packages()

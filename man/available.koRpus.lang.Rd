@@ -45,5 +45,5 @@ install.packages("koRpus.lang.de", repos="https://undocumeantit.github.io/repos/
 }
 }
 \seealso{
-\code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}},
+\code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}
 }

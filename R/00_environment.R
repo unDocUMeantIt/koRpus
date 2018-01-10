@@ -28,7 +28,7 @@
   # koRpus is rather useless without at least one language support package loaded
   # but we only need to check this once
   if(!isTRUE(.koRpus.env[["checked_lang_support"]])){
-    all_installed <- check_koRpus_lang(available=FALSE)
+    all_installed <- check_lang_packages(available=FALSE)
     have_koRpus_lang <- length(all_installed) > 0
 
     additional_info <- paste0("For a list of available language packages, please call:\n\n  available.koRpus.lang()\n")
