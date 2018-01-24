@@ -55,10 +55,21 @@ install_github("unDocUMeantIt/koRpus") # stable release
 install_github("unDocUMeantIt/koRpus", ref="develop") # development release
 ```
 
-### Additional languages
+### Installing language support
 
-Have a look at the [l10n](https://undocumeantit.github.io/repos) repository for packages called `koRpus.lang.*`.
-By installing and loading these packages, you can add support for more languages to koRpus.
+koRpus does not support any particular language out-of-the-box. Therefore, after installing the package you'll have
+to also install at least one language support package to really make use of it.
+You can find these in the [l10n](https://undocumeantit.github.io/repos) repository, they're called `koRpus.lang.*`.
+
+The most straight forward way to get these packages is to use the function `install.koRpus.lang()`.
+Here's an example how to install support for English and German:
+
+```
+library(koRpus)
+install.koRpus.lang(lang=c("en", "de"))
+```
+
+There's also precompiled [Debian packages](https://undocumeantit.github.io/repos/l10n/pckg/koRpus.lang.en/deb_repo.html).
 
 ## Contributing
 
