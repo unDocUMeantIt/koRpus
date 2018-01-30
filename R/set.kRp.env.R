@@ -60,6 +60,9 @@ set.kRp.env <- function(..., validate=TRUE){
   if(all(sapply(c(TT.cmd, lang, TT.options, hyph.cache.file, add.desc), is.null))){
     stop(simpleError("You must at least set one (valid) parameter!"))
   } else {}
+  
+  # get current settings from .Options
+  koRpus_options <- getOption("koRpus", list())
 
   # assume using TreeTaggers tokenizer as the default
   TT.tknz <- TRUE
@@ -71,34 +74,41 @@ set.kRp.env <- function(..., validate=TRUE){
     } else {}
     if(identical(TT.cmd, "")){
       rm("TT.cmd", envir=.koRpus.env)
+      koRpus_options[["TT.cmd"]] <- NULL
     } else if(!identical(TT.cmd, "manual") & !identical(TT.cmd, "tokenize")){
       if(isTRUE(validate)){
         stopifnot(check.file(TT.cmd, mode="exec"))
       } else {}
       assign("TT.cmd", file.path(TT.cmd), envir=.koRpus.env)
+      koRpus_options[["TT.cmd"]] <- file.path(TT.cmd)
     } else {
       assign("TT.cmd", TT.cmd, envir=.koRpus.env)
+      koRpus_options[["TT.cmd"]] <- TT.cmd
     }
   } else {}
 
   if(!is.null(lang)){
     if(identical(lang, "")){
       rm("lang", envir=.koRpus.env)
+      koRpus_options[["lang"]] <- NULL
     } else {
       stopifnot(is.character(lang))
       assign("lang", lang, envir=.koRpus.env)
+      koRpus_options[["lang"]] <- lang
     }
   } else {}
 
   if(!is.null(TT.options)){
     if(identical(TT.options, "")){
       rm("TT.options", envir=.koRpus.env)
+      koRpus_options[["TT.options"]] <- NULL
     } else {
       if(isTRUE(validate)){
         # moved TT.options checks to internal function to call it here
         checkTTOptions(TT.options=TT.options, manual.config=manual.config, TT.tknz=TT.tknz)
       } else {}
       assign("TT.options", TT.options, envir=.koRpus.env)
+      koRpus_options[["TT.options"]] <- TT.options
     }
   } else {}
 
@@ -109,10 +119,13 @@ set.kRp.env <- function(..., validate=TRUE){
   if(!is.null(add.desc)){
     if(is.logical(add.desc)){
       assign("add.desc", add.desc, envir=.koRpus.env)
+      koRpus_options[["add.desc"]] <- add.desc
     } else {
       stop(simpleError("'add.desc' must be TRUE or FALSE!"))
     }
   } else {}
+
+  options(koRpus=koRpus_options)
 
   return(invisible(NULL))
 }
