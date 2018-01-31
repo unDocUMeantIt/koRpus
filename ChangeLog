@@ -1,12 +1,15 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-3 (2018-01-07)
+changes in version 0.11-3 (2018-01-31)
 unreleased:
   - this release is under development
 changed:
   - depends on R >= 3.0.0 now
   - improved available.koRpus.lang() to make it more obvious how to install
     language support packages, and which
+  - session settings done with set.kRp.env() or queried by get.kRp.env()
+    are no longer stored in an internal environment but the global .Options;
+    this also allows for setting defaults in an .Rprofile file using options()
 
 changes in version 0.11-2 (2018-01-07)
 attention:

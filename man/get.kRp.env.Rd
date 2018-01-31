@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.kRp.env.R
 \name{get.kRp.env}
 \alias{get.kRp.env}
-\title{Get koRpus session environment}
+\title{Get koRpus session settings}
 \usage{
 get.kRp.env(..., errorIfUnset = TRUE)
 }
@@ -34,6 +34,10 @@ The function \code{get.kRp.env} returns information on your session environment 
       e.g.
 where your local TreeTagger installation resides, if it was set before using
 \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.
+}
+\details{
+For the most part,
+      \code{get.kRp.env} is a convenient wrapper for \code{\link[base:getOption]{getOption}}.
 }
 \examples{
 \dontrun{

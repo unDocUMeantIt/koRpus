@@ -16,11 +16,13 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' Get koRpus session environment
+#' Get koRpus session settings
 #'
 #' The function \code{get.kRp.env} returns information on your session environment regarding the koRpus package, e.g.
 #' where your local TreeTagger installation resides, if it was set before using
 #' \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.
+#' 
+#' For the most part, \code{get.kRp.env} is a convenient wrapper for \code{\link[base:getOption]{getOption}}.
 #'
 #' @param ... Named parameters to get from the koRpus environment. Valid arguments are:
 #'   \describe{
@@ -63,12 +65,16 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
     stop(simpleError("You can only use logical values to query parameters!"))
   } else {}
 
+  # get current settings from .Options
+  koRpus_options <- getOption("koRpus", list())
   tt.env <- list()
   if(isTRUE(TT.cmd)){
-    if(exists("TT.cmd", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$TT.cmd <- get("TT.cmd", envir=.koRpus.env)
-      if(!identical(tt.env$TT.cmd, "manual") & !identical(tt.env$TT.cmd, "tokenize")){
-        stopifnot(check.file(tt.env$TT.cmd, mode="exec"))
+#     if(exists("TT.cmd", envir=.koRpus.env, inherits=FALSE)){
+#       tt.env$TT.cmd <- get("TT.cmd", envir=.koRpus.env)
+    if("TT.cmd" %in% names(koRpus_options)){
+      tt.env[["TT.cmd"]] <- koRpus_options[["TT.cmd"]]
+      if(!identical(tt.env[["TT.cmd"]], "manual") & !identical(tt.env[["TT.cmd"]], "tokenize")){
+        stopifnot(check.file(tt.env[["TT.cmd"]], mode="exec"))
       } else {}
     } else {
       if(isTRUE(errorIfUnset)){
@@ -78,8 +84,10 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
   } else {}
 
   if(isTRUE(lang)){
-    if(exists("lang", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$lang <- get("lang", envir=.koRpus.env)
+#     if(exists("lang", envir=.koRpus.env, inherits=FALSE)){
+#       tt.env$lang <- get("lang", envir=.koRpus.env)
+    if("lang" %in% names(koRpus_options)){
+      tt.env[["lang"]] <- koRpus_options[["lang"]]
     } else {
       if(isTRUE(errorIfUnset)){
         stop(simpleError("No language specified!"))
@@ -88,8 +96,10 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
   } else {}
 
   if(isTRUE(TT.options)){
-    if(exists("TT.options", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$TT.options <- get("TT.options", envir=.koRpus.env)
+#     if(exists("TT.options", envir=.koRpus.env, inherits=FALSE)){
+#       tt.env$TT.options <- get("TT.options", envir=.koRpus.env)
+    if("TT.options" %in% names(koRpus_options)){
+      tt.env[["TT.options"]] <- koRpus_options[["TT.options"]]
     } else {
       if(isTRUE(errorIfUnset)){
         stop(simpleError("No TT.options specified!"))
@@ -98,16 +108,18 @@ get.kRp.env <- function(..., errorIfUnset=TRUE){
   } else {}
 
   if(isTRUE(hyph.cache.file)){
-    tt.env$hyph.cache.file <- sylly::get.sylly.env(hyph.cache.file=TRUE)
+    tt.env[["hyph.cache.file"]] <- sylly::get.sylly.env(hyph.cache.file=TRUE)
   } else {}
 
   if(isTRUE(hyph.max.word.length)){
-    tt.env$hyph.max.word.length <- sylly::get.sylly.env(hyph.max.word.length=TRUE)
+    tt.env[["hyph.max.word.length"]] <- sylly::get.sylly.env(hyph.max.word.length=TRUE)
   } else {}
 
   if(isTRUE(add.desc)){
-    if(exists("add.desc", envir=.koRpus.env, inherits=FALSE)){
-      tt.env$add.desc <- get("add.desc", envir=.koRpus.env)
+#     if(exists("add.desc", envir=.koRpus.env, inherits=FALSE)){
+#       tt.env$add.desc <- get("add.desc", envir=.koRpus.env)
+    if("add.desc" %in% names(koRpus_options)){
+      tt.env[["add.desc"]] <- koRpus_options[["add.desc"]]
     } else {
       if(isTRUE(errorIfUnset)){
         stop(simpleError("'add.desc' not specified!"))

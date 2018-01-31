@@ -17,10 +17,8 @@
 
 ## setting up the internal environment
 
-# empty environment for TreeTagger information
+# empty environment for various information
 .koRpus.env <- new.env()
-# set default for tag descriptions in objects
-.koRpus.env[["add.desc"]] <- FALSE
 
 # make sure language packs are loaded or at least available
 .onLoad <- function(...){
@@ -67,4 +65,22 @@
     }
     .koRpus.env[["checked_lang_support"]] <- TRUE
   } else {}
+
+  ## check if "add.desc" is already set in global options
+  if(is.null(getOption("koRpus"))){
+    # case one: no koRpus options at all, that's easy
+    options(koRpus=list(add.desc=FALSE))
+  } else {
+    koRpus_options <- getOption("koRpus", list())
+    if(is.null(koRpus_options[["add.desc"]])){
+      # case two, we have options, but add.desc is not set
+      koRpus_options[["add.desc"]] <- FALSE
+      options(koRpus=koRpus_options)
+    } else {
+      if(!is.logical(koRpus_options[["add.desc"]])){
+        # case three, add.desc is set but invalid
+        simpleError("check your environment: 'koRpus$add.desc' must be TRUE or FALSE!")
+      } else {}
+    }
+  }
 }
