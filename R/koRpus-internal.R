@@ -419,7 +419,8 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
         } else {
           return(rep(numSentence, endedSentences[numSentence]))
         }
-      }
+      },
+      simplify=FALSE
     ))
   } else {
     tagged.text.df[["sntc"]] <- NA

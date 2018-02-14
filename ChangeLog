@@ -1,8 +1,11 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-3 (2018-01-31)
+changes in version 0.11-3 (2018-02-14)
 unreleased:
   - this release is under development
+fixed:
+  - treetag()/tokenize(): fixed an issue with sentence numbering which was
+    triggered if all sentences were of equal length
 changed:
   - depends on R >= 3.0.0 now
   - improved available.koRpus.lang() to make it more obvious how to install
