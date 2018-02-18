@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -111,7 +111,7 @@ setMethod("query",
       in.obj <- slot(obj, "words")
       # basically, we have to see if we're looking for a word or for frequencies
       # we'll estimate that by looking at the data class of the column queried
-      if(isTRUE(is.character(in.obj[[var]]))){
+      if(any(is.character(in.obj[[var]]), is.factor(in.obj[[var]]))){
         # see if we have fixed character
         if(identical(var, "regexp")){
           # get all entries where word matches regexp

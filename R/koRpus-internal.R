@@ -263,12 +263,16 @@ validate_tags <- function(tags, lang){
   all.found.tags <- unique(tags)
   invalid.found.tags <- all.found.tags[!all.found.tags %in% tag.class.def[,"tag"]]
   if(length(invalid.found.tags) > 0){
-    stop(simpleError(paste0("Invalid tag(s) found: ", paste(invalid.found.tags, collapse = ", "),
+    warning(paste0("Invalid tag(s) found: ", paste(invalid.found.tags, collapse = ", "),
       "\n  This is probably due to a missing tag in kRp.POS.tags() and",
       "\n  needs to be fixed. It would be nice if you could forward the",
-      "\n  above error dump as a bug report to the package maintaner!\n")))
+      "\n  above warning dump as a bug report to the package maintaner!\n"), 
+      call.=FALSE
+    )
   } else {}
-  return(invisible(TRUE))
+  # return a logical vector
+  result <- !tags %in% invalid.found.tags
+  return(result)
 }
 ## end function validate_tags()
 
@@ -277,13 +281,17 @@ validate_tags <- function(tags, lang){
 # takes a character vector of POS tags and a language identifier
 # returns either an equivalent character vector with explainations of each tag,
 # or a matrix if 'cols' is > 1
-explain_tags <- function(tags, lang, cols=c("wclass","desc")){
+explain_tags <- function(tags, lang, cols=c("wclass","desc"), valid=rep(TRUE, length(tags))){
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
   tags_explained <- sapply(
-    tags,
-    function(tag){
-      tag.class.def[tag.class.def[,"tag"] == tag, cols]
+    seq_along(tags),
+    function(tagNum){
+      if(isTRUE(valid[tagNum])){
+        return(tag.class.def[tag.class.def[,"tag"] == tags[tagNum], cols])
+      } else {
+        return(c(wclass="unknown",desc="Unknown (kRp internal)")[cols])
+      }
     },
     USE.NAMES=FALSE
   )
@@ -304,21 +312,22 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
   newDf <- init.kRp.tagged.df(rows=nrow(tagged.text))
   newDf[,c("token","lemma")] <- tagged.text[,c("token","lemma")]
 
-  validate_tags(tags=tagged.text[["tag"]], lang=lang)
+  valid_tags <- validate_tags(tags=tagged.text[["tag"]], lang=lang)
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
  
   # make tag a factor with all possible tags for this language as levels
   newDf[["tag"]] <- factor(
     tagged.text[["tag"]],
-    levels=unique(tag.class.def[,"tag"])
+    # keep invalid tags for debugging
+    levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
   # count number of letters, add column "lttr"
   newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"]))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
-    tagsExplained <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"))
+    tagsExplained <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"), valid=valid_tags)
     tagsExplained.wclass <- factor(
       tagsExplained[,"wclass"],
       levels=unique(tag.class.def[,"wclass"])
@@ -329,7 +338,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     )
   } else {
     tagsExplained.wclass <- factor(
-      explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass"),
+      explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass", valid=valid_tags),
       levels=unique(tag.class.def[,"wclass"])
     )
     tagsExplained.desc <- NA
