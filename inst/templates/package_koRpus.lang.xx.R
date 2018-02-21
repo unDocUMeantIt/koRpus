@@ -159,7 +159,7 @@ local({
         R.libs=R.local.libs,
         repo.root=package.local.repository,
         cleanup=TRUE,
-        URL="https://reaktanz.de/R",
+        URL="https://undocumeantit.github.io/repos/l10n",
         ChangeLog=ChangeLog.entry
     )
 })
