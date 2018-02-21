@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -83,6 +83,9 @@
 #' 
 #' @param target  One of "kRp.POS.tags", "treetag", or "hyphen", depending on what support is to be added.
 #' @param value A named list that upholds exactly the structure defined here for its respective \code{target}.
+#' @param merge Logical, only relevant for the "kRp.POS.tags" target. This argument controls whether \code{value}
+#'    will completely replace an already present tagset definition, or merge all given tags (i.e., replace 
+#'    single tags with an updated definition or add new tags).
 #' @examples
 #' \dontrun{
 #' set.lang.support("hyphen",
@@ -91,7 +94,7 @@
 #' }
 #' @importFrom sylly set.hyph.support
 #' @export
-set.lang.support <- function(target, value){
+set.lang.support <- function(target, value, merge=TRUE){
 
   all.kRp.env <- as.list(as.environment(.koRpus.env))
 
@@ -105,19 +108,38 @@ set.lang.support <- function(target, value){
     } else {}
     # to be safe do this as a for loop; this should replace older entries
     # but keep all other intact or just add new ones
-    for (this.tags in names(value)){
+    for (this_tags in names(value)){
       # check for duplicate entries, they would completely mess up tagging results
       dupes <- c(
-        value[[this.tags]][["tag.class.def.words"]][,"tag"],
-        value[[this.tags]][["tag.class.def.punct"]][,"tag"],
-        value[[this.tags]][["tag.class.def.sentc"]][,"tag"]
+        value[[this_tags]][["tag.class.def.words"]][,"tag"],
+        value[[this_tags]][["tag.class.def.punct"]][,"tag"],
+        value[[this_tags]][["tag.class.def.sentc"]][,"tag"]
       )
       if(any(duplicated(dupes))){
         stop(simpleError(paste0("Some tags are defined multiple times, this is not allowed! Please check these tags:\n    ",
           paste0(unique(dupes[duplicated(dupes)]), collapse=", ")
         )))
       } else {}
-      recent.tags[[this.tags]] <- value[[this.tags]]
+      if(all(this_tags %in% names(recent.tags), isTRUE(merge))){
+        # in case a tag set is already present for this language and
+        # the new tags should be merged, we'll first remove duplicates,
+        # then append all new tags
+        for(this_tag_section in c("tag.class.def.words","tag.class.def.punct","tag.class.def.sentc")){
+          tags_to_replace <- recent.tags[[this_tags]][[this_tag_section]][,"tag"] %in% value[[this_tags]][[this_tag_section]][,"tag"]
+          recent.tags[[this_tags]][[this_tag_section]] <- rbind(
+            recent.tags[[this_tags]][[this_tag_section]][!tags_to_replace,],
+            value[[this_tags]][[this_tag_section]]
+          )
+        }
+      } else {
+        recent.tags[[this_tags]] <- value[[this_tags]]
+      }
+      # finally sort the tables
+      for(this_tag_section in c("tag.class.def.words","tag.class.def.punct","tag.class.def.sentc")){
+        if(nrow(recent.tags[[this_tags]][[this_tag_section]]) > 1) {
+          recent.tags[[this_tags]][[this_tag_section]] <- recent.tags[[this_tags]][[this_tag_section]][order(recent.tags[[this_tags]][[this_tag_section]][,"tag"]),]
+        } else{}
+      }
     }
     all.kRp.env[["langSup"]][["kRp.POS.tags"]][["tags"]] <- recent.tags
   } else if(identical(target, "treetag")){
@@ -128,8 +150,8 @@ set.lang.support <- function(target, value){
     } else {}
     # to be safe do this as a for loop; this should replace older entries
     # but keep all other intact or just add new ones
-    for (this.preset in names(value)){
-      recent.presets[[this.preset]] <- value[[this.preset]]
+    for (this_preset in names(value)){
+      recent.presets[[this_preset]] <- value[[this_preset]]
     }
     all.kRp.env[["langSup"]][["treetag"]][["presets"]] <- recent.presets
   } else {

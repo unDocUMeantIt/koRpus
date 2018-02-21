@@ -32,11 +32,11 @@ the function ends.}
 if they are already decompressed (autodetected if \code{LCC.path} points to the tar archive directly).}
 
 \item{bigrams}{Logical, whether infomration on bigrams should be imported.
-This is is \code{FALSE} by default, because it might make the objects quite large.
+This is \code{FALSE} by default, because it might make the objects quite large.
 Note that this will only work in \code{n = -1} because otherwise the tokens cannot be looked up.}
 
 \item{cooccurence}{Logical, like \code{bigrams},
-      but for infomration on co-occurences of tokens in a sentence.}
+      but for information on co-occurences of tokens in a sentence.}
 
 \item{caseSens}{Logical,
       if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.

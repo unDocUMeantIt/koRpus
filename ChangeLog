@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-3 (2018-02-18)
+changes in version 0.11-3 (2018-02-21)
 unreleased:
   - this release is under development
 fixed:
@@ -17,6 +17,9 @@ changed:
   - session settings done with set.kRp.env() or queried by get.kRp.env()
     are no longer stored in an internal environment but the global .Options;
     this also allows for setting defaults in an .Rprofile file using options()
+added:
+  - set.lang.support(): new argument "merge"; it is now possible to add or
+    update single POS tag definitions
 
 changes in version 0.11-2 (2018-01-07)
 attention:
