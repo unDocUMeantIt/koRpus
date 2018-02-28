@@ -20,12 +20,35 @@
 # empty environment for various information
 .koRpus.env <- new.env()
 
-# make sure language packs are loaded or at least available
 .onLoad <- function(...){
+  ## check if "add.desc" is already set in global options
+  if(is.null(getOption("koRpus"))){
+    # case one: no koRpus options at all, that's easy
+    options(koRpus=list(add.desc=FALSE, checked_lang_support=FALSE))
+  } else {
+    koRpus_options <- getOption("koRpus", list())
+    for (thisOption in c("add.desc", "checked_lang_support")){
+      if(is.null(koRpus_options[[thisOption]])){
+        # case two, we have options, but add.desc is not set
+        koRpus_options[[thisOption]] <- FALSE
+        options(koRpus=koRpus_options)
+      } else {
+        if(!is.logical(koRpus_options[[thisOption]])){
+          # case three, add.desc is set but invalid
+          simpleError(paste0("check your environment: 'koRpus$", thisOption, "' must be TRUE or FALSE!"))
+        } else {}
+      }
+    }
+  }
+}
+
+# make sure language packs are loaded or at least available
+.onAttach <- function(...){
   ## check for language support packages
   # koRpus is rather useless without at least one language support package loaded
   # but we only need to check this once
-  if(!isTRUE(.koRpus.env[["checked_lang_support"]])){
+  koRpus_options <- getOption("koRpus", list())
+  if(!isTRUE(koRpus_options[["checked_lang_support"]])){
     all_installed <- check_lang_packages(available=FALSE)
     have_koRpus_lang <- length(all_installed) > 0
 
@@ -54,7 +77,7 @@
         },
         additional_info
       )
-      message(lang_msg)
+      packageStartupMessage(lang_msg)
     } else {
       lang_msg <- paste0(
         "\nNo language support packages for koRpus found on this system!\n",
@@ -63,24 +86,7 @@
       )
       warning(lang_msg, call.=FALSE)
     }
-    .koRpus.env[["checked_lang_support"]] <- TRUE
+    koRpus_options[["checked_lang_support"]] <- TRUE
+    options(koRpus=koRpus_options)
   } else {}
-
-  ## check if "add.desc" is already set in global options
-  if(is.null(getOption("koRpus"))){
-    # case one: no koRpus options at all, that's easy
-    options(koRpus=list(add.desc=FALSE))
-  } else {
-    koRpus_options <- getOption("koRpus", list())
-    if(is.null(koRpus_options[["add.desc"]])){
-      # case two, we have options, but add.desc is not set
-      koRpus_options[["add.desc"]] <- FALSE
-      options(koRpus=koRpus_options)
-    } else {
-      if(!is.logical(koRpus_options[["add.desc"]])){
-        # case three, add.desc is set but invalid
-        simpleError("check your environment: 'koRpus$add.desc' must be TRUE or FALSE!")
-      } else {}
-    }
-  }
 }
