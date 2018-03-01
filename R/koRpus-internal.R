@@ -1668,6 +1668,7 @@ check_lang_packages <- function(available=FALSE, repos="https://undocumeantit.gi
 
   loaded_packages <- loadedNamespaces()
   loaded_koRpus_lang <- grepl(pattern, loaded_packages)
+  ## TODO: replace installed.packages() with unique(dir(.libPaths()))
   installed_packages <- installed.packages(fields="Title")
   installed_koRpus_lang <- grepl(pattern, installed_packages[,"Package"])
 
