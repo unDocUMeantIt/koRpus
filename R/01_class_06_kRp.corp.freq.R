@@ -75,7 +75,7 @@
 #' @slot caseSens A single logical value, whether the frequency statistics were calculated case sensitive
 #'    or not.
 #' @name kRp.corp.freq,-class
-#' @aliases kRp.corp.freq,-class kRp.corp.freq-class
+#' @aliases kRp.corp.freq-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

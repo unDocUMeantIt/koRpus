@@ -31,7 +31,7 @@
 #' @slot txt.full A character string containing the full text.
 #' @slot udhr A data.frame with full analysis results for each language tried.
 #' @name kRp.lang,-class
-#' @aliases kRp.lang,-class kRp.lang-class
+#' @aliases kRp.lang-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

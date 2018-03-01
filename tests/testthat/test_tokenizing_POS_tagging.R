@@ -141,10 +141,10 @@ test_that("setting environment variables", {
   # however, we can check if setting the environment works as expected
   set.kRp.env(TT.cmd="manual", lang="xy", TT.options=list(path=".", preset="xy"), validate=FALSE)
 
-  expect_that(get.kRp.env(TT.cmd=TRUE),
-    matches("manual"))
-  expect_that(get.kRp.env(lang=TRUE),
-    matches("xy"))
+  expect_match(get.kRp.env(TT.cmd=TRUE),
+    "manual")
+  expect_match(get.kRp.env(lang=TRUE),
+    "xy")
   expect_that(get.kRp.env(TT.options=TRUE),
     is_identical_to(list(path=".", preset="xy")))
 })
@@ -177,16 +177,16 @@ test_that("basic tokenizing", {
   tokenizedToken <- tokenize("singleton", format="obj", lang="xy", add.desc=TRUE)
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
-  expect_that(tokenizedTextFile,
-    equals(sampleTextStandard))
-  expect_that(tokenizedTextFileNoDesc,
-    equals(sampleTextStandardNoDesc))
-  expect_that(tokenizedTextObj,
-    equals(sampleTextStandard))
-  expect_that(tokenizedTextConnection,
-    equals(sampleTextStandard))
-  expect_that(tokenizedToken,
-    equals(sampleTokenizedToken))
+  expect_equal(tokenizedTextFile,
+    sampleTextStandard)
+  expect_equal(tokenizedTextFileNoDesc,
+    sampleTextStandardNoDesc)
+  expect_equal(tokenizedTextObj,
+    sampleTextStandard)
+  expect_equal(tokenizedTextConnection,
+    sampleTextStandard)
+  expect_equal(tokenizedToken,
+    sampleTokenizedToken)
 })
 
 test_that("fixing old objects", {
@@ -199,8 +199,8 @@ test_that("fixing old objects", {
     sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
-  expect_that(tokenizedTextFile,
-    equals(sampleTextStandardOld))
+  expect_equal(tokenizedTextFile,
+    sampleTextStandardOld)
 })
 
 
@@ -216,10 +216,10 @@ test_that("lexical diversity", {
   lexdivTextObj <- summary(lex.div(sampleTextTokenized, char=NULL, quiet=TRUE))
   TTRCharTextObj <- slot(TTR(sampleTextTokenized, char=TRUE, quiet=TRUE), "TTR.char")
 
-  expect_that(lexdivTextObj,
-    equals(sampleTextStandard))
-  expect_that(TTRCharTextObj,
-    equals(sampleTextStandardTTRChar))
+  expect_equal(lexdivTextObj,
+    sampleTextStandard)
+  expect_equal(TTRCharTextObj,
+    sampleTextStandardTTRChar)
 })
 
 
@@ -245,12 +245,12 @@ test_that("hyphenation/syllable count", {
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjCache, "Papua", "Pa-pu-a")
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjChanged, "in-edible", "inedible")
 
-  expect_that(hyphenTextObjNoCache,
-    equals(sampleTextStandard))
-  expect_that(hyphenTextObjCache,
-    equals(sampleTextStandard))
-  expect_that(hyphenTextObjChanged,
-    equals(sampleTextStandardChanged))
+  expect_equal(hyphenTextObjNoCache,
+    sampleTextStandard)
+  expect_equal(hyphenTextObjCache,
+    sampleTextStandard)
+  expect_equal(hyphenTextObjChanged,
+    sampleTextStandardChanged)
 })
 
 
@@ -276,6 +276,6 @@ test_that("readability", {
         Spache=pseudoWordList)), flat=TRUE)
   )
 
-  expect_that(readabilityTextObj,
-    equals(sampleTextStandard))
+  expect_equal(readabilityTextObj,
+    sampleTextStandard)
 })

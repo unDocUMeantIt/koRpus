@@ -54,7 +54,7 @@ available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l
   # append repos, don't replace them
   repos <- c(getOption("repos"), l10n=repos)
 
-  all_available <- koRpus:::check_lang_packages(available=TRUE, repos=repos, available.only=TRUE)
+  all_available <- check_lang_packages(available=TRUE, repos=repos, available.only=TRUE)
 
   if(length(all_available) < 1){
     message("No language support packages found in the repository.")

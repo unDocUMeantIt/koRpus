@@ -109,7 +109,7 @@
 #' @slot Wheeler.Smith.de See "Wheeler.Smith"
 #' @slot Wiener.STF The "flavour" of the parameter settings and the calculated value of the Wiener Sachtextformel. NA if not calculated.
 #' @name kRp.readability,-class
-#' @aliases kRp.readability,-class kRp.readability-class
+#' @aliases kRp.readability-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

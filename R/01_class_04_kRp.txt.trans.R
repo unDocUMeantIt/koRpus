@@ -37,7 +37,7 @@
 #'      \item{\code{letters}:}{Percentage of altered letters in words only.}
 #'    }
 #' @name kRp.txt.trans,-class
-#' @aliases kRp.txt.trans,-class kRp.txt.trans-class
+#' @aliases kRp.txt.trans-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

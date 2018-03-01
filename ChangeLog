@@ -19,6 +19,8 @@ changed:
     this also allows for setting defaults in an .Rprofile file using options()
   - in the docs, improved the link format for classes, omitting the "-class"
     suffix
+  - set.lang.support(): the levels of tag, wclass, and desc are now
+    automatically sorted; test standards had to be adjusted accordingly
 added:
   - set.lang.support(): new argument "merge"; it is now possible to add or
     update single POS tag definitions

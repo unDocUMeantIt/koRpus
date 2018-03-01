@@ -74,7 +74,7 @@
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @export kRp_TTR
 #' @exportClass kRp.TTR
-#' @aliases kRp.TTR,-class kRp.TTR-class
+#' @aliases kRp.TTR-class
 #' @rdname kRp.TTR-class
 
 kRp_TTR <- setClass("kRp.TTR",

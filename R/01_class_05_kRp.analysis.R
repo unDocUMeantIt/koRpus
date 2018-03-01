@@ -32,7 +32,7 @@
 #' @slot lex.div Information on lexical diversity
 #' @slot freq.analysis Information on the word frequencies of the analyzed text.
 #' @name kRp.analysis,-class
-#' @aliases kRp.analysis,-class kRp.analysis-class
+#' @aliases kRp.analysis-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

@@ -30,7 +30,7 @@
 #' @slot desc A list with detailed descriptive statistics on the analyzed text.
 #' @slot freq.analysis A list with information on the word frequencies of the analyzed text.
 #' @name kRp.txt.freq,-class
-#' @aliases kRp.txt.freq,-class kRp.txt.freq-class
+#' @aliases kRp.txt.freq-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

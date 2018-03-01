@@ -62,7 +62,7 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'    This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].
 #' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 #' @name kRp.tagged,-class
-#' @aliases kRp.tagged,-class kRp.tagged-class
+#' @aliases kRp.tagged-class
 #' @import methods
 #' @references
 #'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})

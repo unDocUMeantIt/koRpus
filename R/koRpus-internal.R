@@ -1668,9 +1668,8 @@ check_lang_packages <- function(available=FALSE, repos="https://undocumeantit.gi
 
   loaded_packages <- loadedNamespaces()
   loaded_koRpus_lang <- grepl(pattern, loaded_packages)
-  ## TODO: replace installed.packages() with unique(dir(.libPaths()))
-  installed_packages <- installed.packages(fields="Title")
-  installed_koRpus_lang <- grepl(pattern, installed_packages[,"Package"])
+  installed_packages <- unique(dir(.libPaths()))
+  installed_koRpus_lang <- grepl(pattern, installed_packages)
 
   have_koRpus_lang <- any(installed_koRpus_lang, available_koRpus_lang)
 
@@ -1678,17 +1677,17 @@ check_lang_packages <- function(available=FALSE, repos="https://undocumeantit.gi
     if(isTRUE(available.only)){
       all_packages <- supported_lang
     } else {
-      all_packages <- unique(c(installed_packages[installed_koRpus_lang,"Package"], supported_lang))
+      all_packages <- unique(c(installed_packages[installed_koRpus_lang], supported_lang))
     }
     for (this_package in all_packages){
       result[[this_package]] <- list(available=NA, installed=FALSE, loaded=FALSE, title="(unknown)")
       if(all(isTRUE(available), this_package %in% supported_lang)){
         result[[this_package]][["available"]] <- TRUE
       } else {}
-      if(this_package %in% unique(installed_packages[installed_koRpus_lang,"Package"])){
+      if(this_package %in% unique(installed_packages[installed_koRpus_lang])){
         result[[this_package]][["installed"]] <- TRUE
-        this_package_index <- which.min(!installed_packages[,"Package"] %in% this_package)
-        result[[this_package]][["title"]] <- installed_packages[this_package_index,"Title"]
+        this_package_index <- which.min(!installed_packages %in% this_package)
+        result[[this_package]][["title"]] <- packageDescription(installed_packages[this_package_index])[["Title"]]
       } else {}
       if(this_package %in% unique(loaded_packages[loaded_koRpus_lang])){
         result[[this_package]][["loaded"]] <- TRUE
