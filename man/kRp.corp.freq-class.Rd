@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.corp.freq,-class}
 \alias{kRp.corp.freq,-class}
+\alias{kRp_corp_freq}
 \alias{kRp.corp.freq-class}
 \title{S4 Class kRp.corp.freq}
 \description{

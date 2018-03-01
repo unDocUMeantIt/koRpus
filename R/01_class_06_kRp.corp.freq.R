@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -77,10 +77,11 @@
 #' @references
 #' [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
 #' [2] \url{http://celex.mpi.nl}
-#' @export
+#' @export kRp_corp_freq
+#' @exportClass kRp.corp.freq
 #' @rdname kRp.corp.freq-class
 
-setClass("kRp.corp.freq",
+kRp_corp_freq <- setClass("kRp.corp.freq",
     representation=representation(
       meta="data.frame",
       words="data.frame",

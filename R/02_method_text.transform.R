@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -174,7 +174,7 @@ setMethod("textTransform",
                     token.orig=tokens.orig,
                     equal=tokens.equal,
                     stringsAsFactors=FALSE)
-        results <- new("kRp.txt.trans",
+        results <- kRp_txt_trans(
                   lang=language(txt),
                   TT.res=old.new.comp,
                   diff=list(all.tokens=diff.pct.words.all, words=diff.pct.words, all.chars=diff.pct.lett.all, letters=diff.pct.lett))

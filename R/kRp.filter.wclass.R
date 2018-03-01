@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -43,7 +43,7 @@ kRp.filter.wclass <- function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as
   # the internal function tag.kRp.txt() will return the object unchanged if it
   # is already tagged, so it's safe to call it with the lang set here
   tagged.text <- tag.kRp.txt(txt, tagger=NULL, objects.only=TRUE)
-  txt.TT.res <- tagged.text@TT.res
+  txt.TT.res <- taggedText(tagged.text)
   # set the language definition
   lang <- language.setting(tagged.text, NULL)
 
@@ -53,7 +53,7 @@ kRp.filter.wclass <- function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as
     results <- pre.results
   } else {
     dimnames(pre.results)[[1]] <- c(1:nrow(pre.results))
-    results <- new("kRp.tagged", lang=lang, TT.res=pre.results)
+    results <- kRp_tagged(lang=lang, TT.res=pre.results)
   }
 
   return(results)

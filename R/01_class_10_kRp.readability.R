@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -108,12 +108,13 @@
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
+#' @export kRp_readability
+#' @exportClass kRp.readability
 #' @rdname kRp.readability-class
 
 #' @include 01_class_01_kRp.tagged.R
 
-setClass("kRp.readability",
+kRp_readability <- setClass("kRp.readability",
     representation=representation(
       hyphen="kRp.hyphen",
       param="list",

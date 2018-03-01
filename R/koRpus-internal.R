@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -1007,13 +1007,13 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
   } else {}
   # set missing information to a valid defaults
   if(is.null(df.dscrpt.meta)){
-    df.dscrpt.meta <- slot(new("kRp.corp.freq"), "desc")
+    df.dscrpt.meta <- slot(kRp_corp_freq(), "desc")
   } else {}
   if(is.null(df.meta)){
-    df.meta <- slot(new("kRp.corp.freq"), "meta")
+    df.meta <- slot(kRp_corp_freq(), "meta")
   } else {}
   if(is.null(matrix.table.bigrams)){
-    df.table.bigrams <- slot(new("kRp.corp.freq"), "bigrams")
+    df.table.bigrams <- slot(kRp_corp_freq(), "bigrams")
   } else {
     message("Fetching bigram tokens from data... ", appendLF=FALSE)
     df.table.bigrams <- data.frame(
@@ -1040,7 +1040,7 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
     message("done.")
   }
   if(is.null(matrix.table.cooccur)){
-    df.table.cooccur <- slot(new("kRp.corp.freq"), "cooccur")
+    df.table.cooccur <- slot(kRp_corp_freq(), "cooccur")
   } else {
     message("Fetching co-occurrence tokens from data... ", appendLF=FALSE)
     df.table.cooccur <- data.frame(
@@ -1066,8 +1066,7 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
     df.table.cooccur <- df.table.cooccur[with(df.table.cooccur, order(freq, decreasing=TRUE)),]
     message("done.")
   }
-  results <- new(
-    "kRp.corp.freq",
+  results <- kRp_corp_freq(
     meta=df.meta,
     words=df.words,
     desc=df.dscrpt.meta,

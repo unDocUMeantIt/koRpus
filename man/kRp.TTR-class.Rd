@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.TTR,-class}
 \alias{kRp.TTR,-class}
+\alias{kRp_TTR}
 \alias{kRp.TTR-class}
 \title{S4 Class kRp.TTR}
 \description{

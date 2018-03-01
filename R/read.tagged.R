@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -134,7 +134,7 @@ read.tagged <- function(file, lang="kRp.env", encoding=NULL, tagger="TreeTagger"
   # add columns "idx", "sntc" and "doc_id"
   tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=NA)
 
-  results <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
+  results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics
   results@desc <- basic.tagged.descriptives(results, lang=lang,
     txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]), doc_id=doc_id)

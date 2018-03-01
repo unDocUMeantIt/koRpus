@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -178,7 +178,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
     # add columns "idx", "sntc" and "doc_id"
     tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
     # create object, combine descriptives afterwards
-    tokens <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
+    tokens <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
     ## descriptive statistics
     tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
   } else {}

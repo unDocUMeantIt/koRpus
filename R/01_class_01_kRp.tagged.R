@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -63,10 +63,11 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
+#' @export kRp_tagged
+#' @exportClass kRp.tagged
 #' @rdname kRp.tagged-class
 
-setClass("kRp.tagged",
+kRp_tagged <- setClass("kRp.tagged",
     representation=representation(
       lang="character",
       desc="list",

@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.lang,-class}
 \alias{kRp.lang,-class}
+\alias{kRp_lang}
 \alias{kRp.lang-class}
 \title{S4 Class kRp.lang}
 \description{

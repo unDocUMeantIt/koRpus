@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -92,6 +92,6 @@ kRp.text.analysis <- function(txt.file, tagger="kRp.env", force.lang=NULL,
   }
   
 
-  results <- new("kRp.analysis", lang=lang, TT.res=tagged.text@TT.res, desc=desc.stat.res, lex.div=lex.div.res, freq.analysis=frequency.res)
+  results <- kRp_analysis(lang=lang, TT.res=taggedText(tagged.text), desc=desc.stat.res, lex.div=lex.div.res, freq.analysis=frequency.res)
   return(results)
 }

@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.tagged,-class}
 \alias{kRp.tagged,-class}
+\alias{kRp_tagged}
 \alias{kRp.tagged-class}
 \title{S4 Class kRp.tagged}
 \description{

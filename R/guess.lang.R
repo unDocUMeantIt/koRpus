@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -120,7 +120,7 @@ guess.lang <- function(txt.file, udhr.path, comp.length=300, keep.udhr=FALSE, qu
   lang.estim <- udhr.results[1,"name"]
   lang.estim.lc <- udhr.results[1,"iso639-3"]
 
-  results <- new("kRp.lang", lang=lang.estim.lc, lang.name=lang.estim, txt=txt.short, txt.full=txt, udhr=udhr.results)
+  results <- kRp_lang(lang=lang.estim.lc, lang.name=lang.estim, txt=txt.short, txt.full=txt, udhr=udhr.results)
 
   return(results)
 }

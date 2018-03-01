@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -36,10 +36,11 @@
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
+#' @export kRp_txt_trans
+#' @exportClass kRp.txt.trans
 #' @rdname kRp.txt.trans-class
 #' @include 01_class_01_kRp.tagged.R
-setClass("kRp.txt.trans",
+kRp_txt_trans <- setClass("kRp.txt.trans",
     representation=representation(
     diff="list"),
   prototype=prototype(
@@ -52,11 +53,13 @@ setClass("kRp.txt.trans",
 
 #' @include 01_class_01_kRp.tagged.R
 setAs(from="kRp.txt.trans", to="kRp.tagged", function(from){
-    lang <- from@lang
-    tagged.df <- as.data.frame(from@TT.res[, valid.TT.res.kRp.tagged])
-    retagged.object <- new("kRp.tagged", lang=lang, TT.res=tagged.df)
+    tagged.df <- as.data.frame(taggedText(from)[, valid.TT.res.kRp.tagged])
+    retagged.object <- kRp_tagged(
+      lang=language(from),
+      TT.res=tagged.df
+    )
     return(retagged.object)
-    }
+  }
 )
 
 # setValidity("kRp.analysis", function(object){

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -30,10 +30,11 @@
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
+#' @export kRp_lang
+#' @exportClass kRp.lang
 #' @rdname kRp.lang-class
 
-setClass("kRp.lang",
+kRp_lang <- setClass("kRp.lang",
     representation=representation(
     lang="character",
     lang.name="character",

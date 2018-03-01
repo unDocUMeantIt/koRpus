@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.analysis,-class}
 \alias{kRp.analysis,-class}
+\alias{kRp_analysis}
 \alias{kRp.analysis-class}
 \title{S4 Class kRp.analysis}
 \description{

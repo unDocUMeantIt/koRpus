@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -332,10 +332,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       tagged.text <- txt.file
     } else if(!is.null(force.lang)){
       lang <- force.lang
-      tagged.text <- new("kRp.tagged")
+      tagged.text <- kRp_tagged()
     } else {
       lang <- character()
-      tagged.text <- new("kRp.tagged")
+      tagged.text <- kRp_tagged()
     }
     if(!inherits(hyphen, "kRp.hyphen")){
       hyphen <- new("kRp.hyphen",
@@ -389,7 +389,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     slot(all.results, "desc") <- desc
     slot(all.results, "param") <- parameters
   } else {
-    all.results <- new("kRp.readability",
+    all.results <- kRp_readability(
       lang=lang,
       TT.res=slot(tagged.text, "TT.res"),
       desc=desc,

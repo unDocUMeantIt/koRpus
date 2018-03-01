@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.txt.trans,-class}
 \alias{kRp.txt.trans,-class}
+\alias{kRp_txt_trans}
 \alias{kRp.txt.trans-class}
 \title{S4 Class kRp.txt.trans}
 \description{

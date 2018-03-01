@@ -20,6 +20,9 @@ changed:
 added:
   - set.lang.support(): new argument "merge"; it is now possible to add or
     update single POS tag definitions
+  - new class object contructors kRp_tagged(), kRp_TTR(), kRp_txt_freq(),
+    kRp_txt_trans(), kRp_analysis(), kRp_corp_freq(), kRp_lang(), and
+    kRp_readability() can be used instead of new("kRp.tagged", ...) etc.
 
 changes in version 0.11-2 (2018-01-07)
 attention:

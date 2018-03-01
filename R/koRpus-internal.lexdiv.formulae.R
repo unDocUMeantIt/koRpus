@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -209,7 +209,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
 
 
   # initialize result object
-  lex.div.results <- new("kRp.TTR")
+  lex.div.results <- kRp_TTR()
 
 
   ###################################

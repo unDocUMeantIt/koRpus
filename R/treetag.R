@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -517,7 +517,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
   # add columns "idx", "sntc" and "doc_id"
   tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-  results <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
+  results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics
   if(is.null(encoding)){
     encoding <- ""

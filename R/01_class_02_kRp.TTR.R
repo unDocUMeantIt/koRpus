@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -67,11 +67,12 @@
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
+#' @export kRp_TTR
+#' @exportClass kRp.TTR
 #' @aliases kRp.TTR,-class kRp.TTR-class
 #' @rdname kRp.TTR-class
 
-setClass("kRp.TTR",
+kRp_TTR <- setClass("kRp.TTR",
     representation=representation(
       param="list",
       tt="list",

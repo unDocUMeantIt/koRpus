@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -53,7 +53,7 @@
 lex.div.num <- function(num.tokens, num.types, measure=c("TTR","C","R","CTTR","U","S","Maas"), log.base=10, quiet=FALSE){
 
   # initialize result object
-  lex.div.results <- new("kRp.TTR")
+  lex.div.results <- kRp_TTR()
 
   ###################################
   ## diversity measures start here ##

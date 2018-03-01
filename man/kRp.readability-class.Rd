@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.readability,-class}
 \alias{kRp.readability,-class}
+\alias{kRp_readability}
 \alias{kRp.readability-class}
 \title{S4 Class kRp.readability}
 \description{
