@@ -1653,7 +1653,7 @@ winPath <- function(path){
 # entries named "available", "installed", "loaded", and "title"
 # availabe: also check for all available packages in 'repos'
 # available.only: omit all installed packages which cannot be found in 'repos'
-check_lang_packages <- function(available=FALSE, repos="https://undocumeantit.github.io/repos/l10n/", available.only=FALSE, pattern="koRpus.lang.*"){
+check_lang_packages <- function(available=FALSE, repos="https://undocumeantit.github.io/repos/l10n/", available.only=FALSE, pattern="^koRpus.lang.*"){
   ### this function should be kept close to identical to the respective function
   ### in the 'sylly' package, except for the pattern
   result <- list()
