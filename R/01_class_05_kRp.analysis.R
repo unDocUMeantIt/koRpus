@@ -20,6 +20,11 @@
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:kRp.text.analysis]{kRp.text.analysis}}.
 #'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_analysis(...)} can be used instead of
+#' \code{new("kRp.analysis", ...)}.
+#'
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object
 #' @slot TT.res A commented verion of the fully tagged text. Depending on input data, this is
 #'    identical to the slot \code{TT.res} of function \code{treetag} or \code{freq.analysis}.

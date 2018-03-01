@@ -22,6 +22,11 @@
 #' The slot \code{meta} simply contains all information from the "meta.txt" of the LCC[1] data and remains
 #' empty for data from a Celex[2] DB.
 #'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_corp_freq(...)} can be used instead of
+#' \code{new("kRp.corp.freq", ...)}.
+#'
 #' @slot meta Metadata on the corpora (see details).
 #' @slot words Absolute word frequencies. It has at least the following columns:
 #'    \describe{

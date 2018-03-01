@@ -27,8 +27,8 @@
 #' and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid value, if you want to forcibly overwrite this
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
-#'    \code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}}, or
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, or
 #'    a character vector which must be be a valid path to a file containing the text to be analyzed.
 #' @param tagger A character string defining the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
 #'    \code{txt.file} is already of class \code{kRp.tagged-class}. Defaults to \code{"kRp.env"} to get the settings by
@@ -36,13 +36,13 @@
 #' @param force.lang A character string defining the language to be assumed for the text, by force.
 #' @param desc.stat Logical, whether a descriptive statistical analysis should be performed.
 #' @param lex.div Logical, whether some lexical diversity analysis should be performed, using \code{\link[koRpus:lex.div]{lex.div}}.
-#' @param corp.freq An object of class \code{\link[koRpus]{kRp.corp.freq-class}}. If present, a frequency index for the analyzed text is computed (see details).
+#' @param corp.freq An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}. If present, a frequency index for the analyzed text is computed (see details).
 #' @param corp.rm.class A character vector with word classes which should be ignored for frequency analysis. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used.
 #' @param corp.rm.tag A character vector with POS tags which should be ignored for frequency analysis.
 #' @param ... Additional options to be passed through to the function defined with \code{tagger}.
-#' @return An object of class \code{\link[koRpus]{kRp.analysis-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @seealso \code{\link[koRpus:set.kRp.env]{set.kRp.env}}, \code{\link[koRpus:get.kRp.env]{get.kRp.env}},

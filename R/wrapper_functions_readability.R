@@ -29,12 +29,12 @@
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 #' @references
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
 #'      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
@@ -75,7 +75,7 @@ ARI <- function(txt.file, parameters=c(asl=0.5, awl=4.71, const=21.43), ...){
 #'    grade=c(const=4.275, m1=12.881, m2=34.934, m3=20.388,
 #'      c1=26.194, c2=2.046, c3=11.767, mc1=44.285, mc2=97.62,
 #'      mc3=59.538), ...)
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param clz Integer, the cloze criterion score in percent.
@@ -85,7 +85,7 @@ ARI <- function(txt.file, parameters=c(asl=0.5, awl=4.71, const=21.43), ...){
 #' @param word.list A vector or matrix (with exactly one column) which defines familiar words. For valid results
 #'    the long Dale-Chall list with 3000 words should be used.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -118,14 +118,14 @@ bormuth <- function(txt.file, word.list, clz=35,
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param ecp A numeric vector with named magic numbers, defining the relevant parameters for the cloze percentage estimate.
 #' @param grade A numeric vector with named magic numbers, defining the relevant parameters to calculate grade equvalent for ECP values.
 #' @param short A numeric vector with named magic numbers, defining the relevant parameters for the short form of the formula.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -159,7 +159,7 @@ coleman.liau <- function(txt.file,
 #' \code{\link[koRpus:readability]{readability}}, which by default calculates all possible
 #' indices, this function will only calculate the index value.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
@@ -169,7 +169,7 @@ coleman.liau <- function(txt.file,
 #' @param clz3 A numeric vector with named magic numbers for the third formula.
 #' @param clz4 A numeric vector with named magic numbers for the fourth formula.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -207,14 +207,14 @@ coleman <- function(txt.file, hyphen=NULL,
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param word.list A vector or matrix (with exactly one column) which defines familiar words. For valid results
 #'    the long Dale-Chall list with about 3000 words should be used.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -253,13 +253,13 @@ dale.chall <- function(txt.file, word.list, parameters=c(const=64, dword=0.95, a
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param db1 A numeric vector with named magic numbers, defining the relevant parameters for the first formula (regression).
 #' @param db2 A numeric vector with named magic numbers, defining the relevant parameters for the second formula (cloze equivalent).
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -292,13 +292,13 @@ danielson.bryan <- function(txt.file, db1=c(cpb=1.0364, cps=0.0194, const=0.6059
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param case.sens Logical, whether types should be counted case sensitive.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -330,13 +330,13 @@ dickes.steiwer <- function(txt.file, parameters=c(const=235.95993, awl=73.021, a
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param word.list A vector or matrix (with exactly one column) which defines familiar words. For valid results
 #'    the long Dale-Chall list with 3000 words should be used.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -365,13 +365,13 @@ DRP <- function(txt.file, word.list, ...){
 #' \code{\link[koRpus:readability]{readability}}, which by default calculates all possible indices,
 #' this function will only calculate the index value.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
@@ -405,13 +405,13 @@ ELF <- function(txt.file, hyphen=NULL, parameters=c(syll=1), ...){
 #'
 #' If \code{parameters="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index, or \code{"PSK"}.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Farr, J.N., Jenkins, J.J. & Paterson, D.G. (1951). Simplification of Flesch Reading Ease formula. \emph{Journal of Applied Psychology}, 35(5), 333--337.
@@ -444,13 +444,13 @@ farr.jenkins.paterson <- function(txt.file, hyphen=NULL, parameters=c(const=-31.
 #' Calculates the Flesch-Kincaid grade level. In contrast to \code{\link[koRpus:readability]{readability}},
 #' which by default calculates all possible indices, this function will only calculate the index value.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -485,7 +485,7 @@ flesch.kincaid <- function(txt.file, hyphen=NULL, parameters=c(asl=0.39, asw=11.
 #' If \code{parameters="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used
 #' to calculate a grade level.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
@@ -493,7 +493,7 @@ flesch.kincaid <- function(txt.file, hyphen=NULL, parameters=c(asl=0.39, asw=11.
 #'    a valid character string naming a preset for implemented languages (\code{"de"}, \code{"es"}, \code{"es-s"},
 #'    \code{"nl"}, \code{"nl-b"}, \code{"fr"}).
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @seealso \code{\link[koRpus:flesch.kincaid]{flesch.kincaid}} for grade levels,
@@ -526,14 +526,14 @@ flesch <- function(txt.file, hyphen=NULL, parameters=c(const=206.835, asl=1.015,
 #' If \code{parameters="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used, and
 #' if \code{parameters="NRI"}, the simplified parameters from the Navy Readability Indexes, respectively.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A list with named magic numbers and a vector with verb suffixes, defining the relevant parameters for the index,
 #'    or one of \code{"PSK"} or \code{"NRI"}.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
@@ -569,13 +569,13 @@ FOG <- function(txt.file, hyphen=NULL, parameters=list(syll=3, const=0.4, suffix
 #'
 #' If \code{parameters="RGL"}, the parameters for the precise Reading Grade Level are used.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index, or \code{"RGL"}.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @references
@@ -608,11 +608,11 @@ FORCAST <- function(txt.file, hyphen=NULL, parameters=c(syll=1, mult=.10, const=
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Fucks, W. (1955). Der Unterschied des Prosastils von Dichtern und anderen Schriftstellern. \emph{Sprachforum}, 1, 233--244.
@@ -645,7 +645,7 @@ fucks <- function(txt.file, ...){
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param word.list A vector or matrix (with exactly one column) which defines familiar words. For valid results
@@ -657,7 +657,7 @@ fucks <- function(txt.file, ...){
 #' @param hj4 A numeric vector with named magic numbers for the fourth of the formulas.
 #' @param hj5 A numeric vector with named magic numbers for the fifth of the formulas.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Harris, A.J. & Jacobson, M.D. (1974). Revised Harris-Jacobson readability formulas. In \emph{18th Annual Meeting of the College Reading Association}, Bethesda.
@@ -694,13 +694,13 @@ harris.jacobson <- function(txt.file, word.list,
 #' This function calculates the Linsear Write index. In contrast to \code{\link[koRpus:readability]{readability}},
 #' which by default calculates all possible indices, this function will only calculate the index value.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -730,12 +730,12 @@ linsear.write <- function(txt.file, hyphen=NULL, parameters=c(short.syll=2, long
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Anderson, J. (1981). Analysing the readability of english and non-english texts in the classroom with Lix. In
@@ -768,7 +768,7 @@ LIX <- function(txt.file, parameters=c(char=6, const=100), ...){
 #' This function calculates the new Wiener Sachtextformeln (formulas 1 to 4). In contrast to \code{\link[koRpus:readability]{readability}},
 #' which by default calculates all possible indices, this function will only calculate the index values.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
@@ -778,7 +778,7 @@ LIX <- function(txt.file, parameters=c(char=6, const=100), ...){
 #' @param nws3 A numeric vector with named magic numbers for the third of the formulas.
 #' @param nws4 A numeric vector with named magic numbers for the fourth of the formulas.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Bamberger, R. & Vanecek, E. (1984). \emph{Lesen--Verstehen--Lernen--Schreiben}. Wien: Jugend und Volk.
@@ -817,12 +817,12 @@ nWS <- function(txt.file, hyphen=NULL,
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Anderson, J. (1981). Analysing the readability of english and non-english texts in the classroom with Lix. In
@@ -860,13 +860,13 @@ RIX <- function(txt.file, parameters=c(char=6), ...){
 #' If \code{parameters} is set to \code{SMOG="simple"}, the simplified formula is used, and
 #' if \code{parameters="de"}, the formula adapted to German texts ("Qu", Bamberger & Vanecek, 1984, p. 78).
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Bamberger, R. & Vanecek, E. (1984). \emph{Lesen--Verstehen--Lernen--Schreiben}. Wien: Jugend und Volk.
@@ -903,14 +903,14 @@ SMOG <- function(txt.file, hyphen=NULL, parameters=c(syll=3, sqrt=1.043, fact=30
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param word.list A vector or matrix (with exactly one column) which defines familiar words. For valid results
 #'    the short Dale-Chall list with 769 easy words should be used.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -944,13 +944,13 @@ spache <- function(txt.file, word.list, parameters=c(asl=0.121, dword=0.082, con
 #' This function calculates the Strain index. In contrast to \code{\link[koRpus:readability]{readability}},
 #' which by default calculates all possible indices, this function will only calculate the index value.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -981,13 +981,13 @@ strain <- function(txt.file, hyphen=NULL, parameters=c(sent=3, const=10), ...){
 #'
 #' This formula doesn't need syllable count.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param TB1 A numeric vector with named magic numbers for the first of the formulas.
 #' @param TB2 A numeric vector with named magic numbers for the second of the formulas.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @export
@@ -1019,13 +1019,13 @@ traenkle.bailer <- function(txt.file,
 #' \code{\link[koRpus:readability]{readability}}, which by default calculates all possible indices,
 #' this function will only calculate the index value.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 #' @keywords readability
 #' @export
 #' @examples
@@ -1056,13 +1056,13 @@ TRI <- function(txt.file, hyphen=NULL, parameters=c(syll=1, word=0.449, pnct=2.4
 #' @note This index originally has no parameter weights. To be able the use weights anyway, each parameter of the formula
 #'    is available and its weight set to 1 by default.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 #' @keywords readability
 #' @export
 #' @examples
@@ -1093,13 +1093,13 @@ tuldava <- function(txt.file, hyphen=NULL, parameters=c(syll=1, word1=1, word2=1
 #' If \code{parameters="de"}, the calculation stays the same, but grade placement
 #' is done according to Bamberger & Vanecek (1984), that is for german texts.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, a character vector which must be be
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
 #'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
-#' @return An object of class \code{\link[koRpus]{kRp.readability-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    Bamberger, R. & Vanecek, E. (1984). \emph{Lesen--Verstehen--Lernen--Schreiben}. Wien: Jugend und Volk.

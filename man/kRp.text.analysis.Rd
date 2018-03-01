@@ -9,9 +9,10 @@ kRp.text.analysis(txt.file, tagger = "kRp.env", force.lang = NULL,
   corp.rm.class = "nonpunct", corp.rm.tag = c(), ...)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}}, or
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
+      or
 a character vector which must be be a valid path to a file containing the text to be analyzed.}
 
 \item{tagger}{A character string defining the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
@@ -26,7 +27,7 @@ a character vector which must be be a valid path to a file containing the text t
 \item{lex.div}{Logical, whether some lexical diversity analysis should be performed,
       using \code{\link[koRpus:lex.div]{lex.div}}.}
 
-\item{corp.freq}{An object of class \code{\link[koRpus]{kRp.corp.freq-class}}. If present,
+\item{corp.freq}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}. If present,
       a frequency index for the analyzed text is computed (see details).}
 
 \item{corp.rm.class}{A character vector with word classes which should be ignored for frequency analysis. The default value
@@ -38,7 +39,7 @@ a character vector which must be be a valid path to a file containing the text t
 \item{...}{Additional options to be passed through to the function defined with \code{tagger}.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.analysis-class}}.
+An object of class \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
 }
 \description{
 The function \code{kRp.text.analysis} analyzes texts in various ways.

@@ -8,7 +8,7 @@ flesch(txt.file, hyphen = NULL, parameters = c(const = 206.835, asl = 1.015,
   asw = 84.6), ...)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation
@@ -27,7 +27,7 @@ a valid character string naming a preset for implemented languages (\code{"de"},
       see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.

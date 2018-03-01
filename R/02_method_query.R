@@ -18,8 +18,8 @@
 
 #' A method to get information out of koRpus objects
 #'
-#' The method \code{query} returns query information from objects of classes \code{\link[koRpus]{kRp.corp.freq-class}} and
-#' \code{\link[koRpus]{kRp.tagged-class}}.
+#' The method \code{query} returns query information from objects of classes \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}} and
+#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #'
 #' \emph{kRp.corp.freq:} Depending on the setting of the \code{var} parameter, will return entries with a matching character (\code{var="word"}),
 #' or all entries of the desired frequency (see the examples). A special case is the need for a range of frequencies,
@@ -40,7 +40,7 @@
 #'
 #' This method calls \code{\link[base]{subset}}, which might actually be even more flexible if you need more control.
 #'
-#' @param obj An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @param obj An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 #' @param var A character string naming a variable in the object (i.e., colname). If set to
 #'    \code{"regexp"}, \code{grepl} is called on the \code{word} column of corpus frequency
 #'    objects.
@@ -58,7 +58,7 @@
 #' @return Depending on the arguments, might include whole objects, lists, single values etc.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords methods
-#' @seealso \code{\link[koRpus]{kRp.corp.freq-class}}, \code{\link[base]{subset}}
+#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, \code{\link[base]{subset}}
 #' @examples
 #' \dontrun{
 #' # look up frequencies for the word "aber"

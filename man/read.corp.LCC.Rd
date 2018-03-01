@@ -45,7 +45,7 @@ Otherwise, if the imported database supports it,
 cases (e.\,g., "one" and "One").}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 }
 \description{
 Read data from LCC[1] formatted corpora (Quasthoff, Richter & Biemann, 2006).
@@ -87,6 +87,6 @@ Quasthoff, U., Richter, M. & Biemann,
    [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
 }
 \seealso{
-\code{\link[koRpus]{kRp.corp.freq-class}}
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 }
 \keyword{corpora}

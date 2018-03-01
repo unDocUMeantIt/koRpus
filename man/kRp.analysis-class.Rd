@@ -26,4 +26,12 @@ identical to the slot \code{TT.res} of function \code{treetag} or \code{freq.ana
 \item{\code{freq.analysis}}{Information on the word frequencies of the analyzed text.}
 }}
 
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_analysis(...)} can be used instead of
+\code{new("kRp.analysis", ...)}.
+}
+
 \keyword{classes}

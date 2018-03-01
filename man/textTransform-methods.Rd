@@ -12,9 +12,9 @@ textTransform(txt, scheme, p = 0.5, paste = FALSE)
   paste = FALSE)
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus]{kRp.txt.trans-class}},
-      \code{\link[koRpus]{kRp.tagged-class}},
-\code{\link[koRpus]{kRp.txt.freq-class}} or \code{\link[koRpus]{kRp.analysis-class}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
+      \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
 
 \item{scheme}{One of the following character strings:
 \itemize{
@@ -38,7 +38,7 @@ if \code{scheme="random"}).}
 \item{paste}{Logical, see value section.}
 }
 \value{
-By default an object of class \code{\link[koRpus]{kRp.txt.trans-class}} is returned. If \code{paste=TRUE},
+By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE},
       returns
    an atomic character vector (via \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}).
 }

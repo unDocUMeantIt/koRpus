@@ -20,7 +20,7 @@
 #'
 #' This function strips off defined word classes of tagged text objects.
 #'
-#' @param txt An object of class \code{\link[koRpus]{kRp.tagged-class}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param corp.rm.class A character vector with word classes which should be removed. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used.
@@ -28,7 +28,7 @@
 #' @param corp.rm.tag A character vector with valid POS tags which should be removed.
 #' @param as.vector Logical. If \code{TRUE}, results will be returned as a character vector containing only the text parts
 #'    which survived the filtering.
-#' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{as.vector=TRUE}, returns only a character vector.
+#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE}, returns only a character vector.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 #' @keywords misc

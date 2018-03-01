@@ -70,7 +70,7 @@
 #'    of the \code{TT.res} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
-#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus]{kRp.tagged-class}}.
+#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @export

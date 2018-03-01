@@ -28,10 +28,10 @@
 }
 \description{
 Show methods for S4 objects of classes
-\code{\link[koRpus]{kRp.lang-class}},
-\code{\link[koRpus]{kRp.readability-class}},
-\code{\link[koRpus]{kRp.corp.freq-class}} or
-\code{\link[koRpus]{kRp.TTR-class}}.
+\code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+\code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}} or
+\code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 }
 \examples{
 \dontrun{
@@ -45,9 +45,9 @@ flesch(tagged.txt)
 }
 }
 \seealso{
-\code{\link[koRpus]{kRp.lang-class}},
-   \code{\link[koRpus]{kRp.readability-class}},
-   \code{\link[koRpus]{kRp.corp.freq-class}},
-   \code{\link[koRpus]{kRp.TTR-class}}
+\code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+   \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+   \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+   \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 }
 \keyword{methods}

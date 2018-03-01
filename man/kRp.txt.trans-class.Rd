@@ -33,4 +33,12 @@ the new columns \code{token.old} and \code{equal}).}
 }}
 }}
 
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_txt_trans(...)} can be used instead of
+\code{new("kRp.txt.trans", ...)}.
+}
+
 \keyword{classes}

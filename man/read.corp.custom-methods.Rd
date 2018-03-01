@@ -47,17 +47,17 @@ the \code{"TT.res"} slot is used).}
       by force.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 }
 \description{
-Read data from a custom corpus into a valid object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+Read data from a custom corpus into a valid object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 }
 \details{
 The methods should enable you to perform a basic text corpus frequency analysis. That is,
       not just to
 import analysis results like LCC files,
       but to import the corpus material itself. The resulting object
-is of class \code{\link[koRpus]{kRp.corp.freq-class}},
+is of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
       so it can be used for frequency analysis by
 other functions and methods of this package.
 }
@@ -67,6 +67,6 @@ ru.corp <- read.corp.custom("~/mydata/corpora/russian_corpus/")
 }
 }
 \seealso{
-\code{\link[koRpus]{kRp.corp.freq-class}}
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 }
 \keyword{corpora}

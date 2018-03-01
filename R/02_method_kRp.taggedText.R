@@ -285,7 +285,7 @@ setMethod("fixObject",
 #' @export
 setGeneric("tif_as_tokens_df", function(tokens) standardGeneric("tif_as_tokens_df"))
 #' @rdname kRp.taggedText-methods
-#' @param tokens An object of class \code{\link[koRpus]{kRp.tagged-class}}.
+#' @param tokens An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @export
 #' @docType methods
 #' @aliases

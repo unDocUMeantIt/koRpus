@@ -38,6 +38,11 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:treetag]{treetag}} or \code{\link[koRpus:tokenize]{tokenize}}.
 #'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_tagged(...)} can be used instead of
+#' \code{new("kRp.tagged", ...)}.
+#'
 #' @slot lang A character string, naming the language that is assumed for the tokenized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.
 #' @slot TT.res Results of the called tokenizer and POS tagger. The data.frame has eight columns:

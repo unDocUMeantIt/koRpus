@@ -17,6 +17,8 @@ changed:
   - session settings done with set.kRp.env() or queried by get.kRp.env()
     are no longer stored in an internal environment but the global .Options;
     this also allows for setting defaults in an .Rprofile file using options()
+  - in the docs, improved the link format for classes, omitting the "-class"
+    suffix
 added:
   - set.lang.support(): new argument "merge"; it is now possible to add or
     update single POS tag definitions

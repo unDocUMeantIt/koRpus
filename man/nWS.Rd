@@ -11,7 +11,7 @@ nWS(txt.file, hyphen = NULL, parameters = c(ms.syll = 3, iw.char = 6,
   = 0.2656, const = 1.693), ...)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation
@@ -35,7 +35,7 @@ is done by \code{\link[koRpus:readability.num]{readability.num}}.}
       see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.

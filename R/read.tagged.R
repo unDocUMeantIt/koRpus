@@ -49,13 +49,13 @@
 #' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
-#' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE}, prints internal variable settings and
+#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE}, prints internal variable settings and
 #'    attempts to return the original output if the TreeTagger system call in a matrix.
 #' @keywords misc
 #' @seealso \code{\link[koRpus:treetag]{treetag}},
 #'    \code{\link[koRpus:freq.analysis]{freq.analysis}},
 #'    \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-#'    \code{\link[koRpus]{kRp.tagged-class}}
+#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
 #' @references
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.

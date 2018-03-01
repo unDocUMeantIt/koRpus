@@ -37,6 +37,14 @@ This data.frame structure adheres to the "Text Interchange Formats" guidelines s
 \note{
 There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 }
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_tagged(...)} can be used instead of
+\code{new("kRp.tagged", ...)}.
+}
+
 \references{
 [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
 }

@@ -114,4 +114,12 @@ the whole text is analyzed. The matrix has two colums,
       but calculated using the moving-average MTLD algorithm. NA if not calculated.}
 }}
 
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_TTR(...)} can be used instead of
+\code{new("kRp.TTR", ...)}.
+}
+
 \keyword{classes}

@@ -20,6 +20,11 @@
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:textTransform]{textTransform}}.
 #'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_txt_trans(...)} can be used instead of
+#' \code{new("kRp.txt.trans", ...)}.
+#'
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.
 #' @slot TT.res A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged}, plus

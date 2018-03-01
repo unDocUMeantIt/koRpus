@@ -90,8 +90,8 @@
 #' and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid value, if you want to forcibly overwrite this
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
-#' @param txt An object of either class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
-#'    \code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}}, containing the tagged text to be analyzed.
+#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, containing the tagged text to be analyzed.
 #'    If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.
 #' @param segment An integer value for MSTTR, defining how many tokens should form one segment.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
@@ -125,11 +125,11 @@
 #' @param corp.rm.tag A character vector with POS tags which should be dropped.
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
-#' @return An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords LD
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-#'    \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
+#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 #' @references
 #'    Covington, M.A. & McFall, J.D. (2010). Cutting the Gordian Knot: The Moving-Average Type-Token Ratio (MATTR). 
 #'      \emph{Journal of Quantitative Linguistics}, 17(2), 94--100.

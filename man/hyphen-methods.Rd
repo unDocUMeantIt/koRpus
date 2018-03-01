@@ -19,12 +19,13 @@
   min.length = 4, rm.hyph = TRUE, quiet = FALSE, cache = TRUE)
 }
 \arguments{
-\item{words}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}} or
-\code{\link[koRpus]{kRp.analysis-class}},
+\item{words}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
       or a character vector with words to be hyphenated.}
 
-\item{hyph.pattern}{Either an object of class \code{\link[sylly]{kRp.hyph.pat-class}}, or
+\item{hyph.pattern}{Either an object of class \code{\link[sylly:kRp.hyph.pat-class]{kRp.hyph.pat}},
+      or
 a valid character string naming the language of the patterns to be used. See details.}
 
 \item{min.length}{Integer,
@@ -61,7 +62,7 @@ respectively. For the latter two options,
       you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.}
 }
 \value{
-An object of class \code{\link[sylly]{kRp.hyphen-class}},
+An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
       \code{data.frame} or a numeric vector, depending on the value
    of the \code{as} argument.
 }

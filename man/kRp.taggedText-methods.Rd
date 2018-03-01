@@ -92,7 +92,7 @@ to set the document ID manually (the default \code{NA} will preserve existing va
 
 \item{j}{Defines the column selector.}
 
-\item{tokens}{An object of class \code{\link[koRpus]{kRp.tagged-class}}.}
+\item{tokens}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 }
 \description{
 These methods should be used to get or set values of tagged text objects

@@ -48,10 +48,10 @@
 #' @param caseSens Logical, if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
 #'    Otherwise, if the imported database supports it, you will get different frequencies for the same tokens in different
 #'    cases (e.\,g., "one" and "One").
-#' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
-#' @seealso \code{\link[koRpus]{kRp.corp.freq-class}}
+#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 #' @references Quasthoff, U., Richter, M. & Biemann, C. (2006). Corpus Portal for Search in Monolingual Corpora, In
 #'    \emph{Proceedings of the Fifth International Conference on Language Resources and Evaluation}, Genoa, 1799--1802.
 #'

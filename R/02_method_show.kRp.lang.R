@@ -19,19 +19,19 @@
 #' Show methods for koRpus objects
 #'
 #' Show methods for S4 objects of classes
-#' \code{\link[koRpus]{kRp.lang-class}},
-#' \code{\link[koRpus]{kRp.readability-class}},
-#' \code{\link[koRpus]{kRp.corp.freq-class}} or
-#' \code{\link[koRpus]{kRp.TTR-class}}.
+#' \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+#' \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+#' \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}} or
+#' \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 #'
 #' @param object An object of class \code{kRp.lang}, \code{kRp.readability},
 #'    \code{kRp.corp.freq}, or \code{kRp.TTR}.
 #' @aliases show,-methods show,kRp.lang-method
 #' @seealso
-#'    \code{\link[koRpus]{kRp.lang-class}},
-#'    \code{\link[koRpus]{kRp.readability-class}},
-#'    \code{\link[koRpus]{kRp.corp.freq-class}},
-#'    \code{\link[koRpus]{kRp.TTR-class}}
+#'    \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+#'    \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+#'    \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 #' @keywords methods
 #' @examples
 #' \dontrun{

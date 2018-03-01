@@ -23,8 +23,8 @@
 #' This function takes objects of either class \code{kRp.tagged}, \code{kRp.txt.freq} or \code{kRp.analysis} and pastes only
 #' the actual text as is.
 #'
-#' @param txt An object of class \code{\link[koRpus]{kRp.txt.trans-class}}, \code{\link[koRpus]{kRp.tagged-class}},
-#'    \code{\link[koRpus]{kRp.txt.freq-class}} or \code{\link[koRpus]{kRp.analysis-class}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
 #' @param replace A named character vector to define replacements for \code{koRpus}' internal headline and paragraph tags.
 #' @return An atomic character vector.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

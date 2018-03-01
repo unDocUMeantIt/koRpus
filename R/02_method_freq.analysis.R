@@ -20,7 +20,7 @@
 #'
 #' The function \code{freq.analysis} analyzes texts regarding frequencies of tokens, word classes etc.
 #'
-#' The easiest way to see what kinds of analyses are done is probably to look at the slot description of \code{\link[koRpus]{kRp.txt.freq-class}}.
+#' The easiest way to see what kinds of analyses are done is probably to look at the slot description of \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 #'
 #' By default, if the text has yet to be tagged, the language definition is queried by calling \code{get.kRp.env(lang=TRUE)} internally.
 #' Or, if \code{txt.file} has already been tagged, by default the language definition of that tagged object is read
@@ -31,10 +31,10 @@
 #'    For backwards compatibility there is a wrapper function, but it should be considered
 #'    deprecated.
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
-#'    \code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}}, or a character vector which must
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, or a character vector which must
 #'    be a valid path to a file containing the text to be analyzed.
-#' @param corp.freq An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @param corp.freq An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 #' @param desc.stat Logical, whether a descriptive statistical analysis should be performed.
 #' @param force.lang A character string defining the language to be assumed for the text, by force.
 #' @param tagger A character string defining the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
@@ -47,10 +47,10 @@
 #' @param tfidf Logical, whether the term frequency--inverse document frequency statistic (tf-idf) should be computed. Requires
 #'    \code{corp.freq} to provide appropriate idf values for the types in \code{txt.file}. Missing idf values will result in \code{NA}.
 #' @param ... Additional options to be passed through to the function defined with \code{tagger}.
-#' @return An object of class \code{\link[koRpus]{kRp.txt.freq-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 #' @keywords misc
-#' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}, \code{\link[koRpus]{kRp.tagged-class}},
-#'    \code{\link[koRpus]{kRp.corp.freq-class}}
+#' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#'    \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 #' @import methods
 #' @export
 #' @rdname freq.analysis-methods

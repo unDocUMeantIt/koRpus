@@ -43,9 +43,9 @@ readability(txt.file, ...)
 \S4method{[[}{kRp.readability}(x, i)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
       or a character vector which must be be
 a valid path to a file containing the text to be analyzed. If the latter,
       \code{force.lang} must be set as well, and
@@ -53,7 +53,7 @@ the language specified must be supported by both \code{\link[koRpus:treetag]{tre
 
 \item{...}{Additional options for the specified \code{tagger} function}
 
-\item{hyphen}{An object of class \code{\link[sylly]{kRp.hyphen-class}}. If \code{NULL},
+\item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL},
       the text will be hyphenated automatically. All syllable handling will
 be skipped automatically if it's not needed for the selected indices.}
 
@@ -106,7 +106,7 @@ of consequence if \code{hyphen} is not set!}
 \item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 }
 \description{
 These methods calculate several readability indices.

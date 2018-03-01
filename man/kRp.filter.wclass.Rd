@@ -8,7 +8,7 @@ kRp.filter.wclass(txt, corp.rm.class = "nonpunct", corp.rm.tag = c(),
   as.vector = FALSE)
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus]{kRp.tagged-class}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 
 \item{corp.rm.class}{A character vector with word classes which should be removed. The default value
 \code{"nonpunct"} has special meaning and will cause the result of
@@ -22,7 +22,7 @@ Another valid value is "stopword" to remove all detected stopwords.}
 which survived the filtering.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{as.vector=TRUE},
+An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE},
       returns only a character vector.
 }
 \description{

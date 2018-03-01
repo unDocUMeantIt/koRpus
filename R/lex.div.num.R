@@ -37,7 +37,7 @@
 #' @param log.base A numeric value defining the base of the logarithm. See \code{\link[base:log]{log}} for details.
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
-#' @return An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 #' @seealso \code{\link[koRpus:lex.div]{lex.div}}
 #' @keywords LD
 #' @references

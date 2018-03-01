@@ -20,6 +20,11 @@
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:guess.lang]{guess.lang}}.
 #'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_lang(...)} can be used instead of
+#' \code{new("kRp.lang", ...)}.
+#'
 #' @slot lang A character string, naming the language (by its ISO 639-3 identifier) that was estimated for the analized text in this object.
 #' @slot lang.name A character string, full name of the estimated language.
 #' @slot txt A character string containing the analized part of the text.

@@ -24,4 +24,12 @@ This class is used for objects that are returned by \code{\link[koRpus:guess.lan
 \item{\code{udhr}}{A data.frame with full analysis results for each language tried.}
 }}
 
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_lang(...)} can be used instead of
+\code{new("kRp.lang", ...)}.
+}
+
 \keyword{classes}

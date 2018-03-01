@@ -73,6 +73,14 @@ The slot might have additional columns, depending on the input material.}
 or not.}
 }}
 
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_corp_freq(...)} can be used instead of
+\code{new("kRp.corp.freq", ...)}.
+}
+
 \references{
 [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
 [2] \url{http://celex.mpi.nl}

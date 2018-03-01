@@ -26,8 +26,8 @@
 #' properly if the input is a tagged text object with lemmata or you've properly set up the enviroment via \code{set.kRp.env}.
 #' Calling these methods on \code{kRp.TTR} objects is just returning the respective part of its \code{tt} slot.
 #'
-#' @param txt An object of either class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
-#'    \code{\link[koRpus]{kRp.analysis-class}}, \code{\link[koRpus]{kRp.txt.trans-class}}, \code{\link[koRpus]{kRp.TTR-class}}, or a
+#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a
 #'    character vector.
 #' @param case.sens Logical, whether types should be counted case sensitive.
 #'    This option is available for tagged text and character input only.
@@ -46,8 +46,8 @@
 #'    and frequency. The \code{types} result is always sorted by frequency, with more frequent types coming first.
 #' @keywords LD
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-#'    \code{\link[koRpus]{kRp.tagged-class}},
-#'    \code{\link[koRpus]{kRp.TTR-class}},
+#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
 #'    \code{\link[koRpus:lex.div]{lex.div}}
 #' @import methods
 #' @rdname types.tokens-methods

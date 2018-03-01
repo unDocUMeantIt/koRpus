@@ -91,7 +91,7 @@ to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\
 }
 \value{
 If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE},
-      returns an object of class \code{\link[koRpus]{kRp.tagged-class}}.
+      returns an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 }
 \description{
 This tokenizer can be used to try replace TreeTagger. Its results are not as detailed when it comes to word classes,

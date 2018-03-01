@@ -19,21 +19,21 @@
 #' Summary methods for koRpus objects
 #'
 #' Summary method for S4 objects of classes
-#' \code{\link[koRpus]{kRp.lang-class}},
-#' \code{\link[koRpus]{kRp.readability-class}},
-#' \code{\link[koRpus]{kRp.tagged-class}},
-#' \code{\link[koRpus]{kRp.TTR-class}} or
-#' \code{\link[koRpus]{kRp.txt.freq-class}}.
+#' \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+#' \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#' \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}} or
+#' \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 #'
 #' @param object An object of class, \code{kRp.lang}, \code{kRp.readability}, 
 #'    \code{kRp.tagged}, \code{kRp.TTR}, or \code{kRp.txt.freq}.
 #' @param ... Further options, depending on the object class.
 #' @seealso
-#'    \code{\link[koRpus]{kRp.lang-class}},
-#'    \code{\link[koRpus]{kRp.readability-class}},
-#'    \code{\link[koRpus]{kRp.tagged-class}},
-#'    \code{\link[koRpus]{kRp.TTR-class}},
-#'    \code{\link[koRpus]{kRp.txt.freq-class}}
+#'    \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+#'    \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
+#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}
 #' @keywords methods
 #' @rdname summary-methods
 #' @export

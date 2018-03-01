@@ -24,7 +24,7 @@ Otherwise, if the imported database supports it,
 cases (e.\,g., "one" and "One").}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 }
 \description{
 Read data from Celex[1] formatted corpora.
@@ -40,6 +40,6 @@ freq.analysis("/some/text.txt", corp.freq=my.Celex.data)
 [1] \url{http://celex.mpi.nl}
 }
 \seealso{
-\code{\link[koRpus]{kRp.corp.freq-class}}
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 }
 \keyword{corpora}
