@@ -1,22 +1,19 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-3 (2018-02-21)
-unreleased:
-  - this release is under development
+changes in version 0.11-3 (2018-03-07)
 fixed:
   - treetag()/tokenize(): fixed an issue with sentence numbering which was
     triggered if all sentences were of equal length
   - query(): method failed for columns which are now factors
 changed:
-  - treetag(): koRpus no longer fails with an error if unknown tags
-    are found. there will be a warning, but you can continue to work with the
-    object
+  - treetag(): koRpus no longer fails with an error if unknown tags are
+    found. there will be a warning, but you can continue to work with the object
   - depends on R >= 3.0.0 now
   - improved available.koRpus.lang() to make it more obvious how to install
     language support packages, and which
-  - session settings done with set.kRp.env() or queried by get.kRp.env()
-    are no longer stored in an internal environment but the global .Options;
-    this also allows for setting defaults in an .Rprofile file using options()
+  - session settings done with set.kRp.env() or queried by get.kRp.env() are
+    no longer stored in an internal environment but the global .Options; this
+    also allows for setting defaults in an .Rprofile file using options()
   - in the docs, improved the link format for classes, omitting the "-class"
     suffix
   - set.lang.support(): the levels of tag, wclass, and desc are now

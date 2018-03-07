@@ -1,6 +1,40 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.11-3 (2018-03-07)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{treetag()}/tokenize(): fixed an issue with sentence numbering which was
+        triggered if all sentences were of equal length
+      \item \code{query()}: method failed for columns which are now factors
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item \code{treetag()}: koRpus no longer fails with an error if unknown tags are
+        found. there will be a warning, but you can continue to work with the object
+      \item depends on R >= 3.0.0 now
+      \item improved \code{available.koRpus.lang()} to make it more obvious how to install
+        language support packages, and which
+      \item session settings done with \code{set.kRp.env()} or queried by \code{get.kRp.env()} are
+        no longer stored in an internal environment but the global .Options; this
+        also allows for setting defaults in an .Rprofile file using \code{options()}
+      \item in the docs, improved the link format for classes, omitting the "-class"
+        suffix
+      \item \code{set.lang.support()}: the levels of tag, wclass, and desc are now
+        automatically sorted; test standards had to be adjusted accordingly
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item \code{set.lang.support()}: new argument \code{"merge"}; it is now possible to add or
+        update single POS tag definitions
+      \item new class object contructors \code{kRp_tagged()}, \code{kRp_TTR()}, \code{kRp_txt_freq()},
+        \code{kRp_txt_trans()}, \code{kRp_analysis()}, \code{kRp_corp_freq()}, \code{kRp_lang()}, and
+        \code{kRp_readability()} can be used instead of new(\code{"kRp.tagged"}, ...) etc.
+    }
+  }
+}
 \section{Changes in koRpus version 0.11-2 (2018-01-07)}{
   \subsection{attention}{
     \itemize{
