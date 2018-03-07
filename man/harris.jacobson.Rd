@@ -11,7 +11,7 @@ harris.jacobson(txt.file, word.list, parameters = c(char = 6), hj1 = c(dword
   hj5 = c(dword = 0.118, asl = 0.134, lword = 0.032, const = 0.424), ...)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation
@@ -37,7 +37,7 @@ the short Harris-Jacobson word list for grades 1 and 2 (english) should be used.
       see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.

@@ -7,11 +7,12 @@
 textFeatures(text, hyphen = NULL)
 }
 \arguments{
-\item{text}{An object of class \code{\link[koRpus]{kRp.tagged-class}},
-\code{\link[koRpus]{kRp.txt.freq-class}} or \code{\link[koRpus]{kRp.analysis-class}}. Can
+\item{text}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}. Can
 also be a list of these objects, if you want to analyze more than one text at once.}
 
-\item{hyphen}{An object of class \code{\link[sylly]{kRp.hyphen-class}}, if \code{text} has
+\item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
+      if \code{text} has
 already been hyphenated. If \code{text} is a list and \code{hyphen} is not \code{NULL},
       it must
 also be a list with one object for each text, in the same order.}

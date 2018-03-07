@@ -12,7 +12,7 @@
 ## 
 ## when you're done, remove this block ;-)
 
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -52,6 +52,7 @@
 #' 
 #' To also be able to use hyphenation, the package sylly.xx needs to exist and be loaded.
 #'
+#' @param ... Optional arguments for \code{\link[koRpus:set.lang.support]{set.lang.support}}.
 #' @references
 #' [1] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/}
 #'
@@ -64,7 +65,7 @@
 #' }
 # call this function to add further language support
 ## function lang.support.xx()
-lang.support.xx <- function() {
+lang.support.xx <- function(...) {
   # here you have to adjust the parameters according to the contents of the TreeTagger
   # scripts for your language (see ?set.lang.support for details)
   #  - UTF-8 scripts are the default in TreeTagger now, add them as "xx"
@@ -128,8 +129,10 @@ lang.support.xx <- function() {
               )
             )
           }
-        })
-    )
+        }
+      )
+    ),
+    ...
   )
 
 
@@ -173,7 +176,8 @@ lang.support.xx <- function() {
           "SENT",       "fullstop",     "Sentence ending punctuation"
           ), ncol = 3, byrow = TRUE, dimnames = list(c(), c("tag", "wclass", "desc")))
       )
-    )
+    ),
+    ...
   )
 } ## end function lang.support.xx()
 

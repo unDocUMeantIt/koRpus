@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -20,6 +20,11 @@
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:lex.div]{lex.div}} and its wrapper functions
 #' (like \code{TTR}, \code{MSTTR}, \code{MTLD}, etc.).
+#'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_TTR(...)} can be used instead of
+#' \code{new("kRp.TTR", ...)}.
 #'
 #' @slot param Relevant parameters of the given analysis, as given to the function call, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @slot tt The analyzed text in tokenized form, with eight elements ("tokens", "types", "lemmas", "type.in.txt", "type.in.result", "num.tokens", "num.types", "num.lemmas").
@@ -67,11 +72,12 @@
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
-#' @aliases kRp.TTR,-class kRp.TTR-class
+#' @export kRp_TTR
+#' @exportClass kRp.TTR
+#' @aliases kRp.TTR-class
 #' @rdname kRp.TTR-class
 
-setClass("kRp.TTR",
+kRp_TTR <- setClass("kRp.TTR",
     representation=representation(
       param="list",
       tt="list",

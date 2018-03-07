@@ -36,10 +36,10 @@ tokens(txt, ...)
   corp.rm.class = "nonpunct", corp.rm.tag = c(), lang = NULL)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}}, \code{\link[koRpus]{kRp.txt.trans-class}},
-      \code{\link[koRpus]{kRp.TTR-class}}, or a
+\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
+      \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a
 character vector.}
 
 \item{...}{Only used for the method generic.}
@@ -94,8 +94,8 @@ tokens(tagged.text)
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-   \code{\link[koRpus]{kRp.tagged-class}},
-   \code{\link[koRpus]{kRp.TTR-class}},
+   \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+   \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
    \code{\link[koRpus:lex.div]{lex.div}}
 }
 \keyword{LD}

@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.txt.freq,-class}
 \alias{kRp.txt.freq,-class}
+\alias{kRp_txt_freq}
 \alias{kRp.txt.freq-class}
 \title{S4 Class kRp.txt.freq}
 \description{
@@ -21,5 +22,13 @@ This class is used for objects that are returned by \code{\link[koRpus:freq.anal
 
 \item{\code{freq.analysis}}{A list with information on the word frequencies of the analyzed text.}
 }}
+
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_txt_freq(...)} can be used instead of
+\code{new("kRp.txt.freq", ...)}.
+}
 
 \keyword{classes}

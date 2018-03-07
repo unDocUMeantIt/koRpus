@@ -22,9 +22,9 @@
 #' For details, please refer to the documentation for the generic
 #' \code{\link[sylly:hyphen]{hyphen}} method in the \code{sylly} package.
 #'
-#' @param words Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}} or
-#'    \code{\link[koRpus]{kRp.analysis-class}}, or a character vector with words to be hyphenated.
-#' @param hyph.pattern Either an object of class \code{\link[sylly]{kRp.hyph.pat-class}}, or
+#' @param words Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or
+#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, or a character vector with words to be hyphenated.
+#' @param hyph.pattern Either an object of class \code{\link[sylly:kRp.hyph.pat-class]{kRp.hyph.pat}}, or
 #'    a valid character string naming the language of the patterns to be used. See details.
 #' @param min.length Integer, number of letters a word must have for considering a hyphenation. \code{hyphen} will
 #'    not split words after the first or before the last letter, so values smaller than 4 are not useful.
@@ -43,7 +43,7 @@
 #' @param as A character string defining the class of the object to be returned. Defaults to \code{"kRp.hyphen"}, but can also be
 #'    set to \code{"data.frame"} or \code{"numeric"}, returning only the central \code{data.frame} or the numeric vector of counted syllables,
 #'    respectively. For the latter two options, you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.
-#' @return An object of class \code{\link[sylly]{kRp.hyphen-class}}, \code{data.frame} or a numeric vector, depending on the value
+#' @return An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}, \code{data.frame} or a numeric vector, depending on the value
 #'    of the \code{as} argument.
 #' @keywords hyphenation
 # @author m.eik michalke \email{meik.michalke@@hhu.de}

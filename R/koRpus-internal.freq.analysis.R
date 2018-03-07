@@ -1,4 +1,4 @@
-# Copyright 2010-2015 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -41,7 +41,7 @@ kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, for
   tagged.text <- tag.kRp.txt(txt.file, tagger=tagger, lang=force.lang, objects.only=FALSE, ...)
   # set the language definition
   lang <- language.setting(tagged.text, force.lang)
-  commented <- slot(tagged.text, "TT.res")
+  commented <- taggedText(tagged.text)
 
   if(identical(corp.rm.class, "nonpunct")){
     corp.rm.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
@@ -65,11 +65,11 @@ kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, for
   }
 
   if(isTRUE(desc.stat)){
-    desc.stat.res <- text.analysis(commented, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=slot(tagged.text, "desc"))
+    desc.stat.res <- text.analysis(commented, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=describe(tagged.text))
   } else {
-    desc.stat.res <- slot(tagged.text, "desc")
+    desc.stat.res <- describe(tagged.text)
   }
 
-  results <- new("kRp.txt.freq", lang=lang, TT.res=commented, desc=desc.stat.res, freq.analysis=frequency.res)
+  results <- kRp_txt_freq(lang=lang, TT.res=commented, desc=desc.stat.res, freq.analysis=frequency.res)
   return(results)
 }

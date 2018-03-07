@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -86,13 +86,13 @@
 #'    of the \code{TT.res} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
-#' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
+#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
 #'    original output if the TreeTagger system call in a matrix.
 #' @author m.eik michalke \email{meik.michalke@@hhu.de}, support for various laguages was contributed by Earl Brown (Spanish), Alberto Mirisola (Italian) and
 #'    Alexandre Brulet (French).
 #' @keywords misc
 #' @seealso \code{\link[koRpus:freq.analysis]{freq.analysis}}, \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-#' \code{\link[koRpus]{kRp.tagged-class}}
+#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
 #' @references
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
@@ -517,7 +517,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
   # add columns "idx", "sntc" and "doc_id"
   tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-  results <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
+  results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics
   if(is.null(encoding)){
     encoding <- ""

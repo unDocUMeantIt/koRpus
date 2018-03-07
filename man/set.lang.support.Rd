@@ -4,13 +4,19 @@
 \alias{set.lang.support}
 \title{Add support for new languages}
 \usage{
-set.lang.support(target, value)
+set.lang.support(target, value, merge = TRUE)
 }
 \arguments{
 \item{target}{One of "kRp.POS.tags", "treetag", or "hyphen",
       depending on what support is to be added.}
 
 \item{value}{A named list that upholds exactly the structure defined here for its respective \code{target}.}
+
+\item{merge}{Logical,
+      only relevant for the "kRp.POS.tags" target. This argument controls whether \code{value}
+will completely replace an already present tagset definition,
+      or merge all given tags (i.e., replace 
+single tags with an updated definition or add new tags).}
 }
 \description{
 You can use this function to add new languages to be used with \code{koRpus}.

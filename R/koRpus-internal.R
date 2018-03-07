@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -263,12 +263,16 @@ validate_tags <- function(tags, lang){
   all.found.tags <- unique(tags)
   invalid.found.tags <- all.found.tags[!all.found.tags %in% tag.class.def[,"tag"]]
   if(length(invalid.found.tags) > 0){
-    stop(simpleError(paste0("Invalid tag(s) found: ", paste(invalid.found.tags, collapse = ", "),
+    warning(paste0("Invalid tag(s) found: ", paste(invalid.found.tags, collapse = ", "),
       "\n  This is probably due to a missing tag in kRp.POS.tags() and",
       "\n  needs to be fixed. It would be nice if you could forward the",
-      "\n  above error dump as a bug report to the package maintaner!\n")))
+      "\n  above warning dump as a bug report to the package maintaner!\n"), 
+      call.=FALSE
+    )
   } else {}
-  return(invisible(TRUE))
+  # return a logical vector
+  result <- !tags %in% invalid.found.tags
+  return(result)
 }
 ## end function validate_tags()
 
@@ -277,13 +281,17 @@ validate_tags <- function(tags, lang){
 # takes a character vector of POS tags and a language identifier
 # returns either an equivalent character vector with explainations of each tag,
 # or a matrix if 'cols' is > 1
-explain_tags <- function(tags, lang, cols=c("wclass","desc")){
+explain_tags <- function(tags, lang, cols=c("wclass","desc"), valid=rep(TRUE, length(tags))){
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
   tags_explained <- sapply(
-    tags,
-    function(tag){
-      tag.class.def[tag.class.def[,"tag"] == tag, cols]
+    seq_along(tags),
+    function(tagNum){
+      if(isTRUE(valid[tagNum])){
+        return(tag.class.def[tag.class.def[,"tag"] == tags[tagNum], cols])
+      } else {
+        return(c(wclass="unknown",desc="Unknown (kRp internal)")[cols])
+      }
     },
     USE.NAMES=FALSE
   )
@@ -304,21 +312,22 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
   newDf <- init.kRp.tagged.df(rows=nrow(tagged.text))
   newDf[,c("token","lemma")] <- tagged.text[,c("token","lemma")]
 
-  validate_tags(tags=tagged.text[["tag"]], lang=lang)
+  valid_tags <- validate_tags(tags=tagged.text[["tag"]], lang=lang)
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
  
   # make tag a factor with all possible tags for this language as levels
   newDf[["tag"]] <- factor(
     tagged.text[["tag"]],
-    levels=unique(tag.class.def[,"tag"])
+    # keep invalid tags for debugging
+    levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
   # count number of letters, add column "lttr"
   newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"]))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
-    tagsExplained <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"))
+    tagsExplained <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"), valid=valid_tags)
     tagsExplained.wclass <- factor(
       tagsExplained[,"wclass"],
       levels=unique(tag.class.def[,"wclass"])
@@ -329,7 +338,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     )
   } else {
     tagsExplained.wclass <- factor(
-      explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass"),
+      explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass", valid=valid_tags),
       levels=unique(tag.class.def[,"wclass"])
     )
     tagsExplained.desc <- NA
@@ -419,7 +428,8 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
         } else {
           return(rep(numSentence, endedSentences[numSentence]))
         }
-      }
+      },
+      simplify=FALSE
     ))
   } else {
     tagged.text.df[["sntc"]] <- NA
@@ -997,13 +1007,13 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
   } else {}
   # set missing information to a valid defaults
   if(is.null(df.dscrpt.meta)){
-    df.dscrpt.meta <- slot(new("kRp.corp.freq"), "desc")
+    df.dscrpt.meta <- slot(kRp_corp_freq(), "desc")
   } else {}
   if(is.null(df.meta)){
-    df.meta <- slot(new("kRp.corp.freq"), "meta")
+    df.meta <- slot(kRp_corp_freq(), "meta")
   } else {}
   if(is.null(matrix.table.bigrams)){
-    df.table.bigrams <- slot(new("kRp.corp.freq"), "bigrams")
+    df.table.bigrams <- slot(kRp_corp_freq(), "bigrams")
   } else {
     message("Fetching bigram tokens from data... ", appendLF=FALSE)
     df.table.bigrams <- data.frame(
@@ -1030,7 +1040,7 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
     message("done.")
   }
   if(is.null(matrix.table.cooccur)){
-    df.table.cooccur <- slot(new("kRp.corp.freq"), "cooccur")
+    df.table.cooccur <- slot(kRp_corp_freq(), "cooccur")
   } else {
     message("Fetching co-occurrence tokens from data... ", appendLF=FALSE)
     df.table.cooccur <- data.frame(
@@ -1056,8 +1066,7 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
     df.table.cooccur <- df.table.cooccur[with(df.table.cooccur, order(freq, decreasing=TRUE)),]
     message("done.")
   }
-  results <- new(
-    "kRp.corp.freq",
+  results <- kRp_corp_freq(
     meta=df.meta,
     words=df.words,
     desc=df.dscrpt.meta,
@@ -1638,17 +1647,19 @@ winPath <- function(path){
 ## end function winPath()
 
 
-## function check_koRpus_lang()
+## function check_lang_packages()
 # checks what koRpus.lang.* packages are currently installed or loaded
 # returns a named list with a list for each installed package, providing
 # entries named "available", "installed", "loaded", and "title"
 # availabe: also check for all available packages in 'repos'
 # available.only: omit all installed packages which cannot be found in 'repos'
-check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.github.io/repos/l10n/", available.only=FALSE){
+check_lang_packages <- function(available=FALSE, repos="https://undocumeantit.github.io/repos/l10n/", available.only=FALSE, pattern="^koRpus.lang.*"){
+  ### this function should be kept close to identical to the respective function
+  ### in the 'sylly' package, except for the pattern
   result <- list()
   if(isTRUE(available)){
     available_packages <- available.packages(repos=repos)
-    available_koRpus_lang <- grepl("koRpus.lang.*", available_packages[,"Package"])
+    available_koRpus_lang <- grepl(pattern, available_packages[,"Package"])
     supported_lang <- unique(available_packages[available_koRpus_lang,"Package"])
   } else {
     available_koRpus_lang <- FALSE
@@ -1656,9 +1667,9 @@ check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.gith
   }
 
   loaded_packages <- loadedNamespaces()
-  loaded_koRpus_lang <- grepl("koRpus.lang.*", loaded_packages)
-  installed_packages <- installed.packages(fields="Title")
-  installed_koRpus_lang <- grepl("koRpus.lang.*", installed_packages[,"Package"])
+  loaded_koRpus_lang <- grepl(pattern, loaded_packages)
+  installed_packages <- unique(dir(.libPaths()))
+  installed_koRpus_lang <- grepl(pattern, installed_packages)
 
   have_koRpus_lang <- any(installed_koRpus_lang, available_koRpus_lang)
 
@@ -1666,17 +1677,17 @@ check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.gith
     if(isTRUE(available.only)){
       all_packages <- supported_lang
     } else {
-      all_packages <- unique(c(installed_packages[installed_koRpus_lang,"Package"], supported_lang))
+      all_packages <- unique(c(installed_packages[installed_koRpus_lang], supported_lang))
     }
     for (this_package in all_packages){
       result[[this_package]] <- list(available=NA, installed=FALSE, loaded=FALSE, title="(unknown)")
       if(all(isTRUE(available), this_package %in% supported_lang)){
         result[[this_package]][["available"]] <- TRUE
       } else {}
-      if(this_package %in% unique(installed_packages[installed_koRpus_lang,"Package"])){
+      if(this_package %in% unique(installed_packages[installed_koRpus_lang])){
         result[[this_package]][["installed"]] <- TRUE
-        this_package_index <- which.min(!installed_packages[,"Package"] %in% this_package)
-        result[[this_package]][["title"]] <- installed_packages[this_package_index,"Title"]
+        this_package_index <- which.min(!installed_packages %in% this_package)
+        result[[this_package]][["title"]] <- packageDescription(installed_packages[this_package_index])[["Title"]]
       } else {}
       if(this_package %in% unique(loaded_packages[loaded_koRpus_lang])){
         result[[this_package]][["loaded"]] <- TRUE
@@ -1685,4 +1696,4 @@ check_koRpus_lang <- function(available=FALSE, repos="https://undocumeantit.gith
   } else {}
   
   return(result)
-} ## end function check_koRpus_lang()
+} ## end function check_lang_packages()

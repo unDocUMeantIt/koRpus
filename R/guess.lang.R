@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -37,7 +37,7 @@
 #' @param in.mem Logical. If \code{TRUE}, the gzip compression will remain in memory (using \code{memCompress}), which
 #'    is probably the faster method. Otherwise temporary files are created and automatically removed on exit.
 #' @param format Either "file" or "obj". If the latter, \code{txt.file} is not interpreted as a file path but the text to analyze itself.
-#' @return An object of class \code{\link[koRpus]{kRp.lang-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.lang-class]{kRp.lang}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #' Benedetto, D., Caglioti, E. & Loreto, V. (2002). Language trees and zipping. \emph{Physical Review Letters}, 88(4), 048702.
@@ -120,7 +120,7 @@ guess.lang <- function(txt.file, udhr.path, comp.length=300, keep.udhr=FALSE, qu
   lang.estim <- udhr.results[1,"name"]
   lang.estim.lc <- udhr.results[1,"iso639-3"]
 
-  results <- new("kRp.lang", lang=lang.estim.lc, lang.name=lang.estim, txt=txt.short, txt.full=txt, udhr=udhr.results)
+  results <- kRp_lang(lang=lang.estim.lc, lang.name=lang.estim, txt=txt.short, txt.full=txt, udhr=udhr.results)
 
   return(results)
 }

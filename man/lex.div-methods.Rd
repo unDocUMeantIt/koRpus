@@ -42,9 +42,9 @@ lex.div(txt, ...)
 \S4method{[[}{kRp.TTR}(x, i)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}},
+\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
       containing the tagged text to be analyzed.
 If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.}
 
@@ -121,7 +121,7 @@ respectively.}
 \item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 }
 \description{
 These methods analyze the lexical diversity/complexity of a text corpus.
@@ -248,6 +248,7 @@ Covington, M.A. & McFall,
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-   \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
+   \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 }
 \keyword{LD}

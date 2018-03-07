@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -37,7 +37,7 @@
 #' @param log.base A numeric value defining the base of the logarithm. See \code{\link[base:log]{log}} for details.
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
-#' @return An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 #' @seealso \code{\link[koRpus:lex.div]{lex.div}}
 #' @keywords LD
 #' @references
@@ -53,7 +53,7 @@
 lex.div.num <- function(num.tokens, num.types, measure=c("TTR","C","R","CTTR","U","S","Maas"), log.base=10, quiet=FALSE){
 
   # initialize result object
-  lex.div.results <- new("kRp.TTR")
+  lex.div.results <- kRp_TTR()
 
   ###################################
   ## diversity measures start here ##

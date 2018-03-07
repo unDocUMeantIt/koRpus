@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -22,8 +22,8 @@
 #'
 #' This function is mainly intended to produce text material for experiments.
 #'
-#' @param txt An object of class \code{\link[koRpus]{kRp.txt.trans-class}}, \code{\link[koRpus]{kRp.tagged-class}},
-#'    \code{\link[koRpus]{kRp.txt.freq-class}} or \code{\link[koRpus]{kRp.analysis-class}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
 #' @param scheme One of the following character strings:
 #' \itemize{
 #'   \item {\code{"minor"}} {Start each word with a lowercase letter.}
@@ -41,7 +41,7 @@
 #' @param p Numeric value between 0 and 1. Defines the probability for upper case letters (relevant only
 #'    if \code{scheme="random"}).
 #' @param paste Logical, see value section.
-#' @return By default an object of class \code{\link[koRpus]{kRp.txt.trans-class}} is returned. If \code{paste=TRUE}, returns
+#' @return By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE}, returns
 #'    an atomic character vector (via \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}).
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
@@ -174,7 +174,7 @@ setMethod("textTransform",
                     token.orig=tokens.orig,
                     equal=tokens.equal,
                     stringsAsFactors=FALSE)
-        results <- new("kRp.txt.trans",
+        results <- kRp_txt_trans(
                   lang=language(txt),
                   TT.res=old.new.comp,
                   diff=list(all.tokens=diff.pct.words.all, words=diff.pct.words, all.chars=diff.pct.lett.all, letters=diff.pct.lett))

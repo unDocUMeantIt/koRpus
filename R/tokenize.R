@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -70,7 +70,7 @@
 #'    of the \code{TT.res} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
-#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus]{kRp.tagged-class}}.
+#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @export
@@ -178,7 +178,7 @@ tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
     # add columns "idx", "sntc" and "doc_id"
     tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
     # create object, combine descriptives afterwards
-    tokens <- new("kRp.tagged", lang=lang, TT.res=tagged.mtrx)
+    tokens <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
     ## descriptive statistics
     tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
   } else {}

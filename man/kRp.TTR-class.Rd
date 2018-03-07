@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.TTR,-class}
 \alias{kRp.TTR,-class}
+\alias{kRp_TTR}
 \alias{kRp.TTR-class}
 \title{S4 Class kRp.TTR}
 \description{
@@ -112,5 +113,13 @@ the whole text is analyzed. The matrix has two colums,
 \item{\code{MTLDMA.char}}{Equivalent to TTR.char,
       but calculated using the moving-average MTLD algorithm. NA if not calculated.}
 }}
+
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_TTR(...)} can be used instead of
+\code{new("kRp.TTR", ...)}.
+}
 
 \keyword{classes}

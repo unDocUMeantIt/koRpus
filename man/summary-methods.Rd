@@ -34,11 +34,11 @@ summary(object, ...)
 }
 \description{
 Summary method for S4 objects of classes
-\code{\link[koRpus]{kRp.lang-class}},
-\code{\link[koRpus]{kRp.readability-class}},
-\code{\link[koRpus]{kRp.tagged-class}},
-\code{\link[koRpus]{kRp.TTR-class}} or
-\code{\link[koRpus]{kRp.txt.freq-class}}.
+\code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+\code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\code{\link[koRpus:kRp.TTR-class]{kRp.TTR}} or
+\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 }
 \examples{
 \dontrun{
@@ -60,10 +60,10 @@ summary(freq.analysis(tagged.txt))
 }
 }
 \seealso{
-\code{\link[koRpus]{kRp.lang-class}},
-   \code{\link[koRpus]{kRp.readability-class}},
-   \code{\link[koRpus]{kRp.tagged-class}},
-   \code{\link[koRpus]{kRp.TTR-class}},
-   \code{\link[koRpus]{kRp.txt.freq-class}}
+\code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+   \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+   \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+   \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
+   \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}
 }
 \keyword{methods}

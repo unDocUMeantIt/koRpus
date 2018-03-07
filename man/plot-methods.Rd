@@ -24,7 +24,7 @@ plot(x, y, ...)
 }}
 }
 \description{
-Plot method for S4 objects of class \code{\link[koRpus]{kRp.tagged-class}},
+Plot method for S4 objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 plots the frequencies of tagged word classes.
 }
 \examples{
@@ -35,7 +35,7 @@ plot(tagged.results)
 }
 }
 \seealso{
-\code{\link[koRpus]{kRp.tagged-class}}
+\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
 }
 \keyword{methods}
 \keyword{plot}

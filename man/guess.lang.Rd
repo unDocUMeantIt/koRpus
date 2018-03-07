@@ -30,7 +30,7 @@ is probably the faster method. Otherwise temporary files are created and automat
       \code{txt.file} is not interpreted as a file path but the text to analyze itself.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.lang-class}}.
+An object of class \code{\link[koRpus:kRp.lang-class]{kRp.lang}}.
 }
 \description{
 This function tries to guess the language a text is written in.

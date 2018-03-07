@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -21,8 +21,13 @@
 #' This class is used for objects that are returned by \code{\link[koRpus:readability]{readability}} and its wrapper functions
 #' (e.g., \code{Flesch}, \code{FOG} or \code{LIX}).
 #'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_readability(...)} can be used instead of
+#' \code{new("kRp.readability", ...)}.
+#'
 #' @slot lang A character string, naming the language that is assumed for the text in this object.
-#' @slot TT.res The tokenized and POS-tagged text. See \code{\link[koRpus]{kRp.tagged-class}} for details.
+#' @slot TT.res The tokenized and POS-tagged text. See \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} for details.
 #' @slot desc Descriptive measures which were computed from the text:
 #'    \describe{
 #'      \item{\code{sentences}:}{Number of sentences.}
@@ -104,16 +109,17 @@
 #' @slot Wheeler.Smith.de See "Wheeler.Smith"
 #' @slot Wiener.STF The "flavour" of the parameter settings and the calculated value of the Wiener Sachtextformel. NA if not calculated.
 #' @name kRp.readability,-class
-#' @aliases kRp.readability,-class kRp.readability-class
+#' @aliases kRp.readability-class
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
+#' @export kRp_readability
+#' @exportClass kRp.readability
 #' @rdname kRp.readability-class
 
 #' @include 01_class_01_kRp.tagged.R
 
-setClass("kRp.readability",
+kRp_readability <- setClass("kRp.readability",
     representation=representation(
       hyphen="kRp.hyphen",
       param="list",

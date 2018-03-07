@@ -16,7 +16,7 @@ query(obj, ...)
   ignore.case = TRUE, perl = FALSE)
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.}
+\item{obj}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.}
 
 \item{...}{Optional arguments, see above.}
 
@@ -47,8 +47,8 @@ the input class.}
 Depending on the arguments, might include whole objects, lists, single values etc.
 }
 \description{
-The method \code{query} returns query information from objects of classes \code{\link[koRpus]{kRp.corp.freq-class}} and
-\code{\link[koRpus]{kRp.tagged-class}}.
+The method \code{query} returns query information from objects of classes \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}} and
+\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 }
 \details{
 \emph{kRp.corp.freq:} Depending on the setting of the \code{var} parameter,
@@ -110,6 +110,6 @@ query(tagged.txt, "lemma", "he")
 }
 }
 \seealso{
-\code{\link[koRpus]{kRp.corp.freq-class}}, \code{\link[base]{subset}}
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, \code{\link[base]{subset}}
 }
 \keyword{methods}

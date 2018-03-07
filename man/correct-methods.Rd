@@ -13,9 +13,10 @@ correct.tag(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
   check.token = NULL)
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}}, or \code{\link[koRpus]{kRp.txt.trans-class}}.}
+\item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
+      or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.}
 
 \item{row}{Integer, the row number of the entry to be changed. Can be an integer vector
 to change several rows in one go.}
@@ -33,7 +34,7 @@ If not \code{NULL}, \code{correct} will stop with an error if this values don't 
 An object of the same class as \code{obj}.
 }
 \description{
-The method \code{correct.tag} can be used to alter objects of class \code{\link[koRpus]{kRp.tagged-class}}.
+The method \code{correct.tag} can be used to alter objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 }
 \details{
 Although automatic POS tagging and lemmatization are remarkably accurate,
@@ -56,7 +57,7 @@ tagged.txt <- correct.tag(tagged.txt, row=21, tag="NN")
 }
 }
 \seealso{
-\code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus:treetag]{treetag}},
+\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:treetag]{treetag}},
    \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}.
 }
 \keyword{methods}

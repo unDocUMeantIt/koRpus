@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.txt.trans,-class}
 \alias{kRp.txt.trans,-class}
+\alias{kRp_txt_trans}
 \alias{kRp.txt.trans-class}
 \title{S4 Class kRp.txt.trans}
 \description{
@@ -31,5 +32,13 @@ the new columns \code{token.old} and \code{equal}).}
   \item{\code{letters}:}{Percentage of altered letters in words only.}
 }}
 }}
+
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_txt_trans(...)} can be used instead of
+\code{new("kRp.txt.trans", ...)}.
+}
 
 \keyword{classes}

@@ -1,4 +1,4 @@
 TODO list for package koRpus:
 
+ - keep stopword and stem information in kRp.corp.freq objects
  - find global solution for corp.rm.class="nonpunct" in several internal functions (it's a bit scattered...)
- - try txtProgressBar() in hyphenation, database reading etc.

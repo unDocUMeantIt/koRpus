@@ -18,11 +18,11 @@
 
 #' Import custom corpus data
 #'
-#' Read data from a custom corpus into a valid object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' Read data from a custom corpus into a valid object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 #'
 #' The methods should enable you to perform a basic text corpus frequency analysis. That is, not just to
 #' import analysis results like LCC files, but to import the corpus material itself. The resulting object
-#' is of class \code{\link[koRpus]{kRp.corp.freq-class}}, so it can be used for frequency analysis by
+#' is of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, so it can be used for frequency analysis by
 #' other functions and methods of this package.
 #'
 #' @param corpus Either the path to directory with txt files to read and analyze, or a vector object already holding the text corpus.
@@ -34,10 +34,10 @@
 #' @param log.base A numeric value defining the base of the logarithm used for inverse document frequency (idf). See
 #'    \code{\link[base:log]{log}} for details.
 #' @param ... Additional options to be passed through to the \code{tokenize} function.
-#' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
-#' @seealso \code{\link[koRpus]{kRp.corp.freq-class}}
+#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 #' @import methods
 #' @rdname read.corp.custom-methods
 #' @export

@@ -1,5 +1,30 @@
 ChangeLog for package koRpus
 
+changes in version 0.11-3 (2018-03-07)
+fixed:
+  - treetag()/tokenize(): fixed an issue with sentence numbering which was
+    triggered if all sentences were of equal length
+  - query(): method failed for columns which are now factors
+changed:
+  - treetag(): koRpus no longer fails with an error if unknown tags are
+    found. there will be a warning, but you can continue to work with the object
+  - depends on R >= 3.0.0 now
+  - improved available.koRpus.lang() to make it more obvious how to install
+    language support packages, and which
+  - session settings done with set.kRp.env() or queried by get.kRp.env() are
+    no longer stored in an internal environment but the global .Options; this
+    also allows for setting defaults in an .Rprofile file using options()
+  - in the docs, improved the link format for classes, omitting the "-class"
+    suffix
+  - set.lang.support(): the levels of tag, wclass, and desc are now
+    automatically sorted; test standards had to be adjusted accordingly
+added:
+  - set.lang.support(): new argument "merge"; it is now possible to add or
+    update single POS tag definitions
+  - new class object contructors kRp_tagged(), kRp_TTR(), kRp_txt_freq(),
+    kRp_txt_trans(), kRp_analysis(), kRp_corp_freq(), kRp_lang(), and
+    kRp_readability() can be used instead of new("kRp.tagged", ...) etc.
+
 changes in version 0.11-2 (2018-01-07)
 attention:
   - this is a testing release introducing major changes in the way language

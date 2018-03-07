@@ -132,7 +132,7 @@ local({
         License="GPL (>= 3)",
         Encoding="UTF-8",
         LazyLoad="yes",
-        URL="http://reaktanz.de/?c=hacking&s=koRpus",
+        URL="https://reaktanz.de/?c=hacking&s=koRpus",
         stringsAsFactors=FALSE)
 
     roxy.package(actions=c(
@@ -147,6 +147,7 @@ local({
 #         "macosx",        # update the mac OS X binary package
         "cleanRd",         # linebreaks for >90 chars in *.Rd
         "log",             # update ChangeLog
+#       "buildVignettes",  # re-build vignettes with index
         "package"#,        # build & install koRpus.lang.xx package
 #        "readme",         # add initial README.md file
 #        "check"           # check package
@@ -158,7 +159,7 @@ local({
         R.libs=R.local.libs,
         repo.root=package.local.repository,
         cleanup=TRUE,
-        URL="http://R.reaktanz.de",
+        URL="https://undocumeantit.github.io/repos/l10n",
         ChangeLog=ChangeLog.entry
     )
 })

@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -285,7 +285,7 @@ setMethod("fixObject",
 #' @export
 setGeneric("tif_as_tokens_df", function(tokens) standardGeneric("tif_as_tokens_df"))
 #' @rdname kRp.taggedText-methods
-#' @param tokens An object of class \code{\link[koRpus]{kRp.tagged-class}}.
+#' @param tokens An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @export
 #' @docType methods
 #' @aliases

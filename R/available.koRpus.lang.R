@@ -38,7 +38,7 @@
 #'    default, but if you would like to use a third party repository, you're free to do so. The
 #'    value is temporarily appended to the repos currently returned by \code{getOption("repos")}.
 #' @return Returns an invisible character vector with all available language packages.
-#' @seealso \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}, 
+#' @seealso \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}}
 #' @export
 #' @examples
 #' \dontrun{
@@ -54,7 +54,7 @@ available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l
   # append repos, don't replace them
   repos <- c(getOption("repos"), l10n=repos)
 
-  all_available <- check_koRpus_lang(available=TRUE, repos=repos, available.only=TRUE)
+  all_available <- check_lang_packages(available=TRUE, repos=repos, available.only=TRUE)
 
   if(length(all_available) < 1){
     message("No language support packages found in the repository.")
@@ -62,22 +62,22 @@ available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l
   } else {}
 
   supported_lang <- names(all_available)
-  installed <- sapply(
-    all_available,
-    function(this_package){
-      if(isTRUE(this_package[["installed"]])){
-        status <- " [installed"
-        if(isTRUE(this_package[["loaded"]])){
-          status <- paste0(status, ", loaded]")
-        } else {
-          status <- paste0(status, "]")
-        }
+  installed <- c()
+  to_install <- c()
+  for(this_lang in supported_lang){
+    this_package <- all_available[[this_lang]]
+    if(isTRUE(this_package[["installed"]])){
+      installed[this_lang] <- " [installed"
+      if(isTRUE(this_package[["loaded"]])){
+        installed[this_lang] <- paste0(installed[this_lang], ", loaded]")
       } else {
-        status <- ""
+        installed[this_lang] <- paste0(installed[this_lang], "]")
       }
-      return(status)
+    } else {
+      installed[this_lang] <- ""
+      to_install[this_lang] <- gsub("koRpus\\.lang\\.", "", this_lang)
     }
-  )
+  }
 
   lang_msg <- paste0(
     "The following language support packages are currently available:\n\n  ",
@@ -85,7 +85,18 @@ available.koRpus.lang <- function(repos="https://undocumeantit.github.io/repos/l
       paste0(supported_lang, installed),
       collapse="\n  "
     ),
-    "\n"
+    "\n",
+    if(length(to_install) > 1){
+      paste0(
+        "\nTo install all missing packages, run:\n\n  ",
+        paste0("install.koRpus.lang(c(\"", paste0(to_install, collapse="\", \""), "\"))\n")
+      )
+    } else if(length(to_install) > 0){
+      paste0(
+        "\nTo install the missing package, run:\n\n  ",
+        paste0("install.koRpus.lang(\"", to_install, "\")\n")
+      )
+    } else {}
   )
 
   message(lang_msg)

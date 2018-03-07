@@ -27,10 +27,10 @@
 #' @param caseSens Logical, if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
 #'    Otherwise, if the imported database supports it, you will get different frequencies for the same tokens in different
 #'    cases (e.\,g., "one" and "One").
-#' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
-#' @seealso \code{\link[koRpus]{kRp.corp.freq-class}}
+#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 #' @references [1] \url{http://celex.mpi.nl}
 #' @export
 #' @examples

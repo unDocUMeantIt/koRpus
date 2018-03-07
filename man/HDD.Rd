@@ -7,7 +7,7 @@
 HDD(txt, rand.sample = 42, char = FALSE, ...)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.analysis-class}},
+\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
       containing the tagged text to be analyzed.}
 
 \item{rand.sample}{An integer value,
@@ -20,7 +20,7 @@ HDD(txt, rand.sample = 42, char = FALSE, ...)
       see \code{\link[koRpus:lex.div]{lex.div}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:lex.div]{lex.div}}.
@@ -45,6 +45,7 @@ McCarthy, P.M. & Jarvis,
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
- \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
+ \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 }
 \keyword{LD}

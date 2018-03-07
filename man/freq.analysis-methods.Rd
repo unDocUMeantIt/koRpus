@@ -18,15 +18,15 @@ freq.analysis(txt.file, ...)
   corp.rm.class = "nonpunct", corp.rm.tag = c(), tfidf = TRUE, ...)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
       or a character vector which must
 be a valid path to a file containing the text to be analyzed.}
 
 \item{...}{Additional options to be passed through to the function defined with \code{tagger}.}
 
-\item{corp.freq}{An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.}
+\item{corp.freq}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.}
 
 \item{desc.stat}{Logical, whether a descriptive statistical analysis should be performed.}
 
@@ -48,14 +48,14 @@ be a valid path to a file containing the text to be analyzed.}
 \code{corp.freq} to provide appropriate idf values for the types in \code{txt.file}. Missing idf values will result in \code{NA}.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.txt.freq-class}}.
+An object of class \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 }
 \description{
 The function \code{freq.analysis} analyzes texts regarding frequencies of tokens,
       word classes etc.
 }
 \details{
-The easiest way to see what kinds of analyses are done is probably to look at the slot description of \code{\link[koRpus]{kRp.txt.freq-class}}.
+The easiest way to see what kinds of analyses are done is probably to look at the slot description of \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 
 By default, if the text has yet to be tagged,
       the language definition is queried by calling \code{get.kRp.env(lang=TRUE)} internally.
@@ -77,7 +77,8 @@ freq.analysis("~/some/text.txt", corp.freq=my.LCC.data)
 }
 }
 \seealso{
-\code{\link[koRpus:get.kRp.env]{get.kRp.env}}, \code{\link[koRpus]{kRp.tagged-class}},
-   \code{\link[koRpus]{kRp.corp.freq-class}}
+\code{\link[koRpus:get.kRp.env]{get.kRp.env}},
+      \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+   \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 }
 \keyword{misc}

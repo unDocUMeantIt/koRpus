@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -20,7 +20,7 @@
 #'
 #' This function strips off defined word classes of tagged text objects.
 #'
-#' @param txt An object of class \code{\link[koRpus]{kRp.tagged-class}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param corp.rm.class A character vector with word classes which should be removed. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used.
@@ -28,7 +28,7 @@
 #' @param corp.rm.tag A character vector with valid POS tags which should be removed.
 #' @param as.vector Logical. If \code{TRUE}, results will be returned as a character vector containing only the text parts
 #'    which survived the filtering.
-#' @return An object of class \code{\link[koRpus]{kRp.tagged-class}}. If \code{as.vector=TRUE}, returns only a character vector.
+#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE}, returns only a character vector.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 #' @keywords misc
@@ -43,7 +43,7 @@ kRp.filter.wclass <- function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as
   # the internal function tag.kRp.txt() will return the object unchanged if it
   # is already tagged, so it's safe to call it with the lang set here
   tagged.text <- tag.kRp.txt(txt, tagger=NULL, objects.only=TRUE)
-  txt.TT.res <- tagged.text@TT.res
+  txt.TT.res <- taggedText(tagged.text)
   # set the language definition
   lang <- language.setting(tagged.text, NULL)
 
@@ -53,7 +53,7 @@ kRp.filter.wclass <- function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as
     results <- pre.results
   } else {
     dimnames(pre.results)[[1]] <- c(1:nrow(pre.results))
-    results <- new("kRp.tagged", lang=lang, TT.res=pre.results)
+    results <- kRp_tagged(lang=lang, TT.res=pre.results)
   }
 
   return(results)

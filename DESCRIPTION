@@ -4,7 +4,7 @@ Title: An R Package for Text Analysis
 Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
         [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
-Depends: R (>= 2.10.0),sylly (>= 0.1-4)
+Depends: R (>= 3.0.0),sylly (>= 0.1-4)
 Imports: data.table,methods
 Enhances: rkward
 Suggests:
@@ -49,8 +49,8 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Alexandre", family="Brulet",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
-Version: 0.11-2
-Date: 2018-01-07
+Version: 0.11-3
+Date: 2018-03-07
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'

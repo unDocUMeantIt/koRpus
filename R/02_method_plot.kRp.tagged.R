@@ -18,7 +18,7 @@
 
 #' Plot method for objects of class kRp.tagged
 #'
-#' Plot method for S4 objects of class \code{\link[koRpus]{kRp.tagged-class}},
+#' Plot method for S4 objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #' plots the frequencies of tagged word classes.
 #'
 #' @param x An object of class \code{kRp.tagged}
@@ -29,7 +29,7 @@
 #'      \item{\code{"letters"}:}{Line plot of distribution of word length in letters}
 #'    }
 #' @param ... Any other argument suitable for plot()
-#' @seealso \code{\link[koRpus]{kRp.tagged-class}}
+#' @seealso \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
 #' @examples
 #' \dontrun{
 #' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
