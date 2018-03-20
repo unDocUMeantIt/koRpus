@@ -3,6 +3,8 @@ ChangeLog for package koRpus
 changes in version 0.11-4 (2018-03-07)
 unreleased:
   - this release is under development
+fixed:
+  - templates: incomplete package name in license header
 
 changes in version 0.11-3 (2018-03-07)
 fixed:
