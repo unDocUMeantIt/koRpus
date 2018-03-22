@@ -42,51 +42,9 @@
   }
 }
 
-# make sure language packs are loaded or at least available
-.onAttach <- function(...){
-  ## check for language support packages
-  # koRpus is rather useless without at least one language support package loaded
-  # but we only need to check this once
-  koRpus_options <- getOption("koRpus", list())
-  if(!isTRUE(koRpus_options[["checked_lang_support"]])){
-    all_installed <- check_lang_packages(available=FALSE)
-    have_koRpus_lang <- length(all_installed) > 0
-
-    additional_info <- paste0("For a list of available language packages, please call:\n\n  available.koRpus.lang()\n")
-
-    if(isTRUE(have_koRpus_lang)){
-      supported_lang <- names(all_installed)
-      installed <- sapply(
-        all_installed,
-        function(this_package){
-          status <- paste0(" -- ", this_package[["title"]])
-          if(isTRUE(this_package[["loaded"]])){
-            status <- paste0(status, " [loaded]")
-          } else {}
-          return(status)
-        }
-      )
-      lang_msg <- paste0(
-        "\nFound the following language support packages installed on this system: \n\n  ",
-        paste0(
-          paste0(supported_lang, installed),
-          collapse="\n  "
-        ), "\n\n",
-        if(!any(grepl("loaded", installed))){
-          paste0("Please load the respective packages for all languages you need.\n\n")
-        },
-        additional_info
-      )
-      packageStartupMessage(lang_msg)
-    } else {
-      lang_msg <- paste0(
-        "\nNo language support packages for koRpus found on this system!\n",
-        "You need to install support packages for all languages you want to analyze.\n\n",
-        additional_info
-      )
-      warning(lang_msg, call.=FALSE)
-    }
-    koRpus_options[["checked_lang_support"]] <- TRUE
-    options(koRpus=koRpus_options)
-  } else {}
+#' @importFrom koRpus.lang.en lang.support.en
+#' @importFrom sylly.en hyph.support.en
+.onAttach <- function(...) {
+  koRpus.lang.en::lang.support.en()
+  sylly.en::hyph.support.en()
 }

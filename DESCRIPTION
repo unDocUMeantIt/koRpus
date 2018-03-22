@@ -5,10 +5,10 @@ Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
         [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 3.0.0),sylly (>= 0.1-4)
-Imports: data.table,methods
+Imports: data.table,methods,sylly.en,koRpus.lang.en
 Enhances: rkward
 Suggests:
-        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
+        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
 VignetteBuilder: knitr
 Additional_repositories: https://undocumeantit.github.io/repos/l10n
 Description: A set of tools to analyze texts. Includes, amongst others,
@@ -20,23 +20,20 @@ Description: A set of tools to analyze texts. Includes, amongst others,
         Leipzig Corpora Collection file formats) and measures like
         tf-idf. Support for additional languages can be added
         on-the-fly or by plugin packages. Note: For full functionality
-        a local installation of TreeTagger is recommended. After
-        installation, additional language support needs to be fetched
-        from the 'l10n' repository
-        <https://undocumeantit.github.io/repos/l10n>. It is recommended
-        to add it to your list of package repositories permanently, to
-        receive updates for these packages and be able to install
-        support for further languages. 'koRpus' also includes a plugin
-        for the R GUI and IDE RKWard, providing graphical dialogs for
-        its basic features. The respective R package 'rkward' cannot be
-        installed directly from a repository, as it is a part of
-        RKWard. To make full use of this feature, please install RKWard
-        from <https://rkward.kde.org> (plugins are detected
-        automatically). Due to some restrictions on CRAN, the full
-        package sources are only available from the project homepage.
-        To ask for help, report bugs, request features, or discuss the
-        development of the package, please subscribe to the koRpus-dev
-        mailing list (<http://korpusml.reaktanz.de>).
+        a local installation of TreeTagger is recommended. Additional
+        language support can to be fetched from the 'l10n' repository
+        <https://undocumeantit.github.io/repos/l10n>. 'koRpus' also
+        includes a plugin for the R GUI and IDE RKWard, providing
+        graphical dialogs for its basic features. The respective R
+        package 'rkward' cannot be installed directly from a
+        repository, as it is a part of RKWard. To make full use of this
+        feature, please install RKWard from <https://rkward.kde.org>
+        (plugins are detected automatically). Due to some restrictions
+        on CRAN, the full package sources are only available from the
+        project homepage. To ask for help, report bugs, request
+        features, or discuss the development of the package, please
+        subscribe to the koRpus-dev mailing list
+        (<http://korpusml.reaktanz.de>).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
@@ -49,8 +46,8 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Alexandre", family="Brulet",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
-Version: 0.11-3
-Date: 2018-03-07
+Version: 0.11-4
+Date: 2018-03-22
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'
@@ -117,4 +114,3 @@ Collate:
     'treetag.R'
     'wrapper_functions_lex.div.R'
     'wrapper_functions_readability.R'
-RoxygenNote: 6.0.1
