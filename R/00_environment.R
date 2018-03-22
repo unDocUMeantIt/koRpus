@@ -35,7 +35,7 @@
       } else {
         if(!is.logical(koRpus_options[[thisOption]])){
           # case three, add.desc is set but invalid
-          simpleError(paste0("check your environment: 'koRpus$", thisOption, "' must be TRUE or FALSE!"))
+          simpleError(paste0("Check your environment: 'koRpus$", thisOption, "' must be TRUE or FALSE!"))
         } else {}
       }
     }

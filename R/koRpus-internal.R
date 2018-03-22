@@ -1099,7 +1099,12 @@ is.supported.lang <- function(lang.ident, support="treetag"){
     if(lang.ident %in% names(treetag.supported)){
       res.ident <- lang.ident
     } else {
-      stop(simpleError(paste("Unknown tag definition requested:", lang.ident)))
+      stop(simpleError(
+        paste0(
+          "Unknown tag definition requested: ", lang.ident, "\n",
+          "See ?available.koRpus.lang() for a list of supported languages."
+        )
+      ))
     }
   } else {}
 
@@ -1510,7 +1515,10 @@ headLine <- function(txt, level=1){
 # called by treetag()
 matching.lang <- function(lang, lang.preset){
   if(!identical(lang, lang.preset)){
-    warning("Language \"",lang,"\" doesn't match the preset \"", lang.preset,"\". If you run into errors, you have been warned!" )
+    warning(
+      "Language \"",lang,"\" doesn't match the preset \"", lang.preset,"\". If you run into errors, you have been warned!",
+      call.=FALSE
+    )
   } else {}
 }
 ## end function matching.lang()
