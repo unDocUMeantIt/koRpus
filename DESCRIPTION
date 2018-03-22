@@ -5,10 +5,10 @@ Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
         [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 3.0.0),sylly (>= 0.1-4)
-Imports: data.table,methods,sylly.en,koRpus.lang.en
+Imports: data.table,methods
 Enhances: rkward
 Suggests:
-        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
+        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
 VignetteBuilder: knitr
 Additional_repositories: https://undocumeantit.github.io/repos/l10n
 Description: A set of tools to analyze texts. Includes, amongst others,
@@ -18,10 +18,10 @@ Description: A set of tools to analyze texts. Includes, amongst others,
         Dale-Chall). Basic import functions for language corpora are
         also provided, to enable frequency analyses (supports Celex and
         Leipzig Corpora Collection file formats) and measures like
-        tf-idf. Support for additional languages can be added
-        on-the-fly or by plugin packages. Note: For full functionality
-        a local installation of TreeTagger is recommended. Additional
-        language support can to be fetched from the 'l10n' repository
+        tf-idf. Note: For full functionality a local installation of
+        TreeTagger is recommended. It is also recommended to not load
+        this package directly, but by loading one of the available
+        language support packages from the 'l10n' repository
         <https://undocumeantit.github.io/repos/l10n>. 'koRpus' also
         includes a plugin for the R GUI and IDE RKWard, providing
         graphical dialogs for its basic features. The respective R
@@ -114,3 +114,4 @@ Collate:
     'treetag.R'
     'wrapper_functions_lex.div.R'
     'wrapper_functions_readability.R'
+RoxygenNote: 6.0.1

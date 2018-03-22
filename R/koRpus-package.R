@@ -17,16 +17,16 @@
 #' language detection, hyphenation, several indices of lexical diversity (e.g., type token ratio,
 #' HD-D/vocd-D, MTLD) and readability (e.g., Flesch, SMOG, LIX, Dale-Chall). Basic import
 #' functions for language corpora are also provided, to enable frequency analyses (supports Celex
-#' and Leipzig Corpora Collection file formats) and measures like tf-idf. Support for
-#' additional languages can be added on-the-fly or by plugin packages. Note: For full functionality
-#' a local installation of TreeTagger is recommended. Additional language support can to be
-#' fetched from the 'l10n' repository <https://undocumeantit.github.io/repos/l10n>. 'koRpus'
-#' also includes a plugin for the R GUI and IDE RKWard, providing graphical dialogs for its
-#' basic features. The respective R package 'rkward' cannot be installed directly from a
-#' repository, as it is a part of RKWard. To make full use of this feature, please install RKWard
-#' from <https://rkward.kde.org> (plugins are detected automatically). Due to some
-#' restrictions on CRAN, the full package sources are only available from the project homepage. To ask
-#' for help, report bugs, request features, or discuss the development of the package, please
+#' and Leipzig Corpora Collection file formats) and measures like tf-idf. Note: For full
+#' functionality a local installation of TreeTagger is recommended. It is also recommended to
+#' not load this package directly, but by loading one of the available language support
+#' packages from the 'l10n' repository <https://undocumeantit.github.io/repos/l10n>. 'koRpus' also
+#' includes a plugin for the R GUI and IDE RKWard, providing graphical dialogs for its basic
+#' features. The respective R package 'rkward' cannot be installed directly from a repository,
+#' as it is a part of RKWard. To make full use of this feature, please install RKWard from
+#' <https://rkward.kde.org> (plugins are detected automatically). Due to some restrictions on
+#' CRAN, the full package sources are only available from the project homepage. To ask for
+#' help, report bugs, request features, or discuss the development of the package, please
 #' subscribe to the koRpus-dev mailing list (<http://korpusml.reaktanz.de>).
 #'
 #' @aliases koRpus-package

@@ -6,10 +6,8 @@ unreleased:
 fixed:
   - templates: incomplete package name in license header
 changed:
-  - with language packages 'sylly.en' and 'koRpus.lang.en' accepted on CRAN,
-    koRpus now has suppport for english by default again (adjusted the
-    dependiencies); the startup check for available language packages was
-    therefore dropped again
+  - the startup check for available language packages was reduced
+    to short hits to available.koRpus.lang() and install.koRpus.lang()
 
 changes in version 0.11-3 (2018-03-07)
 fixed:

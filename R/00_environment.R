@@ -1,4 +1,4 @@
-# Copyright 2016-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -42,9 +42,6 @@
   }
 }
 
-#' @importFrom koRpus.lang.en lang.support.en
-#' @importFrom sylly.en hyph.support.en
 .onAttach <- function(...) {
-  koRpus.lang.en::lang.support.en()
-  sylly.en::hyph.support.en()
+  packageStartupMessage("For information on available language packages for 'koRpus', run\n\n  available.koRpus.lang()\n\nand see ?install.koRpus.lang()\n")
 }
