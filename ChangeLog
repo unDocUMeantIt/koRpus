@@ -1,13 +1,16 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-4 (2018-03-07)
+changes in version 0.11-4 (2018-05-10)
 unreleased:
   - this release is under development
 fixed:
   - templates: incomplete package name in license header
+  - read.BAWL(): updated download URL and added DOI
 changed:
   - the startup check for available language packages was reduced
     to short hits to available.koRpus.lang() and install.koRpus.lang()
+  - the startup message can now be suppressed by adding "noStartupMessage=TRUE"
+    to the koRpus options in .Rprofile
 
 changes in version 0.11-3 (2018-03-07)
 fixed:

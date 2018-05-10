@@ -43,5 +43,8 @@
 }
 
 .onAttach <- function(...) {
-  packageStartupMessage("For information on available language packages for 'koRpus', run\n\n  available.koRpus.lang()\n\nand see ?install.koRpus.lang()\n")
+  koRpus_options <- getOption("koRpus", list())
+  if(!isTRUE(koRpus_options[["noStartupMessage"]])){
+    packageStartupMessage("For information on available language packages for 'koRpus', run\n\n  available.koRpus.lang()\n\nand see ?install.koRpus.lang()\n")
+  } else {}
 }

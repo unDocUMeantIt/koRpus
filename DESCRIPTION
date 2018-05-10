@@ -1,16 +1,6 @@
 Package: koRpus
 Type: Package
 Title: An R Package for Text Analysis
-Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
-        [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
-Maintainer: Meik Michalke <meik.michalke@hhu.de>
-Depends: R (>= 3.0.0),sylly (>= 0.1-4)
-Imports: data.table,methods
-Enhances: rkward
-Suggests:
-        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
-VignetteBuilder: knitr
-Additional_repositories: https://undocumeantit.github.io/repos/l10n
 Description: A set of tools to analyze texts. Includes, amongst others,
         functions for automatic language detection, hyphenation,
         several indices of lexical diversity (e.g., type token ratio,
@@ -34,11 +24,21 @@ Description: A set of tools to analyze texts. Includes, amongst others,
         features, or discuss the development of the package, please
         subscribe to the koRpus-dev mailing list
         (<http://korpusml.reaktanz.de>).
+Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
+        [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
+Maintainer: Meik Michalke <meik.michalke@hhu.de>
+Depends: R (>= 3.0.0),sylly (>= 0.1-4)
+Imports: data.table,methods
+Enhances: rkward
+Suggests:
+        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
+VignetteBuilder: knitr
+URL: https://reaktanz.de/?c=hacking&s=koRpus
+BugReports: https://github.com/unDocUMeantIt/koRpus/issues
+Additional_repositories: https://undocumeantit.github.io/repos/l10n
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
-URL: https://reaktanz.de/?c=hacking&s=koRpus
-BugReports: https://github.com/unDocUMeantIt/koRpus/issues
 Authors@R: c(person(given="Meik", family="Michalke",
         email="meik.michalke@hhu.de", role=c("aut", "cre")),
         person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
@@ -47,7 +47,7 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
 Version: 0.11-4
-Date: 2018-03-22
+Date: 2018-05-10
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'
