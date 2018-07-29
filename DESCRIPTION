@@ -47,7 +47,7 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
 Version: 0.11-4
-Date: 2018-05-10
+Date: 2018-07-29
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'

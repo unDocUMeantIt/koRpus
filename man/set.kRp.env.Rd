@@ -41,8 +41,8 @@ should be used. For the most part, \code{set.kRp.env} is a convenient wrapper fo
 \code{\link[base:options]{options}}. To permanently set some defaults, you could also add
 respective \code{options} calls to an \code{\link[base:.Rprofile]{.Rprofile}} file.
 
-Note that you can also suppress the startup message informing about \code{\link[available.koRpus.lang]{available.koRpus.lang}}
-and \code{\link[install.koRpus.lang]{install.koRpus.lang}} by adding \code{noStartupMessage=TRUE} to the options in \code{.Rprofile}.
+Note that you can also suppress the startup message informing about \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}}
+and \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}} by adding \code{noStartupMessage=TRUE} to the options in \code{.Rprofile}.
 }
 \examples{
 \dontrun{
