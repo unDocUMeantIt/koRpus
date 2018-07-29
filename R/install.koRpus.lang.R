@@ -1,4 +1,4 @@
-# Copyright 2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2017-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -31,6 +31,7 @@
 #' @param ... Additional options for \code{install.packages}.
 #' @return Does not return any useful objects, just calls \code{\link[utils:install.packages]{install.packages}}.
 #' @seealso \code{\link[utils:install.packages]{install.packages}}, \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}}
+#' @importFrom utils install.packages
 #' @export
 #' @examples
 #' \dontrun{
@@ -47,7 +48,7 @@ install.koRpus.lang <- function(lang, repos="https://undocumeantit.github.io/rep
   valid_pckg <- lang_packages %in% all_available
 
   if(all(valid_pckg)){
-    install.packages(pkgs=lang_packages, repos=repos, ...)
+    utils::install.packages(pkgs=lang_packages, repos=repos, ...)
   } else {
     stop(simpleError(
       paste0(

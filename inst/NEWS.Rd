@@ -1,6 +1,22 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.11-4 (2018-07-29)}{
+  \subsection{fixed}{
+    \itemize{
+      \item templates: incomplete package name in license header
+      \item \code{read.BAWL()}: updated download URL and added DOI
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item the startup check for available language packages was reduced to short
+        hints to \code{available.koRpus.lang()} and \code{install.koRpus.lang()}
+      \item the startup message can now be suppressed by adding
+        "noStartupMessage=TRUE" to the koRpus options in .Rprofile
+    }
+  }
+}
 \section{Changes in koRpus version 0.11-3 (2018-03-07)}{
   \subsection{fixed}{
     \itemize{

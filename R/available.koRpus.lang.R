@@ -1,4 +1,4 @@
-# Copyright 2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2017-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #

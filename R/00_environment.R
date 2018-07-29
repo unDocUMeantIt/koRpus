@@ -1,4 +1,4 @@
-# Copyright 2016-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -35,58 +35,16 @@
       } else {
         if(!is.logical(koRpus_options[[thisOption]])){
           # case three, add.desc is set but invalid
-          simpleError(paste0("check your environment: 'koRpus$", thisOption, "' must be TRUE or FALSE!"))
+          simpleError(paste0("Check your environment: 'koRpus$", thisOption, "' must be TRUE or FALSE!"))
         } else {}
       }
     }
   }
 }
 
-# make sure language packs are loaded or at least available
-.onAttach <- function(...){
-  ## check for language support packages
-  # koRpus is rather useless without at least one language support package loaded
-  # but we only need to check this once
+.onAttach <- function(...) {
   koRpus_options <- getOption("koRpus", list())
-  if(!isTRUE(koRpus_options[["checked_lang_support"]])){
-    all_installed <- check_lang_packages(available=FALSE)
-    have_koRpus_lang <- length(all_installed) > 0
-
-    additional_info <- paste0("For a list of available language packages, please call:\n\n  available.koRpus.lang()\n")
-
-    if(isTRUE(have_koRpus_lang)){
-      supported_lang <- names(all_installed)
-      installed <- sapply(
-        all_installed,
-        function(this_package){
-          status <- paste0(" -- ", this_package[["title"]])
-          if(isTRUE(this_package[["loaded"]])){
-            status <- paste0(status, " [loaded]")
-          } else {}
-          return(status)
-        }
-      )
-      lang_msg <- paste0(
-        "\nFound the following language support packages installed on this system: \n\n  ",
-        paste0(
-          paste0(supported_lang, installed),
-          collapse="\n  "
-        ), "\n\n",
-        if(!any(grepl("loaded", installed))){
-          paste0("Please load the respective packages for all languages you need.\n\n")
-        },
-        additional_info
-      )
-      packageStartupMessage(lang_msg)
-    } else {
-      lang_msg <- paste0(
-        "\nNo language support packages for koRpus found on this system!\n",
-        "You need to install support packages for all languages you want to analyze.\n\n",
-        additional_info
-      )
-      warning(lang_msg, call.=FALSE)
-    }
-    koRpus_options[["checked_lang_support"]] <- TRUE
-    options(koRpus=koRpus_options)
+  if(!isTRUE(koRpus_options[["noStartupMessage"]])){
+    packageStartupMessage("For information on available language packages for 'koRpus', run\n\n  available.koRpus.lang()\n\nand see ?install.koRpus.lang()\n")
   } else {}
 }

@@ -14,20 +14,20 @@
 
 # Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
-# This file is part of the R package koRpus.
+# This file is part of the R package koRpus.lang.xx.
 #
-# koRpus is free software: you can redistribute it and/or modify
+# koRpus.lang.xx is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# koRpus is distributed in the hope that it will be useful,
+# koRpus.lang.xx is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
+# along with koRpus.lang.xx.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # this script is providing additional support for language "xx".
@@ -40,7 +40,7 @@
 #' 
 #' This function adds support for Xyzedish to the koRpus package. You should not
 #' need to call it manually, as that is done automatically when this package is
-#' loaded.
+#' being loaded.
 #' 
 #' In particular, this function adds the following:
 #' \itemize{
@@ -49,8 +49,7 @@
 #'  \item \code{POS tags}: An additional set of tags, implemented using the documentation for the corresponding
 #'    TreeTagger parameter set[2]
 #' }
-#' 
-#' To also be able to use hyphenation, the package sylly.xx needs to exist and be loaded.
+#' Hyphenation patterns are provided by means of the \code{\link[sylly.xx:hyph.support.xx]{sylly.xx}} package.
 #'
 #' @param ... Optional arguments for \code{\link[koRpus:set.lang.support]{set.lang.support}}.
 #' @references
