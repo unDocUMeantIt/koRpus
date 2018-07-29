@@ -4,7 +4,7 @@
 #' \tabular{ll}{
 #' Package: \tab koRpus\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.11-4\cr
+#' Version: \tab 0.11-5\cr
 #' Date: \tab 2018-07-29\cr
 #' Depends: \tab R (>= 3.0.0),sylly (>= 0.1-4)\cr
 #' Enhances: \tab rkward\cr
