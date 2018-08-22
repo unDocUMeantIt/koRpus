@@ -1622,6 +1622,10 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
 
     if(!is.null(TT.options[["preset"]])){
       result[["preset"]] <- checkLangPreset(preset=TT.options[["preset"]])
+      if(isTRUE(grepl("tree-tagger-[[:alpha:].]+$|tag-[[:alpha:].]+$|*.bat$", tolower(TT.options[["tagger"]])))){
+        # sometimes users try to combine TreeTagger's batch files with presets, which is doomed to fail
+        stop(simpleError("If you're using a language preset, you must not set TreeTagger's batch files as 'tagger'! "))
+      } else {}
     } else {
       # if no preset was defined, we need some more information
       if(isTRUE(TT.tknz)){

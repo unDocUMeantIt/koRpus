@@ -1,7 +1,12 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-5 (2018-07-29)
+changes in version 0.11-5 (2018-08-22)
   - this version is under development
+changed:
+  - set.kRp.env()/treetag(): now throws an error if you try to combine a language preset
+    with TreeTagger's batch files as the tagger to use; some users seem
+    to be confused about what to configure, and this error message hopefully
+    helps them to understand why treetag() must fail in these cases
 
 changes in version 0.11-4 (2018-07-29)
 fixed:

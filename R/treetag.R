@@ -235,7 +235,7 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     # check if path works
     check.file(TT.tagger, mode="exist")
     if("pre.tagger" %in% names(TT.options)){
-      TT.pre.tagger <- TT.options[["pre.tagger"]]
+      TT.pre.tagger  <- TT.options[["pre.tagger"]]
     } else {
       if(!isTRUE(have.preset)){
         TT.pre.tagger <- c()
