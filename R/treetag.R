@@ -225,10 +225,10 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     } else {}
 
     if("tokenizer" %in% names(TT.options)){
-      TT.tokenizer    <- file.path(TT.cmd, TT.options[["tokenizer"]])
-    } else {}
-    # check if path works
-    check.file(TT.tokenizer, mode="exist")
+      TT.tokenizer    <- check_toggle_utf8(file_utf8=TT.options[["tokenizer"]], dir=TT.cmd)
+    } else {
+      TT.tokenizer    <- check_toggle_utf8(file_utf8=TT.tokenizer)
+    }
     if("tagger" %in% names(TT.options)){
       TT.tagger      <- file.path(TT.bin, TT.options[["tagger"]])
     } else {}
@@ -242,10 +242,10 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
       } else {}
     }
     if("params" %in% names(TT.options)){
-      TT.params      <- file.path(TT.lib, TT.options[["params"]])
-    } else {}
-    # check if path works
-    check.file(TT.params, mode="exist")
+      TT.params      <- check_toggle_utf8(file_utf8=TT.options[["params"]], dir=TT.lib)
+    } else {
+      TT.params      <- check_toggle_utf8(file_utf8=TT.params)
+    }
 
     # check the input encoding
     input.enc <- ifelse(
@@ -285,15 +285,14 @@ treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     }
 
     if("abbrev" %in% names(TT.options)){
-      TT.abbrev      <- file.path(TT.lib, TT.options[["abbrev"]])
-      check.file(TT.abbrev, mode="exist")
-      TT.tknz.opts    <- paste(TT.tknz.opts, "-a", TT.abbrev)
+      TT.abbrev      <- check_toggle_utf8(file_utf8=TT.options[["abbrev"]], dir=TT.lib)
+      TT.tknz.opts   <- paste(TT.tknz.opts, "-a", TT.abbrev)
     } else {
       if(isTRUE(have.preset) & !identical(TT.abbrev, c())){
-        TT.tknz.opts    <- paste(TT.tknz.opts, "-a", TT.abbrev)
-        check.file(TT.abbrev, mode="exist")
+        TT.tknz.opts <- paste(TT.tknz.opts, "-a", TT.abbrev)
+        TT.abbrev    <- check_toggle_utf8(file_utf8=TT.abbrev)
       } else {
-        TT.abbrev <- eval(formals(tokenize)[["abbrev"]])
+        TT.abbrev    <- eval(formals(tokenize)[["abbrev"]])
       }
     }
 
