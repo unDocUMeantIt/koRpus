@@ -5,9 +5,7 @@
 \alias{types}
 \alias{tokens}
 \alias{types,kRp.TTR-method}
-\alias{types}
 \alias{tokens,kRp.TTR-method}
-\alias{tokens}
 \alias{types,kRp.taggedText-method}
 \alias{tokens,kRp.taggedText-method}
 \alias{types,character-method}
@@ -22,11 +20,12 @@ tokens(txt, ...)
 
 \S4method{tokens}{kRp.TTR}(txt)
 
-\S4method{types}{kRp.taggedText}(txt, case.sens = FALSE, lemmatize = FALSE,
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), stats = FALSE)
+\S4method{types}{kRp.taggedText}(txt, case.sens = FALSE,
+  lemmatize = FALSE, corp.rm.class = "nonpunct", corp.rm.tag = c(),
+  stats = FALSE)
 
-\S4method{tokens}{kRp.taggedText}(txt, case.sens = FALSE, lemmatize = FALSE,
-  corp.rm.class = "nonpunct", corp.rm.tag = c())
+\S4method{tokens}{kRp.taggedText}(txt, case.sens = FALSE,
+  lemmatize = FALSE, corp.rm.class = "nonpunct", corp.rm.tag = c())
 
 \S4method{types}{character}(txt, case.sens = FALSE, lemmatize = FALSE,
   corp.rm.class = "nonpunct", corp.rm.tag = c(), stats = FALSE,

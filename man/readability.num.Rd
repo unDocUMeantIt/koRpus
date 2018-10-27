@@ -4,17 +4,17 @@
 \alias{readability.num}
 \title{Calculate readability}
 \usage{
-readability.num(txt.features = list(sentences = NULL, words = NULL, letters =
-  c(all = 0, l5 = 0, l6 = 0), syllables = c(all = 0, s1 = 0, s2 = 0), punct =
-  NULL, all.chars = NULL, prepositions = NULL, conjunctions = NULL, pronouns =
-  NULL, foreign = NULL, TTR = NULL, FOG.hard.words = NULL, Bormuth.NOL = NULL,
-  Dale.Chall.NOL = NULL, Harris.Jacobson.NOL = NULL, Spache.NOL = NULL),
-  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-  "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson",
-  "Flesch", "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson",
-  "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain",
-  "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith"), parameters = list(),
-  ...)
+readability.num(txt.features = list(sentences = NULL, words = NULL,
+  letters = c(all = 0, l5 = 0, l6 = 0), syllables = c(all = 0, s1 = 0, s2 =
+  0), punct = NULL, all.chars = NULL, prepositions = NULL, conjunctions =
+  NULL, pronouns = NULL, foreign = NULL, TTR = NULL, FOG.hard.words = NULL,
+  Bormuth.NOL = NULL, Dale.Chall.NOL = NULL, Harris.Jacobson.NOL = NULL,
+  Spache.NOL = NULL), index = c("ARI", "Bormuth", "Coleman",
+  "Coleman.Liau", "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer", "DRP",
+  "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid", "FOG",
+  "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
+  "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+  "Wheeler.Smith"), parameters = list(), ...)
 }
 \arguments{
 \item{txt.features}{A named list with statistical information on the text,

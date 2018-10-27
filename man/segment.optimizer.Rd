@@ -4,7 +4,8 @@
 \alias{segment.optimizer}
 \title{A function to optimize MSTTR segment sizes}
 \usage{
-segment.optimizer(txtlgth, segment = 100, range = 20, favour.min = TRUE)
+segment.optimizer(txtlgth, segment = 100, range = 20,
+  favour.min = TRUE)
 }
 \arguments{
 \item{txtlgth}{Integer value, size of text in tokens.}

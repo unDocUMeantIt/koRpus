@@ -4,8 +4,8 @@
 \alias{spache}
 \title{Readability: Spache Formula}
 \usage{
-spache(txt.file, word.list, parameters = c(asl = 0.121, dword = 0.082, const =
-  0.659), ...)
+spache(txt.file, word.list, parameters = c(asl = 0.121, dword = 0.082,
+  const = 0.659), ...)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

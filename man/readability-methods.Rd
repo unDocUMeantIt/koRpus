@@ -16,25 +16,27 @@ readability(txt.file, ...)
 
 \S4method{readability}{kRp.taggedText}(txt.file, hyphen = NULL,
   index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-  "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson",
-  "Flesch", "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson",
-  "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain",
-  "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith"), parameters = list(),
-  word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL,
-  Spache = NULL), fileEncoding = "UTF-8", tagger = "kRp.env",
-  force.lang = NULL, sentc.tag = "sentc", nonword.class = "nonpunct",
-  nonword.tag = c(), quiet = FALSE, ...)
+  "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF",
+  "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid", "FOG", "FORCAST",
+  "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX", "SMOG",
+  "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+  "Wheeler.Smith"), parameters = list(), word.lists = list(Bormuth =
+  NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL),
+  fileEncoding = "UTF-8", tagger = "kRp.env", force.lang = NULL,
+  sentc.tag = "sentc", nonword.class = "nonpunct", nonword.tag = c(),
+  quiet = FALSE, ...)
 
-\S4method{readability}{character}(txt.file, hyphen = NULL, index = c("ARI",
-  "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall", "Danielson.Bryan",
-  "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
-  "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson",
-  "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain",
-  "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith"), parameters = list(),
-  word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL,
-  Spache = NULL), fileEncoding = "UTF-8", tagger = "kRp.env",
-  force.lang = NULL, sentc.tag = "sentc", nonword.class = "nonpunct",
-  nonword.tag = c(), quiet = FALSE, ...)
+\S4method{readability}{character}(txt.file, hyphen = NULL,
+  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
+  "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF",
+  "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid", "FOG", "FORCAST",
+  "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX", "SMOG",
+  "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+  "Wheeler.Smith"), parameters = list(), word.lists = list(Bormuth =
+  NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL),
+  fileEncoding = "UTF-8", tagger = "kRp.env", force.lang = NULL,
+  sentc.tag = "sentc", nonword.class = "nonpunct", nonword.tag = c(),
+  quiet = FALSE, ...)
 
 \S4method{readability}{missing}(txt.file, index)
 

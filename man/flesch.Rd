@@ -4,8 +4,8 @@
 \alias{flesch}
 \title{Readability: Flesch Readability Ease}
 \usage{
-flesch(txt.file, hyphen = NULL, parameters = c(const = 206.835, asl = 1.015,
-  asw = 84.6), ...)
+flesch(txt.file, hyphen = NULL, parameters = c(const = 206.835, asl =
+  1.015, asw = 84.6), ...)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

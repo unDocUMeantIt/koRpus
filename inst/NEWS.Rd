@@ -1,6 +1,37 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.11-5 (2018-10-27)}{
+  \subsection{changed}{
+    \itemize{
+      \item \code{set.kRp.env()}/treetag(): now throws an error if you try to combine a
+        language preset with TreeTagger's batch files as the tagger to use; some users
+        seem to be confused about what to configure, and this error message
+        hopefully helps them to understand why \code{treetag()} must fail in these cases
+      \item \code{treetag()}: newer versions of TreeTagger will no longer have \code{"utf8"} in
+        their parameter and abbreviation files. since we never know what version of
+        TreeTagger we're dealing with, \code{treetag()} will from now on look for files
+        with \code{"utf8"} if specified in the language package, but not fail if none is
+        found, but also try for a non-labelled file and replace the file name on the
+        fly if one is found
+      \item grapheme clusters: in UTF-8, certain characters in some languages are
+        shown as a single character, but technically are several characters combined.
+        \code{nchar()} counts all combined parts individially, which in most use cases
+        for this package is not what one expects. it now uses nchar(type=\code{"width"})
+        for a letter count that is much closer to user's expectations
+      \item package depends on koRpus.lang.en now, to have a setup ready to at least
+        analyze english texts
+    }
+  }
+  \subsection{fixed}{
+    \itemize{
+      \item \code{set.lang.support()}: explicitly set the sorting method for factor levels
+        to \code{"radix"} as the new default \code{"auto"} (R >= 3.5) produced unstable results
+        with different setups; hence some of the test standards also had to be
+        updated
+    }
+  }
+}
 \section{Changes in koRpus version 0.11-4 (2018-07-29)}{
   \subsection{fixed}{
     \itemize{

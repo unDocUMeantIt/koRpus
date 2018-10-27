@@ -39,7 +39,8 @@
 \usage{
 taggedText(obj, add.desc = FALSE, doc_id = FALSE)
 
-\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE, doc_id = FALSE)
+\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE,
+  doc_id = FALSE)
 
 taggedText(obj) <- value
 

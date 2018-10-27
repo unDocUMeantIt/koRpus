@@ -4,7 +4,8 @@
 \alias{strain}
 \title{Readability: Strain Index}
 \usage{
-strain(txt.file, hyphen = NULL, parameters = c(sent = 3, const = 10), ...)
+strain(txt.file, hyphen = NULL, parameters = c(sent = 3, const = 10),
+  ...)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

@@ -4,8 +4,8 @@
 \alias{lex.div.num}
 \title{Calculate lexical diversity}
 \usage{
-lex.div.num(num.tokens, num.types, measure = c("TTR", "C", "R", "CTTR", "U",
-  "S", "Maas"), log.base = 10, quiet = FALSE)
+lex.div.num(num.tokens, num.types, measure = c("TTR", "C", "R", "CTTR",
+  "U", "S", "Maas"), log.base = 10, quiet = FALSE)
 }
 \arguments{
 \item{num.tokens}{Numeric, the number of tokens.}

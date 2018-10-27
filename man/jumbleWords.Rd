@@ -11,7 +11,7 @@ jumbleWords(words, min.length = 3, intact = c(start = 1, end = 1))
 
 \item{min.length}{An integer value,
       defining the minimum word length. Words with less characters
-will not be changed.}
+will not be changed. Grapheme clusters are counted as one.}
 
 \item{intact}{A named vector with the two integer values named \code{start} and \code{stop}.
 These define how many characters of each relevant words will be left unchanged at its start

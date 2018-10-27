@@ -4,11 +4,11 @@
 \alias{treetag}
 \title{A function to call TreeTagger}
 \usage{
-treetag(file, treetagger = "kRp.env", rm.sgml = TRUE, lang = "kRp.env",
-  apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
-  encoding = NULL, TT.options = NULL, debug = FALSE, TT.tknz = TRUE,
-  format = "file", stopwords = NULL, stemmer = NULL, doc_id = NA,
-  add.desc = "kRp.env")
+treetag(file, treetagger = "kRp.env", rm.sgml = TRUE,
+  lang = "kRp.env", apply.sentc.end = TRUE, sentc.end = c(".", "!",
+  "?", ";", ":"), encoding = NULL, TT.options = NULL, debug = FALSE,
+  TT.tknz = TRUE, format = "file", stopwords = NULL,
+  stemmer = NULL, doc_id = NA, add.desc = "kRp.env")
 }
 \arguments{
 \item{file}{Either a connection or a character vector, valid path to a file,
