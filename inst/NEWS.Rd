@@ -19,8 +19,6 @@
         \code{nchar()} counts all combined parts individially, which in most use cases
         for this package is not what one expects. it now uses nchar(type=\code{"width"})
         for a letter count that is much closer to user's expectations
-      \item package depends on koRpus.lang.en now, to have a setup ready to at least
-        analyze english texts
     }
   }
   \subsection{fixed}{

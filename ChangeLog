@@ -17,8 +17,6 @@ changed:
     nchar() counts all combined parts individially, which in most use cases
     for this package is not what one expects. it now uses nchar(type="width")
     for a letter count that is much closer to user's expectations
-  - package depends on koRpus.lang.en now, to have a setup ready to at least
-    analyze english texts
 fixed:
   - set.lang.support(): explicitly set the sorting method for factor levels
     to "radix" as the new default "auto" (R >= 3.5) produced unstable results
