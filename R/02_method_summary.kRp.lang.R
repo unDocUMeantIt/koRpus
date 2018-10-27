@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -68,9 +68,9 @@ setMethod("summary", signature(object="kRp.lang"), function(object){
   top5 <- top5.shown <- subset(head(udhr, n=5), select=selectCols)
   last5 <- last5.shown <- subset(tail(udhr, n=5), select=selectCols)
   # nicen up the visible output
-  lang.name.len <- max(nchar(c(top5.shown[["name"]], last5.shown[["name"]])))
-  lang.region.len <- max(nchar(c(top5.shown[["region"]], last5.shown[["region"]])))
-  top5.shown[["name"]] <- sprintf(paste0("%",lang.name.len + nchar(langs.available) - 1,"s"), top5.shown[["name"]])
+  lang.name.len <- max(nchar(c(top5.shown[["name"]], last5.shown[["name"]]), type="width"))
+  lang.region.len <- max(nchar(c(top5.shown[["region"]], last5.shown[["region"]]), type="width"))
+  top5.shown[["name"]] <- sprintf(paste0("%",lang.name.len + nchar(langs.available, type="width") - 1,"s"), top5.shown[["name"]])
   last5.shown[["name"]] <- sprintf(paste0("%",lang.name.len,"s"), last5.shown[["name"]])
   top5.shown[["region"]] <- sprintf(paste0("%",lang.region.len,"s"), top5.shown[["region"]])
   last5.shown[["region"]] <- sprintf(paste0("%",lang.region.len,"s"), last5.shown[["region"]])

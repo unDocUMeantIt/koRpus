@@ -130,21 +130,21 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
 basic.text.descriptives <- function(txt){
   # number of characters, including spaces and punctuation
   # the following vector counts chars per line
-  vct.all.chars <- nchar(txt)
+  vct.all.chars <- nchar(txt, type="width")
   num.lines <- length(vct.all.chars)
   # now count each cluster of spaces as only one space
   txt.trans <- gsub("[[:space:]]+", " ", paste(txt, collapse="\n"))
-  onespace.chars <- nchar(txt.trans)
+  onespace.chars <- nchar(txt.trans, type="width")
   # count without any spaces
   txt.trans <- gsub("[[:space:]]", "", txt.trans)
-  nospace.chars <- nchar(txt.trans)
+  nospace.chars <- nchar(txt.trans, type="width")
   # count without any punctuation, i.e. only letters and digits
   txt.trans <- gsub("[^\\p{L}\\p{M}\\p{N}]", "", txt.trans, perl=TRUE)
-  nopunct.chars <- nchar(txt.trans)
+  nopunct.chars <- nchar(txt.trans, type="width")
   num.punc <- nospace.chars - nopunct.chars
   # fially, get rid of digits as well
   txt.trans <- gsub("[\\p{N}+]", "", txt.trans, perl=TRUE)
-  only.letters <- nchar(txt.trans)
+  only.letters <- nchar(txt.trans, type="width")
   num.digits <- nopunct.chars - only.letters
 
   results <- list(
@@ -323,7 +323,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
   # count number of letters, add column "lttr"
-  newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"]))
+  newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"], type="width"))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
@@ -989,7 +989,7 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
               lemma=have.lemma,
               tag=have.tag,
               wclass=have.wclass,
-              lttr=nchar(matrix.freq[,"word"], allowNA=TRUE),
+              lttr=nchar(matrix.freq[,"word"], type="width", allowNA=TRUE),
               freq=tokenFreq,
               pct=tokenFreq/num.running.words,
               pmio=words.per.mio,
@@ -1497,13 +1497,13 @@ queryList <- function(obj, var, query, rel, as.df, ignore.case, perl){
 headLine <- function(txt, level=1){
   if(identical(level, 1)){
     headlineTxt <- paste0("## ", txt, " ##")
-    headlineLine <- paste(rep("#", nchar(headlineTxt)), collapse="")
+    headlineLine <- paste(rep("#", nchar(headlineTxt, type="width")), collapse="")
     headlineFull <- paste0(headlineLine, "\n", headlineTxt, "\n", headlineLine)
   } else if(identical(level, 2)){
-    headlineLine <- paste(rep("=", nchar(txt)), collapse="")
+    headlineLine <- paste(rep("=", nchar(txt, type="width")), collapse="")
     headlineFull <- paste0(txt, "\n", headlineLine)
   } else {
-    headlineLine <- paste(rep("-", nchar(txt)), collapse="")
+    headlineLine <- paste(rep("-", nchar(txt, type="width")), collapse="")
     headlineFull <- paste0(txt, "\n", headlineLine)
   }
   return(headlineFull)

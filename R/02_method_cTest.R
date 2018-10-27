@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -44,7 +44,7 @@ setGeneric("cTest", function(obj, ...){standardGeneric("cTest")})
 ## function cTestify()
 # replaces the second half of a word with undercores
 cTestify <- function(words, replace.by="_"){
-  num.chars <- nchar(words)
+  num.chars <- nchar(words, type="width")
   half.words <- ifelse(num.chars %% 2 == 0, num.chars / 2, (num.chars+1) / 2)
   word.rest <- sapply(seq_along(num.chars), function(idx){
       return(paste(rep(replace.by, num.chars[idx]-half.words[idx]), collapse=""))
