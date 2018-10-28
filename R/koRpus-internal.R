@@ -130,21 +130,21 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
 basic.text.descriptives <- function(txt){
   # number of characters, including spaces and punctuation
   # the following vector counts chars per line
-  vct.all.chars <- nchar(txt)
+  vct.all.chars <- nchar(txt, type="width")
   num.lines <- length(vct.all.chars)
   # now count each cluster of spaces as only one space
   txt.trans <- gsub("[[:space:]]+", " ", paste(txt, collapse="\n"))
-  onespace.chars <- nchar(txt.trans)
+  onespace.chars <- nchar(txt.trans, type="width")
   # count without any spaces
   txt.trans <- gsub("[[:space:]]", "", txt.trans)
-  nospace.chars <- nchar(txt.trans)
+  nospace.chars <- nchar(txt.trans, type="width")
   # count without any punctuation, i.e. only letters and digits
   txt.trans <- gsub("[^\\p{L}\\p{M}\\p{N}]", "", txt.trans, perl=TRUE)
-  nopunct.chars <- nchar(txt.trans)
+  nopunct.chars <- nchar(txt.trans, type="width")
   num.punc <- nospace.chars - nopunct.chars
   # fially, get rid of digits as well
   txt.trans <- gsub("[\\p{N}+]", "", txt.trans, perl=TRUE)
-  only.letters <- nchar(txt.trans)
+  only.letters <- nchar(txt.trans, type="width")
   num.digits <- nopunct.chars - only.letters
 
   results <- list(
@@ -323,7 +323,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
   # count number of letters, add column "lttr"
-  newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"]))
+  newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"], type="width"))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
@@ -989,7 +989,7 @@ create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.
               lemma=have.lemma,
               tag=have.tag,
               wclass=have.wclass,
-              lttr=nchar(matrix.freq[,"word"], allowNA=TRUE),
+              lttr=nchar(matrix.freq[,"word"], type="width", allowNA=TRUE),
               freq=tokenFreq,
               pct=tokenFreq/num.running.words,
               pmio=words.per.mio,
@@ -1497,13 +1497,13 @@ queryList <- function(obj, var, query, rel, as.df, ignore.case, perl){
 headLine <- function(txt, level=1){
   if(identical(level, 1)){
     headlineTxt <- paste0("## ", txt, " ##")
-    headlineLine <- paste(rep("#", nchar(headlineTxt)), collapse="")
+    headlineLine <- paste(rep("#", nchar(headlineTxt, type="width")), collapse="")
     headlineFull <- paste0(headlineLine, "\n", headlineTxt, "\n", headlineLine)
   } else if(identical(level, 2)){
-    headlineLine <- paste(rep("=", nchar(txt)), collapse="")
+    headlineLine <- paste(rep("=", nchar(txt, type="width")), collapse="")
     headlineFull <- paste0(txt, "\n", headlineLine)
   } else {
-    headlineLine <- paste(rep("-", nchar(txt)), collapse="")
+    headlineLine <- paste(rep("-", nchar(txt, type="width")), collapse="")
     headlineFull <- paste0(txt, "\n", headlineLine)
   }
   return(headlineFull)
@@ -1622,6 +1622,10 @@ checkTTOptions <- function(TT.options, manual.config, TT.tknz=TRUE){
 
     if(!is.null(TT.options[["preset"]])){
       result[["preset"]] <- checkLangPreset(preset=TT.options[["preset"]])
+      if(isTRUE(grepl("tree-tagger-[[:alpha:].]+$|tag-[[:alpha:].]+$|*.bat$", tolower(TT.options[["tagger"]])))){
+        # sometimes users try to combine TreeTagger's batch files with presets, which is doomed to fail
+        stop(simpleError("If you're using a language preset, you must not set TreeTagger's batch files as 'tagger'! "))
+      } else {}
     } else {
       # if no preset was defined, we need some more information
       if(isTRUE(TT.tknz)){
@@ -1711,3 +1715,50 @@ check_lang_packages <- function(
   
   return(result)
 } ## end function check_lang_packages()
+
+
+## function check_toggle_utf8()
+# used in treetag() to work around inconsistent naming of parameter
+# files over the releases; some have "utf8-" or "-utf8" in their name,
+# both earlier and later versions don't. so we'll first try with these
+# pre- and suffixes, then without, and use whatever is found first.
+# returns either a validated path or throws an error.
+#
+# - file_utf8: file to check for existance, the variant including "utf8" in its name
+# - dir: full path to expected file (directory only)
+check_toggle_utf8 <- function(file_utf8, dir=NA){
+  if(is.na(dir)){
+    dir <- dirname(normalizePath(file_utf8, mustWork=FALSE))
+    file_utf8 <- basename(file_utf8)
+  } else {
+    dir <- normalizePath(dir, mustWork=FALSE)
+  }
+  check.file(filename=dir, mode="dir", stopOnFail=TRUE)
+  path_file_utf8 <- file.path(dir, file_utf8)
+  # first check for the utf8 version
+  file_exists <- check.file(filename=path_file_utf8, mode="exist", stopOnFail=FALSE)
+  if(isTRUE(file_exists)){
+    return(path_file_utf8)
+  } else {
+    if(isTRUE(grepl("utf8", file_utf8))){
+      file_non_utf8 <- gsub("-utf8", "", gsub("^utf8-", "", file_utf8))
+      path_file_non_utf8 <- file.path(dir, file_non_utf8)
+      file_exists <- check.file(filename=path_file_non_utf8, mode="exist", stopOnFail=FALSE)
+      if(isTRUE(file_exists)){
+        return(path_file_non_utf8)
+      } else {
+        stop(simpleError(
+          paste0(
+            "None of the following files were found, please check your TreeTagger installation!\n ",
+            path_file_utf8, "\n ",
+            path_file_non_utf8
+          )
+        ))
+      }
+    } else {
+      stop(simpleError(
+        paste0("The following file cannot be found, please check your TreeTagger installation!\n ", path_file_utf8)
+      ))
+    }
+  }
+} ## end function check_toggle_utf8()

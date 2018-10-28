@@ -1,5 +1,28 @@
 ChangeLog for package koRpus
 
+changes in version 0.11-5 (2018-10-27)
+changed:
+  - set.kRp.env()/treetag(): now throws an error if you try to combine a
+    language preset with TreeTagger's batch files as the tagger to use; some users
+    seem to be confused about what to configure, and this error message
+    hopefully helps them to understand why treetag() must fail in these cases
+  - treetag(): newer versions of TreeTagger will no longer have "utf8" in
+    their parameter and abbreviation files. since we never know what version of
+    TreeTagger we're dealing with, treetag() will from now on look for files
+    with "utf8" if specified in the language package, but not fail if none is
+    found, but also try for a non-labelled file and replace the file name on the
+    fly if one is found
+  - grapheme clusters: in UTF-8, certain characters in some languages are
+    shown as a single character, but technically are several characters combined.
+    nchar() counts all combined parts individially, which in most use cases
+    for this package is not what one expects. it now uses nchar(type="width")
+    for a letter count that is much closer to user's expectations
+fixed:
+  - set.lang.support(): explicitly set the sorting method for factor levels
+    to "radix" as the new default "auto" (R >= 3.5) produced unstable results
+    with different setups; hence some of the test standards also had to be
+    updated
+
 changes in version 0.11-4 (2018-07-29)
 fixed:
   - templates: incomplete package name in license header

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -25,7 +25,7 @@
 #' 
 #' @param words Either a character vector or an object inheriting from class \code{kRp.tagged}.
 #' @param min.length An integer value, defining the minimum word length. Words with less characters
-#'    will not be changed.
+#'    will not be changed. Grapheme clusters are counted as one.
 #' @param intact A named vector with the two integer values named \code{start} and \code{stop}.
 #'    These define how many characters of each relevant words will be left unchanged at its start
 #'    and its end, respectively.
@@ -53,7 +53,7 @@ jumbleWords <- function(words, min.length=3, intact=c(start=1, end=1)){
     words.orig <- NULL
   }
 
-  num.chars <- nchar(words)
+  num.chars <- nchar(words, type="width")
   toJumble <- num.chars >= min.length
   # get only the relevant words
   jmbWords <- words[toJumble]

@@ -102,6 +102,7 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
 )
 
 #' @export
+#' @importFrom sylly hyphen_df
 #' @aliases hyphen_df,kRp.taggedText-method
 #' @rdname hyphen-methods
 setMethod("hyphen_df", signature(words="kRp.taggedText"), function(words,
@@ -115,6 +116,7 @@ setMethod("hyphen_df", signature(words="kRp.taggedText"), function(words,
 )
 
 #' @export
+#' @importFrom sylly hyphen_c
 #' @aliases hyphen_c,kRp.taggedText-method
 #' @rdname hyphen-methods
 setMethod("hyphen_c", signature(words="kRp.taggedText"), function(words,

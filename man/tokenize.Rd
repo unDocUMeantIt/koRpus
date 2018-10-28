@@ -4,12 +4,13 @@
 \alias{tokenize}
 \title{A simple tokenizer}
 \usage{
-tokenize(txt, format = "file", fileEncoding = NULL, split = "[[:space:]]",
-  ign.comp = "-", heuristics = "abbr", heur.fix = list(pre = c("’",
-  "'"), suf = c("’", "'")), abbrev = NULL, tag = TRUE, lang = "kRp.env",
-  sentc.end = c(".", "!", "?", ";", ":"), detect = c(parag = FALSE, hline =
-  FALSE), clean.raw = NULL, perl = FALSE, stopwords = NULL,
-  stemmer = NULL, doc_id = NA, add.desc = "kRp.env")
+tokenize(txt, format = "file", fileEncoding = NULL,
+  split = "[[:space:]]", ign.comp = "-", heuristics = "abbr",
+  heur.fix = list(pre = c("’", "'"), suf = c("’", "'")),
+  abbrev = NULL, tag = TRUE, lang = "kRp.env", sentc.end = c(".",
+  "!", "?", ";", ":"), detect = c(parag = FALSE, hline = FALSE),
+  clean.raw = NULL, perl = FALSE, stopwords = NULL, stemmer = NULL,
+  doc_id = NA, add.desc = "kRp.env")
 }
 \arguments{
 \item{txt}{Either an open connection,

@@ -17,8 +17,8 @@ read.corp.custom(corpus, ...)
   quiet = TRUE, caseSens = TRUE, log.base = 10, tagger = "kRp.env",
   force.lang = NULL, ...)
 
-\S4method{read.corp.custom}{list}(corpus, quiet = TRUE, caseSens = TRUE,
-  log.base = 10, ...)
+\S4method{read.corp.custom}{list}(corpus, quiet = TRUE,
+  caseSens = TRUE, log.base = 10, ...)
 }
 \arguments{
 \item{corpus}{Either the path to directory with txt files to read and analyze,

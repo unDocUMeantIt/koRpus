@@ -4,8 +4,8 @@
 \alias{dickes.steiwer}
 \title{Readability: Dickes-Steiwer Handformel}
 \usage{
-dickes.steiwer(txt.file, parameters = c(const = 235.95993, awl = 73.021, asl =
-  12.56438, ttr = 50.03293), case.sens = FALSE, ...)
+dickes.steiwer(txt.file, parameters = c(const = 235.95993, awl = 73.021,
+  asl = 12.56438, ttr = 50.03293), case.sens = FALSE, ...)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

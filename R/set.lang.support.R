@@ -137,7 +137,7 @@ set.lang.support <- function(target, value, merge=TRUE){
       # finally sort the tables
       for(this_tag_section in c("tag.class.def.words","tag.class.def.punct","tag.class.def.sentc")){
         if(nrow(recent.tags[[this_tags]][[this_tag_section]]) > 1) {
-          recent.tags[[this_tags]][[this_tag_section]] <- recent.tags[[this_tags]][[this_tag_section]][order(recent.tags[[this_tags]][[this_tag_section]][,"tag"]),]
+          recent.tags[[this_tags]][[this_tag_section]] <- recent.tags[[this_tags]][[this_tag_section]][order(recent.tags[[this_tags]][[this_tag_section]][,"tag"], method="radix"),]
         } else{}
       }
     }

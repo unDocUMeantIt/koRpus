@@ -1011,7 +1011,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       for(combi in FOG.combi){
         combi.to.check <- unlist(strsplit(tagged.words.only[combi, "token"], "\\p{Pd}", perl=TRUE))
         # quite liberal check here, just to ensure that we don't run into empty strings, e.g. when a single dash was tagged as a word
-        if(all(any(nchar(combi.to.check) >= FOG.sylls), all(nchar(combi.to.check) >= 1))){
+        if(all(any(nchar(combi.to.check, type="width") >= FOG.sylls), all(nchar(combi.to.check, type="width") >= 1))){
           ## TODO: should this be cached or not?
           FOG.this.combi <- hyphen(combi.to.check, hyph.pattern=lang, quiet=TRUE)
           if(all(slot(FOG.this.combi, "hyphen")[["syll"]] < FOG.sylls)){

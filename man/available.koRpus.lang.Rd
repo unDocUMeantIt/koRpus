@@ -4,7 +4,8 @@
 \alias{available.koRpus.lang}
 \title{List available language packages}
 \usage{
-available.koRpus.lang(repos = "https://undocumeantit.github.io/repos/l10n/")
+
+  available.koRpus.lang(repos = "https://undocumeantit.github.io/repos/l10n/")
 }
 \arguments{
 \item{repos}{The URL to additional repositories to query. You should probably leave this to the

@@ -46,8 +46,9 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Alexandre", family="Brulet",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
-Version: 0.11-4
-Date: 2018-07-29
+Version: 0.11-5
+Date: 2018-10-27
+RoxygenNote: 6.1.0
 Collate: 
     '00_environment.R'
     '01_class_01_kRp.tagged.R'
@@ -114,4 +115,3 @@ Collate:
     'treetag.R'
     'wrapper_functions_lex.div.R'
     'wrapper_functions_readability.R'
-RoxygenNote: 6.0.1

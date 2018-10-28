@@ -4,8 +4,8 @@
 \alias{kRp.text.paste}
 \title{Paste koRpus objects}
 \usage{
-kRp.text.paste(txt, replace = c(hon.kRp = "", hoff.kRp = "\\n\\n", p.kRp =
-  "\\n\\n"))
+kRp.text.paste(txt, replace = c(hon.kRp = "", hoff.kRp = "\\n\\n", p.kRp
+  = "\\n\\n"))
 }
 \arguments{
 \item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},

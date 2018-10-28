@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -38,7 +38,7 @@ setGeneric("clozeDelete", function(obj, ...){standardGeneric("clozeDelete")})
 ## function clozify()
 # replaces a word with undercores
 clozify <- function(words, replace.by="_"){
-  num.chars <- nchar(words)
+  num.chars <- nchar(words, type="width")
   word.rest <- sapply(seq_along(num.chars), function(idx){
       return(paste(rep(replace.by, num.chars[idx]), collapse=""))
     })

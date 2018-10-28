@@ -10,7 +10,8 @@
 \usage{
 \S4method{hyphen}{kRp.taggedText}(words, hyph.pattern = NULL,
   min.length = 4, rm.hyph = TRUE, corp.rm.class = "nonpunct",
-  corp.rm.tag = c(), quiet = FALSE, cache = TRUE, as = "kRp.hyphen")
+  corp.rm.tag = c(), quiet = FALSE, cache = TRUE,
+  as = "kRp.hyphen")
 
 \S4method{hyphen_df}{kRp.taggedText}(words, hyph.pattern = NULL,
   min.length = 4, rm.hyph = TRUE, quiet = FALSE, cache = TRUE)
