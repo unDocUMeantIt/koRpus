@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.11-6 (2018-10-28)
+unreleased:
+  - this release is under development
+
 changes in version 0.11-5 (2018-10-27)
 changed:
   - set.kRp.env()/treetag(): now throws an error if you try to combine a

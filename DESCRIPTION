@@ -46,8 +46,8 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Alexandre", family="Brulet",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
-Version: 0.11-5
-Date: 2018-10-27
+Version: 0.11-6
+Date: 2018-10-28
 RoxygenNote: 6.1.0
 Collate: 
     '00_environment.R'
