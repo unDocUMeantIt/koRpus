@@ -1,8 +1,12 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-6 (2018-10-28)
+changes in version 0.11-6 (2019-01-09)
 unreleased:
   - this release is under development
+changed:
+  - language support: if you try using a preset but the langauge package wasn't
+    loaded or even installed, a more elaborate error message is returned with
+    hopefully useful hints to what to try next
 
 changes in version 0.11-5 (2018-10-27)
 changed:

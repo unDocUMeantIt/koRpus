@@ -1545,15 +1545,34 @@ checkLangPreset <- function(preset, returnPresetDefinition=TRUE){
     preset <- gsub("-utf8$", "", preset)
     warning(paste0("UTF-8 is now the default encoding, please rename your preset from \"", preset, "-utf8\" into just \"", preset, "\"!"), call.=FALSE)
   } else {}
-  preset.definition <- as.list(as.environment(.koRpus.env))[["langSup"]][["treetag"]][["presets"]][[preset]]
-  if(isTRUE(returnPresetDefinition)){
-    if(is.null(preset.definition)){
-      stop(simpleError(paste0("Manual TreeTagger configuration: \"", preset, "\" is not a valid preset!")))
+  preset_definition <- as.list(as.environment(.koRpus.env))[["langSup"]][["treetag"]][["presets"]][[preset]]
+  if(is.null(preset_definition)){
+    error_prefix <- "Manual TreeTagger configuration:\n  "
+    # is a language support package installed but not loaded?
+    # this check could be limited to two letter patterns,
+    # but let's keep it open for now and see how it works out for the users
+    lang_pckg_name <- paste0("koRpus.lang.", preset)
+    preset_status <- check_lang_packages(available=TRUE, pattern=paste0("^", lang_pckg_name))
+    if(lang_pckg_name %in% names(preset_status)){
+      lang_pckg <- preset_status[[lang_pckg_name]]
+      if(isTRUE(lang_pckg[["loaded"]])){
+        stop(simpleError(paste0(error_prefix, "There appears to be a loaded language package \"", lang_pckg_name, "\",\n  yet the preset \"", preset, "\" is not available. Please check your installation!")))
+      } else if(isTRUE(lang_pckg[["installed"]])){
+        stop(simpleError(paste0(error_prefix, "The preset \"", preset, "\" is currently not available.\n  Did you forget to load the respective language package?\n  Try library(\"", lang_pckg_name, "\") instead of library(\"koRpus\").")))
+      } else if(isTRUE(lang_pckg[["available"]])){
+        stop(simpleError(paste0(error_prefix, "The preset \"", preset, "\" is currently not available.\n  Did you forget to install and load the respective language package?\n  Try install.koRpus.lang(\"", preset, "\") and then library(\"", lang_pckg_name, "\") instead of library(\"koRpus\").")))
+      } else {
+        stop(simpleError(paste0(error_prefix, "\"", preset, "\" is not a valid preset!")))
+      }
     } else {
-      return(preset.definition)
+      stop(simpleError(paste0(error_prefix, "\"", preset, "\" is not a valid preset!")))
     }
   } else {
-    return(ifelse(is.null(preset.definition), stop(simpleError(paste0("Manual TreeTagger configuration: \"", preset, "\" is not a valid preset!"))), TRUE))
+    if(isTRUE(returnPresetDefinition)){
+      return(preset_definition)
+    } else {
+      return(TRUE)
+    }
   }
 }
 ## end function checkLangPreset()
