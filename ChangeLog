@@ -6,8 +6,11 @@ unreleased:
 fixed:
   - query(): method was broken for tagged objects
 added:
+  - query(): new method for objects of class data.frame, which is now used if
+    query() is being called on koRpus class objects
   - query(): now also supports all numerical queries for tagged texts that were
     previously only available for frequency objects
+  - new unit tests for query() method
 changed:
   - language support: if you try using a preset but the langauge package wasn't
     loaded or even installed, a more elaborate error message is returned with

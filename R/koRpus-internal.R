@@ -1473,7 +1473,7 @@ tokenz <- function(txt, split="[[:space:]]", ign.comp="-", heuristics="abbr", ab
 
 
 ## function queryList()
-queryList <- function(obj, var, query, rel, as.df, ignore.case, perl){
+queryList <- function(obj, var, query, rel, as.df, ignore.case, perl, regexp_var){
   this.query <- query[[1]]
   this.query.vars <- names(this.query)
   this.q.var <- this.query.vars[[1]]
@@ -1482,11 +1482,11 @@ queryList <- function(obj, var, query, rel, as.df, ignore.case, perl){
   this.q.ignore.case <- ifelse("ignore.case" %in% this.query.vars, this.query[["ignore.case"]], ignore.case)
   this.q.perl <- ifelse("perl" %in% this.query.vars, this.query[["perl"]], perl)
   if(length(query) == 1){
-    obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=as.df, ignore.case=this.q.ignore.case, perl=this.q.perl)
+    obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=as.df, ignore.case=this.q.ignore.case, perl=this.q.perl, regexp_var=regexp_var)
   } else {
     remaining.queries <- query[-1]
-    remaining.obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=FALSE, ignore.case=this.q.ignore.case, perl=this.q.perl)
-    obj <- query(obj=remaining.obj, var=var, query=remaining.queries, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl)
+    remaining.obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=FALSE, ignore.case=this.q.ignore.case, perl=this.q.perl, regexp_var=regexp_var)
+    obj <- query(obj=remaining.obj, var=var, query=remaining.queries, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)
   }
   return(obj)
 } ## end function queryList()

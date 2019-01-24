@@ -141,12 +141,18 @@ test_that("setting environment variables", {
   # however, we can check if setting the environment works as expected
   set.kRp.env(TT.cmd="manual", lang="xy", TT.options=list(path=".", preset="xy"), validate=FALSE)
 
-  expect_match(get.kRp.env(TT.cmd=TRUE),
-    "manual")
-  expect_match(get.kRp.env(lang=TRUE),
-    "xy")
-  expect_that(get.kRp.env(TT.options=TRUE),
-    is_identical_to(list(path=".", preset="xy")))
+  expect_match(
+    get.kRp.env(TT.cmd=TRUE),
+    "manual"
+  )
+  expect_match(
+    get.kRp.env(lang=TRUE),
+    "xy"
+  )
+  expect_that(
+    get.kRp.env(TT.options=TRUE),
+    is_identical_to(list(path=".", preset="xy"))
+  )
 })
 
 
@@ -177,16 +183,26 @@ test_that("basic tokenizing", {
   tokenizedToken <- tokenize("singleton", format="obj", lang="xy", add.desc=TRUE)
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
-  expect_equal(tokenizedTextFile,
-    sampleTextStandard)
-  expect_equal(tokenizedTextFileNoDesc,
-    sampleTextStandardNoDesc)
-  expect_equal(tokenizedTextObj,
-    sampleTextStandard)
-  expect_equal(tokenizedTextConnection,
-    sampleTextStandard)
-  expect_equal(tokenizedToken,
-    sampleTokenizedToken)
+  expect_equal(
+    tokenizedTextFile,
+    sampleTextStandard
+  )
+  expect_equal(
+    tokenizedTextFileNoDesc,
+    sampleTextStandardNoDesc
+  )
+  expect_equal(
+    tokenizedTextObj,
+    sampleTextStandard
+  )
+  expect_equal(
+    tokenizedTextConnection,
+    sampleTextStandard
+  )
+  expect_equal(
+    tokenizedToken,
+    sampleTokenizedToken
+  )
 })
 
 test_that("fixing old objects", {
@@ -199,8 +215,10 @@ test_that("fixing old objects", {
     sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
-  expect_equal(tokenizedTextFile,
-    sampleTextStandardOld)
+  expect_equal(
+    tokenizedTextFile,
+    sampleTextStandardOld
+  )
 })
 
 
@@ -216,10 +234,14 @@ test_that("lexical diversity", {
   lexdivTextObj <- summary(lex.div(sampleTextTokenized, char=NULL, quiet=TRUE))
   TTRCharTextObj <- slot(TTR(sampleTextTokenized, char=TRUE, quiet=TRUE), "TTR.char")
 
-  expect_equal(lexdivTextObj,
-    sampleTextStandard)
-  expect_equal(TTRCharTextObj,
-    sampleTextStandardTTRChar)
+  expect_equal(
+    lexdivTextObj,
+    sampleTextStandard
+  )
+  expect_equal(
+    TTRCharTextObj,
+    sampleTextStandardTTRChar
+  )
 })
 
 
@@ -245,12 +267,18 @@ test_that("hyphenation/syllable count", {
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjCache, "Papua", "Pa-pu-a")
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjChanged, "in-edible", "inedible")
 
-  expect_equal(hyphenTextObjNoCache,
-    sampleTextStandard)
-  expect_equal(hyphenTextObjCache,
-    sampleTextStandard)
-  expect_equal(hyphenTextObjChanged,
-    sampleTextStandardChanged)
+  expect_equal(
+    hyphenTextObjNoCache,
+    sampleTextStandard
+  )
+  expect_equal(
+    hyphenTextObjCache,
+    sampleTextStandard
+  )
+  expect_equal(
+    hyphenTextObjChanged,
+    sampleTextStandardChanged
+  )
 })
 
 
@@ -276,6 +304,48 @@ test_that("readability", {
         Spache=pseudoWordList)), flat=TRUE)
   )
 
-  expect_equal(readabilityTextObj,
-    sampleTextStandard)
+  expect_equal(
+    readabilityTextObj,
+    sampleTextStandard
+  )
+})
+
+
+context("query")
+
+test_that("query", {
+  sampleTextTokenized <- dget("sample_text_tokenized_dput.txt")
+
+  queryTokenThe <- query(sampleTextTokenized, "token", "the")
+  expect_equal(
+    nrow(queryTokenThe),
+    38
+  )
+
+  queryLttrGe5 <- query(sampleTextTokenized, "lttr", 5, "ge")
+  expect_equal(
+    nrow(queryLttrGe5),
+    290
+  )
+  expect_equal(
+    sum(queryLttrGe5[["lttr"]]),
+    2178
+  )
+  
+  queryLttr6to9 <- query(sampleTextTokenized, "lttr", c(5, 10), "gt")
+  expect_equal(
+    nrow(queryLttr6to9),
+    191
+  )
+  
+  querySntc5 <- query(sampleTextTokenized, "sntc", 5)
+  expect_equal(
+    nrow(querySntc5),
+    46
+  )
+  
+  expect_error(
+    query(sampleTextTokenized, "sntcs", 30)
+  )
+
 })

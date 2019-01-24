@@ -41,8 +41,7 @@
 #'
 #' @param obj An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 #' @param var A character string naming a variable in the object (i.e., colname). If set to
-#'    \code{"regexp"}, \code{grepl} is called on the \code{word} column of corpus frequency
-#'    objects.
+#'    \code{"regexp"}, \code{grepl} is called on the column specified by \code{regexp_var}.
 #' @param query A character vector (for words), regular expression, or single number naming values to be matched in the variable.
 #'    Can also be a vector of two numbers to query a range of frequency data, or a list of named lists for multiple queries (see
 #'    "Query lists" section in details).
@@ -50,9 +49,10 @@
 #'    Must either be \code{"eq"} (equal, the default), \code{"gt"} (greater than), \code{"ge"} (greater of equal),
 #'    \code{"lt"} (less than) or \code{"le"} (less or equal). If \code{var="word"}, is always interpreted as \code{"eq"}
 #' @param as.df Logical, if \code{TRUE}, returns a data.frame, otherwise an object of
-#'    the input class.
+#'    the input class. Ignored if \code{obj} is a data frame already.
 #' @param ignore.case Logical, passed through to \code{grepl} if \code{var="regexp"}.
 #' @param perl Logical, passed through to \code{grepl} if \code{var="regexp"}.
+#' @param regexp_var A character string naming the column to query if \code{var="regexp"}.
 #' @param ... Optional arguments, see above.
 #' @return Depending on the arguments, might include whole objects, lists, single values etc.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
@@ -97,66 +97,27 @@ setGeneric("query", function(obj, ...) standardGeneric("query"))
 #' @include 01_class_06_kRp.corp.freq.R
 setMethod("query",
     signature(obj="kRp.corp.freq"),
-    function (obj, var=NULL, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE){
+    function (obj, var=NULL, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="word"){
       # if query is a list, invoke queryList()
       if(is.list(query)){
-        obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl)
+        obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)
         return(obj)
       } else {}
 
-      ## only run if query is not a list:
-      stopifnot(length(var) == 1)
-      results <- ""
-      in.obj <- slot(obj, "words")
-      # basically, we have to see if we're looking for a word or for frequencies
-      # we'll estimate that by looking at the data class of the column queried
-      if(any(is.character(in.obj[[var]]), is.factor(in.obj[[var]]))){
-        # see if we have fixed character
-        if(identical(var, "regexp")){
-          # get all entries where word matches regexp
-          results <- in.obj[grepl(query, in.obj[["word"]], ignore.case=ignore.case, perl=perl),]
-        } else {
-          results <- subset(in.obj, eval(parse(text=paste(var, "%in% query"))))
-        }
-      } else{}
-      # in case we're looking for anything frequency related
-      if(isTRUE(is.numeric(in.obj[[var]]))){
-        if(length(query) == 1){
-          if(identical(rel, "eq")){
-            results <- subset(in.obj, eval(parse(text=paste(var, "== query"))))
-          } else{}
-          if(identical(rel, "gt")){
-            results <- subset(in.obj, eval(parse(text=paste(var, "> query"))))
-          } else{}
-          if(identical(rel, "ge")){
-            results <- subset(in.obj, eval(parse(text=paste(var, ">= query"))))
-          } else{}
-          if(identical(rel, "lt")){
-            results <- subset(in.obj, eval(parse(text=paste(var, "< query"))))
-          } else{}
-          if(identical(rel, "le")){
-            results <- subset(in.obj, eval(parse(text=paste(var, "<= query"))))
-          } else{}
-        } else if(length(query) == 2){
-          if(rel %in% c("gt", "lt")){
-            results <- subset(in.obj, eval(parse(text=paste("(", var, "> query[1] ) & (", var, "< query[2] )"))))
-          } else{
-            results <- subset(in.obj, eval(parse(text=paste("(", var, ">= query[1] ) & (", var, "<= query[2] )"))))
-          }
-        } else{}
-      } else{}
+      # call query method on the data frame
+      results <- query(obj=slot(obj, "words"), var=var, query=query, rel=rel, ignore.case=ignore.case, perl=perl, regexp_var="word")
 
-    if(identical(results, "")){
-      stop(simpleError("Unable to comply."))
-    } else {
-      if(isTRUE(as.df)){
-        return(results)
+      if(identical(results, "")){
+        stop(simpleError("Unable to comply."))
       } else {
-        # write results back to the originating object
-        slot(obj, "words") <- results
+        if(isTRUE(as.df)){
+          return(results)
+        } else {
+          # write results back to the originating object
+          slot(obj, "words") <- results
+        }
       }
-    }
-    return(obj)
+      return(obj)
     }
 )
 
@@ -167,57 +128,16 @@ setMethod("query",
 #' @include 01_class_01_kRp.tagged.R
 setMethod("query",
     signature(obj="kRp.tagged"),
-    function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE){
+    function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="token"){
       # if query is a list, invoke queryList()
       if(is.list(query)){
-        obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl)
+        obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)
         return(obj)
       } else {}
 
-      ## only run if query is not a list:
-      stopifnot(length(var) == 1)
-      in.obj <- slot(obj, "TT.res")
-      if(var %in% names(in.obj)){
-        # in case we're looking for anything frequency related
-        if(isTRUE(is.numeric(in.obj[[var]]))){
-          if(length(query) == 1){
-            if(identical(rel, "eq")){
-              results <- subset(in.obj, eval(parse(text=paste(var, "== query"))))
-            } else{}
-            if(identical(rel, "gt")){
-              results <- subset(in.obj, eval(parse(text=paste(var, "> query"))))
-            } else{}
-            if(identical(rel, "ge")){
-              results <- subset(in.obj, eval(parse(text=paste(var, ">= query"))))
-            } else{}
-            if(identical(rel, "lt")){
-              results <- subset(in.obj, eval(parse(text=paste(var, "< query"))))
-            } else{}
-            if(identical(rel, "le")){
-              results <- subset(in.obj, eval(parse(text=paste(var, "<= query"))))
-            } else{}
-          } else if(length(query) == 2){
-            if(rel %in% c("gt", "lt")){
-              results <- subset(in.obj, eval(parse(text=paste("(", var, "> query[1] ) & (", var, "< query[2] )"))))
-            } else{
-              results <- subset(in.obj, eval(parse(text=paste("(", var, ">= query[1] ) & (", var, "<= query[2] )"))))
-            }
-          } else{}
-        } else{
-          num.findings <- which(in.obj[[var]] %in% query)
-          if(identical(rel, "num")){
-            results <- num.findings
-          } else {
-            results <- in.obj[num.findings, ]
-          }
-        }
-      } else if(identical(var, "regexp")){
-        # see if we have fixed character
-        # get all entries where word matches regexp
-        results <- in.obj[grepl(query, in.obj[["token"]], ignore.case=ignore.case, perl=perl),]
-      } else{
-        stop(simpleError(paste("Invalid var for class kRp.tagged:", var)))
-      }
+      # call query method on the data frame
+      results <- query(obj=slot(obj, "TT.res"), var=var, query=query, rel=rel, ignore.case=ignore.case, perl=perl, regexp_var="token")
+
       if(identical(results, "")){
         stop(simpleError("Unable to comply."))
       } else{
@@ -228,6 +148,73 @@ setMethod("query",
           slot(obj, "TT.res") <- results
         }
       }
+      return(results)
+    }
+)
+
+
+#' @export
+#' @docType methods
+#' @rdname query-methods
+#' @aliases query,data.frame-method
+setMethod("query",
+    signature(obj="data.frame"),
+    function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="token"){
+      # if query is a list, invoke queryList()
+      if(is.list(query)){
+        obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=TRUE, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)
+        return(obj)
+      } else {}
+
+      ## only run if query is not a list:
+      if(length(var) > 1){
+        stop(simpleError("If 'var' is not a list, it must be a single value!"))
+      } else {}
+      stopifnot(length(var) == 1)
+      if(var %in% colnames(obj)){
+        # in case we're looking for anything frequency related
+        if(isTRUE(is.numeric(obj[[var]]))){
+          if(length(query) == 1){
+            if(identical(rel, "eq")){
+              results <- subset(obj, eval(parse(text=paste(var, "== query"))))
+            } else{}
+            if(identical(rel, "gt")){
+              results <- subset(obj, eval(parse(text=paste(var, "> query"))))
+            } else{}
+            if(identical(rel, "ge")){
+              results <- subset(obj, eval(parse(text=paste(var, ">= query"))))
+            } else{}
+            if(identical(rel, "lt")){
+              results <- subset(obj, eval(parse(text=paste(var, "< query"))))
+            } else{}
+            if(identical(rel, "le")){
+              results <- subset(obj, eval(parse(text=paste(var, "<= query"))))
+            } else{}
+          } else if(length(query) == 2){
+            if(rel %in% c("gt", "lt")){
+              results <- subset(obj, eval(parse(text=paste("(", var, "> query[1] ) & (", var, "< query[2] )"))))
+            } else{
+              results <- subset(obj, eval(parse(text=paste("(", var, ">= query[1] ) & (", var, "<= query[2] )"))))
+            }
+          } else{}
+        } else{
+          num.findings <- which(obj[[var]] %in% query)
+          if(identical(rel, "num")){
+            results <- num.findings
+          } else {
+            results <- obj[num.findings, ]
+          }
+        }
+      } else if(identical(var, "regexp")){
+        # see if we have fixed character
+        # get all entries where word matches regexp
+        results <- obj[grepl(query, obj[[regexp_var]], ignore.case=ignore.case, perl=perl),]
+      } else{
+        stop(simpleError(paste("Invalid var (no such column):", var)))
+      }
+      if(identical(results, "")){
+        stop(simpleError("Unable to comply."))
+      } else{}
       return(results)
     }
 )
