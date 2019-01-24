@@ -149,7 +149,7 @@ setMethod("query",
           slot(obj, "TT.res") <- results
         }
       }
-      return(results)
+      return(obj)
     }
 )
 
