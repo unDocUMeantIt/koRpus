@@ -39,7 +39,8 @@
 #'
 #' This method calls \code{\link[base]{subset}}, which might actually be even more flexible if you need more control.
 #'
-#' @param obj An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
+#' @param obj An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, or \code{data.frame}.
 #' @param var A character string naming a variable in the object (i.e., colname). If set to
 #'    \code{"regexp"}, \code{grepl} is called on the column specified by \code{regexp_var}.
 #' @param query A character vector (for words), regular expression, or single number naming values to be matched in the variable.
