@@ -60,10 +60,8 @@ the range, respectively. In these cases,
       if \code{rel} is set to \code{"gt"} or \code{"lt"},
 the given range borders are excluded, otherwise they will be included as true matches.
 
-\emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. For \code{rel} currently only
-"eq" and "num" are implemented. The latter isn't a relation,
-      but will return a vector with the row numbers in which
-the query was found.
+\emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. If \code{rel="num"},
+a vector with the row numbers in which the query was found is returned.
 }
 \section{Query lists}{
  You can combine an arbitrary number of queries in a simple way by providing a list of named lists to the

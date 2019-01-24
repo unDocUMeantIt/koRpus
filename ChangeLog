@@ -1,8 +1,13 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-6 (2019-01-09)
+changes in version 0.11-6 (2019-01-24)
 unreleased:
   - this release is under development
+fixed:
+  - query(): method was broken for tagged objects
+added:
+  - query(): now also supports all numerical queries for tagged texts that were
+    previously only available for frequency objects
 changed:
   - language support: if you try using a preset but the langauge package wasn't
     loaded or even installed, a more elaborate error message is returned with

@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -27,9 +27,8 @@
 #' the range, respectively. In these cases, if \code{rel} is set to \code{"gt"} or \code{"lt"},
 #' the given range borders are excluded, otherwise they will be included as true matches.
 #'
-#' \emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. For \code{rel} currently only
-#' "eq" and "num" are implemented. The latter isn't a relation, but will return a vector with the row numbers in which
-#' the query was found.
+#' \emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. If \code{rel="num"},
+#' a vector with the row numbers in which the query was found is returned.
 #'
 #' @section Query lists: You can combine an arbitrary number of queries in a simple way by providing a list of named lists to the
 #' \code{query} parameter, where each list contains one query request. In each list, the first element name represents the
@@ -169,9 +168,6 @@ setMethod("query",
 setMethod("query",
     signature(obj="kRp.tagged"),
     function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE){
-      if(!rel %in% c("eq", "num")){
-        stop(simpleError(paste("Invalid rel for class kRp.tagged:", rel)))
-      } else {}
       # if query is a list, invoke queryList()
       if(is.list(query)){
         obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl)
@@ -182,30 +178,56 @@ setMethod("query",
       stopifnot(length(var) == 1)
       in.obj <- slot(obj, "TT.res")
       if(var %in% names(in.obj)){
-        num.findings <- which(in.obj[[var]] %in% query)
-        if(identical(rel, "num")){
-          results <- num.findings
-        } else {
-          results <- in.obj[num.findings, ]
+        # in case we're looking for anything frequency related
+        if(isTRUE(is.numeric(in.obj[[var]]))){
+          if(length(query) == 1){
+            if(identical(rel, "eq")){
+              results <- subset(in.obj, eval(parse(text=paste(var, "== query"))))
+            } else{}
+            if(identical(rel, "gt")){
+              results <- subset(in.obj, eval(parse(text=paste(var, "> query"))))
+            } else{}
+            if(identical(rel, "ge")){
+              results <- subset(in.obj, eval(parse(text=paste(var, ">= query"))))
+            } else{}
+            if(identical(rel, "lt")){
+              results <- subset(in.obj, eval(parse(text=paste(var, "< query"))))
+            } else{}
+            if(identical(rel, "le")){
+              results <- subset(in.obj, eval(parse(text=paste(var, "<= query"))))
+            } else{}
+          } else if(length(query) == 2){
+            if(rel %in% c("gt", "lt")){
+              results <- subset(in.obj, eval(parse(text=paste("(", var, "> query[1] ) & (", var, "< query[2] )"))))
+            } else{
+              results <- subset(in.obj, eval(parse(text=paste("(", var, ">= query[1] ) & (", var, "<= query[2] )"))))
+            }
+          } else{}
+        } else{
+          num.findings <- which(in.obj[[var]] %in% query)
+          if(identical(rel, "num")){
+            results <- num.findings
+          } else {
+            results <- in.obj[num.findings, ]
+          }
         }
       } else if(identical(var, "regexp")){
         # see if we have fixed character
         # get all entries where word matches regexp
         results <- in.obj[grepl(query, in.obj[["token"]], ignore.case=ignore.case, perl=perl),]
-      } else{}
-{
+      } else{
         stop(simpleError(paste("Invalid var for class kRp.tagged:", var)))
       }
-    if(identical(results, "")){
-      stop(simpleError("Unable to comply."))
-    } else{
-      if(isTRUE(as.df)){
-        return(results)
-      } else {
-        # write results back to the originating object
-        slot(obj, "TT.res") <- results
+      if(identical(results, "")){
+        stop(simpleError("Unable to comply."))
+      } else{
+        if(isTRUE(as.df)){
+          return(results)
+        } else {
+          # write results back to the originating object
+          slot(obj, "TT.res") <- results
+        }
       }
-    }
-    return(results)
+      return(results)
     }
 )
