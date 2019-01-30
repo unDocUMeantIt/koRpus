@@ -174,7 +174,7 @@ basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL
   txt.stend.tags <- kRp.POS.tags(lang, list.tags=TRUE, tags="sentc")
   txt.stend <- count.sentences(txt@TT.res, txt.stend.tags)
   # count words
-  txt.nopunct <- filterByClass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE)
+  txt.nopunct <- filterByClass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=NULL)
   num.words <- nrow(txt.nopunct@TT.res)
   avg.sentc.length <- num.words / txt.stend
 

@@ -28,6 +28,9 @@
 #' @param corp.rm.tag A character vector with valid POS tags which should be removed.
 #' @param as.vector Logical. If \code{TRUE}, results will be returned as a character vector containing only the text parts
 #'    which survived the filtering.
+#' @param update.desc Logical. If \code{TRUE}, the \code{desc} slot of the tagged object will be fully recalculated
+#'    using the filtered text. If \code{FALSE}, the \code{desc} slot will be copied from the original object.
+#'    Finally, if \code{NULL}, the \code{desc} slot remains empty.
 #' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE}, returns only a character vector.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
@@ -40,7 +43,7 @@
 #' \dontrun{
 #'    filterByClass(tagged.text)
 #' }
-setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE){standardGeneric("filterByClass")})
+setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){standardGeneric("filterByClass")})
 
 #' @export
 #' @docType methods
@@ -50,13 +53,12 @@ setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=
 setMethod("filterByClass",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.taggedText"),
-  function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE){
-    # the internal function tag.kRp.txt() will return the object unchanged if it
-    # is already tagged, so it's safe to call it with the lang set here
-    tagged.text <- tag.kRp.txt(txt, tagger=NULL, objects.only=TRUE)
-    txt.TT.res <- taggedText(tagged.text)
+  function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){
+    txt.TT.res <- taggedText(txt)
+    txt.desc <- describe(txt)
+    txt.doc_id <- 
     # set the language definition
-    lang <- language.setting(tagged.text, NULL)
+    lang <- language.setting(txt, NULL)
 
     pre.results <- tagged.txt.rm.classes(txt.TT.res, lemma=FALSE, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, as.vector=as.vector)
 
@@ -65,6 +67,13 @@ setMethod("filterByClass",
     } else {
       rownames(pre.results) <- NULL
       results <- kRp_tagged(lang=lang, TT.res=pre.results)
+      if(!is.null(update.desc)){
+        if(isTRUE(update.desc)){
+          describe(results) <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=txt.desc[["doc_id"]])
+        } else {
+          describe(results) <- txt.desc
+        }
+      } else {}
     }
 
     return(results)
@@ -77,5 +86,5 @@ setMethod("filterByClass",
 #' @export
 kRp.filter.wclass <- function(...){
   .Deprecated(new="filterByClass")
-  filterByClass(...)
+  filterByClass(..., update.desc=NULL)
 }

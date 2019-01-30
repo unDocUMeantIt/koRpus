@@ -7,10 +7,10 @@
 \title{Remove word classes}
 \usage{
 filterByClass(txt, corp.rm.class = "nonpunct", corp.rm.tag = c(),
-  as.vector = FALSE)
+  as.vector = FALSE, update.desc = TRUE)
 
 \S4method{filterByClass}{kRp.taggedText}(txt, corp.rm.class = "nonpunct",
-  corp.rm.tag = c(), as.vector = FALSE)
+  corp.rm.tag = c(), as.vector = FALSE, update.desc = TRUE)
 }
 \arguments{
 \item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
@@ -25,6 +25,12 @@ Another valid value is "stopword" to remove all detected stopwords.}
 \item{as.vector}{Logical. If \code{TRUE},
       results will be returned as a character vector containing only the text parts
 which survived the filtering.}
+
+\item{update.desc}{Logical. If \code{TRUE},
+      the \code{desc} slot of the tagged object will be fully recalculated
+using the filtered text. If \code{FALSE},
+      the \code{desc} slot will be copied from the original object.
+Finally, if \code{NULL}, the \code{desc} slot remains empty.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE},
