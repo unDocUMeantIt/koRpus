@@ -21,7 +21,8 @@ query(obj, ...)
   ignore.case = TRUE, perl = FALSE, regexp_var = "token")
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.}
+\item{obj}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, or \code{data.frame}.}
 
 \item{...}{Optional arguments, see above.}
 

@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -125,7 +125,7 @@
 #'    stemmer=SnowballC::wordStem)
 #'
 #' # removing all stopwords now is simple:
-#' tagged.noStopWords <- kRp.filter.wclass(tagged.results, "stopword")
+#' tagged.noStopWords <- filterByClass(tagged.results, "stopword")
 #' }
 
 treetag <- function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",

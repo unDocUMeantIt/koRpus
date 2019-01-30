@@ -140,7 +140,7 @@ tokenized.obj <- tokenize("~/my.data/speech.txt",
   stemmer=SnowballC::wordStem)
 
 # removing all stopwords now is simple:
-tokenized.noStopWords <- kRp.filter.wclass(tokenized.obj, "stopword")
+tokenized.noStopWords <- filterByClass(tokenized.obj, "stopword")
 }
 }
 \keyword{misc}

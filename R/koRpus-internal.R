@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -29,7 +29,7 @@
 #' @include 01_class_06_kRp.corp.freq.R
 #' @include 01_class_09_kRp.lang.R
 #' @include 01_class_10_kRp.readability.R
-#' @include kRp.filter.wclass.R
+#' @include 02_method_filterByClass.R
 setClassUnion("kRp.taggedText", members=c("kRp.tagged", "kRp.analysis", "kRp.txt.freq", "kRp.txt.trans"))
 
 
@@ -174,7 +174,7 @@ basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL
   txt.stend.tags <- kRp.POS.tags(lang, list.tags=TRUE, tags="sentc")
   txt.stend <- count.sentences(txt@TT.res, txt.stend.tags)
   # count words
-  txt.nopunct <- kRp.filter.wclass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE)
+  txt.nopunct <- filterByClass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE)
   num.words <- nrow(txt.nopunct@TT.res)
   avg.sentc.length <- num.words / txt.stend
 

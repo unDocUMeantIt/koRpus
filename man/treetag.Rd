@@ -161,7 +161,7 @@ tagged.results <- treetag("~/my.data/speech.txt",
    stemmer=SnowballC::wordStem)
 
 # removing all stopwords now is simple:
-tagged.noStopWords <- kRp.filter.wclass(tagged.results, "stopword")
+tagged.noStopWords <- filterByClass(tagged.results, "stopword")
 }
 }
 \references{

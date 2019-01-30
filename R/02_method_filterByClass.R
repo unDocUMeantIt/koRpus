@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -18,7 +18,7 @@
 
 #' Remove word classes
 #'
-#' This function strips off defined word classes of tagged text objects.
+#' This method strips off defined word classes of tagged text objects.
 #'
 #' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param corp.rm.class A character vector with word classes which should be removed. The default value
@@ -32,29 +32,50 @@
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 #' @keywords misc
+#' @import methods
+#' @docType methods
 #' @export
+#' @rdname filterByClass-methods
 #' @examples
 #' \dontrun{
-#'    kRp.filter.wclass(tagged.text)
+#'    filterByClass(tagged.text)
 #' }
+setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE){standardGeneric("filterByClass")})
 
-kRp.filter.wclass <- function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE){
+#' @export
+#' @docType methods
+#' @rdname filterByClass-methods
+#' @aliases filterByClass,kRp.taggedText-method
+#' @include 01_class_01_kRp.tagged.R
+setMethod("filterByClass",
+  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
+  signature(txt="kRp.taggedText"),
+  function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE){
+    # the internal function tag.kRp.txt() will return the object unchanged if it
+    # is already tagged, so it's safe to call it with the lang set here
+    tagged.text <- tag.kRp.txt(txt, tagger=NULL, objects.only=TRUE)
+    txt.TT.res <- taggedText(tagged.text)
+    # set the language definition
+    lang <- language.setting(tagged.text, NULL)
 
-  # the internal function tag.kRp.txt() will return the object unchanged if it
-  # is already tagged, so it's safe to call it with the lang set here
-  tagged.text <- tag.kRp.txt(txt, tagger=NULL, objects.only=TRUE)
-  txt.TT.res <- taggedText(tagged.text)
-  # set the language definition
-  lang <- language.setting(tagged.text, NULL)
+    pre.results <- tagged.txt.rm.classes(txt.TT.res, lemma=FALSE, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, as.vector=as.vector)
 
-  pre.results <- tagged.txt.rm.classes(txt.TT.res, lemma=FALSE, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, as.vector=as.vector)
+    if(isTRUE(as.vector)){
+      results <- pre.results
+    } else {
+      rownames(pre.results) <- NULL
+      results <- kRp_tagged(lang=lang, TT.res=pre.results)
+    }
 
-  if(isTRUE(as.vector)){
-    results <- pre.results
-  } else {
-    dimnames(pre.results)[[1]] <- c(1:nrow(pre.results))
-    results <- kRp_tagged(lang=lang, TT.res=pre.results)
+    return(results)
   }
+)
 
-  return(results)
+#' @rdname koRpus-deprecated
+#' @name koRpus-deprecated
+#' @param ... Parameters to be passed to the replacement of the function
+#' @export
+kRp.filter.wclass <- function(...){
+  .Deprecated(new="filterByClass")
+  filterByClass(...)
 }

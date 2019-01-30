@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -103,7 +103,7 @@
 #'   stemmer=SnowballC::wordStem)
 #'
 #' # removing all stopwords now is simple:
-#' tokenized.noStopWords <- kRp.filter.wclass(tokenized.obj, "stopword")
+#' tokenized.noStopWords <- filterByClass(tokenized.obj, "stopword")
 #' }
 
 tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
