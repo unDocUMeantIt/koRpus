@@ -20,19 +20,6 @@
 # they are not exported, hence not to be called by users themselves
 # and are therefore only documented by the comments in this file.
 
-# define class union to make life easier
-#' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_02_kRp.TTR.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
-#' @include 01_class_05_kRp.analysis.R
-#' @include 01_class_06_kRp.corp.freq.R
-#' @include 01_class_09_kRp.lang.R
-#' @include 01_class_10_kRp.readability.R
-#' @include 02_method_filterByClass.R
-setClassUnion("kRp.taggedText", members=c("kRp.tagged", "kRp.analysis", "kRp.txt.freq", "kRp.txt.trans"))
-
-
 ## function check.file()
 # helper function for file checks
 check.file <- function(filename, mode="exist", stopOnFail=TRUE){
@@ -162,6 +149,7 @@ basic.text.descriptives <- function(txt){
 
 ## function basic.tagged.descriptives()
 # txt must be an object of class kRp.tagged
+#' @include 02_method_filterByClass.R
 basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, doc_id=NA){
   if(is.null(lang)){
     lang <- txt@lang

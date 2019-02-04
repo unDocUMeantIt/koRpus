@@ -32,7 +32,6 @@
 #'    using the filtered text. If \code{FALSE}, the \code{desc} slot will be copied from the original object.
 #'    Finally, if \code{NULL}, the \code{desc} slot remains empty.
 #' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE}, returns only a character vector.
-# @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 #' @keywords misc
 #' @import methods
@@ -49,7 +48,8 @@ setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=
 #' @docType methods
 #' @rdname filterByClass-methods
 #' @aliases filterByClass,kRp.taggedText-method
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_80_kRp.taggedText_union.R
+#' @include koRpus-internal.R
 setMethod("filterByClass",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.taggedText"),

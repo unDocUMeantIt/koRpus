@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -18,7 +18,7 @@
 
 #' Produce jumbled words
 #' 
-#' This function takes either a character vector or objects inheriting class \code{kRp.tagged}
+#' This method either takes a character vector or objects inheriting class \code{kRp.tagged}
 #' (i.e., text tokenized by \code{koRpus}), and jumbles the words. This usually means that the
 #' first and last letter of each word is left intact, while all characters inbetween are being
 #' randomized.
@@ -30,46 +30,77 @@
 #'    These define how many characters of each relevant words will be left unchanged at its start
 #'    and its end, respectively.
 #' @return Depending on the class of \code{words}, either a character vector or tagged text object.
+#' @import methods
+#' @docType methods
 #' @export
+#' @rdname jumbleWords-methods
+#' @examples
+#' \dontrun{
+#'    jumbled.text <- jumbleWords(tagged.text)
+#' }
+setGeneric("jumbleWords", function(words, min.length=3, intact=c(start=1, end=1)){standardGeneric("jumbleWords")})
 
-jumbleWords <- function(words, min.length=3, intact=c(start=1, end=1)){
+#' @export
+#' @docType methods
+#' @rdname jumbleWords-methods
+#' @aliases jumbleWords,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+#' @include koRpus-internal.R
+setMethod("jumbleWords",
+  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
+  signature(words="kRp.taggedText"),
+  function(words, min.length=3, intact=c(start=1, end=1)){
+    words.TT.res <- taggedText(words)
+    words.TT.res[["token"]] <- kRp_jumbleWords(words=words.TT.res[["token"]], min.length=min.length, intact=intact)
+    taggedText(words) <- words.TT.res
+    return(words)
+  }
+)
+
+#' @export
+#' @docType methods
+#' @rdname jumbleWords-methods
+#' @aliases jumbleWords,character-method
+setMethod("jumbleWords",
+  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
+  signature(words="character"),
+  function(words, min.length=3, intact=c(start=1, end=1)){
+    words <- kRp_jumbleWords(words=words, min.length=min.length, intact=intact)
+    return(words)
+  }
+)
+
+# this is the actual internal workhorse for the method
+# - words: must be a character vector
+# also returns a character vector
+kRp_jumbleWords <- function(words, min.length=3, intact=c(start=1, end=1)){
 
   # check start and end values to leave intact
   start <- ifelse("start" %in% names(intact), intact[["start"]], 1)
   end <- ifelse("end" %in% names(intact), intact[["end"]], 1)
-  stopifnot(start >= 0 && end >= 0)
+  stopifnot(start >= 0 & end >= 0)
 
   if(min.length <= sum(c(start,end))){
     stop(simpleError("'min.length' must be greater than the sum of 'intact'!"))
   }
 
-  # is this a tokenized text object?
-  if(inherits(words, "kRp.tagged")){
-    words.orig <- words
-    words.TT.res <- slot(words, "TT.res")
-    words <- words.TT.res[["token"]]
-  } else {
-    stopifnot(is.character(words))
-    words.orig <- NULL
-  }
+  stopifnot(is.character(words))
 
   num.chars <- nchar(words, type="width")
   toJumble <- num.chars >= min.length
   # get only the relevant words
   jmbWords <- words[toJumble]
 
-  jumbledPart <- sapply(strsplit(substr(jmbWords, start=start+1, stop=num.chars[toJumble]-end), split=""), 
-    function(this.word){paste(sample(this.word), collapse="")})
+  jumbledPart <- sapply(
+    strsplit(substr(jmbWords, start=start+1, stop=num.chars[toJumble]-end), split=""), 
+    function(this.word){
+      paste(sample(this.word), collapse="")
+    }
+  )
 
   substr(jmbWords, start=start+1, stop=num.chars[toJumble]-end) <- jumbledPart
 
   # write back jumbled words
   words[toJumble] <- jmbWords
-  if(!is.null(words.orig)){
-    words.TT.res[["token"]] <- words
-    slot(words.orig, "TT.res") <- words.TT.res
-    return(words.orig)
-  } else {
-    return(words)
-  }
+  return(words)
 }

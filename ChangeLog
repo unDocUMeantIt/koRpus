@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-6 (2019-01-30)
+changes in version 0.11-6 (2019-02-05)
 unreleased:
   - this release is under development
 fixed:
@@ -13,10 +13,16 @@ added:
   - new unit tests for query() method
   - filterByClass(): a new method for tagged text objects, replacing
     the kRp.filter.wclass() function, which is now deprecated
+  - pasteText(): like filterByClass(), but replacing kRp.text.paste()
+  - readTagged(): like filterByClass(), but replacing read.tagged()
 changed:
   - language support: if you try using a preset but the langauge package wasn't
     loaded or even installed, a more elaborate error message is returned with
     hopefully useful hints to what to try next
+  - jumbleWords(): now a S4 method, no longer a function
+  - moved class union definition kRp.taggedText to its own file and updated
+    the import calls on a number of files accordingly
+  - restructured source code files
 
 changes in version 0.11-5 (2018-10-27)
 changed:

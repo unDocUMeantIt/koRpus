@@ -1,4 +1,4 @@
-# Copyright 2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -21,6 +21,7 @@
 #' @aliases show,kRp.taggedText-method
 #' @rdname show-methods
 #' @include 02_method_show.kRp.lang.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("show", signature(object="kRp.taggedText"), function(object){
   txt <- taggedText(object)

@@ -62,6 +62,7 @@ setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=N
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("correct.tag",
     signature(obj="kRp.taggedText"),

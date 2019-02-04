@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -70,6 +70,7 @@ setGeneric("freq.analysis", function(txt.file, ...) standardGeneric("freq.analys
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases freq.analysis,kRp.taggedText-method
 #' @rdname freq.analysis-methods

@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -64,6 +64,7 @@ setGeneric("textTransform", function(txt, scheme, p=0.5, paste=FALSE){standardGe
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("textTransform",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
@@ -191,7 +192,6 @@ setMethod("textTransform",
 #' These functions will be removed soon and should no longer ne used.
 #' @rdname koRpus-deprecated
 #' @name koRpus-deprecated
-#' @param ... Parameters to be passed to the replacement of the function
 #' @export
 kRp.text.transform <- function(...){
   .Deprecated(new="textTransform")

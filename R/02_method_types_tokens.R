@@ -1,4 +1,4 @@
-# Copyright 2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -92,6 +92,7 @@ setMethod("tokens", signature(txt="kRp.TTR"), function(txt){
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases types,kRp.taggedText-method
 #' @rdname types.tokens-methods

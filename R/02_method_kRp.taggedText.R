@@ -50,6 +50,7 @@ setGeneric("taggedText", function(obj, add.desc=FALSE, doc_id=FALSE) standardGen
 #' @aliases
 #'    taggedText,-methods
 #'    taggedText,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("taggedText",
   signature=signature(obj="kRp.taggedText"),
