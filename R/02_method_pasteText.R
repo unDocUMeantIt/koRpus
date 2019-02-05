@@ -26,6 +26,7 @@
 #' @param txt An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
 #' @param replace A named character vector to define replacements for \code{koRpus}' internal headline and paragraph tags.
+#' @param ... Additional options, currently unused.
 #' @return An atomic character vector.
 #' @keywords misc
 #' @export
@@ -37,7 +38,7 @@
 #'   tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
 #'   pasteText(tagged.text.obj)
 #' }
-setGeneric("pasteText", function(txt, replace=c(hon.kRp="", hoff.kRp="\n\n", p.kRp="\n\n")){standardGeneric("pasteText")})
+setGeneric("pasteText", function(txt, replace=c(hon.kRp="", hoff.kRp="\n\n", p.kRp="\n\n"), ...){standardGeneric("pasteText")})
 
 
 #' @export

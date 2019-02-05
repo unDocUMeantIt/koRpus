@@ -7,7 +7,7 @@
 \title{Paste koRpus objects}
 \usage{
 pasteText(txt, replace = c(hon.kRp = "", hoff.kRp = "\\n\\n", p.kRp =
-  "\\n\\n"))
+  "\\n\\n"), ...)
 
 \S4method{pasteText}{kRp.taggedText}(txt, replace = c(hon.kRp = "",
   hoff.kRp = "\\n\\n", p.kRp = "\\n\\n"))
@@ -18,6 +18,8 @@ pasteText(txt, replace = c(hon.kRp = "", hoff.kRp = "\\n\\n", p.kRp =
 \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
 
 \item{replace}{A named character vector to define replacements for \code{koRpus}' internal headline and paragraph tags.}
+
+\item{...}{Additional options, currently unused.}
 }
 \value{
 An atomic character vector.

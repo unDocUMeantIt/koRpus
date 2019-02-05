@@ -29,6 +29,7 @@
 #' @param intact A named vector with the two integer values named \code{start} and \code{stop}.
 #'    These define how many characters of each relevant words will be left unchanged at its start
 #'    and its end, respectively.
+#' @param ... Additional options, currently unused.
 #' @return Depending on the class of \code{words}, either a character vector or tagged text object.
 #' @import methods
 #' @docType methods
@@ -38,7 +39,7 @@
 #' \dontrun{
 #'    jumbled.text <- jumbleWords(tagged.text)
 #' }
-setGeneric("jumbleWords", function(words, min.length=3, intact=c(start=1, end=1)){standardGeneric("jumbleWords")})
+setGeneric("jumbleWords", function(words, min.length=3, intact=c(start=1, end=1), ...){standardGeneric("jumbleWords")})
 
 #' @export
 #' @docType methods

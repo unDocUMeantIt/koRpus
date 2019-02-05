@@ -7,7 +7,7 @@
 \title{Remove word classes}
 \usage{
 filterByClass(txt, corp.rm.class = "nonpunct", corp.rm.tag = c(),
-  as.vector = FALSE, update.desc = TRUE)
+  as.vector = FALSE, update.desc = TRUE, ...)
 
 \S4method{filterByClass}{kRp.taggedText}(txt, corp.rm.class = "nonpunct",
   corp.rm.tag = c(), as.vector = FALSE, update.desc = TRUE)
@@ -31,6 +31,8 @@ which survived the filtering.}
 using the filtered text. If \code{FALSE},
       the \code{desc} slot will be copied from the original object.
 Finally, if \code{NULL}, the \code{desc} slot remains empty.}
+
+\item{...}{Additional options, currently unused.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE},

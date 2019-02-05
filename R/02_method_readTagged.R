@@ -49,6 +49,7 @@
 #' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
+#' @param ... Additional options, currently unused.
 #' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE}, prints internal variable settings and
 #'    attempts to return the original output if the TreeTagger system call in a matrix.
 #' @keywords misc
@@ -77,7 +78,7 @@
 #' }
 setGeneric("readTagged", function(file, lang="kRp.env", encoding=NULL,
   tagger="TreeTagger", apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env"){standardGeneric("readTagged")})
+  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env", ...){standardGeneric("readTagged")})
 
 
 #' @export

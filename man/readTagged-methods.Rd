@@ -12,7 +12,7 @@
 readTagged(file, lang = "kRp.env", encoding = NULL,
   tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
   "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env")
+  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env", ...)
 
 \S4method{readTagged}{matrix}(file, lang = "kRp.env", encoding = NULL,
   tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
@@ -84,6 +84,8 @@ this function.}
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
 to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
+
+\item{...}{Additional options, currently unused.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE},

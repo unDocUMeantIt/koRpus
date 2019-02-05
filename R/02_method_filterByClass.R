@@ -31,6 +31,7 @@
 #' @param update.desc Logical. If \code{TRUE}, the \code{desc} slot of the tagged object will be fully recalculated
 #'    using the filtered text. If \code{FALSE}, the \code{desc} slot will be copied from the original object.
 #'    Finally, if \code{NULL}, the \code{desc} slot remains empty.
+#' @param ... Additional options, currently unused.
 #' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE}, returns only a character vector.
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 #' @keywords misc
@@ -42,7 +43,7 @@
 #' \dontrun{
 #'    filterByClass(tagged.text)
 #' }
-setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){standardGeneric("filterByClass")})
+setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE, ...){standardGeneric("filterByClass")})
 
 #' @export
 #' @docType methods
