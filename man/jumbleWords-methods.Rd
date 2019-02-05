@@ -7,7 +7,7 @@
 \alias{jumbleWords,character-method}
 \title{Produce jumbled words}
 \usage{
-jumbleWords(words, min.length = 3, intact = c(start = 1, end = 1), ...)
+jumbleWords(words, ...)
 
 \S4method{jumbleWords}{kRp.taggedText}(words, min.length = 3,
   intact = c(start = 1, end = 1))
@@ -18,6 +18,8 @@ jumbleWords(words, min.length = 3, intact = c(start = 1, end = 1), ...)
 \arguments{
 \item{words}{Either a character vector or an object inheriting from class \code{kRp.tagged}.}
 
+\item{...}{Additional options, currently unused.}
+
 \item{min.length}{An integer value,
       defining the minimum word length. Words with less characters
 will not be changed. Grapheme clusters are counted as one.}
@@ -25,8 +27,6 @@ will not be changed. Grapheme clusters are counted as one.}
 \item{intact}{A named vector with the two integer values named \code{start} and \code{stop}.
 These define how many characters of each relevant words will be left unchanged at its start
 and its end, respectively.}
-
-\item{...}{Additional options, currently unused.}
 }
 \value{
 Depending on the class of \code{words}, either a character vector or tagged text object.

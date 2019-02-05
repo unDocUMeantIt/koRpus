@@ -9,10 +9,7 @@
 \alias{readTagged,character-method}
 \title{Import already tagged texts}
 \usage{
-readTagged(file, lang = "kRp.env", encoding = NULL,
-  tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
-  "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env", ...)
+readTagged(file, ...)
 
 \S4method{readTagged}{matrix}(file, lang = "kRp.env", encoding = NULL,
   tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
@@ -43,6 +40,8 @@ readTagged(file, lang = "kRp.env", encoding = NULL,
 containing the previously analyzed text. If it is a matrix,
       it must contain three columns named "token", "tag", and "lemma",
 and only these three columns are used.}
+
+\item{...}{Additional options, currently unused.}
 
 \item{lang}{A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 for all supported languages.
@@ -84,8 +83,6 @@ this function.}
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
 to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
-
-\item{...}{Additional options, currently unused.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE},

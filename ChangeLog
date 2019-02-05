@@ -5,6 +5,7 @@ unreleased:
   - this release is under development
 fixed:
   - query(): method was broken for tagged objects
+  - textTransform(): method was broken
 added:
   - query(): new method for objects of class data.frame, which is now used if
     query() is being called on koRpus class objects

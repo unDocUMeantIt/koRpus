@@ -6,14 +6,15 @@
 \alias{filterByClass,kRp.taggedText-method}
 \title{Remove word classes}
 \usage{
-filterByClass(txt, corp.rm.class = "nonpunct", corp.rm.tag = c(),
-  as.vector = FALSE, update.desc = TRUE, ...)
+filterByClass(txt, ...)
 
 \S4method{filterByClass}{kRp.taggedText}(txt, corp.rm.class = "nonpunct",
   corp.rm.tag = c(), as.vector = FALSE, update.desc = TRUE)
 }
 \arguments{
 \item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
+
+\item{...}{Additional options, currently unused.}
 
 \item{corp.rm.class}{A character vector with word classes which should be removed. The default value
 \code{"nonpunct"} has special meaning and will cause the result of
@@ -31,8 +32,6 @@ which survived the filtering.}
 using the filtered text. If \code{FALSE},
       the \code{desc} slot will be copied from the original object.
 Finally, if \code{NULL}, the \code{desc} slot remains empty.}
-
-\item{...}{Additional options, currently unused.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE},

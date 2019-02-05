@@ -6,7 +6,7 @@
 \alias{textTransform,kRp.taggedText-method}
 \title{Letter case transformation}
 \usage{
-textTransform(txt, scheme, p = 0.5, paste = FALSE)
+textTransform(txt, ...)
 
 \S4method{textTransform}{kRp.taggedText}(txt, scheme, p = 0.5,
   paste = FALSE)
