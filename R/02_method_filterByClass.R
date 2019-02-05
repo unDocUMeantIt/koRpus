@@ -43,7 +43,7 @@
 #' \dontrun{
 #'    filterByClass(tagged.text)
 #' }
-setGeneric("filterByClass", function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE, ...){standardGeneric("filterByClass")})
+setGeneric("filterByClass", function(txt, ...){standardGeneric("filterByClass")})
 
 #' @export
 #' @docType methods

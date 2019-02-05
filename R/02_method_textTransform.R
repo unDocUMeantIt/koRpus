@@ -54,7 +54,7 @@
 #' tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
 #' textTransform(tagged.text.obj, scheme="random", paste=TRUE)
 #' }
-setGeneric("textTransform", function(txt, scheme, p=0.5, paste=FALSE){standardGeneric("textTransform")})
+setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")})
 
 #' @export
 #' @docType methods

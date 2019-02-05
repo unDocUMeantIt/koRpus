@@ -76,9 +76,7 @@
 #'   # call it on the file directly
 #'   tagged.results <- readTagged("~/my.data/tagged_speech.txt", lang="en")
 #' }
-setGeneric("readTagged", function(file, lang="kRp.env", encoding=NULL,
-  tagger="TreeTagger", apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env", ...){standardGeneric("readTagged")})
+setGeneric("readTagged", function(file, ...){standardGeneric("readTagged")})
 
 
 #' @export

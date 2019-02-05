@@ -38,7 +38,7 @@
 #'   tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
 #'   pasteText(tagged.text.obj)
 #' }
-setGeneric("pasteText", function(txt, replace=c(hon.kRp="", hoff.kRp="\n\n", p.kRp="\n\n"), ...){standardGeneric("pasteText")})
+setGeneric("pasteText", function(txt, ...){standardGeneric("pasteText")})
 
 
 #' @export

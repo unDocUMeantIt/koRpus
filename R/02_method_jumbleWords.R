@@ -39,7 +39,7 @@
 #' \dontrun{
 #'    jumbled.text <- jumbleWords(tagged.text)
 #' }
-setGeneric("jumbleWords", function(words, min.length=3, intact=c(start=1, end=1), ...){standardGeneric("jumbleWords")})
+setGeneric("jumbleWords", function(words, ...){standardGeneric("jumbleWords")})
 
 #' @export
 #' @docType methods
