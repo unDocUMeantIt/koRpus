@@ -46,7 +46,7 @@ By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.tr
 Transforms text in koRpus objects token by token.
 }
 \details{
-This function is mainly intended to produce text material for experiments.
+This method is mainly intended to produce text material for experiments.
 }
 \examples{
 \dontrun{

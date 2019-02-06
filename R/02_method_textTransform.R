@@ -20,7 +20,7 @@
 #' 
 #' Transforms text in koRpus objects token by token.
 #'
-#' This function is mainly intended to produce text material for experiments.
+#' This method is mainly intended to produce text material for experiments.
 #'
 #' @param txt An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
@@ -71,7 +71,7 @@ setMethod("textTransform",
   signature(txt="kRp.taggedText"),
   function(txt, scheme, p=0.5, paste=FALSE){
 
-    txt.df <- taggedText(txt)
+    txt.df <- txt.orig <- taggedText(txt)
 
     if(identical(scheme, "minor")){
       # change first letter to lower case
@@ -137,8 +137,13 @@ setMethod("textTransform",
     if(isTRUE(paste)){
       results <- kRp.text.paste(txt.df)
     } else {
-        tokens.orig      <- taggedText(txt)[["token"]]
-        tokens.orig.np   <- tagged.txt.rm.classes(taggedText(txt), lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
+        # keep an already present "token.orig" if present
+        if("token.orig" %in% colnames(txt.orig)){
+          tokens.orig      <- txt.orig[["token.orig"]]
+        } else {
+          tokens.orig      <- txt.orig[["token"]]
+        }
+        tokens.orig.np   <- tagged.txt.rm.classes(txt.orig, lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
         tokens.trans     <- txt.df[["token"]]
         tokens.trans.np  <- tagged.txt.rm.classes(txt.df, lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
 
