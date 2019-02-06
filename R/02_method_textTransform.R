@@ -88,7 +88,7 @@ setMethod("textTransform",
     } else if(identical(scheme, "random")){
       # randomly begin with upper or lower case letters
       # p defines the probability of upper case
-      num.words <- nrow(taggedText(txt.df))
+      num.words <- nrow(txt.df)
       num.upper <- round(num.words * p)
       upper.select <- 1:num.words %in% sample(1:num.words, num.upper)
       txt.df[upper.select,"token"] <- text.1st.letter(txt.df[upper.select,"token"], "upper")
