@@ -19,7 +19,7 @@ This class is used for objects that are returned by \code{\link[koRpus:textTrans
 
 \item{\code{TT.res}}{A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged},
       plus
-the new columns \code{token.old} and \code{equal}).}
+the new columns \code{token.orig} and \code{equal}).}
 
 \item{\code{diff}}{A list with atomic vectors,
       describing the amount of diffences between both text variants (percentage):

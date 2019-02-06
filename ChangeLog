@@ -1,11 +1,14 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-6 (2019-02-05)
+changes in version 0.11-6 (2019-02-06)
 unreleased:
   - this release is under development
 fixed:
   - query(): method was broken for tagged objects
   - textTransform(): method was broken
+  - class kRp.txt.trans: renamed column "token.old" into "token.orig", which
+    is what was actually used by textTransform(); also added a validity test
+    for those column names to prevent confusion
 added:
   - query(): new method for objects of class data.frame, which is now used if
     query() is being called on koRpus class objects
