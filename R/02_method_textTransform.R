@@ -140,10 +140,11 @@ setMethod("textTransform",
         # keep an already present "token.orig" if present
         if("token.orig" %in% colnames(txt.orig)){
           tokens.orig      <- txt.orig[["token.orig"]]
+          tokens.orig.np   <- tagged.txt.rm.classes(originalText(txt), lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
         } else {
           tokens.orig      <- txt.orig[["token"]]
+          tokens.orig.np   <- tagged.txt.rm.classes(txt.orig, lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
         }
-        tokens.orig.np   <- tagged.txt.rm.classes(txt.orig, lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
         tokens.trans     <- txt.df[["token"]]
         tokens.trans.np  <- tagged.txt.rm.classes(txt.df, lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
 
@@ -168,10 +169,15 @@ setMethod("textTransform",
         old.new.comp[["equal"]] <- tokens.equal
 
         results <- kRp_txt_trans(
-                  lang=language(txt),
-                  TT.res=old.new.comp,
-                  diff=list(all.tokens=diff.pct.words.all, words=diff.pct.words, all.chars=diff.pct.lett.all, letters=diff.pct.lett))
-        message(paste0("Difference between objects\n    Words: ", round(diff.pct.words, digits=2), "%\n  Letters: ", round(diff.pct.lett, digits=2),"%"))
+          lang=language(txt),
+          TT.res=old.new.comp,
+          diff=list(
+            all.tokens=diff.pct.words.all,
+            words=diff.pct.words,
+            all.chars=diff.pct.lett.all,
+            letters=diff.pct.lett
+          )
+        )
     }
 
     return(results)

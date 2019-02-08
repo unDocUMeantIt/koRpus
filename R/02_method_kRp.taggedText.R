@@ -29,6 +29,13 @@
 #'   \item{\code{fixObject} }{returns the same object upgraded to the object structure of this package version (e.g., new columns, changed names, etc.).}
 #'   \item{\code{tif_as_tokens_df} }{returns the \code{TT.res} slot in a TIF[1] compliant format, i.e., \code{doc_id} is not a factor but a character vector.}
 #' }
+#'
+#' These methods are only available for already transformed text objects (class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}):
+#' \itemize{
+#'   \item{\code{originalText()} }{similar to \code{taggedText()}, but reverts the transformation back to the original text before returning the \code{TT.res} slot.}
+#'   \item{\code{diffText()} }{returns the \code{diff} slot.}
+#' }
+#'
 #' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
 #'    for all POS tags.
 #' @param doc_id Logical (except for \code{fixObject}), if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
@@ -81,7 +88,7 @@ setGeneric("taggedText<-", function(obj, value) standardGeneric("taggedText<-"))
 #' @aliases
 #'    taggedText<-,-methods
 #'    taggedText<-,kRp.taggedText-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("taggedText<-",
   signature=signature(obj="kRp.taggedText"),
   function (obj, value){
@@ -99,7 +106,7 @@ setMethod("taggedText<-",
 #' @aliases
 #'    [,-methods
 #'    [,kRp.taggedText,ANY,ANY-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("[",
   signature=signature(x="kRp.taggedText"),
   function (x, i, j){
@@ -113,7 +120,7 @@ setMethod("[",
 #' @aliases
 #'    [<-,-methods
 #'    [<-,kRp.taggedText,ANY,ANY,ANY-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("[<-",
   signature=signature(x="kRp.taggedText"),
   function (x, i, j, value){
@@ -128,7 +135,7 @@ setMethod("[<-",
 #' @aliases
 #'    [[,-methods
 #'    [[,kRp.taggedText,ANY-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("[[",
   signature=signature(x="kRp.taggedText"),
   function (x, i){
@@ -142,7 +149,7 @@ setMethod("[[",
 #' @aliases
 #'    [[<-,-methods
 #'    [[<-,kRp.taggedText,ANY,ANY-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("[[<-",
   signature=signature(x="kRp.taggedText"),
   function (x, i, value){
@@ -159,7 +166,7 @@ setMethod("[[<-",
 #' @aliases
 #'    describe,-methods
 #'    describe,kRp.taggedText-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("describe",
   signature=signature(obj="kRp.taggedText"),
   function (obj){
@@ -176,7 +183,7 @@ setMethod("describe",
 #' @aliases
 #'    describe<-,-methods
 #'    describe<-,kRp.taggedText-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("describe<-",
   signature=signature(obj="kRp.taggedText"),
   function (obj, value){
@@ -193,7 +200,7 @@ setMethod("describe<-",
 #' @aliases
 #'    language,-methods
 #'    language,kRp.taggedText-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("language",
   signature=signature(obj="kRp.taggedText"),
   function (obj){
@@ -210,7 +217,7 @@ setMethod("language",
 #' @aliases
 #'    language<-,-methods
 #'    language<-,kRp.taggedText-method
-#' @include koRpus-internal.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("language<-",
   signature=signature(obj="kRp.taggedText"),
   function (obj, value){
@@ -219,9 +226,73 @@ setMethod("language<-",
   }
 )
 
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+setGeneric("diffText", function(obj, value) standardGeneric("diffText"))
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    diffText,-methods
+#'    diffText,kRp.taggedText-method
+#' @include 01_class_04_kRp.txt.trans.R
+setMethod("diffText",
+  signature=signature(obj="kRp.txt.trans"),
+  function (obj){
+    result <- slot(obj, name="diff")
+    return(result)
+  }
+)
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+setGeneric("diffText<-", function(obj, value) standardGeneric("diffText<-"))
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    diffText<-,-methods
+#'    diffText<-,kRp.taggedText-method
+#' @include 01_class_04_kRp.txt.trans.R
+setMethod("diffText<-",
+  signature=signature(obj="kRp.txt.trans"),
+  function (obj, value){
+    slot(obj, name="diff") <- value
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+setGeneric("originalText", function(obj, value) standardGeneric("originalText"))
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    originalText,-methods
+#'    originalText,kRp.taggedText-method
+#' @include 01_class_04_kRp.txt.trans.R
+setMethod("originalText",
+  signature=signature(obj="kRp.txt.trans"),
+  function (obj){
+    tagged <- taggedText(obj)
+    cols <- colnames(tagged)
+    tagged[["token"]] <- tagged[["token.orig"]]
+    result <- tagged[,cols[!cols %in% c("token.orig","equal")]]
+    return(result)
+  }
+)
+
+
 #' @param obj An arbitrary \code{R} object.
 #' @rdname kRp.taggedText-methods
 #' @export
+#' @include 01_class_80_kRp.taggedText_union.R
 is.taggedText <- function(obj){
   inherits(obj, "kRp.taggedText")
 }
@@ -237,6 +308,7 @@ setGeneric("fixObject", function(obj, doc_id=NA) standardGeneric("fixObject"))
 #' @aliases
 #'    fixObject,-methods
 #'    fixObject,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("fixObject",
   signature=signature(obj="kRp.taggedText"),
   function (obj, doc_id=NA){
@@ -292,6 +364,7 @@ setGeneric("tif_as_tokens_df", function(tokens) standardGeneric("tif_as_tokens_d
 #' @aliases
 #'    tif_as_tokens_df,-methods
 #'    tif_as_tokens_df,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("tif_as_tokens_df",
   signature=signature(tokens="kRp.taggedText"),
   function(tokens){

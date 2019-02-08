@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-6 (2019-02-06)
+changes in version 0.11-6 (2019-02-08)
 unreleased:
   - this release is under development
 fixed:
@@ -19,6 +19,10 @@ added:
     the kRp.filter.wclass() function, which is now deprecated
   - pasteText(): like filterByClass(), but replacing kRp.text.paste()
   - readTagged(): like filterByClass(), but replacing read.tagged()
+  - diffText()/diffText()<-: new getter/setter methods for the "diff" slot of
+    transformed text objects
+  - originalText(): new method to revert text transformations and get the
+    original text
 changed:
   - language support: if you try using a preset but the langauge package wasn't
     loaded or even installed, a more elaborate error message is returned with
