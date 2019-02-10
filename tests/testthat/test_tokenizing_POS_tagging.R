@@ -349,3 +349,14 @@ test_that("query", {
   )
 
 })
+
+
+## TODO: tests for
+# readTagged()
+# filterByClass()
+# pasteText()
+# textTransform()
+# jumbleWords()
+# diffText()/diffText()<-
+# originalText()
+# clozeDelete()
