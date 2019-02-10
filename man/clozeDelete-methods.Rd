@@ -34,8 +34,7 @@ be repeated this much times). If set to 0,
       the replacement wil be as long as the replaced word.}
 }
 \value{
-An object of class kRp.tagged, with an additional list \code{cloze} in its
-   \code{desc} slot, listing the words which were changed.
+An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 }
 \description{
 If you feed a tagged text object to this function, its text will be transformed into

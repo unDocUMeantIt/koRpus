@@ -24,12 +24,22 @@ added:
   - originalText(): new method to revert text transformations and get the
     original text
 changed:
+  - class kRp.txt.trans: "diff" slot now also lists the transformations done to
+    the tokens in a new list element called "transfmt"
   - language support: if you try using a preset but the langauge package wasn't
     loaded or even installed, a more elaborate error message is returned with
     hopefully useful hints to what to try next
-  - jumbleWords(): now a S4 method, no longer a function
+  - jumbleWords(): now a S4 method, no longer a function; the resulting object is
+    now also of class kRp.txt.trans if the input was a tagged text object,
+    preserving the original tokens
+  - clozeDelete(): now returns an object of class kRp.txt.trans, dropping the
+    additional data frame in "desc"; this ist much more consistent with
+    other text transformations in the packahe
   - moved class union definition kRp.taggedText to its own file and updated
     the import calls on a number of files accordingly
+  - textTransform(): moved the whole code segment that combines the transformed
+    text into the returned object to a separate internal function so it can be
+    re-used by other text transforming methods
   - restructured source code files
 
 changes in version 0.11-5 (2018-10-27)

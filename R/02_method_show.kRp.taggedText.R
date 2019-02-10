@@ -26,14 +26,6 @@
 setMethod("show", signature(object="kRp.taggedText"), function(object){
   txt <- taggedText(object)
 
-  if(inherits(object, "kRp.txt.trans")){
-    diff <- diffText(object)
-    message(paste0(
-      "Difference between objects\n    Words: ", round(diff[["words"]], digits=2),
-      "%\n  Letters: ", round(diff[["letters"]], digits=2),"%\n"
-    ))
-  } else {}
-
   # only print head an tail of long texts
   headLength <- formals(head.matrix)[["n"]]
   if(isTRUE(nrow(txt) > (headLength * 2 + 1))){
@@ -60,4 +52,15 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
   } else {
     show(txt)
   }
+
+  # add some stats if text was transformed
+  if(inherits(object, "kRp.txt.trans")){
+    diff <- diffText(object)
+    message(paste0(
+      "\nDifference between original and transformed text (punctuation ignored)\n",
+      "            Words: ", round(diff[["words"]], digits=2),"%\n",
+      "          Letters: ", round(diff[["letters"]], digits=2),"%\n",
+      "  Transformations: \"", paste0(diff[["transfmt"]], collapse="\", \""), "\""      
+    ))
+  } else {}
 })

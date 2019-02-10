@@ -29,8 +29,7 @@
 #' @export
 #' @docType methods
 #' @param ... Additional arguments to the method (as described in this document).
-#' @return An object of class kRp.tagged, with an additional list \code{cloze} in its
-#'    \code{desc} slot, listing the words which were changed.
+#' @return An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @rdname clozeDelete-methods
 setGeneric("clozeDelete", function(obj, ...){standardGeneric("clozeDelete")})
 
@@ -77,7 +76,7 @@ setMethod("clozeDelete",
         rmLetters <- sum(changedTxt[["lttr"]])
         allLetters <- slot(obj, "desc")[["letters.only"]]
         cat(headLine(paste0("Cloze variant ", idx+1, " (offset ", idx, ")")), "\n\n",
-          kRp.text.paste(clozeTxt), "\n\n\n", headLine(paste0("Changed text (offset ", idx, "):"), level=2), "\n\n",
+          pasteText(clozeTxt), "\n\n\n", headLine(paste0("Changed text (offset ", idx, "):"), level=2), "\n\n",
           sep="")
         print(changedTxt)
         cat("\n\n", headLine(paste0("Statistics (offset ", idx, "):"), level=2), "\n", sep="")
@@ -106,7 +105,6 @@ setMethod("clozeDelete",
       txtToChange[0:max(0,offset-1)] <- FALSE
 
       relevant.text <- tagged.text[txtToChange, "token"]
-      textThatWasChanged <- tagged.text[txtToChange, ]
       # check if the deleted text should be replaced by a line with fixed length
       if(identical(fixed, 0)){
         relevant.text <- clozify(relevant.text, replace.by=replace.by)
@@ -115,12 +113,8 @@ setMethod("clozeDelete",
       }
       tagged.text[txtToChange, "token"] <- relevant.text
 
-      clozeDesc <- list(origText=textThatWasChanged)
-
-      # put the altered text back into the tagged object
-      slot(obj, "TT.res") <- tagged.text
-      slot(obj, "desc")[["cloze"]] <- clozeDesc
-      return(obj)
+      results <- txt_trans_diff(obj=obj, TT.res.new=tagged.text, transfmt="clozeDelete")
+      return(results)
     }
   }
 )

@@ -108,7 +108,7 @@ are separated by space. This will add extra tags into the text: "<kRp.h>" (headl
 and "<kRp.p/>" (paragraph),
       respectively. This can be useful in two cases: "</kRp.h>" will be treated like a sentence ending,
 which gives you more control for automatic analyses. And adding to that,
-      \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}
+      \code{\link[koRpus:pasteText]{pasteText}}
 can replace these tags, which probably preserves more of the original layout.
 }
 \examples{

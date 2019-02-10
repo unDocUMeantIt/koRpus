@@ -430,8 +430,10 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
 ## function tagged.txt.rm.classes()
 # takes a tagged text object and returns it without punctuation or other defined
 # classes or tags. can also return tokens in lemmatized form.
+# boolean: don't return the actual reduced data, but a logical vector indicating
+#   which values (i.e. rows) would have been removed
 # NOTE: "lemma" only takes effect if "as.vector=TRUE"!
-tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm.tag, as.vector=TRUE){
+tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm.tag, as.vector=TRUE, boolean=FALSE){
   # to avoid needless NOTEs from R CMD check
   wclass <- tag <- rel.col <- NULL
 
@@ -473,17 +475,21 @@ tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm
     }
   } else {}
 
-  # return only a vetor with the tokens itself, or the whole object?
-  if(isTRUE(as.vector)){
+  # in this vector, FALSE means "remove"
+  rm.boolean <- !txt.cleaned[["tag"]] %in% txt.rm.tags
+
+  if(isTRUE(boolean)){
+    return(rm.boolean)
+  } else if(isTRUE(as.vector)){
+    # return only a vetor with the tokens itself, or the whole object?
     if(isTRUE(lemma)){
-      txt.cleaned <- as.vector(subset(txt.cleaned, !tag %in% txt.rm.tags)[,"lemma"])
+      return(txt.cleaned[rm.boolean,"lemma"])
     } else{
-      txt.cleaned <- as.vector(subset(txt.cleaned, !tag %in% txt.rm.tags)[,"token"])
+      return(txt.cleaned[rm.boolean,"token"])
     }
   } else {
-    txt.cleaned <- subset(txt.cleaned, !tag %in% txt.rm.tags)
+    return(txt.cleaned[rm.boolean,])
   }
-  return(txt.cleaned)
 } ## end function tagged.txt.rm.classes()
 
 
@@ -1108,7 +1114,7 @@ txt.compress <- function(obj, level=9, ratio=FALSE, in.mem=TRUE){
   if(is.character(obj)){
     txt <- obj
   } else if(inherits(obj, "kRp.tagged")){
-    txt <- kRp.text.paste(obj)
+    txt <- pasteText(obj)
   } else {
     stop(simpleError("Cannot compress objects which are neither character nor of a koRpus class!"))
   }

@@ -30,7 +30,8 @@
 #'    These define how many characters of each relevant words will be left unchanged at its start
 #'    and its end, respectively.
 #' @param ... Additional options, currently unused.
-#' @return Depending on the class of \code{words}, either a character vector or tagged text object.
+#' @return Depending on the class of \code{words}, either a character vector or an object of class
+#'    \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @import methods
 #' @docType methods
 #' @export
@@ -53,8 +54,8 @@ setMethod("jumbleWords",
   function(words, min.length=3, intact=c(start=1, end=1)){
     words.TT.res <- taggedText(words)
     words.TT.res[["token"]] <- kRp_jumbleWords(words=words.TT.res[["token"]], min.length=min.length, intact=intact)
-    taggedText(words) <- words.TT.res
-    return(words)
+    results <- txt_trans_diff(obj=words, TT.res.new=words.TT.res, transfmt="jumbleWords")
+    return(results)
   }
 )
 

@@ -29,12 +29,13 @@
 #' @slot desc Descriptive statistics of the tagged text.
 #' @slot TT.res A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged}, plus
 #'    the new columns \code{token.orig} and \code{equal}).
-#' @slot diff A list with atomic vectors, describing the amount of diffences between both text variants (percentage):
+#' @slot diff A list with mostly atomic vectors, describing the amount of diffences between both text variants (percentage):
 #'    \describe{
 #'      \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation, that were altered.}
 #'      \item{\code{words}:}{Percentage of altered words only.}
 #'      \item{\code{all.chars}:}{Percentage of all characters, including punctuation, that were altered.}
 #'      \item{\code{letters}:}{Percentage of altered letters in words only.}
+#'      \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
 #'    }
 #' @name kRp.txt.trans,-class
 #' @aliases kRp.txt.trans-class

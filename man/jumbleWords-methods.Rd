@@ -29,7 +29,8 @@ These define how many characters of each relevant words will be left unchanged a
 and its end, respectively.}
 }
 \value{
-Depending on the class of \code{words}, either a character vector or tagged text object.
+Depending on the class of \code{words}, either a character vector or an object of class
+   \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 }
 \description{
 This method either takes a character vector or objects inheriting class \code{kRp.tagged}

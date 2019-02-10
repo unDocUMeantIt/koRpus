@@ -34,8 +34,7 @@ using the filtered text. If \code{FALSE},
 Finally, if \code{NULL}, the \code{desc} slot remains empty.}
 }
 \value{
-An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE},
-      returns only a character vector.
+An object of the input class. If \code{as.vector=TRUE}, returns only a character vector.
 }
 \description{
 This method strips off defined word classes of tagged text objects.

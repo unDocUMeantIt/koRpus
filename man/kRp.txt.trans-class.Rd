@@ -21,7 +21,7 @@ This class is used for objects that are returned by \code{\link[koRpus:textTrans
       plus
 the new columns \code{token.orig} and \code{equal}).}
 
-\item{\code{diff}}{A list with atomic vectors,
+\item{\code{diff}}{A list with mostly atomic vectors,
       describing the amount of diffences between both text variants (percentage):
 \describe{
   \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation,
@@ -30,6 +30,7 @@ the new columns \code{token.orig} and \code{equal}).}
   \item{\code{all.chars}:}{Percentage of all characters, including punctuation,
       that were altered.}
   \item{\code{letters}:}{Percentage of altered letters in words only.}
+  \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
 }}
 }}
 

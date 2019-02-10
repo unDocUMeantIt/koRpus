@@ -40,7 +40,7 @@ if \code{scheme="random"}).}
 \value{
 By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE},
       returns
-   an atomic character vector (via \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}).
+   an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 }
 \description{
 Transforms text in koRpus objects token by token.

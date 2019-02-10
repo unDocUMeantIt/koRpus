@@ -32,7 +32,7 @@
 #'    using the filtered text. If \code{FALSE}, the \code{desc} slot will be copied from the original object.
 #'    Finally, if \code{NULL}, the \code{desc} slot remains empty.
 #' @param ... Additional options, currently unused.
-#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{as.vector=TRUE}, returns only a character vector.
+#' @return An object of the input class. If \code{as.vector=TRUE}, returns only a character vector.
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 #' @keywords misc
 #' @import methods
@@ -57,7 +57,7 @@ setMethod("filterByClass",
   function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){
     txt.TT.res <- taggedText(txt)
     txt.desc <- describe(txt)
-    txt.doc_id <- 
+
     # set the language definition
     lang <- language.setting(txt, NULL)
 
@@ -67,7 +67,8 @@ setMethod("filterByClass",
       results <- pre.results
     } else {
       rownames(pre.results) <- NULL
-      results <- kRp_tagged(lang=lang, TT.res=pre.results)
+      results <- txt
+      taggedText(results) <- pre.results
       if(!is.null(update.desc)){
         if(isTRUE(update.desc)){
           describe(results) <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=txt.desc[["doc_id"]])

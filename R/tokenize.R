@@ -25,7 +25,7 @@
 #' A headline is assumed if a line of text without sentence ending punctuation is found, a paragraph if two blocks of text
 #' are separated by space. This will add extra tags into the text: "<kRp.h>" (headline starts), "</kRp.h>" (headline ends)
 #' and "<kRp.p/>" (paragraph), respectively. This can be useful in two cases: "</kRp.h>" will be treated like a sentence ending,
-#' which gives you more control for automatic analyses. And adding to that, \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}
+#' which gives you more control for automatic analyses. And adding to that, \code{\link[koRpus:pasteText]{pasteText}}
 #' can replace these tags, which probably preserves more of the original layout.
 #'
 #' @param txt Either an open connection, the path to directory with txt files to read and tokenize, or a vector object

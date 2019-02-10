@@ -42,7 +42,7 @@
 #'    if \code{scheme="random"}).
 #' @param paste Logical, see value section.
 #' @return By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE}, returns
-#'    an atomic character vector (via \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}).
+#'    an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @import methods
@@ -135,49 +135,9 @@ setMethod("textTransform",
     }
 
     if(isTRUE(paste)){
-      results <- kRp.text.paste(txt.df)
+      results <- pasteText(txt.df)
     } else {
-        # keep an already present "token.orig" if present
-        if("token.orig" %in% colnames(txt.orig)){
-          tokens.orig      <- txt.orig[["token.orig"]]
-          tokens.orig.np   <- tagged.txt.rm.classes(originalText(txt), lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
-        } else {
-          tokens.orig      <- txt.orig[["token"]]
-          tokens.orig.np   <- tagged.txt.rm.classes(txt.orig, lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
-        }
-        tokens.trans     <- txt.df[["token"]]
-        tokens.trans.np  <- tagged.txt.rm.classes(txt.df, lang=language(txt), corp.rm.class="nonpunct", corp.rm.tag=c())
-
-        letters.orig     <- unlist(strsplit(tokens.orig, ""))
-        letters.orig.np  <- unlist(strsplit(tokens.orig.np, ""))
-        letters.trans    <- unlist(strsplit(tokens.trans, ""))
-        letters.trans.np <- unlist(strsplit(tokens.trans.np, ""))
-
-        tokens.equal     <- tokens.orig == tokens.trans
-        tokens.equal.np  <- tokens.orig.np == tokens.trans.np
-        letters.equal    <- letters.orig == letters.trans
-        letters.equal.np <- letters.orig.np == letters.trans.np
-
-        diff.pct.words.all <- 100 * sum(!tokens.equal) / length(tokens.equal)
-        diff.pct.words     <- 100 * sum(!tokens.equal.np) / length(tokens.equal.np)
-        diff.pct.lett.all  <- 100 * sum(!letters.equal) / length(letters.equal)
-        diff.pct.lett      <- 100 * sum(!letters.equal.np) / length(letters.equal.np)
-
-        old.new.comp <- taggedText(txt)
-        old.new.comp[["token"]] <- tokens.trans
-        old.new.comp[["token.orig"]] <- tokens.orig
-        old.new.comp[["equal"]] <- tokens.equal
-
-        results <- kRp_txt_trans(
-          lang=language(txt),
-          TT.res=old.new.comp,
-          diff=list(
-            all.tokens=diff.pct.words.all,
-            words=diff.pct.words,
-            all.chars=diff.pct.lett.all,
-            letters=diff.pct.lett
-          )
-        )
+      results <- txt_trans_diff(obj=txt, TT.res.new=txt.df, transfmt=scheme)
     }
 
     return(results)
@@ -195,3 +155,78 @@ kRp.text.transform <- function(...){
   .Deprecated(new="textTransform")
   textTransform(...)
 }
+
+
+## function txt_trans_obj()
+# helper function to calculate the diff data and combine results in
+# proper kRp.txt.trans object
+# - obj: tagged text object (class kRp.taggedText)
+# - TT.res.new: the transformed TT.res data frame
+# returns an object of kRp.txt.trans
+#' @include 01_class_04_kRp.txt.trans.R
+txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
+  TT.res.orig <- old.new.comp <- taggedText(obj)
+  lang <- language(obj)
+
+  no_punct <- tagged.txt.rm.classes(TT.res.orig, lang=lang, corp.rm.class="nonpunct", corp.rm.tag=c(), boolean=TRUE)
+  all_letters <- TT.res.orig[["lttr"]]
+
+  if("token.orig" %in% colnames(TT.res.orig)){
+    # keep an already present "token.orig" if present
+    tokens.orig      <- TT.res.orig[["token.orig"]]
+  } else {
+    tokens.orig      <- TT.res.orig[["token"]]
+  }
+  tokens.trans     <- TT.res.new[["token"]]
+
+  tokens.equal     <- tokens.orig == tokens.trans
+  letters.diff     <- rep(0, length(tokens.equal))
+  letters.diff[!tokens.equal] <- sapply(
+    # only do this for tokens which are actually different from the originalText
+    which(!tokens.equal),
+    function(thisToken){
+      letters.orig <- unlist(strsplit(tokens.orig[thisToken], ""))
+      letters.trans <- unlist(strsplit(tokens.trans[thisToken], ""))
+      # transformations like clozeDelete might change the number of
+      # characters, so for a safe comparison, we'll discard all
+      # additional characters of the longer token
+      relevant_length <- min(length(letters.orig), length(letters.trans))
+      result <- sum(letters.orig[1:relevant_length] != letters.trans[1:relevant_length])
+      return(result)
+    }
+  )
+
+  tokens.orig.np   <- tokens.orig[no_punct]
+  tokens.trans.np  <- tokens.trans[no_punct]
+  tokens.equal.np  <- tokens.orig.np == tokens.trans.np
+  letters.diff.np  <- letters.diff[no_punct]
+  all_letters.np   <- all_letters[no_punct]
+
+  diff.pct.words.all <- 100 * sum(!tokens.equal) / length(tokens.equal)
+  diff.pct.words     <- 100 * sum(!tokens.equal.np) / length(tokens.equal.np)
+  diff.pct.lett.all  <- 100 * sum(letters.diff) / sum(all_letters)
+  diff.pct.lett      <- 100 * sum(letters.diff.np) / sum(all_letters.np)
+
+  old.new.comp[["token"]] <- tokens.trans
+  old.new.comp[["token.orig"]] <- tokens.orig
+  old.new.comp[["equal"]] <- tokens.equal
+  old.new.comp[["lttr.diff"]] <- letters.diff
+
+  if(inherits(obj, "kRp.txt.trans")){
+    transfmt <- c(diffText(obj)[["transfmt"]], transfmt)
+  } else {}
+
+  results <- kRp_txt_trans(
+    lang=lang,
+    TT.res=old.new.comp,
+    diff=list(
+      all.tokens=diff.pct.words.all,
+      words=diff.pct.words,
+      all.chars=diff.pct.lett.all,
+      letters=diff.pct.lett,
+      transfmt=transfmt
+    )
+  )
+  
+  return(results)
+} ## end function kRp_txt_trans_diff()
