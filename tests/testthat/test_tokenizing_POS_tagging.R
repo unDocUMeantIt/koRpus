@@ -222,6 +222,25 @@ test_that("fixing old objects", {
 })
 
 
+context("readTagged")
+
+test_that("importing already tagged texts", {
+  sampleTextFileTreeTagged <- normalizePath("sample_text_treetagged.txt")
+  sampleTextTreeTaggedStandard <- dget("sample_text_treetagged_dput.txt")
+
+  # running readTagged() on a character string already tests various
+  # methods, because the string is made into a connection and that
+  # in turn into a matrix, both times calling the appropriate readTagged()
+  # methods internally
+  treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy")
+
+  expect_equal(
+    treeTaggedText,
+    sampleTextTreeTaggedStandard
+  )
+})
+
+
 context("lexical diversity")
 
 test_that("lexical diversity", {
@@ -351,12 +370,32 @@ test_that("query", {
 })
 
 
-## TODO: tests for
-# readTagged()
-# filterByClass()
-# pasteText()
-# textTransform()
-# jumbleWords()
-# diffText()/diffText()<-
-# originalText()
-# clozeDelete()
+## TODO:
+# context("filterByClass")
+# 
+# test_that("filterByClass", {
+# })
+# 
+# 
+# context("pasteText")
+# 
+# test_that("pasteText", {
+# })
+# 
+# 
+# context("text transformation")
+# 
+# test_that("textTransform", {
+# })
+# 
+# test_that("jumbleWords", {
+# })
+# 
+# test_that("diffText", {
+# })
+# 
+# test_that("originalText", {
+# })
+# 
+# test_that("clozeDelete", {
+# })

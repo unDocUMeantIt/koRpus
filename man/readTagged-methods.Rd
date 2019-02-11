@@ -5,37 +5,36 @@
 \alias{readTagged}
 \alias{readTagged,matrix-method}
 \alias{readTagged,data.frame-method}
-\alias{readTagged,connection-method}
+\alias{readTagged,file-method}
 \alias{readTagged,character-method}
 \title{Import already tagged texts}
 \usage{
 readTagged(file, ...)
 
-\S4method{readTagged}{matrix}(file, lang = "kRp.env", encoding = NULL,
+\S4method{readTagged}{matrix}(file, lang = "kRp.env",
   tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
   "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
   rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env")
 
 \S4method{readTagged}{data.frame}(file, lang = "kRp.env",
-  encoding = NULL, tagger = "TreeTagger", apply.sentc.end = TRUE,
-  sentc.end = c(".", "!", "?", ";", ":"), stopwords = NULL,
-  stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
-  add.desc = "kRp.env")
+  tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
+  "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
+  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env")
 
-\S4method{readTagged}{connection}(file, lang = "kRp.env",
-  encoding = NULL, tagger = "TreeTagger", apply.sentc.end = TRUE,
-  sentc.end = c(".", "!", "?", ";", ":"), stopwords = NULL,
-  stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
+\S4method{readTagged}{file}(file, lang = "kRp.env",
+  encoding = "unknown", tagger = "TreeTagger",
+  apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL, stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
   add.desc = "kRp.env")
 
 \S4method{readTagged}{character}(file, lang = "kRp.env",
-  encoding = NULL, tagger = "TreeTagger", apply.sentc.end = TRUE,
-  sentc.end = c(".", "!", "?", ";", ":"), stopwords = NULL,
-  stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
+  encoding = getOption("encoding"), tagger = "TreeTagger",
+  apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL, stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
   add.desc = "kRp.env")
 }
 \arguments{
-\item{file}{Either a matrix, a connection or a character vector. If the latter,
+\item{file}{Either a matrix, a file connection or a character vector. If the latter,
       that must be a valid path to a file,
 containing the previously analyzed text. If it is a matrix,
       it must contain three columns named "token", "tag", and "lemma",
@@ -46,12 +45,6 @@ and only these three columns are used.}
 \item{lang}{A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 for all supported languages.
 If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.}
-
-\item{encoding}{A character string defining the character encoding of the input file,
-      like  \code{"Latin1"} or \code{"UTF-8"}.
-If \code{NULL},
-      the encoding will either be taken from a preset (if defined in \code{TT.options}), or fall back to \code{""}.
-Hence you can overwrite the preset encoding with this parameter.}
 
 \item{tagger}{The software which was used to tokenize and tag the text. Currently,
       TreeTagger is the only
@@ -83,6 +76,9 @@ this function.}
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
 to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
+
+\item{encoding}{A character string defining the character encoding of the input file,
+      like  \code{"Latin1"} or \code{"UTF-8"}.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE},

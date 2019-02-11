@@ -41,6 +41,7 @@
 #' @param p Numeric value between 0 and 1. Defines the probability for upper case letters (relevant only
 #'    if \code{scheme="random"}).
 #' @param paste Logical, see value section.
+#' @param ... Only used for the method generic.
 #' @return By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE}, returns
 #'    an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
