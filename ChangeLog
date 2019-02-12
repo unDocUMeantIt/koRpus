@@ -38,6 +38,8 @@ changed:
   - clozeDelete(): now returns an object of class kRp.txt.trans, dropping the
     additional data frame in "desc"; this ist much more consistent with
     other text transformations in the packahe
+  - cTest(): like clozeDelete() now returns an object of class kRp.txt.trans,
+    dropping the additional data frame in "desc"
   - moved class union definition kRp.taggedText to its own file and updated
     the import calls on a number of files accordingly
   - textTransform(): moved the whole code segment that combines the transformed

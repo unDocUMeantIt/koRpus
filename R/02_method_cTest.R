@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -35,9 +35,12 @@
 #' @export
 #' @param ... Additional arguments to the method (as described in this document).
 #' @docType methods
-#' @return And object of class kRp.tagged, with an additional list \code{cTest} in its
-#'    \code{desc} slot, listing the words which were changed.
+#' @return An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @rdname cTest-methods
+#' @examples
+#' \dontrun{
+#'   ctest.text <- cTest(tagged.text)
+#' }
 setGeneric("cTest", function(obj, ...){standardGeneric("cTest")})
 
 #### internal function 
@@ -74,8 +77,8 @@ setMethod("cTest",
     end <- ifelse("end" %in% names(intact), intact[["end"]], 1)
     stopifnot(start >= 0 && end >= 0)
 
-    lang <- slot(obj, "lang")
-    tagged.text <- slot(obj, "TT.res")
+    lang <- language(obj)
+    tagged.text <- taggedText(obj)
     # find out where the sentences end
     sntc.tags <- kRp.POS.tags(lang=lang, list.tags=TRUE, tags="sentc")
     txt.sntc.ends <- which(tagged.text[["tag"]] %in% sntc.tags)
@@ -90,11 +93,10 @@ setMethod("cTest",
     # now do the actual text alterations
     word.tags <- kRp.POS.tags(lang=lang, list.tags=TRUE, tags="words")
     txt.cTestified <- list()
-    textThatWasChanged <- list()
     for(idx in 1:num.sntc){
         this.sntc <- txt.sntc.list[[idx]]
         # check if this sentence needs manipulation at all
-        if(idx <= start || idx > (num.sntc - end)){
+        if(any(idx <= start, idx > (num.sntc - end))){
         } else {
           # we'll only care for actual words with min.length
           txtIsWord <- this.sntc[["tag"]] %in% word.tags
@@ -105,7 +107,6 @@ setMethod("cTest",
           txtToChangeTRUE <- which(txtToChange)
           txtToChange[txtToChangeTRUE[!seq_along(txtToChangeTRUE) %% every == 0]] <- FALSE
           relevant.text <- this.sntc[txtToChange, "token"]
-          textThatWasChanged[[idx]] <- this.sntc[txtToChange, ]
           relevant.text <- cTestify(relevant.text, replace.by=replace.by)
           this.sntc[txtToChange, "token"] <- relevant.text
         }
@@ -117,15 +118,8 @@ setMethod("cTest",
     for(this.sntc in txt.cTestified[-1]){
       result.DF <- rbind(result.DF, this.sntc)
     }
-    changed.DF <- textThatWasChanged[[1]]
-    for(this.sntc in textThatWasChanged[-1]){
-      changed.DF <- rbind(changed.DF, this.sntc)
-    }
-    cTestChanged <- list(origText=changed.DF)
 
-    # put the altered text back into the tagged object
-    slot(obj, "TT.res") <- result.DF
-    slot(obj, "desc")[["cTest"]] <- cTestChanged
-    return(obj)
+    results <- txt_trans_diff(obj=obj, TT.res.new=result.DF, transfmt="cTest")
+    return(results)
   }
 )

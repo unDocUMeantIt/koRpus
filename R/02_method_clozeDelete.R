@@ -31,6 +31,10 @@
 #' @param ... Additional arguments to the method (as described in this document).
 #' @return An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @rdname clozeDelete-methods
+#' @examples
+#' \dontrun{
+#'   clozed.text <- clozeDelete(tagged.text)
+#' }
 setGeneric("clozeDelete", function(obj, ...){standardGeneric("clozeDelete")})
 
 #### internal function 
