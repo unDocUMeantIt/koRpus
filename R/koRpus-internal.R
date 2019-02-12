@@ -152,33 +152,33 @@ basic.text.descriptives <- function(txt){
 #' @include 02_method_filterByClass.R
 basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, doc_id=NA){
   if(is.null(lang)){
-    lang <- txt@lang
+    lang <- language(txt)
   } else {}
   # create desc if not present
-  if(!is.null(txt.vector) && is.null(desc)){
+  if(all(!is.null(txt.vector), is.null(desc))){
     desc <- basic.text.descriptives(txt.vector)
   }
   # count sentences
   txt.stend.tags <- kRp.POS.tags(lang, list.tags=TRUE, tags="sentc")
-  txt.stend <- count.sentences(txt@TT.res, txt.stend.tags)
+  txt.stend <- count.sentences(taggedText(txt), txt.stend.tags)
   # count words
   txt.nopunct <- filterByClass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=NULL)
-  num.words <- nrow(txt.nopunct@TT.res)
+  num.words <- nrow(taggedText(txt.nopunct))
   avg.sentc.length <- num.words / txt.stend
 
   # character distribution
-  char.distrib <- value.distribs(txt@TT.res[["lttr"]], omit.missings=FALSE)
-  lttr.distrib <- value.distribs(txt.nopunct@TT.res[["lttr"]], omit.missings=FALSE)
+  char.distrib <- value.distribs(taggedText(txt)[["lttr"]], omit.missings=FALSE)
+  lttr.distrib <- value.distribs(taggedText(txt.nopunct)[["lttr"]], omit.missings=FALSE)
 
   # txt.desc$letters had all digits removed
   # we'll use these numbers as they are usually more exact than relying on correct tokenization
    if("letters.only" %in% names(desc)){
-     num.letters <- desc$letters.only + desc$digits
+     num.letters <- desc[["letters.only"]] + desc[["digits"]]
    } else {
-    num.letters <- desc$letters + desc$digits
+    num.letters <- desc[["letters"]] + desc[["digits"]]
     # for readability calculations
-    desc$letters.only <- desc$letters
-    desc$letters <- distrib.to.fixed(lttr.distrib, all.values=num.letters, idx="l")
+    desc[["letters.only"]] <- desc[["letters"]]
+    desc[["letters"]] <- distrib.to.fixed(lttr.distrib, all.values=num.letters, idx="l")
    }
   avg.word.length <- num.letters / num.words
 
