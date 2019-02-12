@@ -15,7 +15,6 @@ added:
     query() is being called on koRpus class objects
   - query(): now also supports all numerical queries for tagged texts that were
     previously only available for frequency objects
-  - new unit tests for query() method
   - filterByClass(): a new method for tagged text objects, replacing
     the kRp.filter.wclass() function, which is now deprecated
   - pasteText(): like filterByClass(), but replacing kRp.text.paste()
@@ -24,6 +23,9 @@ added:
     transformed text objects
   - originalText(): new method to revert text transformations and get the
     original text
+  - new unit tests for many methods, including query(), textTransform(),
+    readTagged(), filterByClass(), pasteText(), diffText(), originalText(),
+    jumbleWords(), and clozeDelete()
 changed:
   - class kRp.txt.trans: "diff" slot now also lists the transformations done to
     the tokens in a new list element called "transfmt"

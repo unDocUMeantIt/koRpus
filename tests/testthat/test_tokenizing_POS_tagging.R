@@ -525,10 +525,16 @@ test_that("diffText", {
   )
 })
 
-## TODO:
-# test_that("jumbleWords", {
-#   transJumbled <- jumbleWords(tokenizedSentence)
-# })
+test_that("jumbleWords", {
+  transJumbled <- jumbleWords(tokenizedSentence)
+
+  # it's hard to test the result properly, characters
+  # are reandomly reordered. but let's assume that
+  # very likely less than 6 tokens remained identical
+  expect_true(
+    sum(taggedText(transJumbled)[["equal"]]) < 6
+  )
+})
 
 test_that("clozeDelete", {
   transCloze <- clozeDelete(tokenizedSentence)
@@ -543,8 +549,8 @@ test_that("originalText", {
   transCloze <- clozeDelete(tokenizedSentence)
 
   expect_equal(
-    originalText(transCloze)[["token"]],
-    taggedText(tokenizedSentence)[["token"]]
+    originalText(transCloze),
+    taggedText(tokenizedSentence)
   )
 })
  
