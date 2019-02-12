@@ -16,6 +16,8 @@ textTransform(txt, ...)
       \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
 
+\item{...}{Only used for the method generic.}
+
 \item{scheme}{One of the following character strings:
 \itemize{
   \item {\code{"minor"}} {Start each word with a lowercase letter.}

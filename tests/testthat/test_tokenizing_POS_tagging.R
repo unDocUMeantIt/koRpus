@@ -370,32 +370,181 @@ test_that("query", {
 })
 
 
+context("filterByClass")
+
+test_that("filterByClass", {
+  sampleTextTreeTagged <- dget("sample_text_treetagged_dput.txt")
+  
+  sampleTextNoPunct <- filterByClass(sampleTextTreeTagged)
+  sampleTextNoNounsVerbs <- filterByClass(
+    sampleTextTreeTagged,
+    corp.rm.class=c("noun","verb")
+  )
+  sampleTextNoPossPron <- filterByClass(
+    sampleTextTreeTagged,
+    corp.rm.class=c(),
+    corp.rm.tag="PP$"
+  )
+
+  expect_equal(
+    nrow(taggedText(sampleTextNoPunct)),
+    556 # vs. 617
+  )
+  
+  expect_equal(
+    nrow(taggedText(sampleTextNoPossPron)),
+    608 # vs. 617
+  )
+
+  expect_equal(
+    nrow(taggedText(sampleTextNoNounsVerbs)),
+    358 # vs. 617
+  )
+
+  expect_equal(
+    describe(sampleTextNoPunct)[["all.chars"]],
+    3491 # vs. 3551
+  )
+
+  # the "punct" value is not counted by looking at the punctuation
+  # tags -- which should all have been removed now --, but on a
+  # character level. due to some punctuation not removed from tokens
+  # by the TreeTagger tokenizer, there's still some residual left
+  expect_equal(
+    describe(sampleTextNoPunct)[["punct"]],
+    17 # vs. 78
+  )
+  
+})
+
+
+context("pasteText")
+
+test_that("pasteText", {
+  sampleTextTreeTagged <- dget("sample_text_treetagged_dput.txt")
+  sampleTextFile <- normalizePath("sample_text.txt")
+
+  tokenizedTextFile <- tokenize(
+    sampleTextFile,
+    lang="xy",
+    detect=c(
+      parag=TRUE,
+      hline=TRUE
+    ),
+    add.desc=TRUE
+  )
+
+  treeTaggedPasted <- pasteText(sampleTextTreeTagged)
+  tokenizedPasted <- pasteText(tokenizedTextFile)
+
+  expect_equal(
+    nchar(treeTaggedPasted),
+    3550
+  )
+
+  expect_equal(
+    nchar(tokenizedPasted),
+    3559
+  )
+
+  expect_true(
+    all(
+      c(21,22,1207,1208) %in% grep("\n", unlist(strsplit(tokenizedPasted, "")))
+    )
+  )
+  
+})
+
+
+context("text transformation")
+
+# a sample sentence for later tests, defined globally for performance reasons
+tokenizedSentence <- tokenize(
+  "The defense mechanism most readily identifiable with Phasmatodea is camouflage.",
+  format="obj",
+  lang="xy",
+  add.desc=TRUE
+)
+  
+test_that("textTransform", {
+  transMinor <- textTransform(tokenizedSentence, scheme="minor")
+  transMajor <- textTransform(tokenizedSentence, scheme="major")
+  transAllMinor <- textTransform(tokenizedSentence, scheme="all.minor")
+  transAllMajor <- textTransform(tokenizedSentence, scheme="all.major")
+  transDENorm <- textTransform(tokenizedSentence, scheme="de.norm")
+  transDEInv <- textTransform(tokenizedSentence, scheme="de.inv")
+  transEUNorm <- textTransform(tokenizedSentence, scheme="eu.norm")
+  transEUInv <- textTransform(tokenizedSentence, scheme="eu.inv")
+  transRandom <- textTransform(tokenizedSentence, scheme="random")
+  
+  expect_equal(
+    sum(taggedText(transMinor)[["lttr.diff"]]),
+    2
+  )
+  expect_equal(
+    sum(taggedText(transMajor)[["lttr.diff"]]),
+    8
+  )
+  expect_equal(
+    sum(taggedText(transAllMinor)[["lttr.diff"]]),
+    2
+  )
+  expect_equal(
+    sum(taggedText(transAllMajor)[["lttr.diff"]]),
+    67
+  )
+  expect_equal(
+    sum(taggedText(transDENorm)[["lttr.diff"]]),
+    1
+  )
+  expect_equal(
+    sum(taggedText(transDEInv)[["lttr.diff"]]),
+    9
+  )
+  expect_equal(
+    sum(taggedText(transEUNorm)[["lttr.diff"]]),
+    1
+  )
+  expect_equal(
+    sum(taggedText(transEUInv)[["lttr.diff"]]),
+    9
+  )
+  expect_true(
+    sum(taggedText(transRandom)[["lttr.diff"]]) > 0
+  )
+})
+
+test_that("diffText", {
+  transMult <- textTransform(tokenizedSentence, scheme="minor")
+  transMult <- textTransform(transMult, scheme="major")
+  transMult <- textTransform(transMult, scheme="random")
+
+  expect_equal(
+    diffText(transMult)[["transfmt"]],
+    c("minor","major","random")
+  )
+})
+
 ## TODO:
-# context("filterByClass")
-# 
-# test_that("filterByClass", {
-# })
-# 
-# 
-# context("pasteText")
-# 
-# test_that("pasteText", {
-# })
-# 
-# 
-# context("text transformation")
-# 
-# test_that("textTransform", {
-# })
-# 
 # test_that("jumbleWords", {
+#   transJumbled <- jumbleWords(tokenizedSentence)
 # })
-# 
-# test_that("diffText", {
-# })
-# 
-# test_that("originalText", {
-# })
-# 
-# test_that("clozeDelete", {
-# })
+
+test_that("clozeDelete", {
+  transCloze <- clozeDelete(tokenizedSentence)
+
+  expect_equal(
+    sum(taggedText(transCloze)[["lttr.diff"]]),
+    17
+  )
+})
+
+test_that("originalText", {
+  transCloze <- clozeDelete(tokenizedSentence)
+
+  expect_equal(
+    originalText(transCloze)[["token"]],
+    taggedText(tokenizedSentence)[["token"]]
+  )
+})
+ 
