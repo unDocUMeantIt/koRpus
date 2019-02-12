@@ -307,7 +307,7 @@
 #' @param sentc.tag A character vector with POS tags which indicate a sentence ending. The default value \code{"sentc"} has special meaning and
 #'    will cause the result of \code{kRp.POS.tags(lang, tags="sentc", list.tags=TRUE)} to be used.
 #' @param nonword.class A character vector with word classes which should be ignored for readability analysis. The default value
-#'    \code{"nonpunct"} has special meaning and will cause the result of \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)}
+#'    \code{"nonpunct"} has special meaning and will cause the result of \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)}
 #'    to be used. Will only be of consequence if \code{hyphen} is not set!
 #' @param nonword.tag A character vector with POS tags which should be ignored for readability analysis. Will only be
 #'    of consequence if \code{hyphen} is not set!

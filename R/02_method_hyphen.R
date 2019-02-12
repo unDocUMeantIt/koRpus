@@ -31,7 +31,7 @@
 #' @param rm.hyph Logical, whether appearing hyphens in words should be removed before pattern matching.
 #' @param corp.rm.class A character vector with word classes which should be ignored. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
-#'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used. Relevant only if \code{words}
+#'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used. Relevant only if \code{words}
 #'    is a valid koRpus object.
 #' @param corp.rm.tag A character vector with POS tags which should be ignored. Relevant only if \code{words}
 #'    is a valid koRpus object.
