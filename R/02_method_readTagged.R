@@ -111,6 +111,7 @@ setMethod("readTagged",
 )
 
 
+setOldClass("file")
 #' @export
 #' @docType methods
 #' @rdname readTagged-methods

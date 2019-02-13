@@ -48,3 +48,8 @@ a format used for C-Tests:
      replaced}
 }
 }
+\examples{
+\dontrun{
+  ctest.text <- cTest(tagged.text)
+}
+}

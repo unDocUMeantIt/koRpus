@@ -48,3 +48,8 @@ The option \code{offset="all"} will not return one single object,
       but print the results after iterating
 through all possible offset values.
 }
+\examples{
+\dontrun{
+  clozed.text <- clozeDelete(tagged.text)
+}
+}
