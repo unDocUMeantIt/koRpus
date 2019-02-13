@@ -24,7 +24,7 @@
 #' Note that the value of \code{lang} must match a valid language supported by \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}.
 #' It will also get stored in the resulting object and might be used by other functions at a later point.
 #'
-#' @param file Either a matrix, a file connection or a character vector. If the latter, that must be a valid path to a file,
+#' @param file Either a matrix, a connection or a character vector. If the latter, that must be a valid path to a file,
 #'    containing the previously analyzed text. If it is a matrix, it must contain three columns named "token", "tag", and "lemma",
 #'    and only these three columns are used.
 #' @param lang A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
@@ -111,13 +111,12 @@ setMethod("readTagged",
 )
 
 
-setOldClass("file")
 #' @export
 #' @docType methods
 #' @rdname readTagged-methods
-#' @aliases readTagged,file-method
+#' @aliases readTagged,kRp.connection-method
 setMethod("readTagged",
-  signature(file="file"),
+  signature(file="kRp.connection"),
   function(file, lang="kRp.env", encoding="unknown", tagger="TreeTagger",
   apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
   stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env"){

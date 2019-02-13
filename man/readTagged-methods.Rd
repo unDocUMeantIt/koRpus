@@ -5,7 +5,7 @@
 \alias{readTagged}
 \alias{readTagged,matrix-method}
 \alias{readTagged,data.frame-method}
-\alias{readTagged,file-method}
+\alias{readTagged,kRp.connection-method}
 \alias{readTagged,character-method}
 \title{Import already tagged texts}
 \usage{
@@ -21,7 +21,7 @@ readTagged(file, ...)
   "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
   rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env")
 
-\S4method{readTagged}{file}(file, lang = "kRp.env",
+\S4method{readTagged}{kRp.connection}(file, lang = "kRp.env",
   encoding = "unknown", tagger = "TreeTagger",
   apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
   stopwords = NULL, stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
@@ -34,7 +34,7 @@ readTagged(file, ...)
   add.desc = "kRp.env")
 }
 \arguments{
-\item{file}{Either a matrix, a file connection or a character vector. If the latter,
+\item{file}{Either a matrix, a connection or a character vector. If the latter,
       that must be a valid path to a file,
 containing the previously analyzed text. If it is a matrix,
       it must contain three columns named "token", "tag", and "lemma",
