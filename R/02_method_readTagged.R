@@ -115,6 +115,7 @@ setMethod("readTagged",
 #' @docType methods
 #' @rdname readTagged-methods
 #' @aliases readTagged,kRp.connection-method
+#' @include 01_class_81_kRp.connection_union.R
 setMethod("readTagged",
   signature(file="kRp.connection"),
   function(file, lang="kRp.env", encoding="unknown", tagger="TreeTagger",

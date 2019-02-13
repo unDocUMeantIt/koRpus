@@ -212,6 +212,7 @@ setMethod("tokenize",
 #' @docType methods
 #' @rdname tokenize-methods
 #' @aliases tokenize,kRp.connection-method
+#' @include 01_class_81_kRp.connection_union.R
 setMethod("tokenize",
   signature(txt="kRp.connection"),
   function(txt, format=NA, fileEncoding=NULL, split="[[:space:]]",

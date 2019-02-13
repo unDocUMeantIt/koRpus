@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.11-6 (2019-02-08)
+changes in version 0.12-1 (2019-02-08)
 unreleased:
   - this release is under development
 fixed:
@@ -27,6 +27,8 @@ added:
     readTagged(), filterByClass(), pasteText(), diffText(), originalText(),
     jumbleWords(), and clozeDelete()
 changed:
+  - tokenize(): now a S4 method for objects of class character and connections
+  - treetag(): now a S4 method for objects of class character and connections
   - class kRp.txt.trans: "diff" slot now also lists the transformations done to
     the tokens in a new list element called "transfmt"
   - language support: if you try using a preset but the langauge package wasn't
