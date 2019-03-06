@@ -3,12 +3,12 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,kRp.tagged,missing-method}
+\alias{plot,kRp.taggedText,missing-method}
 \title{Plot method for objects of class kRp.tagged}
 \usage{
 plot(x, y, ...)
 
-\S4method{plot}{kRp.tagged,missing}(x, what = "wclass", ...)
+\S4method{plot}{kRp.taggedText,missing}(x, what = "wclass", ...)
 }
 \arguments{
 \item{x}{An object of class \code{kRp.tagged}}

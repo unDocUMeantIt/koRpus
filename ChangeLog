@@ -47,6 +47,9 @@ changed:
   - textTransform(): moved the whole code segment that combines the
     transformed text into the returned object to a separate internal function so it can
     be re-used by other text transforming methods
+  - cTest(): changed method signature from kRp.tagged to class union kRp.taggedText
+  - summary(): changed method signature from kRp.tagged to class union kRp.taggedText
+  - plot(): changed method signature from kRp.tagged to class union kRp.taggedText
   - restructured source code files
 
 changes in version 0.11-5 (2018-10-27)

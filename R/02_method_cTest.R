@@ -59,7 +59,7 @@ cTestify <- function(words, replace.by="_"){
 #' @export
 #' @docType methods
 #' @rdname cTest-methods
-#' @aliases cTest,kRp.tagged-method
+#' @aliases cTest,kRp.taggedText-method
 #' @param obj An object of class "kRp.taggedText"
 #' @param every Integer numeric, setting the frequency of words to be manipulated. By default,
 #'    every other word is being transformed.

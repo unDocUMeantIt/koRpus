@@ -4,7 +4,6 @@
 \name{cTest}
 \alias{cTest}
 \alias{cTest,kRp.taggedText-method}
-\alias{cTest,kRp.tagged-method}
 \title{Transform text into C-Test-like format}
 \usage{
 cTest(obj, ...)

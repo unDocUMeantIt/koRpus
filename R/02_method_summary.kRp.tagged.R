@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -47,7 +47,7 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' @export
 #' @docType methods
 #' @rdname summary-methods
-#' @aliases summary,kRp.tagged-method
+#' @aliases summary,kRp.taggedText-method
 #' @examples
 #' \dontrun{
 #' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
@@ -56,7 +56,7 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' }
 #' @include 01_class_01_kRp.tagged.R
 #' @include 02_method_summary.kRp.lang.R
-setMethod("summary", signature(object="kRp.tagged"), function(object){
+setMethod("summary", signature(object="kRp.taggedText"), function(object){
   # to prevent hiccups from R CMD check
   Row.names <- NULL
   desc <- object@desc

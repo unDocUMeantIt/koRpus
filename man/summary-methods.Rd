@@ -8,7 +8,7 @@
 \alias{summary,kRp.lang-method}
 \alias{summary,kRp.TTR-method}
 \alias{summary,kRp.readability-method}
-\alias{summary,kRp.tagged-method}
+\alias{summary,kRp.taggedText-method}
 \alias{summary,kRp.txt.freq-method}
 \title{Summary methods for koRpus objects}
 \usage{
@@ -20,7 +20,7 @@ summary(object, ...)
 
 \S4method{summary}{kRp.readability}(object, flat = FALSE)
 
-\S4method{summary}{kRp.tagged}(object)
+\S4method{summary}{kRp.taggedText}(object)
 
 \S4method{summary}{kRp.txt.freq}(object)
 }
