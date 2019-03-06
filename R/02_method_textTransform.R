@@ -158,7 +158,7 @@ kRp.text.transform <- function(...){
 }
 
 
-## function txt_trans_obj()
+## function txt_trans_diff()
 # helper function to calculate the diff data and combine results in
 # proper kRp.txt.trans object
 # - obj: tagged text object (class kRp.taggedText)
