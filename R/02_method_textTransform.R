@@ -172,12 +172,8 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
   no_punct <- tagged.txt.rm.classes(TT.res.orig, lang=lang, corp.rm.class="nonpunct", corp.rm.tag=c(), boolean=TRUE)
   all_letters <- TT.res.orig[["lttr"]]
 
-  if("token.orig" %in% colnames(TT.res.orig)){
-    # keep an already present "token.orig" if present
-    tokens.orig      <- TT.res.orig[["token.orig"]]
-  } else {
-    tokens.orig      <- TT.res.orig[["token"]]
-  }
+  # keep an already present "token.orig" if present
+  tokens.orig <- txt_trans_revert_orig(TT.res=TT.res.orig)[["token"]]
   tokens.trans     <- TT.res.new[["token"]]
 
   tokens.equal     <- tokens.orig == tokens.trans
@@ -209,7 +205,7 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
   diff.pct.lett      <- 100 * sum(letters.diff.np) / sum(all_letters.np)
 
   old.new.comp[["token"]] <- tokens.trans
-  old.new.comp[["token.orig"]] <- tokens.orig
+  old.new.comp[!tokens.equal,"token.orig"] <- tokens.orig[!tokens.equal]
   old.new.comp[["equal"]] <- tokens.equal
   old.new.comp[["lttr.diff"]] <- letters.diff
 
@@ -231,3 +227,16 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
   
   return(results)
 } ## end function kRp_txt_trans_diff()
+
+
+## function txt_trans_revert_orig()
+# checks a TT.res object for previous tranformations and returns the original tokens
+txt_trans_revert_orig <- function(TT.res){
+  cols <- colnames(TT.res)
+  if(all(c("equal", "token.orig") %in% cols)){
+    TT.res[!TT.res[["equal"]],"token"] <- TT.res[!TT.res[["equal"]],"token.orig"]
+    return(TT.res[,cols[!cols %in% c("token.orig","equal","lttr.diff")]])
+  } else {
+    return(TT.res)
+  }
+} ## end function txt_trans_revert_orig()

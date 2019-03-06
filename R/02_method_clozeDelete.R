@@ -52,7 +52,7 @@ clozify <- function(words, replace.by="_"){
 #' @docType methods
 #' @rdname clozeDelete-methods
 #' @aliases clozeDelete,kRp.taggedText-method
-#' @param obj An object of class "kRp.tagged"
+#' @param obj An object of class "kRp.taggedText"
 #' @param every Integer numeric, setting the frequency of words to be manipulated. By default,
 #'    every fifth word is being transformed.
 #' @param offset Either an integer numeric, sets the number of words to offset the transformations. Or the
@@ -76,9 +76,10 @@ setMethod("clozeDelete",
     if(identical(offset, "all")){
       for(idx in seq_along(every)-1){
         clozeTxt <- clozeDelete(obj=obj, every=every, offset=idx, replace.by=replace.by, fixed=fixed)
-        changedTxt <- slot(clozeTxt, "desc")[["cloze"]][["origText"]]
+        # changedTxt <- describe(clozeTxt)[["cloze"]][["origText"]]
+        changedTxt <- originalText(clozeTxt)
         rmLetters <- sum(changedTxt[["lttr"]])
-        allLetters <- slot(obj, "desc")[["letters.only"]]
+        allLetters <- describe(obj)[["letters.only"]]
         cat(headLine(paste0("Cloze variant ", idx+1, " (offset ", idx, ")")), "\n\n",
           pasteText(clozeTxt), "\n\n\n", headLine(paste0("Changed text (offset ", idx, "):"), level=2), "\n\n",
           sep="")
@@ -94,8 +95,8 @@ setMethod("clozeDelete",
         stop(simpleError("'offset' can't be greater than 'every'!"))
       } else {}
 
-      lang <- slot(obj, "lang")
-      tagged.text <- slot(obj, "TT.res")
+      lang <- language(obj)
+      tagged.text <- taggedText(obj)
 
       # now do the actual text alterations
       word.tags <- kRp.POS.tags(lang=lang, list.tags=TRUE, tags="words")

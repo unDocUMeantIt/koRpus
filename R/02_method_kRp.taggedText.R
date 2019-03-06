@@ -280,11 +280,7 @@ setGeneric("originalText", function(obj, value) standardGeneric("originalText"))
 setMethod("originalText",
   signature=signature(obj="kRp.txt.trans"),
   function (obj){
-    tagged <- taggedText(obj)
-    cols <- colnames(tagged)
-    tagged[!tagged[["equal"]],"token"] <- tagged[!tagged[["equal"]],"token.orig"]
-    result <- tagged[,cols[!cols %in% c("token.orig","equal","lttr.diff")]]
-    return(result)
+    return(txt_trans_revert_orig(TT.res=taggedText(obj)))
   }
 )
 

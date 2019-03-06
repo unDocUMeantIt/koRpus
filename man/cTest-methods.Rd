@@ -3,16 +3,17 @@
 \docType{methods}
 \name{cTest}
 \alias{cTest}
+\alias{cTest,kRp.taggedText-method}
 \alias{cTest,kRp.tagged-method}
 \title{Transform text into C-Test-like format}
 \usage{
 cTest(obj, ...)
 
-\S4method{cTest}{kRp.tagged}(obj, every = 2, min.length = 3,
+\S4method{cTest}{kRp.taggedText}(obj, every = 2, min.length = 3,
   intact = c(start = 1, end = 1), replace.by = "_")
 }
 \arguments{
-\item{obj}{An object of class "kRp.tagged"}
+\item{obj}{An object of class "kRp.taggedText"}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 

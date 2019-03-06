@@ -12,7 +12,7 @@ clozeDelete(obj, ...)
   replace.by = "_", fixed = 10)
 }
 \arguments{
-\item{obj}{An object of class "kRp.tagged"}
+\item{obj}{An object of class "kRp.taggedText"}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 
