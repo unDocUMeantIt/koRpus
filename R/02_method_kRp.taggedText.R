@@ -282,7 +282,7 @@ setMethod("originalText",
   function (obj){
     tagged <- taggedText(obj)
     cols <- colnames(tagged)
-    tagged[["token"]] <- tagged[["token.orig"]]
+    tagged[!tagged[["equal"]],"token"] <- tagged[!tagged[["equal"]],"token.orig"]
     result <- tagged[,cols[!cols %in% c("token.orig","equal","lttr.diff")]]
     return(result)
   }
