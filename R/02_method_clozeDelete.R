@@ -76,8 +76,16 @@ setMethod("clozeDelete",
     if(identical(offset, "all")){
       for(idx in (1:every)-1){
         clozeTxt <- clozeDelete(obj=obj, every=every, offset=idx, replace.by=replace.by, fixed=fixed)
-        # changedTxt <- describe(clozeTxt)[["cloze"]][["origText"]]
-        changedTxt <- originalText(clozeTxt)
+        # if the object was only cloze transformed, we can compare to the original text
+        # otherwise, we have to do a comparison between before and after for accurate statistics
+        if(identical("clozeDelete", diffText(clozeTxt)[["transfmt"]])){
+          orig.TT.res <- originalText(clozeTxt)
+          unequal <- !orig.TT.res[["equal"]]
+        } else {
+          orig.TT.res <- taggedText(obj)
+          unequal <- orig.TT.res[["token"]] != taggedText(clozeTxt)[["token"]]
+        }
+        changedTxt <- orig.TT.res[unequal,]
         rmLetters <- sum(changedTxt[["lttr"]])
         allLetters <- describe(obj)[["letters.only"]]
         cat(headLine(paste0("Cloze variant ", idx+1, " (offset ", idx, ")")), "\n\n",
@@ -85,7 +93,7 @@ setMethod("clozeDelete",
           sep="")
         print(changedTxt)
         cat("\n\n", headLine(paste0("Statistics (offset ", idx, "):"), level=2), "\n", sep="")
-        print(summary(clozeTxt))
+        print(summary(clozeTxt, index=unequal))
         cat("\nCloze deletion took ", rmLetters, " letters (", round(rmLetters * 100 / allLetters, digits=2),"%)\n\n\n", sep="")
       }
       return(invisible(NULL))

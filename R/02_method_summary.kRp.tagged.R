@@ -46,6 +46,9 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
   return(wclass.nopunct.num)
 }
 
+#' @param index Vector indicating which rows should be considered as transformed for the statistics.
+#'    If \code{NA}, all rows where \code{"equal"} is \code{FALSE} are used.
+#'    Only valid for objects of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @export
 #' @docType methods
 #' @rdname summary-methods
@@ -58,7 +61,7 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' }
 #' @include 01_class_01_kRp.tagged.R
 #' @include 02_method_summary.kRp.lang.R
-setMethod("summary", signature(object="kRp.taggedText"), function(object){
+setMethod("summary", signature(object="kRp.taggedText"), function(object, index=NA){
   # to prevent hiccups from R CMD check
   Row.names <- NULL
   desc <- describe(object)
@@ -66,19 +69,21 @@ setMethod("summary", signature(object="kRp.taggedText"), function(object){
   TT.res <- taggedText(object)
   wclass.nopunct.num <- wClassNoPunct(wclass=TT.res[["wclass"]], lang=lang)
   if(inherits(object, "kRp.txt.trans")){
-    if("clozeDelete" %in% diffText(object)[["transfmt"]]){
-      wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
-      wclass.nopunct.num.cloze <- wClassNoPunct(wclass=TT.res[["wclass"]], lang=lang, abs=desc[["words"]])
-      colnames(wclass.nopunct.num.cloze) <- c("num.cloze", "pct.cloze", "pct.cloze.abs")
-      wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.cloze, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".cloze"))
-      # merge adds a column for row numbers, reverse that
-      rownames(wclass.nopunct.num) <- wclass.nopunct.num[["Row.names"]]
-      wclass.nopunct.num <- subset(wclass.nopunct.num, select=-Row.names)
-      # regain original order
-      wclass.nopunct.num <- wclass.nopunct.num[order(rownames(wclass.nopunct.num))[wclass.orig.order],]
-      # add another column for the percentage of words of each class which were removed
-      wclass.nopunct.num[["pct.cloze.wclass"]] <- wclass.nopunct.num[["num.cloze"]] * 100 / wclass.nopunct.num[["num"]]
-    } else {}
+    wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
+    if(isTRUE(is.na(index))){
+      wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=TT.res[!TT.res[["equal"]],"wclass"], lang=lang, abs=desc[["words"]])
+    } else {
+      wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=TT.res[index,"wclass"], lang=lang, abs=desc[["words"]])
+    }
+    colnames(wclass.nopunct.num.transfmt) <- c("num.transfmt", "pct.transfmt", "pct.transfmt.abs")
+    wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.transfmt, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".transfmt"))
+    # merge adds a column for row numbers, reverse that
+    rownames(wclass.nopunct.num) <- wclass.nopunct.num[["Row.names"]]
+    wclass.nopunct.num <- subset(wclass.nopunct.num, select=-Row.names)
+    # regain original order
+    wclass.nopunct.num <- wclass.nopunct.num[order(rownames(wclass.nopunct.num))[wclass.orig.order],]
+    # add another column for the percentage of words of each class which were removed
+    wclass.nopunct.num[["pct.transfmt.wclass"]] <- wclass.nopunct.num[["num.transfmt"]] * 100 / wclass.nopunct.num[["num"]]
   } else {}
 
   cat(
