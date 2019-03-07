@@ -46,7 +46,8 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
   return(wclass.nopunct.num)
 }
 
-#' @param index Vector indicating which rows should be considered as transformed for the statistics.
+#' @param index Either a vector indicating which rows should be considered as transformed for the statistics,
+#'    or the name of a particular transformation that was previously done to the object, if more than one transformation was applied.
 #'    If \code{NA}, all rows where \code{"equal"} is \code{FALSE} are used.
 #'    Only valid for objects of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @export
@@ -71,10 +72,26 @@ setMethod("summary", signature(object="kRp.taggedText"), function(object, index=
   if(inherits(object, "kRp.txt.trans")){
     wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
     if(isTRUE(is.na(index))){
-      wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=TT.res[!TT.res[["equal"]],"wclass"], lang=lang, abs=desc[["words"]])
+      wclass.index <- !TT.res[["equal"]]
+    } else if(is.character(index)){
+      if(length(index) > 1){
+        stop(simpleError(paste0("If \"index\" is character, it must be a single value!")))
+      } else {}
+      diffObj <- diffText(object)
+      if(index %in% colnames(diffObj[["transfmt.equal"]])){
+        indexPosition <- which(colnames(diffObj[["transfmt.equal"]]) %in% index)
+        if(length(indexPosition) > 1){
+          warning(paste0("Index \"", index,"\" found multiple times, using last occurrence only!"), call.=FALSE)
+          indexPosition <- max(indexPosition)
+        } else {}
+      } else {
+        stop(simpleError(paste0("Transformation data \"", index,"\" not found in object!")))
+      }
+      wclass.index <- !diffObj[["transfmt.equal"]][[indexPosition]]
     } else {
-      wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=TT.res[index,"wclass"], lang=lang, abs=desc[["words"]])
+      wclass.index <- index
     }
+    wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=TT.res[wclass.index,"wclass"], lang=lang, abs=desc[["words"]])
     colnames(wclass.nopunct.num.transfmt) <- c("num.transfmt", "pct.transfmt", "pct.transfmt.abs")
     wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.transfmt, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".transfmt"))
     # merge adds a column for row numbers, reverse that
@@ -84,6 +101,8 @@ setMethod("summary", signature(object="kRp.taggedText"), function(object, index=
     wclass.nopunct.num <- wclass.nopunct.num[order(rownames(wclass.nopunct.num))[wclass.orig.order],]
     # add another column for the percentage of words of each class which were removed
     wclass.nopunct.num[["pct.transfmt.wclass"]] <- wclass.nopunct.num[["num.transfmt"]] * 100 / wclass.nopunct.num[["num"]]
+    # correct for possible division by zero, NaN looks confusing here
+    wclass.nopunct.num[is.nan(wclass.nopunct.num[["pct.transfmt.wclass"]]), "pct.transfmt.wclass"] <- 0
   } else {}
 
   cat(

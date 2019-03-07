@@ -36,6 +36,7 @@
 #'      \item{\code{all.chars}:}{Percentage of all characters, including punctuation, that were altered.}
 #'      \item{\code{letters}:}{Percentage of altered letters in words only.}
 #'      \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
+#'      \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
 #'    }
 #' @name kRp.txt.trans,-class
 #' @aliases kRp.txt.trans-class

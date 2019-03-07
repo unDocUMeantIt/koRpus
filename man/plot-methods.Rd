@@ -4,7 +4,7 @@
 \name{plot}
 \alias{plot}
 \alias{plot,kRp.taggedText,missing-method}
-\title{Plot method for objects of class kRp.tagged}
+\title{Plot method for objects of class union kRp.taggedText}
 \usage{
 plot(x, y, ...)
 

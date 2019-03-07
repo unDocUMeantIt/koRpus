@@ -168,22 +168,42 @@ kRp.text.transform <- function(...){
 txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
   lang <- language(obj)
   doc_id <- describe(obj)[["doc_id"]]
-  TT.res.orig <- old.new.comp <- taggedText(obj)
+  old.new.comp <- taggedText(obj)
+  if(inherits(obj, "kRp.txt.trans")){
+    diffObj        <- diffText(obj)
+  } else {}
 
-  no_punct <- tagged.txt.rm.classes(TT.res.orig, lang=lang, corp.rm.class="nonpunct", corp.rm.tag=c(), boolean=TRUE)
-  all_letters <- TT.res.orig[["lttr"]]
+  no_punct <- tagged.txt.rm.classes(old.new.comp, lang=lang, corp.rm.class="nonpunct", corp.rm.tag=c(), boolean=TRUE)
+  all_letters <- old.new.comp[["lttr"]]
 
   # keep an already present "token.orig" if present
-  tokens.orig <- txt_trans_revert_orig(TT.res=TT.res.orig)[["token"]]
+  tokens.orig      <- txt_trans_revert_orig(TT.res=old.new.comp)[["token"]]
   tokens.trans     <- TT.res.new[["token"]]
 
   tokens.equal     <- tokens.orig == tokens.trans
+  # the above shows the global differences between original and current tokens
+  # if there was more than one transformation to this object, we also want to
+  # document the tokens that have changed only in this transformational step
+  if(inherits(obj, "kRp.txt.trans")){
+    tokens.last    <- old.new.comp[["token"]]
+    trans.equal    <- tokens.last == tokens.trans
+    if(is.data.frame(diffObj[["transfmt.equal"]])){
+      transfmt.equal <- cbind(diffObj[["transfmt.equal"]], trans.equal)
+    } else {
+      # initialize the data.frame
+      transfmt.equal <- data.frame(tokens.equal, trans.equal)
+    }
+    colnames(transfmt.equal) <- c(diffObj[["transfmt"]], transfmt)
+  } else {
+    # skip this if this is the only transformation, because it would be redundant
+    transfmt.equal <- NULL
+  }
   letters.diff     <- rep(0, length(tokens.equal))
   letters.diff[!tokens.equal] <- sapply(
     # only do this for tokens which are actually different from the originalText
     which(!tokens.equal),
     function(thisToken){
-      letters.orig <- unlist(strsplit(tokens.orig[thisToken], ""))
+      letters.orig  <- unlist(strsplit(tokens.orig[thisToken], ""))
       letters.trans <- unlist(strsplit(tokens.trans[thisToken], ""))
       # transformations like clozeDelete might change the number of
       # characters, so for a safe comparison, we'll discard all
@@ -211,7 +231,7 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
   old.new.comp[["lttr.diff"]] <- letters.diff
 
   if(inherits(obj, "kRp.txt.trans")){
-    transfmt <- c(diffText(obj)[["transfmt"]], transfmt)
+    transfmt <- c(diffObj[["transfmt"]], transfmt)
   } else {}
 
   results <- kRp_txt_trans(
@@ -222,7 +242,8 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
       words=diff.pct.words,
       all.chars=diff.pct.lett.all,
       letters=diff.pct.lett,
-      transfmt=transfmt
+      transfmt=transfmt,
+      transfmt.equal=transfmt.equal
     )
   )
   describe(results) <- basic.tagged.descriptives(

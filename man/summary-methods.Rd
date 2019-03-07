@@ -20,7 +20,7 @@ summary(object, ...)
 
 \S4method{summary}{kRp.readability}(object, flat = FALSE)
 
-\S4method{summary}{kRp.taggedText}(object)
+\S4method{summary}{kRp.taggedText}(object, index = NA)
 
 \S4method{summary}{kRp.txt.freq}(object)
 }
@@ -31,6 +31,10 @@ summary(object, ...)
 \item{...}{Further options, depending on the object class.}
 
 \item{flat}{Logical, if TRUE only a named vector of main results is returned}
+
+\item{index}{Vector indicating which rows should be considered as transformed for the statistics.
+If \code{NA}, all rows where \code{"equal"} is \code{FALSE} are used.
+Only valid for objects of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.}
 }
 \description{
 Summary method for S4 objects of classes

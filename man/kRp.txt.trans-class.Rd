@@ -31,6 +31,7 @@ the new columns \code{token.orig} and \code{equal}).}
       that were altered.}
   \item{\code{letters}:}{Percentage of altered letters in words only.}
   \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
+  \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
 }}
 }}
 
