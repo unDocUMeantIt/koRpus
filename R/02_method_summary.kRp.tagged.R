@@ -38,8 +38,6 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
   wclass.nopunct.num <- t(wclass.nopunct.num)
   if(length(wclass.punct) != 0){
     if(ncol(wclass.nopunct.num) > 2){
-message(ncol(wclass.nopunct.num))
-message(ncol(cbind(wclass.punct.num, NA, NA)))
       wclass.nopunct.num <- rbind(wclass.nopunct.num, cbind(wclass.punct.num, NA, NA))
     } else {
       wclass.nopunct.num <- rbind(wclass.nopunct.num, cbind(wclass.punct.num, NA))
