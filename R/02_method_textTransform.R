@@ -166,8 +166,9 @@ kRp.text.transform <- function(...){
 # returns an object of kRp.txt.trans
 #' @include 01_class_04_kRp.txt.trans.R
 txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
-  TT.res.orig <- old.new.comp <- taggedText(obj)
   lang <- language(obj)
+  doc_id <- describe(obj)[["doc_id"]]
+  TT.res.orig <- old.new.comp <- taggedText(obj)
 
   no_punct <- tagged.txt.rm.classes(TT.res.orig, lang=lang, corp.rm.class="nonpunct", corp.rm.tag=c(), boolean=TRUE)
   all_letters <- TT.res.orig[["lttr"]]
@@ -224,7 +225,13 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
       transfmt=transfmt
     )
   )
-  
+  describe(results) <- basic.tagged.descriptives(
+    results,
+    lang=lang,
+    txt.vector=old.new.comp[["token"]],
+    doc_id=doc_id
+  )
+
   return(results)
 } ## end function kRp_txt_trans_diff()
 

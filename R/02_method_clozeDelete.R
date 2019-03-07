@@ -74,7 +74,7 @@ setMethod("clozeDelete",
   function (obj, every=5, offset=0, replace.by="_", fixed=10){
 
     if(identical(offset, "all")){
-      for(idx in seq_along(every)-1){
+      for(idx in (1:every)-1){
         clozeTxt <- clozeDelete(obj=obj, every=every, offset=idx, replace.by=replace.by, fixed=fixed)
         # changedTxt <- describe(clozeTxt)[["cloze"]][["origText"]]
         changedTxt <- originalText(clozeTxt)
@@ -85,7 +85,7 @@ setMethod("clozeDelete",
           sep="")
         print(changedTxt)
         cat("\n\n", headLine(paste0("Statistics (offset ", idx, "):"), level=2), "\n", sep="")
-        print(summary(as(clozeTxt, "kRp.tagged")))
+        print(summary(clozeTxt))
         cat("\nCloze deletion took ", rmLetters, " letters (", round(rmLetters * 100 / allLetters, digits=2),"%)\n\n\n", sep="")
       }
       return(invisible(NULL))

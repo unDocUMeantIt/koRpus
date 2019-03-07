@@ -27,7 +27,6 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
   wclass.punct <- names(wclass.num)[!names(wclass.num) %in% word.tags]
   wclass.nopunct.num <- wclass.num[wclass.nopunct]
   wclass.punct.num <- wclass.num[wclass.punct]
-
   wclass.nopunct.num <- wclass.nopunct.num[order(wclass.nopunct.num, decreasing=TRUE)]
   if(is.null(abs)){
     wclass.nopunct.num <- rbind(wclass.nopunct.num, 100 * wclass.nopunct.num / sum(wclass.nopunct.num))
@@ -36,11 +35,16 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
     wclass.nopunct.num <- rbind(wclass.nopunct.num, 100 * wclass.nopunct.num / sum(wclass.nopunct.num), 100 * wclass.nopunct.num / abs)
     rownames(wclass.nopunct.num) <- c("num", "pct", "pct.abs")
   }
+  wclass.nopunct.num <- t(wclass.nopunct.num)
   if(length(wclass.punct) != 0){
-    wclass.nopunct.num <- t(cbind(wclass.nopunct.num, rbind(wclass.punct.num, NA)))
-  } else {
-    wclass.nopunct.num <- t(wclass.nopunct.num)
-  }
+    if(ncol(wclass.nopunct.num) > 2){
+message(ncol(wclass.nopunct.num))
+message(ncol(cbind(wclass.punct.num, NA, NA)))
+      wclass.nopunct.num <- rbind(wclass.nopunct.num, cbind(wclass.punct.num, NA, NA))
+    } else {
+      wclass.nopunct.num <- rbind(wclass.nopunct.num, cbind(wclass.punct.num, NA))
+    }
+  } else {}
   return(wclass.nopunct.num)
 }
 
@@ -59,20 +63,24 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 setMethod("summary", signature(object="kRp.taggedText"), function(object){
   # to prevent hiccups from R CMD check
   Row.names <- NULL
-  desc <- object@desc
-  wclass.nopunct.num <- wClassNoPunct(wclass=object@TT.res[["wclass"]], lang=object@lang)
-  if(!is.null(object@desc[["cloze"]][["origText"]][["wclass"]])){
-    wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
-    wclass.nopunct.num.cloze <- wClassNoPunct(wclass=object@desc[["cloze"]][["origText"]][["wclass"]], lang=object@lang, abs=desc[["words"]])
-    colnames(wclass.nopunct.num.cloze) <- c("num.cloze", "pct.cloze", "pct.cloze.abs")
-    wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.cloze, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".cloze"))
-    # merge adds a column for row numbers, reverse that
-    rownames(wclass.nopunct.num) <- wclass.nopunct.num[["Row.names"]]
-    wclass.nopunct.num <- subset(wclass.nopunct.num, select=-Row.names)
-    # regain original order
-    wclass.nopunct.num <- wclass.nopunct.num[order(rownames(wclass.nopunct.num))[wclass.orig.order],]
-    # add another column for the percentage of words of each class which were removed
-    wclass.nopunct.num[["pct.cloze.wclass"]] <- wclass.nopunct.num[["num.cloze"]] * 100 / wclass.nopunct.num[["num"]]
+  desc <- describe(object)
+  lang <- language(object)
+  TT.res <- taggedText(object)
+  wclass.nopunct.num <- wClassNoPunct(wclass=TT.res[["wclass"]], lang=lang)
+  if(inherits(object, "kRp.txt.trans")){
+    if("clozeDelete" %in% diffText(object)[["transfmt"]]){
+      wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
+      wclass.nopunct.num.cloze <- wClassNoPunct(wclass=TT.res[["wclass"]], lang=lang, abs=desc[["words"]])
+      colnames(wclass.nopunct.num.cloze) <- c("num.cloze", "pct.cloze", "pct.cloze.abs")
+      wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.cloze, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".cloze"))
+      # merge adds a column for row numbers, reverse that
+      rownames(wclass.nopunct.num) <- wclass.nopunct.num[["Row.names"]]
+      wclass.nopunct.num <- subset(wclass.nopunct.num, select=-Row.names)
+      # regain original order
+      wclass.nopunct.num <- wclass.nopunct.num[order(rownames(wclass.nopunct.num))[wclass.orig.order],]
+      # add another column for the percentage of words of each class which were removed
+      wclass.nopunct.num[["pct.cloze.wclass"]] <- wclass.nopunct.num[["num.cloze"]] * 100 / wclass.nopunct.num[["num"]]
+    } else {}
   } else {}
 
   cat(
