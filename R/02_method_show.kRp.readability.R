@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -28,427 +28,427 @@
 #' @include 02_method_show.kRp.lang.R
 setMethod("show", signature(object="kRp.readability"), function(object){
 
-  if(sum(!is.na(object@ARI)) == 0){
+  if(sum(!is.na(slot(object, "ARI"))) == 0){
     show.ARI <- FALSE
   } else {
-    prt.ARI.flavour <- object@ARI$flavour
-    prt.ARI <- round(object@ARI$grade, digits=2)
+    prt.ARI.flavour <- slot(object, "ARI")[["flavour"]]
+    prt.ARI <- round(slot(object, "ARI")[["grade"]], digits=2)
     show.ARI <- TRUE
   }
-  if(sum(!is.na(object@ARI.NRI)) == 0){
+  if(sum(!is.na(slot(object, "ARI.NRI"))) == 0){
     show.ARI.NRI <- FALSE
   } else {
-    prt.ARI.NRI.flavour <- object@ARI.NRI$flavour
-    prt.ARI.NRI <- round(object@ARI.NRI$grade, digits=2)
+    prt.ARI.NRI.flavour <- slot(object, "ARI.NRI")[["flavour"]]
+    prt.ARI.NRI <- round(slot(object, "ARI.NRI")[["grade"]], digits=2)
     show.ARI.NRI <- TRUE
   }
-  if(sum(!is.na(object@ARI.simple)) == 0){
+  if(sum(!is.na(slot(object, "ARI.simple"))) == 0){
     show.ARI.simple <- FALSE
   } else {
-    prt.ARI.simple.flavour <- object@ARI.simple$flavour
-    prt.ARI.simple <- round(object@ARI.simple$index, digits=2)
+    prt.ARI.simple.flavour <- slot(object, "ARI.simple")[["flavour"]]
+    prt.ARI.simple <- round(slot(object, "ARI.simple")[["index"]], digits=2)
     show.ARI.simple <- TRUE
   }
 
-  if(sum(!is.na(object@Bormuth)) == 0){
+  if(sum(!is.na(slot(object, "Bormuth"))) == 0){
     show.Bormuth <- FALSE
   } else {
-    prt.Bormuth.flavour <- object@Bormuth$flavour
-    prt.Bormuth.pct.fam <- round(object@Bormuth$pct.fam, digits=0)
-    prt.Bormuth.MC <- round(object@Bormuth$mean.cloze, digits=2)
-    prt.Bormuth.grade <- round(object@Bormuth$grade, digits=2)
+    prt.Bormuth.flavour <- slot(object, "Bormuth")[["flavour"]]
+    prt.Bormuth.pct.fam <- round(slot(object, "Bormuth")[["pct.fam"]], digits=0)
+    prt.Bormuth.MC <- round(slot(object, "Bormuth")[["mean.cloze"]], digits=2)
+    prt.Bormuth.grade <- round(slot(object, "Bormuth")[["grade"]], digits=2)
     show.Bormuth <- TRUE
   }
 
-  if(sum(!is.na(object@Coleman)) == 0){
+  if(sum(!is.na(slot(object, "Coleman"))) == 0){
     show.Coleman <- FALSE
   } else {
-    prt.Coleman.flavour <- object@Coleman$flavour
-    prt.Coleman.pron <- round(object@Coleman$num.pron, digits=2)
-    prt.Coleman.prep <- round(object@Coleman$num.prep, digits=2)
-    prt.Coleman.C1 <- round(object@Coleman$C1, digits=0)
-    prt.Coleman.C2 <- round(object@Coleman$C2, digits=0)
-    prt.Coleman.C3 <- round(object@Coleman$C3, digits=0)
-    prt.Coleman.C4 <- round(object@Coleman$C4, digits=0)
+    prt.Coleman.flavour <- slot(object, "Coleman")[["flavour"]]
+    prt.Coleman.pron <- round(slot(object, "Coleman")[["num.pron"]], digits=2)
+    prt.Coleman.prep <- round(slot(object, "Coleman")[["num.prep"]], digits=2)
+    prt.Coleman.C1 <- round(slot(object, "Coleman")[["C1"]], digits=0)
+    prt.Coleman.C2 <- round(slot(object, "Coleman")[["C2"]], digits=0)
+    prt.Coleman.C3 <- round(slot(object, "Coleman")[["C3"]], digits=0)
+    prt.Coleman.C4 <- round(slot(object, "Coleman")[["C4"]], digits=0)
     show.Coleman <- TRUE
   }
 
-  if(sum(!is.na(object@Coleman.Liau)) == 0){
+  if(sum(!is.na(slot(object, "Coleman.Liau"))) == 0){
     show.Coleman.Liau <- FALSE
   } else {
-    prt.Coleman.Liau.flavour <- object@Coleman.Liau$flavour
-    prt.Coleman.Liau.ECP <- round(object@Coleman.Liau$ECP, digits=0)
-    prt.Coleman.Liau.grade <- round(object@Coleman.Liau$grade, digits=2)
-    prt.Coleman.Liau.short <- round(object@Coleman.Liau$short, digits=2)
+    prt.Coleman.Liau.flavour <- slot(object, "Coleman.Liau")[["flavour"]]
+    prt.Coleman.Liau.ECP <- round(slot(object, "Coleman.Liau")[["ECP"]], digits=0)
+    prt.Coleman.Liau.grade <- round(slot(object, "Coleman.Liau")[["grade"]], digits=2)
+    prt.Coleman.Liau.short <- round(slot(object, "Coleman.Liau")[["short"]], digits=2)
     show.Coleman.Liau <- TRUE
   }
 
-  if(sum(!is.na(object@Dale.Chall)) == 0){
+  if(sum(!is.na(slot(object, "Dale.Chall"))) == 0){
     show.Dale.Chall <- FALSE
   } else {
-    prt.Dale.Chall.flavour <- object@Dale.Chall$flavour
-    prt.Dale.Chall.pct <- round(object@Dale.Chall$pct, digits=0)
-    prt.Dale.Chall.raw <- round(object@Dale.Chall$raw, digits=2)
-    prt.Dale.Chall.grade <- object@Dale.Chall$grade
-    prt.Dale.Chall.age <- object@Dale.Chall$age
+    prt.Dale.Chall.flavour <- slot(object, "Dale.Chall")[["flavour"]]
+    prt.Dale.Chall.pct <- round(slot(object, "Dale.Chall")[["pct"]], digits=0)
+    prt.Dale.Chall.raw <- round(slot(object, "Dale.Chall")[["raw"]], digits=2)
+    prt.Dale.Chall.grade <- slot(object, "Dale.Chall")[["grade"]]
+    prt.Dale.Chall.age <- slot(object, "Dale.Chall")[["age"]]
     show.Dale.Chall <- TRUE
   }
-  if(sum(!is.na(object@Dale.Chall.PSK)) == 0){
+  if(sum(!is.na(slot(object, "Dale.Chall.PSK"))) == 0){
     show.Dale.Chall.PSK <- FALSE
   } else {
-    prt.Dale.Chall.PSK.flavour <- object@Dale.Chall.PSK$flavour
-    prt.Dale.Chall.PSK.pct <- round(object@Dale.Chall.PSK$pct, digits=0)
-    prt.Dale.Chall.PSK.raw <- round(object@Dale.Chall.PSK$raw, digits=2)
-    prt.Dale.Chall.PSK.grade <- object@Dale.Chall.PSK$grade
-    prt.Dale.Chall.PSK.age <- object@Dale.Chall.PSK$age
+    prt.Dale.Chall.PSK.flavour <- slot(object, "Dale.Chall.PSK")[["flavour"]]
+    prt.Dale.Chall.PSK.pct <- round(slot(object, "Dale.Chall.PSK")[["pct"]], digits=0)
+    prt.Dale.Chall.PSK.raw <- round(slot(object, "Dale.Chall.PSK")[["raw"]], digits=2)
+    prt.Dale.Chall.PSK.grade <- slot(object, "Dale.Chall.PSK")[["grade"]]
+    prt.Dale.Chall.PSK.age <- slot(object, "Dale.Chall.PSK")[["age"]]
     show.Dale.Chall.PSK <- TRUE
   }
-  if(sum(!is.na(object@Dale.Chall.old)) == 0){
+  if(sum(!is.na(slot(object, "Dale.Chall.old"))) == 0){
     show.Dale.Chall.old <- FALSE
   } else {
-    prt.Dale.Chall.old.flavour <- object@Dale.Chall.old$flavour
-    prt.Dale.Chall.old.pct <- round(object@Dale.Chall.old$pct, digits=0)
-    prt.Dale.Chall.old.raw <- round(object@Dale.Chall.old$raw, digits=2)
-    prt.Dale.Chall.old.grade <- object@Dale.Chall.old$grade
-    prt.Dale.Chall.old.age <- object@Dale.Chall.old$age
+    prt.Dale.Chall.old.flavour <- slot(object, "Dale.Chall.old")[["flavour"]]
+    prt.Dale.Chall.old.pct <- round(slot(object, "Dale.Chall.old")[["pct"]], digits=0)
+    prt.Dale.Chall.old.raw <- round(slot(object, "Dale.Chall.old")[["raw"]], digits=2)
+    prt.Dale.Chall.old.grade <- slot(object, "Dale.Chall.old")[["grade"]]
+    prt.Dale.Chall.old.age <- slot(object, "Dale.Chall.old")[["age"]]
     show.Dale.Chall.old <- TRUE
   }
 
-  if(sum(!is.na(object@Danielson.Bryan)) == 0){
+  if(sum(!is.na(slot(object, "Danielson.Bryan"))) == 0){
     show.Danielson.Bryan <- FALSE
   } else {
-    prt.Danielson.Bryan.flavour <- object@Danielson.Bryan$flavour
-    prt.DB1 <- round(object@Danielson.Bryan$DB1, digits=2)
-    prt.DB2 <- round(object@Danielson.Bryan$DB2, digits=2)
-    prt.DB2.grade <- object@Danielson.Bryan$DB2.grade
+    prt.Danielson.Bryan.flavour <- slot(object, "Danielson.Bryan")[["flavour"]]
+    prt.DB1 <- round(slot(object, "Danielson.Bryan")[["DB1"]], digits=2)
+    prt.DB2 <- round(slot(object, "Danielson.Bryan")[["DB2"]], digits=2)
+    prt.DB2.grade <- slot(object, "Danielson.Bryan")[["DB2.grade"]]
     show.Danielson.Bryan <- TRUE
   }
 
-  if(sum(!is.na(object@Dickes.Steiwer)) == 0){
+  if(sum(!is.na(slot(object, "Dickes.Steiwer"))) == 0){
     show.Dickes.Steiwer <- FALSE
   } else {
-    prt.Dickes.Steiwer.flavour <- object@Dickes.Steiwer$flavour
-    prt.Dickes.Steiwer.TTR <- round(object@Dickes.Steiwer$TTR, digits=2)
-    prt.Dickes.Steiwer.score <- round(object@Dickes.Steiwer$Dickes.Steiwer, digits=2)
+    prt.Dickes.Steiwer.flavour <- slot(object, "Dickes.Steiwer")[["flavour"]]
+    prt.Dickes.Steiwer.TTR <- round(slot(object, "Dickes.Steiwer")[["TTR"]], digits=2)
+    prt.Dickes.Steiwer.score <- round(slot(object, "Dickes.Steiwer")[["Dickes.Steiwer"]], digits=2)
     show.Dickes.Steiwer <- TRUE
   }
 
-  if(sum(!is.na(object@DRP)) == 0){
+  if(sum(!is.na(slot(object, "DRP"))) == 0){
     show.DRP <- FALSE
   } else {
-    prt.DRP.score <- round(object@DRP$DRP, digits=2)
+    prt.DRP.score <- round(slot(object, "DRP")[["DRP"]], digits=2)
     show.DRP <- TRUE
   }
 
-  if(sum(!is.na(object@ELF)) == 0){
+  if(sum(!is.na(slot(object, "ELF"))) == 0){
     show.ELF <- FALSE
   } else {
-    prt.ELF.flavour <- object@ELF$flavour
-    prt.ELF.exsyls <- round(object@ELF$num.exsyls, digits=0)
-    prt.ELF.score <- round(object@ELF$ELF, digits=2)
+    prt.ELF.flavour <- slot(object, "ELF")[["flavour"]]
+    prt.ELF.exsyls <- round(slot(object, "ELF")[["num.exsyls"]], digits=0)
+    prt.ELF.score <- round(slot(object, "ELF")[["ELF"]], digits=2)
     show.ELF <- TRUE
   }
 
-  if(sum(!is.na(object@Farr.Jenkins.Paterson)) == 0){
+  if(sum(!is.na(slot(object, "Farr.Jenkins.Paterson"))) == 0){
     show.Farr.Jenkins.Paterson <- FALSE
   } else {
-    prt.Farr.Jenkins.Paterson.flavour <- object@Farr.Jenkins.Paterson$flavour
-    prt.Farr.Jenkins.Paterson <- round(object@Farr.Jenkins.Paterson$FJP, digits=2)
-    prt.Farr.Jenkins.Paterson.grade <- object@Farr.Jenkins.Paterson$grade
+    prt.Farr.Jenkins.Paterson.flavour <- slot(object, "Farr.Jenkins.Paterson")[["flavour"]]
+    prt.Farr.Jenkins.Paterson <- round(slot(object, "Farr.Jenkins.Paterson")[["FJP"]], digits=2)
+    prt.Farr.Jenkins.Paterson.grade <- slot(object, "Farr.Jenkins.Paterson")[["grade"]]
     show.Farr.Jenkins.Paterson <- TRUE
   }
-  if(sum(!is.na(object@Farr.Jenkins.Paterson.PSK)) == 0){
+  if(sum(!is.na(slot(object, "Farr.Jenkins.Paterson.PSK"))) == 0){
     show.Farr.Jenkins.Paterson.PSK <- FALSE
   } else {
-    prt.Farr.Jenkins.Paterson.PSK.flavour <- object@Farr.Jenkins.Paterson.PSK$flavour
-    prt.Farr.Jenkins.Paterson.PSK <- round(object@Farr.Jenkins.Paterson.PSK$FJP, digits=2)
+    prt.Farr.Jenkins.Paterson.PSK.flavour <- slot(object, "Farr.Jenkins.Paterson.PSK")[["flavour"]]
+    prt.Farr.Jenkins.Paterson.PSK <- round(slot(object, "Farr.Jenkins.Paterson.PSK")[["FJP"]], digits=2)
     show.Farr.Jenkins.Paterson.PSK <- TRUE
   }
 
-  if(sum(!is.na(object@Flesch)) == 0){
+  if(sum(!is.na(slot(object, "Flesch"))) == 0){
     show.Flesch <- FALSE
   } else {
-    prt.Flesch.flavour <- object@Flesch$flavour
-    prt.Flesch <- round(object@Flesch$RE, digits=2)
-    prt.Flesch.grade <- object@Flesch$grade
-    prt.Flesch.age <- round(object@Flesch$age, digits=2)
+    prt.Flesch.flavour <- slot(object, "Flesch")[["flavour"]]
+    prt.Flesch <- round(slot(object, "Flesch")[["RE"]], digits=2)
+    prt.Flesch.grade <- slot(object, "Flesch")[["grade"]]
+    prt.Flesch.age <- round(slot(object, "Flesch")[["age"]], digits=2)
     show.Flesch <- TRUE
   }
-  if(sum(!is.na(object@Flesch.PSK)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.PSK"))) == 0){
     show.Flesch.PSK <- FALSE
   } else {
-    prt.Flesch.PSK.flavour <- object@Flesch.PSK$flavour
-    prt.Flesch.PSK <- round(object@Flesch.PSK$RE, digits=2)
-    prt.Flesch.PSK.grade <- round(object@Flesch.PSK$grade, digits=2)
-    prt.Flesch.PSK.age <- round(object@Flesch.PSK$age, digits=2)
+    prt.Flesch.PSK.flavour <- slot(object, "Flesch.PSK")[["flavour"]]
+    prt.Flesch.PSK <- round(slot(object, "Flesch.PSK")[["RE"]], digits=2)
+    prt.Flesch.PSK.grade <- round(slot(object, "Flesch.PSK")[["grade"]], digits=2)
+    prt.Flesch.PSK.age <- round(slot(object, "Flesch.PSK")[["age"]], digits=2)
     show.Flesch.PSK <- TRUE
   }
-  if(sum(!is.na(object@Flesch.Brouwer)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.Brouwer"))) == 0){
     show.Flesch.Brouwer <- FALSE
   } else {
-    prt.Flesch.Brouwer.flavour <- object@Flesch.Brouwer$flavour
-    prt.Flesch.Brouwer <- round(object@Flesch.Brouwer$RE, digits=2)
-    prt.Flesch.Brouwer.grade <- object@Flesch.Brouwer$grade
-    prt.Flesch.Brouwer.age <- round(object@Flesch.Brouwer$age, digits=2)
+    prt.Flesch.Brouwer.flavour <- slot(object, "Flesch.Brouwer")[["flavour"]]
+    prt.Flesch.Brouwer <- round(slot(object, "Flesch.Brouwer")[["RE"]], digits=2)
+    prt.Flesch.Brouwer.grade <- slot(object, "Flesch.Brouwer")[["grade"]]
+    prt.Flesch.Brouwer.age <- round(slot(object, "Flesch.Brouwer")[["age"]], digits=2)
     show.Flesch.Brouwer <- TRUE
   }
-  if(sum(!is.na(object@Flesch.Szigriszt)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.Szigriszt"))) == 0){
     show.Flesch.Szigriszt <- FALSE
   } else {
-    prt.Flesch.Szigriszt.flavour <- object@Flesch.Szigriszt$flavour
-    prt.Flesch.Szigriszt <- round(object@Flesch.Szigriszt$RE, digits=2)
-    prt.Flesch.Szigriszt.grade <- object@Flesch.Szigriszt$grade
-    prt.Flesch.Szigriszt.age <- round(object@Flesch.Szigriszt$age, digits=2)
+    prt.Flesch.Szigriszt.flavour <- slot(object, "Flesch.Szigriszt")[["flavour"]]
+    prt.Flesch.Szigriszt <- round(slot(object, "Flesch.Szigriszt")[["RE"]], digits=2)
+    prt.Flesch.Szigriszt.grade <- slot(object, "Flesch.Szigriszt")[["grade"]]
+    prt.Flesch.Szigriszt.age <- round(slot(object, "Flesch.Szigriszt")[["age"]], digits=2)
     show.Flesch.Szigriszt <- TRUE
   }
-  if(sum(!is.na(object@Flesch.de)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.de"))) == 0){
     show.Flesch.de <- FALSE
   } else {
-    prt.Flesch.de.flavour <- object@Flesch.de$flavour
-    prt.Flesch.de <- round(object@Flesch.de$RE, digits=2)
-    prt.Flesch.de.grade <- object@Flesch.de$grade
-    prt.Flesch.de.age <- round(object@Flesch.de$age, digits=2)
+    prt.Flesch.de.flavour <- slot(object, "Flesch.de")[["flavour"]]
+    prt.Flesch.de <- round(slot(object, "Flesch.de")[["RE"]], digits=2)
+    prt.Flesch.de.grade <- slot(object, "Flesch.de")[["grade"]]
+    prt.Flesch.de.age <- round(slot(object, "Flesch.de")[["age"]], digits=2)
     show.Flesch.de <- TRUE
   }
-  if(sum(!is.na(object@Flesch.es)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.es"))) == 0){
     show.Flesch.es <- FALSE
   } else {
-    prt.Flesch.es.flavour <- object@Flesch.es$flavour
-    prt.Flesch.es <- round(object@Flesch.es$RE, digits=2)
-    prt.Flesch.es.grade <- object@Flesch.es$grade
-    prt.Flesch.es.age <- round(object@Flesch.es$age, digits=2)
+    prt.Flesch.es.flavour <- slot(object, "Flesch.es")[["flavour"]]
+    prt.Flesch.es <- round(slot(object, "Flesch.es")[["RE"]], digits=2)
+    prt.Flesch.es.grade <- slot(object, "Flesch.es")[["grade"]]
+    prt.Flesch.es.age <- round(slot(object, "Flesch.es")[["age"]], digits=2)
     show.Flesch.es <- TRUE
   }
-  if(sum(!is.na(object@Flesch.fr)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.fr"))) == 0){
     show.Flesch.fr <- FALSE
   } else {
-    prt.Flesch.fr.flavour <- object@Flesch.fr$flavour
-    prt.Flesch.fr <- round(object@Flesch.fr$RE, digits=2)
-    prt.Flesch.fr.grade <- object@Flesch.fr$grade
-    prt.Flesch.fr.age <- round(object@Flesch.fr$age, digits=2)
+    prt.Flesch.fr.flavour <- slot(object, "Flesch.fr")[["flavour"]]
+    prt.Flesch.fr <- round(slot(object, "Flesch.fr")[["RE"]], digits=2)
+    prt.Flesch.fr.grade <- slot(object, "Flesch.fr")[["grade"]]
+    prt.Flesch.fr.age <- round(slot(object, "Flesch.fr")[["age"]], digits=2)
     show.Flesch.fr <- TRUE
   }
-  if(sum(!is.na(object@Flesch.nl)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.nl"))) == 0){
     show.Flesch.nl <- FALSE
   } else {
-    prt.Flesch.nl.flavour <- object@Flesch.nl$flavour
-    prt.Flesch.nl <- round(object@Flesch.nl$RE, digits=2)
-    prt.Flesch.nl.grade <- object@Flesch.nl$grade
-    prt.Flesch.nl.age <- round(object@Flesch.nl$age, digits=2)
+    prt.Flesch.nl.flavour <- slot(object, "Flesch.nl")[["flavour"]]
+    prt.Flesch.nl <- round(slot(object, "Flesch.nl")[["RE"]], digits=2)
+    prt.Flesch.nl.grade <- slot(object, "Flesch.nl")[["grade"]]
+    prt.Flesch.nl.age <- round(slot(object, "Flesch.nl")[["age"]], digits=2)
     show.Flesch.nl <- TRUE
   }
 
-  if(sum(!is.na(object@Flesch.Kincaid)) == 0){
+  if(sum(!is.na(slot(object, "Flesch.Kincaid"))) == 0){
     show.Flesch.Kincaid <- FALSE
   } else {
-    prt.Flesch.Kincaid.flavour <- object@Flesch.Kincaid$flavour
-    prt.Flesch.Kincaid.grade <- round(object@Flesch.Kincaid$grade, digits=2)
-    prt.Flesch.Kincaid.age <- round(object@Flesch.Kincaid$age, digits=2)
+    prt.Flesch.Kincaid.flavour <- slot(object, "Flesch.Kincaid")[["flavour"]]
+    prt.Flesch.Kincaid.grade <- round(slot(object, "Flesch.Kincaid")[["grade"]], digits=2)
+    prt.Flesch.Kincaid.age <- round(slot(object, "Flesch.Kincaid")[["age"]], digits=2)
     show.Flesch.Kincaid <- TRUE
   }
 
-  if(sum(!is.na(object@FOG)) == 0){
+  if(sum(!is.na(slot(object, "FOG"))) == 0){
     show.FOG <- FALSE
   } else {
-    prt.FOG.flavour <- object@FOG$flavour
-    prt.FOG <- round(object@FOG$FOG, digits=2)
+    prt.FOG.flavour <- slot(object, "FOG")[["flavour"]]
+    prt.FOG <- round(slot(object, "FOG")[["FOG"]], digits=2)
     show.FOG <- TRUE
   }
-  if(sum(!is.na(object@FOG.PSK)) == 0){
+  if(sum(!is.na(slot(object, "FOG.PSK"))) == 0){
     show.FOG.PSK <- FALSE
   } else {
-    prt.FOG.PSK.flavour <- object@FOG.PSK$flavour
-    prt.FOG.PSK <- round(object@FOG.PSK$FOG, digits=2)
+    prt.FOG.PSK.flavour <- slot(object, "FOG.PSK")[["flavour"]]
+    prt.FOG.PSK <- round(slot(object, "FOG.PSK")[["FOG"]], digits=2)
     show.FOG.PSK <- TRUE
   }
-  if(sum(!is.na(object@FOG.NRI)) == 0){
+  if(sum(!is.na(slot(object, "FOG.NRI"))) == 0){
     show.FOG.NRI <- FALSE
   } else {
-    prt.FOG.NRI.flavour <- object@FOG.NRI$flavour
-    prt.FOG.NRI <- round(object@FOG.NRI$FOG, digits=2)
+    prt.FOG.NRI.flavour <- slot(object, "FOG.NRI")[["flavour"]]
+    prt.FOG.NRI <- round(slot(object, "FOG.NRI")[["FOG"]], digits=2)
     show.FOG.NRI <- TRUE
   }
 
-  if(sum(!is.na(object@FORCAST)) == 0){
+  if(sum(!is.na(slot(object, "FORCAST"))) == 0){
     show.FORCAST <- FALSE
   } else {
-    prt.FORCAST.flavour <- object@FORCAST$flavour
-    prt.FORCAST.grade <- round(object@FORCAST$grade, digits=2)
-    prt.FORCAST.age <- round(object@FORCAST$age, digits=2)
+    prt.FORCAST.flavour <- slot(object, "FORCAST")[["flavour"]]
+    prt.FORCAST.grade <- round(slot(object, "FORCAST")[["grade"]], digits=2)
+    prt.FORCAST.age <- round(slot(object, "FORCAST")[["age"]], digits=2)
     show.FORCAST <- TRUE
   }
-  if(sum(!is.na(object@FORCAST.RGL)) == 0){
+  if(sum(!is.na(slot(object, "FORCAST.RGL"))) == 0){
     show.FORCAST.RGL <- FALSE
   } else {
-    prt.FORCAST.RGL.flavour <- object@FORCAST.RGL$flavour
-    prt.FORCAST.RGL.grade <- round(object@FORCAST.RGL$grade, digits=2)
-    prt.FORCAST.RGL.age <- round(object@FORCAST.RGL$age, digits=2)
+    prt.FORCAST.RGL.flavour <- slot(object, "FORCAST.RGL")[["flavour"]]
+    prt.FORCAST.RGL.grade <- round(slot(object, "FORCAST.RGL")[["grade"]], digits=2)
+    prt.FORCAST.RGL.age <- round(slot(object, "FORCAST.RGL")[["age"]], digits=2)
     show.FORCAST.RGL <- TRUE
   }
 
-  if(sum(!is.na(object@Fucks)) == 0){
+  if(sum(!is.na(slot(object, "Fucks"))) == 0){
     show.Fucks <- FALSE
   } else {
-    prt.Fucks.score <- round(object@Fucks$Fucks, digits=2)
-    prt.Fucks.grade <- round(object@Fucks$grade, digits=2)
+    prt.Fucks.score <- round(slot(object, "Fucks")[["Fucks"]], digits=2)
+    prt.Fucks.grade <- round(slot(object, "Fucks")[["grade"]], digits=2)
     show.Fucks <- TRUE
   }
 
-  if(sum(!is.na(object@Harris.Jacobson)) == 0){
+  if(sum(!is.na(slot(object, "Harris.Jacobson"))) == 0){
     show.Harris.Jacobson <- FALSE
   } else {
-    prt.Harris.Jacobson.flavour <- object@Harris.Jacobson$flavour
-    prt.Harris.Jacobson.pct <- round(object@Harris.Jacobson$pct, digits=0)
-    prt.HJ1 <- round(object@Harris.Jacobson$HJ1, digits=2)
-    prt.HJ2 <- round(object@Harris.Jacobson$HJ2, digits=2)
-    prt.HJ3 <- round(object@Harris.Jacobson$HJ3, digits=2)
-    prt.HJ4 <- round(object@Harris.Jacobson$HJ4, digits=2)
-    prt.HJ5 <- round(object@Harris.Jacobson$HJ5, digits=2)
+    prt.Harris.Jacobson.flavour <- slot(object, "Harris.Jacobson")[["flavour"]]
+    prt.Harris.Jacobson.pct <- round(slot(object, "Harris.Jacobson")[["pct"]], digits=0)
+    prt.HJ1 <- round(slot(object, "Harris.Jacobson")[["HJ1"]], digits=2)
+    prt.HJ2 <- round(slot(object, "Harris.Jacobson")[["HJ2"]], digits=2)
+    prt.HJ3 <- round(slot(object, "Harris.Jacobson")[["HJ3"]], digits=2)
+    prt.HJ4 <- round(slot(object, "Harris.Jacobson")[["HJ4"]], digits=2)
+    prt.HJ5 <- round(slot(object, "Harris.Jacobson")[["HJ5"]], digits=2)
     show.Harris.Jacobson <- TRUE
   }
 
-  if(sum(!is.na(object@Linsear.Write)) == 0){
+  if(sum(!is.na(slot(object, "Linsear.Write"))) == 0){
     show.Linsear.Write <- FALSE
   } else {
-    prt.Linsear.Write.flavour <- object@Linsear.Write$flavour
-    prt.Linsear.Write.easy <- round(object@Linsear.Write$easy.words, digits=2)
-    prt.Linsear.Write.hard <- round(object@Linsear.Write$hard.words, digits=2)
-    prt.Linsear.Write <- round(object@Linsear.Write$grade, digits=2)
+    prt.Linsear.Write.flavour <- slot(object, "Linsear.Write")[["flavour"]]
+    prt.Linsear.Write.easy <- round(slot(object, "Linsear.Write")[["easy.words"]], digits=2)
+    prt.Linsear.Write.hard <- round(slot(object, "Linsear.Write")[["hard.words"]], digits=2)
+    prt.Linsear.Write <- round(slot(object, "Linsear.Write")[["grade"]], digits=2)
     show.Linsear.Write <- TRUE
   }
 
-  if(sum(!is.na(object@LIX)) == 0){
+  if(sum(!is.na(slot(object, "LIX"))) == 0){
     show.LIX <- FALSE
   } else {
-    prt.LIX.flavour <- object@LIX$flavour
-    prt.LIX <- round(object@LIX$index, digits=2)
-    prt.LIX.grade <- object@LIX$grade
-    prt.LIX.rating <- object@LIX$rating
+    prt.LIX.flavour <- slot(object, "LIX")[["flavour"]]
+    prt.LIX <- round(slot(object, "LIX")[["index"]], digits=2)
+    prt.LIX.grade <- slot(object, "LIX")[["grade"]]
+    prt.LIX.rating <- slot(object, "LIX")[["rating"]]
     show.LIX <- TRUE
   }
 
-  if(sum(!is.na(object@RIX)) == 0){
+  if(sum(!is.na(slot(object, "RIX"))) == 0){
     show.RIX <- FALSE
   } else {
-    prt.RIX.flavour <- object@RIX$flavour
-    prt.RIX <- round(object@RIX$index, digits=2)
-    prt.RIX.grade <- object@RIX$grade
+    prt.RIX.flavour <- slot(object, "RIX")[["flavour"]]
+    prt.RIX <- round(slot(object, "RIX")[["index"]], digits=2)
+    prt.RIX.grade <- slot(object, "RIX")[["grade"]]
     show.RIX <- TRUE
   }
 
-  if(sum(!is.na(object@SMOG)) == 0){
+  if(sum(!is.na(slot(object, "SMOG"))) == 0){
     show.SMOG <- FALSE
   } else {
-    prt.SMOG.flavour <- object@SMOG$flavour
-    prt.SMOG.grade <- round(object@SMOG$grade, digits=2)
-    prt.SMOG.age <- round(object@SMOG$age, digits=2)
+    prt.SMOG.flavour <- slot(object, "SMOG")[["flavour"]]
+    prt.SMOG.grade <- round(slot(object, "SMOG")[["grade"]], digits=2)
+    prt.SMOG.age <- round(slot(object, "SMOG")[["age"]], digits=2)
     show.SMOG <- TRUE
   }
-  if(sum(!is.na(object@SMOG.de)) == 0){
+  if(sum(!is.na(slot(object, "SMOG.de"))) == 0){
     show.SMOG.de <- FALSE
   } else {
-    prt.SMOG.de.flavour <- object@SMOG.de$flavour
-    prt.SMOG.de.grade <- round(object@SMOG.de$grade, digits=2)
-    prt.SMOG.de.age <- round(object@SMOG.de$age, digits=2)
+    prt.SMOG.de.flavour <- slot(object, "SMOG.de")[["flavour"]]
+    prt.SMOG.de.grade <- round(slot(object, "SMOG.de")[["grade"]], digits=2)
+    prt.SMOG.de.age <- round(slot(object, "SMOG.de")[["age"]], digits=2)
     show.SMOG.de <- TRUE
   }
-  if(sum(!is.na(object@SMOG.C)) == 0){
+  if(sum(!is.na(slot(object, "SMOG.C"))) == 0){
     show.SMOG.C <- FALSE
   } else {
-    prt.SMOG.C.flavour <- object@SMOG.C$flavour
-    prt.SMOG.C.grade <- round(object@SMOG.C$grade, digits=2)
-    prt.SMOG.C.age <- round(object@SMOG.C$age, digits=2)
+    prt.SMOG.C.flavour <- slot(object, "SMOG.C")[["flavour"]]
+    prt.SMOG.C.grade <- round(slot(object, "SMOG.C")[["grade"]], digits=2)
+    prt.SMOG.C.age <- round(slot(object, "SMOG.C")[["age"]], digits=2)
     show.SMOG.C <- TRUE
   }
-  if(sum(!is.na(object@SMOG.simple)) == 0){
+  if(sum(!is.na(slot(object, "SMOG.simple"))) == 0){
     show.SMOG.simple <- FALSE
   } else {
-    prt.SMOG.simple.flavour <- object@SMOG.simple$flavour
-    prt.SMOG.simple.grade <- round(object@SMOG.simple$grade, digits=2)
-    prt.SMOG.simple.age <- round(object@SMOG.simple$age, digits=2)
+    prt.SMOG.simple.flavour <- slot(object, "SMOG.simple")[["flavour"]]
+    prt.SMOG.simple.grade <- round(slot(object, "SMOG.simple")[["grade"]], digits=2)
+    prt.SMOG.simple.age <- round(slot(object, "SMOG.simple")[["age"]], digits=2)
     show.SMOG.simple <- TRUE
   }
 
-  if(sum(!is.na(object@Spache)) == 0){
+  if(sum(!is.na(slot(object, "Spache"))) == 0){
     show.Spache <- FALSE
   } else {
-    prt.Spache.flavour <- object@Spache$flavour
-    prt.Spache.pct <- round(object@Spache$pct, digits=0)
-    prt.Spache.grade <- round(object@Spache$grade, digits=2)
+    prt.Spache.flavour <- slot(object, "Spache")[["flavour"]]
+    prt.Spache.pct <- round(slot(object, "Spache")[["pct"]], digits=0)
+    prt.Spache.grade <- round(slot(object, "Spache")[["grade"]], digits=2)
     show.Spache <- TRUE
   }
-  if(sum(!is.na(object@Spache.old)) == 0){
+  if(sum(!is.na(slot(object, "Spache.old"))) == 0){
     show.Spache.old <- FALSE
   } else {
-    prt.Spache.old.flavour <- object@Spache.old$flavour
-    prt.Spache.old.pct <- round(object@Spache.old$pct, digits=0)
-    prt.Spache.old.grade <- round(object@Spache.old$grade, digits=2)
+    prt.Spache.old.flavour <- slot(object, "Spache.old")[["flavour"]]
+    prt.Spache.old.pct <- round(slot(object, "Spache.old")[["pct"]], digits=0)
+    prt.Spache.old.grade <- round(slot(object, "Spache.old")[["grade"]], digits=2)
     show.Spache.old <- TRUE
   }
 
-  if(sum(!is.na(object@Strain)) == 0){
+  if(sum(!is.na(slot(object, "Strain"))) == 0){
     show.Strain <- FALSE
   } else {
-    prt.Strain.flavour <- object@Strain$flavour
-    prt.Strain <- round(object@Strain$index, digits=2)
+    prt.Strain.flavour <- slot(object, "Strain")[["flavour"]]
+    prt.Strain <- round(slot(object, "Strain")[["index"]], digits=2)
     show.Strain <- TRUE
   }
 
-  if(sum(!is.na(object@Traenkle.Bailer)) == 0){
+  if(sum(!is.na(slot(object, "Traenkle.Bailer"))) == 0){
     show.Traenkle.Bailer <- FALSE
   } else {
-    prt.Traenkle.Bailer.flavour <- object@Traenkle.Bailer$flavour
-    prt.Traenkle.Bailer.TB1 <- round(object@Traenkle.Bailer$TB1, digits=2)
-    prt.Traenkle.Bailer.TB2 <- round(object@Traenkle.Bailer$TB2, digits=2)
-    prt.Traenkle.Bailer.pct.prep <- round(object@Traenkle.Bailer$pct.prep, digits=0)
-    prt.Traenkle.Bailer.pct.conj <- round(object@Traenkle.Bailer$pct.conj, digits=0)
+    prt.Traenkle.Bailer.flavour <- slot(object, "Traenkle.Bailer")[["flavour"]]
+    prt.Traenkle.Bailer.TB1 <- round(slot(object, "Traenkle.Bailer")[["TB1"]], digits=2)
+    prt.Traenkle.Bailer.TB2 <- round(slot(object, "Traenkle.Bailer")[["TB2"]], digits=2)
+    prt.Traenkle.Bailer.pct.prep <- round(slot(object, "Traenkle.Bailer")[["pct.prep"]], digits=0)
+    prt.Traenkle.Bailer.pct.conj <- round(slot(object, "Traenkle.Bailer")[["pct.conj"]], digits=0)
     show.Traenkle.Bailer <- TRUE
   }
 
-  if(sum(!is.na(object@TRI)) == 0){
+  if(sum(!is.na(slot(object, "TRI"))) == 0){
     show.TRI <- FALSE
   } else {
-    prt.TRI.flavour <- object@TRI$flavour
-    prt.TRI.words <- object@TRI$short
-    prt.TRI.punct <- object@TRI$punct
-    prt.TRI.foreign <- object@TRI$foreign
-    prt.TRI.score <- round(object@TRI$TRI, digits=2)
+    prt.TRI.flavour <- slot(object, "TRI")[["flavour"]]
+    prt.TRI.words <- slot(object, "TRI")[["short"]]
+    prt.TRI.punct <- slot(object, "TRI")[["punct"]]
+    prt.TRI.foreign <- slot(object, "TRI")[["foreign"]]
+    prt.TRI.score <- round(slot(object, "TRI")[["TRI"]], digits=2)
     show.TRI <- TRUE
   }
 
-  if(sum(!is.na(object@Tuldava)) == 0){
+  if(sum(!is.na(slot(object, "Tuldava"))) == 0){
     show.Tuldava <- FALSE
   } else {
-    prt.Tuldava.flavour <- object@Tuldava$flavour
-    prt.Tuldava.index <- round(object@Tuldava$Tuldava, digits=2)
+    prt.Tuldava.flavour <- slot(object, "Tuldava")[["flavour"]]
+    prt.Tuldava.index <- round(slot(object, "Tuldava")[["Tuldava"]], digits=2)
     show.Tuldava <- TRUE
   }
 
-  if(sum(!is.na(object@Wheeler.Smith)) == 0){
+  if(sum(!is.na(slot(object, "Wheeler.Smith"))) == 0){
     show.Wheeler.Smith <- FALSE
   } else {
-    prt.Wheeler.Smith.flavour <- object@Wheeler.Smith$flavour
-    prt.Wheeler.Smith.score <- round(object@Wheeler.Smith$score, digits=2)
-    prt.Wheeler.Smith.grade <- object@Wheeler.Smith$grade
+    prt.Wheeler.Smith.flavour <- slot(object, "Wheeler.Smith")[["flavour"]]
+    prt.Wheeler.Smith.score <- round(slot(object, "Wheeler.Smith")[["score"]], digits=2)
+    prt.Wheeler.Smith.grade <- slot(object, "Wheeler.Smith")[["grade"]]
     show.Wheeler.Smith <- TRUE
   }
-  if(sum(!is.na(object@Wheeler.Smith.de)) == 0){
+  if(sum(!is.na(slot(object, "Wheeler.Smith.de"))) == 0){
     show.Wheeler.Smith.de <- FALSE
   } else {
-    prt.Wheeler.Smith.de.flavour <- object@Wheeler.Smith.de$flavour
-    prt.Wheeler.Smith.de.score <- round(object@Wheeler.Smith.de$score, digits=2)
-    prt.Wheeler.Smith.de.grade <- object@Wheeler.Smith.de$grade
+    prt.Wheeler.Smith.de.flavour <- slot(object, "Wheeler.Smith.de")[["flavour"]]
+    prt.Wheeler.Smith.de.score <- round(slot(object, "Wheeler.Smith.de")[["score"]], digits=2)
+    prt.Wheeler.Smith.de.grade <- slot(object, "Wheeler.Smith.de")[["grade"]]
     show.Wheeler.Smith.de <- TRUE
   }
 
-  if(sum(!is.na(object@Wiener.STF)) == 0){
+  if(sum(!is.na(slot(object, "Wiener.STF"))) == 0){
     show.Wiener.STF <- FALSE
   } else {
-    prt.Wiener.STF.flavour <- object@Wiener.STF$flavour
-    prt.WSTF1 <- round(object@Wiener.STF$nWS1, digits=2)
-    prt.WSTF2 <- round(object@Wiener.STF$nWS2, digits=2)
-    prt.WSTF3 <- round(object@Wiener.STF$nWS3, digits=2)
-    prt.WSTF4 <- round(object@Wiener.STF$nWS4, digits=2)
+    prt.Wiener.STF.flavour <- slot(object, "Wiener.STF")[["flavour"]]
+    prt.WSTF1 <- round(slot(object, "Wiener.STF")[["nWS1"]], digits=2)
+    prt.WSTF2 <- round(slot(object, "Wiener.STF")[["nWS2"]], digits=2)
+    prt.WSTF3 <- round(slot(object, "Wiener.STF")[["nWS3"]], digits=2)
+    prt.WSTF4 <- round(slot(object, "Wiener.STF")[["nWS4"]], digits=2)
     show.Wiener.STF <- TRUE
   }
 
@@ -898,8 +898,8 @@ setMethod("show", signature(object="kRp.readability"), function(object){
   } else {}
 
 
-   if(length(object@lang) > 0){
-     cat("Text language:", object@lang, "\n")
+   if(length(slot(object, "lang")) > 0){
+     cat("Text language:", slot(object, "lang"), "\n")
    } else {}
 
 })

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -30,17 +30,17 @@
 setMethod("summary", signature(object="kRp.txt.freq"), function(object){
 
   summary.table <- t(data.frame(
-    sentences=object@desc[["sentences"]],
-    avg.sentence.length=object@desc[["avg.sentc.length"]],
-    words=object@desc[["words"]],
-    avg.word.length=object@desc[["avg.word.length"]],
-    all.characters=object@desc[["all.chars"]],
-    letters=object@desc[["letters"]][["all"]],
-    lemmata=object@desc[["lemmata"]],
-    questions=object@desc[["questions"]],
-    exclamations=object@desc[["exclam"]],
-    semicolon=object@desc[["semicolon"]],
-    colon=object@desc[["colon"]],
+    sentences=describe(object)[["sentences"]],
+    avg.sentence.length=describe(object)[["avg.sentc.length"]],
+    words=describe(object)[["words"]],
+    avg.word.length=describe(object)[["avg.word.length"]],
+    all.characters=describe(object)[["all.chars"]],
+    letters=describe(object)[["letters"]][["all"]],
+    lemmata=describe(object)[["lemmata"]],
+    questions=describe(object)[["questions"]],
+    exclamations=describe(object)[["exclam"]],
+    semicolon=describe(object)[["semicolon"]],
+    colon=describe(object)[["colon"]],
     stringsAsFactors=FALSE))
 
   dimnames(summary.table)[[2]] <- "freq"
