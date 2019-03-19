@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-1 (2019-02-14)
+changes in version 0.12-1 (2019-03-19)
 unreleased:
   - this release is under development
 fixed:
@@ -50,6 +50,8 @@ changed:
   - cTest(): changed method signature from kRp.tagged to class union kRp.taggedText
   - summary(): changed method signature from kRp.tagged to class union kRp.taggedText
   - plot(): changed method signature from kRp.tagged to class union kRp.taggedText
+  - lex.div(): removed the validation warning for MATTR, implementation has been
+    validated by kevin cunningham and katarina haley
   - restructured source code files
 
 changes in version 0.11-5 (2018-10-27)

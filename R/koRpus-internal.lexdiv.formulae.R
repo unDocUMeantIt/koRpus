@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -139,6 +139,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   - CTTR                 [AYG]
   - HD-D                 [JMC]
   - Maas                 [MAS]
+  - MATTR                [CUR]
   - MSTTR                [AYG]
   - MTLD                 [JMC]
   - R                    [AYG]
@@ -147,7 +148,6 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   - MTLD-MA              [JMC]
 
   These measures produce plausible results, but need checking:
-  - MATTR
   - S
   - K
 
@@ -158,6 +158,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   Other:
   JMC: re-calculations by jarvis & mccarthy (thanks!!!)
   MAS: example data in the original paper by Maas
+  CUR: Cunningham & Haley (submitted). A Reliable R Method to Calculate the Moving-Average Type-Token Ratio, R journal.
   "
   ))
   return(invisible(NULL))
@@ -530,7 +531,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   }
 
   ## for the time being, give a warning until all implementations have been validated
-  needs.warning <- measure %in% c("MATTR","S","K")
+  needs.warning <- measure %in% c("S","K")
   if(!isTRUE(quiet) && any(needs.warning)){
     warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
     paste(measure[needs.warning], collapse=", "),
