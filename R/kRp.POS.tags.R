@@ -108,25 +108,25 @@ kRp.POS.tags <- function(lang=get.kRp.env(lang=TRUE), list.classes=FALSE, list.t
   # doesn't know a special tag for sentence endings, though. see
   # https://universaldependencies.org/u/pos/index.html
   tag.class.def.words.uni <- matrix(c(
-    "ADJ", "adjective", "Adjective",
-    "ADP", "adposition", "Adposition",
-    "ADV", "adverb", "Adverb",
-    "AUX", "auxiliary", "Auxiliary",
-    "CCONJ", "conjunction", "Coordinating conjunction",
-    "DET", "determiner", "Determiner",
-    "INTJ", "interjection", "Interjection",
-    "NOUN", "noun", "Noun",
-    "NUM", "numeral", "Numeral",
-    "PART", "particle", "Particle",
-    "PRON", "pronoun", "Pronoun",
-    "PROPN", "name", "Proper noun",
-    "SCONJ", "conjunction", "Subordinating conjunction",
-    "SYM", "symbol", "Symbol",
-    "VERB", "verb", "Verb",
-    "X", "other", "Not assigned a real POS category"
+    "ADJ", "adjective", "Adjective (universal POS tags)",
+    "ADP", "adposition", "Adposition (universal POS tags)",
+    "ADV", "adverb", "Adverb (universal POS tags)",
+    "AUX", "auxiliary", "Auxiliary (universal POS tags)",
+    "CCONJ", "conjunction", "Coordinating conjunction (universal POS tags)",
+    "DET", "determiner", "Determiner (universal POS tags)",
+    "INTJ", "interjection", "Interjection (universal POS tags)",
+    "NOUN", "noun", "Noun (universal POS tags)",
+    "NUM", "numeral", "Numeral (universal POS tags)",
+    "PART", "particle", "Particle (universal POS tags)",
+    "PRON", "pronoun", "Pronoun (universal POS tags)",
+    "PROPN", "name", "Proper noun (universal POS tags)",
+    "SCONJ", "conjunction", "Subordinating conjunction (universal POS tags)",
+    "SYM", "symbol", "Symbol (universal POS tags)",
+    "VERB", "verb", "Verb (universal POS tags)",
+    "X", "other", "Not assigned a real POS category (universal POS tags)"
     ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
   tag.class.def.punct.uni <- matrix(c(
-    "PUNCT", "punctuation", "Punctuation"
+    "PUNCT", "punctuation", "Punctuation (universal POS tags)"
     ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
 
   ## get the needed tag definition

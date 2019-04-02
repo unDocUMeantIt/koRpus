@@ -26,7 +26,7 @@
 #'
 #' @param file Either a matrix, a connection or a character vector. If the latter, that must be a valid path to a file,
 #'    containing the previously analyzed text. If it is a matrix, it must contain three columns named "token", "tag", and "lemma",
-#'    and only these three columns are used.
+#'    and except for these three columns all others are ignored.
 #' @param lang A character string naming the language of the analyzed corpus. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}
 #'    for all supported languages.
 #'    If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
@@ -189,12 +189,11 @@ kRp_read_tagged <- function(mtrx, lang="kRp.env", tagger="TreeTagger",
   } else {}
 
   # mtrx should be a matrix-like object with previously tagged text
-  if(!ncol(mtrx) == 3 | any(!c("token","tag","lemma") %in% colnames(mtrx))){
+  if(any(!c("token","tag","lemma") %in% colnames(mtrx))){
     stop(simpleError("If input is a matrix, it must have three columns named \"token\", \"tag\", and \"lemma\"!"))
   } else {
     tagged.mtrx <- as.matrix(mtrx[,c("token","tag","lemma")])
   }
-
   if(identical(tagger, "TreeTagger")){
     # add sentence endings as defined
     if(isTRUE(apply.sentc.end)){
@@ -214,7 +213,7 @@ kRp_read_tagged <- function(mtrx, lang="kRp.env", tagger="TreeTagger",
   tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
   
   # add columns "idx", "sntc" and "doc_id"
-  tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=NA)
+  tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
   results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics

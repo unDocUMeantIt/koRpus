@@ -422,7 +422,13 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
   } else {
     tagged.text.df[["sntc"]] <- NA
   }
-  tagged.text.df[["doc_id"]] <- factor(doc_id)
+  # keep a doc_id if present and new value would be NA
+  if(!"doc_id" %in% colnames(tagged.text.df) | !is.na(doc_id)){
+    tagged.text.df[["doc_id"]] <- factor(doc_id)
+  } else if(length(unique(tagged.text.df[["doc_id"]])) > 1){
+    # just check for sane doc_id
+    stop(simpleError("You provided a doc_id column that included multiple IDs. This is not supported."))
+  } else {}
   return(tagged.text.df)
 } ## end function indexSentenceDoc()
 

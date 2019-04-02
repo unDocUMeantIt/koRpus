@@ -38,7 +38,7 @@ readTagged(file, ...)
       that must be a valid path to a file,
 containing the previously analyzed text. If it is a matrix,
       it must contain three columns named "token", "tag", and "lemma",
-and only these three columns are used.}
+and except for these three columns all others are ignored.}
 
 \item{...}{Additional options, currently unused.}
 
