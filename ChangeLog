@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-1 (2019-03-19)
+changes in version 0.12-1 (2019-04-02)
 unreleased:
   - this release is under development
 fixed:
@@ -23,6 +23,7 @@ added:
     transformed text objects
   - originalText(): new method to revert text transformations and get the
     original text
+  - kRp.POS.tags(): now includes universal POS tags by default
   - new unit tests for many methods, including query(), textTransform(),
     readTagged(), filterByClass(), pasteText(), diffText(), originalText(),
     jumbleWords(), and clozeDelete()

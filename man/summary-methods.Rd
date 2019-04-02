@@ -32,7 +32,9 @@ summary(object, ...)
 
 \item{flat}{Logical, if TRUE only a named vector of main results is returned}
 
-\item{index}{Vector indicating which rows should be considered as transformed for the statistics.
+\item{index}{Either a vector indicating which rows should be considered as transformed for the statistics,
+or the name of a particular transformation that was previously done to the object,
+      if more than one transformation was applied.
 If \code{NA}, all rows where \code{"equal"} is \code{FALSE} are used.
 Only valid for objects of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.}
 }
