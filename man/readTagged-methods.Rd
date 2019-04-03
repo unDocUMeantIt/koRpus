@@ -14,12 +14,14 @@ readTagged(file, ...)
 \S4method{readTagged}{matrix}(file, lang = "kRp.env",
   tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
   "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env")
+  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env",
+  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma"))
 
 \S4method{readTagged}{data.frame}(file, lang = "kRp.env",
   tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
   "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env")
+  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env",
+  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma"))
 
 \S4method{readTagged}{kRp.connection}(file, lang = "kRp.env",
   encoding = "unknown", tagger = "TreeTagger",
@@ -47,8 +49,9 @@ for all supported languages.
 If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.}
 
 \item{tagger}{The software which was used to tokenize and tag the text. Currently,
-      TreeTagger is the only
-supported tagger.}
+      "TreeTagger" and "manual" are the only
+supported values. If "manual",
+      you must also adjust the values of \code{mtx_cols} to define the columns to be imported.}
 
 \item{apply.sentc.end}{Logical,
       whethter the tokens defined in \code{sentc.end} should be searched and set to a sentence ending tag.
@@ -77,6 +80,12 @@ this function.}
       the tag description (column \code{"desc"} of the data.frame) will be added directly
 to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
 
+\item{mtx_cols}{Character vector with exactly three elements named "token", "tag",
+      and "lemma",
+the values of which must match the respective column names of the matrix provided via \code{file}.
+It is possible to set \code{lemma=NA} if the tagged results only provide token and tag.
+This argument is ignored unless \code{tagger="manual"} and data is provided as either a matrix or data frame.}
+
 \item{encoding}{A character string defining the character encoding of the input file,
       like  \code{"Latin1"} or \code{"UTF-8"}.}
 }
@@ -97,12 +106,23 @@ It will also get stored in the resulting object and might be used by other funct
 \examples{
 \dontrun{
   # call method on a connection
-  text.con <- file("~/my.data/tagged_speech.txt", "r")
-  tagged.results <- readTagged(text.con, lang="en")
-  close(text.con)
+  text_con <- file("~/my.data/tagged_speech.txt", "r")
+  tagged_results <- readTagged(text_con, lang="en")
+  close(text_con)
 
   # call it on the file directly
-  tagged.results <- readTagged("~/my.data/tagged_speech.txt", lang="en")
+  tagged_results <- readTagged("~/my.data/tagged_speech.txt", lang="en")
+  
+  # import the results of RDRPOSTagger, using the "manual" tagger feature
+  sample_text <- c("Dies ist ein kurzes Beispiel. Es ergibt wenig Sinn.")
+  tagger <- RDRPOSTagger::rdr_model(language="German", annotation="POS")
+  tagged_rdr <- RDRPOSTagger::rdr_pos(tagger, x=sample_text)
+  tagged_results <- readTagged(
+    tagged_rdr,
+    lang="de",
+    tagger="manual",
+    mtx_cols=c(token="token", tag="pos", lemma=NA)
+  )
 }
 }
 \references{

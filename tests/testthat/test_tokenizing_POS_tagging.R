@@ -156,6 +156,25 @@ test_that("setting environment variables", {
 })
 
 
+context("language support")
+
+test_that("merging new POS tags", {
+  set.lang.support("kRp.POS.tags",
+    list("xy"=list(
+      tag.class.def.words=matrix(c(
+          "NNP", "name", "Proper noun, singular",
+          "NNPS", "name", "Proper noun, plural",
+          "PRP$", "pronoun", "Possessive pronoun"
+      ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
+    ))
+  )
+
+  expect_true(
+   all(c("NNP", "NNPS", "PRP$") %in% kRp.POS.tags("xy", list.tags=TRUE))
+  )
+})
+
+
 context("tokenizing")
 
 test_that("basic tokenizing", {
@@ -221,12 +240,13 @@ test_that("fixing old objects", {
   )
 })
 
-
 context("readTagged")
 
 test_that("importing already tagged texts", {
   sampleTextFileTreeTagged <- normalizePath("sample_text_treetagged.txt")
+  sampleTextFileRDRTagged <- dget("sample_text_RDRPOSTagged_df_dput.txt")
   sampleTextTreeTaggedStandard <- dget("sample_text_treetagged_dput.txt")
+  sampleTextRDRTaggedStandard <- dget("sample_text_RDRPOSTagged_kRp_dput.txt")
 
   # running readTagged() on a character string already tests various
   # methods, because the string is made into a connection and that
@@ -234,9 +254,23 @@ test_that("importing already tagged texts", {
   # methods internally
   treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy")
 
+  
+  RDRPOSTaggedText <- readTagged(
+    sampleTextFileRDRTagged,
+    lang="xy",
+    doc_id="sampleText",
+    tagger="manual",
+    mtx_cols=c(token="token", tag="pos", lemma=NA)
+  )
+  
   expect_equal(
     treeTaggedText,
     sampleTextTreeTaggedStandard
+  )
+
+  expect_equal(
+    RDRPOSTaggedText,
+    sampleTextRDRTaggedStandard
   )
 })
 

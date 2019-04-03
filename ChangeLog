@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-1 (2019-04-02)
+changes in version 0.12-1 (2019-04-03)
 unreleased:
   - this release is under development
 fixed:
@@ -19,6 +19,8 @@ added:
     kRp.filter.wclass() function, which is now deprecated
   - pasteText(): like filterByClass(), but replacing kRp.text.paste()
   - readTagged(): like filterByClass(), but replacing read.tagged()
+  - readTagged(): new argument mtx_cols for new tagger="manual" setting, allowing
+    to import data POS tagged with third party tools
   - diffText()/diffText()<-: new getter/setter methods for the "diff" slot of
     transformed text objects
   - originalText(): new method to revert text transformations and get the

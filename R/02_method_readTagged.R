@@ -31,8 +31,8 @@
 #'    for all supported languages.
 #'    If set to \code{"kRp.env"} this is got from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
 #' @param encoding A character string defining the character encoding of the input file, like  \code{"Latin1"} or \code{"UTF-8"}.
-#' @param tagger The software which was used to tokenize and tag the text. Currently, TreeTagger is the only
-#'    supported tagger.
+#' @param tagger The software which was used to tokenize and tag the text. Currently, "TreeTagger" and "manual" are the only
+#'    supported values. If "manual", you must also adjust the values of \code{mtx_cols} to define the columns to be imported.
 #' @param apply.sentc.end Logical, whethter the tokens defined in \code{sentc.end} should be searched and set to a sentence ending tag.
 #'    You could call this a compatibility mode to make sure you get the results you would get if you called
 #'    \code{\link[koRpus:treetag]{treetag}} on the original file.
@@ -67,28 +67,62 @@
 #' @examples
 #' \dontrun{
 #'   # call method on a connection
-#'   text.con <- file("~/my.data/tagged_speech.txt", "r")
-#'   tagged.results <- readTagged(text.con, lang="en")
-#'   close(text.con)
+#'   text_con <- file("~/my.data/tagged_speech.txt", "r")
+#'   tagged_results <- readTagged(text_con, lang="en")
+#'   close(text_con)
 #'
 #'   # call it on the file directly
-#'   tagged.results <- readTagged("~/my.data/tagged_speech.txt", lang="en")
+#'   tagged_results <- readTagged("~/my.data/tagged_speech.txt", lang="en")
+#'   
+#'   # import the results of RDRPOSTagger, using the "manual" tagger feature
+#'   sample_text <- c("Dies ist ein kurzes Beispiel. Es ergibt wenig Sinn.")
+#'   tagger <- RDRPOSTagger::rdr_model(language="German", annotation="POS")
+#'   tagged_rdr <- RDRPOSTagger::rdr_pos(tagger, x=sample_text)
+#'   tagged_results <- readTagged(
+#'     tagged_rdr,
+#'     lang="de",
+#'     tagger="manual",
+#'     mtx_cols=c(token="token", tag="pos", lemma=NA)
+#'   )
 #' }
 setGeneric("readTagged", function(file, ...){standardGeneric("readTagged")})
 
 
+#' @param mtx_cols Character vector with exactly three elements named "token", "tag", and "lemma",
+#'    the values of which must match the respective column names of the matrix provided via \code{file}.
+#'    It is possible to set \code{lemma=NA} if the tagged results only provide token and tag.
+#'    This argument is ignored unless \code{tagger="manual"} and data is provided as either a matrix or data frame.
 #' @export
 #' @docType methods
 #' @rdname readTagged-methods
 #' @aliases readTagged,matrix-method
 setMethod("readTagged",
   signature(file="matrix"),
-  function(file, lang="kRp.env", tagger="TreeTagger",
-  apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env"){
-    results <- kRp_read_tagged(mtrx=file, lang=lang, tagger=tagger,
-      apply.sentc.end=apply.sentc.end, sentc.end=sentc.end,
-      stopwords=stopwords, stemmer=stemmer, doc_id=doc_id, add.desc=add.desc)
+  function(
+    file,
+    lang="kRp.env",
+    tagger="TreeTagger",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    stopwords=NULL,
+    stemmer=NULL,
+    rm.sgml=TRUE,
+    doc_id=NA,
+    add.desc="kRp.env",
+    mtx_cols=c(token="token", tag="tag", lemma="lemma")
+  ){
+    results <- kRp_read_tagged(
+      mtrx=file,
+      lang=lang,
+      tagger=tagger,
+      apply.sentc.end=apply.sentc.end,
+      sentc.end=sentc.end,
+      stopwords=stopwords,
+      stemmer=stemmer,
+      doc_id=doc_id,
+      add.desc=add.desc,
+      mtx_cols=mtx_cols
+    )
     return(results)
   }
 )
@@ -100,12 +134,32 @@ setMethod("readTagged",
 #' @aliases readTagged,data.frame-method
 setMethod("readTagged",
   signature(file="data.frame"),
-  function(file, lang="kRp.env", tagger="TreeTagger",
-  apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env"){
-    results <- readTagged(file=as.matrix(file), lang=lang, tagger=tagger,
-      apply.sentc.end=apply.sentc.end, sentc.end=sentc.end,
-      stopwords=stopwords, stemmer=stemmer, rm.sgml=rm.sgml, doc_id=doc_id, add.desc=add.desc)
+  function(
+    file,
+    lang="kRp.env",
+    tagger="TreeTagger",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    stopwords=NULL,
+    stemmer=NULL,
+    rm.sgml=TRUE,
+    doc_id=NA,
+    add.desc="kRp.env",
+    mtx_cols=c(token="token", tag="tag", lemma="lemma")
+  ){
+    results <- readTagged(
+      file=as.matrix(file),
+      lang=lang,
+      tagger=tagger,
+      apply.sentc.end=apply.sentc.end,
+      sentc.end=sentc.end,
+      stopwords=stopwords,
+      stemmer=stemmer,
+      rm.sgml=rm.sgml,
+      doc_id=doc_id,
+      add.desc=add.desc,
+      mtx_cols=mtx_cols
+    )
     return(results)
   }
 )
@@ -118,9 +172,19 @@ setMethod("readTagged",
 #' @include 01_class_81_kRp.connection_union.R
 setMethod("readTagged",
   signature(file="kRp.connection"),
-  function(file, lang="kRp.env", encoding="unknown", tagger="TreeTagger",
-  apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env"){
+  function(
+    file,
+    lang="kRp.env",
+    encoding="unknown",
+    tagger="TreeTagger",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    stopwords=NULL,
+    stemmer=NULL,
+    rm.sgml=TRUE,
+    doc_id=NA,
+    add.desc="kRp.env"
+  ){
     ## read the file
     tagged.text <- readLines(file, encoding=encoding)
     tagged.text <- enc2utf8(tagged.text)
@@ -140,9 +204,18 @@ setMethod("readTagged",
       dimnames=list(c(),c("token","tag","lemma"))
     )
 
-    results <- readTagged(file=tagged.mtrx, lang=lang, tagger=tagger,
-      apply.sentc.end=apply.sentc.end, sentc.end=sentc.end,
-       stopwords=stopwords, stemmer=stemmer, doc_id=doc_id, add.desc=add.desc)
+    results <- readTagged(
+      file=tagged.mtrx,
+      lang=lang,
+      tagger=tagger,
+      apply.sentc.end=apply.sentc.end,
+      sentc.end=sentc.end,
+      stopwords=stopwords,
+      stemmer=stemmer,
+      doc_id=doc_id,
+      add.desc=add.desc,
+      mtx_cols=c(token="token", tag="tag", lemma="lemma")
+    )
 
     return(results)
   }
@@ -155,15 +228,35 @@ setMethod("readTagged",
 #' @aliases readTagged,character-method
 setMethod("readTagged",
   signature(file="character"),
-  function(file, lang="kRp.env", encoding=getOption("encoding"), tagger="TreeTagger",
-  apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, rm.sgml=TRUE, doc_id=NA, add.desc="kRp.env"){
+  function(
+    file,
+    lang="kRp.env",
+    encoding=getOption("encoding"),
+    tagger="TreeTagger",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    stopwords=NULL,
+    stemmer=NULL,
+    rm.sgml=TRUE,
+    doc_id=NA,
+    add.desc="kRp.env"
+  ){
     check.file(normalizePath(file), mode="exist")
     # turn into a connection and call another methods
     file_con <- file(description=file, open="r", encoding=encoding)
-    results <- readTagged(file=file_con, lang=lang, encoding=encoding, tagger=tagger,
-      apply.sentc.end=apply.sentc.end, sentc.end=sentc.end,
-      stopwords=stopwords, stemmer=stemmer, rm.sgml=rm.sgml, doc_id=doc_id, add.desc=add.desc)
+    results <- readTagged(
+      file=file_con,
+      lang=lang,
+      encoding=encoding,
+      tagger=tagger,
+      apply.sentc.end=apply.sentc.end,
+      sentc.end=sentc.end,
+      stopwords=stopwords,
+      stemmer=stemmer,
+      rm.sgml=rm.sgml,
+      doc_id=doc_id,
+      add.desc=add.desc
+    )
     close(file_con)
     return(results)
   }
@@ -180,21 +273,61 @@ read.tagged <- function(...){
 
 # the internal workhorse
 # mtrx: a matrix with columns "token", "tag", and "lemma"
-kRp_read_tagged <- function(mtrx, lang="kRp.env", tagger="TreeTagger",
-  apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-  stopwords=NULL, stemmer=NULL, doc_id=NA, add.desc="kRp.env"){
-
+kRp_read_tagged <- function(
+  mtrx,
+  lang="kRp.env",
+  tagger="TreeTagger",
+  apply.sentc.end=TRUE,
+  sentc.end=c(".","!","?",";",":"),
+  stopwords=NULL,
+  stemmer=NULL,
+  doc_id=NA,
+  add.desc="kRp.env",
+  mtx_cols=c(token="token", tag="tag", lemma="lemma")
+){
   if(identical(lang, "kRp.env")){
     lang <- get.kRp.env(lang=TRUE)
   } else {}
 
-  # mtrx should be a matrix-like object with previously tagged text
-  if(any(!c("token","tag","lemma") %in% colnames(mtrx))){
-    stop(simpleError("If input is a matrix, it must have three columns named \"token\", \"tag\", and \"lemma\"!"))
+  relv_cols <- get_cols <- c("token","tag","lemma")
+  
+  if(identical(tagger, "manual")){
+    # check if we need to fix colnames first
+    if(any(!relv_cols %in% names(mtx_cols))){
+      stop(simpleError("If you want to use manual tagger settings, you must provide column names for \"token\", \"tag\", and \"lemma\"!"))
+    } else {}
+    lemma_na <- FALSE
+    for (thisCol in relv_cols){
+      if(is.na(mtx_cols[thisCol])){
+        if(thisCol %in% "lemma"){
+          # remove this NA column from relevant columns
+          get_cols <- get_cols[!get_cols %in% thisCol]
+          lemma_na <- TRUE
+        } else {
+          stop(simpleError(paste0("The value for column \"", thisCol, "\" must not be NA!")))
+        }
+      }
+      get_cols[get_cols %in% thisCol] <- mtx_cols[thisCol]
+    }
+    if(any(!get_cols %in% colnames(mtrx))){
+      stop(simpleError("The columns you defined via mtx_cols do not match the columns of the given matrix!"))
+    } else {}
+    tagged.mtrx <- as.matrix(mtrx[,get_cols])
+    if(isTRUE(lemma_na)){
+      colnames(tagged.mtrx) <- c("token","tag")
+      tagged.mtrx <- cbind(tagged.mtrx, "lemma"=NA)
+    } else {
+      colnames(tagged.mtrx) <- relv_cols
+    }
   } else {
-    tagged.mtrx <- as.matrix(mtrx[,c("token","tag","lemma")])
+    # mtrx should be a matrix-like object with previously tagged text
+    if(any(!relv_cols %in% colnames(mtrx))){
+      stop(simpleError("If input is a matrix, it must have three columns named \"token\", \"tag\", and \"lemma\"!"))
+    } else {}
+    tagged.mtrx <- as.matrix(mtrx[,relv_cols])
   }
-  if(identical(tagger, "TreeTagger")){
+
+  if(identical(tagger, "TreeTagger") | identical(tagger, "manual")){
     # add sentence endings as defined
     if(isTRUE(apply.sentc.end)){
       sntc.end.tag <- kRp.POS.tags(lang, tags="sentc", list.tags=TRUE)[[1]]
@@ -217,8 +350,12 @@ kRp_read_tagged <- function(mtrx, lang="kRp.env", tagger="TreeTagger",
 
   results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
   ## descriptive statistics
-  describe(results) <- basic.tagged.descriptives(results, lang=lang,
-    txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]), doc_id=doc_id)
+  describe(results) <- basic.tagged.descriptives(
+    results,
+    lang=lang,
+    txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]),
+    doc_id=doc_id
+  )
 
   return(results)
 }
