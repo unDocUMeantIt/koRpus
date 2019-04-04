@@ -18,13 +18,13 @@
 init.kRp.tagged.df <- function(rows=1){
   val <- rep(NA, rows)
   return(data.frame(
-    doc_id=val,
+    doc_id=factor(val),
     token=val,
-    tag=val,
+    tag=factor(val),
     lemma=val,
     lttr=val,
-    wclass=val,
-    desc=val,
+    wclass=factor(val),
+    desc=factor(val),
     stop=val,
     stem=val,
     idx=val,
@@ -47,17 +47,17 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #' @slot desc Descriptive statistics of the tagged text.
 #' @slot TT.res Results of the called tokenizer and POS tagger. The data.frame has eight columns:
 #'    \describe{
-#'      \item{\code{doc_id}:}{Optional document identifier.}
-#'      \item{\code{token}:}{The tokenized text.}
-#'      \item{\code{tag}:}{POS tags for each token.}
-#'      \item{\code{lemma}:}{Lemma for each token.}
-#'      \item{\code{lttr}:}{Number of letters.}
-#'      \item{\code{wclass}:}{Word class.}
-#'      \item{\code{desc}:}{A short description of the POS tag.}
+#'      \item{\code{doc_id}:}{Factor, optional document identifier.}
+#'      \item{\code{token}:}{Character, the tokenized text.}
+#'      \item{\code{tag}:}{Factor, POS tags for each token.}
+#'      \item{\code{lemma}:}{Character, lemma for each token.}
+#'      \item{\code{lttr}:}{Numeric, number of letters.}
+#'      \item{\code{wclass}:}{Factor, word class.}
+#'      \item{\code{desc}:}{Factor, a short description of the POS tag.}
 #'      \item{\code{stop}:}{Logical, \code{TRUE} if token is a stopword.}
-#'      \item{\code{stem}:}{Stemmed token.}
-#'      \item{\code{idx}:}{Index number of token in this document.}
-#'      \item{\code{sntc}:}{Number of sentence in this document.}
+#'      \item{\code{stem}:}{Character, stemmed token.}
+#'      \item{\code{idx}:}{Integer, index number of token in this document.}
+#'      \item{\code{sntc}:}{Integer, number of sentence in this document.}
 #'    }
 #'    This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].
 #' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.

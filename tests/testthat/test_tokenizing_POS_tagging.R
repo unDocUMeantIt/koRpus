@@ -132,6 +132,31 @@ set.lang.support("kRp.POS.tags",
 samplePatternStandard <- dget("hyph_xy_dput.txt")
 set.hyph.support(list("xy"=samplePatternStandard))
 
+# test appending new POS tags
+## this adds new tags globally, keep in mind when updating test standards!
+context("language support")
+
+test_that("merging new POS tags", {
+  expect_true(
+   all(!c("NNP", "NNPS", "PRP$") %in% kRp.POS.tags("xy", list.tags=TRUE))
+  )
+
+  set.lang.support("kRp.POS.tags",
+    list("xy"=list(
+      tag.class.def.words=matrix(c(
+          "NNP", "name", "Proper noun, singular",
+          "NNPS", "name", "Proper noun, plural",
+          "PRP$", "pronoun", "Possessive pronoun"
+      ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
+    ))
+  )
+
+  expect_true(
+   all(c("NNP", "NNPS", "PRP$") %in% kRp.POS.tags("xy", list.tags=TRUE))
+  )
+})
+
+
 # testing basic tokenizing and POS tagging
 
 context("environment")
@@ -152,25 +177,6 @@ test_that("setting environment variables", {
   expect_that(
     get.kRp.env(TT.options=TRUE),
     is_identical_to(list(path=".", preset="xy"))
-  )
-})
-
-
-context("language support")
-
-test_that("merging new POS tags", {
-  set.lang.support("kRp.POS.tags",
-    list("xy"=list(
-      tag.class.def.words=matrix(c(
-          "NNP", "name", "Proper noun, singular",
-          "NNPS", "name", "Proper noun, plural",
-          "PRP$", "pronoun", "Possessive pronoun"
-      ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
-    ))
-  )
-
-  expect_true(
-   all(c("NNP", "NNPS", "PRP$") %in% kRp.POS.tags("xy", list.tags=TRUE))
   )
 })
 
