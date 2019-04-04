@@ -311,7 +311,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
   # count number of letters, add column "lttr"
-  newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"], type="width"))
+  newDf[["lttr"]] <- as.integer(nchar(tagged.text[,"token"], type="width"))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
