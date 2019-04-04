@@ -51,7 +51,7 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'      \item{\code{token}:}{Character, the tokenized text.}
 #'      \item{\code{tag}:}{Factor, POS tags for each token.}
 #'      \item{\code{lemma}:}{Character, lemma for each token.}
-#'      \item{\code{lttr}:}{Numeric, number of letters.}
+#'      \item{\code{lttr}:}{Integer, number of letters.}
 #'      \item{\code{wclass}:}{Factor, word class.}
 #'      \item{\code{desc}:}{Factor, a short description of the POS tag.}
 #'      \item{\code{stop}:}{Logical, \code{TRUE} if token is a stopword.}
