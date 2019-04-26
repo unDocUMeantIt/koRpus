@@ -37,11 +37,26 @@
 #'   \item {\code{"eu.norm"}} {Usual European cases: Only names and sentence beginnings start with an uppercase letter,
 #'      anything else with a lowercase letter.}
 #'   \item {\code{"eu.inv"}} {Inversion of \code{"eu.norm"}.}
+#'   \item {\code{"normalize"}} {Replace all tokens matching \code{query} in column \code{var} according to \code{method} (see below).}
 #'  }
 #' @param p Numeric value between 0 and 1. Defines the probability for upper case letters (relevant only
 #'    if \code{scheme="random"}).
 #' @param paste Logical, see value section.
-#' @param ... Only used for the method generic.
+#' @param var A character string naming a variable in the object (i.e., colname). See \code{\link[koRpus:query]{query}} for details.
+#'    Relevant only if \code{scheme="normalize"}.
+#' @param query A character vector (for words), regular expression, or single number naming values to be matched in the variable.
+#'    See \code{\link[koRpus:query]{query}} for details. Relevant only if \code{scheme="normalize"}.
+#' @param method One of the following character strings:
+#'    \itemize{
+#'      \item {\code{"shortest"}} {Replace all matches with the shortest value found.}
+#'      \item {\code{"longest"}} {Replace all matches with the longest value found.}
+#'      \item {\code{"mean"}} {Replace all matches with a pseudo token generated from all values found, with average length.}
+#'      \item {\code{"replace"}} {Replace all matches with the token given via \code{replacement}.}
+#'    }
+#'    Relevant only if \code{scheme="normalize"}.
+#' @param replacement Character string defining the exact token to replace all query matches with.
+#'    Relevant only if \code{scheme="normalize"} and \code{method="replace"}.
+#' @param ... Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.
 #' @return By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE}, returns
 #'    an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
@@ -70,7 +85,7 @@ setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")}
 setMethod("textTransform",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.taggedText"),
-  function(txt, scheme, p=0.5, paste=FALSE){
+  function(txt, scheme, p=0.5, paste=FALSE, var="wclass", query="fullstop", method="replace", replacement=".", ...){
 
     txt.df <- txt.orig <- taggedText(txt)
 
@@ -130,6 +145,29 @@ setMethod("textTransform",
         # full inversion of "de.norm"
         txt.df[!all.to.upper,"token"] <- text.1st.letter(txt.df[!all.to.upper,"token"], "upper")
         txt.df[all.to.upper,"token"] <- text.1st.letter(txt.df[all.to.upper,"token"], "lower")
+      }
+    } else if(identical(scheme, "normalize")){
+      matched_tokens_idx <- query(txt.df, var=var, query=query, ...)[["idx"]]
+      relevant_tokens <- txt.df[["idx"]] %in% matched_tokens_idx
+      if(identical(method, "replace")){
+        txt.df[relevant_tokens, "token"] <- replacement
+      } else if(method %in% c("shortest", "longest", "mean")){
+        matched_tokens <- unique(txt.df[relevant_tokens, c("token","lttr")])
+        num_tokens <- table(txt.df[relevant_tokens, "token"])
+        matched_tokens[["num"]] <- num_tokens[matched_tokens[["token"]]]
+        if(identical(method, "shortest")){
+          shortest_matches <- matched_tokens[matched_tokens[["lttr"]] %in% min(matched_tokens[["lttr"]]),]
+          # select the most prevalent token of all remaining matches
+          txt.df[relevant_tokens, "token"] <- shortest_matches[match(max(shortest_matches[["num"]]), shortest_matches[["num"]]), "token"]
+        } else if(identical(method, "longest")){
+          longest_matches <- matched_tokens[matched_tokens[["lttr"]] %in% max(matched_tokens[["lttr"]]),]
+          txt.df[relevant_tokens, "token"] <- longest_matches[match(max(longest_matches[["num"]]), longest_matches[["num"]]), "token"]
+        } else if(identical(method, "mean")){
+          warning("not yet implemented!")
+#           txt.df[relevant_tokens, "token"] <- ""
+        }
+      } else {
+        stop(simpleError("Unknown normalization method specified!"))
       }
     } else {
       stop(simpleError("Unknown scheme specified!"))

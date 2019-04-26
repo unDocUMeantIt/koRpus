@@ -9,14 +9,15 @@
 textTransform(txt, ...)
 
 \S4method{textTransform}{kRp.taggedText}(txt, scheme, p = 0.5,
-  paste = FALSE)
+  paste = FALSE, var = "wclass", query = "fullstop",
+  method = "replace", replacement = ".", ...)
 }
 \arguments{
 \item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
       \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
 
-\item{...}{Only used for the method generic.}
+\item{...}{Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.}
 
 \item{scheme}{One of the following character strings:
 \itemize{
@@ -32,12 +33,34 @@ textTransform(txt, ...)
   \item {\code{"eu.norm"}} {Usual European cases: Only names and sentence beginnings start with an uppercase letter,
      anything else with a lowercase letter.}
   \item {\code{"eu.inv"}} {Inversion of \code{"eu.norm"}.}
+  \item {\code{"normalize"}} {Replace all tokens matching \code{query} in column \code{var} according to \code{method} (see below).}
  }}
 
 \item{p}{Numeric value between 0 and 1. Defines the probability for upper case letters (relevant only
 if \code{scheme="random"}).}
 
 \item{paste}{Logical, see value section.}
+
+\item{var}{A character string naming a variable in the object (i.e.,
+      colname). See \code{\link[koRpus:query]{query}} for details.
+Relevant only if \code{scheme="normalize"}.}
+
+\item{query}{A character vector (for words), regular expression,
+      or single number naming values to be matched in the variable.
+See \code{\link[koRpus:query]{query}} for details. Relevant only if \code{scheme="normalize"}.}
+
+\item{method}{One of the following character strings:
+\itemize{
+  \item {\code{"shortest"}} {Replace all matches with the shortest value found.}
+  \item {\code{"longest"}} {Replace all matches with the longest value found.}
+  \item {\code{"mean"}} {Replace all matches with a pseudo token generated from all values found,
+      with average length.}
+  \item {\code{"replace"}} {Replace all matches with the token given via \code{replacement}.}
+}
+Relevant only if \code{scheme="normalize"}.}
+
+\item{replacement}{Character string defining the exact token to replace all query matches with.
+Relevant only if \code{scheme="normalize"} and \code{method="replace"}.}
 }
 \value{
 By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE},
