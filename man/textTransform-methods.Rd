@@ -57,6 +57,10 @@ See \code{\link[koRpus:query]{query}} for details. Relevant only if \code{scheme
       with average length.}
   \item {\code{"replace"}} {Replace all matches with the token given via \code{replacement}.}
 }
+In case of \code{"shortest"} and \code{"longest"},
+      if multiple values of the same length are found, the (first) most prevalent one is being used.
+The actual replacement value is documented in the \code{diff} slot of the object,
+      as a list called \code{transfmt.normalize}.
 Relevant only if \code{scheme="normalize"}.}
 
 \item{replacement}{Character string defining the exact token to replace all query matches with.

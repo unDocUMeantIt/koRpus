@@ -21,6 +21,8 @@ added:
   - readTagged(): like filterByClass(), but replacing read.tagged()
   - readTagged(): new argument mtx_cols for new tagger="manual" setting, allowing
     to import data POS tagged with third party tools
+  - textTransform(): new scheme "normalize" to replace tokens by given query rules
+    with a defined value
   - diffText()/diffText()<-: new getter/setter methods for the "diff" slot of
     transformed text objects
   - originalText(): new method to revert text transformations and get the

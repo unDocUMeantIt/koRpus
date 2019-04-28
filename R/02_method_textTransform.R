@@ -53,6 +53,8 @@
 #'      \item {\code{"mean"}} {Replace all matches with a pseudo token generated from all values found, with average length.}
 #'      \item {\code{"replace"}} {Replace all matches with the token given via \code{replacement}.}
 #'    }
+#'    In case of \code{"shortest"} and \code{"longest"}, if multiple values of the same length are found, the (first) most prevalent one is being used.
+#'    The actual replacement value is documented in the \code{diff} slot of the object, as a list called \code{transfmt.normalize}.
 #'    Relevant only if \code{scheme="normalize"}.
 #' @param replacement Character string defining the exact token to replace all query matches with.
 #'    Relevant only if \code{scheme="normalize"} and \code{method="replace"}.
@@ -158,13 +160,13 @@ setMethod("textTransform",
         if(identical(method, "shortest")){
           shortest_matches <- matched_tokens[matched_tokens[["lttr"]] %in% min(matched_tokens[["lttr"]]),]
           # select the most prevalent token of all remaining matches
-          txt.df[relevant_tokens, "token"] <- shortest_matches[match(max(shortest_matches[["num"]]), shortest_matches[["num"]]), "token"]
+          txt.df[relevant_tokens, "token"] <- replacement <- shortest_matches[match(max(shortest_matches[["num"]]), shortest_matches[["num"]]), "token"]
         } else if(identical(method, "longest")){
           longest_matches <- matched_tokens[matched_tokens[["lttr"]] %in% max(matched_tokens[["lttr"]]),]
-          txt.df[relevant_tokens, "token"] <- longest_matches[match(max(longest_matches[["num"]]), longest_matches[["num"]]), "token"]
+          txt.df[relevant_tokens, "token"] <- replacement <- longest_matches[match(max(longest_matches[["num"]]), longest_matches[["num"]]), "token"]
         } else if(identical(method, "mean")){
           warning("not yet implemented!")
-#           txt.df[relevant_tokens, "token"] <- ""
+#           txt.df[relevant_tokens, "token"] <- replacement <- ""
         }
       } else {
         stop(simpleError("Unknown normalization method specified!"))
@@ -176,7 +178,18 @@ setMethod("textTransform",
     if(isTRUE(paste)){
       results <- pasteText(txt.df)
     } else {
-      results <- txt_trans_diff(obj=txt, TT.res.new=txt.df, transfmt=scheme)
+      results <- txt_trans_diff(
+        obj=txt,
+        TT.res.new=txt.df,
+        transfmt=scheme,
+        normalize=list(
+          method=method,
+          var=var,
+          query=query,
+          replacement=replacement,
+          ...
+        )
+      )
     }
 
     return(results)
@@ -203,7 +216,7 @@ kRp.text.transform <- function(...){
 # - TT.res.new: the transformed TT.res data frame
 # returns an object of kRp.txt.trans
 #' @include 01_class_04_kRp.txt.trans.R
-txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
+txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list()){
   lang <- language(obj)
   doc_id <- describe(obj)[["doc_id"]]
   old.new.comp <- taggedText(obj)
@@ -225,6 +238,7 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
   if(inherits(obj, "kRp.txt.trans")){
     tokens.last    <- old.new.comp[["token"]]
     trans.equal    <- tokens.last == tokens.trans
+    transfmt.normalize <- diffText(obj)[["transfmt.normalize"]]
     if(is.data.frame(diffObj[["transfmt.equal"]])){
       transfmt.equal <- cbind(diffObj[["transfmt.equal"]], trans.equal)
     } else {
@@ -233,9 +247,14 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
     }
     colnames(transfmt.equal) <- c(diffObj[["transfmt"]], transfmt)
   } else {
+    transfmt.normalize <- list()
     # skip this if this is the only transformation, because it would be redundant
     transfmt.equal <- NULL
   }
+  if("normalize" %in% transfmt){
+    transfmt.normalize[[length(transfmt.normalize) + 1]] <- normalize
+  } else {}
+
   letters.diff     <- rep(0, length(tokens.equal))
   letters.diff[!tokens.equal] <- sapply(
     # only do this for tokens which are actually different from the originalText
@@ -281,7 +300,8 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown"){
       all.chars=diff.pct.lett.all,
       letters=diff.pct.lett,
       transfmt=transfmt,
-      transfmt.equal=transfmt.equal
+      transfmt.equal=transfmt.equal,
+      transfmt.normalize=transfmt.normalize
     )
   )
   describe(results) <- basic.tagged.descriptives(

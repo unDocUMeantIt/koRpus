@@ -32,6 +32,10 @@ the new columns \code{token.orig} and \code{equal}).}
   \item{\code{letters}:}{Percentage of altered letters in words only.}
   \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
   \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
+  \item{\code{transfmt.normalize}:}{A list documenting steps of normalization that were done to the object,
+      one element per transformation.
+    Each entry holds the name of the method, the query parameters,
+      and the effective replacement value.}
 }}
 }}
 
