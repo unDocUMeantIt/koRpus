@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-1 (2019-04-03)
+changes in version 0.12-1 (2019-04-29)
 unreleased:
   - this release is under development
 fixed:
@@ -35,7 +35,9 @@ changed:
   - tokenize(): now a S4 method for objects of class character and connections
   - treetag(): now a S4 method for objects of class character and connections
   - class kRp.txt.trans: "diff" slot now also lists the transformations done
-    to the tokens in a new list element called "transfmt"
+    to the tokens in a new list element called "transfmt", the changed tokens
+    in a data frame called "transfmt.equal" and normalization details in a
+    list called "transfmt.normalize"
   - language support: if you try using a preset but the langauge package
     wasn't loaded or even installed, a more elaborate error message is returned
     with hopefully useful hints to what to try next
