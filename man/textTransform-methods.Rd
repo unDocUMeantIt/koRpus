@@ -10,7 +10,7 @@ textTransform(txt, ...)
 
 \S4method{textTransform}{kRp.taggedText}(txt, scheme, p = 0.5,
   paste = FALSE, var = "wclass", query = "fullstop",
-  method = "replace", replacement = ".", ...)
+  method = "replace", replacement = ".", f = NA, ...)
 }
 \arguments{
 \item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
@@ -53,9 +53,8 @@ See \code{\link[koRpus:query]{query}} for details. Relevant only if \code{scheme
 \itemize{
   \item {\code{"shortest"}} {Replace all matches with the shortest value found.}
   \item {\code{"longest"}} {Replace all matches with the longest value found.}
-  \item {\code{"mean"}} {Replace all matches with a pseudo token generated from all values found,
-      with average length.}
   \item {\code{"replace"}} {Replace all matches with the token given via \code{replacement}.}
+  \item {\code{"function"}} {Replace all matches with the result of the function provided by \code{f} (see section Function for details).}
 }
 In case of \code{"shortest"} and \code{"longest"},
       if multiple values of the same length are found, the (first) most prevalent one is being used.
@@ -65,6 +64,9 @@ Relevant only if \code{scheme="normalize"}.}
 
 \item{replacement}{Character string defining the exact token to replace all query matches with.
 Relevant only if \code{scheme="normalize"} and \code{method="replace"}.}
+
+\item{f}{A function to calculate the replacement for all query matches.
+Relevant only if \code{scheme="normalize"} and \code{method="function"}.}
 }
 \value{
 By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE},
@@ -77,6 +79,20 @@ Transforms text in koRpus objects token by token.
 \details{
 This method is mainly intended to produce text material for experiments.
 }
+\section{Function}{
+ You can dynamically calculate the replacement value for the \code{"normalize"} scheme by setting \code{method="function"} and
+providing a function object as \code{f}. The function you provide must support the following arguments:
+\itemize{
+  \item {\code{TT.res}} {The original TT.res slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
+  \item {\code{match}} {A logical vector,
+      indicating for each row of \code{TT.res} whether it's a query match or not.}
+}
+You can then use these arguments in your function body to calculate the replacement,
+      e.g. \code{TT.res[match,"token"]} to get all relevant tokens.
+The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
+of length one or of the same length as all matches.
+}
+
 \examples{
 \dontrun{
 tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)

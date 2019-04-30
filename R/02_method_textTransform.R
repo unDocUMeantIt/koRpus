@@ -21,6 +21,16 @@
 #' Transforms text in koRpus objects token by token.
 #'
 #' This method is mainly intended to produce text material for experiments.
+#' 
+#' @section Function: You can dynamically calculate the replacement value for the \code{"normalize"} scheme by setting \code{method="function"} and
+#' providing a function object as \code{f}. The function you provide must support the following arguments:
+#' \itemize{
+#'   \item {\code{TT.res}} {The original TT.res slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
+#'   \item {\code{match}} {A logical vector, indicating for each row of \code{TT.res} whether it's a query match or not.}
+#' }
+#' You can then use these arguments in your function body to calculate the replacement, e.g. \code{TT.res[match,"token"]} to get all relevant tokens.
+#' The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
+#' of length one or of the same length as all matches.
 #'
 #' @param txt An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
@@ -50,14 +60,16 @@
 #'    \itemize{
 #'      \item {\code{"shortest"}} {Replace all matches with the shortest value found.}
 #'      \item {\code{"longest"}} {Replace all matches with the longest value found.}
-#'      \item {\code{"mean"}} {Replace all matches with a pseudo token generated from all values found, with average length.}
 #'      \item {\code{"replace"}} {Replace all matches with the token given via \code{replacement}.}
+#'      \item {\code{"function"}} {Replace all matches with the result of the function provided by \code{f} (see section Function for details).}
 #'    }
 #'    In case of \code{"shortest"} and \code{"longest"}, if multiple values of the same length are found, the (first) most prevalent one is being used.
 #'    The actual replacement value is documented in the \code{diff} slot of the object, as a list called \code{transfmt.normalize}.
 #'    Relevant only if \code{scheme="normalize"}.
 #' @param replacement Character string defining the exact token to replace all query matches with.
 #'    Relevant only if \code{scheme="normalize"} and \code{method="replace"}.
+#' @param f A function to calculate the replacement for all query matches.
+#'    Relevant only if \code{scheme="normalize"} and \code{method="function"}.
 #' @param ... Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.
 #' @return By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE}, returns
 #'    an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
@@ -87,7 +99,7 @@ setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")}
 setMethod("textTransform",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.taggedText"),
-  function(txt, scheme, p=0.5, paste=FALSE, var="wclass", query="fullstop", method="replace", replacement=".", ...){
+  function(txt, scheme, p=0.5, paste=FALSE, var="wclass", query="fullstop", method="replace", replacement=".", f=NA, ...){
 
     txt.df <- txt.orig <- taggedText(txt)
 
@@ -153,7 +165,7 @@ setMethod("textTransform",
       relevant_tokens <- txt.df[["idx"]] %in% matched_tokens_idx
       if(identical(method, "replace")){
         txt.df[relevant_tokens, "token"] <- replacement
-      } else if(method %in% c("shortest", "longest", "mean")){
+      } else if(method %in% c("shortest", "longest", "function")){
         matched_tokens <- unique(txt.df[relevant_tokens, c("token","lttr")])
         num_tokens <- table(txt.df[relevant_tokens, "token"])
         matched_tokens[["num"]] <- num_tokens[matched_tokens[["token"]]]
@@ -164,9 +176,12 @@ setMethod("textTransform",
         } else if(identical(method, "longest")){
           longest_matches <- matched_tokens[matched_tokens[["lttr"]] %in% max(matched_tokens[["lttr"]]),]
           txt.df[relevant_tokens, "token"] <- replacement <- longest_matches[match(max(longest_matches[["num"]]), longest_matches[["num"]]), "token"]
-        } else if(identical(method, "mean")){
-          warning("not yet implemented!")
-#           txt.df[relevant_tokens, "token"] <- replacement <- ""
+        } else if(identical(method, "function")){
+          if(is.function(f)){
+            txt.df[relevant_tokens, "token"] <- replacement <- f(TT.res=txt.df, match=relevant_tokens)
+          } else {
+            stop(simpleError("\"f\" must be a function!"))
+          }
         }
       } else {
         stop(simpleError("Unknown normalization method specified!"))
@@ -187,8 +202,10 @@ setMethod("textTransform",
           var=var,
           query=query,
           replacement=replacement,
+          f=f,
           ...
-        )
+        ),
+        check_missing_letters=scheme %in% "normalize"
       )
     }
 
@@ -214,9 +231,13 @@ kRp.text.transform <- function(...){
 # proper kRp.txt.trans object
 # - obj: tagged text object (class kRp.taggedText)
 # - TT.res.new: the transformed TT.res data frame
+# - transfmt: the name of the transformation
+# - normalize: arguments given for the normalization
+# - check_missing_letters: transformations like "normalize" can replace tokens
+#     with shorter ones. this option adds missing letters as changes to the original tokens
 # returns an object of kRp.txt.trans
 #' @include 01_class_04_kRp.txt.trans.R
-txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list()){
+txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list(), check_missing_letters=FALSE){
   lang <- language(obj)
   doc_id <- describe(obj)[["doc_id"]]
   old.new.comp <- taggedText(obj)
@@ -267,6 +288,12 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list()
       # additional characters of the longer token
       relevant_length <- min(length(letters.orig), length(letters.trans))
       result <- sum(letters.orig[1:relevant_length] != letters.trans[1:relevant_length])
+      if(isTRUE(check_missing_letters)){
+        # however, transformations lie "normalize" might replace tokens
+        # with much shorter ones, so for a full comparison, let's add the
+        # missing letters as changes
+        result <- result + (max(length(letters.orig), length(letters.trans)) - relevant_length)
+      } else {}
       return(result)
     }
   )
