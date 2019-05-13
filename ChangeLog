@@ -1,8 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-1 (2019-04-30)
-unreleased:
-  - this release is under development
+changes in version 0.12-1 (2019-05-13)
 fixed:
   - query(): method was broken for tagged objects
   - textTransform(): method was broken
@@ -19,10 +17,10 @@ added:
     kRp.filter.wclass() function, which is now deprecated
   - pasteText(): like filterByClass(), but replacing kRp.text.paste()
   - readTagged(): like filterByClass(), but replacing read.tagged()
-  - readTagged(): new argument mtx_cols for new tagger="manual" setting, allowing
-    to import data POS tagged with third party tools
-  - textTransform(): new scheme "normalize" to replace tokens by given query rules
-    with a defined value or the result of a provided function
+  - readTagged(): new argument mtx_cols for new tagger="manual" setting,
+    allowing to import data POS tagged with third party tools
+  - textTransform(): new scheme "normalize" to replace tokens by given query
+    rules with a defined value or the result of a provided function
   - diffText()/diffText()<-: new getter/setter methods for the "diff" slot of
     transformed text objects
   - originalText(): new method to revert text transformations and get the
@@ -54,11 +52,14 @@ changed:
   - textTransform(): moved the whole code segment that combines the
     transformed text into the returned object to a separate internal function so it can
     be re-used by other text transforming methods
-  - cTest(): changed method signature from kRp.tagged to class union kRp.taggedText
-  - summary(): changed method signature from kRp.tagged to class union kRp.taggedText
-  - plot(): changed method signature from kRp.tagged to class union kRp.taggedText
-  - lex.div(): removed the validation warning for MATTR, implementation has been
-    validated by kevin cunningham and katarina haley
+  - cTest(): changed method signature from kRp.tagged to class union
+    kRp.taggedText
+  - summary(): changed method signature from kRp.tagged to class union
+    kRp.taggedText
+  - plot(): changed method signature from kRp.tagged to class union
+    kRp.taggedText
+  - lex.div(): removed the validation warning for MATTR, implementation has
+    been validated by kevin cunningham and katarina haley
   - restructured source code files
 
 changes in version 0.11-5 (2018-10-27)
