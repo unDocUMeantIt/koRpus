@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.12-2 (2019-05-13)
+unreleased:
+  - this release is under development
+
 changes in version 0.12-1 (2019-05-13)
 fixed:
   - query(): method was broken for tagged objects
