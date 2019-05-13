@@ -13,8 +13,8 @@ The DESCRIPTION file:
 \tabular{ll}{
 Package: \tab koRpus\cr
 Type: \tab Package\cr
-Version: \tab 0.11-5\cr
-Date: \tab 2018-10-27\cr
+Version: \tab 0.12-1\cr
+Date: \tab 2019-05-13\cr
 Depends: \tab R (>= 3.0.0),sylly (>= 0.1-4)\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr

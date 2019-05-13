@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -307,7 +307,7 @@
 #' @param sentc.tag A character vector with POS tags which indicate a sentence ending. The default value \code{"sentc"} has special meaning and
 #'    will cause the result of \code{kRp.POS.tags(lang, tags="sentc", list.tags=TRUE)} to be used.
 #' @param nonword.class A character vector with word classes which should be ignored for readability analysis. The default value
-#'    \code{"nonpunct"} has special meaning and will cause the result of \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)}
+#'    \code{"nonpunct"} has special meaning and will cause the result of \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)}
 #'    to be used. Will only be of consequence if \code{hyphen} is not set!
 #' @param nonword.tag A character vector with POS tags which should be ignored for readability analysis. Will only be
 #'    of consequence if \code{hyphen} is not set!
@@ -383,6 +383,7 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases readability,kRp.taggedText-method
 #' @rdname readability-methods

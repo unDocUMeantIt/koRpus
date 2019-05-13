@@ -1,6 +1,77 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.12-1 (2019-05-13)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{query()}: method was broken for tagged objects
+      \item \code{textTransform()}: method was broken
+      \item class kRp.txt.trans: renamed column \code{"token.old"} into \code{"token.orig"}, which
+        is what was actually used by \code{textTransform()}; also added a validity test
+        for those column names to prevent confusion
+      \item \code{readTagged()}: adjusted default encoding
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item \code{query()}: new method for objects of class data.frame, which is now used if
+        \code{query()} is being called on koRpus class objects
+      \item \code{query()}: now also supports all numerical queries for tagged texts that
+        were previously only available for frequency objects
+      \item \code{filterByClass()}: a new method for tagged text objects, replacing the
+        \code{kRp.filter.wclass()} function, which is now deprecated
+      \item \code{pasteText()}: like \code{filterByClass()}, but replacing \code{kRp.text.paste()}
+      \item \code{readTagged()}: like \code{filterByClass()}, but replacing \code{read.tagged()}
+      \item \code{readTagged()}: new argument mtx_cols for new tagger=\code{"manual"} setting,
+        allowing to import data POS tagged with third party tools
+      \item \code{textTransform()}: new scheme \code{"normalize"} to replace tokens by given query
+        rules with a defined value or the result of a provided function
+      \item \code{diffText()}/diffText()<-: new getter/setter methods for the \code{"diff"} slot of
+        transformed text objects
+      \item \code{originalText()}: new method to revert text transformations and get the
+        original text
+      \item \code{kRp.POS.tags()}: now includes universal POS tags by default
+      \item new unit tests for many methods, including \code{query()}, \code{textTransform()},
+        \code{readTagged()}, \code{filterByClass()}, \code{pasteText()}, \code{diffText()}, \code{originalText()},
+        \code{jumbleWords()}, and \code{clozeDelete()}
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item \code{tokenize()}: now a S4 method for objects of class character and connections
+      \item \code{treetag()}: now a S4 method for objects of class character and connections
+      \item class kRp.txt.trans: \code{"diff"} slot now also lists the transformations done
+        to the tokens in a new list element called \code{"transfmt"}, the changed tokens
+        in a data frame called \code{"transfmt.equal"} and normalization details in a
+        list called \code{"transfmt.normalize"}
+      \item language support: if you try using a preset but the langauge package
+        wasn't loaded or even installed, a more elaborate error message is returned
+        with hopefully useful hints to what to try next
+      \item \code{jumbleWords()}: now a S4 method, no longer a function; the resulting
+        object is now also of class kRp.txt.trans if the input was a tagged text
+        object, preserving the original tokens
+      \item \code{clozeDelete()}: now returns an object of class kRp.txt.trans, dropping the
+        additional data frame in \code{"desc"}; this ist much more consistent with other
+        text transformations in the packahe
+      \item \code{cTest()}: like \code{clozeDelete()} now returns an object of class kRp.txt.trans,
+        dropping the additional data frame in \code{"desc"}
+      \item moved class union definition kRp.taggedText to its own file and updated
+        the import calls on a number of files accordingly
+      \item \code{textTransform()}: moved the whole code segment that combines the
+        transformed text into the returned object to a separate internal function so it can
+        be re-used by other text transforming methods
+      \item \code{cTest()}: changed method signature from kRp.tagged to class union
+        kRp.taggedText
+      \item \code{summary()}: changed method signature from kRp.tagged to class union
+        kRp.taggedText
+      \item \code{plot()}: changed method signature from kRp.tagged to class union
+        kRp.taggedText
+      \item \code{lex.div()}: removed the validation warning for MATTR, implementation has
+        been validated by kevin cunningham and katarina haley
+      \item restructured source code files
+    }
+  }
+}
 \section{Changes in koRpus version 0.11-5 (2018-10-27)}{
   \subsection{changed}{
     \itemize{

@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -202,14 +202,14 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 
     if(inherits(txt.file, "kRp.tagged")){
       txt.freq <- txt.file
-      tagged.words.only <- kRp.filter.wclass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag)
+      tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
       if(is.null(slot(txt.freq, "desc")$all.words)){
         slot(txt.freq, "desc")$all.words <- tagged.words.only[["token"]]
       } else {}
     } else {
       txt.freq <- freq.analysis(txt.file=txt.file, desc.stat=TRUE, force.lang=lang,
                 tagger=tagger, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, ...)
-      tagged.words.only <- kRp.filter.wclass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag)
+      tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
     }
     txt.desc <- slot(txt.freq, "desc")
     # set objects.only=FALSE to enable automatic tagging if a file name is given

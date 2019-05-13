@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -19,19 +19,6 @@
 # these are internal functions that are being called by some of the methods of koRpus
 # they are not exported, hence not to be called by users themselves
 # and are therefore only documented by the comments in this file.
-
-# define class union to make life easier
-#' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_02_kRp.TTR.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
-#' @include 01_class_05_kRp.analysis.R
-#' @include 01_class_06_kRp.corp.freq.R
-#' @include 01_class_09_kRp.lang.R
-#' @include 01_class_10_kRp.readability.R
-#' @include kRp.filter.wclass.R
-setClassUnion("kRp.taggedText", members=c("kRp.tagged", "kRp.analysis", "kRp.txt.freq", "kRp.txt.trans"))
-
 
 ## function check.file()
 # helper function for file checks
@@ -162,35 +149,36 @@ basic.text.descriptives <- function(txt){
 
 ## function basic.tagged.descriptives()
 # txt must be an object of class kRp.tagged
+#' @include 02_method_filterByClass.R
 basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, doc_id=NA){
   if(is.null(lang)){
-    lang <- txt@lang
+    lang <- language(txt)
   } else {}
   # create desc if not present
-  if(!is.null(txt.vector) && is.null(desc)){
+  if(all(!is.null(txt.vector), is.null(desc))){
     desc <- basic.text.descriptives(txt.vector)
   }
   # count sentences
   txt.stend.tags <- kRp.POS.tags(lang, list.tags=TRUE, tags="sentc")
-  txt.stend <- count.sentences(txt@TT.res, txt.stend.tags)
+  txt.stend <- count.sentences(taggedText(txt), txt.stend.tags)
   # count words
-  txt.nopunct <- kRp.filter.wclass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE)
-  num.words <- nrow(txt.nopunct@TT.res)
+  txt.nopunct <- filterByClass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=NULL)
+  num.words <- nrow(taggedText(txt.nopunct))
   avg.sentc.length <- num.words / txt.stend
 
   # character distribution
-  char.distrib <- value.distribs(txt@TT.res[["lttr"]], omit.missings=FALSE)
-  lttr.distrib <- value.distribs(txt.nopunct@TT.res[["lttr"]], omit.missings=FALSE)
+  char.distrib <- value.distribs(taggedText(txt)[["lttr"]], omit.missings=FALSE)
+  lttr.distrib <- value.distribs(taggedText(txt.nopunct)[["lttr"]], omit.missings=FALSE)
 
   # txt.desc$letters had all digits removed
   # we'll use these numbers as they are usually more exact than relying on correct tokenization
    if("letters.only" %in% names(desc)){
-     num.letters <- desc$letters.only + desc$digits
+     num.letters <- desc[["letters.only"]] + desc[["digits"]]
    } else {
-    num.letters <- desc$letters + desc$digits
+    num.letters <- desc[["letters"]] + desc[["digits"]]
     # for readability calculations
-    desc$letters.only <- desc$letters
-    desc$letters <- distrib.to.fixed(lttr.distrib, all.values=num.letters, idx="l")
+    desc[["letters.only"]] <- desc[["letters"]]
+    desc[["letters"]] <- distrib.to.fixed(lttr.distrib, all.values=num.letters, idx="l")
    }
   avg.word.length <- num.letters / num.words
 
@@ -323,7 +311,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
   # count number of letters, add column "lttr"
-  newDf[["lttr"]] <- as.numeric(nchar(tagged.text[,"token"], type="width"))
+  newDf[["lttr"]] <- as.integer(nchar(tagged.text[,"token"], type="width"))
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
@@ -434,7 +422,13 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
   } else {
     tagged.text.df[["sntc"]] <- NA
   }
-  tagged.text.df[["doc_id"]] <- factor(doc_id)
+  # keep a doc_id if present and new value would be NA
+  if(!"doc_id" %in% colnames(tagged.text.df) | !is.na(doc_id)){
+    tagged.text.df[["doc_id"]] <- factor(doc_id)
+  } else if(length(unique(tagged.text.df[["doc_id"]])) > 1){
+    # just check for sane doc_id
+    stop(simpleError("You provided a doc_id column that included multiple IDs. This is not supported."))
+  } else {}
   return(tagged.text.df)
 } ## end function indexSentenceDoc()
 
@@ -442,8 +436,10 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
 ## function tagged.txt.rm.classes()
 # takes a tagged text object and returns it without punctuation or other defined
 # classes or tags. can also return tokens in lemmatized form.
+# boolean: don't return the actual reduced data, but a logical vector indicating
+#   which values (i.e. rows) would have been removed
 # NOTE: "lemma" only takes effect if "as.vector=TRUE"!
-tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm.tag, as.vector=TRUE){
+tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm.tag, as.vector=TRUE, boolean=FALSE){
   # to avoid needless NOTEs from R CMD check
   wclass <- tag <- rel.col <- NULL
 
@@ -485,17 +481,21 @@ tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm
     }
   } else {}
 
-  # return only a vetor with the tokens itself, or the whole object?
-  if(isTRUE(as.vector)){
+  # in this vector, FALSE means "remove"
+  rm.boolean <- !txt.cleaned[["tag"]] %in% txt.rm.tags
+
+  if(isTRUE(boolean)){
+    return(rm.boolean)
+  } else if(isTRUE(as.vector)){
+    # return only a vetor with the tokens itself, or the whole object?
     if(isTRUE(lemma)){
-      txt.cleaned <- as.vector(subset(txt.cleaned, !tag %in% txt.rm.tags)[,"lemma"])
+      return(txt.cleaned[rm.boolean,"lemma"])
     } else{
-      txt.cleaned <- as.vector(subset(txt.cleaned, !tag %in% txt.rm.tags)[,"token"])
+      return(txt.cleaned[rm.boolean,"token"])
     }
   } else {
-    txt.cleaned <- subset(txt.cleaned, !tag %in% txt.rm.tags)
+    return(txt.cleaned[rm.boolean,])
   }
-  return(txt.cleaned)
 } ## end function tagged.txt.rm.classes()
 
 
@@ -1120,7 +1120,7 @@ txt.compress <- function(obj, level=9, ratio=FALSE, in.mem=TRUE){
   if(is.character(obj)){
     txt <- obj
   } else if(inherits(obj, "kRp.tagged")){
-    txt <- kRp.text.paste(obj)
+    txt <- pasteText(obj)
   } else {
     stop(simpleError("Cannot compress objects which are neither character nor of a koRpus class!"))
   }
@@ -1473,7 +1473,7 @@ tokenz <- function(txt, split="[[:space:]]", ign.comp="-", heuristics="abbr", ab
 
 
 ## function queryList()
-queryList <- function(obj, var, query, rel, as.df, ignore.case, perl){
+queryList <- function(obj, var, query, rel, as.df, ignore.case, perl, regexp_var){
   this.query <- query[[1]]
   this.query.vars <- names(this.query)
   this.q.var <- this.query.vars[[1]]
@@ -1482,11 +1482,11 @@ queryList <- function(obj, var, query, rel, as.df, ignore.case, perl){
   this.q.ignore.case <- ifelse("ignore.case" %in% this.query.vars, this.query[["ignore.case"]], ignore.case)
   this.q.perl <- ifelse("perl" %in% this.query.vars, this.query[["perl"]], perl)
   if(length(query) == 1){
-    obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=as.df, ignore.case=this.q.ignore.case, perl=this.q.perl)
+    obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=as.df, ignore.case=this.q.ignore.case, perl=this.q.perl, regexp_var=regexp_var)
   } else {
     remaining.queries <- query[-1]
-    remaining.obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=FALSE, ignore.case=this.q.ignore.case, perl=this.q.perl)
-    obj <- query(obj=remaining.obj, var=var, query=remaining.queries, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl)
+    remaining.obj <- query(obj=obj, var=this.q.var, query=this.q.query, rel=this.q.rel, as.df=FALSE, ignore.case=this.q.ignore.case, perl=this.q.perl, regexp_var=regexp_var)
+    obj <- query(obj=remaining.obj, var=var, query=remaining.queries, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)
   }
   return(obj)
 } ## end function queryList()
@@ -1545,15 +1545,34 @@ checkLangPreset <- function(preset, returnPresetDefinition=TRUE){
     preset <- gsub("-utf8$", "", preset)
     warning(paste0("UTF-8 is now the default encoding, please rename your preset from \"", preset, "-utf8\" into just \"", preset, "\"!"), call.=FALSE)
   } else {}
-  preset.definition <- as.list(as.environment(.koRpus.env))[["langSup"]][["treetag"]][["presets"]][[preset]]
-  if(isTRUE(returnPresetDefinition)){
-    if(is.null(preset.definition)){
-      stop(simpleError(paste0("Manual TreeTagger configuration: \"", preset, "\" is not a valid preset!")))
+  preset_definition <- as.list(as.environment(.koRpus.env))[["langSup"]][["treetag"]][["presets"]][[preset]]
+  if(is.null(preset_definition)){
+    error_prefix <- "Manual TreeTagger configuration:\n  "
+    # is a language support package installed but not loaded?
+    # this check could be limited to two letter patterns,
+    # but let's keep it open for now and see how it works out for the users
+    lang_pckg_name <- paste0("koRpus.lang.", preset)
+    preset_status <- check_lang_packages(available=TRUE, pattern=paste0("^", lang_pckg_name))
+    if(lang_pckg_name %in% names(preset_status)){
+      lang_pckg <- preset_status[[lang_pckg_name]]
+      if(isTRUE(lang_pckg[["loaded"]])){
+        stop(simpleError(paste0(error_prefix, "There appears to be a loaded language package \"", lang_pckg_name, "\",\n  yet the preset \"", preset, "\" is not available. Please check your installation!")))
+      } else if(isTRUE(lang_pckg[["installed"]])){
+        stop(simpleError(paste0(error_prefix, "The preset \"", preset, "\" is currently not available.\n  Did you forget to load the respective language package?\n  Try library(\"", lang_pckg_name, "\") instead of library(\"koRpus\").")))
+      } else if(isTRUE(lang_pckg[["available"]])){
+        stop(simpleError(paste0(error_prefix, "The preset \"", preset, "\" is currently not available.\n  Did you forget to install and load the respective language package?\n  Try install.koRpus.lang(\"", preset, "\") and then library(\"", lang_pckg_name, "\") instead of library(\"koRpus\").")))
+      } else {
+        stop(simpleError(paste0(error_prefix, "\"", preset, "\" is not a valid preset!")))
+      }
     } else {
-      return(preset.definition)
+      stop(simpleError(paste0(error_prefix, "\"", preset, "\" is not a valid preset!")))
     }
   } else {
-    return(ifelse(is.null(preset.definition), stop(simpleError(paste0("Manual TreeTagger configuration: \"", preset, "\" is not a valid preset!"))), TRUE))
+    if(isTRUE(returnPresetDefinition)){
+      return(preset_definition)
+    } else {
+      return(TRUE)
+    }
   }
 }
 ## end function checkLangPreset()

@@ -19,17 +19,17 @@ This class is used for objects that are returned by \code{\link[koRpus:treetag]{
 
 \item{\code{TT.res}}{Results of the called tokenizer and POS tagger. The data.frame has eight columns:
 \describe{
-  \item{\code{doc_id}:}{Optional document identifier.}
-  \item{\code{token}:}{The tokenized text.}
-  \item{\code{tag}:}{POS tags for each token.}
-  \item{\code{lemma}:}{Lemma for each token.}
-  \item{\code{lttr}:}{Number of letters.}
-  \item{\code{wclass}:}{Word class.}
-  \item{\code{desc}:}{A short description of the POS tag.}
+  \item{\code{doc_id}:}{Factor, optional document identifier.}
+  \item{\code{token}:}{Character, the tokenized text.}
+  \item{\code{tag}:}{Factor, POS tags for each token.}
+  \item{\code{lemma}:}{Character, lemma for each token.}
+  \item{\code{lttr}:}{Integer, number of letters.}
+  \item{\code{wclass}:}{Factor, word class.}
+  \item{\code{desc}:}{Factor, a short description of the POS tag.}
   \item{\code{stop}:}{Logical, \code{TRUE} if token is a stopword.}
-  \item{\code{stem}:}{Stemmed token.}
-  \item{\code{idx}:}{Index number of token in this document.}
-  \item{\code{sntc}:}{Number of sentence in this document.}
+  \item{\code{stem}:}{Character, stemmed token.}
+  \item{\code{idx}:}{Integer, index number of token in this document.}
+  \item{\code{sntc}:}{Integer, number of sentence in this document.}
 }
 This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].}
 }}

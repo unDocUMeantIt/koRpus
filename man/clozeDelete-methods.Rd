@@ -12,7 +12,7 @@ clozeDelete(obj, ...)
   replace.by = "_", fixed = 10)
 }
 \arguments{
-\item{obj}{An object of class "kRp.tagged"}
+\item{obj}{An object of class "kRp.taggedText"}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 
@@ -34,8 +34,7 @@ be repeated this much times). If set to 0,
       the replacement wil be as long as the replaced word.}
 }
 \value{
-An object of class kRp.tagged, with an additional list \code{cloze} in its
-   \code{desc} slot, listing the words which were changed.
+An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 }
 \description{
 If you feed a tagged text object to this function, its text will be transformed into
@@ -48,4 +47,9 @@ to begin.
 The option \code{offset="all"} will not return one single object,
       but print the results after iterating
 through all possible offset values.
+}
+\examples{
+\dontrun{
+  clozed.text <- clozeDelete(tagged.text)
+}
 }

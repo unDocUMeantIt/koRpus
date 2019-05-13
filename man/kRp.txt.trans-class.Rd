@@ -19,9 +19,9 @@ This class is used for objects that are returned by \code{\link[koRpus:textTrans
 
 \item{\code{TT.res}}{A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged},
       plus
-the new columns \code{token.old} and \code{equal}).}
+the new columns \code{token.orig} and \code{equal}).}
 
-\item{\code{diff}}{A list with atomic vectors,
+\item{\code{diff}}{A list with mostly atomic vectors,
       describing the amount of diffences between both text variants (percentage):
 \describe{
   \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation,
@@ -30,6 +30,12 @@ the new columns \code{token.old} and \code{equal}).}
   \item{\code{all.chars}:}{Percentage of all characters, including punctuation,
       that were altered.}
   \item{\code{letters}:}{Percentage of altered letters in words only.}
+  \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
+  \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
+  \item{\code{transfmt.normalize}:}{A list documenting steps of normalization that were done to the object,
+      one element per transformation.
+    Each entry holds the name of the method, the query parameters,
+      and the effective replacement value.}
 }}
 }}
 

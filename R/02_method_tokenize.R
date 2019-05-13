@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -25,12 +25,13 @@
 #' A headline is assumed if a line of text without sentence ending punctuation is found, a paragraph if two blocks of text
 #' are separated by space. This will add extra tags into the text: "<kRp.h>" (headline starts), "</kRp.h>" (headline ends)
 #' and "<kRp.p/>" (paragraph), respectively. This can be useful in two cases: "</kRp.h>" will be treated like a sentence ending,
-#' which gives you more control for automatic analyses. And adding to that, \code{\link[koRpus:kRp.text.paste]{kRp.text.paste}}
+#' which gives you more control for automatic analyses. And adding to that, \code{\link[koRpus:pasteText]{pasteText}}
 #' can replace these tags, which probably preserves more of the original layout.
 #'
 #' @param txt Either an open connection, the path to directory with txt files to read and tokenize, or a vector object
 #'    already holding the text corpus.
 #' @param format Either "file" or "obj", depending on whether you want to scan files or analyze the given object.
+#'    Ignored if \code{txt} is a connection.
 #' @param fileEncoding A character string naming the encoding of all files.
 #' @param split A regular expression to define the basic split method. Should only need refinement
 #'    for languages that don't separate words by space.
@@ -70,10 +71,15 @@
 #'    of the \code{TT.res} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
+#' @param ... Only used for the method generic.
 #' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
+#' @import methods
+#' @docType methods
 #' @export
+#' @rdname tokenize-methods
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @examples
 #' \dontrun{
 #' tokenized.obj <- tokenize("~/mydata/corpora/russian_corpus/")
@@ -103,85 +109,130 @@
 #'   stemmer=SnowballC::wordStem)
 #'
 #' # removing all stopwords now is simple:
-#' tokenized.noStopWords <- kRp.filter.wclass(tokenized.obj, "stopword")
+#' tokenized.noStopWords <- filterByClass(tokenized.obj, "stopword")
 #' }
+setGeneric(
+  "tokenize",
+  def=function(
+    txt, format="file", fileEncoding=NULL, split="[[:space:]]",
+    ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
+    abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
+    detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
+    doc_id=NA, add.desc="kRp.env", ...){
+      standardGeneric("tokenize")
+    },
+  valueClass=c("kRp.taggedText","character")
+)
 
-tokenize <- function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
+#' @export
+#' @docType methods
+#' @rdname tokenize-methods
+#' @aliases tokenize,character-method
+setMethod("tokenize",
+  signature(txt="character"),
+  function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
           ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
           abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
           detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
           doc_id=NA, add.desc="kRp.env"){
 
-  if(is.null(fileEncoding)){
-    fileEncoding <- ""
-  } else {}
+    if(is.null(fileEncoding)){
+      fileEncoding <- ""
+    } else {}
 
-  # basic checks before we even proceed...
-  if(inherits(txt, "connection")){
-    takeAsTxt <- readLines(txt, encoding=fileEncoding, warn=FALSE)
-    read.txt.files <- FALSE
-  } else if(identical(format, "file")){
-    # valid path? file or directory?
-    if(check.file(txt, mode="exist", stopOnFail=FALSE)){
-      txt.file <- txt
-      read.txt.files <- TRUE
-    } else if(check.file(txt, mode="dir", stopOnFail=FALSE)){
-      txt.file <- file.path(txt, dir(txt))
-      read.txt.files <- TRUE
+    # basic checks before we even proceed...
+    if(identical(format, "file")){
+      # valid path? file or directory?
+      if(check.file(txt, mode="exist", stopOnFail=FALSE)){
+        txt.file <- txt
+        read.txt.files <- TRUE
+      } else if(check.file(txt, mode="dir", stopOnFail=FALSE)){
+        txt.file <- file.path(txt, dir(txt))
+        read.txt.files <- TRUE
+      } else {
+        stop(simpleError(paste0("Unable to locate\n ",txt)))
+      }
+    } else if(identical(format, "obj")){
+      takeAsTxt <- txt
+      read.txt.files <- FALSE
     } else {
-      stop(simpleError(paste0("Unable to locate\n ",txt)))
+      stop(simpleError(paste0("Invalid value for format: ",format)))
     }
-  } else if(identical(format, "obj")){
-    takeAsTxt <- txt
-    read.txt.files <- FALSE
-  } else {
-    stop(simpleError(paste0("Invalid value for format: ",format)))
-  }
 
-  ## read file or text vector?
-  if(isTRUE(read.txt.files)){
-    # read in files
-    # make sure we end up with UTF-8 to avoid nasty character problems
-    txt.vector <- unlist(lapply(txt.file, function(txt){
-        readLines(txt, encoding=fileEncoding, warn=FALSE)
-      }))
-    # force text into UTF-8 format
-    txt.vector <- enc2utf8(txt.vector)
-  } else {
-    # process object
-    txt.vector <- enc2utf8(as.vector(takeAsTxt))
-  }
-  
-  ## see if the text should be cleaned up further
-  if(!is.null(clean.raw)){
-    txt.vector <- clean.text(txt.vector, from.to=clean.raw, perl=perl)
-  } else {}
-
-  ## run the tokenizer
-  # tokenz() is an internal function
-  tokens <- tokenz(txt.vector, split=split, ign.comp=ign.comp, encoding=fileEncoding,
-          heuristics=heuristics, heur.fix=heur.fix, abbrev=abbrev, tag=tag, sntc=sentc.end, detect=detect)
-
-  if(isTRUE(tag)){
-    if(identical(lang, "kRp.env")){
-      lang <- get.kRp.env(lang=TRUE)
+    ## read file or text vector?
+    if(isTRUE(read.txt.files)){
+      # read in files
+      # make sure we end up with UTF-8 to avoid nasty character problems
+      txt.vector <- unlist(lapply(txt.file, function(txt){
+          readLines(txt, encoding=fileEncoding, warn=FALSE)
+        }))
+      # force text into UTF-8 format
+      txt.vector <- enc2utf8(txt.vector)
+    } else {
+      # process object
+      txt.vector <- enc2utf8(as.vector(takeAsTxt))
+    }
+    
+    ## see if the text should be cleaned up further
+    if(!is.null(clean.raw)){
+      txt.vector <- clean.text(txt.vector, from.to=clean.raw, perl=perl)
     } else {}
-    if(identical(add.desc, "kRp.env")){
-      add.desc <- get.kRp.env(add.desc=TRUE)
-    } else {}
-    # prepare commenting by adding empty lemma column
-    tagged.mtrx <- cbind(tokens, lemma="")
-    # add word classes, comments and numer of letters ("wclass", "desc", "lttr")
-    tagged.mtrx <- treetag.com(tagged.mtrx, lang=lang, add.desc=add.desc)
-    # probably apply stopword detection and stemming
-    tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
-    # add columns "idx", "sntc" and "doc_id"
-    tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
-    # create object, combine descriptives afterwards
-    tokens <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
-    ## descriptive statistics
-    tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
-  } else {}
 
-  return(tokens)
-}
+    ## run the tokenizer
+    # tokenz() is an internal function
+    tokens <- tokenz(txt.vector, split=split, ign.comp=ign.comp, encoding=fileEncoding,
+            heuristics=heuristics, heur.fix=heur.fix, abbrev=abbrev, tag=tag, sntc=sentc.end, detect=detect)
+
+    if(isTRUE(tag)){
+      if(identical(lang, "kRp.env")){
+        lang <- get.kRp.env(lang=TRUE)
+      } else {}
+      if(identical(add.desc, "kRp.env")){
+        add.desc <- get.kRp.env(add.desc=TRUE)
+      } else {}
+      # prepare commenting by adding empty lemma column
+      tagged.mtrx <- cbind(tokens, lemma="")
+      # add word classes, comments and numer of letters ("wclass", "desc", "lttr")
+      tagged.mtrx <- treetag.com(tagged.mtrx, lang=lang, add.desc=add.desc)
+      # probably apply stopword detection and stemming
+      tagged.mtrx <- stopAndStem(tagged.mtrx, stopwords=stopwords, stemmer=stemmer, lowercase=TRUE)
+      # add columns "idx", "sntc" and "doc_id"
+      tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
+      # create object, combine descriptives afterwards
+      tokens <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
+      ## descriptive statistics
+      tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
+    } else {}
+
+    return(tokens)
+  }
+)
+
+#' @export
+#' @docType methods
+#' @rdname tokenize-methods
+#' @aliases tokenize,kRp.connection-method
+#' @include 01_class_81_kRp.connection_union.R
+setMethod("tokenize",
+  signature(txt="kRp.connection"),
+  function(txt, format=NA, fileEncoding=NULL, split="[[:space:]]",
+          ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
+          abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
+          detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
+          doc_id=NA, add.desc="kRp.env"){
+
+    if(is.null(fileEncoding)){
+      fileEncoding <- ""
+    } else {}
+
+    takeAsTxt <- readLines(txt, encoding=fileEncoding, warn=FALSE)
+    
+    results <- tokenize(txt=takeAsTxt, format="obj", fileEncoding=fileEncoding, split=split,
+          ign.comp=ign.comp, heuristics=heuristics, heur.fix=heur.fix,
+          abbrev=abbrev, tag=tag, lang=lang, sentc.end=sentc.end,
+          detect=detect, clean.raw=clean.raw, perl=perl, stopwords=stopwords, stemmer=stemmer,
+          doc_id=doc_id, add.desc=add.desc)
+          
+    return(results)
+  }
+)

@@ -1,37 +1,21 @@
 Package: koRpus
 Type: Package
 Title: An R Package for Text Analysis
-Description: A set of tools to analyze texts. Includes, amongst others,
-        functions for automatic language detection, hyphenation,
-        several indices of lexical diversity (e.g., type token ratio,
-        HD-D/vocd-D, MTLD) and readability (e.g., Flesch, SMOG, LIX,
-        Dale-Chall). Basic import functions for language corpora are
-        also provided, to enable frequency analyses (supports Celex and
-        Leipzig Corpora Collection file formats) and measures like
-        tf-idf. Note: For full functionality a local installation of
-        TreeTagger is recommended. It is also recommended to not load
-        this package directly, but by loading one of the available
-        language support packages from the 'l10n' repository
-        <https://undocumeantit.github.io/repos/l10n>. 'koRpus' also
-        includes a plugin for the R GUI and IDE RKWard, providing
-        graphical dialogs for its basic features. The respective R
-        package 'rkward' cannot be installed directly from a
-        repository, as it is a part of RKWard. To make full use of this
-        feature, please install RKWard from <https://rkward.kde.org>
-        (plugins are detected automatically). Due to some restrictions
-        on CRAN, the full package sources are only available from the
-        project homepage. To ask for help, report bugs, request
-        features, or discuss the development of the package, please
-        subscribe to the koRpus-dev mailing list
-        (<http://korpusml.reaktanz.de>).
-Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola
-        [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
+Description: A set of tools to analyze texts. Includes, amongst others, functions for automatic language detection, hyphenation, several indices of lexical diversity (e.g., type
+                    token ratio, HD-D/vocd-D, MTLD) and readability (e.g., Flesch, SMOG, LIX, Dale-Chall). Basic import functions for language corpora are also provided, to enable
+                    frequency analyses (supports Celex and Leipzig Corpora Collection file formats) and measures like tf-idf. Note: For full functionality a local installation of
+                    TreeTagger is recommended. It is also recommended to not load this package directly, but by loading one of the available language support packages from the
+                    'l10n' repository <https://undocumeantit.github.io/repos/l10n>. 'koRpus' also includes a plugin for the R GUI and IDE RKWard, providing graphical dialogs for
+                    its basic features. The respective R package 'rkward' cannot be installed directly from a repository, as it is a part of RKWard. To make full use of this
+                    feature, please install RKWard from <https://rkward.kde.org> (plugins are detected automatically). Due to some restrictions on CRAN, the full package sources
+                    are only available from the project homepage. To ask for help, report bugs, request features, or discuss the development of the package, please subscribe to
+                    the koRpus-dev mailing list (<http://korpusml.reaktanz.de>).
+Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 3.0.0),sylly (>= 0.1-4)
 Imports: data.table,methods
 Enhances: rkward
-Suggests:
-        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
+Suggests: testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.ru
 VignetteBuilder: knitr
 URL: https://reaktanz.de/?c=hacking&s=koRpus
 BugReports: https://github.com/unDocUMeantIt/koRpus/issues
@@ -39,38 +23,39 @@ Additional_repositories: https://undocumeantit.github.io/repos/l10n
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
-Authors@R: c(person(given="Meik", family="Michalke",
-        email="meik.michalke@hhu.de", role=c("aut", "cre")),
-        person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
-        role=c("ctb")), person(given="Alberto", family="Mirisola",
-        role=c("ctb")), person(given="Alexandre", family="Brulet",
-        role=c("ctb")), person(given="Laura", family="Hauser",
-        role=c("ctb")))
-Version: 0.11-5
-Date: 2018-10-27
-RoxygenNote: 6.1.0
+Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
+                    role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura",
+                    family="Hauser", role=c("ctb")))
+Version: 0.12-1
+Date: 2019-05-13
+RoxygenNote: 6.1.1
 Collate: 
-    '00_environment.R'
     '01_class_01_kRp.tagged.R'
-    '01_class_02_kRp.TTR.R'
-    '01_class_03_kRp.txt.freq.R'
-    '01_class_04_kRp.txt.trans.R'
-    '01_class_05_kRp.analysis.R'
-    '01_class_06_kRp.corp.freq.R'
-    '01_class_09_kRp.lang.R'
     '01_class_10_kRp.readability.R'
-    '02_method_cTest.R'
-    'kRp.filter.wclass.R'
+    '01_class_09_kRp.lang.R'
+    '01_class_06_kRp.corp.freq.R'
+    '01_class_03_kRp.txt.freq.R'
+    '01_class_02_kRp.TTR.R'
+    '01_class_05_kRp.analysis.R'
+    '01_class_04_kRp.txt.trans.R'
+    '01_class_80_kRp.taggedText_union.R'
+    '02_method_filterByClass.R'
     'koRpus-internal.R'
+    '00_environment.R'
+    '01_class_81_kRp.connection_union.R'
+    '02_method_cTest.R'
     '02_method_clozeDelete.R'
     '02_method_correct.R'
     '02_method_freq.analysis.R'
     '02_method_hyphen.R'
+    '02_method_jumbleWords.R'
     '02_method_kRp.taggedText.R'
     '02_method_lex.div.R'
+    '02_method_pasteText.R'
     '02_method_plot.kRp.tagged.R'
     '02_method_query.R'
     '02_method_read.corp.custom.R'
+    '02_method_readTagged.R'
     '02_method_readability.R'
     '02_method_show.kRp.lang.R'
     '02_method_show.kRp.TTR.R'
@@ -82,17 +67,17 @@ Collate:
     '02_method_summary.kRp.readability.R'
     '02_method_summary.kRp.tagged.R'
     '02_method_summary.kRp.txt.freq.R'
-    '02_method_text.transform.R'
+    '02_method_textTransform.R'
+    '02_method_tokenize.R'
+    '02_method_treetag.R'
     '02_method_types_tokens.R'
     'available.koRpus.lang.R'
     'get.kRp.env.R'
     'guess.lang.R'
     'install.koRpus.lang.R'
-    'jumbleWords.R'
     'kRp.POS.tags.R'
     'kRp.cluster.R'
     'kRp.text.analysis.R'
-    'kRp.text.paste.R'
     'koRpus-internal.freq.analysis.R'
     'koRpus-internal.import.R'
     'koRpus-internal.lexdiv.formulae.R'
@@ -105,13 +90,10 @@ Collate:
     'read.BAWL.R'
     'read.corp.LCC.R'
     'read.corp.celex.R'
-    'read.tagged.R'
     'readability.num.R'
     'segment.optimizer.R'
     'set.kRp.env.R'
     'set.lang.support.R'
     'textFeatures.R'
-    'tokenize.R'
-    'treetag.R'
     'wrapper_functions_lex.div.R'
     'wrapper_functions_readability.R'

@@ -39,7 +39,7 @@ not split words after the first or before the last letter,
 
 \item{corp.rm.class}{A character vector with word classes which should be ignored. The default value
 \code{"nonpunct"} has special meaning and will cause the result of
-\code{kRp.POS.tags(lang, c("punct","sentc"),
+\code{kRp.POS.tags(lang, tags=c("punct","sentc"),
       list.classes=TRUE)} to be used. Relevant only if \code{words}
 is a valid koRpus object.}
 

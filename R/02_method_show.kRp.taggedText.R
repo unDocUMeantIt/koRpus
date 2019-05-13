@@ -1,4 +1,4 @@
-# Copyright 2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -21,9 +21,11 @@
 #' @aliases show,kRp.taggedText-method
 #' @rdname show-methods
 #' @include 02_method_show.kRp.lang.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("show", signature(object="kRp.taggedText"), function(object){
   txt <- taggedText(object)
+
   # only print head an tail of long texts
   headLength <- formals(head.matrix)[["n"]]
   if(isTRUE(nrow(txt) > (headLength * 2 + 1))){
@@ -50,4 +52,15 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
   } else {
     show(txt)
   }
+
+  # add some stats if text was transformed
+  if(inherits(object, "kRp.txt.trans")){
+    diff <- diffText(object)
+    message(paste0(
+      "\nDifference between original and transformed text (punctuation ignored)\n",
+      "            Words: ", round(diff[["words"]], digits=2),"%\n",
+      "          Letters: ", round(diff[["letters"]], digits=2),"%\n",
+      "  Transformations: \"", paste0(diff[["transfmt"]], collapse="\", \""), "\""      
+    ))
+  } else {}
 })

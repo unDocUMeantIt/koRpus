@@ -132,6 +132,31 @@ set.lang.support("kRp.POS.tags",
 samplePatternStandard <- dget("hyph_xy_dput.txt")
 set.hyph.support(list("xy"=samplePatternStandard))
 
+# test appending new POS tags
+## this adds new tags globally, keep in mind when updating test standards!
+context("language support")
+
+test_that("merging new POS tags", {
+  expect_true(
+   all(!c("NNP", "NNPS", "PRP$") %in% kRp.POS.tags("xy", list.tags=TRUE))
+  )
+
+  set.lang.support("kRp.POS.tags",
+    list("xy"=list(
+      tag.class.def.words=matrix(c(
+          "NNP", "name", "Proper noun, singular",
+          "NNPS", "name", "Proper noun, plural",
+          "PRP$", "pronoun", "Possessive pronoun"
+      ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
+    ))
+  )
+
+  expect_true(
+   all(c("NNP", "NNPS", "PRP$") %in% kRp.POS.tags("xy", list.tags=TRUE))
+  )
+})
+
+
 # testing basic tokenizing and POS tagging
 
 context("environment")
@@ -141,12 +166,18 @@ test_that("setting environment variables", {
   # however, we can check if setting the environment works as expected
   set.kRp.env(TT.cmd="manual", lang="xy", TT.options=list(path=".", preset="xy"), validate=FALSE)
 
-  expect_match(get.kRp.env(TT.cmd=TRUE),
-    "manual")
-  expect_match(get.kRp.env(lang=TRUE),
-    "xy")
-  expect_that(get.kRp.env(TT.options=TRUE),
-    is_identical_to(list(path=".", preset="xy")))
+  expect_match(
+    get.kRp.env(TT.cmd=TRUE),
+    "manual"
+  )
+  expect_match(
+    get.kRp.env(lang=TRUE),
+    "xy"
+  )
+  expect_that(
+    get.kRp.env(TT.options=TRUE),
+    is_identical_to(list(path=".", preset="xy"))
+  )
 })
 
 
@@ -177,16 +208,26 @@ test_that("basic tokenizing", {
   tokenizedToken <- tokenize("singleton", format="obj", lang="xy", add.desc=TRUE)
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
-  expect_equal(tokenizedTextFile,
-    sampleTextStandard)
-  expect_equal(tokenizedTextFileNoDesc,
-    sampleTextStandardNoDesc)
-  expect_equal(tokenizedTextObj,
-    sampleTextStandard)
-  expect_equal(tokenizedTextConnection,
-    sampleTextStandard)
-  expect_equal(tokenizedToken,
-    sampleTokenizedToken)
+  expect_equal(
+    tokenizedTextFile,
+    sampleTextStandard
+  )
+  expect_equal(
+    tokenizedTextFileNoDesc,
+    sampleTextStandardNoDesc
+  )
+  expect_equal(
+    tokenizedTextObj,
+    sampleTextStandard
+  )
+  expect_equal(
+    tokenizedTextConnection,
+    sampleTextStandard
+  )
+  expect_equal(
+    tokenizedToken,
+    sampleTokenizedToken
+  )
 })
 
 test_that("fixing old objects", {
@@ -199,8 +240,44 @@ test_that("fixing old objects", {
     sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
-  expect_equal(tokenizedTextFile,
-    sampleTextStandardOld)
+  expect_equal(
+    tokenizedTextFile,
+    sampleTextStandardOld
+  )
+})
+
+context("readTagged")
+
+test_that("importing already tagged texts", {
+  sampleTextFileTreeTagged <- normalizePath("sample_text_treetagged.txt")
+  sampleTextFileRDRTagged <- dget("sample_text_RDRPOSTagged_df_dput.txt")
+  sampleTextTreeTaggedStandard <- dget("sample_text_treetagged_dput.txt")
+  sampleTextRDRTaggedStandard <- dget("sample_text_RDRPOSTagged_kRp_dput.txt")
+
+  # running readTagged() on a character string already tests various
+  # methods, because the string is made into a connection and that
+  # in turn into a matrix, both times calling the appropriate readTagged()
+  # methods internally
+  treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy")
+
+  
+  RDRPOSTaggedText <- readTagged(
+    sampleTextFileRDRTagged,
+    lang="xy",
+    doc_id="sampleText",
+    tagger="manual",
+    mtx_cols=c(token="token", tag="pos", lemma=NA)
+  )
+  
+  expect_equal(
+    treeTaggedText,
+    sampleTextTreeTaggedStandard
+  )
+
+  expect_equal(
+    RDRPOSTaggedText,
+    sampleTextRDRTaggedStandard
+  )
 })
 
 
@@ -216,10 +293,14 @@ test_that("lexical diversity", {
   lexdivTextObj <- summary(lex.div(sampleTextTokenized, char=NULL, quiet=TRUE))
   TTRCharTextObj <- slot(TTR(sampleTextTokenized, char=TRUE, quiet=TRUE), "TTR.char")
 
-  expect_equal(lexdivTextObj,
-    sampleTextStandard)
-  expect_equal(TTRCharTextObj,
-    sampleTextStandardTTRChar)
+  expect_equal(
+    lexdivTextObj,
+    sampleTextStandard
+  )
+  expect_equal(
+    TTRCharTextObj,
+    sampleTextStandardTTRChar
+  )
 })
 
 
@@ -245,12 +326,18 @@ test_that("hyphenation/syllable count", {
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjCache, "Papua", "Pa-pu-a")
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjChanged, "in-edible", "inedible")
 
-  expect_equal(hyphenTextObjNoCache,
-    sampleTextStandard)
-  expect_equal(hyphenTextObjCache,
-    sampleTextStandard)
-  expect_equal(hyphenTextObjChanged,
-    sampleTextStandardChanged)
+  expect_equal(
+    hyphenTextObjNoCache,
+    sampleTextStandard
+  )
+  expect_equal(
+    hyphenTextObjCache,
+    sampleTextStandard
+  )
+  expect_equal(
+    hyphenTextObjChanged,
+    sampleTextStandardChanged
+  )
 })
 
 
@@ -276,6 +363,234 @@ test_that("readability", {
         Spache=pseudoWordList)), flat=TRUE)
   )
 
-  expect_equal(readabilityTextObj,
-    sampleTextStandard)
+  expect_equal(
+    readabilityTextObj,
+    sampleTextStandard
+  )
 })
+
+
+context("query")
+
+test_that("query", {
+  sampleTextTokenized <- dget("sample_text_tokenized_dput.txt")
+
+  queryTokenThe <- query(sampleTextTokenized, "token", "the")
+  expect_equal(
+    nrow(queryTokenThe),
+    38
+  )
+
+  queryLttrGe5 <- query(sampleTextTokenized, "lttr", 5, "ge")
+  expect_equal(
+    nrow(queryLttrGe5),
+    290
+  )
+  expect_equal(
+    sum(queryLttrGe5[["lttr"]]),
+    2178
+  )
+  
+  queryLttr6to9 <- query(sampleTextTokenized, "lttr", c(5, 10), "gt")
+  expect_equal(
+    nrow(queryLttr6to9),
+    191
+  )
+  
+  querySntc5 <- query(sampleTextTokenized, "sntc", 5)
+  expect_equal(
+    nrow(querySntc5),
+    46
+  )
+  
+  expect_error(
+    query(sampleTextTokenized, "sntcs", 30)
+  )
+
+})
+
+
+context("filterByClass")
+
+test_that("filterByClass", {
+  sampleTextTreeTagged <- dget("sample_text_treetagged_dput.txt")
+  
+  sampleTextNoPunct <- filterByClass(sampleTextTreeTagged)
+  sampleTextNoNounsVerbs <- filterByClass(
+    sampleTextTreeTagged,
+    corp.rm.class=c("noun","verb")
+  )
+  sampleTextNoPossPron <- filterByClass(
+    sampleTextTreeTagged,
+    corp.rm.class=c(),
+    corp.rm.tag="PP$"
+  )
+
+  expect_equal(
+    nrow(taggedText(sampleTextNoPunct)),
+    556 # vs. 617
+  )
+  
+  expect_equal(
+    nrow(taggedText(sampleTextNoPossPron)),
+    608 # vs. 617
+  )
+
+  expect_equal(
+    nrow(taggedText(sampleTextNoNounsVerbs)),
+    358 # vs. 617
+  )
+
+  expect_equal(
+    describe(sampleTextNoPunct)[["all.chars"]],
+    3491 # vs. 3551
+  )
+
+  # the "punct" value is not counted by looking at the punctuation
+  # tags -- which should all have been removed now --, but on a
+  # character level. due to some punctuation not removed from tokens
+  # by the TreeTagger tokenizer, there's still some residual left
+  expect_equal(
+    describe(sampleTextNoPunct)[["punct"]],
+    17 # vs. 78
+  )
+  
+})
+
+
+context("pasteText")
+
+test_that("pasteText", {
+  sampleTextTreeTagged <- dget("sample_text_treetagged_dput.txt")
+  sampleTextFile <- normalizePath("sample_text.txt")
+
+  tokenizedTextFile <- tokenize(
+    sampleTextFile,
+    lang="xy",
+    detect=c(
+      parag=TRUE,
+      hline=TRUE
+    ),
+    add.desc=TRUE
+  )
+
+  treeTaggedPasted <- pasteText(sampleTextTreeTagged)
+  tokenizedPasted <- pasteText(tokenizedTextFile)
+
+  expect_equal(
+    nchar(treeTaggedPasted),
+    3550
+  )
+
+  expect_equal(
+    nchar(tokenizedPasted),
+    3559
+  )
+
+  expect_true(
+    all(
+      c(21,22,1207,1208) %in% grep("\n", unlist(strsplit(tokenizedPasted, "")))
+    )
+  )
+  
+})
+
+
+context("text transformation")
+
+# a sample sentence for later tests, defined globally for performance reasons
+tokenizedSentence <- tokenize(
+  "The defense mechanism most readily identifiable with Phasmatodea is camouflage.",
+  format="obj",
+  lang="xy",
+  add.desc=TRUE
+)
+  
+test_that("textTransform", {
+  transMinor <- textTransform(tokenizedSentence, scheme="minor")
+  transMajor <- textTransform(tokenizedSentence, scheme="major")
+  transAllMinor <- textTransform(tokenizedSentence, scheme="all.minor")
+  transAllMajor <- textTransform(tokenizedSentence, scheme="all.major")
+  transDENorm <- textTransform(tokenizedSentence, scheme="de.norm")
+  transDEInv <- textTransform(tokenizedSentence, scheme="de.inv")
+  transEUNorm <- textTransform(tokenizedSentence, scheme="eu.norm")
+  transEUInv <- textTransform(tokenizedSentence, scheme="eu.inv")
+  transRandom <- textTransform(tokenizedSentence, scheme="random")
+  
+  expect_equal(
+    sum(taggedText(transMinor)[["lttr.diff"]]),
+    2
+  )
+  expect_equal(
+    sum(taggedText(transMajor)[["lttr.diff"]]),
+    8
+  )
+  expect_equal(
+    sum(taggedText(transAllMinor)[["lttr.diff"]]),
+    2
+  )
+  expect_equal(
+    sum(taggedText(transAllMajor)[["lttr.diff"]]),
+    67
+  )
+  expect_equal(
+    sum(taggedText(transDENorm)[["lttr.diff"]]),
+    1
+  )
+  expect_equal(
+    sum(taggedText(transDEInv)[["lttr.diff"]]),
+    9
+  )
+  expect_equal(
+    sum(taggedText(transEUNorm)[["lttr.diff"]]),
+    1
+  )
+  expect_equal(
+    sum(taggedText(transEUInv)[["lttr.diff"]]),
+    9
+  )
+  expect_true(
+    sum(taggedText(transRandom)[["lttr.diff"]]) > 0
+  )
+})
+
+test_that("diffText", {
+  transMult <- textTransform(tokenizedSentence, scheme="minor")
+  transMult <- textTransform(transMult, scheme="major")
+  transMult <- textTransform(transMult, scheme="random")
+
+  expect_equal(
+    diffText(transMult)[["transfmt"]],
+    c("minor","major","random")
+  )
+})
+
+test_that("jumbleWords", {
+  transJumbled <- jumbleWords(tokenizedSentence)
+
+  # it's hard to test the result properly, characters
+  # are reandomly reordered. but let's assume that
+  # very likely less than 6 tokens remained identical
+  expect_true(
+    sum(taggedText(transJumbled)[["equal"]]) < 6
+  )
+})
+
+test_that("clozeDelete", {
+  transCloze <- clozeDelete(tokenizedSentence)
+
+  expect_equal(
+    sum(taggedText(transCloze)[["lttr.diff"]]),
+    17
+  )
+})
+
+test_that("originalText", {
+  transCloze <- clozeDelete(tokenizedSentence)
+
+  expect_equal(
+    originalText(transCloze),
+    taggedText(tokenizedSentence)
+  )
+})
+ 

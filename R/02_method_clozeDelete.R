@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -29,9 +29,12 @@
 #' @export
 #' @docType methods
 #' @param ... Additional arguments to the method (as described in this document).
-#' @return An object of class kRp.tagged, with an additional list \code{cloze} in its
-#'    \code{desc} slot, listing the words which were changed.
+#' @return An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @rdname clozeDelete-methods
+#' @examples
+#' \dontrun{
+#'   clozed.text <- clozeDelete(tagged.text)
+#' }
 setGeneric("clozeDelete", function(obj, ...){standardGeneric("clozeDelete")})
 
 #### internal function 
@@ -49,7 +52,7 @@ clozify <- function(words, replace.by="_"){
 #' @docType methods
 #' @rdname clozeDelete-methods
 #' @aliases clozeDelete,kRp.taggedText-method
-#' @param obj An object of class "kRp.tagged"
+#' @param obj An object of class "kRp.taggedText"
 #' @param every Integer numeric, setting the frequency of words to be manipulated. By default,
 #'    every fifth word is being transformed.
 #' @param offset Either an integer numeric, sets the number of words to offset the transformations. Or the
@@ -63,6 +66,7 @@ clozify <- function(words, replace.by="_"){
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
@@ -70,17 +74,26 @@ setMethod("clozeDelete",
   function (obj, every=5, offset=0, replace.by="_", fixed=10){
 
     if(identical(offset, "all")){
-      for(idx in seq_along(every)-1){
+      for(idx in (1:every)-1){
         clozeTxt <- clozeDelete(obj=obj, every=every, offset=idx, replace.by=replace.by, fixed=fixed)
-        changedTxt <- slot(clozeTxt, "desc")[["cloze"]][["origText"]]
+        # if the object was only cloze transformed, we can compare to the original text
+        # otherwise, we have to do a comparison between before and after for accurate statistics
+        if(identical("clozeDelete", diffText(clozeTxt)[["transfmt"]])){
+          orig.TT.res <- originalText(clozeTxt)
+          unequal <- !orig.TT.res[["equal"]]
+        } else {
+          orig.TT.res <- taggedText(obj)
+          unequal <- orig.TT.res[["token"]] != taggedText(clozeTxt)[["token"]]
+        }
+        changedTxt <- orig.TT.res[unequal,]
         rmLetters <- sum(changedTxt[["lttr"]])
-        allLetters <- slot(obj, "desc")[["letters.only"]]
+        allLetters <- describe(obj)[["letters.only"]]
         cat(headLine(paste0("Cloze variant ", idx+1, " (offset ", idx, ")")), "\n\n",
-          kRp.text.paste(clozeTxt), "\n\n\n", headLine(paste0("Changed text (offset ", idx, "):"), level=2), "\n\n",
+          pasteText(clozeTxt), "\n\n\n", headLine(paste0("Changed text (offset ", idx, "):"), level=2), "\n\n",
           sep="")
         print(changedTxt)
         cat("\n\n", headLine(paste0("Statistics (offset ", idx, "):"), level=2), "\n", sep="")
-        print(summary(as(clozeTxt, "kRp.tagged")))
+        print(summary(clozeTxt, index=unequal))
         cat("\nCloze deletion took ", rmLetters, " letters (", round(rmLetters * 100 / allLetters, digits=2),"%)\n\n\n", sep="")
       }
       return(invisible(NULL))
@@ -90,8 +103,8 @@ setMethod("clozeDelete",
         stop(simpleError("'offset' can't be greater than 'every'!"))
       } else {}
 
-      lang <- slot(obj, "lang")
-      tagged.text <- slot(obj, "TT.res")
+      lang <- language(obj)
+      tagged.text <- taggedText(obj)
 
       # now do the actual text alterations
       word.tags <- kRp.POS.tags(lang=lang, list.tags=TRUE, tags="words")
@@ -105,7 +118,6 @@ setMethod("clozeDelete",
       txtToChange[0:max(0,offset-1)] <- FALSE
 
       relevant.text <- tagged.text[txtToChange, "token"]
-      textThatWasChanged <- tagged.text[txtToChange, ]
       # check if the deleted text should be replaced by a line with fixed length
       if(identical(fixed, 0)){
         relevant.text <- clozify(relevant.text, replace.by=replace.by)
@@ -114,12 +126,8 @@ setMethod("clozeDelete",
       }
       tagged.text[txtToChange, "token"] <- relevant.text
 
-      clozeDesc <- list(origText=textThatWasChanged)
-
-      # put the altered text back into the tagged object
-      slot(obj, "TT.res") <- tagged.text
-      slot(obj, "desc")[["cloze"]] <- clozeDesc
-      return(obj)
+      results <- txt_trans_diff(obj=obj, TT.res.new=tagged.text, transfmt="clozeDelete")
+      return(results)
     }
   }
 )

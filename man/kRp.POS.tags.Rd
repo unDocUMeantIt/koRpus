@@ -39,6 +39,8 @@ Use \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}} to get a l
 support packages must be installed an loaded to be usable with \code{kRp.POS.tags}.
 For the internal tokenizer a small subset of tags is also defined,
       available through \code{lang="kRp"}.
+Finally,
+      the Universal POS Tags[1] are automatically appended if no matching tag was already defined.
 If you don't know the language your text was written in,
       the function \code{\link[koRpus:guess.lang]{guess.lang}}
 should be able to detect it.
@@ -58,6 +60,9 @@ tags.internal <- kRp.POS.tags("kRp")
 library(koRpus.lang.de)
 tags.de <- kRp.POS.tags("de")
 }
+}
+\references{
+[1] \url{https://universaldependencies.org/u/pos/index.html}
 }
 \seealso{
 \code{\link[koRpus:get.kRp.env]{get.kRp.env}},

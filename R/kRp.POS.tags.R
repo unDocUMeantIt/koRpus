@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -24,6 +24,7 @@
 #' Use \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}} to get a list of all supported languages. Language
 #' support packages must be installed an loaded to be usable with \code{kRp.POS.tags}.
 #' For the internal tokenizer a small subset of tags is also defined, available through \code{lang="kRp"}.
+#' Finally, the Universal POS Tags[1] are automatically appended if no matching tag was already defined.
 #' If you don't know the language your text was written in, the function \code{\link[koRpus:guess.lang]{guess.lang}}
 #' should be able to detect it.
 #'
@@ -47,6 +48,8 @@
 #' Otherwise a vector with the known word classes or POS tags for the chosen language (and probably tag subset) will be returned.
 #' If both \code{list.classes} and \code{list.tags} are \code{TRUE}, still only the POS tags will be returned.
 #' @keywords misc
+#' @references
+#' [1] \url{https://universaldependencies.org/u/pos/index.html}
 #' @seealso
 #'    \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
 #'    \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}},
@@ -101,18 +104,30 @@ kRp.POS.tags <- function(lang=get.kRp.env(lang=TRUE), list.classes=FALSE, list.t
     "hoff.kRp", "fullstop", "Headline ends (kRp internal)"
     ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
 
-# skeleton for further tag sets
-#   # XX -- <language>
-#   # see <reference/URL>
-#   tag.class.def.words.XX <- matrix(c(
-#     ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
-#   tag.class.def.punct.XX <- matrix(c(
-#     "$,", "comma", "Komma", # not in guidelines
-#     "$(", "punctuation", "satzinterne Interpunktion" # not in guidelines
-#     ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
-#   tag.class.def.sentc.XX <- matrix(c(
-#     "SENT", "fullstop", "satzbeendende Interpunktion" # not in guidelines
-#     ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
+  # uni -- universal POS tags, added if otherwise undefined as a fallback
+  # doesn't know a special tag for sentence endings, though. see
+  # https://universaldependencies.org/u/pos/index.html
+  tag.class.def.words.uni <- matrix(c(
+    "ADJ", "adjective", "Adjective (universal POS tags)",
+    "ADP", "adposition", "Adposition (universal POS tags)",
+    "ADV", "adverb", "Adverb (universal POS tags)",
+    "AUX", "auxiliary", "Auxiliary (universal POS tags)",
+    "CCONJ", "conjunction", "Coordinating conjunction (universal POS tags)",
+    "DET", "determiner", "Determiner (universal POS tags)",
+    "INTJ", "interjection", "Interjection (universal POS tags)",
+    "NOUN", "noun", "Noun (universal POS tags)",
+    "NUM", "numeral", "Numeral (universal POS tags)",
+    "PART", "particle", "Particle (universal POS tags)",
+    "PRON", "pronoun", "Pronoun (universal POS tags)",
+    "PROPN", "name", "Proper noun (universal POS tags)",
+    "SCONJ", "conjunction", "Subordinating conjunction (universal POS tags)",
+    "SYM", "symbol", "Symbol (universal POS tags)",
+    "VERB", "verb", "Verb (universal POS tags)",
+    "X", "other", "Not assigned a real POS category (universal POS tags)"
+    ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
+  tag.class.def.punct.uni <- matrix(c(
+    "PUNCT", "punctuation", "Punctuation (universal POS tags)"
+    ), ncol=3, byrow=TRUE, dimnames=list(c(),c("tag","wclass","desc")))
 
   ## get the needed tag definition
 #  tag.wanted <- paste("tag.class.def", tags, lang, sep=".")
@@ -130,6 +145,19 @@ kRp.POS.tags <- function(lang=get.kRp.env(lang=TRUE), list.classes=FALSE, list.t
   for(x in tag.wanted.kRp){
     stopifnot(exists(x, inherits=FALSE))
     tag.definition <- rbind(tag.definition, get(x, inherits=FALSE))
+    # append missing tags
+    if("words" %in% tags & "tag.class.def.words.kRp" %in% x){
+      tag.definition <- rbind(
+        tag.definition,
+        tag.class.def.words.uni[!tag.class.def.words.uni[,"tag"] %in% tag.definition[,"tag"],]
+      )
+    } else {}
+    if("punct" %in% tags & "tag.class.def.punct.kRp" %in% x){
+      tag.definition <- rbind(
+        tag.definition,
+        tag.class.def.punct.uni[!tag.class.def.punct.uni[,"tag"] %in% tag.definition[,"tag"],]
+      )
+    } else {}
   }
   
   if(isTRUE(list.classes) & !isTRUE(list.tags)){

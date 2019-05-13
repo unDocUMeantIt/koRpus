@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -64,136 +64,136 @@ setMethod("summary", signature(object="kRp.TTR"), function(object, flat=FALSE){
     summary.table <- data.frame(index="", value="", stringsAsFactors=FALSE)
   }
 
-  if(isTRUE(!is.na(object@TTR))){
+  if(isTRUE(!is.na(slot(object, "TTR")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="TTR",
-        value=object@TTR
+        value=slot(object, "TTR")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@MSTTR$MSTTR))){
+  if(isTRUE(!is.na(slot(object, "MSTTR")[["MSTTR"]]))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="MSTTR",
-        value=object@MSTTR$MSTTR
+        value=slot(object, "MSTTR")[["MSTTR"]]
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@MATTR$MATTR))){
+  if(isTRUE(!is.na(slot(object, "MATTR")[["MATTR"]]))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="MATTR",
-        value=object@MATTR$MATTR
+        value=slot(object, "MATTR")[["MATTR"]]
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@C.ld))){
+  if(isTRUE(!is.na(slot(object, "C.ld")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="Herdan's C",
         indexFlat="C",
-        value=object@C.ld
+        value=slot(object, "C.ld")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@R.ld))){
+  if(isTRUE(!is.na(slot(object, "R.ld")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="Root TTR",
         indexFlat="R",
-        value=object@R.ld
+        value=slot(object, "R.ld")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@CTTR))){
+  if(isTRUE(!is.na(slot(object, "CTTR")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="CTTR",
-        value=object@CTTR
+        value=slot(object, "CTTR")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@U.ld))){
+  if(isTRUE(!is.na(slot(object, "U.ld")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="Uber index",
         indexFlat="U",
-        value=object@U.ld
+        value=slot(object, "U.ld")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@S.ld))){
+  if(isTRUE(!is.na(slot(object, "S.ld")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="Summer",
         indexFlat="S",
-        value=object@S.ld
+        value=slot(object, "S.ld")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@K.ld))){
+  if(isTRUE(!is.na(slot(object, "K.ld")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="Yule's K",
         indexFlat="K",
-        value=object@K.ld
+        value=slot(object, "K.ld")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@Maas))){
+  if(isTRUE(!is.na(slot(object, "Maas")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="Maas a",
         indexFlat="a",
-        value=object@Maas
+        value=slot(object, "Maas")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@lgV0))){
+  if(isTRUE(!is.na(slot(object, "lgV0")))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="Maas lgV0",
         indexFlat="lgV0",
-        value=object@lgV0
+        value=slot(object, "lgV0")
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@HDD$HDD))){
+  if(isTRUE(!is.na(slot(object, "HDD")[["HDD"]]))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="HD-D (vocd-D)",
         indexFlat="HDD",
-        value=object@HDD$HDD
+        value=slot(object, "HDD")[["HDD"]]
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@MTLD$MTLD))){
+  if(isTRUE(!is.na(slot(object, "MTLD")[["MTLD"]]))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="MTLD",
-        value=object@MTLD$MTLD
+        value=slot(object, "MTLD")[["MTLD"]]
       ),
       flat=flat
     )
   } else {}
 
-  if(isTRUE(!is.na(object@MTLDMA$MTLDMA))){
+  if(isTRUE(!is.na(slot(object, "MTLDMA")[["MTLDMA"]]))){
     summary.table <- add.to.sumtab(summary.table, adds=list(
         index="MTLD-MA",
         indexFlat="MTLDMA",
-        value=object@MTLDMA$MTLDMA
+        value=slot(object, "MTLDMA")[["MTLDMA"]]
       ),
       flat=flat
     )

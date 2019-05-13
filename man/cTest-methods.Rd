@@ -3,16 +3,16 @@
 \docType{methods}
 \name{cTest}
 \alias{cTest}
-\alias{cTest,kRp.tagged-method}
+\alias{cTest,kRp.taggedText-method}
 \title{Transform text into C-Test-like format}
 \usage{
 cTest(obj, ...)
 
-\S4method{cTest}{kRp.tagged}(obj, every = 2, min.length = 3,
+\S4method{cTest}{kRp.taggedText}(obj, every = 2, min.length = 3,
   intact = c(start = 1, end = 1), replace.by = "_")
 }
 \arguments{
-\item{obj}{An object of class "kRp.tagged"}
+\item{obj}{An object of class "kRp.taggedText"}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 
@@ -31,8 +31,7 @@ The default is to ignore the first and last sentence.}
 \item{replace.by}{Character, will be used as the replacement for the removed word halves.}
 }
 \value{
-And object of class kRp.tagged, with an additional list \code{cTest} in its
-   \code{desc} slot, listing the words which were changed.
+An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 }
 \description{
 If you feed a tagged text object to this function, its text will be transformed into
@@ -47,5 +46,10 @@ a format used for C-Tests:
    \item{words an uneven number of characters will be replaced after the next character,
      i.e., a word with five characters will keep the first three and have the last two
      replaced}
+}
+}
+\examples{
+\dontrun{
+  ctest.text <- cTest(tagged.text)
 }
 }

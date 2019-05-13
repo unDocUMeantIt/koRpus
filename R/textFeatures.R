@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -64,7 +64,7 @@ textFeatures <- function(text, hyphen=NULL){
     # the internal function tag.kRp.txt() will return the object unchanged if it
     # is already tagged, so it's safe to call it with the lang set here
     tagged.text <- tag.kRp.txt(text, objects.only=TRUE)
-    tagged.text.nopunct <- kRp.filter.wclass(text, corp.rm.class="nonpunct")
+    tagged.text.nopunct <- filterByClass(text, corp.rm.class="nonpunct", update.desc=NULL)
   } else if(is.list(text)){
     num.texts <- length(text)
     if(!is.null(hyphen)){

@@ -17,6 +17,8 @@
 
 ## setting up the internal environment
 
+#' @include koRpus-internal.R
+
 # empty environment for various information
 .koRpus.env <- new.env()
 

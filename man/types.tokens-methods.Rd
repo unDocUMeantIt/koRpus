@@ -55,7 +55,7 @@ This option is available for tagged text and character input only.}
 
 \item{corp.rm.class}{A character vector with word classes which should be dropped. The default value
 \code{"nonpunct"} has special meaning and will cause the result of
-\code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used.
+\code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
 This option is available for tagged text and character input only.}
 
 \item{corp.rm.tag}{A character vector with POS tags which should be dropped.

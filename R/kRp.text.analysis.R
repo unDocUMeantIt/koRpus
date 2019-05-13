@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -39,7 +39,7 @@
 #' @param corp.freq An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}. If present, a frequency index for the analyzed text is computed (see details).
 #' @param corp.rm.class A character vector with word classes which should be ignored for frequency analysis. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
-#'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used.
+#'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
 #' @param corp.rm.tag A character vector with POS tags which should be ignored for frequency analysis.
 #' @param ... Additional options to be passed through to the function defined with \code{tagger}.
 #' @return An object of class \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.

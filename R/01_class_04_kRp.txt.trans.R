@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -28,13 +28,17 @@
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.
 #' @slot TT.res A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged}, plus
-#'    the new columns \code{token.old} and \code{equal}).
-#' @slot diff A list with atomic vectors, describing the amount of diffences between both text variants (percentage):
+#'    the new columns \code{token.orig} and \code{equal}).
+#' @slot diff A list with mostly atomic vectors, describing the amount of diffences between both text variants (percentage):
 #'    \describe{
 #'      \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation, that were altered.}
 #'      \item{\code{words}:}{Percentage of altered words only.}
 #'      \item{\code{all.chars}:}{Percentage of all characters, including punctuation, that were altered.}
 #'      \item{\code{letters}:}{Percentage of altered letters in words only.}
+#'      \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
+#'      \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
+#'      \item{\code{transfmt.normalize}:}{A list documenting steps of normalization that were done to the object, one element per transformation.
+#'        Each entry holds the name of the method, the query parameters, and the effective replacement value.}
 #'    }
 #' @name kRp.txt.trans,-class
 #' @aliases kRp.txt.trans-class
@@ -51,7 +55,7 @@ kRp_txt_trans <- setClass("kRp.txt.trans",
   prototype=prototype(
     lang=character(),
     desc=list(),
-    TT.res=data.frame(token=NA, tag=NA, lemma=NA, lttr=NA, wclass=NA, desc=NA, token.old=NA, equal=NA),
+    TT.res=cbind(init.kRp.tagged.df(), data.frame(token.orig=NA, equal=NA)),
     diff=list()),
   contains=c("kRp.tagged")
 )
@@ -67,12 +71,13 @@ setAs(from="kRp.txt.trans", to="kRp.tagged", function(from){
   }
 )
 
-# setValidity("kRp.analysis", function(object){
-#     TT.res <- object@TT.res
-#     TT.res.names <- dimnames(TT.res)[[2]]
-#     if(identical(TT.res.names, c("word","tag","lemma"))){
-#       return(TRUE)
-#     } else {
-#       stop(simpleError("Invalid object: Wrong column names."))
-#     }
-# })
+setValidity("kRp.txt.trans", function(object){
+  TT.res <- taggedText(object)
+  TT.res.names <- colnames(TT.res)
+  valid.cols <- c(valid.TT.res.kRp.tagged, "token.orig", "equal")
+  if(all(valid.cols %in% TT.res.names)){
+    return(TRUE)
+  } else {
+    stop(simpleError("Invalid object: Wrong column names."))
+  }
+})
