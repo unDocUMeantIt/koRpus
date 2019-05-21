@@ -1,11 +1,13 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-2 (2019-05-13)
+changes in version 0.12-2 (2019-05-21)
 unreleased:
   - this release is under development
 fixed:
   - treetag(): a dumb misorderig of calls suppressed the "utf8" check for
     abbreviation files introduced with 0.11-5
+  - correct.tag(): stopped method from adding tag descriptions to objects
+    that didn't have them yet
 
 changes in version 0.12-1 (2019-05-13)
 fixed:

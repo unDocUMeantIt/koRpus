@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -73,7 +73,7 @@ setMethod("correct.tag",
       } else {}
 
       local.obj.copy <- obj
-      lang <- obj@lang
+      lang <- language(obj)
 
       if(!is.null(tag)){
         # before we attempt anything, let's check if this is a valid tag
@@ -82,31 +82,35 @@ setMethod("correct.tag",
           stop(simpleError(paste0("Not a valid POS tag for language \"", lang, "\": ", tag)))
         } else {}
         all.POS.tags <- kRp.POS.tags(lang)
+        if(all(is.na(local.obj.copy[["desc"]]))){
+          # drop all tag descriptions
+          all.POS.tags[,"desc"] <- NA
+        } else {}
         # this object will hold the columns "tag", "wclass" and "desc" for our tag
         new.tag <- all.POS.tags[all.POS.tags[,"tag"] == tag, ]
         for (cur.row in row){
-          if(!is.null(check.token) & !identical(local.obj.copy@TT.res[cur.row, "token"], check.token)){
-            stop(simpleError(paste0("In row ", cur.row,", expected \"", check.token,"\" but got \"", local.obj.copy@TT.res[cur.row, "token"],"\"!")))
+          if(!is.null(check.token) & !identical(local.obj.copy[cur.row, "token"], check.token)){
+            stop(simpleError(paste0("In row ", cur.row,", expected \"", check.token,"\" but got \"", local.obj.copy[cur.row, "token"],"\"!")))
           } else {}
-          local.obj.copy@TT.res[cur.row, c("tag","wclass","desc")] <- new.tag[c("tag","wclass","desc")]
+          local.obj.copy[cur.row, c("tag","wclass","desc")] <- new.tag[c("tag","wclass","desc")]
         }
       } else {}
       if(!is.null(lemma)){
         for (cur.row in row){
-          if(!is.null(check.token) & !identical(local.obj.copy@TT.res[cur.row, "token"], check.token)){
-            stop(simpleError(paste0("In row ", cur.row,", expected \"", check.token,"\" but got \"", local.obj.copy@TT.res[cur.row, "token"],"\"!")))
+          if(!is.null(check.token) & !identical(local.obj.copy[cur.row, "token"], check.token)){
+            stop(simpleError(paste0("In row ", cur.row,", expected \"", check.token,"\" but got \"", local.obj.copy[cur.row, "token"],"\"!")))
           } else {}
-          local.obj.copy@TT.res[cur.row, "lemma"] <- lemma
+          local.obj.copy[cur.row, "lemma"] <- lemma
         }
       } else {}
 
       # update descriptive statistics
-      local.obj.copy@desc <- basic.tagged.descriptives(local.obj.copy, lang=lang, desc=local.obj.copy@desc, update.desc=TRUE)
+      describe(local.obj.copy) <- basic.tagged.descriptives(local.obj.copy, lang=lang, desc=describe(local.obj.copy), update.desc=TRUE)
 
       cat("Changed\n\n")
-      print(obj@TT.res[row, ])
+      print(obj[row, ])
       cat("\n  into\n\n")
-      print(local.obj.copy@TT.res[row, ])
+      print(local.obj.copy[row, ])
 
       return(local.obj.copy)
     }
