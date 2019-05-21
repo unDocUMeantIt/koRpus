@@ -313,8 +313,8 @@ setMethod("treetag",
         TT.tknz.opts   <- paste(TT.tknz.opts, "-a", TT.abbrev)
       } else {
         if(isTRUE(have.preset) & !identical(TT.abbrev, c())){
-          TT.tknz.opts <- paste(TT.tknz.opts, "-a", TT.abbrev)
           TT.abbrev    <- check_toggle_utf8(file_utf8=TT.abbrev)
+          TT.tknz.opts <- paste(TT.tknz.opts, "-a", TT.abbrev)
         } else {
           TT.abbrev    <- eval(formals(tokenize)[["abbrev"]])
         }

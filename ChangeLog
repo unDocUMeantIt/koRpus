@@ -3,6 +3,9 @@ ChangeLog for package koRpus
 changes in version 0.12-2 (2019-05-13)
 unreleased:
   - this release is under development
+fixed:
+  - treetag(): a dumb misorderig of calls suppressed the "utf8" check for
+    abbreviation files introduced with 0.11-5
 
 changes in version 0.12-1 (2019-05-13)
 fixed:
