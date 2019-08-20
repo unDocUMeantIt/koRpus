@@ -45,7 +45,7 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'
 #' @slot lang A character string, naming the language that is assumed for the tokenized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.
-#' @slot TT.res Results of the called tokenizer and POS tagger. The data.frame has eight columns:
+#' @slot TT.res Results of the called tokenizer and POS tagger. The data.frame usually has eleven columns:
 #'    \describe{
 #'      \item{\code{doc_id}:}{Factor, optional document identifier.}
 #'      \item{\code{token}:}{Character, the tokenized text.}
