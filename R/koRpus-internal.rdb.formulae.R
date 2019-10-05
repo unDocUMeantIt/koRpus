@@ -40,24 +40,20 @@
 #     FALSE to calculate with the values in txt.features
 # - txt.features: a named list with key values needed to calculate
 
-kRp.rdb.formulae <- function(
-  txt.file=NULL,
-  hyphen=NULL,
-  index=c(),
-  parameters=list(),
-  word.lists=list(),
-  fileEncoding="UTF-8",
-  tagger=NULL,
-  force.lang=NULL,
-  sentc.tag="sentc",
-  nonword.class="nonpunct",
-  nonword.tag=c(),
-  quiet=FALSE, 
-  analyze.text=TRUE,
-  txt.features=list(),
-  desc=list(),
-  ...
-){
+kRp.rdb.formulae <- function(txt.file=NULL,
+      hyphen=NULL,
+      index=c(),
+      parameters=list(),
+      word.lists=list(),
+      fileEncoding="UTF-8",
+      tagger=NULL,
+      force.lang=NULL,
+      sentc.tag="sentc",
+      nonword.class="nonpunct",
+      nonword.tag=c(),
+      quiet=FALSE, 
+      analyze.text=TRUE,
+      txt.features=list(), ...){
 
   ## TODO: validation
   if(identical(index, "validation")){
@@ -212,12 +208,12 @@ kRp.rdb.formulae <- function(
       } else {}
     } else {
       txt.freq <- freq.analysis(txt.file=txt.file, desc.stat=TRUE, force.lang=lang,
-                tagger=tagger, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, desc=desc, ...)
+                tagger=tagger, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, ...)
       tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
     }
     txt.desc <- slot(txt.freq, "desc")
     # set objects.only=FALSE to enable automatic tagging if a file name is given
-    tagged.text <- tag.kRp.txt(txt.file, lang=lang, objects.only=FALSE, desc=desc)
+    tagged.text <- tag.kRp.txt(txt.file, lang=lang, objects.only=FALSE)
 
     # check how to handle the hyphen parameter
     # first see if there's results to re-use
@@ -388,14 +384,14 @@ kRp.rdb.formulae <- function(
   if(inherits(txt.file, "kRp.readability")){
     all.results <- txt.file
     slot(all.results, "lang") <- lang
-    slot(all.results, "TT.res") <- taggedText(tagged.text)
+    slot(all.results, "TT.res") <- slot(tagged.text, "TT.res")
     slot(all.results, "hyphen") <- hyphen
     slot(all.results, "desc") <- desc
     slot(all.results, "param") <- parameters
   } else {
     all.results <- kRp_readability(
       lang=lang,
-      TT.res=taggedText(tagged.text),
+      TT.res=slot(tagged.text, "TT.res"),
       desc=desc,
       hyphen=hyphen,
       param=parameters)

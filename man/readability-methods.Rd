@@ -5,7 +5,6 @@
 \alias{readability}
 \alias{readability,kRp.taggedText-method}
 \alias{readability,character-method}
-\alias{readability,data.frame-method}
 \alias{readability,missing-method}
 \alias{[,kRp.readability-method}
 \alias{[,kRp.readability,ANY-method}
@@ -25,7 +24,7 @@ readability(txt.file, ...)
   NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL),
   fileEncoding = "UTF-8", tagger = "kRp.env", force.lang = NULL,
   sentc.tag = "sentc", nonword.class = "nonpunct", nonword.tag = c(),
-  quiet = FALSE, desc = list(), ...)
+  quiet = FALSE, ...)
 
 \S4method{readability}{character}(txt.file, hyphen = NULL,
   index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
@@ -37,19 +36,7 @@ readability(txt.file, ...)
   NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL),
   fileEncoding = "UTF-8", tagger = "kRp.env", force.lang = NULL,
   sentc.tag = "sentc", nonword.class = "nonpunct", nonword.tag = c(),
-  quiet = FALSE, desc = list(), ...)
-
-\S4method{readability}{data.frame}(txt.file, hyphen = NULL,
-  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-  "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF",
-  "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid", "FOG", "FORCAST",
-  "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX", "SMOG",
-  "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-  "Wheeler.Smith"), parameters = list(), word.lists = list(Bormuth =
-  NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL),
-  fileEncoding = "UTF-8", tagger = "kRp.env", force.lang = NULL,
-  sentc.tag = "sentc", nonword.class = "nonpunct", nonword.tag = c(),
-  quiet = FALSE, desc = list(), ...)
+  quiet = FALSE, ...)
 
 \S4method{readability}{missing}(txt.file, index)
 
@@ -64,9 +51,7 @@ readability(txt.file, ...)
       or a character vector which must be be
 a valid path to a file containing the text to be analyzed. If the latter,
       \code{force.lang} must be set as well, and
-the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus]{hyphen}}
-Can also be a data frame as long as it provides all columns expected in the \code{TT.res} slot of \code{kRp.tagged} objects
-(also set \code{force.lang} and \code{desc} in these cases).}
+the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus]{hyphen}}}
 
 \item{...}{Additional options for the specified \code{tagger} function}
 
@@ -117,10 +102,6 @@ of consequence if \code{hyphen} is not set!}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.
 \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.}
-
-\item{desc}{List. If \code{txt.file} is a valid data frame,
-      you can provide an according \code{desc} list for it.
-Ignored in other cases.}
 
 \item{x}{An object of class \code{kRp.readability}.}
 
@@ -423,7 +404,7 @@ Wrapper function: \code{\link[koRpus:wheeler.smith]{wheeler.smith}}
 
 By default, if the text has to be tagged yet,
       the language definition is queried by calling \code{get.kRp.env(lang=TRUE)} internally.
-Or, if \code{txt.file} has already been tagged,
+Or, if \code{txt} has already been tagged,
       by default the language definition of that tagged object is read
 and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid value,
       if you want to forcibly overwrite this

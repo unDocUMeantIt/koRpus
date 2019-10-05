@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -25,7 +25,7 @@
 #' @include 01_class_03_kRp.txt.freq.R
 kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, force.lang=NULL,
                        tagger="kRp.env", corp.rm.class="nonpunct",
-                       corp.rm.tag=c(), tfidf=TRUE, desc=list(), ...){
+                       corp.rm.tag=c(), tfidf=TRUE, ...){
 
   if("lang" %in% names(list(...))){
     # since 'lang' is a valid argument for treetag(), it might have been set
@@ -38,7 +38,7 @@ kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, for
 
   # the internal function tag.kRp.txt() will return the object unchanged if it
   # is already tagged, so it's safe to call it with the lang set here
-  tagged.text <- tag.kRp.txt(txt.file, tagger=tagger, lang=force.lang, objects.only=FALSE, desc=desc, ...)
+  tagged.text <- tag.kRp.txt(txt.file, tagger=tagger, lang=force.lang, objects.only=FALSE, ...)
   # set the language definition
   lang <- language.setting(tagged.text, force.lang)
   commented <- taggedText(tagged.text)

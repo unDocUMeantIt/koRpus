@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -76,8 +76,7 @@ kRp_tagged <- setClass("kRp.tagged",
     representation=representation(
       lang="character",
       desc="list",
-      TT.res="data.frame"
-    ),
+      TT.res="data.frame"),
     prototype(
       lang=character(),
       desc=list(),
@@ -86,68 +85,34 @@ kRp_tagged <- setClass("kRp.tagged",
 )
 
 setValidity("kRp.tagged", function(object){
-  validate_df(
-    df=slot(object, "TT.res"),
-    valid_cols=valid.TT.res.kRp.tagged,
-    strict=TRUE,
-    warn_only=TRUE,
-    name="TT.res"
-  )
+    TT.res <- object@TT.res
+    TT.res.names <- dimnames(TT.res)[[2]]
 
-  if(!is.character(slot(object, "lang"))){
-    stop(simpleError("Invalid object: Slot \"lang\" must be of class character!"))
-  } else {}
+    if(!is.character(object@lang)){
+      stop(simpleError("Invalid object: Slot \"lang\" must be of class character!"))
+    } else {}
+
+    if(!identical(TT.res.names, valid.TT.res.kRp.tagged)){
+      wrongCols <- TT.res.names[!TT.res.names %in% valid.TT.res.kRp.tagged]
+      missingCols <- valid.TT.res.kRp.tagged[!valid.TT.res.kRp.tagged %in% TT.res.names]
+      if(length(wrongCols) > 0){
+        warning(
+          paste0(
+            "Invalid object: Wrong columns in in slot \"TT.res\", please try fixObject():\n  ",
+            paste0(wrongCols, collapse=", ")
+          ),
+          call.=FALSE
+        )
+      } else {}
+      if(length(missingCols) > 0){
+        warning(
+          paste0(
+            "Invalid object: Missing columns in slot \"TT.res\", please try fixObject():\n  ",
+            paste0(missingCols, collapse=", ")
+          ),
+          call.=FALSE)
+      }
+    } else {}
 
   return(TRUE)
 })
-
-
-## method validate_df()
-# checks whether a given data frame provides all columns expected
-#  - strict: if TRUE only allows columns defined by valid_cols
-setGeneric("validate_df", function(df, valid_cols=valid.TT.res.kRp.tagged, strict=TRUE, warn_only=TRUE, name="TT.res") standardGeneric("validate_df"))
-setMethod("validate_df",
-  signature=signature(df="data.frame"),
-  function(
-    df,
-    valid_cols=valid.TT.res.kRp.tagged,
-    strict=TRUE,
-    warn_only=TRUE,
-    name="TT.res"
-  ){
-    df_cols <- colnames(df)
-    result <- TRUE
-
-    if(!identical(df_cols, valid_cols)){
-      if(isTRUE(strict)){
-        wrongCols <- df_cols[!df_cols %in% valid_cols]
-        if(length(wrongCols) > 0){
-          result <- FALSE
-          wrongCols_msg <- paste0(
-            "Invalid object: Wrong columns in data frame \"", name, "\":\n  ",
-            paste0(wrongCols, collapse=", ")
-          )
-          ifelse(
-            isTRUE(warn_only),
-            warning(wrongCols_msg, call.=FALSE),
-            stop(simpleError(wrongCols_msg))
-          )
-        } else {}
-      } else {}
-      missingCols <- valid_cols[!valid_cols %in% df_cols]
-      if(length(missingCols) > 0){
-        result <- FALSE
-        missingCols_msg <- paste0(
-          "Invalid object: Missing columns in data frame \"", name, "\":\n  ",
-          paste0(missingCols, collapse=", ")
-        )
-        ifelse(
-          isTRUE(warn_only),
-          warning(missingCols_msg, call.=FALSE),
-          stop(simpleError(missingCols_msg))
-        )
-      }
-    } else {}
-    return(result)
-  }
-)
