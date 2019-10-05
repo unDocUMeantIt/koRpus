@@ -64,11 +64,11 @@ check.file <- function(filename, mode="exist", stopOnFail=TRUE){
 
 
 ## function tag.kRp.txt()
-# this function takes normal text OR objects of koRpus classes which carry the
-# original information of the analyzed text somewhere, and
-# tries to return a valid object of class kRp.tagged instead
+# this function takes normal text, a data frame OR objects of koRpus classes which
+# carry the original information of the analyzed text somewhere, and
+# tries to return a valid object of class kRp.tagged instead.
 # '...' will be passed through to treetag() or tokenize()
-tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
+tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, desc=list(), ...){
 
   if(inherits(txt, "kRp.tagged")){
     return(as(txt, "kRp.tagged"))
@@ -105,8 +105,24 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
         tagged.txt <- treetag(txt, treetagger=tagger, lang=lang, ...)
       }
       return(tagged.txt)
+    } else if(is.data.frame(txt)){
+      validate_df(
+        df=txt,
+        valid_cols=valid.TT.res.kRp.tagged,
+        strict=FALSE,
+        warn_only=FALSE,
+        name="TT.res"
+      )
+      # the object returned will miss the desc slot!
+      return(
+        kRp_tagged(
+          lang=lang,
+          desc=desc,
+          TT.res=txt
+        )
+      )
     } else {
-      stop(simpleError("Text object is neither of class kRp.analysis, kRp.tagged nor character!"))
+      stop(simpleError("Text object is neither of class kRp.tagged, data.frame nor character!"))
     }
   }
 } ## end function tag.kRp.txt()

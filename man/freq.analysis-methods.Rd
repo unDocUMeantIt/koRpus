@@ -5,47 +5,64 @@
 \alias{freq.analysis}
 \alias{freq.analysis,kRp.taggedText-method}
 \alias{freq.analysis,character-method}
+\alias{freq.analysis,data.frame-method}
 \title{Analyze word frequencies}
 \usage{
-freq.analysis(txt.file, ...)
+freq.analysis(txt.file, corp.freq = NULL, desc.stat = TRUE,
+  force.lang = NULL, tagger = "kRp.env", corp.rm.class = "nonpunct",
+  corp.rm.tag = c(), tfidf = TRUE, desc = list(), ...)
 
 \S4method{freq.analysis}{kRp.taggedText}(txt.file, corp.freq = NULL,
   desc.stat = TRUE, force.lang = NULL, tagger = "kRp.env",
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), tfidf = TRUE, ...)
+  corp.rm.class = "nonpunct", corp.rm.tag = c(), tfidf = TRUE,
+  desc = list(), ...)
 
 \S4method{freq.analysis}{character}(txt.file, corp.freq = NULL,
   desc.stat = TRUE, force.lang = NULL, tagger = "kRp.env",
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), tfidf = TRUE, ...)
+  corp.rm.class = "nonpunct", corp.rm.tag = c(), tfidf = TRUE,
+  desc = list(), ...)
+
+\S4method{freq.analysis}{data.frame}(txt.file, corp.freq = NULL,
+  desc.stat = TRUE, force.lang = NULL, tagger = "kRp.env",
+  corp.rm.class = "nonpunct", corp.rm.tag = c(), tfidf = TRUE,
+  desc = list(), ...)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
-      or a character vector which must
-be a valid path to a file containing the text to be analyzed.}
-
-\item{...}{Additional options to be passed through to the function defined with \code{tagger}.}
+\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+      \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}
+or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
+      or a character vector which must be a valid path
+to a file containing the text to be analyzed. Can also be a data frame as long as it provides all columns
+expected in the \code{TT.res} slot of \code{kRp.tagged} objects (also set \code{force.lang} and \code{desc}
+in these cases).}
 
 \item{corp.freq}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.}
 
 \item{desc.stat}{Logical, whether a descriptive statistical analysis should be performed.}
 
-\item{force.lang}{A character string defining the language to be assumed for the text,
+\item{force.lang}{Character string defining the language to be assumed for the text,
       by force.}
 
-\item{tagger}{A character string defining the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
+\item{tagger}{Character string defining the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
 \code{txt.file} is already of class \code{kRp.tagged-class}. Defaults to \code{"kRp.env"} to get the settings by
 \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Set to \code{"tokenize"} to use \code{\link[koRpus:tokenize]{tokenize}}.}
 
-\item{corp.rm.class}{A character vector with word classes which should be ignored for frequency analysis. The default value
+\item{corp.rm.class}{Character vector with word classes which should be ignored for frequency analysis. The default value
 \code{"nonpunct"} has special meaning and will cause the result of
 \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.}
 
-\item{corp.rm.tag}{A character vector with POS tags which should be ignored for frequency analysis.}
+\item{corp.rm.tag}{Character vector with POS tags which should be ignored for frequency analysis.}
 
 \item{tfidf}{Logical,
       whether the term frequency--inverse document frequency statistic (tf-idf) should be computed. Requires
 \code{corp.freq} to provide appropriate idf values for the types in \code{txt.file}. Missing idf values will result in \code{NA}.}
+
+\item{desc}{List. If \code{txt.file} is a valid data frame,
+      you can provide an according \code{desc} list for it.
+Ignored in other cases.}
+
+\item{...}{Additional options to be passed through to the function defined with \code{tagger}.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
@@ -65,11 +82,6 @@ and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid val
       if you want to forcibly overwrite this
 default behaviour,
       and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
-}
-\note{
-Prior to \code{koRpus} 0.04-29, this function was named \code{kRp.freq.analysis()}.
-   For backwards compatibility there is a wrapper function, but it should be considered
-   deprecated.
 }
 \examples{
 \dontrun{

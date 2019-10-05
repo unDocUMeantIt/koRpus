@@ -274,7 +274,7 @@
 #' }
 #'
 #' By default, if the text has to be tagged yet, the language definition is queried by calling \code{get.kRp.env(lang=TRUE)} internally.
-#' Or, if \code{txt} has already been tagged, by default the language definition of that tagged object is read
+#' Or, if \code{txt.file} has already been tagged, by default the language definition of that tagged object is read
 #' and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid value, if you want to forcibly overwrite this
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
@@ -286,6 +286,8 @@
 #'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, or a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed. If the latter, \code{force.lang} must be set as well, and
 #'    the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus]{hyphen}}
+#'    Can also be a data frame as long as it provides all columns expected in the \code{TT.res} slot of \code{kRp.tagged} objects
+#'    (also set \code{force.lang} and \code{desc} in these cases).
 #' @param hyphen An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL}, the text will be hyphenated automatically. All syllable handling will
 #'    be skipped automatically if it's not needed for the selected indices.
 #' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
@@ -313,6 +315,8 @@
 #'    of consequence if \code{hyphen} is not set!
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
+#' @param desc List. If \code{txt.file} is a valid data frame, you can provide an according \code{desc} list for it.
+#'    Ignored in other cases.
 #' @param ... Additional options for the specified \code{tagger} function
 #' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
@@ -372,7 +376,13 @@
 #' rdb.results[["ARI"]]
 #' }
 
-setGeneric("readability", function(txt.file, ...) standardGeneric("readability"))
+setGeneric(
+  "readability",
+  function(
+    txt.file,
+    ...
+  ) standardGeneric("readability")
+)
 
 ##################################################################
 ## if this signature changes, check kRp.rdb.formulae() as well! ##
@@ -387,26 +397,64 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 #' @include koRpus-internal.R
 #' @aliases readability,kRp.taggedText-method
 #' @rdname readability-methods
-setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file, hyphen=NULL,
-      index=c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
-        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-        "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
-        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-        "Wheeler.Smith"),
-      parameters=list(),
-      word.lists=list(Bormuth=NULL, Dale.Chall=NULL, Harris.Jacobson=NULL, Spache=NULL),
-      fileEncoding="UTF-8",
-      tagger="kRp.env",
-      force.lang=NULL,
-      sentc.tag="sentc",
-      nonword.class="nonpunct",
-      nonword.tag=c(),
-      quiet=FALSE, ...){
-
+setMethod(
+  "readability",
+  signature=signature(
+    txt.file="kRp.taggedText"
+  ),
+  function(
+    txt.file,
+    hyphen=NULL,
+    index=c(
+      "ARI",
+      "Bormuth",
+      "Coleman",
+      "Coleman.Liau",
+      "Dale.Chall",
+      "Danielson.Bryan",
+      "Dickes.Steiwer",
+      "DRP",
+      "ELF",
+      "Farr.Jenkins.Paterson",
+      "Flesch",
+      "Flesch.Kincaid",
+      "FOG",
+      "FORCAST",
+      "Fucks",
+      "Harris.Jacobson",
+      "Linsear.Write",
+      "LIX",
+      "nWS",
+      "RIX",
+      "SMOG",
+      "Spache",
+      "Strain",
+      "Traenkle.Bailer",
+      "TRI",
+      "Tuldava",
+      "Wheeler.Smith"
+    ),
+    parameters=list(),
+    word.lists=list(
+      Bormuth=NULL,
+      Dale.Chall=NULL,
+      Harris.Jacobson=NULL,
+      Spache=NULL
+    ),
+    fileEncoding="UTF-8",
+    tagger="kRp.env",
+    force.lang=NULL,
+    sentc.tag="sentc",
+    nonword.class="nonpunct",
+    nonword.tag=c(),
+    quiet=FALSE,
+    desc=list(),
+    ...
+  ){
     # all the actual calculations have been moved to an internal function, to be able to re-use
     # the formulas for calculation without the actual text, but only its key values, in other functions
-    all.results <- kRp.rdb.formulae(
+    return(
+      kRp.rdb.formulae(
         txt.file=txt.file,
         hyphen=hyphen,
         index=index,
@@ -419,35 +467,75 @@ setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file
         nonword.class=nonword.class,
         nonword.tag=nonword.tag,
         quiet=quiet, 
-        analyze.text=TRUE, ...)
-
-    return(all.results)
+        analyze.text=TRUE,
+        desc=desc,
+        ...
+      )
+    )
   }
 )
 
 #' @export
 #' @aliases readability,character-method
 #' @rdname readability-methods
-setMethod("readability", signature(txt.file="character"), function(txt.file, hyphen=NULL,
-      index=c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
-        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-        "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
-        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-        "Wheeler.Smith"),
-      parameters=list(),
-      word.lists=list(Bormuth=NULL, Dale.Chall=NULL, Harris.Jacobson=NULL, Spache=NULL),
-      fileEncoding="UTF-8",
-      tagger="kRp.env",
-      force.lang=NULL,
-      sentc.tag="sentc",
-      nonword.class="nonpunct",
-      nonword.tag=c(),
-      quiet=FALSE, ...){
-
+setMethod(
+  "readability",
+  signature=signature(
+    txt.file="character"
+  ),
+  function(
+    txt.file,
+    hyphen=NULL,
+    index=c(
+      "ARI",
+      "Bormuth",
+      "Coleman",
+      "Coleman.Liau",
+      "Dale.Chall",
+      "Danielson.Bryan",
+      "Dickes.Steiwer",
+      "DRP",
+      "ELF",
+      "Farr.Jenkins.Paterson",
+      "Flesch",
+      "Flesch.Kincaid",
+      "FOG",
+      "FORCAST",
+      "Fucks",
+      "Harris.Jacobson",
+      "Linsear.Write",
+      "LIX",
+      "nWS",
+      "RIX",
+      "SMOG",
+      "Spache",
+      "Strain",
+      "Traenkle.Bailer",
+      "TRI",
+      "Tuldava",
+      "Wheeler.Smith"
+    ),
+    parameters=list(),
+    word.lists=list(
+      Bormuth=NULL,
+      Dale.Chall=NULL,
+      Harris.Jacobson=NULL,
+      Spache=NULL
+    ),
+    fileEncoding="UTF-8",
+    tagger="kRp.env",
+    force.lang=NULL,
+    sentc.tag="sentc",
+    nonword.class="nonpunct",
+    nonword.tag=c(),
+    quiet=FALSE,
+    desc=list(),
+    ...
+  ){
     # all the actual calculations have been moved to an internal function, to be able to re-use
     # the formulas for calculation without the actual text, but only its key values, in other functions
-    all.results <- kRp.rdb.formulae(
+    return(
+      kRp.rdb.formulae(
         txt.file=txt.file,
         hyphen=hyphen,
         index=index,
@@ -460,17 +548,107 @@ setMethod("readability", signature(txt.file="character"), function(txt.file, hyp
         nonword.class=nonword.class,
         nonword.tag=nonword.tag,
         quiet=quiet, 
-        analyze.text=TRUE, ...)
+        analyze.text=TRUE,
+        desc=desc,
+        ...
+      )
+    )
+  }
+)
 
-    return(all.results)
+#' @export
+#' @aliases readability,data.frame-method
+#' @rdname readability-methods
+setMethod(
+  "readability",
+  signature=signature(
+    txt.file="data.frame"
+  ),
+  function(
+    txt.file,
+    hyphen=NULL,
+    index=c(
+      "ARI",
+      "Bormuth",
+      "Coleman",
+      "Coleman.Liau",
+      "Dale.Chall",
+      "Danielson.Bryan",
+      "Dickes.Steiwer",
+      "DRP",
+      "ELF",
+      "Farr.Jenkins.Paterson",
+      "Flesch",
+      "Flesch.Kincaid",
+      "FOG",
+      "FORCAST",
+      "Fucks",
+      "Harris.Jacobson",
+      "Linsear.Write",
+      "LIX",
+      "nWS",
+      "RIX",
+      "SMOG",
+      "Spache",
+      "Strain",
+      "Traenkle.Bailer",
+      "TRI",
+      "Tuldava",
+      "Wheeler.Smith"
+    ),
+    parameters=list(),
+    word.lists=list(
+      Bormuth=NULL,
+      Dale.Chall=NULL,
+      Harris.Jacobson=NULL,
+      Spache=NULL
+    ),
+    fileEncoding="UTF-8",
+    tagger="kRp.env",
+    force.lang=NULL,
+    sentc.tag="sentc",
+    nonword.class="nonpunct",
+    nonword.tag=c(),
+    quiet=FALSE,
+    desc=list(),
+    ...
+  ){
+    # all the actual calculations have been moved to an internal function, to be able to re-use
+    # the formulas for calculation without the actual text, but only its key values, in other functions
+    return(
+      kRp.rdb.formulae(
+        txt.file=txt.file,
+        hyphen=hyphen,
+        index=index,
+        parameters=parameters,
+        word.lists=word.lists,
+        fileEncoding=fileEncoding,
+        tagger=tagger,
+        force.lang=force.lang,
+        sentc.tag=sentc.tag,
+        nonword.class=nonword.class,
+        nonword.tag=nonword.tag,
+        quiet=quiet, 
+        analyze.text=TRUE,
+        desc=desc,
+        ...
+      )
+    )
   }
 )
 
 #' @export
 #' @aliases readability,missing-method
 #' @rdname readability-methods
-setMethod("readability", signature(txt.file="missing"), function(txt.file, index){
-
+setMethod(
+  "readability",
+  signature=signature(
+    txt.file="missing"
+  ),
+  function(
+    txt.file,
+    index
+  ){
     # only prints the validation info
     if(identical(index, "validation")){
       kRp.rdb.formulae(index="validation")
@@ -489,8 +667,11 @@ setMethod("readability", signature(txt.file="missing"), function(txt.file, index
 #' @docType methods
 #' @aliases
 #'    [,kRp.readability,ANY-method
-setMethod("[",
-  signature=signature(x="kRp.readability"),
+setMethod(
+  "[",
+  signature=signature(
+    x="kRp.readability"
+  ),
   function (x, i){
     return(summary(x, flat=TRUE)[i])
   }
@@ -501,8 +682,11 @@ setMethod("[",
 #' @docType methods
 #' @aliases
 #'    [[,kRp.readability,ANY-method
-setMethod("[[",
-  signature=signature(x="kRp.readability"),
+setMethod(
+  "[[",
+  signature=signature(
+    x="kRp.readability"
+  ),
   function (x, i){
     return(summary(x, flat=TRUE)[[i]])
   }

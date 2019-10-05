@@ -17,7 +17,7 @@ This class is used for objects that are returned by \code{\link[koRpus:treetag]{
 
 \item{\code{desc}}{Descriptive statistics of the tagged text.}
 
-\item{\code{TT.res}}{Results of the called tokenizer and POS tagger. The data.frame has eight columns:
+\item{\code{TT.res}}{Results of the called tokenizer and POS tagger. The data.frame usually has eleven columns:
 \describe{
   \item{\code{doc_id}:}{Factor, optional document identifier.}
   \item{\code{token}:}{Character, the tokenized text.}
