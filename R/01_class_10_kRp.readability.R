@@ -229,16 +229,17 @@ kRp_readability <- setClass("kRp.readability",
 
 setValidity("kRp.readability", function(object){
   ## TODO: this can probably be improved if necessary
-    TT.res <- object@TT.res
-    TT.res.names <- dimnames(TT.res)[[2]]
+  validate_df(
+    df=slot(object, "TT.res"),
+    valid_cols=valid.TT.res.kRp.tagged,
+    strict=FALSE,
+    warn_only=FALSE,
+    name="TT.res"
+  )
 
-    if(!is.character(object@lang)){
-      stop(simpleError("Invalid object: Slot \"lang\" must be of class character!"))
-    } else {}
-
-    if(!identical(TT.res.names, valid.TT.res.kRp.tagged)){
-      stop(simpleError("Invalid object: Wrong column names in slot \"TT.res\"!"))
-    } else {}
+  if(!is.character(slot(object, "lang"))){
+    stop(simpleError("Invalid object: Slot \"lang\" must be of class character!"))
+  } else {}
 
   return(TRUE)
 })

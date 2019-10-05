@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-2 (2019-07-16)
+changes in version 0.12-2 (2019-10-05)
 unreleased:
   - this release is under development
 fixed:
@@ -11,6 +11,10 @@ fixed:
 changed:
   - show(): simplified the code for kRp.TTR class objects and unified the
     horizontal positioning of resulting values
+  - kRp.tagged: additional columns in the TT.res data frame are now ok
+added:
+  - validate_df(): new internal method to check data frames for expected
+    columns
 
 changes in version 0.12-1 (2019-05-13)
 fixed:

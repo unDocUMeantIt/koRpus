@@ -72,12 +72,11 @@ setAs(from="kRp.txt.trans", to="kRp.tagged", function(from){
 )
 
 setValidity("kRp.txt.trans", function(object){
-  TT.res <- taggedText(object)
-  TT.res.names <- colnames(TT.res)
-  valid.cols <- c(valid.TT.res.kRp.tagged, "token.orig", "equal")
-  if(all(valid.cols %in% TT.res.names)){
-    return(TRUE)
-  } else {
-    stop(simpleError("Invalid object: Wrong column names."))
-  }
+  validate_df(
+    df=slot(object, "TT.res"),
+    valid_cols=c(valid.TT.res.kRp.tagged, "token.orig", "equal"),
+    strict=FALSE,
+    warn_only=FALSE,
+    name="TT.res"
+  )
 })
