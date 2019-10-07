@@ -30,7 +30,8 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
   headLength <- formals(head.matrix)[["n"]]
   if(isTRUE(nrow(txt) > (headLength * 2 + 1))){
     # we need to extend the levels of the factors so they don't show ugly <NA>s
-    for (thisFactor in c("tag","desc","wclass","doc_id")){
+    factor_cols <- sapply(txt, is.factor)
+    for (thisFactor in names(factor_cols)[factor_cols]){
       # the dots are actually just needed for "wclass", but we'll keep it simple here...
       levels(txt[[thisFactor]]) <- c(levels(txt[[thisFactor]]), "", "[...]")
     }
@@ -45,7 +46,7 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
         ""
       )
     }
-    middle[["wclass"]] <- "[...]"
+    middle[[round(length(factor_cols) / 2)]] <- "[...]"
     rownames(middle) <- ""
     show.mtx <- rbind(head(txt), middle, tail(txt))
     show(show.mtx)
