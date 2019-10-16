@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -43,7 +43,7 @@ kRp_txt_freq <- setClass("kRp.txt.freq",
     freq.analysis="list"),
   prototype=prototype(
     lang=character(),
-    TT.res=data.frame(),
+    TT.res=init.kRp.tagged.df(),
     desc=list(),
     freq.analysis=list()),
   contains=c("kRp.tagged")

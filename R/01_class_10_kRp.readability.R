@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -172,7 +172,7 @@ kRp_readability <- setClass("kRp.readability",
       Wiener.STF="list"),
     prototype(
       lang=character(),
-      TT.res=data.frame(NA),
+      TT.res=init.kRp.tagged.df(),
       desc=list(NA),
       hyphen=new("kRp.hyphen"),
       param=list(NA),

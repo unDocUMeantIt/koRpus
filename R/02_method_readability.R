@@ -313,6 +313,10 @@
 #'    of consequence if \code{hyphen} is not set!
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
+#' @param keep.input Logical. If \code{FALSE}, neither the object provided by (or generated from) \code{txt.file} nor
+#'    \code{hyphen} will be kept in the output object. By default (\code{NULL}) they are kept if the input was not already of the needed object class
+#'    (e.g., \code{kRp.tagged}) or missing, to allow for re-use without the need to tag or hyphenate the text again.
+#'    If \code{TRUE}, they are always kept. In cases where you want smaller object sizes, set this to \code{FALSE} to always drop these slots.
 #' @param ... Additional options for the specified \code{tagger} function
 #' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
@@ -402,7 +406,10 @@ setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file
       sentc.tag="sentc",
       nonword.class="nonpunct",
       nonword.tag=c(),
-      quiet=FALSE, ...){
+      quiet=FALSE,
+      keep.input=NULL,
+      ...
+    ){
 
     # all the actual calculations have been moved to an internal function, to be able to re-use
     # the formulas for calculation without the actual text, but only its key values, in other functions
@@ -418,8 +425,11 @@ setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file
         sentc.tag=sentc.tag,
         nonword.class=nonword.class,
         nonword.tag=nonword.tag,
-        quiet=quiet, 
-        analyze.text=TRUE, ...)
+        quiet=quiet,
+        keep.input=keep.input,
+        analyze.text=TRUE,
+        ...
+      )
 
     return(all.results)
   }
@@ -443,7 +453,10 @@ setMethod("readability", signature(txt.file="character"), function(txt.file, hyp
       sentc.tag="sentc",
       nonword.class="nonpunct",
       nonword.tag=c(),
-      quiet=FALSE, ...){
+      quiet=FALSE,
+      keep.input=NULL,
+      ...
+    ){
 
     # all the actual calculations have been moved to an internal function, to be able to re-use
     # the formulas for calculation without the actual text, but only its key values, in other functions
@@ -459,8 +472,11 @@ setMethod("readability", signature(txt.file="character"), function(txt.file, hyp
         sentc.tag=sentc.tag,
         nonword.class=nonword.class,
         nonword.tag=nonword.tag,
-        quiet=quiet, 
-        analyze.text=TRUE, ...)
+        quiet=quiet,
+        keep.input=keep.input,
+        analyze.text=TRUE,
+        ...
+      )
 
     return(all.results)
   }

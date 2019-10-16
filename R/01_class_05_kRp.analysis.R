@@ -46,7 +46,7 @@ kRp_analysis <- setClass("kRp.analysis",
     lex.div="kRp.TTR"),
   prototype=prototype(
     lang=character(),
-    TT.res=data.frame(),
+    TT.res=init.kRp.tagged.df(),
     desc=list(),
     lex.div=kRp_TTR(),
     freq.analysis=list()),

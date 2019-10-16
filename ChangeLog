@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-2 (2019-10-07)
+changes in version 0.12-2 (2019-10-16)
 unreleased:
   - this release is under development
 fixed:
@@ -8,6 +8,7 @@ fixed:
     abbreviation files introduced with 0.11-5
   - correct.tag(): stopped method from adding tag descriptions to objects
     that didn't have them yet
+  - kRp_txt_freq()/kRp_readability(): properly initialize the TT.res slot
 changed:
   - show(): simplified the code for kRp.TTR class objects and unified the
     horizontal positioning of resulting values
@@ -17,6 +18,8 @@ changed:
 added:
   - validate_df(): new internal method to check data frames for expected
     columns
+  - readability(): new argument "keep.input" to define whether TT.res and
+    hyphen objects should be preserved in the output or dropped
 
 changes in version 0.12-1 (2019-05-13)
 fixed:
