@@ -97,46 +97,46 @@ kRp_corp_freq <- setClass("kRp.corp.freq",
     ),
     prototype(
       meta=data.frame(
-          meta=NA,
-          value=NA
+          meta=character(),
+          value=character()
         ),
       words=data.frame(
-          num=NA,
-          word=NA,
-          lemma=NA,
-          tag=NA,
-          wclass=NA,
-          lttr=NA,
-          freq=NA,
-          pct=NA,
-          pmio=NA,
-          log10=NA,
-          rank.avg=NA,
-          rank.min=NA,
-          rank.rel.avg=NA,
-          rank.rel.min=NA,
-          inDocs=NA,
-          idf=NA
+          num=numeric(),
+          word=character(),
+          lemma=character(),
+          tag=character(),
+          wclass=character(),
+          lttr=numeric(),
+          freq=numeric(),
+          pct=numeric(),
+          pmio=numeric(),
+          log10=numeric(),
+          rank.avg=numeric(),
+          rank.min=numeric(),
+          rank.rel.avg=numeric(),
+          rank.rel.min=numeric(),
+          inDocs=numeric(),
+          idf=numeric()
         ),
       desc=data.frame(
-          tokens=NA,
-          types=NA,
-          words.p.sntc=NA,
-          chars.p.sntc=NA,
-          chars.p.wform=NA,
-          chars.p.word=NA
+          tokens=character(),
+          types=character(),
+          words.p.sntc=numeric(),
+          chars.p.sntc=numeric(),
+          chars.p.wform=numeric(),
+          chars.p.word=numeric()
         ),
       bigrams=data.frame(
-          token1=NA,
-          token2=NA,
-          freq=NA,
-          sig=NA
+          token1=character(),
+          token2=character(),
+          freq=numeric(),
+          sig=numeric()
         ),
       cooccur=data.frame(
-          token1=NA,
-          token2=NA,
-          freq=NA,
-          sig=NA
+          token1=character(),
+          token2=character(),
+          freq=numeric(),
+          sig=numeric()
         ),
       caseSens=FALSE
     )

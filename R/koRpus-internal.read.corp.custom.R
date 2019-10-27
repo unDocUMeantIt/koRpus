@@ -22,29 +22,45 @@
 ## function kRp.corp.custom.prepare()
 # prepare data to feed to internal functions
 # called by kRp.read.corp.custom.calc(), see below
-kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", force.lang=NULL, caseSens=TRUE, ...){
+kRp.corp.custom.prepare <- function(
+  corpus,
+  format="file",
+  tagger="kRp.env",
+  force.lang=NULL,
+  caseSens=TRUE,
+  ...
+){
   if(inherits(corpus, "kRp.tagged")){
     tokens <- slot(corpus, "TT.res")[["token"]]
     tokenizedTexts <- list(corpus)
     tokensList <- list(vector=tokens)
   } else if(is.list(corpus)) {
     tokenizedTexts <- corpus
-    tokensList <- lapply(tokenizedTexts, function(this.tagged.txt){
+    tokensList <- lapply(
+      tokenizedTexts,
+      function(this.tagged.txt){
         return(this.tagged.txt[["token"]])
-      })
+      }
+    )
     tokens <- unlist(tokensList)
   } else {
     # for inverse document frequency we need statistics per document,
     # therefore keep a list with individual results and flatten that later
     if(identical(format, "file") && check.file(corpus, mode="dir", stopOnFail=FALSE)){
       txt.files <- dir(corpus)
-      tokenizedTexts <- lapply(txt.files, function(this.txt.file){
+      tokenizedTexts <- lapply(
+        txt.files,
+        function(this.txt.file){
           txt.full.path <- file.path(corpus, this.txt.file)
           return(tag.kRp.txt(txt=txt.full.path, tagger=tagger, lang=force.lang, objects.only=FALSE, format=format, ...))
-        })
-      tokensList <- lapply(tokenizedTexts, function(this.tagged.txt){
+        }
+      )
+      tokensList <- lapply(
+        tokenizedTexts,
+        function(this.tagged.txt){
           return(this.tagged.txt[["token"]])
-        })
+        }
+      )
       names(tokensList) <- txt.files
       tokens <- unlist(tokensList)
     } else {
@@ -56,7 +72,10 @@ kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", for
   
   if(!isTRUE(caseSens)){
     tokens <- tolower(tokens)
-    tokensList <- lapply(tokensList, tolower)
+    tokensList <- lapply(
+      tokensList,
+      tolower
+    )
   } else {}
 
   results <- list(tokens=tokens, tokensList=tokensList, tokenizedTexts=tokenizedTexts)
@@ -68,7 +87,7 @@ kRp.corp.custom.prepare <- function(corpus, format="file", tagger="kRp.env", for
 # calculate basic frequencies
 # called by kRp.read.corp.custom.calc(), see below
 kRp.corp.custom.analysis <- function(tokens, quiet=TRUE){
-  
+
   # this can be handled quick if quiet=TRUE, by using table()
   if(isTRUE(quiet)){
     freq.df <- frqcy.of.types(tokens=tokens, byTypes=TRUE, byTokens=FALSE)
@@ -149,7 +168,7 @@ kRp.read.corp.custom.calc <- function(corpus, format="file", quiet=TRUE, caseSen
 
   corp.freq <- freq.obj[["corp.freq"]]
   # add wclass, lemma and tag info from tagged objects
-  allExtraInfo <- subAllExtraInfo <- data.frame(token=NA, tag=NA, lemma=NA, wclass=NA)[-1,]
+  allExtraInfo <- subAllExtraInfo <- data.frame(token=character(), tag=character(), lemma=character(), wclass=character())
   for (thisText in data[["tokenizedTexts"]]){
     allExtraInfo <- rbind(allExtraInfo, thisText[,c("token","tag", "lemma", "wclass")])
   }

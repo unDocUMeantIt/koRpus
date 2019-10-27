@@ -45,6 +45,9 @@ the \code{"TT.res"} slot is used).}
 
 \item{force.lang}{A character string defining the language to be assumed for the text(s),
       by force.}
+
+\item{mc.cores}{The number of cores to use for parallelization,
+      see \code{\link[parallel:mclapply]{mclapply}}.}
 }
 \value{
 An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.

@@ -24,7 +24,7 @@ readability(txt.file, ...)
   NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL),
   fileEncoding = "UTF-8", tagger = "kRp.env", force.lang = NULL,
   sentc.tag = "sentc", nonword.class = "nonpunct", nonword.tag = c(),
-  quiet = FALSE, ...)
+  quiet = FALSE, keep.input = NULL, ...)
 
 \S4method{readability}{character}(txt.file, hyphen = NULL,
   index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
@@ -36,7 +36,7 @@ readability(txt.file, ...)
   NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache = NULL),
   fileEncoding = "UTF-8", tagger = "kRp.env", force.lang = NULL,
   sentc.tag = "sentc", nonword.class = "nonpunct", nonword.tag = c(),
-  quiet = FALSE, ...)
+  quiet = FALSE, keep.input = NULL, ...)
 
 \S4method{readability}{missing}(txt.file, index)
 
@@ -102,6 +102,14 @@ of consequence if \code{hyphen} is not set!}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.
 \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.}
+
+\item{keep.input}{Logical. If \code{FALSE},
+      neither the object provided by (or generated from) \code{txt.file} nor
+\code{hyphen} will be kept in the output object. By default (\code{NULL}) they are kept if the input was not already of the needed object class
+(e.g., \code{kRp.tagged}) or missing,
+      to allow for re-use without the need to tag or hyphenate the text again.
+If \code{TRUE}, they are always kept. In cases where you want smaller object sizes,
+      set this to \code{FALSE} to always drop these slots.}
 
 \item{x}{An object of class \code{kRp.readability}.}
 

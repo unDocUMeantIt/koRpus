@@ -33,6 +33,7 @@
 #' @param caseSens Logical. If \code{FALSE}, all tokens will be matched in their lower case form.
 #' @param log.base A numeric value defining the base of the logarithm used for inverse document frequency (idf). See
 #'    \code{\link[base:log]{log}} for details.
+#' @param mc.cores The number of cores to use for parallelization, see \code{\link[parallel:mclapply]{mclapply}}.
 #' @param ... Additional options to be passed through to the \code{tokenize} function.
 #' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
