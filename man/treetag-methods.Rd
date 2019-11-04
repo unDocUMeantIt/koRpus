@@ -157,14 +157,23 @@ in your workspace, and not worry about that too much.
 \examples{
 \dontrun{
 # first way to invoke POS tagging, using a built-in preset:
-tagged.results <- treetag("~/my.data/speech.txt", treetagger="manual", lang="en",
-   TT.options=list(path="~/bin/treetagger", preset="en"))
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+  treetagger="manual",
+  lang="en",
+  TT.options=list(path="~/bin/treetagger", preset="en")
+)
 # second way, use one of the batch scripts that come with TreeTagger:
-tagged.results <- treetag("~/my.data/speech.txt",
-   treetagger="~/bin/treetagger/cmd/tree-tagger-english", lang="en")
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+  treetagger="~/bin/treetagger/cmd/tree-tagger-english",
+  lang="en"
+)
 # third option, set the above batch script in an environment object first:
 set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-english", lang="en")
-tagged.results <- treetag("~/my.data/speech.txt")
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+)
 
 # after tagging, use the resulting object with other functions in this package:
 readability(tagged.results)
@@ -174,10 +183,12 @@ lex.div(tagged.results)
 # if you also installed the packages tm and SnowballC,
 # you can use some of their features with koRpus:
 set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger",
-   preset="en"))
-tagged.results <- treetag("~/my.data/speech.txt",
-   stopwords=tm::stopwords("en"),
-   stemmer=SnowballC::wordStem)
+  preset="en"))
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+  stopwords=tm::stopwords("en"),
+  stemmer=SnowballC::wordStem
+)
 
 # removing all stopwords now is simple:
 tagged.noStopWords <- filterByClass(tagged.results, "stopword")

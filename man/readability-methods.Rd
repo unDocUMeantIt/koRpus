@@ -6,7 +6,7 @@
 \alias{readability,kRp.taggedText-method}
 \alias{readability,character-method}
 \alias{readability,missing-method}
-\alias{[,kRp.readability-method}
+\alias{[,kRp.readability,ANY,ANY,ANY-method}
 \alias{[,kRp.readability,ANY-method}
 \alias{[[,kRp.readability-method}
 \alias{[[,kRp.readability,ANY-method}
@@ -40,7 +40,7 @@ readability(txt.file, ...)
 
 \S4method{readability}{missing}(txt.file, index)
 
-\S4method{[}{kRp.readability}(x, i)
+\S4method{[}{kRp.readability,ANY,ANY,ANY}(x, i)
 
 \S4method{[[}{kRp.readability}(x, i)
 }

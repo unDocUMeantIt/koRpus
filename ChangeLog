@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-2 (2019-10-27)
+changes in version 0.12-2 (2019-11-04)
 unreleased:
   - this release is under development
 fixed:
@@ -16,7 +16,12 @@ changed:
   - show(): generalized the handling of factor columns to be able to deal
     with unexpected columns
   - kRp.tagged: additional columns in the TT.res data frame are now ok
+  - tokenize(), treetag(): improved examples
 added:
+  - docTermMatrix(): new method to calculate document term matrices from
+    TIF compliant token data frames and koRpus objects
+  - dependencies: the Matrix package was added to imports for
+    docTermMatrix()
   - validate_df(): new internal method to check data frames for expected
     columns
   - readability(): new argument "keep.input" to define whether TT.res and

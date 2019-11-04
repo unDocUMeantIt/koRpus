@@ -135,7 +135,9 @@ can replace these tags, which probably preserves more of the original layout.
 }
 \examples{
 \dontrun{
-tokenized.obj <- tokenize("~/mydata/corpora/russian_corpus/")
+tokenized.obj <- tokenize(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+)
 
 ## character manipulation
 # this is useful if you know of problematic characters in your
@@ -143,21 +145,24 @@ tokenized.obj <- tokenize("~/mydata/corpora/russian_corpus/")
 # don't have to, as you can substitute them, even using regular
 # expressions. a simple example: replace all single quotes by
 # double quotes througout the text:
-tokenized.obj <- tokenize("~/my.data/speech.txt",
+tokenized.obj <- tokenize(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
   clean.raw=list("'"='\\"')
 )
 
 # now replace all occurrances of the letter A followed
 # by two digits with the letter B, followed by the same
 # two digits:
-tokenized.obj <- tokenize("~/my.data/speech.txt",
+tokenized.obj <- tokenize(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
   clean.raw=list("(A)([[:digit:]]{2})"="B\\\\2"),
   perl=TRUE)
 
 ## enabling stopword detection and stemming
 # if you also installed the packages tm and Snowball,
 # you can use some of their features with koRpus:
-tokenized.obj <- tokenize("~/my.data/speech.txt",
+tokenized.obj <- tokenize(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
   stopwords=tm::stopwords("en"),
   stemmer=SnowballC::wordStem)
 
