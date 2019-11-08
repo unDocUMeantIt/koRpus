@@ -1,9 +1,11 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-2 (2019-11-04)
+changes in version 0.12-2 (2019-11-08)
 unreleased:
   - this release is under development
 fixed:
+  - docTermMatrix(): numbers were calculated correctly, but added to the
+    wrong columns, leading to a completely wrong document term matrix
   - treetag(): a dumb misorderig of calls suppressed the "utf8" check for
     abbreviation files introduced with 0.11-5
   - correct.tag(): stopped method from adding tag descriptions to objects
