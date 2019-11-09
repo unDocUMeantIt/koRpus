@@ -154,7 +154,7 @@ kRp.idf <- function(freq.obj, tokensList, log.base=10) {
 ##################################################################
 
 ## function kRp.read.corp.custom.calc()
-# this is the *actual* helper function that is caled by methods
+# this is the *actual* helper function that is called by methods
 kRp.read.corp.custom.calc <- function(corpus, format="file", quiet=TRUE, caseSens=TRUE, log.base=10,
     tagger="kRp.env", force.lang=NULL, ...){
 
