@@ -200,10 +200,12 @@ kRp.read.corp.custom.calc <- function(corpus, format="file", quiet=TRUE, caseSen
     chars.p.word=NA)
 
   # call internal function create.corp.freq.object()
-  results <- create.corp.freq.object(matrix.freq=corp.freq,
-            num.running.words=freq.obj[["num.tokens"]],
-            df.meta=as.data.frame(matrix(ncol=2, dimnames=list(c(),c("meta", "value")))),
-            df.dscrpt.meta=dscrpt.meta)
+  results <- create.corp.freq.object(
+    matrix.freq=corp.freq,
+    num.running.words=freq.obj[["num.tokens"]],
+    df.meta=as.data.frame(matrix(ncol=2, dimnames=list(c(),c("meta", "value")))),
+    df.dscrpt.meta=dscrpt.meta
+  )
 
   return(results)
 } ## end function kRp.read.corp.custom.calc()

@@ -888,7 +888,7 @@ text.freq.analysis <- function(txt.commented, corp.freq, corp.rm.class, corp.rm.
 # "dscrpt.meta" must be a data.frame with six columns: "tokens" (old: "words"), "types" (old: "dist.words"),
 #   "words.p.sntc", "chars.p.sntc", "chars.p.wform" and "chars.p.word"; if NULL its value is set to an empty default
 # "extra.cols" is an optional data.frame with additional columns, e.g. valence data
-# "casSens" determines whether frequency stats should distinguish between letter cases or consolidate otherwise identical tokens
+# "caseSens" determines whether frequency stats should distinguish between letter cases or consolidate otherwise identical tokens
 create.corp.freq.object <- function(matrix.freq, num.running.words, df.meta, df.dscrpt.meta,
   matrix.table.bigrams=NULL, matrix.table.cooccur=NULL, extra.cols=NULL, caseSens=TRUE, quiet=FALSE){
   tokenFreq <- as.numeric(matrix.freq[,"freq"])
