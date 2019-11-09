@@ -53,6 +53,8 @@
 
 setGeneric("read.corp.custom", function(corpus, ...) standardGeneric("read.corp.custom"))
 
+#' @param dtm A document term matrix of the \code{corpus} object, matching the case sensitivity setting.
+#'    If missing, it will be calculated internally.
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
@@ -62,11 +64,32 @@ setGeneric("read.corp.custom", function(corpus, ...) standardGeneric("read.corp.
 #' @include koRpus-internal.R
 #' @aliases read.corp.custom,kRp.taggedText-method
 #' @rdname read.corp.custom-methods
-setMethod("read.corp.custom", signature(corpus="kRp.taggedText"), function(corpus,
-    quiet=TRUE, caseSens=TRUE, log.base=10, ...){
-
-    results <- kRp.read.corp.custom.calc(corpus=corpus, format="obj",
-      quiet=quiet, caseSens=caseSens, log.base=log.base, ...)
+setMethod(
+  "read.corp.custom",
+  signature(corpus="kRp.taggedText"),
+  function(
+    corpus,
+    quiet=TRUE,
+    caseSens=TRUE,
+    log.base=10,
+    dtm=docTermMatrix(
+      obj=corpus,
+      case.sens=caseSens
+    ),
+    old=FALSE,
+    ...
+  ){
+    if(isTRUE(old)){
+      results <- kRp.read.corp.custom.calc(corpus=corpus, format="obj",
+        quiet=quiet, caseSens=caseSens, log.base=log.base, ...)
+    } else {
+      results <- read_corp_custom_calc(
+        corpus=corpus,
+        corpus_dtm=dtm,
+        caseSens=caseSens,
+        log.base=log.base
+      )
+    }
 
     return(results)
   }

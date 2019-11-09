@@ -209,3 +209,84 @@ kRp.read.corp.custom.calc <- function(corpus, format="file", quiet=TRUE, caseSen
 
   return(results)
 } ## end function kRp.read.corp.custom.calc()
+
+
+##################################################################
+## if this signature changes, check read.corp.custom() as well! ##
+##################################################################
+
+## function read_corp_custom_calc()
+# this is the *actual* helper function that is called by methods
+# - corpus: a taggedText object
+# - corpus_dtm: a document term matrix from 'corpus'
+# - caseSens: logical defining case sensitivity, must match 'corpus_dtm'
+# - log.base: base for the logarithm
+read_corp_custom_calc <- function(
+  corpus,
+  corpus_dtm,
+  caseSens=TRUE,
+  log.base=10
+){
+  corpus_dtm <- as.matrix(corpus_dtm)
+  # sort matrix
+  corpus_dtm <- corpus_dtm[, order(colnames(corpus_dtm)), drop=FALSE]
+  term_freq_global <- colSums(corpus_dtm)
+  corpus_dtm <- corpus_dtm[, order(term_freq_global, decreasing=TRUE), drop=FALSE]
+  all_tokens <- colnames(corpus_dtm)
+  in_docs <- colSums(corpus_dtm > 0)
+
+  # add tag, lemma and wclass
+  # only leave one entry per token, take the one with the most frequent wclass
+  # it's a bit bogus, since identical tokens can be of different meaning, but
+  # there's not so much we can do about it here
+  extra_cols <- taggedText(corpus)[,c("token","tag", "lemma", "wclass"), drop=FALSE]
+  if(!isTRUE(caseSens)){
+    extra_cols[["token"]] <- tolower(extra_cols[["token"]])
+  } else {}
+
+  if(any(!extra_cols[["token"]] %in% all_tokens, !all_tokens %in% extra_cols[["token"]])){
+    stop(simpleError("The tokens in the text corpus do not match the document term matrix -- messed up case sensitivity?"))
+  } else {}
+  token_index <- sapply(
+    all_tokens,
+    function(this_token){
+      token_in_corpus <- extra_cols[extra_cols[["token"]] %in% this_token,]
+      # the most frequent word class for this token
+      tic_max_wclass <- names(sort(table(token_in_corpus[["wclass"]]), decreasing=TRUE))[1]
+      # return the first row where both token and wcalss match
+      return(which(extra_cols[["token"]] %in% this_token & extra_cols[["wclass"]] %in% tic_max_wclass)[1])
+    }
+  )
+
+  token_df <- data.frame(
+    num=1:ncol(corpus_dtm),
+    word=all_tokens,
+    tag=extra_cols[token_index, "tag"],
+    lemma=extra_cols[token_index, "lemma"],
+    wclass=extra_cols[token_index, "wclass"],
+    freq=colSums(corpus_dtm),
+    inDocs=in_docs,
+    idf=log(nrow(corpus_dtm) / in_docs, base=log.base),
+    row.names=1:ncol(corpus_dtm),
+    stringsAsFactors=FALSE
+  )
+
+  # descriptive statistics
+  dscrpt.meta <- data.frame(
+    tokens=nrow(taggedText(corpus)),
+    types=ncol(corpus_dtm),
+    words.p.sntc=NA,
+    chars.p.sntc=NA,
+    chars.p.wform=NA,
+    chars.p.word=NA
+  )
+
+  result <- create.corp.freq.object(
+    matrix.freq=token_df,
+    num.running.words=ncol(corpus_dtm),
+    df.meta=data.frame(meta=character(), value=character()),
+    df.dscrpt.meta=dscrpt.meta
+  )
+
+  return(result)
+} ## end function read_corp_custom_calc()
