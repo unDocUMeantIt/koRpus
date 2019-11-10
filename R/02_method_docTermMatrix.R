@@ -114,9 +114,9 @@ setMethod("docTermMatrix",
       relevantTerms <- obj[obj[["doc_id"]] %in% thisDoc, terms]
       termsInDoc <- table(relevantTerms)
       if(isTRUE(tfidf)){
-        tf_mtx[rownames(tf_mtx) %in% thisDoc, names(termsInDoc)[colnames(tf_mtx) %in% names(termsInDoc)]] <- termsInDoc/length(relevantTerms)
+        tf_mtx[rownames(tf_mtx) %in% thisDoc, names(termsInDoc)] <- termsInDoc/length(relevantTerms)
       } else {}
-      dt_mtx[rownames(dt_mtx) %in% thisDoc, names(termsInDoc)[colnames(dt_mtx) %in% names(termsInDoc)]] <- termsInDoc
+      dt_mtx[rownames(dt_mtx) %in% thisDoc, names(termsInDoc)] <- termsInDoc
     }
 
     if(isTRUE(tfidf)){

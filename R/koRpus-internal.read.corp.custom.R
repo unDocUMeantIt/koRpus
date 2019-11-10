@@ -247,12 +247,14 @@ read_corp_custom_calc <- function(
   if(any(!extra_cols[["token"]] %in% all_tokens, !all_tokens %in% extra_cols[["token"]])){
     stop(simpleError("The tokens in the text corpus do not match the document term matrix -- messed up case sensitivity?"))
   } else {}
+  tokens_freq <- table(unique(extra_cols)[["token"]])
+  unclear_tokens <- names(tokens_freq)[tokens_freq > 1]
   token_index <- sapply(
-    all_tokens,
+    unclear_tokens,
     function(this_token){
-      token_in_corpus <- extra_cols[extra_cols[["token"]] %in% this_token,]
+      token_in_corpus <- which(extra_cols[["token"]] %in% this_token)
       # the most frequent word class for this token
-      tic_max_wclass <- names(sort(table(token_in_corpus[["wclass"]]), decreasing=TRUE))[1]
+      tic_max_wclass <- names(sort(table(extra_cols[token_in_corpus, "wclass"]), decreasing=TRUE))[1]
       # return the first row where both token and wcalss match
       return(which(extra_cols[["token"]] %in% this_token & extra_cols[["wclass"]] %in% tic_max_wclass)[1])
     }
@@ -261,9 +263,9 @@ read_corp_custom_calc <- function(
   token_df <- data.frame(
     num=1:ncol(corpus_dtm),
     word=all_tokens,
-    tag=extra_cols[token_index, "tag"],
-    lemma=extra_cols[token_index, "lemma"],
-    wclass=extra_cols[token_index, "wclass"],
+    tag=rep("", ncol(corpus_dtm)), # extra_cols[token_index, "tag"],
+    lemma=rep("", ncol(corpus_dtm)), # extra_cols[token_index, "lemma"],
+    wclass=rep("", ncol(corpus_dtm)), # extra_cols[token_index, "wclass"],
     freq=colSums(corpus_dtm),
     inDocs=in_docs,
     idf=log(nrow(corpus_dtm) / in_docs, base=log.base),
