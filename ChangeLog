@@ -1,11 +1,11 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-2 (2019-11-08)
+changes in version 0.12-2 (2019-11-12)
 unreleased:
   - this release is under development
 fixed:
-  - docTermMatrix(): numbers were calculated correctly, but added to the
-    wrong columns, leading to a completely wrong document term matrix
+  - docTermMatrix(): numbers were calculated correctly, but possibly added
+    to the wrong columns, leading to a completely wrong document term matrix
   - treetag(): a dumb misorderig of calls suppressed the "utf8" check for
     abbreviation files introduced with 0.11-5
   - correct.tag(): stopped method from adding tag descriptions to objects
@@ -13,6 +13,8 @@ fixed:
   - kRp_txt_freq()/kRp_readability()/kRp_corp_freq(): properly initialize
     the slots
 changed:
+  - read.corp.custom(): re-wrote most of the code, now based on
+    docTermMatrix() and thereby 4 to 10 times faster
   - show(): simplified the code for kRp.TTR class objects and unified the
     horizontal positioning of resulting values
   - show(): generalized the handling of factor columns to be able to deal
