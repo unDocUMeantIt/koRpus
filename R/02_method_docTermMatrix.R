@@ -110,14 +110,32 @@ setMethod("docTermMatrix",
       tf_mtx <- dt_mtx
     } else {}
 
-    for (thisDoc in doc_ids){
-      relevantTerms <- obj[obj[["doc_id"]] %in% thisDoc, terms]
-      termsInDoc <- table(relevantTerms)
-      if(isTRUE(tfidf)){
-        tf_mtx[rownames(tf_mtx) %in% thisDoc, names(termsInDoc)] <- termsInDoc/length(relevantTerms)
-      } else {}
-      dt_mtx[rownames(dt_mtx) %in% thisDoc, names(termsInDoc)] <- termsInDoc
-    }
+    all_term_freq <- by(
+      data=obj[,c("doc_id","token")],
+      INDICES=obj[["doc_id"]],
+      function(this_doc){
+        table(this_doc[["token"]])
+      }
+    )
+
+    dt_mtx <- t(sapply(doc_ids,
+      function(this_doc){
+        this_row <- dt_mtx[this_doc, , drop=FALSE]
+        this_row[, names(all_term_freq[[this_doc]])] <- all_term_freq[[this_doc]]
+        return(this_row)
+      }
+    ))
+    colnames(dt_mtx) <- uniqueTerms
+    if(isTRUE(tfidf)){
+      tf_mtx <- t(sapply(doc_ids,
+        function(this_doc){
+          this_row <- tf_mtx[this_doc, , drop=FALSE]
+          this_row[, names(all_term_freq[[this_doc]])] <- all_term_freq[[this_doc]]/length(names(all_term_freq[[this_doc]]))
+          return(this_row)
+        }
+      ))
+      colnames(tf_mtx) <- uniqueTerms
+    } else {}
 
     if(isTRUE(tfidf)){
       idf <- log(nrow(dt_mtx)/colSums(dt_mtx > 0))
