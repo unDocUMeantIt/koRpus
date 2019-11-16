@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.12-2 (2019-11-12)
+changes in version 0.13-1 (2019-11-16)
 unreleased:
   - this release is under development
 fixed:
@@ -13,8 +13,12 @@ fixed:
   - kRp_txt_freq()/kRp_readability()/kRp_corp_freq(): properly initialize
     the slots
 changed:
+  - docTermMatrix(): optimzed calculation speed drastically
   - read.corp.custom(): re-wrote most of the code, now based on
-    docTermMatrix() and thereby 4 to 10 times faster
+    docTermMatrix() and thereby up to 50 times faster; also removed the now
+    unused quiet argument, as well as methods using the directory path or
+    lists of tagged texts, because using methods of the tm.plugin.koRpus
+    package instead is much more efficient now
   - show(): simplified the code for kRp.TTR class objects and unified the
     horizontal positioning of resulting values
   - show(): generalized the handling of factor columns to be able to deal
