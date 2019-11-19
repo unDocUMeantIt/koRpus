@@ -178,7 +178,7 @@ setMethod("treetag",
     # check on TT options
     if(identical(treetagger, "kRp.env")){
       treetagger <- get.kRp.env(TT.cmd=TRUE)
-      if(is.null(TT.options) & identical(treetagger, "manual")){
+      if(all(is.null(TT.options), identical(treetagger, "manual"))){
         TT.options <- get.kRp.env(TT.options=TRUE)
       } else {}
     } else {}
@@ -226,8 +226,10 @@ setMethod("treetag",
       # basic options
       TT.opts <- checkedOptions[["TT.opts"]]
 
+      in.TT.options <- names(TT.options)
+
       have.preset <- use.splitter <- FALSE
-      if("preset" %in% names(TT.options)){
+      if(any(in.TT.options == "preset")){
         ## minimum requirements for new presets:
         #  TT.splitter        <- c() # done before tokenization
         #  TT.tokenizer       <- file.path(TT.cmd, "...")
@@ -259,24 +261,24 @@ setMethod("treetag",
         have.preset <- TRUE
       } else {}
 
-      if("tokenizer" %in% names(TT.options)){
+      if(any(in.TT.options == "tokenizer")){
         TT.tokenizer    <- check_toggle_utf8(file_utf8=TT.options[["tokenizer"]], dir=TT.cmd)
       } else {
         TT.tokenizer    <- check_toggle_utf8(file_utf8=TT.tokenizer)
       }
-      if("tagger" %in% names(TT.options)){
+      if(any(in.TT.options == "tagger")){
         TT.tagger      <- file.path(TT.bin, TT.options[["tagger"]])
       } else {}
       # check if path works
       check.file(TT.tagger, mode="exist")
-      if("pre.tagger" %in% names(TT.options)){
+      if(any(in.TT.options == "pre.tagger")){
         TT.pre.tagger  <- TT.options[["pre.tagger"]]
       } else {
         if(!isTRUE(have.preset)){
           TT.pre.tagger <- c()
         } else {}
       }
-      if("params" %in% names(TT.options)){
+      if(any(in.TT.options == "params")){
         TT.params      <- check_toggle_utf8(file_utf8=TT.options[["params"]], dir=TT.lib)
       } else {
         TT.params      <- check_toggle_utf8(file_utf8=TT.params)
@@ -286,12 +288,12 @@ setMethod("treetag",
       input.enc <- ifelse(
         is.null(encoding),
           ifelse(
-            identical(treetagger, "manual") & ("preset" %in% names(TT.options)),
+            all(identical(treetagger, "manual"), any(in.TT.options == "preset")),
               preset.definition[["encoding"]],
               ""),
           encoding)
 
-      if("tknz.opts" %in% names(TT.options)){
+      if(any(in.TT.options == "tknz.opts")){
         TT.tknz.opts    <- TT.options[["tknz.opts"]]
       } else {
         if(!isTRUE(have.preset)){
@@ -299,14 +301,14 @@ setMethod("treetag",
         } else {}
       }
 
-      if("splitter" %in% names(TT.options)){
+      if(any(in.TT.options == "splitter")){
         TT.splitter     <- TT.options[["splitter"]]
       } else {
         if(!isTRUE(have.preset)){
           TT.splitter   <- c()
         } else {}
       }
-      if("splitter.opts" %in% names(TT.options)){
+      if(any(in.TT.options == "splitter.opts")){
         TT.splitter.opts <- TT.options[["splitter.opts"]]
       } else {
         if(!isTRUE(have.preset)){
@@ -319,11 +321,11 @@ setMethod("treetag",
         use.splitter <- TRUE
       }
 
-      if("abbrev" %in% names(TT.options)){
+      if(any(in.TT.options == "abbrev")){
         TT.abbrev      <- check_toggle_utf8(file_utf8=TT.options[["abbrev"]], dir=TT.lib)
         TT.tknz.opts   <- paste(TT.tknz.opts, "-a", TT.abbrev)
       } else {
-        if(isTRUE(have.preset) & !identical(TT.abbrev, c())){
+        if(all(isTRUE(have.preset), !identical(TT.abbrev, c()))){
           TT.abbrev    <- check_toggle_utf8(file_utf8=TT.abbrev)
           TT.tknz.opts <- paste(TT.tknz.opts, "-a", TT.abbrev)
         } else {
@@ -340,14 +342,14 @@ setMethod("treetag",
         tokenize.options <- c("split", "ign.comp", "heuristics", "heur.fix",
           "sentc.end", "detect", "clean.raw", "perl", "stopwords", "stemmer")
         for (this.opt in tokenize.options){
-          if(!this.opt %in% given.tknz.options) {
+          if(!any(given.tknz.options == this.opt)) {
             TT.tknz.opts[[this.opt]] <- eval(formals(tokenize)[[this.opt]])
             if(isTRUE(debug)){
               message(paste0("        ", this.opt, "=", paste0(TT.tknz.opts[[this.opt]], collapse=", ")))
             } else {}
           } else {}
         }
-        if(!"abbrev" %in% given.tknz.options) {
+        if(!any(given.tknz.options == "abbrev")){
           TT.tknz.opts[["abbrev"]] <- TT.abbrev
         } else {}
 
@@ -382,8 +384,8 @@ setMethod("treetag",
         } else {}
       } else {}
 
-      if("lexicon" %in% names(TT.options)){
-        if(!isTRUE(have.preset) & !"lookup" %in% names(TT.options)){
+      if(any(in.TT.options == "lexicon")){
+        if(all(!isTRUE(have.preset), !any(in.TT.options == "lookup"))){
           TT.lookup.command  <- c()
           warning("Manual TreeTagger configuration: Defined a \"lexicon\" without a \"lookup\" command, hence omitted!")
         } else {
@@ -415,7 +417,7 @@ setMethod("treetag",
         }
       }
 
-      if("filter" %in% names(TT.options)){
+      if(any(in.TT.options == "filter")){
         TT.filter      <- file.path(TT.cmd, TT.options[["filter"]])
         TT.filter.command  <- paste("|", TT.filter)
       } else {
