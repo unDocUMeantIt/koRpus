@@ -452,14 +452,14 @@ tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm
   } else {}
 
   # "stopword" needs to be treated differently, it's another column
-  if("stopword" %in% corp.rm.class){
+  if(any(corp.rm.class == "stopword")){
     if(all(is.na(txt[,"stop"]))){
       warning("Stopword removal not possible: All values are NA! Did you provide a stopword list when tokenizing?", call.=FALSE)
     } else {
       txt.cleaned <- txt.cleaned[!txt.cleaned[["stop"]],]
     }
     # that's all we need -- remove the entry from the vector
-    corp.rm.class <- corp.rm.class[!corp.rm.class %in% "stopword"]
+    corp.rm.class <- corp.rm.class[!corp.rm.class %in% "stopword"else]
   } else {}
   
   if(is.vector(corp.rm.class) && length(corp.rm.class) > 0){
