@@ -436,6 +436,7 @@ indexSentenceDoc <- function(tagged.text.df, lang, doc_id=NA){
 ## function tagged.txt.rm.classes()
 # takes a tagged text object and returns it without punctuation or other defined
 # classes or tags. can also return tokens in lemmatized form.
+# 
 # boolean: don't return the actual reduced data, but a logical vector indicating
 #   which values (i.e. rows) would have been removed
 # NOTE: "lemma" only takes effect if "as.vector=TRUE"!
@@ -443,29 +444,29 @@ tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm
   # to avoid needless NOTEs from R CMD check
   wclass <- tag <- rel.col <- NULL
 
-  txt.cleaned <- as.data.frame(txt)
+  stopifnot(is.data.frame(txt))
 
-  valid.tagset <- as.data.frame(kRp.POS.tags(lang))
+  valid.tagset <- kRp.POS.tags(lang)
   txt.rm.tags <- c()
   if(identical(corp.rm.class, "nonpunct")){
-    corp.rm.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
+    corp.rm.class <- kRp.POS.tags(lang, tags=c("punct", "sentc"), list.classes=TRUE)
   } else {}
 
   # "stopword" needs to be treated differently, it's another column
   if(any(corp.rm.class == "stopword")){
-    if(all(is.na(txt[,"stop"]))){
+    if(all(is.na(txt[, "stop"]))){
       warning("Stopword removal not possible: All values are NA! Did you provide a stopword list when tokenizing?", call.=FALSE)
     } else {
-      txt.cleaned <- txt.cleaned[!txt.cleaned[["stop"]],]
+      txt <- txt[!txt[["stop"]],]
     }
     # that's all we need -- remove the entry from the vector
-    corp.rm.class <- corp.rm.class[!corp.rm.class %in% "stopword"else]
+    corp.rm.class <- corp.rm.class[!corp.rm.class %in% "stopword"]
   } else {}
   
   if(is.vector(corp.rm.class) && length(corp.rm.class) > 0){
     # only proceed if all class values are valid
-    if(all(corp.rm.class %in% valid.tagset[,"wclass"])){
-      txt.rm.tag.classes <- as.vector(subset(valid.tagset, wclass %in% corp.rm.class)[,"tag"])
+    if(all(corp.rm.class %in% valid.tagset[, "wclass"])){
+      txt.rm.tag.classes <- valid.tagset[valid.tagset[, "wclass"] %in% corp.rm.class, "tag"]
       txt.rm.tags <- unique(c(txt.rm.tags, txt.rm.tag.classes))
     } else {
       stop(simpleError("Invalid value in corp.rm.class!"))
@@ -474,7 +475,7 @@ tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm
 
   if(is.vector(corp.rm.tag) && length(corp.rm.tag) > 0){
     # only proceed if all class values are valid
-    if(all(corp.rm.tag %in% valid.tagset[,"tag"])){
+    if(all(corp.rm.tag %in% valid.tagset[, "tag"])){
     txt.rm.tags <- unique(c(txt.rm.tags, corp.rm.tag))
     } else {
     stop(simpleError("Invalid value in corp.rm.tag!"))
@@ -482,19 +483,19 @@ tagged.txt.rm.classes <- function(txt, lemma=FALSE, lang, corp.rm.class, corp.rm
   } else {}
 
   # in this vector, FALSE means "remove"
-  rm.boolean <- !txt.cleaned[["tag"]] %in% txt.rm.tags
+  rm.boolean <- !txt[["tag"]] %in% txt.rm.tags
 
   if(isTRUE(boolean)){
     return(rm.boolean)
   } else if(isTRUE(as.vector)){
     # return only a vetor with the tokens itself, or the whole object?
     if(isTRUE(lemma)){
-      return(txt.cleaned[rm.boolean,"lemma"])
+      return(txt[rm.boolean, "lemma"])
     } else{
-      return(txt.cleaned[rm.boolean,"token"])
+      return(txt[rm.boolean, "token"])
     }
   } else {
-    return(txt.cleaned[rm.boolean,])
+    return(txt[rm.boolean,])
   }
 } ## end function tagged.txt.rm.classes()
 
