@@ -27,6 +27,14 @@
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
 #'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
 #'   \item{\code{fixObject} }{returns the same object upgraded to the object structure of this package version (e.g., new columns, changed names, etc.).}
+#'   \item{\code{hasFeature()} }{returns \code{TRUE} or code{FALSE}, depending on whether the requested feature is present or not.}
+#'   \item{\code{feature()} }{returns the list entry of the \code{feat_list} slot for the requested feature.}
+#'   \item{\code{corpusReadability()} }{returns the list of \code{kRp.readability} objects.}
+#'   \item{\code{corpusHyphen()} }{returns the list of \code{kRp.hyphen} objects.}
+#'   \item{\code{corpusLexDiv()} }{returns the list of \code{kRp.TTR} objects.}
+#'   \item{\code{corpusFreq()} }{returns the frequency analysis data from the \code{feat_list} slot.}
+#'   \item{\code{corpusCorpFreq()} }{returns the \code{kRp.corp.freq} object of the \code{feat_list} slot.}
+#'   \item{\code{corpusStopwords()} }{returns the number of stopwords found in each text (if analyzed) from the \code{feat_list} slot.}
 #'   \item{\code{tif_as_tokens_df} }{returns the \code{tokens} slot in a TIF[1] compliant format, i.e., \code{doc_id} is not a factor but a character vector.}
 #' }
 #'
@@ -96,6 +104,336 @@ setMethod("taggedText<-",
     return(obj)
   }
 )
+
+
+#' @rdname kRp.taggedText-methods
+#' @docType methods
+#' @export
+setGeneric("hasFeature", function(obj, feature, ...) standardGeneric("hasFeature"))
+#' @rdname kRp.taggedText-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    hasFeature,-methods
+#'    hasFeature,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("hasFeature",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, feature){
+    return(isTRUE(slot(obj, name="features")[feature]))
+  }
+)
+
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("hasFeature<-", function(obj, feature, value) standardGeneric("hasFeature<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    hasFeature<-,-methods
+#'    hasFeature<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("hasFeature<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, feature, value){
+    if(!is.logical(value)){
+      stop(simpleError("The \"feature\" value must be logical!"))
+    } else {}
+    if(isTRUE(value)){
+      slot(obj, name="features")[feature] <- value
+    } else {
+      current_features <- slot(obj, name="features")
+      slot(obj, name="features") <- current_features[!names(current_features) %in% feature]
+    }
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText-methods
+#' @docType methods
+#' @export
+setGeneric("feature", function(obj, feature, ...) standardGeneric("feature"))
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    feature,-methods
+#'    feature,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("feature",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, feature){
+    return(slot(obj, name="feat_list")[[feature]])
+  }
+)
+
+
+#' @rdname kRp.taggedText-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("feature<-", function(obj, feature, value) standardGeneric("feature<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    feature<-,-methods
+#'    feature<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("feature<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, feature, value){
+    slot(obj, name="feat_list")[[feature]] <- value
+    if(is.null(value)){
+      hasFeature(obj, feature) <- FALSE
+    } else {
+      hasFeature(obj, feature) <- TRUE
+    }
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+setGeneric("corpusReadability", function(obj, ...) standardGeneric("corpusReadability"))
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    corpusReadability,-methods
+#'    corpusReadability,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusReadability",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj){
+    return(feature(obj, "readability"))
+  }
+)
+
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("corpusReadability<-", function(obj, value) standardGeneric("corpusReadability<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    corpusReadability<-,-methods
+#'    corpusReadability<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusReadability<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, value){
+    feature(obj, "readability") <- value
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+setGeneric("corpusHyphen", function(obj, ...) standardGeneric("corpusHyphen"))
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    corpusHyphen,-methods
+#'    corpusHyphen,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusHyphen",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj){
+    return(feature(obj, "hyphen"))
+  }
+)
+
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("corpusHyphen<-", function(obj, value) standardGeneric("corpusHyphen<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    corpusHyphen<-,-methods
+#'    corpusHyphen<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusHyphen<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, value){
+    feature(obj, "hyphen") <- value
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+setGeneric("corpusLexDiv", function(obj, ...) standardGeneric("corpusLexDiv"))
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    corpusLexDiv,-methods
+#'    corpusLexDiv,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusLexDiv",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj){
+    return(feature(obj, "lex_div"))
+  }
+)
+
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("corpusLexDiv<-", function(obj, value) standardGeneric("corpusLexDiv<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    corpusLexDiv<-,-methods
+#'    corpusLexDiv<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusLexDiv<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, value){
+    feature(obj, "lex_div") <- value
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+setGeneric("corpusFreq", function(obj, ...) standardGeneric("corpusFreq"))
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    corpusFreq,-methods
+#'    corpusFreq,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusFreq",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj){
+    return(feature(obj, "freq"))
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("corpusFreq<-", function(obj, value) standardGeneric("corpusFreq<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    corpusFreq<-,-methods
+#'    corpusFreq<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusFreq<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, value){
+    feature(obj, "freq") <- value
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+setGeneric("corpusCorpFreq", function(obj, ...) standardGeneric("corpusCorpFreq"))
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    corpusCorpFreq,-methods
+#'    corpusCorpFreq,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusCorpFreq",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj){
+    return(feature(obj, "corp_freq"))
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("corpusCorpFreq<-", function(obj, value) standardGeneric("corpusCorpFreq<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    corpusCorpFreq<-,-methods
+#'    corpusCorpFreq<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusCorpFreq<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, value){
+    feature(obj, "corp_freq") <- value
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+setGeneric("corpusStopwords", function(obj, ...) standardGeneric("corpusStopwords"))
+#' @rdname kRp.taggedText_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    corpusStopwords,-methods
+#'    corpusStopwords,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusStopwords",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj){
+    return(feature(obj, "stopwords"))
+  }
+)
+
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("corpusStopwords<-", function(obj, value) standardGeneric("corpusStopwords<-"))
+#' @rdname kRp.taggedText_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    corpusStopwords<-,-methods
+#'    corpusStopwords<-,kRp.taggedText-method
+#' @include 01_class_80_kRp.taggedText_union.R
+setMethod("corpusStopwords<-",
+  signature=signature(obj="kRp.taggedText"),
+  function (obj, value){
+    feature(obj, "stopwords") <- value
+    return(obj)
+  }
+)
+
 
 #' @rdname kRp.taggedText-methods
 #' @param x An object of class \code{kRp.taggedText} or \code{kRp.hyphen}.

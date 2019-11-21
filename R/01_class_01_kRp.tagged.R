@@ -60,6 +60,27 @@ valid.tokens.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'      \item{\code{sntc}:}{Integer, number of sentence in this document.}
 #'    }
 #'    This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].
+#' @slot features A named logical vector, indicating which features are available in this object's \code{feat_list} slot.
+#'    Common features are listed in the description of the \code{feat_list} slot.
+#' @slot feat_list A named list with optional analysis results or other content as used by the defined \code{features}:
+#'    \itemize{
+#'      \item{\code{hyphen} }{A named list of objects of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}.}
+#'      \item{\code{readability} }{A named list of objects of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.}
+#'      \item{\code{lex_div} }{A named list of objects of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.}
+#'      \item{\code{freq} }{The \code{freq.analysis} slot of a \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} class object after
+#'        \code{\link[koRpus:freq.analysis]{freq.analysis}} was called.}
+#'      \item{\code{corp_freq} }{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, e.g., results of a call to
+#'        \code{\link[koRpus:read.corp.custom]{read.corp.custom}}.}
+#'      \item{\code{diff} }{A named list of \code{diff} slots of a \code{\link[sylly:kRp.text.trans-class]{kRp.text.trans}} object after
+#'        a method like \code{\link[koRpus:textTransform]{textTransform}} was called.}
+#      \item{\code{summary} }{A summary data frame for the full corpus, including descriptive statistics on all texts, as well as
+#        results of analyses like readability and lexical diversity, if available.}
+#'      \item{\code{doc_term_matrix} }{A sparse document-term matrix, as produced by \code{\link[koRpus:docTermMatrix]{docTermMatrix}}.}
+#      \item{\code{stopwords} }{A numeric vector with the total number of stopwords in each text, if stopwords were analyzed during tokenizing or POS tagging.}
+#      \item{\code{} }{}
+#'    }
+#'    See the \code{\link[koRpus:kRp.taggedText-methods]{getter and setter methods}} for easy access to these sub-slots.
+#'    There can actually be any number of additional features, the above is just a list of those already defined by this package.
 #' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 #' @name kRp.tagged,-class
 #' @aliases kRp.tagged-class
@@ -76,15 +97,52 @@ kRp_tagged <- setClass("kRp.tagged",
     representation=representation(
       lang="character",
       desc="list",
-      tokens="data.frame"),
+      tokens="data.frame",
+      features="logical",
+      feat_list="list"
+    ),
     prototype(
       lang=character(),
       desc=list(),
-      tokens=init.kRp.tagged.df()
+      tokens=init.kRp.tagged.df(),
+      features=logical(),
+      feat_list=list()
     )
 )
 
 setValidity("kRp.tagged", function(object){
+  features <- slot(object, "features")
+  feat_list <- slot(object, "feat_list")
+  hyphen <- feat_list[["hyphen"]]
+  readability <- feat_list[["readability"]]
+  lex_div <- feat_list[["lex_div"]]
+  freq <- feat_list[["freq"]]
+  corp_freq <- feat_list[["corp_freq"]]
+  # obj_summary <- feat_list[["summary"]]
+
+  missingFeatures <- sapply(
+    names(features),
+    function(this_feature){
+      if(
+        all(
+          isTRUE(features[[this_feature]]),
+          is.null(feat_list[[this_feature]])
+        )
+      ){
+        return(this_feature)
+      } else {}
+    }
+  )
+  if(length(missingFeatures) > 0) {
+    warning(
+      paste0(
+        "Invalid object: There's no data for activated \"features\":\n  ",
+        paste0(missingFeatures, collapse=", ")
+      ),
+      call.=FALSE
+    )
+  } else {}
+
   is_valid <- validate_df(
     df=slot(object, "tokens"),
     valid_cols=valid.tokens.kRp.tagged,
@@ -100,6 +158,25 @@ setValidity("kRp.tagged", function(object){
   if(!is.character(slot(object, "lang"))){
     stop(simpleError("Invalid object: Slot \"lang\" must be of class character!"))
   } else {}
+
+  classObj <- list(
+    "kRp.hyphen"=list(name="hyphen", obj=hyphen),
+    "kRp.readability"=list(name="readability", obj=readability),
+    "kRp.TTR"=list(name="lex_div", obj=lex_div),
+    "kRp.corp.freq"=list(name="corp_freq", obj=corp_freq)#,
+    #"data.frame"=list(name="summary", obj=obj_summary)
+  )
+  for (thisClassObj in names(classObj)) {
+    if(
+      all(
+        !identical(classObj[[thisClassObj]][["obj"]], list()),
+        !is.null(classObj[[thisClassObj]][["obj"]]),
+        !all(sapply(classObj[[thisClassObj]][["obj"]], function(x) inherits(x, thisClassObj)))
+      )
+    ){
+      stop(simpleError(paste0("Invalid object: Slot \"", classObj[[thisClassObj]][["name"]], "\" must have entries inheriting from class ", thisClassObj, "!")))
+    } else {}
+  }
 
   return(TRUE)
 })

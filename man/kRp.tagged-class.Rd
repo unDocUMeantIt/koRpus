@@ -32,6 +32,29 @@ This class is used for objects that are returned by \code{\link[koRpus:treetag]{
   \item{\code{sntc}:}{Integer, number of sentence in this document.}
 }
 This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].}
+
+\item{\code{features}}{A named logical vector,
+      indicating which features are available in this object's \code{feat_list} slot.
+Common features are listed in the description of the \code{feat_list} slot.}
+
+\item{\code{feat_list}}{A named list with optional analysis results or other content as used by the defined \code{features}:
+\itemize{
+  \item{\code{hyphen} }{A named list of objects of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}.}
+  \item{\code{readability} }{A named list of objects of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.}
+  \item{\code{lex_div} }{A named list of objects of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.}
+  \item{\code{freq} }{The \code{freq.analysis} slot of a \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} class object after
+    \code{\link[koRpus:freq.analysis]{freq.analysis}} was called.}
+  \item{\code{corp_freq} }{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+      e.g., results of a call to
+    \code{\link[koRpus:read.corp.custom]{read.corp.custom}}.}
+  \item{\code{diff} }{A named list of \code{diff} slots of a \code{\link[sylly:kRp.text.trans-class]{kRp.text.trans}} object after
+    a method like \code{\link[koRpus:textTransform]{textTransform}} was called.}
+  \item{\code{doc_term_matrix} }{A sparse document-term matrix,
+      as produced by \code{\link[koRpus:docTermMatrix]{docTermMatrix}}.}
+}
+See the \code{\link[koRpus:kRp.taggedText-methods]{getter and setter methods}} for easy access to these sub-slots.
+There can actually be any number of additional features,
+      the above is just a list of those already defined by this package.}
 }}
 
 \note{

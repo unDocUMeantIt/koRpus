@@ -27,8 +27,17 @@ changed:
     with unexpected columns
   - tokenize(), treetag(): improved examples
 added:
+  - kRp.tagged: new slots "features" and "feat_list" to host analysis results
+    like readability or lexical diversity, replacing some of the old object
+    classes with one generic class
   - docTermMatrix(): new method to calculate document term matrices from
     TIF compliant token data frames and koRpus objects
+  - hasFeatures(), hasFeatures()<-, features(), features()<-,
+    corpusReadability(), corpusReadability()<-, corpusHyphen(),
+    corpusHyphen()<-, corpusLexDiv(), corpusLexDiv()<-, corpusFreq(),
+    corpusFreq()<-, corpusCorpFreq(), corpusCorpFreq()<-, corpusStopwords(),
+    corpusStopwords()<-: new getter/setter
+    methods for kRp.tagged objects
   - dependencies: the Matrix package was added to imports for
     docTermMatrix()
   - validate_df(): new internal method to check data frames for expected
