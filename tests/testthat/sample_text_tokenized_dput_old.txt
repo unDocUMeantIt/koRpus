@@ -41,7 +41,7 @@ new("kRp.tagged"
 "lines", "normalized.space", "chars.no.space", "punct", "digits", 
 "letters", "letters.only", "char.distrib", "lttr.distrib", "words", 
 "sentences", "avg.sentc.length", "avg.word.length"))
-    , TT.res = structure(list(token = c("Defense", "mechanisms", "Phasmatodea", 
+    , tokens = structure(list(token = c("Defense", "mechanisms", "Phasmatodea", 
 "species", "exhibit", "mechanisms", "for", "defense", "from", 
 "predators", "that", "both", "prevent", "an", "attack", "from", 
 "happening", "in", "the", "first", "place", "(", "primary", "defense", 

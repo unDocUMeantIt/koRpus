@@ -215,13 +215,13 @@ If you don't need detailed word class analysis, you should be fine using `koRpus
 
 ### Accessing data from `koRpus` objects
 
-For this class of objects, `koRpus` provides some comfortable methods to extract the portions you're interested in. For example, the main results are to be found in the slot `TT.res`. In addition to TreeTagger's original output (token, tag and lemma) `treetag()` also automatically counts letters and assigns tokens to global word classes. To get these results as a data.frame, use the getter method `taggedText()`:
+For this class of objects, `koRpus` provides some comfortable methods to extract the portions you're interested in. For example, the main results are to be found in the slot `tokens`. In addition to TreeTagger's original output (token, tag and lemma) `treetag()` also automatically counts letters and assigns tokens to global word classes. To get these results as a data.frame, use the getter method `taggedText()`:
 
 ```{r}
 taggedText(tagged.text)[26:34,]
 ```
 
-In case you want to access a subset of the data in the resulting object, e.g., only the column with number of letters or the first five rows of `TT.res`, you'll be happy to know there's special `[` and `[[` methods for these kinds of objects:
+In case you want to access a subset of the data in the resulting object, e.g., only the column with number of letters or the first five rows of `tokens`, you'll be happy to know there's special `[` and `[[` methods for these kinds of objects:
 
 ```{r}
 head(tagged.text[["lttr"]], n=50)
@@ -349,7 +349,7 @@ We can now conduct a full frequency analysis of our text:
 freq.analysis.res <- freq.analysis(tagged.text, corp.freq=LCC.en)
 ```
 
-The resulting object holds a lot of information, even if no corpus data was used (i.e., `corp.freq=NULL`). To begin with, it contains the two slots `TT.res` and `lang`, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into `kRp.tagged` objects.^[This can easily be done by calling  `as(freq.analysis.res, "kRp.tagged")`.] However, if corpus data was provided, the tagging results gained three new columns:
+The resulting object holds a lot of information, even if no corpus data was used (i.e., `corp.freq=NULL`). To begin with, it contains the two slots `tokens` and `lang`, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into `kRp.tagged` objects.^[This can easily be done by calling  `as(freq.analysis.res, "kRp.tagged")`.] However, if corpus data was provided, the tagging results gained three new columns:
 
 ```{r, eval=FALSE}
 taggedText(freq.analysis.res)

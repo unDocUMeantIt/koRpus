@@ -300,10 +300,10 @@ kRp.rdb.formulae <- function(
       parameters$Dickes.Steiwer$case.sens)
     num.TTR <- slot(TTR(tagged.text, case.sens=DS.case.sens, quiet=TRUE), "TTR")
     # some word classes needed by one formula or the other
-    num.conjunctions <- sum(slot(tagged.text, "tokens")$wclass %in% "conjunction", na.rm=TRUE)
-    num.prepositions <- sum(slot(tagged.text, "tokens")$wclass %in% "preposition", na.rm=TRUE)
-    num.pronouns <- sum(slot(tagged.text, "tokens")$wclass %in% "pronoun", na.rm=TRUE)
-    num.foreign <- sum(slot(tagged.text, "tokens")$wclass %in% "foreign", na.rm=TRUE)
+    num.conjunctions <- sum(taggedText(tagged.text)$wclass %in% "conjunction", na.rm=TRUE)
+    num.prepositions <- sum(taggedText(tagged.text)$wclass %in% "preposition", na.rm=TRUE)
+    num.pronouns <- sum(taggedText(tagged.text)$wclass %in% "pronoun", na.rm=TRUE)
+    num.foreign <- sum(taggedText(tagged.text)$wclass %in% "foreign", na.rm=TRUE)
   } else {
     ########################
     ## analyze.text=FALSE ##
@@ -407,11 +407,11 @@ kRp.rdb.formulae <- function(
     )
   }
   if(isTRUE(keep.input)){
-    slot(all.results, "tokens") <- slot(tagged.text, "tokens")
+    slot(all.results, "tokens") <- taggedText(tagged.text)
     slot(all.results, "hyphen") <- hyphen
   } else if(is.null(keep.input)){
     if(!isTRUE(dropTagged)){
-      slot(all.results, "tokens") <- slot(tagged.text, "tokens")
+      slot(all.results, "tokens") <- taggedText(tagged.text)
     } else {}
     if(!isTRUE(dropHyphen)){
       slot(all.results, "hyphen") <- hyphen
@@ -520,7 +520,7 @@ kRp.rdb.formulae <- function(
   ## Coleman Formulas
   if("Coleman" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(slot(tagged.text, "tokens")[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(all(taggedText(tagged.text)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
       # this text was just tagged with tokenize() and misses important tags
       warning("Coleman: POS tags are not elaborate enough, can't count pronouns and prepositions. Formulae skipped.", call.=FALSE)
     } else {
@@ -1434,7 +1434,7 @@ kRp.rdb.formulae <- function(
   # new Dickes-Steiwer for german texts
   if("Traenkle.Bailer" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(slot(tagged.text, "tokens")[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(all(taggedText(tagged.text)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
       # this text was just tagged with tokenize() and misses important tags
       warning("Traenkle.Bailer: POS tags are not elaborate enough, can't count prepositions and conjuctions. Formulae skipped.", call.=FALSE)
     } else {

@@ -49,7 +49,7 @@ new("kRp.tagged"
 "chars.no.space", "punct", "digits", "letters", "letters.only", 
 "char.distrib", "lttr.distrib", "words", "sentences", "avg.sentc.length", 
 "avg.word.length", "doc_id"))
-    , TT.res = structure(list(doc_id = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 
+    , tokens = structure(list(doc_id = structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 
 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 
 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 

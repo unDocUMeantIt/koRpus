@@ -85,13 +85,17 @@ kRp_tagged <- setClass("kRp.tagged",
 )
 
 setValidity("kRp.tagged", function(object){
-  validate_df(
+  is_valid <- validate_df(
     df=slot(object, "tokens"),
     valid_cols=valid.tokens.kRp.tagged,
     strict=FALSE,
-    warn_only=FALSE,
+    warn_only=TRUE,
     name="tokens"
   )
+
+  if(!isTRUE(is_valid)){
+    warning("Try fixObject() to fix the issues.", call.=FALSE)
+  } else {}
 
   if(!is.character(slot(object, "lang"))){
     stop(simpleError("Invalid object: Slot \"lang\" must be of class character!"))

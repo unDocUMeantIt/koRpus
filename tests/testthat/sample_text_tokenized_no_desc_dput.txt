@@ -35,7 +35,7 @@ new("kRp.tagged", lang = "xy", desc = list(all.chars = 3554L,
     "cum.inv", "pct", "cum.pct", "pct.inv"), c("1", "2", "3", 
     "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", 
     "15", "16"))), words = 556L, sentences = 20L, avg.sentc.length = 27.8, 
-    avg.word.length = 5.24820143884892, doc_id = NA), TT.res = structure(list(
+    avg.word.length = 5.24820143884892, doc_id = NA), tokens = structure(list(
     doc_id = structure(c(NA_integer_, NA_integer_, NA_integer_, 
     NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, 
     NA_integer_, NA_integer_, NA_integer_, NA_integer_, NA_integer_, 
