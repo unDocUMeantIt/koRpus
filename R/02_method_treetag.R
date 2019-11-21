@@ -83,7 +83,7 @@
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
 #' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-#'    of the \code{TT.res} slot.
+#'    of the \code{tokens} slot.
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
 #' @param ... Only used for the method generic.
@@ -553,7 +553,7 @@ setMethod("treetag",
     # add columns "idx", "sntc" and "doc_id"
     tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-    results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
+    results <- kRp_tagged(lang=lang, tokens=tagged.mtrx)
     ## descriptive statistics
     if(is.null(encoding)){
       encoding <- ""

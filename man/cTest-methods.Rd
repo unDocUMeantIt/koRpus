@@ -8,8 +8,13 @@
 \usage{
 cTest(obj, ...)
 
-\S4method{cTest}{kRp.taggedText}(obj, every = 2, min.length = 3,
-  intact = c(start = 1, end = 1), replace.by = "_")
+\S4method{cTest}{kRp.taggedText}(
+  obj,
+  every = 2,
+  min.length = 3,
+  intact = c(start = 1, end = 1),
+  replace.by = "_"
+)
 }
 \arguments{
 \item{obj}{An object of class "kRp.taggedText"}

@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -70,6 +70,6 @@ kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, for
     desc.stat.res <- describe(tagged.text)
   }
 
-  results <- kRp_txt_freq(lang=lang, TT.res=commented, desc=desc.stat.res, freq.analysis=frequency.res)
+  results <- kRp_txt_freq(lang=lang, tokens=commented, desc=desc.stat.res, freq.analysis=frequency.res)
   return(results)
 }

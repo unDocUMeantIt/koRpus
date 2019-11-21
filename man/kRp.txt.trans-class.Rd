@@ -17,7 +17,7 @@ This class is used for objects that are returned by \code{\link[koRpus:textTrans
 
 \item{\code{desc}}{Descriptive statistics of the tagged text.}
 
-\item{\code{TT.res}}{A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged},
+\item{\code{tokens}}{A data.frame with the fully tagged and transformed text (like \code{tokens} in class \code{koRpus.tagged},
       plus
 the new columns \code{token.orig} and \code{equal}).}
 

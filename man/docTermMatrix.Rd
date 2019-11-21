@@ -8,14 +8,13 @@
 \alias{docTermMatrix,kRp.taggedText-method}
 \title{Generate a document-term matrix}
 \usage{
-docTermMatrix(obj, terms = "token", case.sens = FALSE, tfidf = FALSE,
-  ...)
+docTermMatrix(obj, terms = "token", case.sens = FALSE, tfidf = FALSE, ...)
 
-\S4method{docTermMatrix}{data.frame}(obj, terms = "token",
-  case.sens = FALSE, tfidf = FALSE)
+\S4method{docTermMatrix}{data.frame}(obj, terms = "token", case.sens = FALSE,
+      tfidf = FALSE)
 
-\S4method{docTermMatrix}{kRp.taggedText}(obj, terms = "token",
-  case.sens = FALSE, tfidf = FALSE)
+\S4method{docTermMatrix}{kRp.taggedText}(obj, terms = "token", case.sens = FALSE,
+      tfidf = FALSE)
 }
 \arguments{
 \item{obj}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

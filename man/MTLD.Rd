@@ -4,8 +4,16 @@
 \alias{MTLD}
 \title{Lexical diversity: Measure of Textual Lexical Diversity (MTLD)}
 \usage{
-MTLD(txt, factor.size = 0.72, min.tokens = 9, detailed = FALSE,
-  char = FALSE, MA = FALSE, steps = 1, ...)
+MTLD(
+  txt,
+  factor.size = 0.72,
+  min.tokens = 9,
+  detailed = FALSE,
+  char = FALSE,
+  MA = FALSE,
+  steps = 1,
+  ...
+)
 }
 \arguments{
 \item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},

@@ -8,8 +8,8 @@
 \usage{
 correct.tag(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
 
-\S4method{correct.tag}{kRp.taggedText}(obj, row, tag = NULL,
-  lemma = NULL, check.token = NULL)
+\S4method{correct.tag}{kRp.taggedText}(obj, row, tag = NULL, lemma = NULL,
+      check.token = NULL)
 }
 \arguments{
 \item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

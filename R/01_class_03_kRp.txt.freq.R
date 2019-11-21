@@ -26,7 +26,7 @@
 #' \code{new("kRp.txt.freq", ...)}.
 #'
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object.
-#' @slot TT.res A data.frame with a version of the fully tagged text (like \code{TT.res} in class \code{kRp.tagged}, plus frequency data).
+#' @slot tokens A data.frame with a version of the fully tagged text (like \code{tokens} in class \code{kRp.tagged}, plus frequency data).
 #' @slot desc A list with detailed descriptive statistics on the analyzed text.
 #' @slot freq.analysis A list with information on the word frequencies of the analyzed text.
 #' @name kRp.txt.freq,-class
@@ -43,7 +43,7 @@ kRp_txt_freq <- setClass("kRp.txt.freq",
     freq.analysis="list"),
   prototype=prototype(
     lang=character(),
-    TT.res=init.kRp.tagged.df(),
+    tokens=init.kRp.tagged.df(),
     desc=list(),
     freq.analysis=list()),
   contains=c("kRp.tagged")
@@ -52,22 +52,12 @@ kRp_txt_freq <- setClass("kRp.txt.freq",
 
 #' @include 01_class_01_kRp.tagged.R
 setAs(from="kRp.txt.freq", to="kRp.tagged", function(from){
-    tagged.df <- as.data.frame(taggedText(from)[, valid.TT.res.kRp.tagged])
+    tagged.df <- as.data.frame(taggedText(from)[, valid.tokens.kRp.tagged])
     retagged.object <- kRp_tagged(
       lang=language(from),
       desc=describe(from),
-      TT.res=tagged.df
+      tokens=tagged.df
     )
     return(retagged.object)
   }
 )
-
-# setValidity("kRp.analysis", function(object){
-#     TT.res <- object@TT.res
-#     TT.res.names <- dimnames(TT.res)[[2]]
-#     if(identical(TT.res.names, c("word","tag","lemma"))){
-#       return(TRUE)
-#     } else {
-#       stop(simpleError("Invalid object: Wrong column names."))
-#     }
-# })

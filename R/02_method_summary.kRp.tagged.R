@@ -17,7 +17,7 @@
 
 
 # internal function to produce the word class distribution table
-# wclass: object@TT.res[["wclass"]]
+# wclass: object@tokens[["wclass"]]
 # lang:   object@lang
 # abs: if not NULL, percentages will also be calculated relative to this number
 wClassNoPunct <- function(wclass, lang, abs=NULL){
@@ -67,12 +67,12 @@ setMethod("summary", signature(object="kRp.taggedText"), function(object, index=
   Row.names <- NULL
   desc <- describe(object)
   lang <- language(object)
-  TT.res <- taggedText(object)
-  wclass.nopunct.num <- wClassNoPunct(wclass=TT.res[["wclass"]], lang=lang)
+  tokens <- taggedText(object)
+  wclass.nopunct.num <- wClassNoPunct(wclass=tokens[["wclass"]], lang=lang)
   if(inherits(object, "kRp.txt.trans")){
     wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
     if(isTRUE(is.na(index))){
-      wclass.index <- !TT.res[["equal"]]
+      wclass.index <- !tokens[["equal"]]
     } else if(is.character(index)){
       if(length(index) > 1){
         stop(simpleError(paste0("If \"index\" is character, it must be a single value!")))
@@ -91,7 +91,7 @@ setMethod("summary", signature(object="kRp.taggedText"), function(object, index=
     } else {
       wclass.index <- index
     }
-    wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=TT.res[wclass.index,"wclass"], lang=lang, abs=desc[["words"]])
+    wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=tokens[wclass.index,"wclass"], lang=lang, abs=desc[["words"]])
     colnames(wclass.nopunct.num.transfmt) <- c("num.transfmt", "pct.transfmt", "pct.transfmt.abs")
     wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.transfmt, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".transfmt"))
     # merge adds a column for row numbers, reverse that

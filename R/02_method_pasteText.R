@@ -51,21 +51,21 @@ setMethod("pasteText",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.taggedText"),
   function(txt, replace=c(hon.kRp="", hoff.kRp="\n\n", p.kRp="\n\n")){
-    TT.res <- taggedText(txt)
+    tokens <- taggedText(txt)
 
     # we probably need to replace tags
     if("hon.kRp" %in% names(replace)){
-      TT.res[TT.res[["tag"]] == "hon.kRp", "token"] <- replace["hon.kRp"]
+      tokens[tokens[["tag"]] == "hon.kRp", "token"] <- replace["hon.kRp"]
     } else {}
     if("hoff.kRp" %in% names(replace)){
-      TT.res[TT.res[["tag"]] == "hoff.kRp", "token"] <- replace["hoff.kRp"]
+      tokens[tokens[["tag"]] == "hoff.kRp", "token"] <- replace["hoff.kRp"]
     } else {}
     if("p.kRp" %in% names(replace)){
-      TT.res[TT.res[["tag"]] == "p.kRp", "token"] <- replace["p.kRp"]
+      tokens[tokens[["tag"]] == "p.kRp", "token"] <- replace["p.kRp"]
     } else {}
 
     # put all text together
-    results <- paste.tokenized.text(txt=TT.res[["token"]])
+    results <- paste.tokenized.text(txt=tokens[["token"]])
 
     return(results)
   }

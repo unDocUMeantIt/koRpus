@@ -4,9 +4,13 @@
 \alias{coleman.liau}
 \title{Readability: Coleman-Liau Index}
 \usage{
-coleman.liau(txt.file, ecp = c(const = 141.8401, char = 0.21459, sntc =
-  1.079812), grade = c(ecp = -27.4004, const = 23.06395), short = c(awl
-  = 5.88, spw = 29.6, const = 15.8), ...)
+coleman.liau(
+  txt.file,
+  ecp = c(const = 141.8401, char = 0.21459, sntc = 1.079812),
+  grade = c(ecp = -27.4004, const = 23.06395),
+  short = c(awl = 5.88, spw = 29.6, const = 15.8),
+  ...
+)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

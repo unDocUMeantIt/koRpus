@@ -9,11 +9,10 @@
 \usage{
 jumbleWords(words, ...)
 
-\S4method{jumbleWords}{kRp.taggedText}(words, min.length = 3,
-  intact = c(start = 1, end = 1))
+\S4method{jumbleWords}{kRp.taggedText}(words, min.length = 3, intact = c(start = 1,
+      end = 1))
 
-\S4method{jumbleWords}{character}(words, min.length = 3,
-  intact = c(start = 1, end = 1))
+\S4method{jumbleWords}{character}(words, min.length = 3, intact = c(start = 1, end = 1))
 }
 \arguments{
 \item{words}{Either a character vector or an object inheriting from class \code{kRp.tagged}.}

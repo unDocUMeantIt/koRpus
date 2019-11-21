@@ -348,7 +348,7 @@ kRp_read_tagged <- function(
   # add columns "idx", "sntc" and "doc_id"
   tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-  results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
+  results <- kRp_tagged(lang=lang, tokens=tagged.mtrx)
   ## descriptive statistics
   describe(results) <- basic.tagged.descriptives(
     results,

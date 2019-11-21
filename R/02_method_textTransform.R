@@ -25,10 +25,10 @@
 #' @section Function: You can dynamically calculate the replacement value for the \code{"normalize"} scheme by setting \code{method="function"} and
 #' providing a function object as \code{f}. The function you provide must support the following arguments:
 #' \itemize{
-#'   \item {\code{TT.res}} {The original TT.res slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
-#'   \item {\code{match}} {A logical vector, indicating for each row of \code{TT.res} whether it's a query match or not.}
+#'   \item {\code{tokens}} {The original tokens slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
+#'   \item {\code{match}} {A logical vector, indicating for each row of \code{tokens} whether it's a query match or not.}
 #' }
-#' You can then use these arguments in your function body to calculate the replacement, e.g. \code{TT.res[match,"token"]} to get all relevant tokens.
+#' You can then use these arguments in your function body to calculate the replacement, e.g. \code{tokens[match,"token"]} to get all relevant tokens.
 #' The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
 #' of length one or of the same length as all matches.
 #'
@@ -178,7 +178,7 @@ setMethod("textTransform",
           txt.df[relevant_tokens, "token"] <- replacement <- longest_matches[match(max(longest_matches[["num"]]), longest_matches[["num"]]), "token"]
         } else if(identical(method, "function")){
           if(is.function(f)){
-            txt.df[relevant_tokens, "token"] <- replacement <- f(TT.res=txt.df, match=relevant_tokens)
+            txt.df[relevant_tokens, "token"] <- replacement <- f(tokens=txt.df, match=relevant_tokens)
           } else {
             stop(simpleError("\"f\" must be a function!"))
           }
@@ -195,7 +195,7 @@ setMethod("textTransform",
     } else {
       results <- txt_trans_diff(
         obj=txt,
-        TT.res.new=txt.df,
+        tokens.new=txt.df,
         transfmt=scheme,
         normalize=list(
           method=method,
@@ -230,14 +230,14 @@ kRp.text.transform <- function(...){
 # helper function to calculate the diff data and combine results in
 # proper kRp.txt.trans object
 # - obj: tagged text object (class kRp.taggedText)
-# - TT.res.new: the transformed TT.res data frame
+# - tokens.new: the transformed tokens data frame
 # - transfmt: the name of the transformation
 # - normalize: arguments given for the normalization
 # - check_missing_letters: transformations like "normalize" can replace tokens
 #     with shorter ones. this option adds missing letters as changes to the original tokens
 # returns an object of kRp.txt.trans
 #' @include 01_class_04_kRp.txt.trans.R
-txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list(), check_missing_letters=FALSE){
+txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list(), check_missing_letters=FALSE){
   lang <- language(obj)
   doc_id <- describe(obj)[["doc_id"]]
   old.new.comp <- taggedText(obj)
@@ -249,8 +249,8 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list()
   all_letters <- old.new.comp[["lttr"]]
 
   # keep an already present "token.orig" if present
-  tokens.orig      <- txt_trans_revert_orig(TT.res=old.new.comp)[["token"]]
-  tokens.trans     <- TT.res.new[["token"]]
+  tokens.orig      <- txt_trans_revert_orig(tokens=old.new.comp)[["token"]]
+  tokens.trans     <- tokens.new[["token"]]
 
   tokens.equal     <- tokens.orig == tokens.trans
   # the above shows the global differences between original and current tokens
@@ -320,7 +320,7 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list()
 
   results <- kRp_txt_trans(
     lang=lang,
-    TT.res=old.new.comp,
+    tokens=old.new.comp,
     diff=list(
       all.tokens=diff.pct.words.all,
       words=diff.pct.words,
@@ -343,13 +343,13 @@ txt_trans_diff <- function(obj, TT.res.new, transfmt="unknown", normalize=list()
 
 
 ## function txt_trans_revert_orig()
-# checks a TT.res object for previous tranformations and returns the original tokens
-txt_trans_revert_orig <- function(TT.res){
-  cols <- colnames(TT.res)
+# checks a tokens object for previous tranformations and returns the original tokens
+txt_trans_revert_orig <- function(tokens){
+  cols <- colnames(tokens)
   if(all(c("equal", "token.orig") %in% cols)){
-    TT.res[!TT.res[["equal"]],"token"] <- TT.res[!TT.res[["equal"]],"token.orig"]
-    return(TT.res[,cols[!cols %in% c("token.orig","equal","lttr.diff")]])
+    tokens[!tokens[["equal"]],"token"] <- tokens[!tokens[["equal"]],"token.orig"]
+    return(tokens[,cols[!cols %in% c("token.orig","equal","lttr.diff")]])
   } else {
-    return(TT.res)
+    return(tokens)
   }
 } ## end function txt_trans_revert_orig()

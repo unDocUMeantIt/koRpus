@@ -363,7 +363,7 @@ dumpTextToTempfile <- function(text, encoding=NULL, pattern="tempTextFromObject"
 
 
 ## function stopAndStem()
-# tagged.text is a data.frame from treetag() or tokenize(), to become TT.res
+# tagged.text is a data.frame from treetag() or tokenize(), to become "tokens"
 stopAndStem <- function(tagged.text.df, stopwords=NULL, stemmer=NULL, lowercase=TRUE){
 
   if(!is.null(stopwords)){

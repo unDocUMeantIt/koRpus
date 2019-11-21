@@ -11,29 +11,61 @@
 \usage{
 readTagged(file, ...)
 
-\S4method{readTagged}{matrix}(file, lang = "kRp.env",
-  tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
-  "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env",
-  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma"))
+\S4method{readTagged}{matrix}(
+  file,
+  lang = "kRp.env",
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env",
+  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma")
+)
 
-\S4method{readTagged}{data.frame}(file, lang = "kRp.env",
-  tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
-  "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env",
-  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma"))
+\S4method{readTagged}{data.frame}(
+  file,
+  lang = "kRp.env",
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env",
+  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma")
+)
 
-\S4method{readTagged}{kRp.connection}(file, lang = "kRp.env",
-  encoding = "unknown", tagger = "TreeTagger",
-  apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
-  stopwords = NULL, stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{readTagged}{kRp.connection}(
+  file,
+  lang = "kRp.env",
+  encoding = "unknown",
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 
-\S4method{readTagged}{character}(file, lang = "kRp.env",
-  encoding = getOption("encoding"), tagger = "TreeTagger",
-  apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
-  stopwords = NULL, stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{readTagged}{character}(
+  file,
+  lang = "kRp.env",
+  encoding = getOption("encoding"),
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 }
 \arguments{
 \item{file}{Either a matrix, a connection or a character vector. If the latter,

@@ -4,8 +4,12 @@
 \alias{kRp.POS.tags}
 \title{Get elaborated word tag definitions}
 \usage{
-kRp.POS.tags(lang = get.kRp.env(lang = TRUE), list.classes = FALSE,
-  list.tags = FALSE, tags = c("words", "punct", "sentc"))
+kRp.POS.tags(
+  lang = get.kRp.env(lang = TRUE),
+  list.classes = FALSE,
+  list.tags = FALSE,
+  tags = c("words", "punct", "sentc")
+)
 }
 \arguments{
 \item{lang}{A character string defining a language (see details for valid choices).}

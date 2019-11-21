@@ -35,7 +35,7 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
       # the dots are actually just needed for "wclass", but we'll keep it simple here...
       levels(txt[[thisFactor]]) <- c(levels(txt[[thisFactor]]), "", "[...]")
     }
-    # the TT.res slot can change its columns, this must be dealt with dynamically
+    # the tokens slot can change its columns, this must be dealt with dynamically
     middle <- txt[1,]
     for (thisCol in seq_along(middle)){
       # haha, checking for middle class :-D

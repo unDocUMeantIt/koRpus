@@ -8,8 +8,10 @@
 \usage{
 pasteText(txt, ...)
 
-\S4method{pasteText}{kRp.taggedText}(txt, replace = c(hon.kRp = "",
-  hoff.kRp = "\\n\\n", p.kRp = "\\n\\n"))
+\S4method{pasteText}{kRp.taggedText}(
+  txt,
+  replace = c(hon.kRp = "", hoff.kRp = "\\n\\n", p.kRp = "\\n\\n")
+)
 }
 \arguments{
 \item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},

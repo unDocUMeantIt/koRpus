@@ -4,9 +4,17 @@
 \alias{kRp.text.analysis}
 \title{Analyze texts using TreeTagger and word frequencies}
 \usage{
-kRp.text.analysis(txt.file, tagger = "kRp.env", force.lang = NULL,
-  desc.stat = TRUE, lex.div = TRUE, corp.freq = NULL,
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), ...)
+kRp.text.analysis(
+  txt.file,
+  tagger = "kRp.env",
+  force.lang = NULL,
+  desc.stat = TRUE,
+  lex.div = TRUE,
+  corp.freq = NULL,
+  corp.rm.class = "nonpunct",
+  corp.rm.tag = c(),
+  ...
+)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

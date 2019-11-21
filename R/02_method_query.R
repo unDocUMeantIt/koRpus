@@ -27,7 +27,7 @@
 #' the range, respectively. In these cases, if \code{rel} is set to \code{"gt"} or \code{"lt"},
 #' the given range borders are excluded, otherwise they will be included as true matches.
 #'
-#' \emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. If \code{rel="num"},
+#' \emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{tokens}. If \code{rel="num"},
 #' a vector with the row numbers in which the query was found is returned.
 #'
 #' @section Query lists: You can combine an arbitrary number of queries in a simple way by providing a list of named lists to the
@@ -137,7 +137,7 @@ setMethod("query",
       } else {}
 
       # call query method on the data frame
-      results <- query(obj=slot(obj, "TT.res"), var=var, query=query, rel=rel, ignore.case=ignore.case, perl=perl, regexp_var="token")
+      results <- query(obj=slot(obj, "tokens"), var=var, query=query, rel=rel, ignore.case=ignore.case, perl=perl, regexp_var="token")
 
       if(identical(results, "")){
         stop(simpleError("Unable to comply."))
@@ -146,7 +146,7 @@ setMethod("query",
           return(results)
         } else {
           # write results back to the originating object
-          slot(obj, "TT.res") <- results
+          slot(obj, "tokens") <- results
         }
       }
       return(obj)

@@ -27,7 +27,7 @@
 #'
 #' @slot lang A character string, naming the language that is assumed for the analized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.
-#' @slot TT.res A data.frame with the fully tagged and transformed text (like \code{TT.res} in class \code{koRpus.tagged}, plus
+#' @slot tokens A data.frame with the fully tagged and transformed text (like \code{tokens} in class \code{koRpus.tagged}, plus
 #'    the new columns \code{token.orig} and \code{equal}).
 #' @slot diff A list with mostly atomic vectors, describing the amount of diffences between both text variants (percentage):
 #'    \describe{
@@ -55,17 +55,17 @@ kRp_txt_trans <- setClass("kRp.txt.trans",
   prototype=prototype(
     lang=character(),
     desc=list(),
-    TT.res=cbind(init.kRp.tagged.df(), data.frame(token.orig=NA, equal=NA)),
+    tokens=cbind(init.kRp.tagged.df(), data.frame(token.orig=NA, equal=NA)),
     diff=list()),
   contains=c("kRp.tagged")
 )
 
 #' @include 01_class_01_kRp.tagged.R
 setAs(from="kRp.txt.trans", to="kRp.tagged", function(from){
-    tagged.df <- as.data.frame(taggedText(from)[, valid.TT.res.kRp.tagged])
+    tagged.df <- as.data.frame(taggedText(from)[, valid.tokens.kRp.tagged])
     retagged.object <- kRp_tagged(
       lang=language(from),
-      TT.res=tagged.df
+      tokens=tagged.df
     )
     return(retagged.object)
   }
@@ -73,10 +73,10 @@ setAs(from="kRp.txt.trans", to="kRp.tagged", function(from){
 
 setValidity("kRp.txt.trans", function(object){
   validate_df(
-    df=slot(object, "TT.res"),
-    valid_cols=c(valid.TT.res.kRp.tagged, "token.orig", "equal"),
+    df=slot(object, "tokens"),
+    valid_cols=c(valid.tokens.kRp.tagged, "token.orig", "equal"),
     strict=FALSE,
     warn_only=FALSE,
-    name="TT.res"
+    name="tokens"
   )
 })

@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2019-11-16)
+changes in version 0.13-1 (2019-11-21)
 unreleased:
   - this release is under development
 fixed:
@@ -13,6 +13,8 @@ fixed:
   - kRp_txt_freq()/kRp_readability()/kRp_corp_freq(): properly initialize
     the slots
 changed:
+  - kRp.tagged: the TT.res slot was renamed into "tokens", additional columns
+    in the data frame are now ok
   - docTermMatrix(): optimzed calculation speed drastically
   - read.corp.custom(): re-wrote most of the code, now based on
     docTermMatrix() and thereby up to 50 times faster; also removed the now
@@ -23,7 +25,6 @@ changed:
     horizontal positioning of resulting values
   - show(): generalized the handling of factor columns to be able to deal
     with unexpected columns
-  - kRp.tagged: additional columns in the TT.res data frame are now ok
   - tokenize(), treetag(): improved examples
 added:
   - docTermMatrix(): new method to calculate document term matrices from

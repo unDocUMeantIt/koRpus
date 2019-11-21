@@ -4,8 +4,12 @@
 \alias{linsear.write}
 \title{Readability: Linsear Write Index}
 \usage{
-linsear.write(txt.file, hyphen = NULL, parameters = c(short.syll = 2,
-  long.syll = 3, thrs = 20), ...)
+linsear.write(
+  txt.file,
+  hyphen = NULL,
+  parameters = c(short.syll = 2, long.syll = 3, thrs = 20),
+  ...
+)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

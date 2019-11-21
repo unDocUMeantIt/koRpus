@@ -7,29 +7,69 @@
 \alias{tokenize,kRp.connection-method}
 \title{A simple tokenizer}
 \usage{
-tokenize(txt, format = "file", fileEncoding = NULL,
-  split = "[[:space:]]", ign.comp = "-", heuristics = "abbr",
+tokenize(
+  txt,
+  format = "file",
+  fileEncoding = NULL,
+  split = "[[:space:]]",
+  ign.comp = "-",
+  heuristics = "abbr",
   heur.fix = list(pre = c("’", "'"), suf = c("’", "'")),
-  abbrev = NULL, tag = TRUE, lang = "kRp.env", sentc.end = c(".",
-  "!", "?", ";", ":"), detect = c(parag = FALSE, hline = FALSE),
-  clean.raw = NULL, perl = FALSE, stopwords = NULL, stemmer = NULL,
-  doc_id = NA, add.desc = "kRp.env", ...)
+  abbrev = NULL,
+  tag = TRUE,
+  lang = "kRp.env",
+  sentc.end = c(".", "!", "?", ";", ":"),
+  detect = c(parag = FALSE, hline = FALSE),
+  clean.raw = NULL,
+  perl = FALSE,
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env",
+  ...
+)
 
-\S4method{tokenize}{character}(txt, format = "file",
-  fileEncoding = NULL, split = "[[:space:]]", ign.comp = "-",
-  heuristics = "abbr", heur.fix = list(pre = c("’", "'"), suf =
-  c("’", "'")), abbrev = NULL, tag = TRUE, lang = "kRp.env",
-  sentc.end = c(".", "!", "?", ";", ":"), detect = c(parag = FALSE,
-  hline = FALSE), clean.raw = NULL, perl = FALSE, stopwords = NULL,
-  stemmer = NULL, doc_id = NA, add.desc = "kRp.env")
+\S4method{tokenize}{character}(
+  txt,
+  format = "file",
+  fileEncoding = NULL,
+  split = "[[:space:]]",
+  ign.comp = "-",
+  heuristics = "abbr",
+  heur.fix = list(pre = c("’", "'"), suf = c("’", "'")),
+  abbrev = NULL,
+  tag = TRUE,
+  lang = "kRp.env",
+  sentc.end = c(".", "!", "?", ";", ":"),
+  detect = c(parag = FALSE, hline = FALSE),
+  clean.raw = NULL,
+  perl = FALSE,
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 
-\S4method{tokenize}{kRp.connection}(txt, format = NA,
-  fileEncoding = NULL, split = "[[:space:]]", ign.comp = "-",
-  heuristics = "abbr", heur.fix = list(pre = c("’", "'"), suf =
-  c("’", "'")), abbrev = NULL, tag = TRUE, lang = "kRp.env",
-  sentc.end = c(".", "!", "?", ";", ":"), detect = c(parag = FALSE,
-  hline = FALSE), clean.raw = NULL, perl = FALSE, stopwords = NULL,
-  stemmer = NULL, doc_id = NA, add.desc = "kRp.env")
+\S4method{tokenize}{kRp.connection}(
+  txt,
+  format = NA,
+  fileEncoding = NULL,
+  split = "[[:space:]]",
+  ign.comp = "-",
+  heuristics = "abbr",
+  heur.fix = list(pre = c("’", "'"), suf = c("’", "'")),
+  abbrev = NULL,
+  tag = TRUE,
+  lang = "kRp.env",
+  sentc.end = c(".", "!", "?", ";", ":"),
+  detect = c(parag = FALSE, hline = FALSE),
+  clean.raw = NULL,
+  perl = FALSE,
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 }
 \arguments{
 \item{txt}{Either an open connection,
@@ -104,7 +144,7 @@ the \code{SnowballC} package installed. As of now,
 
 \item{doc_id}{Character string,
       optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-of the \code{TT.res} slot.}
+of the \code{tokens} slot.}
 
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
@@ -147,7 +187,7 @@ tokenized.obj <- tokenize(
 # double quotes througout the text:
 tokenized.obj <- tokenize(
   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
-  clean.raw=list("'"='\\"')
+  clean.raw=list("'"='\"')
 )
 
 # now replace all occurrances of the letter A followed
@@ -155,7 +195,7 @@ tokenized.obj <- tokenize(
 # two digits:
 tokenized.obj <- tokenize(
   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
-  clean.raw=list("(A)([[:digit:]]{2})"="B\\\\2"),
+  clean.raw=list("(A)([[:digit:]]{2})"="B\\2"),
   perl=TRUE)
 
 ## enabling stopword detection and stemming

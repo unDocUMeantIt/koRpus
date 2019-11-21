@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -32,7 +32,7 @@ init.kRp.tagged.df <- function(rows=1){
   ))
 }
 
-valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
+valid.tokens.kRp.tagged <- colnames(init.kRp.tagged.df())
 
 #' S4 Class kRp.tagged
 #'
@@ -45,7 +45,7 @@ valid.TT.res.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'
 #' @slot lang A character string, naming the language that is assumed for the tokenized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.
-#' @slot TT.res Results of the called tokenizer and POS tagger. The data.frame usually has eleven columns:
+#' @slot tokens Results of the called tokenizer and POS tagger. The data.frame usually has eleven columns:
 #'    \describe{
 #'      \item{\code{doc_id}:}{Factor, optional document identifier.}
 #'      \item{\code{token}:}{Character, the tokenized text.}
@@ -76,21 +76,21 @@ kRp_tagged <- setClass("kRp.tagged",
     representation=representation(
       lang="character",
       desc="list",
-      TT.res="data.frame"),
+      tokens="data.frame"),
     prototype(
       lang=character(),
       desc=list(),
-      TT.res=init.kRp.tagged.df()
+      tokens=init.kRp.tagged.df()
     )
 )
 
 setValidity("kRp.tagged", function(object){
   validate_df(
-    df=slot(object, "TT.res"),
-    valid_cols=valid.TT.res.kRp.tagged,
+    df=slot(object, "tokens"),
+    valid_cols=valid.tokens.kRp.tagged,
     strict=FALSE,
     warn_only=FALSE,
-    name="TT.res"
+    name="tokens"
   )
 
   if(!is.character(slot(object, "lang"))){
@@ -107,20 +107,20 @@ setGeneric(
   "validate_df",
   function(
     df,
-    valid_cols=valid.TT.res.kRp.tagged,
+    valid_cols=valid.tokens.kRp.tagged,
     strict=TRUE,
     warn_only=TRUE,
-    name="TT.res"
+    name="tokens"
   ) standardGeneric("validate_df")
 )
 setMethod("validate_df",
   signature=signature(df="data.frame"),
   function(
     df,
-    valid_cols=valid.TT.res.kRp.tagged,
+    valid_cols=valid.tokens.kRp.tagged,
     strict=TRUE,
     warn_only=TRUE,
-    name="TT.res"
+    name="tokens"
   ){
     df_cols <- colnames(df)
     result <- TRUE

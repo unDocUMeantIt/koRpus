@@ -4,8 +4,12 @@
 \alias{FORCAST}
 \title{Readability: FORCAST Index}
 \usage{
-FORCAST(txt.file, hyphen = NULL, parameters = c(syll = 1, mult = 0.1,
-  const = 20), ...)
+FORCAST(
+  txt.file,
+  hyphen = NULL,
+  parameters = c(syll = 1, mult = 0.1, const = 20),
+  ...
+)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

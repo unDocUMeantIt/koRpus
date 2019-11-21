@@ -8,8 +8,13 @@
 \usage{
 filterByClass(txt, ...)
 
-\S4method{filterByClass}{kRp.taggedText}(txt, corp.rm.class = "nonpunct",
-  corp.rm.tag = c(), as.vector = FALSE, update.desc = TRUE)
+\S4method{filterByClass}{kRp.taggedText}(
+  txt,
+  corp.rm.class = "nonpunct",
+  corp.rm.tag = c(),
+  as.vector = FALSE,
+  update.desc = TRUE
+)
 }
 \arguments{
 \item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}

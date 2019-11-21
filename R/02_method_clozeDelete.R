@@ -79,13 +79,13 @@ setMethod("clozeDelete",
         # if the object was only cloze transformed, we can compare to the original text
         # otherwise, we have to do a comparison between before and after for accurate statistics
         if(identical("clozeDelete", diffText(clozeTxt)[["transfmt"]])){
-          orig.TT.res <- originalText(clozeTxt)
-          unequal <- !orig.TT.res[["equal"]]
+          orig.tokens <- originalText(clozeTxt)
+          unequal <- !orig.tokens[["equal"]]
         } else {
-          orig.TT.res <- taggedText(obj)
-          unequal <- orig.TT.res[["token"]] != taggedText(clozeTxt)[["token"]]
+          orig.tokens <- taggedText(obj)
+          unequal <- orig.tokens[["token"]] != taggedText(clozeTxt)[["token"]]
         }
-        changedTxt <- orig.TT.res[unequal,]
+        changedTxt <- orig.tokens[unequal,]
         rmLetters <- sum(changedTxt[["lttr"]])
         allLetters <- describe(obj)[["letters.only"]]
         cat(headLine(paste0("Cloze variant ", idx+1, " (offset ", idx, ")")), "\n\n",
@@ -126,7 +126,7 @@ setMethod("clozeDelete",
       }
       tagged.text[txtToChange, "token"] <- relevant.text
 
-      results <- txt_trans_diff(obj=obj, TT.res.new=tagged.text, transfmt="clozeDelete")
+      results <- txt_trans_diff(obj=obj, tokens.new=tagged.text, transfmt="clozeDelete")
       return(results)
     }
   }

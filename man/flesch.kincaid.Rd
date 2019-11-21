@@ -4,8 +4,12 @@
 \alias{flesch.kincaid}
 \title{Readability: Flesch-Kincaid Grade Level}
 \usage{
-flesch.kincaid(txt.file, hyphen = NULL, parameters = c(asl = 0.39, asw
-  = 11.8, const = 15.59), ...)
+flesch.kincaid(
+  txt.file,
+  hyphen = NULL,
+  parameters = c(asl = 0.39, asw = 11.8, const = 15.59),
+  ...
+)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

@@ -14,25 +14,55 @@
 \usage{
 lex.div(txt, ...)
 
-\S4method{lex.div}{kRp.taggedText}(txt, segment = 100,
-  factor.size = 0.72, min.tokens = 9, MTLDMA.steps = 1,
-  rand.sample = 42, window = 100, case.sens = FALSE,
-  lemmatize = FALSE, detailed = FALSE, measure = c("TTR", "MSTTR",
-  "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD",
-  "MTLD-MA"), char = c("TTR", "MATTR", "C", "R", "CTTR", "U", "S", "K",
-  "Maas", "HD-D", "MTLD", "MTLD-MA"), char.steps = 5, log.base = 10,
-  force.lang = NULL, keep.tokens = FALSE, type.index = FALSE,
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
+\S4method{lex.div}{kRp.taggedText}(
+  txt,
+  segment = 100,
+  factor.size = 0.72,
+  min.tokens = 9,
+  MTLDMA.steps = 1,
+  rand.sample = 42,
+  window = 100,
+  case.sens = FALSE,
+  lemmatize = FALSE,
+  detailed = FALSE,
+  measure = c("TTR", "MSTTR", "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D",
+    "MTLD", "MTLD-MA"),
+  char = c("TTR", "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD",
+    "MTLD-MA"),
+  char.steps = 5,
+  log.base = 10,
+  force.lang = NULL,
+  keep.tokens = FALSE,
+  type.index = FALSE,
+  corp.rm.class = "nonpunct",
+  corp.rm.tag = c(),
+  quiet = FALSE
+)
 
-\S4method{lex.div}{character}(txt, segment = 100, factor.size = 0.72,
-  min.tokens = 9, MTLDMA.steps = 1, rand.sample = 42, window = 100,
-  case.sens = FALSE, lemmatize = FALSE, detailed = FALSE,
-  measure = c("TTR", "MSTTR", "MATTR", "C", "R", "CTTR", "U", "S", "K",
-  "Maas", "HD-D", "MTLD", "MTLD-MA"), char = c("TTR", "MATTR", "C", "R",
-  "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD", "MTLD-MA"),
-  char.steps = 5, log.base = 10, force.lang = NULL,
-  keep.tokens = FALSE, type.index = FALSE,
-  corp.rm.class = "nonpunct", corp.rm.tag = c(), quiet = FALSE)
+\S4method{lex.div}{character}(
+  txt,
+  segment = 100,
+  factor.size = 0.72,
+  min.tokens = 9,
+  MTLDMA.steps = 1,
+  rand.sample = 42,
+  window = 100,
+  case.sens = FALSE,
+  lemmatize = FALSE,
+  detailed = FALSE,
+  measure = c("TTR", "MSTTR", "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D",
+    "MTLD", "MTLD-MA"),
+  char = c("TTR", "MATTR", "C", "R", "CTTR", "U", "S", "K", "Maas", "HD-D", "MTLD",
+    "MTLD-MA"),
+  char.steps = 5,
+  log.base = 10,
+  force.lang = NULL,
+  keep.tokens = FALSE,
+  type.index = FALSE,
+  corp.rm.class = "nonpunct",
+  corp.rm.tag = c(),
+  quiet = FALSE
+)
 
 \S4method{lex.div}{missing}(txt, measure)
 
@@ -137,39 +167,39 @@ the total number of tokens, and \eqn{V} to the number of types:
       TTR for each segment is calculated and the mean of these values returned. Tokens at the end which do 
    not make a full segment are ignored. The number of dropped tokens is reported.
 
-Wrapper function: \code{\link[koRpus:MSTTR]{MSTTR}}}
+   Wrapper function: \code{\link[koRpus:MSTTR]{MSTTR}}}
  \item{\code{"MATTR"}:}{The \emph{Moving-Average Type-Token Ratio} (Covington & McFall,
       2010) calculates TTRs for a defined number of tokens
    (called the "window"),
       starting at the beginning of the text and moving this window over the text, until the last token is reached.
    The mean of these TTRs is the MATTR.
 
-Wrapper function: \code{\link[koRpus:MATTR]{MATTR}}}
+   Wrapper function: \code{\link[koRpus:MATTR]{MATTR}}}
  \item{\code{"C"}:}{Herdan's \emph{C} (Herdan, 1960, as cited in Tweedie & Baayen,
       1998; sometimes referred to as \emph{LogTTR}): \deqn{C = \frac{\lg{V}}{\lg{N}}}{C = lg(V) / lg(N)}}
 
-Wrapper function: \code{\link[koRpus:C.ld]{C.ld}}
+   Wrapper function: \code{\link[koRpus:C.ld]{C.ld}}
  \item{\code{"R"}:}{Guiraud's \emph{Root TTR} (Guiraud, 1954,
       as cited in Tweedie & Baayen, 1998): \deqn{R = \frac{V}{\sqrt{N}}}{R = V / sqrt(N)}}
 
-Wrapper function: \code{\link[koRpus:R.ld]{R.ld}}
+   Wrapper function: \code{\link[koRpus:R.ld]{R.ld}}
  \item{\code{"CTTR"}:}{Carroll's \emph{Corrected TTR}: \deqn{CTTR = \frac{V}{\sqrt{2N}}}{CTTR = V / sqrt(2N)}}
 
-Wrapper function: \code{\link[koRpus:CTTR]{CTTR}}
+   Wrapper function: \code{\link[koRpus:CTTR]{CTTR}}
  \item{\code{"U"}:}{Dugast's \emph{Uber Index}  (Dugast, 1978,
       as cited in Tweedie & Baayen, 1998): \deqn{U = \frac{(\lg{N})^2}{\lg{N} - \lg{V}}}{U = lg(N)^2 / lg(N) - lg(V)}}
 
-Wrapper function: \code{\link[koRpus:U.ld]{U.ld}}
+   Wrapper function: \code{\link[koRpus:U.ld]{U.ld}}
  \item{\code{"S"}:}{Summer's index: \deqn{S = \frac{\lg{\lg{V}}}{\lg{\lg{N}}}}{S = lg(lg(V)) / lg(lg(N))}}
 
-Wrapper function: \code{\link[koRpus:S.ld]{S.ld}}
+   Wrapper function: \code{\link[koRpus:S.ld]{S.ld}}
  \item{\code{"K"}:}{Yule's \emph{K}  (Yule, 1944, as cited in Tweedie & Baayen,
       1998) is calculated by: \deqn{K = 10^4 \times \frac{(\sum_{X=1}^{X}{{f_X}X^2}) - N}{N^2}}{K = 10^4 * (sum(fX*X^2) - N) / N^2}
    where \eqn{N} is the number of tokens,
       \eqn{X} is a vector with the frequencies of each type, and \eqn{f_X}{fX} is
    the frequencies for each X.
 
-Wrapper function: \code{\link[koRpus:K.ld]{K.ld}}}
+   Wrapper function: \code{\link[koRpus:K.ld]{K.ld}}}
  \item{\code{"Maas"}:}{Maas' indices (\eqn{a},
       \eqn{\lg{V_0}} & \eqn{\lg{}_{e}{V_0}}): \deqn{a^2 = \frac{\lg{N} - \lg{V}}{\lg{N}^2}}{a^2 = lg(N) - lg(V) / lg(N)^2}
  \deqn{\lg{V_0} = \frac{\lg{V}}{\sqrt{1 - \frac{\lg{V}}{\lg{N}}^2}}}{lg(V0) = lg(V) / sqrt(1 - (lg(V) / lg(N)^2))}
@@ -181,7 +211,7 @@ Wrapper function: \code{\link[koRpus:K.ld]{K.ld}}}
       the first half of the text and the full text
    will be examined (see Maas, 1972, p. 67 ff. for details).
 
-Wrapper function: \code{\link[koRpus:maas]{maas}}}
+   Wrapper function: \code{\link[koRpus:maas]{maas}}}
  \item{\code{"MTLD"}:}{For the \emph{Measure of Textual Lexical Diversity} (McCarthy & Jarvis,
       2010) so called factors are counted. Each factor is a subsequent stream of 
    tokens which ends (and is then counted as a full factor) when the TTR value falls below the given factor size. The value of
@@ -190,21 +220,21 @@ Wrapper function: \code{\link[koRpus:maas]{maas}}}
       both forward and backward for all tokens, and the mean of 
    both calculations is the final MTLD result.
 
-Wrapper function: \code{\link[koRpus:MTLD]{MTLD}}}
+   Wrapper function: \code{\link[koRpus:MTLD]{MTLD}}}
  \item{\code{"MTLD-MA"}:}{The \emph{Moving-Average Measure of Textual Lexical Diversity} (Jarvis,
       no year) combines factor counting and a moving
    window similar to MATTR: After each full factor the the next one is calculated from one token after the last starting point. This is repeated
    until the end of text is reached for the first time. The average of all full factor lengths is the final MTLD-MA result. Factors below the
    \code{min.tokens} threshold are dropped.
 
-Wrapper function: \code{\link[koRpus:MTLD]{MTLD}}}
+   Wrapper function: \code{\link[koRpus:MTLD]{MTLD}}}
  \item{\code{"HD-D"}:}{The \emph{HD-D} value can be interpreted as the idealized version of \emph{vocd-D} (see McCarthy & Jarvis,
       2007). For each type,
    the probability is computed (using the hypergeometric distribution) of drawing it at least one time when drawing randomly a certain
    number of tokens from the text -- 42 by default. The sum of these probabilities make up the HD-D value. The sum of probabilities relative to
    the drawn sample size (ATTR) is also reported.
 
-Wrapper function: \code{\link[koRpus:HDD]{HDD}}}
+   Wrapper function: \code{\link[koRpus:HDD]{HDD}}}
 }
 
 By default, if the text has to be tagged yet,

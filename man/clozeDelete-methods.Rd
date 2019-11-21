@@ -8,8 +8,8 @@
 \usage{
 clozeDelete(obj, ...)
 
-\S4method{clozeDelete}{kRp.taggedText}(obj, every = 5, offset = 0,
-  replace.by = "_", fixed = 10)
+\S4method{clozeDelete}{kRp.taggedText}(obj, every = 5, offset = 0, replace.by = "_",
+      fixed = 10)
 }
 \arguments{
 \item{obj}{An object of class "kRp.taggedText"}

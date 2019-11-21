@@ -4,8 +4,12 @@
 \alias{farr.jenkins.paterson}
 \title{Readability: Farr-Jenkins-Paterson Index}
 \usage{
-farr.jenkins.paterson(txt.file, hyphen = NULL, parameters = c(const =
-  -31.517, asl = 1.015, monsy = 1.599), ...)
+farr.jenkins.paterson(
+  txt.file,
+  hyphen = NULL,
+  parameters = c(const = -31.517, asl = 1.015, monsy = 1.599),
+  ...
+)
 }
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},

@@ -25,7 +25,7 @@
 #' is of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, so it can be used for frequency analysis by
 #' other functions and methods of this package.
 #'
-#' @param corpus An object of class \code{kRp.tagged} (then the column \code{"token"} of the \code{"TT.res"} slot is used).
+#' @param corpus An object of class \code{kRp.tagged} (then the column \code{"token"} of the \code{"tokens"} slot is used).
 #' @param caseSens Logical. If \code{FALSE}, all tokens will be matched in their lower case form.
 #' @param log.base A numeric value defining the base of the logarithm used for inverse document frequency (idf). See
 #'    \code{\link[base:log]{log}} for details.

@@ -4,9 +4,17 @@
 \alias{read.corp.LCC}
 \title{Import LCC data}
 \usage{
-read.corp.LCC(LCC.path, format = "flatfile", fileEncoding = "UTF-8",
-  n = -1, keep.temp = FALSE, prefix = NULL, bigrams = FALSE,
-  cooccurence = FALSE, caseSens = TRUE)
+read.corp.LCC(
+  LCC.path,
+  format = "flatfile",
+  fileEncoding = "UTF-8",
+  n = -1,
+  keep.temp = FALSE,
+  prefix = NULL,
+  bigrams = FALSE,
+  cooccurence = FALSE,
+  caseSens = TRUE
+)
 }
 \arguments{
 \item{LCC.path}{A character string,

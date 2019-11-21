@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -53,13 +53,3 @@ kRp_lang <- setClass("kRp.lang",
     txt.full=character(),
     udhr=data.frame())
 )
-
-# setValidity("kRp.analysis", function(object){
-#     TT.res <- object@TT.res
-#     TT.res.names <- dimnames(TT.res)[[2]]
-#     if(identical(TT.res.names, c("word","tag","lemma"))){
-#       return(TRUE)
-#     } else {
-#       stop(simpleError("Invalid object: Wrong column names."))
-#     }
-# })

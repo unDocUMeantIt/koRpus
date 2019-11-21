@@ -55,13 +55,13 @@ setMethod("filterByClass",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.taggedText"),
   function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){
-    txt.TT.res <- taggedText(txt)
+    txt.tokens <- taggedText(txt)
     txt.desc <- describe(txt)
 
     # set the language definition
     lang <- language.setting(txt, NULL)
 
-    pre.results <- tagged.txt.rm.classes(txt.TT.res, lemma=FALSE, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, as.vector=as.vector)
+    pre.results <- tagged.txt.rm.classes(txt.tokens, lemma=FALSE, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, as.vector=as.vector)
 
     if(isTRUE(as.vector)){
       results <- pre.results

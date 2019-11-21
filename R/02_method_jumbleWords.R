@@ -52,9 +52,9 @@ setMethod("jumbleWords",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(words="kRp.taggedText"),
   function(words, min.length=3, intact=c(start=1, end=1)){
-    words.TT.res <- taggedText(words)
-    words.TT.res[["token"]] <- kRp_jumbleWords(words=words.TT.res[["token"]], min.length=min.length, intact=intact)
-    results <- txt_trans_diff(obj=words, TT.res.new=words.TT.res, transfmt="jumbleWords")
+    words.tokens <- taggedText(words)
+    words.tokens[["token"]] <- kRp_jumbleWords(words=words.tokens[["token"]], min.length=min.length, intact=intact)
+    results <- txt_trans_diff(obj=words, tokens.new=words.tokens, transfmt="jumbleWords")
     return(results)
   }
 )

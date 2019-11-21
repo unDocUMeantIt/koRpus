@@ -7,25 +7,60 @@
 \alias{treetag,kRp.connection-method}
 \title{A method to call TreeTagger}
 \usage{
-treetag(file, treetagger = "kRp.env", rm.sgml = TRUE,
-  lang = "kRp.env", apply.sentc.end = TRUE, sentc.end = c(".", "!",
-  "?", ";", ":"), encoding = NULL, TT.options = NULL, debug = FALSE,
-  TT.tknz = TRUE, format = "file", stopwords = NULL,
-  stemmer = NULL, doc_id = NA, add.desc = "kRp.env", ...)
+treetag(
+  file,
+  treetagger = "kRp.env",
+  rm.sgml = TRUE,
+  lang = "kRp.env",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  encoding = NULL,
+  TT.options = NULL,
+  debug = FALSE,
+  TT.tknz = TRUE,
+  format = "file",
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env",
+  ...
+)
 
-\S4method{treetag}{character}(file, treetagger = "kRp.env",
-  rm.sgml = TRUE, lang = "kRp.env", apply.sentc.end = TRUE,
-  sentc.end = c(".", "!", "?", ";", ":"), encoding = NULL,
-  TT.options = NULL, debug = FALSE, TT.tknz = TRUE,
-  format = "file", stopwords = NULL, stemmer = NULL, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{treetag}{character}(
+  file,
+  treetagger = "kRp.env",
+  rm.sgml = TRUE,
+  lang = "kRp.env",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  encoding = NULL,
+  TT.options = NULL,
+  debug = FALSE,
+  TT.tknz = TRUE,
+  format = "file",
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 
-\S4method{treetag}{kRp.connection}(file, treetagger = "kRp.env",
-  rm.sgml = TRUE, lang = "kRp.env", apply.sentc.end = TRUE,
-  sentc.end = c(".", "!", "?", ";", ":"), encoding = NULL,
-  TT.options = NULL, debug = FALSE, TT.tknz = TRUE, format = NA,
-  stopwords = NULL, stemmer = NULL, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{treetag}{kRp.connection}(
+  file,
+  treetagger = "kRp.env",
+  rm.sgml = TRUE,
+  lang = "kRp.env",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  encoding = NULL,
+  TT.options = NULL,
+  debug = FALSE,
+  TT.tknz = TRUE,
+  format = NA,
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 }
 \arguments{
 \item{file}{Either a connection or a character vector, valid path to a file,
@@ -128,7 +163,7 @@ the \code{SnowballC} package installed. As of now,
 
 \item{doc_id}{Character string,
       optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-of the \code{TT.res} slot.}
+of the \code{tokens} slot.}
 
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
