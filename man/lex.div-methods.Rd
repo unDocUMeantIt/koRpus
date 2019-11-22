@@ -36,6 +36,7 @@ lex.div(txt, ...)
   type.index = FALSE,
   corp.rm.class = "nonpunct",
   corp.rm.tag = c(),
+  as.feature = FALSE,
   quiet = FALSE
 )
 
@@ -141,6 +142,11 @@ respectively.}
 \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.}
 
 \item{corp.rm.tag}{A character vector with POS tags which should be dropped.}
+
+\item{as.feature}{Logical,
+      whether the output should be just the analysis results or the input object with
+the results added as a feature. Use \code{\link[koRpus:corpusLexDiv]{corpusLexDiv}}
+to get the results from such an aggregated object.}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.
 \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.}

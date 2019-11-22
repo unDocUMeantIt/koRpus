@@ -16,7 +16,8 @@
   corp.rm.tag = c(),
   quiet = FALSE,
   cache = TRUE,
-  as = "kRp.hyphen"
+  as = "kRp.hyphen",
+  as.feature = FALSE
 )
 
 \S4method{hyphen_df}{kRp.taggedText}(
@@ -78,12 +79,20 @@ in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.}
 set to \code{"data.frame"} or \code{"numeric"},
       returning only the central \code{data.frame} or the numeric vector of counted syllables,
 respectively. For the latter two options,
-      you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.}
+      you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.
+Ignored if \code{as.feature=TRUE}.}
+
+\item{as.feature}{Logical,
+      whether the output should be just the analysis results or the input object with
+the results added as a feature. Use \code{\link[koRpus:corpusHyphen]{corpusHyphen}} to get the results from such an aggregated object.
+If set to \code{TRUE}, \code{as="kRp.hyphen"} is automatically set,
+      overwriting other setting of \code{as} with a warning.}
 }
 \value{
-An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
-      \code{data.frame} or a numeric vector, depending on the value
-   of the \code{as} argument.
+An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
+   \code{data.frame} or a numeric vector,
+      depending on the values of the \code{as} and \code{as.feature} arguments.
 }
 \description{
 These methods implement word hyphenation, based on Liang's algorithm.

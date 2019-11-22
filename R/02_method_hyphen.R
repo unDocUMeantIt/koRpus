@@ -43,8 +43,12 @@
 #' @param as A character string defining the class of the object to be returned. Defaults to \code{"kRp.hyphen"}, but can also be
 #'    set to \code{"data.frame"} or \code{"numeric"}, returning only the central \code{data.frame} or the numeric vector of counted syllables,
 #'    respectively. For the latter two options, you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.
-#' @return An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}, \code{data.frame} or a numeric vector, depending on the value
-#'    of the \code{as} argument.
+#'    Ignored if \code{as.feature=TRUE}.
+#' @param as.feature Logical, whether the output should be just the analysis results or the input object with
+#'    the results added as a feature. Use \code{\link[koRpus:corpusHyphen]{corpusHyphen}} to get the results from such an aggregated object.
+#'    If set to \code{TRUE}, \code{as="kRp.hyphen"} is automatically set, overwriting other setting of \code{as} with a warning.
+#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
+#'    \code{data.frame} or a numeric vector, depending on the values of the \code{as} and \code{as.feature} arguments.
 #' @keywords hyphenation
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso
@@ -79,11 +83,29 @@
 ## if this signature changes, check kRp.hyphen.calc() in 'sylly' package as well! ##
 ####################################################################################
 
-setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
-    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
+setMethod(
+  "hyphen",
+  signature(words="kRp.taggedText"),
+  function(
+    words,
+    hyph.pattern=NULL,
+    min.length=4,
+    rm.hyph=TRUE,
     corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE, cache=TRUE, as="kRp.hyphen"){
+    corp.rm.tag=c(),
+    quiet=FALSE,
+    cache=TRUE,
+    as="kRp.hyphen",
+    as.feature=FALSE
+  ){
 
+    if(isTRUE(as.feature)){
+      words_orig <- words
+      if(any(as != "kRp.hyphen")){
+        warning("Overwriting setting of \"as\" with \"kRp.hyphen\" because \"as.feature=TRUE\"!")
+        as <- "kRp.hyphen"
+      } else {}
+    } else {}
     # get class kRp.tagged from words object
     # the internal function tag.kRp.txt() will return the object unchanged if it
     # is already tagged, so it's safe to call it with the lang set here
@@ -98,7 +120,12 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
     results <- sylly::hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
       rm.hyph=rm.hyph, quiet=quiet, cache=cache, as=as)
 
-    return(results)
+    if(isTRUE(as.feature)){
+      corpusHyphen(words_orig) <- results
+      return(words_orig)
+    } else {
+      return(results)
+    }
   }
 )
 

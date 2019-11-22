@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2019-11-21)
+changes in version 0.13-1 (2019-11-22)
 unreleased:
   - this release is under development
 fixed:
@@ -44,6 +44,8 @@ added:
     columns
   - readability(): new argument "keep.input" to define whether TT.res and
     hyphen objects should be preserved in the output or dropped
+  - hyphen(), lex.div(): new argument "as.feature" to store results in the new
+    "feat_list" slot of the input object rather than returning it directly
 
 changes in version 0.12-1 (2019-05-13)
 fixed:
