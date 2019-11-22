@@ -47,16 +47,13 @@ kRp.rdb.formulae <- function(
   parameters=list(),
   word.lists=list(),
   fileEncoding="UTF-8",
-  tagger=NULL,
-  force.lang=NULL,
   sentc.tag="sentc",
   nonword.class="nonpunct",
   nonword.tag=c(),
   quiet=FALSE,
   keep.input=NULL,
   analyze.text=TRUE,
-  txt.features=list(),
-  ...
+  txt.features=list()
 ){
 
   ## TODO: validation
@@ -186,42 +183,21 @@ kRp.rdb.formulae <- function(
     #######################
     ## analyze.text=TRUE ##
     #######################
-    if("lang" %in% names(list(...))){
-      # since 'lang' is a valid argument for treetag(), it might have been set
-      stop(simpleError("You defined 'lang' in the '...' argument. This is confusing me! Use 'force.lang' instead."))
-    } else {}
-    # for backward compatibility
-    if("treetagger" %in% names(list(...))){
-      stop(simpleError("The option 'treetagger' is deprecated and was removed. Use 'tagger' instead."))
-    } else {}
 
-    if(inherits(txt.file, "kRp.tagged")){
-      lang <- language.setting(as(txt.file,"kRp.tagged"), force.lang)
-      dropTagged <- TRUE
-    } else if(!is.null(force.lang)){
-      lang <- force.lang
-    } else {
-      lang <- get.kRp.env(lang=TRUE)
-    }
+    lang <- language(txt.file)
+    ## TODO: remove
+    dropTagged <- TRUE
 
     if(identical(nonword.class, "nonpunct")){
       nonword.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
     } else {}
 
-    if(inherits(txt.file, "kRp.tagged")){
-      txt.freq <- txt.file
-      tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
-      if(is.null(slot(txt.freq, "desc")$all.words)){
-        slot(txt.freq, "desc")$all.words <- tagged.words.only[["token"]]
-      } else {}
-    } else {
-      txt.freq <- freq.analysis(txt.file=txt.file, desc.stat=TRUE, force.lang=lang,
-                tagger=tagger, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, ...)
-      tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
-    }
+    tagged.text <- tagged.text <- txt.freq <- txt.file
+    tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
+    if(is.null(slot(txt.freq, "desc")$all.words)){
+      slot(txt.freq, "desc")$all.words <- tagged.words.only[["token"]]
+    } else {}
     txt.desc <- slot(txt.freq, "desc")
-    # set objects.only=FALSE to enable automatic tagging if a file name is given
-    tagged.text <- tag.kRp.txt(txt.file, lang=lang, objects.only=FALSE)
 
     # check how to handle the hyphen parameter
     # first see if there's results to re-use
@@ -337,17 +313,11 @@ kRp.rdb.formulae <- function(
     num.prepositions <- txt.features$prepositions
     num.pronouns <- txt.features$pronouns
     num.foreign <- txt.features$foreign
-    if(inherits(txt.file, "kRp.tagged")){
-      lang <- language.setting(as(txt.file,"kRp.tagged"), force.lang)
-      tagged.text <- txt.file
-      dropTagged <- TRUE
-    } else if(!is.null(force.lang)){
-      lang <- force.lang
-      tagged.text <- kRp_tagged()
-    } else {
-      lang <- character()
-      tagged.text <- kRp_tagged()
-    }
+    ## TODO: do we need this twice?
+    lang <- language(txt.file)
+    tagged.text <- txt.file
+    ## TODO: remove
+    dropTagged <- TRUE
     if(!inherits(hyphen, "kRp.hyphen")){
       hyphen <- new("kRp.hyphen",
         desc=list(
@@ -360,6 +330,7 @@ kRp.rdb.formulae <- function(
     } else {
       dropHyphen <- TRUE
     }
+    ## TODO: need this twice?
     txt.freq <- tagged.text
   }
 
@@ -453,13 +424,13 @@ kRp.rdb.formulae <- function(
   if("ARI.NRI" %in% index){
      # setting hyphen to NULL here, because otherwise we could end up with pseudo hyphen objects crashing the function
      slot(all.results, "ARI.NRI") <- slot(kRp.rdb.formulae(txt.freq, hyphen=NULL, index=c("ARI"), parameters=list(ARI="NRI"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "ARI")
   } else {}
   if("ARI.simple" %in% index){
      # setting hyphen to NULL here, because otherwise we could end up with pseudo hyphen objects crashing the function
      slot(all.results, "ARI.simple") <- slot(kRp.rdb.formulae(txt.freq, hyphen=NULL, index=c("ARI"), parameters=list(ARI="simple"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "ARI")
   } else {}
 
@@ -684,13 +655,13 @@ kRp.rdb.formulae <- function(
   if("Dale.Chall.PSK" %in% index){
     slot(all.results, "Dale.Chall.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="PSK"),
       word.lists=list(Dale.Chall=word.lists[["Dale.Chall"]]),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Dale.Chall")
   } else {}
   if("Dale.Chall.old" %in% index){
     slot(all.results, "Dale.Chall.old") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="old"),
       word.lists=list(Dale.Chall=word.lists[["Dale.Chall"]]),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Dale.Chall")
   } else {}
 
@@ -830,7 +801,7 @@ kRp.rdb.formulae <- function(
   # recursive calls for alternative shortcuts
   if("Farr.Jenkins.Paterson.PSK" %in% index){
     slot(all.results, "Farr.Jenkins.Paterson.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Farr.Jenkins.Paterson"), parameters=list(Farr.Jenkins.Paterson="PSK"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Farr.Jenkins.Paterson")
   } else {}
 
@@ -894,39 +865,39 @@ kRp.rdb.formulae <- function(
   # recursive calls for alternative shortcuts
   if("Flesch.PSK" %in% index){
     slot(all.results, "Flesch.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="PSK"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.de" %in% index){
     slot(all.results, "Flesch.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="de"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.es" %in% index){
     slot(all.results, "Flesch.es") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.Szigriszt" %in% index){
     # Flesch-Szigriszt (Indice de Legibilidad de Flesch-Szigriszt (IFSZ))
     # see http://www.legibilidad.com/home/acercade.html
     slot(all.results, "Flesch.Szigriszt") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es-s"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.fr" %in% index){
     slot(all.results, "Flesch.fr") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="fr"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.nl" %in% index){
     slot(all.results, "Flesch.nl") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.Brouwer" %in% index){
     slot(all.results, "Flesch.Brouwer") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl-b"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
 
@@ -970,7 +941,7 @@ kRp.rdb.formulae <- function(
   # recursive calls for alternative shortcuts
   if("FORCAST.RGL" %in% index){
     slot(all.results, "FORCAST.RGL") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FORCAST"), parameters=list(FORCAST="RGL"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FORCAST")
   } else {}
 
@@ -1088,12 +1059,12 @@ kRp.rdb.formulae <- function(
   # recursive calls for alternative shortcuts
   if("FOG.PSK" %in% index){
     slot(all.results, "FOG.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="PSK"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
   } else {}
   if("FOG.NRI" %in% index){
     slot(all.results, "FOG.NRI") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="NRI"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
   } else {}
 
@@ -1356,17 +1327,17 @@ kRp.rdb.formulae <- function(
   # recursive calls for alternative shortcuts
   if("SMOG.de" %in% index){
     slot(all.results, "SMOG.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="de"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
   if("SMOG.C" %in% index){
     slot(all.results, "SMOG.C") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="C"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
   if("SMOG.simple" %in% index){
     slot(all.results, "SMOG.simple") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="simple"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
 
@@ -1408,7 +1379,7 @@ kRp.rdb.formulae <- function(
   if("Spache.old" %in% index){
     slot(all.results, "Spache.old") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Spache"), parameters=list(Spache="old"),
       word.lists=list(Spache=word.lists[["Spache"]]),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Spache")
   } else {}
 
@@ -1548,7 +1519,7 @@ kRp.rdb.formulae <- function(
   # recursive calls for alternative shortcuts
   if("Wheeler.Smith.de" %in% index){
     slot(all.results, "Wheeler.Smith.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Wheeler.Smith"), parameters=list(Wheeler.Smith="de"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
+      sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Wheeler.Smith")
   } else {}
 

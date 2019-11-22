@@ -4,7 +4,6 @@
 \name{readability}
 \alias{readability}
 \alias{readability,kRp.taggedText-method}
-\alias{readability,character-method}
 \alias{readability,missing-method}
 \alias{[,kRp.readability,ANY,ANY,ANY-method}
 \alias{[,kRp.readability,ANY-method}
@@ -26,30 +25,6 @@ readability(txt.file, ...)
   word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache =
     NULL),
   fileEncoding = "UTF-8",
-  tagger = "kRp.env",
-  force.lang = NULL,
-  sentc.tag = "sentc",
-  nonword.class = "nonpunct",
-  nonword.tag = c(),
-  quiet = FALSE,
-  keep.input = NULL,
-  ...
-)
-
-\S4method{readability}{character}(
-  txt.file,
-  hyphen = NULL,
-  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-    "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
-    "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write",
-    "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-    "Wheeler.Smith"),
-  parameters = list(),
-  word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache =
-    NULL),
-  fileEncoding = "UTF-8",
-  tagger = "kRp.env",
-  force.lang = NULL,
   sentc.tag = "sentc",
   nonword.class = "nonpunct",
   nonword.tag = c(),
@@ -65,15 +40,10 @@ readability(txt.file, ...)
 \S4method{[[}{kRp.readability}(x, i)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt.file}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
       \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
-      or a character vector which must be be
-a valid path to a file containing the text to be analyzed. If the latter,
-      \code{force.lang} must be set as well, and
-the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus]{hyphen}}}
-
-\item{...}{Additional options for the specified \code{tagger} function}
+\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
+      or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.}
 
 \item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL},
       the text will be hyphenated automatically. All syllable handling will
@@ -98,15 +68,8 @@ or as a file name, where this file must contain one word per line. Alternatively
       you can provide the number of words which are not
 on the list, directly.}
 
-\item{fileEncoding}{A character string naming the encoding of the word list files (if they are files). "ISO_8859-1" or "UTF-8" should work
-in most cases.}
-
-\item{tagger}{A character string pointing to the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
-\code{txt.file} is already of class \code{kRp.tagged-class}. Defaults to \code{tagger="kRp.env"} to get the settings by
-\code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Set to \code{"tokenize"} to use \code{\link[koRpus:tokenize]{tokenize}}.}
-
-\item{force.lang}{A character string defining the language to be assumed for the text,
-      by force.}
+\item{fileEncoding}{A character string defining the character encoding of the \code{word.lists} in case they are provided as files,
+like \code{"Latin1"} or \code{"UTF-8"}.}
 
 \item{sentc.tag}{A character vector with POS tags which indicate a sentence ending. The default value \code{"sentc"} has special meaning and
 will cause the result of \code{kRp.POS.tags(lang, tags="sentc",

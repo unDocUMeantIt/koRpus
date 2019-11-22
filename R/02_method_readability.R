@@ -282,10 +282,8 @@
 #' In case you want to provide different parameters, you must provide a complete set for an index, or special parameters that are
 #' mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 #'
-#' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, or a character vector which must be be
-#'    a valid path to a file containing the text to be analyzed. If the latter, \code{force.lang} must be set as well, and
-#'    the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus]{hyphen}}
+#' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
 #' @param hyphen An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL}, the text will be hyphenated automatically. All syllable handling will
 #'    be skipped automatically if it's not needed for the selected indices.
 #' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
@@ -298,12 +296,8 @@
 #'    skipped and a warning is giving. Actual word lists can be provided as either a vector (or matrix or data.frame with only one column),
 #'    or as a file name, where this file must contain one word per line. Alternatively, you can provide the number of words which are not
 #'    on the list, directly.
-#' @param fileEncoding A character string naming the encoding of the word list files (if they are files). "ISO_8859-1" or "UTF-8" should work
-#'    in most cases.
-#' @param tagger A character string pointing to the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
-#'    \code{txt.file} is already of class \code{kRp.tagged-class}. Defaults to \code{tagger="kRp.env"} to get the settings by
-#'    \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Set to \code{"tokenize"} to use \code{\link[koRpus:tokenize]{tokenize}}.
-#' @param force.lang A character string defining the language to be assumed for the text, by force.
+#' @param fileEncoding A character string defining the character encoding of the \code{word.lists} in case they are provided as files,
+#'    like \code{"Latin1"} or \code{"UTF-8"}.
 #' @param sentc.tag A character vector with POS tags which indicate a sentence ending. The default value \code{"sentc"} has special meaning and
 #'    will cause the result of \code{kRp.POS.tags(lang, tags="sentc", list.tags=TRUE)} to be used.
 #' @param nonword.class A character vector with word classes which should be ignored for readability analysis. The default value
@@ -317,7 +311,6 @@
 #'    \code{hyphen} will be kept in the output object. By default (\code{NULL}) they are kept if the input was not already of the needed object class
 #'    (e.g., \code{kRp.tagged}) or missing, to allow for re-use without the need to tag or hyphenate the text again.
 #'    If \code{TRUE}, they are always kept. In cases where you want smaller object sizes, set this to \code{FALSE} to always drop these slots.
-#' @param ... Additional options for the specified \code{tagger} function
 #' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
@@ -401,14 +394,11 @@ setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file
       parameters=list(),
       word.lists=list(Bormuth=NULL, Dale.Chall=NULL, Harris.Jacobson=NULL, Spache=NULL),
       fileEncoding="UTF-8",
-      tagger="kRp.env",
-      force.lang=NULL,
       sentc.tag="sentc",
       nonword.class="nonpunct",
       nonword.tag=c(),
       quiet=FALSE,
-      keep.input=NULL,
-      ...
+      keep.input=NULL
     ){
 
     # all the actual calculations have been moved to an internal function, to be able to re-use
@@ -420,62 +410,12 @@ setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file
         parameters=parameters,
         word.lists=word.lists,
         fileEncoding=fileEncoding,
-        tagger=tagger,
-        force.lang=force.lang,
         sentc.tag=sentc.tag,
         nonword.class=nonword.class,
         nonword.tag=nonword.tag,
         quiet=quiet,
         keep.input=keep.input,
-        analyze.text=TRUE,
-        ...
-      )
-
-    return(all.results)
-  }
-)
-
-#' @export
-#' @aliases readability,character-method
-#' @rdname readability-methods
-setMethod("readability", signature(txt.file="character"), function(txt.file, hyphen=NULL,
-      index=c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
-        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-        "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
-        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-        "Wheeler.Smith"),
-      parameters=list(),
-      word.lists=list(Bormuth=NULL, Dale.Chall=NULL, Harris.Jacobson=NULL, Spache=NULL),
-      fileEncoding="UTF-8",
-      tagger="kRp.env",
-      force.lang=NULL,
-      sentc.tag="sentc",
-      nonword.class="nonpunct",
-      nonword.tag=c(),
-      quiet=FALSE,
-      keep.input=NULL,
-      ...
-    ){
-
-    # all the actual calculations have been moved to an internal function, to be able to re-use
-    # the formulas for calculation without the actual text, but only its key values, in other functions
-    all.results <- kRp.rdb.formulae(
-        txt.file=txt.file,
-        hyphen=hyphen,
-        index=index,
-        parameters=parameters,
-        word.lists=word.lists,
-        fileEncoding=fileEncoding,
-        tagger=tagger,
-        force.lang=force.lang,
-        sentc.tag=sentc.tag,
-        nonword.class=nonword.class,
-        nonword.tag=nonword.tag,
-        quiet=quiet,
-        keep.input=keep.input,
-        analyze.text=TRUE,
-        ...
+        analyze.text=TRUE
       )
 
     return(all.results)
