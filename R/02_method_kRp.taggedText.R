@@ -46,7 +46,7 @@
 #' @param doc_id Logical (except for \code{fixObject}), if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
 #'    of the \code{desc} slot, i.\,e., the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
 #'    to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @docType methods
 #' @export
 #' @references
@@ -56,7 +56,7 @@
 #' taggedText(tagged.txt)
 #' }
 setGeneric("taggedText", function(obj, add.desc=FALSE, doc_id=FALSE) standardGeneric("taggedText"))
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -82,12 +82,12 @@ setMethod("taggedText",
   }
 )
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @param value The new value to replace the current with.
 setGeneric("taggedText<-", function(obj, value) standardGeneric("taggedText<-"))
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -103,11 +103,13 @@ setMethod("taggedText<-",
 )
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @docType methods
+#' @param feature Character string naming the feature to look for. The return value is logical if a single feature
+#'    name is given. If \code{feature=NULL}, a character vector is returned, naming all features found in the object.
 #' @export
-setGeneric("hasFeature", function(obj, feature, ...) standardGeneric("hasFeature"))
-#' @rdname kRp.taggedText-methods
+setGeneric("hasFeature", function(obj, feature=NULL, ...) standardGeneric("hasFeature"))
+#' @rdname kRp.taggedText_get-methods
 #' @docType methods
 #' @export
 #' @aliases
@@ -116,13 +118,18 @@ setGeneric("hasFeature", function(obj, feature, ...) standardGeneric("hasFeature
 #' @include 01_class_80_kRp.taggedText_union.R
 setMethod("hasFeature",
   signature=signature(obj="kRp.taggedText"),
-  function (obj, feature){
-    return(isTRUE(slot(obj, name="features")[feature]))
+  function (obj, feature=NULL){
+    if(is.null(feature)){
+      features <- slot(obj, "features")
+      return(names(features[features]))
+    } else {
+      return(isTRUE(slot(obj, name="features")[feature]))
+    }
   }
 )
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 # @param value The new value to replace the current with.
@@ -151,7 +158,7 @@ setMethod("hasFeature<-",
 )
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @docType methods
 #' @export
 setGeneric("feature", function(obj, feature, ...) standardGeneric("feature"))
@@ -170,7 +177,7 @@ setMethod("feature",
 )
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 # @param value The new value to replace the current with.
@@ -432,7 +439,7 @@ setMethod("corpusStopwords<-",
 )
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @param x An object of class \code{kRp.taggedText} or \code{kRp.hyphen}.
 #' @param i Defines the row selector (\code{[}) or the name to match (\code{[[}).
 #' @param j Defines the column selector.
@@ -449,7 +456,7 @@ setMethod("[",
   }
 )
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -464,7 +471,7 @@ setMethod("[<-",
   }
 )
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -478,7 +485,7 @@ setMethod("[[",
   }
 )
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -495,7 +502,7 @@ setMethod("[[<-",
 
 ## the standard generic for describe() is defined in the sylly package
 #' @importFrom sylly describe
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -512,7 +519,7 @@ setMethod("describe",
 
 ## the standard generic for describe()<- is defined in the sylly package
 #' @importFrom sylly describe<-
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -529,7 +536,7 @@ setMethod("describe<-",
 
 ## the standard generic for language() is defined in the sylly package
 #' @importFrom sylly language
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -546,7 +553,7 @@ setMethod("language",
 
 ## the standard generic for language()<- is defined in the sylly package
 #' @importFrom sylly language<-
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -562,11 +569,11 @@ setMethod("language<-",
 )
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 setGeneric("diffText", function(obj, value) standardGeneric("diffText"))
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -586,11 +593,11 @@ setMethod("diffText",
   }
 )
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 setGeneric("diffText<-", function(obj, value) standardGeneric("diffText<-"))
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -606,11 +613,11 @@ setMethod("diffText<-",
 )
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 setGeneric("originalText", function(obj, value) standardGeneric("originalText"))
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -626,7 +633,7 @@ setMethod("originalText",
 
 
 #' @param obj An arbitrary \code{R} object.
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @include 01_class_80_kRp.taggedText_union.R
 is.taggedText <- function(obj){
@@ -634,11 +641,11 @@ is.taggedText <- function(obj){
 }
 
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @docType methods
 #' @export
 setGeneric("fixObject", function(obj, doc_id=NA) standardGeneric("fixObject"))
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @export
 #' @docType methods
 #' @aliases
@@ -689,11 +696,11 @@ setMethod("fixObject",
   }
 )
 
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @docType methods
 #' @export
 setGeneric("tif_as_tokens_df", function(tokens) standardGeneric("tif_as_tokens_df"))
-#' @rdname kRp.taggedText-methods
+#' @rdname kRp.taggedText_get-methods
 #' @param tokens An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @export
 #' @docType methods

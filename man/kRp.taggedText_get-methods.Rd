@@ -12,8 +12,50 @@
 \alias{hasFeature,kRp.taggedText-method}
 \alias{hasFeature,-methods}
 \alias{hasFeature<-}
+\alias{hasFeature<-,kRp.taggedText-method}
+\alias{hasFeature<-,-methods}
 \alias{feature}
+\alias{feature,kRp.taggedText-method}
+\alias{feature,-methods}
 \alias{feature<-}
+\alias{feature<-,kRp.taggedText-method}
+\alias{feature<-,-methods}
+\alias{corpusReadability}
+\alias{corpusReadability,kRp.taggedText-method}
+\alias{corpusReadability,-methods}
+\alias{corpusReadability<-}
+\alias{corpusReadability<-,kRp.taggedText-method}
+\alias{corpusReadability<-,-methods}
+\alias{corpusHyphen}
+\alias{corpusHyphen,kRp.taggedText-method}
+\alias{corpusHyphen,-methods}
+\alias{corpusHyphen<-}
+\alias{corpusHyphen<-,kRp.taggedText-method}
+\alias{corpusHyphen<-,-methods}
+\alias{corpusLexDiv}
+\alias{corpusLexDiv,kRp.taggedText-method}
+\alias{corpusLexDiv,-methods}
+\alias{corpusLexDiv<-}
+\alias{corpusLexDiv<-,kRp.taggedText-method}
+\alias{corpusLexDiv<-,-methods}
+\alias{corpusFreq}
+\alias{corpusFreq,kRp.taggedText-method}
+\alias{corpusFreq,-methods}
+\alias{corpusFreq<-}
+\alias{corpusFreq<-,kRp.taggedText-method}
+\alias{corpusFreq<-,-methods}
+\alias{corpusCorpFreq}
+\alias{corpusCorpFreq,kRp.taggedText-method}
+\alias{corpusCorpFreq,-methods}
+\alias{corpusCorpFreq<-}
+\alias{corpusCorpFreq<-,kRp.taggedText-method}
+\alias{corpusCorpFreq<-,-methods}
+\alias{corpusStopwords}
+\alias{corpusStopwords,kRp.taggedText-method}
+\alias{corpusStopwords,-methods}
+\alias{corpusStopwords<-}
+\alias{corpusStopwords<-,kRp.taggedText-method}
+\alias{corpusStopwords<-,-methods}
 \alias{[,kRp.taggedText,ANY,ANY,ANY-method}
 \alias{[,-methods}
 \alias{[,kRp.taggedText,ANY,ANY-method}
@@ -59,15 +101,69 @@ taggedText(obj) <- value
 
 \S4method{taggedText}{kRp.taggedText}(obj) <- value
 
-hasFeature(obj, feature, ...)
+hasFeature(obj, feature = NULL, ...)
 
-\S4method{hasFeature}{kRp.taggedText}(obj, feature)
+\S4method{hasFeature}{kRp.taggedText}(obj, feature = NULL)
 
 hasFeature(obj, feature) <- value
 
+\S4method{hasFeature}{kRp.taggedText}(obj, feature) <- value
+
 feature(obj, feature, ...)
 
+\S4method{feature}{kRp.taggedText}(obj, feature)
+
 feature(obj, feature) <- value
+
+\S4method{feature}{kRp.taggedText}(obj, feature) <- value
+
+corpusReadability(obj, ...)
+
+\S4method{corpusReadability}{kRp.taggedText}(obj)
+
+corpusReadability(obj) <- value
+
+\S4method{corpusReadability}{kRp.taggedText}(obj) <- value
+
+corpusHyphen(obj, ...)
+
+\S4method{corpusHyphen}{kRp.taggedText}(obj)
+
+corpusHyphen(obj) <- value
+
+\S4method{corpusHyphen}{kRp.taggedText}(obj) <- value
+
+corpusLexDiv(obj, ...)
+
+\S4method{corpusLexDiv}{kRp.taggedText}(obj)
+
+corpusLexDiv(obj) <- value
+
+\S4method{corpusLexDiv}{kRp.taggedText}(obj) <- value
+
+corpusFreq(obj, ...)
+
+\S4method{corpusFreq}{kRp.taggedText}(obj)
+
+corpusFreq(obj) <- value
+
+\S4method{corpusFreq}{kRp.taggedText}(obj) <- value
+
+corpusCorpFreq(obj, ...)
+
+\S4method{corpusCorpFreq}{kRp.taggedText}(obj)
+
+corpusCorpFreq(obj) <- value
+
+\S4method{corpusCorpFreq}{kRp.taggedText}(obj) <- value
+
+corpusStopwords(obj, ...)
+
+\S4method{corpusStopwords}{kRp.taggedText}(obj)
+
+corpusStopwords(obj) <- value
+
+\S4method{corpusStopwords}{kRp.taggedText}(obj) <- value
 
 \S4method{[}{kRp.taggedText,ANY,ANY,ANY}(x, i, j)
 
@@ -121,6 +217,10 @@ of the \code{desc} slot, i.\,e.,
 to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).}
 
 \item{value}{The new value to replace the current with.}
+
+\item{feature}{Character string naming the feature to look for. The return value is logical if a single feature
+name is given. If \code{feature=NULL}, a character vector is returned,
+      naming all features found in the object.}
 
 \item{x}{An object of class \code{kRp.taggedText} or \code{kRp.hyphen}.}
 

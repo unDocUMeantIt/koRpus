@@ -54,7 +54,13 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
     show(txt)
   }
 
-  # add some stats if text was transformed
+  features <- slot(object, "features")
+  features <- features[features]
+  if(length(features) > 0){
+    message(paste0("\nAdditional features:\n  \"", paste0(names(features), collapse="\", \""), "\""))
+  } else {}
+
+# add some stats if text was transformed
   if(hasFeature(object, "diff")){
     diff <- diffText(object)
     message(paste0(
@@ -64,4 +70,6 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
       "  Transformations: \"", paste0(diff[["transfmt"]], collapse="\", \""), "\""      
     ))
   } else {}
+  
+
 })
