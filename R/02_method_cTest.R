@@ -35,7 +35,7 @@
 #' @export
 #' @param ... Additional arguments to the method (as described in this document).
 #' @docType methods
-#' @return An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff}.
 #' @rdname cTest-methods
 #' @examples
 #' \dontrun{

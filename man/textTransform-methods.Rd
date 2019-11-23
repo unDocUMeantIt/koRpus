@@ -22,8 +22,7 @@ textTransform(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
-      \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
 
 \item{...}{Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.}
@@ -78,9 +77,9 @@ Relevant only if \code{scheme="normalize"} and \code{method="replace"}.}
 Relevant only if \code{scheme="normalize"} and \code{method="function"}.}
 }
 \value{
-By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE},
-      returns
-   an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
+By default an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff} is returned.
+   If \code{paste=TRUE},
+      returns an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 }
 \description{
 Transforms text in koRpus objects token by token.

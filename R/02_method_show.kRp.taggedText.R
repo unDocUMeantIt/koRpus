@@ -55,7 +55,7 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
   }
 
   # add some stats if text was transformed
-  if(inherits(object, "kRp.txt.trans")){
+  if(hasFeature(object, "diff")){
     diff <- diffText(object)
     message(paste0(
       "\nDifference between original and transformed text (punctuation ignored)\n",

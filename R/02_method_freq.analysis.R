@@ -32,8 +32,7 @@
 #'    deprecated.
 #'
 #' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, or a character vector which must
-#'    be a valid path to a file containing the text to be analyzed.
+#'    or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, or a character vector which must be a valid path to a file containing the text to be analyzed.
 #' @param corp.freq An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 #' @param desc.stat Logical, whether a descriptive statistical analysis should be performed.
 #' @param force.lang A character string defining the language to be assumed for the text, by force.
@@ -68,7 +67,6 @@ setGeneric("freq.analysis", function(txt.file, ...) standardGeneric("freq.analys
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R

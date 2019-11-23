@@ -31,7 +31,7 @@
 #'    and its end, respectively.
 #' @param ... Additional options, currently unused.
 #' @return Depending on the class of \code{words}, either a character vector or an object of class
-#'    \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff}.
 #' @import methods
 #' @docType methods
 #' @export

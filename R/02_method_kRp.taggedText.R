@@ -36,12 +36,9 @@
 #'   \item{\code{corpusCorpFreq()} }{returns the \code{kRp.corp.freq} object of the \code{feat_list} slot.}
 #'   \item{\code{corpusStopwords()} }{returns the number of stopwords found in each text (if analyzed) from the \code{feat_list} slot.}
 #'   \item{\code{tif_as_tokens_df} }{returns the \code{tokens} slot in a TIF[1] compliant format, i.e., \code{doc_id} is not a factor but a character vector.}
-#' }
-#'
-#' These methods are only available for already transformed text objects (class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}):
-#' \itemize{
-#'   \item{\code{originalText()} }{similar to \code{taggedText()}, but reverts the transformation back to the original text before returning the \code{tokens} slot.}
-#'   \item{\code{diffText()} }{returns the \code{diff} slot.}
+#'   \item{\code{originalText()} }{similar to \code{taggedText()}, but reverts any transformations back to the original text before returning the \code{tokens} slot.
+#'      Only works if the object has the feature \code{diff}.}
+#'   \item{\code{diffText()} }{returns the \code{diff} slot, if present.}
 #' }
 #'
 #' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
@@ -575,12 +572,17 @@ setGeneric("diffText", function(obj, value) standardGeneric("diffText"))
 #' @aliases
 #'    diffText,-methods
 #'    diffText,kRp.taggedText-method
-#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("diffText",
-  signature=signature(obj="kRp.txt.trans"),
+  signature=signature(obj="kRp.taggedText"),
   function (obj){
-    result <- slot(obj, name="diff")
-    return(result)
+    if(hasFeature(obj, "diff")){
+      result <- feature(obj, "diff")
+      return(result)
+    } else {
+      warning("There is no feature \"diff\" in this object!")
+      return(invisible(NULL))
+    }
   }
 )
 
@@ -594,11 +596,11 @@ setGeneric("diffText<-", function(obj, value) standardGeneric("diffText<-"))
 #' @aliases
 #'    diffText<-,-methods
 #'    diffText<-,kRp.taggedText-method
-#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("diffText<-",
-  signature=signature(obj="kRp.txt.trans"),
+  signature=signature(obj="kRp.taggedText"),
   function (obj, value){
-    slot(obj, name="diff") <- value
+    feature(obj, "diff") <- value
     return(obj)
   }
 )
@@ -614,9 +616,9 @@ setGeneric("originalText", function(obj, value) standardGeneric("originalText"))
 #' @aliases
 #'    originalText,-methods
 #'    originalText,kRp.taggedText-method
-#' @include 01_class_04_kRp.txt.trans.R
+#' @include 01_class_80_kRp.taggedText_union.R
 setMethod("originalText",
-  signature=signature(obj="kRp.txt.trans"),
+  signature=signature(obj="kRp.taggedText"),
   function (obj){
     return(txt_trans_revert_orig(tokens=taggedText(obj)))
   }

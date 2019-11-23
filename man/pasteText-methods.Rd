@@ -14,8 +14,7 @@ pasteText(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
-      \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
 
 \item{...}{Additional options, currently unused.}

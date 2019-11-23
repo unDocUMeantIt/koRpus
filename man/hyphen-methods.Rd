@@ -40,7 +40,7 @@
 }
 \arguments{
 \item{words}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or
+      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}, or
 \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
       or a character vector with words to be hyphenated.}
 

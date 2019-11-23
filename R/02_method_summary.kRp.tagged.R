@@ -49,7 +49,7 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' @param index Either a vector indicating which rows should be considered as transformed for the statistics,
 #'    or the name of a particular transformation that was previously done to the object, if more than one transformation was applied.
 #'    If \code{NA}, all rows where \code{"equal"} is \code{FALSE} are used.
-#'    Only valid for objects of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+#'    Only valid for objects providing a \code{diff} feature.
 #' @export
 #' @docType methods
 #' @rdname summary-methods
@@ -69,7 +69,7 @@ setMethod("summary", signature(object="kRp.taggedText"), function(object, index=
   lang <- language(object)
   tokens <- taggedText(object)
   wclass.nopunct.num <- wClassNoPunct(wclass=tokens[["wclass"]], lang=lang)
-  if(inherits(object, "kRp.txt.trans")){
+  if(hasFeature(object, "diff")){
     wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
     if(isTRUE(is.na(index))){
       wclass.index <- !tokens[["equal"]]

@@ -14,8 +14,7 @@ correct.tag(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
 \arguments{
 \item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
       \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
-      or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.}
+or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
 
 \item{row}{Integer, the row number of the entry to be changed. Can be an integer vector
 to change several rows in one go.}

@@ -36,7 +36,7 @@ The default is to ignore the first and last sentence.}
 \item{replace.by}{Character, will be used as the replacement for the removed word halves.}
 }
 \value{
-An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff}.
 }
 \description{
 If you feed a tagged text object to this function, its text will be transformed into

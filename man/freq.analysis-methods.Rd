@@ -35,9 +35,8 @@ freq.analysis(txt.file, ...)
 \arguments{
 \item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
       \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
-      or a character vector which must
-be a valid path to a file containing the text to be analyzed.}
+or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
+      or a character vector which must be a valid path to a file containing the text to be analyzed.}
 
 \item{...}{Additional options to be passed through to the function defined with \code{tagger}.}
 

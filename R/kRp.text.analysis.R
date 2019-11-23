@@ -28,7 +28,7 @@
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
 #' @param txt.file Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, or
+#'    or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, or
 #'    a character vector which must be be a valid path to a file containing the text to be analyzed.
 #' @param tagger A character string defining the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
 #'    \code{txt.file} is already of class \code{kRp.tagged-class}. Defaults to \code{"kRp.env"} to get the settings by

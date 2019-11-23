@@ -32,7 +32,7 @@
 #' The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
 #' of length one or of the same length as all matches.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
 #' @param scheme One of the following character strings:
 #' \itemize{
@@ -71,8 +71,8 @@
 #' @param f A function to calculate the replacement for all query matches.
 #'    Relevant only if \code{scheme="normalize"} and \code{method="function"}.
 #' @param ... Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.
-#' @return By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE}, returns
-#'    an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
+#' @return By default an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff} is returned.
+#'    If \code{paste=TRUE}, returns an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @import methods
@@ -92,7 +92,6 @@ setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")}
 #' @aliases textTransform,kRp.taggedText-method
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
@@ -228,20 +227,20 @@ kRp.text.transform <- function(...){
 
 ## function txt_trans_diff()
 # helper function to calculate the diff data and combine results in
-# proper kRp.txt.trans object
+# proper kRp.tagged object with added feature "diff"
 # - obj: tagged text object (class kRp.taggedText)
 # - tokens.new: the transformed tokens data frame
 # - transfmt: the name of the transformation
 # - normalize: arguments given for the normalization
 # - check_missing_letters: transformations like "normalize" can replace tokens
 #     with shorter ones. this option adds missing letters as changes to the original tokens
-# returns an object of kRp.txt.trans
-#' @include 01_class_04_kRp.txt.trans.R
+# returns an object of kRp.tagged
 txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list(), check_missing_letters=FALSE){
   lang <- language(obj)
   doc_id <- describe(obj)[["doc_id"]]
   old.new.comp <- taggedText(obj)
-  if(inherits(obj, "kRp.txt.trans")){
+  obj_has_diff <- hasFeature(obj, "diff")
+  if(obj_has_diff){
     diffObj        <- diffText(obj)
   } else {}
 
@@ -256,10 +255,10 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
   # the above shows the global differences between original and current tokens
   # if there was more than one transformation to this object, we also want to
   # document the tokens that have changed only in this transformational step
-  if(inherits(obj, "kRp.txt.trans")){
+  if(obj_has_diff){
     tokens.last    <- old.new.comp[["token"]]
     trans.equal    <- tokens.last == tokens.trans
-    transfmt.normalize <- diffText(obj)[["transfmt.normalize"]]
+    transfmt.normalize <- diffObj[["transfmt.normalize"]]
     if(is.data.frame(diffObj[["transfmt.equal"]])){
       transfmt.equal <- cbind(diffObj[["transfmt.equal"]], trans.equal)
     } else {
@@ -314,14 +313,12 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
   old.new.comp[["equal"]] <- tokens.equal
   old.new.comp[["lttr.diff"]] <- letters.diff
 
-  if(inherits(obj, "kRp.txt.trans")){
+  if(obj_has_diff){
     transfmt <- c(diffObj[["transfmt"]], transfmt)
   } else {}
 
-  results <- kRp_txt_trans(
-    lang=lang,
-    tokens=old.new.comp,
-    diff=list(
+  taggedText(obj) <- old.new.comp
+  diffText(obj) <- list(
       all.tokens=diff.pct.words.all,
       words=diff.pct.words,
       all.chars=diff.pct.lett.all,
@@ -330,16 +327,15 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
       transfmt.equal=transfmt.equal,
       transfmt.normalize=transfmt.normalize
     )
-  )
-  describe(results) <- basic.tagged.descriptives(
-    results,
+  describe(obj) <- basic.tagged.descriptives(
+    obj,
     lang=lang,
     txt.vector=old.new.comp[["token"]],
     doc_id=doc_id
   )
 
-  return(results)
-} ## end function kRp_txt_trans_diff()
+  return(obj)
+} ## end function txt_trans_diff()
 
 
 ## function txt_trans_revert_orig()

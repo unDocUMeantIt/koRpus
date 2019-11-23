@@ -283,7 +283,7 @@
 #' mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 #'
 #' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+#'    or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
 #' @param hyphen An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL}, the text will be hyphenated automatically. All syllable handling will
 #'    be skipped automatically if it's not needed for the selected indices.
 #' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
@@ -381,7 +381,6 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R

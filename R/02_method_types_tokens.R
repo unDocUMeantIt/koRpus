@@ -27,7 +27,7 @@
 #' Calling these methods on \code{kRp.TTR} objects is just returning the respective part of its \code{tt} slot.
 #'
 #' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a
+#'    or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a
 #'    character vector.
 #' @param case.sens Logical, whether types should be counted case sensitive.
 #'    This option is available for tagged text and character input only.
@@ -90,7 +90,6 @@ setMethod("tokens", signature(txt="kRp.TTR"), function(txt){
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
@@ -121,7 +120,6 @@ setMethod("types", signature(txt="kRp.taggedText"), function(txt,
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 #' @aliases tokens,kRp.taggedText-method

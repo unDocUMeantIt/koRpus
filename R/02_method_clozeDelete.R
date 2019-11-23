@@ -29,7 +29,7 @@
 #' @export
 #' @docType methods
 #' @param ... Additional arguments to the method (as described in this document).
-#' @return An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff}.
 #' @rdname clozeDelete-methods
 #' @examples
 #' \dontrun{
@@ -64,15 +64,19 @@ clozify <- function(words, replace.by="_"){
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_02_kRp.TTR.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
 #' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(obj="kRp.taggedText"),
-  function (obj, every=5, offset=0, replace.by="_", fixed=10){
-
+  function (
+    obj,
+    every=5,
+    offset=0,
+    replace.by="_",
+    fixed=10
+  ){
     if(identical(offset, "all")){
       for(idx in (1:every)-1){
         clozeTxt <- clozeDelete(obj=obj, every=every, offset=idx, replace.by=replace.by, fixed=fixed)
