@@ -311,6 +311,9 @@
 #'    \code{hyphen} will be kept in the output object. By default (\code{NULL}) they are kept if the input was not already of the needed object class
 #'    (e.g., \code{kRp.tagged}) or missing, to allow for re-use without the need to tag or hyphenate the text again.
 #'    If \code{TRUE}, they are always kept. In cases where you want smaller object sizes, set this to \code{FALSE} to always drop these slots.
+#' @param as.feature Logical, whether the output should be just the analysis results or the input object with
+#'    the results added as a feature. Use \code{\link[koRpus:corpusReadability]{corpusReadability}}
+#'    to get the results from such an aggregated object.
 #' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
@@ -384,26 +387,59 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 #' @include koRpus-internal.R
 #' @aliases readability,kRp.taggedText-method
 #' @rdname readability-methods
-setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file, hyphen=NULL,
-      index=c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
-        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-        "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
-        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-        "Wheeler.Smith"),
-      parameters=list(),
-      word.lists=list(Bormuth=NULL, Dale.Chall=NULL, Harris.Jacobson=NULL, Spache=NULL),
-      fileEncoding="UTF-8",
-      sentc.tag="sentc",
-      nonword.class="nonpunct",
-      nonword.tag=c(),
-      quiet=FALSE,
-      keep.input=NULL
-    ){
+setMethod(
+  "readability",
+  signature(txt.file="kRp.taggedText"),
+  function(
+    txt.file,
+    hyphen=NULL,
+    index=c(
+      "ARI",
+      "Bormuth",
+      "Coleman",
+      "Coleman.Liau",
+      "Dale.Chall",
+      "Danielson.Bryan",
+      "Dickes.Steiwer",
+      "DRP",
+      "ELF",
+      "Farr.Jenkins.Paterson",
+      "Flesch",
+      "Flesch.Kincaid",
+      "FOG",
+      "FORCAST",
+      "Fucks",
+      "Harris.Jacobson",
+      "Linsear.Write",
+      "LIX",
+      "nWS",
+      "RIX",
+      "SMOG",
+      "Spache",
+      "Strain",
+      "Traenkle.Bailer",
+      "TRI",
+      "Tuldava",
+      "Wheeler.Smith"
+    ),
+    parameters=list(),
+    word.lists=list(
+      Bormuth=NULL,
+      Dale.Chall=NULL,
+      Harris.Jacobson=NULL,
+      Spache=NULL
+    ),
+    fileEncoding="UTF-8",
+    sentc.tag="sentc",
+    nonword.class="nonpunct",
+    nonword.tag=c(),
+    quiet=FALSE,
+    keep.input=NULL,
+    as.feature=FALSE
+  ){
 
-    # all the actual calculations have been moved to an internal function, to be able to re-use
-    # the formulas for calculation without the actual text, but only its key values, in other functions
-    all.results <- kRp.rdb.formulae(
+    return(
+      kRp.rdb.formulae(
         txt.file=txt.file,
         hyphen=hyphen,
         index=index,
@@ -415,10 +451,10 @@ setMethod("readability", signature(txt.file="kRp.taggedText"), function(txt.file
         nonword.tag=nonword.tag,
         quiet=quiet,
         keep.input=keep.input,
-        analyze.text=TRUE
+        analyze.text=TRUE,
+        as.feature=as.feature
       )
-
-    return(all.results)
+    )
   }
 )
 

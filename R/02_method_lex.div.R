@@ -201,10 +201,28 @@ setMethod(
     quiet=FALSE
   ){
 
-    lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
-      MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
-      measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
-      keep.tokens=keep.tokens, type.index=type.index, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
+    lex.div.results <- kRp.lex.div.formulae(
+      txt=txt,
+      segment=segment,
+      factor.size=factor.size,
+      min.tokens=min.tokens,
+      MTLDMA.steps=MTLDMA.steps,
+      rand.sample=rand.sample,
+      window=window,
+      case.sens=case.sens,
+      lemmatize=lemmatize,
+      detailed=detailed,
+      measure=measure,
+      char=char,
+      char.steps=char.steps,
+      log.base=log.base,
+      force.lang=force.lang,
+      keep.tokens=keep.tokens,
+      type.index=type.index,
+      corp.rm.class=corp.rm.class,
+      corp.rm.tag=corp.rm.tag,
+      quiet=quiet
+    )
 
     if(isTRUE(as.feature)){
       corpusLexDiv(txt) <- lex.div.results
@@ -218,22 +236,54 @@ setMethod(
 #' @export
 #' @aliases lex.div,character-method
 #' @rdname lex.div-methods
-setMethod("lex.div", signature(txt="character"), function(txt, segment=100,
-    factor.size=0.72, min.tokens=9, MTLDMA.steps=1, rand.sample=42, window=100,
-    case.sens=FALSE, lemmatize=FALSE, detailed=FALSE,
+setMethod(
+  "lex.div",
+  signature(txt="character"),
+  function(
+    txt,
+    segment=100,
+    factor.size=0.72,
+    min.tokens=9,
+    MTLDMA.steps=1,
+    rand.sample=42,
+    window=100,
+    case.sens=FALSE,
+    lemmatize=FALSE,
+    detailed=FALSE,
     measure=c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
     char=c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
-    char.steps=5, log.base=10,
+    char.steps=5,
+    log.base=10,
     force.lang=NULL,
     keep.tokens=FALSE,
     type.index=FALSE,
     corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE){
+    corp.rm.tag=c(),
+    quiet=FALSE
+  ){
 
-    lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
-      MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
-      measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
-      keep.tokens=keep.tokens, type.index=type.index, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
+    lex.div.results <- kRp.lex.div.formulae(
+      txt=txt,
+      segment=segment,
+      factor.size=factor.size,
+      min.tokens=min.tokens,
+      MTLDMA.steps=MTLDMA.steps,
+      rand.sample=rand.sample,
+      window=window,
+      case.sens=case.sens,
+      lemmatize=lemmatize,
+      detailed=detailed,
+      measure=measure,
+      char=char,
+      char.steps=char.steps,
+      log.base=log.base,
+      force.lang=force.lang,
+      keep.tokens=keep.tokens,
+      type.index=type.index,
+      corp.rm.class=corp.rm.class,
+      corp.rm.tag=corp.rm.tag,
+      quiet=quiet
+    )
 
     return(lex.div.results)
   }

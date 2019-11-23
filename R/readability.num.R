@@ -199,8 +199,14 @@ readability.num <- function(
     Harris.Jacobson=txt.features[["Harris.Jacobson.NOL"]],
     Spache=txt.features[["Spache.NOL"]])
 
-  results <- kRp.rdb.formulae(index=index, analyze.text=FALSE, txt.features=txt.features, parameters=parameters,
-    word.lists=word.lists)
+  results <- kRp.rdb.formulae(
+    index=index,
+    analyze.text=FALSE,
+    txt.features=txt.features,
+    parameters=parameters,
+    word.lists=word.lists,
+    as.feature=FALSE
+  )
 
   return(results)
 }

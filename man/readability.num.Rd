@@ -15,8 +15,7 @@ readability.num(
     "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write",
     "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
     "Wheeler.Smith"),
-  parameters = list(),
-  ...
+  parameters = list()
 )
 }
 \arguments{
@@ -60,8 +59,6 @@ readability.num(
 \item{parameters}{A named list with magic numbers,
       defining the relevant parameters for each index. If none are given,
 the default values are used.}
-
-\item{...}{Additional options, see \code{\link[koRpus:readability]{readability}}.}
 }
 \description{
 This function is a stripped down version of \code{\link[koRpus:readability]{readability}}. It does not analyze text,

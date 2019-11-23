@@ -53,12 +53,13 @@ kRp.rdb.formulae <- function(
   quiet=FALSE,
   keep.input=NULL,
   analyze.text=TRUE,
-  txt.features=list()
+  txt.features=list(),
+  as.feature=FALSE
 ){
 
   ## TODO: validation
   if(identical(index, "validation")){
-  message(paste0("
+    message(paste0("
   The following implementations have already been checked against various tools
   to validate the correctness of calculation. This doesn't mean they always came to identical
   results at once, since the accuracy of input data (like number of syllables or sentences)
@@ -125,8 +126,8 @@ kRp.rdb.formulae <- function(
   
   Other:
   WHE: example from original article by Wheeler & Smith"
-  ))
-  return(invisible(NULL))
+    ))
+    return(invisible(NULL))
   } else {}
 
   # see if just the default parameters should be returned:
@@ -140,44 +141,158 @@ kRp.rdb.formulae <- function(
     stop(simpleError("Missing accurate paramteter list!"))
   } else {
     # first complain if unknown parameters supplied
-    valid.params <- c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-      "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer",
-      "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-      "FOG", "FORCAST", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX",
-      "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith")
+    valid.params <- c(
+      "ARI",
+      "Bormuth",
+      "Coleman",
+      "Coleman.Liau",
+      "Dale.Chall",
+      "Danielson.Bryan",
+      "Dickes.Steiwer",
+      "ELF",
+      "Farr.Jenkins.Paterson",
+      "Flesch",
+      "Flesch.Kincaid",
+      "FOG",
+      "FORCAST",
+      "Harris.Jacobson",
+      "Linsear.Write",
+      "LIX",
+      "nWS",
+      "RIX",
+      "SMOG",
+      "Spache",
+      "Strain",
+      "Traenkle.Bailer",
+      "TRI",
+      "Tuldava",
+      "Wheeler.Smith"
+    )
     kRp.check.params(names(parameters), valid.params, where="parameters")
   }
 
-  all.valid.indices <- c("ARI", "ARI.NRI", "ARI.simple", "Bormuth", "Coleman", "Coleman.Liau",
-      "Dale.Chall", "Dale.Chall.old", "Dale.Chall.PSK", "Danielson.Bryan",
-      "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Farr.Jenkins.Paterson.PSK",
-      "Flesch", "Flesch.Brouwer", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
-      "Flesch.nl", "Flesch.nl-b", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
-      "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "SMOG.C",
-      "SMOG.de", "SMOG.simple", "Spache", "Spache.de", "Spache.old", "Strain", "Traenkle.Bailer", "TRI",
-      "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
+  all.valid.indices <- c(
+    "ARI",
+    "ARI.NRI",
+    "ARI.simple",
+    "Bormuth",
+    "Coleman",
+    "Coleman.Liau",
+    "Dale.Chall",
+    "Dale.Chall.old",
+    "Dale.Chall.PSK",
+    "Danielson.Bryan",
+    "Dickes.Steiwer",
+    "DRP",
+    "ELF",
+    "Farr.Jenkins.Paterson",
+    "Farr.Jenkins.Paterson.PSK",
+    "Flesch",
+    "Flesch.Brouwer",
+    "Flesch.de",
+    "Flesch.es",
+    "Flesch.fr",
+    "Flesch.Kincaid",
+    "Flesch.nl",
+    "Flesch.nl-b",
+    "Flesch.PSK",
+    "Flesch.Szigriszt",
+    "FOG",
+    "FOG.NRI",
+    "FOG.PSK",
+    "FORCAST",
+    "FORCAST.RGL",
+    "Fucks",
+    "Harris.Jacobson",
+    "Linsear.Write",
+    "LIX",
+    "nWS",
+    "RIX",
+    "SMOG",
+    "SMOG.C",
+    "SMOG.de",
+    "SMOG.simple",
+    "Spache",
+    "Spache.de",
+    "Spache.old",
+    "Strain",
+    "Traenkle.Bailer",
+    "TRI",
+    "Tuldava",
+    "Wheeler.Smith",
+    "Wheeler.Smith.de"
+  )
   # activate all?
   if(identical(index, "all")){
     index <- all.valid.indices
   } else {}
   if(identical(index, "fast")){
     # this should be like the defaults but without FOG
-    index <- c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
-        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-        "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
-        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-        "Wheeler.Smith")
+    index <- c(
+      "ARI",
+      "Bormuth",
+      "Coleman",
+      "Coleman.Liau",
+      "Dale.Chall",
+      "Danielson.Bryan",
+      "Dickes.Steiwer",
+      "DRP",
+      "ELF",
+      "Farr.Jenkins.Paterson",
+      "Flesch",
+      "Flesch.Kincaid",
+      "FORCAST",
+      "Fucks",
+      "Harris.Jacobson",
+      "Linsear.Write",
+      "LIX",
+      "nWS",
+      "RIX",
+      "SMOG",
+      "Spache",
+      "Strain",
+      "Traenkle.Bailer",
+      "TRI",
+      "Tuldava",
+      "Wheeler.Smith"
+    )
   } else {}
 
-  need.sylls <- c("Coleman", "ELF", "Farr.Jenkins.Paterson", "Farr.Jenkins.Paterson.PSK",
-    "Flesch", "Flesch.Brouwer", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
-    "Flesch.nl", "Flesch.nl-b", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
-    "Linsear.Write", "nWS", "SMOG", "SMOG.C", "SMOG.de", "SMOG.simple",
-    "Strain", "TRI", "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
+  need.sylls <- c(
+    "Coleman",
+    "ELF",
+    "Farr.Jenkins.Paterson",
+    "Farr.Jenkins.Paterson.PSK",
+    "Flesch",
+    "Flesch.Brouwer",
+    "Flesch.de",
+    "Flesch.es",
+    "Flesch.fr",
+    "Flesch.Kincaid",
+    "Flesch.nl",
+    "Flesch.nl-b",
+    "Flesch.PSK",
+    "Flesch.Szigriszt",
+    "FOG",
+    "FOG.NRI",
+    "FOG.PSK",
+    "FORCAST",
+    "FORCAST.RGL",
+    "Linsear.Write",
+    "nWS",
+    "SMOG",
+    "SMOG.C",
+    "SMOG.de",
+    "SMOG.simple",
+    "Strain",
+    "TRI",
+    "Tuldava",
+    "Wheeler.Smith",
+    "Wheeler.Smith.de"
+  )
 
   # use for keep.input
-  dropTagged <- dropHyphen <- FALSE
+  dropHyphen <- FALSE
 
   if(isTRUE(analyze.text)){
     #######################
@@ -185,34 +300,29 @@ kRp.rdb.formulae <- function(
     #######################
 
     lang <- language(txt.file)
-    ## TODO: remove
-    dropTagged <- TRUE
 
     if(identical(nonword.class, "nonpunct")){
       nonword.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
     } else {}
 
-    tagged.text <- tagged.text <- txt.freq <- txt.file
-    tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
-    if(is.null(slot(txt.freq, "desc")$all.words)){
-      slot(txt.freq, "desc")$all.words <- tagged.words.only[["token"]]
+    tagged.words.only <- filterByClass(txt.file, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
+    if(is.null(slot(txt.file, "desc")$all.words)){
+      slot(txt.file, "desc")$all.words <- tagged.words.only[["token"]]
     } else {}
-    txt.desc <- slot(txt.freq, "desc")
+    txt.desc <- slot(txt.file, "desc")
 
     # check how to handle the hyphen parameter
     # first see if there's results to re-use
-    if("hyphen" %in% slotNames(txt.freq)){
-      if(inherits(slot(txt.freq ,"hyphen"), "kRp.hyphen")){
-        if(nrow(slot(slot(txt.freq ,"hyphen"), "hyphen")) > 0 && is.null(hyphen)){
-          hyphen <- slot(txt.freq ,"hyphen")
-        } else {}
+    if(hasFeature(txt.file, "hyphen")){
+      if(is.null(hyphen)){
+        hyphen <- corpusHyphen(txt.file)
       } else {}
     } else {}
     # we don't need hyphenation for certain formulas,
     # then we'll skip that step automatically
     if(any(index %in% need.sylls)){
       if(is.null(hyphen)){
-        hyphen <- hyphen(tagged.text, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, quiet=quiet)
+        hyphen <- hyphen(txt.file, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, quiet=quiet)
       } else {
         stopifnot(inherits(hyphen, "kRp.hyphen"))
         dropHyphen <- TRUE
@@ -274,12 +384,12 @@ kRp.rdb.formulae <- function(
       is.null(parameters$Dickes.Steiwer$case.sens),
       default.params("Dickes.Steiwer", "case.sens"),
       parameters$Dickes.Steiwer$case.sens)
-    num.TTR <- slot(TTR(tagged.text, case.sens=DS.case.sens, quiet=TRUE), "TTR")
+    num.TTR <- slot(TTR(txt.file, case.sens=DS.case.sens, quiet=TRUE), "TTR")
     # some word classes needed by one formula or the other
-    num.conjunctions <- sum(taggedText(tagged.text)$wclass %in% "conjunction", na.rm=TRUE)
-    num.prepositions <- sum(taggedText(tagged.text)$wclass %in% "preposition", na.rm=TRUE)
-    num.pronouns <- sum(taggedText(tagged.text)$wclass %in% "pronoun", na.rm=TRUE)
-    num.foreign <- sum(taggedText(tagged.text)$wclass %in% "foreign", na.rm=TRUE)
+    num.conjunctions <- sum(taggedText(txt.file)$wclass %in% "conjunction", na.rm=TRUE)
+    num.prepositions <- sum(taggedText(txt.file)$wclass %in% "preposition", na.rm=TRUE)
+    num.pronouns <- sum(taggedText(txt.file)$wclass %in% "pronoun", na.rm=TRUE)
+    num.foreign <- sum(taggedText(txt.file)$wclass %in% "foreign", na.rm=TRUE)
   } else {
     ########################
     ## analyze.text=FALSE ##
@@ -313,11 +423,7 @@ kRp.rdb.formulae <- function(
     num.prepositions <- txt.features$prepositions
     num.pronouns <- txt.features$pronouns
     num.foreign <- txt.features$foreign
-    ## TODO: do we need this twice?
     lang <- language(txt.file)
-    tagged.text <- txt.file
-    ## TODO: remove
-    dropTagged <- TRUE
     if(!inherits(hyphen, "kRp.hyphen")){
       hyphen <- new("kRp.hyphen",
         desc=list(
@@ -330,8 +436,6 @@ kRp.rdb.formulae <- function(
     } else {
       dropHyphen <- TRUE
     }
-    ## TODO: need this twice?
-    txt.freq <- tagged.text
   }
 
   # keep the descriptives in the results
@@ -365,28 +469,17 @@ kRp.rdb.formulae <- function(
   )
 
   # initialize result object
-  if(inherits(txt.file, "kRp.readability")){
-    all.results <- txt.file
-    slot(all.results, "lang") <- lang
-    slot(all.results, "desc") <- desc
-    slot(all.results, "param") <- parameters
-  } else {
-    all.results <- kRp_readability(
-      lang=lang,
-      desc=desc,
-      param=parameters
-    )
-  }
+  all.results <- kRp_readability(
+    lang=lang,
+    desc=desc,
+    param=parameters
+  )
   if(isTRUE(keep.input)){
-    slot(all.results, "tokens") <- taggedText(tagged.text)
-    slot(all.results, "hyphen") <- hyphen
+    feature(txt.file, "hyphen") <- hyphen
   } else if(is.null(keep.input)){
-    if(!isTRUE(dropTagged)){
-      slot(all.results, "tokens") <- taggedText(tagged.text)
-    } else {}
     if(!isTRUE(dropHyphen)){
-      slot(all.results, "hyphen") <- hyphen
-    }
+      feature(txt.file, "hyphen") <- hyphen
+    } else {}
   } else {}
 
   #####################################
@@ -423,13 +516,13 @@ kRp.rdb.formulae <- function(
   # recursive calls for alternative shortcuts
   if("ARI.NRI" %in% index){
      # setting hyphen to NULL here, because otherwise we could end up with pseudo hyphen objects crashing the function
-     slot(all.results, "ARI.NRI") <- slot(kRp.rdb.formulae(txt.freq, hyphen=NULL, index=c("ARI"), parameters=list(ARI="NRI"),
+     slot(all.results, "ARI.NRI") <- slot(kRp.rdb.formulae(txt.file, hyphen=NULL, index=c("ARI"), parameters=list(ARI="NRI"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "ARI")
   } else {}
   if("ARI.simple" %in% index){
      # setting hyphen to NULL here, because otherwise we could end up with pseudo hyphen objects crashing the function
-     slot(all.results, "ARI.simple") <- slot(kRp.rdb.formulae(txt.freq, hyphen=NULL, index=c("ARI"), parameters=list(ARI="simple"),
+     slot(all.results, "ARI.simple") <- slot(kRp.rdb.formulae(txt.file, hyphen=NULL, index=c("ARI"), parameters=list(ARI="simple"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "ARI")
   } else {}
@@ -491,7 +584,7 @@ kRp.rdb.formulae <- function(
   ## Coleman Formulas
   if("Coleman" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(taggedText(tagged.text)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(all(taggedText(txt.file)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
       # this text was just tagged with tokenize() and misses important tags
       warning("Coleman: POS tags are not elaborate enough, can't count pronouns and prepositions. Formulae skipped.", call.=FALSE)
     } else {
@@ -653,13 +746,13 @@ kRp.rdb.formulae <- function(
   } else{}
   # recursive calls for alternative shortcuts
   if("Dale.Chall.PSK" %in% index){
-    slot(all.results, "Dale.Chall.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="PSK"),
+    slot(all.results, "Dale.Chall.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="PSK"),
       word.lists=list(Dale.Chall=word.lists[["Dale.Chall"]]),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Dale.Chall")
   } else {}
   if("Dale.Chall.old" %in% index){
-    slot(all.results, "Dale.Chall.old") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="old"),
+    slot(all.results, "Dale.Chall.old") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="old"),
       word.lists=list(Dale.Chall=word.lists[["Dale.Chall"]]),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Dale.Chall")
@@ -800,7 +893,7 @@ kRp.rdb.formulae <- function(
   } else {}
   # recursive calls for alternative shortcuts
   if("Farr.Jenkins.Paterson.PSK" %in% index){
-    slot(all.results, "Farr.Jenkins.Paterson.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Farr.Jenkins.Paterson"), parameters=list(Farr.Jenkins.Paterson="PSK"),
+    slot(all.results, "Farr.Jenkins.Paterson.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Farr.Jenkins.Paterson"), parameters=list(Farr.Jenkins.Paterson="PSK"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Farr.Jenkins.Paterson")
   } else {}
@@ -864,39 +957,39 @@ kRp.rdb.formulae <- function(
   } else {}
   # recursive calls for alternative shortcuts
   if("Flesch.PSK" %in% index){
-    slot(all.results, "Flesch.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="PSK"),
+    slot(all.results, "Flesch.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="PSK"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.de" %in% index){
-    slot(all.results, "Flesch.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="de"),
+    slot(all.results, "Flesch.de") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="de"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.es" %in% index){
-    slot(all.results, "Flesch.es") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es"),
+    slot(all.results, "Flesch.es") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.Szigriszt" %in% index){
     # Flesch-Szigriszt (Indice de Legibilidad de Flesch-Szigriszt (IFSZ))
     # see http://www.legibilidad.com/home/acercade.html
-    slot(all.results, "Flesch.Szigriszt") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es-s"),
+    slot(all.results, "Flesch.Szigriszt") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es-s"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.fr" %in% index){
-    slot(all.results, "Flesch.fr") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="fr"),
+    slot(all.results, "Flesch.fr") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="fr"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.nl" %in% index){
-    slot(all.results, "Flesch.nl") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl"),
+    slot(all.results, "Flesch.nl") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.Brouwer" %in% index){
-    slot(all.results, "Flesch.Brouwer") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl-b"),
+    slot(all.results, "Flesch.Brouwer") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl-b"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
@@ -940,7 +1033,7 @@ kRp.rdb.formulae <- function(
   } else {}
   # recursive calls for alternative shortcuts
   if("FORCAST.RGL" %in% index){
-    slot(all.results, "FORCAST.RGL") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FORCAST"), parameters=list(FORCAST="RGL"),
+    slot(all.results, "FORCAST.RGL") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("FORCAST"), parameters=list(FORCAST="RGL"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FORCAST")
   } else {}
@@ -1058,12 +1151,12 @@ kRp.rdb.formulae <- function(
   } else {}
   # recursive calls for alternative shortcuts
   if("FOG.PSK" %in% index){
-    slot(all.results, "FOG.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="PSK"),
+    slot(all.results, "FOG.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="PSK"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
   } else {}
   if("FOG.NRI" %in% index){
-    slot(all.results, "FOG.NRI") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="NRI"),
+    slot(all.results, "FOG.NRI") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="NRI"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
   } else {}
@@ -1326,17 +1419,17 @@ kRp.rdb.formulae <- function(
   } else {}
   # recursive calls for alternative shortcuts
   if("SMOG.de" %in% index){
-    slot(all.results, "SMOG.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="de"),
+    slot(all.results, "SMOG.de") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="de"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
   if("SMOG.C" %in% index){
-    slot(all.results, "SMOG.C") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="C"),
+    slot(all.results, "SMOG.C") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="C"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
   if("SMOG.simple" %in% index){
-    slot(all.results, "SMOG.simple") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="simple"),
+    slot(all.results, "SMOG.simple") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="simple"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
@@ -1377,7 +1470,7 @@ kRp.rdb.formulae <- function(
   } else {}
   # recursive calls for alternative shortcuts
   if("Spache.old" %in% index){
-    slot(all.results, "Spache.old") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Spache"), parameters=list(Spache="old"),
+    slot(all.results, "Spache.old") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Spache"), parameters=list(Spache="old"),
       word.lists=list(Spache=word.lists[["Spache"]]),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Spache")
@@ -1405,7 +1498,7 @@ kRp.rdb.formulae <- function(
   # new Dickes-Steiwer for german texts
   if("Traenkle.Bailer" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(taggedText(tagged.text)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(all(taggedText(txt.file)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
       # this text was just tagged with tokenize() and misses important tags
       warning("Traenkle.Bailer: POS tags are not elaborate enough, can't count prepositions and conjuctions. Formulae skipped.", call.=FALSE)
     } else {
@@ -1518,7 +1611,7 @@ kRp.rdb.formulae <- function(
   } else {}
   # recursive calls for alternative shortcuts
   if("Wheeler.Smith.de" %in% index){
-    slot(all.results, "Wheeler.Smith.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Wheeler.Smith"), parameters=list(Wheeler.Smith="de"),
+    slot(all.results, "Wheeler.Smith.de") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Wheeler.Smith"), parameters=list(Wheeler.Smith="de"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Wheeler.Smith")
   } else {}
@@ -1543,7 +1636,13 @@ kRp.rdb.formulae <- function(
     "\n  Use the results with caution, even if they seem plausible!",
     "\n  See readability(index=\"validation\") for more details."), call.=FALSE)
   } else {}
-  return(all.results)
+
+  if(isTRUE(as.feature)){
+    corpusReadability(txt.file) <- all.results
+    return(txt.file)
+  } else {
+    return(all.results)
+  }
 }
 
 ############################

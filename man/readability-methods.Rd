@@ -30,7 +30,7 @@ readability(txt.file, ...)
   nonword.tag = c(),
   quiet = FALSE,
   keep.input = NULL,
-  ...
+  as.feature = FALSE
 )
 
 \S4method{readability}{missing}(txt.file, index)
@@ -93,6 +93,11 @@ of consequence if \code{hyphen} is not set!}
       to allow for re-use without the need to tag or hyphenate the text again.
 If \code{TRUE}, they are always kept. In cases where you want smaller object sizes,
       set this to \code{FALSE} to always drop these slots.}
+
+\item{as.feature}{Logical,
+      whether the output should be just the analysis results or the input object with
+the results added as a feature. Use \code{\link[koRpus:corpusReadability]{corpusReadability}}
+to get the results from such an aggregated object.}
 
 \item{x}{An object of class \code{kRp.readability}.}
 
