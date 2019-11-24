@@ -67,8 +67,7 @@ valid.tokens.kRp.tagged <- colnames(init.kRp.tagged.df())
 #'      \item{\code{hyphen} }{A named list of objects of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}.}
 #'      \item{\code{readability} }{A named list of objects of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.}
 #'      \item{\code{lex_div} }{A named list of objects of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.}
-#'      \item{\code{freq} }{The \code{freq.analysis} slot of a \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} class object after
-#'        \code{\link[koRpus:freq.analysis]{freq.analysis}} was called.}
+#'      \item{\code{freq} }{A list with additional results of \code{\link[koRpus:freq.analysis]{freq.analysis}}.}
 #'      \item{\code{corp_freq} }{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, e.g., results of a call to
 #'        \code{\link[koRpus:read.corp.custom]{read.corp.custom}}.}
 #'      \item{\code{diff} }{A named list of \code{diff} slots of a \code{\link[sylly:kRp.text.trans-class]{kRp.text.trans}} object after

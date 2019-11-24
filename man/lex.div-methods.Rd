@@ -3,7 +3,7 @@
 \docType{methods}
 \name{lex.div}
 \alias{lex.div}
-\alias{lex.div,kRp.taggedText-method}
+\alias{lex.div,kRp.tagged-method}
 \alias{lex.div,character-method}
 \alias{lex.div,missing-method}
 \alias{[,kRp.TTR,ANY,ANY,ANY-method}
@@ -14,7 +14,7 @@
 \usage{
 lex.div(txt, ...)
 
-\S4method{lex.div}{kRp.taggedText}(
+\S4method{lex.div}{kRp.tagged}(
   txt,
   segment = 100,
   factor.size = 0.72,
@@ -72,8 +72,8 @@ lex.div(txt, ...)
 \S4method{[[}{kRp.TTR}(x, i)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-containing the tagged text to be analyzed.
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      containing the tagged text to be analyzed.
 If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.}
 
 \item{...}{Only used for the method generic.}

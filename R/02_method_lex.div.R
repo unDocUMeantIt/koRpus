@@ -90,8 +90,7 @@
 #' and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid value, if you want to forcibly overwrite this
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, containing the tagged text to be analyzed.
 #'    If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.
 #' @param segment An integer value for MSTTR, defining how many tokens should form one segment.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
@@ -167,14 +166,12 @@ setGeneric("lex.div", function(txt, ...) standardGeneric("lex.div"))
 
 #' @export
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
-#' @aliases lex.div lex.div,kRp.taggedText-method
+#' @aliases lex.div lex.div,kRp.tagged-method
 #' @rdname lex.div-methods
 setMethod(
   "lex.div",
-  signature(txt="kRp.taggedText"),
+  signature(txt="kRp.tagged"),
   function(
     txt,
     segment=100,

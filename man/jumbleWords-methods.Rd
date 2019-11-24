@@ -3,19 +3,18 @@
 \docType{methods}
 \name{jumbleWords}
 \alias{jumbleWords}
-\alias{jumbleWords,kRp.taggedText-method}
+\alias{jumbleWords,kRp.tagged-method}
 \alias{jumbleWords,character-method}
 \title{Produce jumbled words}
 \usage{
 jumbleWords(words, ...)
 
-\S4method{jumbleWords}{kRp.taggedText}(words, min.length = 3, intact = c(start = 1,
-      end = 1))
+\S4method{jumbleWords}{kRp.tagged}(words, min.length = 3, intact = c(start = 1, end = 1))
 
 \S4method{jumbleWords}{character}(words, min.length = 3, intact = c(start = 1, end = 1))
 }
 \arguments{
-\item{words}{Either a character vector or an object inheriting from class \code{kRp.tagged}.}
+\item{words}{Either a character vector or an object inheriting from class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 
 \item{...}{Additional options, currently unused.}
 

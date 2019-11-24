@@ -58,14 +58,12 @@ setGeneric("read.corp.custom", function(corpus, caseSens=TRUE, log.base=10, ...)
 #'    to get the results from such an aggregated object.
 #' @export
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases read.corp.custom,kRp.taggedText-method
 #' @rdname read.corp.custom-methods
 setMethod(
   "read.corp.custom",
-  signature(corpus="kRp.taggedText"),
+  signature(corpus="kRp.tagged"),
   function(
     corpus,
     caseSens=TRUE,

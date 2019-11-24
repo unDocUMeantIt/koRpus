@@ -5,7 +5,9 @@
 \alias{tokens}
 \alias{types,kRp.TTR-method}
 \alias{tokens,kRp.TTR-method}
+\alias{types,kRp.tagged-method}
 \alias{types,kRp.taggedText-method}
+\alias{tokens,kRp.tagged-method}
 \alias{tokens,kRp.taggedText-method}
 \alias{types,character-method}
 \alias{tokens,character-method}
@@ -19,7 +21,7 @@ tokens(txt, ...)
 
 \S4method{tokens}{kRp.TTR}(txt)
 
-\S4method{types}{kRp.taggedText}(
+\S4method{types}{kRp.tagged}(
   txt,
   case.sens = FALSE,
   lemmatize = FALSE,
@@ -28,7 +30,7 @@ tokens(txt, ...)
   stats = FALSE
 )
 
-\S4method{tokens}{kRp.taggedText}(
+\S4method{tokens}{kRp.tagged}(
   txt,
   case.sens = FALSE,
   lemmatize = FALSE,
@@ -56,7 +58,7 @@ tokens(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
 \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a character vector.}
 
 \item{...}{Only used for the method generic.}

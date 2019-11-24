@@ -20,23 +20,26 @@
 #'
 #' The function \code{freq.analysis} analyzes texts regarding frequencies of tokens, word classes etc.
 #'
-#' The easiest way to see what kinds of analyses are done is probably to look at the slot description of \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
+#' It adds new columns with frequency information to the \code{tokens} data frame of the input data,
+#' describing how often the particular token is used in the additionally provided corpus frequency object.
+#'
+#' To get the results, you can use \code{taggedText} to get the \code{tokens} slot, \code{describe} to get
+#' the raw descriptive statistics (only updated if \code{desc.stat=TRUE}), and \code{corpusFreq} to get
+#' the data from the added \code{freq} feature.
 #'
 #' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param corp.freq An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
-#' @param desc.stat Logical, whether a descriptive statistical analysis should be performed.
+#' @param desc.stat Logical, whether an updated descriptive statistical analysis should be conducted.
 #' @param corp.rm.class A character vector with word classes which should be ignored for frequency analysis. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
 #' @param corp.rm.tag A character vector with POS tags which should be ignored for frequency analysis.
 #' @param tfidf Logical, whether the term frequency--inverse document frequency statistic (tf-idf) should be computed. Requires
 #'    \code{corp.freq} to provide appropriate idf values for the types in \code{txt.file}. Missing idf values will result in \code{NA}.
-#' @param as.feature Logical, whether the output should be just the analysis results or the input object with
-#'    the results added as a feature. Use \code{\link[koRpus:corpusFreq]{corpusFreq}}
-#'    to get the results from such an aggregated object.
-#' @param ... Additional options to be passed through to the function defined with \code{tagger}.
-#' @return Depending on \code{as.feature}, either an object of class \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{freq} containing it.
+#' @param ... Additional options for the generic.
+#' @return An updated object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{freq},
+#'    which is a list with information on the word frequencies of the analyzed text.
+#'    Use \code{\link[koRpus:corpusFreq]{corpusFreq}} to get that slot.
 #' @keywords misc
 #' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #'    \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
@@ -56,22 +59,19 @@ setGeneric("freq.analysis", function(txt.file, ...) standardGeneric("freq.analys
 
 #' @export
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
-#' @aliases freq.analysis,kRp.taggedText-method
+#' @aliases freq.analysis,kRp.tagged-method
 #' @rdname freq.analysis-methods
 setMethod(
   "freq.analysis",
-  signature(txt.file="kRp.taggedText"),
+  signature(txt.file="kRp.tagged"),
   function(
     txt.file,
     corp.freq=NULL,
     desc.stat=TRUE,
     corp.rm.class="nonpunct",
     corp.rm.tag=c(),
-    tfidf=TRUE,
-    as.feature=FALSE
+    tfidf=TRUE
   ){
     results <- kRp.freq.analysis.calc(
       txt.file=txt.file,
@@ -82,13 +82,6 @@ setMethod(
       tfidf=tfidf
     )
 
-    if(isTRUE(as.feature)){
-      taggedText(txt.file) <- taggedText(results)
-      corpusFreq(txt.file) <- slot(results, "freq.analysis")
-      describe(txt.file) <- describe(results)
-      return(txt.file)
-    } else {
-      return(results)
-    }
+    return(results)
   }
 )

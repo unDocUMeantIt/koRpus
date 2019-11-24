@@ -3,16 +3,16 @@
 \docType{methods}
 \name{clozeDelete}
 \alias{clozeDelete}
-\alias{clozeDelete,kRp.taggedText-method}
+\alias{clozeDelete,kRp.tagged-method}
 \title{Transform text into cloze test format}
 \usage{
 clozeDelete(obj, ...)
 
-\S4method{clozeDelete}{kRp.taggedText}(obj, every = 5, offset = 0, replace.by = "_",
+\S4method{clozeDelete}{kRp.tagged}(obj, every = 5, offset = 0, replace.by = "_",
       fixed = 10)
 }
 \arguments{
-\item{obj}{An object of class "kRp.taggedText"}
+\item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 

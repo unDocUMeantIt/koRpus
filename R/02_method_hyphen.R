@@ -22,7 +22,7 @@
 #' For details, please refer to the documentation for the generic
 #' \code{\link[sylly:hyphen]{hyphen}} method in the \code{sylly} package.
 #'
-#' @param words Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#' @param words Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #'    or a character vector with words to be hyphenated.
 #' @param hyph.pattern Either an object of class \code{\link[sylly:kRp.hyph.pat-class]{kRp.hyph.pat}}, or
 #'    a valid character string naming the language of the patterns to be used. See details.
@@ -69,12 +69,10 @@
 #' }
 #' @export
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases
 #'    hyphen
-#'    hyphen,kRp.taggedText-method
+#'    hyphen,kRp.tagged-method
 #' @rdname hyphen-methods
 
 ####################################################################################
@@ -83,7 +81,7 @@
 
 setMethod(
   "hyphen",
-  signature(words="kRp.taggedText"),
+  signature(words="kRp.tagged"),
   function(
     words,
     hyph.pattern=NULL,
@@ -129,9 +127,9 @@ setMethod(
 
 #' @export
 #' @importFrom sylly hyphen_df
-#' @aliases hyphen_df,kRp.taggedText-method
+#' @aliases hyphen_df,kRp.tagged-method
 #' @rdname hyphen-methods
-setMethod("hyphen_df", signature(words="kRp.taggedText"), function(words,
+setMethod("hyphen_df", signature(words="kRp.tagged"), function(words,
     hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
 
     results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
@@ -143,9 +141,9 @@ setMethod("hyphen_df", signature(words="kRp.taggedText"), function(words,
 
 #' @export
 #' @importFrom sylly hyphen_c
-#' @aliases hyphen_c,kRp.taggedText-method
+#' @aliases hyphen_c,kRp.tagged-method
 #' @rdname hyphen-methods
-setMethod("hyphen_c", signature(words="kRp.taggedText"), function(words,
+setMethod("hyphen_c", signature(words="kRp.tagged"), function(words,
     hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
 
     results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,

@@ -3,16 +3,15 @@
 \docType{methods}
 \name{correct.tag}
 \alias{correct.tag}
-\alias{correct.tag,kRp.taggedText-method}
+\alias{correct.tag,kRp.tagged-method}
 \title{Methods to correct koRpus objects}
 \usage{
 correct.tag(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
 
-\S4method{correct.tag}{kRp.taggedText}(obj, row, tag = NULL, lemma = NULL,
-      check.token = NULL)
+\S4method{correct.tag}{kRp.tagged}(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.}
+\item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 
 \item{row}{Integer, the row number of the entry to be changed. Can be an integer vector
 to change several rows in one go.}

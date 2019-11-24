@@ -37,20 +37,20 @@
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @include 01_class_02_kRp.TTR.R
-#' @include 01_class_03_kRp.txt.freq.R
 #' @export kRp_analysis
 #' @exportClass kRp.analysis
 #' @rdname kRp.analysis-class
 kRp_analysis <- setClass("kRp.analysis",
     representation=representation(
-    lex.div="kRp.TTR"),
+    lex.div="kRp.TTR",
+    freq.analysis="list"),
   prototype=prototype(
     lang=character(),
     TT.res=init.kRp.tagged.df(),
     desc=list(),
     lex.div=kRp_TTR(),
     freq.analysis=list()),
-  contains=c("kRp.txt.freq")
+  contains=c("kRp.tagged")
 )
 
 
@@ -64,27 +64,3 @@ setAs(from="kRp.analysis", to="kRp.tagged", function(from){
     return(retagged.object)
   }
 )
-
-
-#' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-setAs(from="kRp.analysis", to="kRp.txt.freq", function(from){
-    retagged.object <- kRp_txt_freq(
-      lang=language(from),
-      TT.res=taggedText(from),
-      desc=describe(from),
-      freq.analysis=slot(from, "freq.analysis")
-    )
-    return(retagged.object)
-  }
-)
-
-# setValidity("kRp.analysis", function(object){
-#     TT.res <- object@TT.res
-#     TT.res.names <- dimnames(TT.res)[[2]]
-#     if(identical(TT.res.names, c("word","tag","lemma"))){
-#       return(TRUE)
-#     } else {
-#       stop(simpleError("Invalid object: Wrong column names."))
-#     }
-# })

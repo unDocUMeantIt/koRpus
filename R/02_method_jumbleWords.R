@@ -23,7 +23,7 @@
 #' first and last letter of each word is left intact, while all characters inbetween are being
 #' randomized.
 #' 
-#' @param words Either a character vector or an object inheriting from class \code{kRp.tagged}.
+#' @param words Either a character vector or an object inheriting from class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param min.length An integer value, defining the minimum word length. Words with less characters
 #'    will not be changed. Grapheme clusters are counted as one.
 #' @param intact A named vector with the two integer values named \code{start} and \code{stop}.
@@ -45,12 +45,12 @@ setGeneric("jumbleWords", function(words, ...){standardGeneric("jumbleWords")})
 #' @export
 #' @docType methods
 #' @rdname jumbleWords-methods
-#' @aliases jumbleWords,kRp.taggedText-method
-#' @include 01_class_80_kRp.taggedText_union.R
+#' @aliases jumbleWords,kRp.tagged-method
+#' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
 setMethod("jumbleWords",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(words="kRp.taggedText"),
+  signature(words="kRp.tagged"),
   function(words, min.length=3, intact=c(start=1, end=1)){
     words.tokens <- taggedText(words)
     words.tokens[["token"]] <- kRp_jumbleWords(words=words.tokens[["token"]], min.length=min.length, intact=intact)

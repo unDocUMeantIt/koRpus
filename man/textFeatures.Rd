@@ -7,8 +7,7 @@
 textFeatures(text, hyphen = NULL)
 }
 \arguments{
-\item{text}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
-\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}. Can
+\item{text}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. Can
 also be a list of these objects, if you want to analyze more than one text at once.}
 
 \item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},

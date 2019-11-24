@@ -282,7 +282,7 @@
 #' In case you want to provide different parameters, you must provide a complete set for an index, or special parameters that are
 #' mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 #'
-#' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
+#' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param hyphen An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL}, the text will be hyphenated automatically. All syllable handling will
 #'    be skipped automatically if it's not needed for the selected indices.
 #' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
@@ -380,14 +380,12 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 
 #' @export
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases readability,kRp.taggedText-method
 #' @rdname readability-methods
 setMethod(
   "readability",
-  signature(txt.file="kRp.taggedText"),
+  signature(txt.file="kRp.tagged"),
   function(
     txt.file,
     hyphen=NULL,

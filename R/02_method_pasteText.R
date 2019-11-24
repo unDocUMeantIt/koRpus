@@ -20,10 +20,9 @@
 #'
 #' Paste the text in koRpus objects.
 #'
-#' This function takes objects of either class \code{kRp.tagged} or \code{kRp.txt.freq} and pastes only the actual text as is.
+#' This function takes objects of class \code{kRp.tagged} and pastes only the actual text as is.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param replace A named character vector to define replacements for \code{koRpus}' internal headline and paragraph tags.
 #' @param ... Additional options, currently unused.
 #' @return An atomic character vector.
@@ -34,7 +33,7 @@
 #' @rdname pasteText-methods
 #' @examples
 #' \dontrun{
-#'   tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
+#'   tagged.text.obj <- freq.analysis(tagged.text.obj, corp.freq=my.LCC.data, as.feature=TRUE)
 #'   pasteText(tagged.text.obj)
 #' }
 setGeneric("pasteText", function(txt, ...){standardGeneric("pasteText")})
@@ -43,12 +42,11 @@ setGeneric("pasteText", function(txt, ...){standardGeneric("pasteText")})
 #' @export
 #' @docType methods
 #' @rdname pasteText-methods
-#' @aliases pasteText,kRp.taggedText-method
-#' @include 01_class_80_kRp.taggedText_union.R
+#' @aliases pasteText,kRp.tagged-method
+#' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
 setMethod("pasteText",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(txt="kRp.taggedText"),
+  signature(txt="kRp.tagged"),
   function(txt, replace=c(hon.kRp="", hoff.kRp="\n\n", p.kRp="\n\n")){
     tokens <- taggedText(txt)
 

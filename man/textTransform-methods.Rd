@@ -3,12 +3,12 @@
 \docType{methods}
 \name{textTransform}
 \alias{textTransform}
-\alias{textTransform,kRp.taggedText-method}
+\alias{textTransform,kRp.tagged-method}
 \title{Letter case transformation}
 \usage{
 textTransform(txt, ...)
 
-\S4method{textTransform}{kRp.taggedText}(
+\S4method{textTransform}{kRp.tagged}(
   txt,
   scheme,
   p = 0.5,
@@ -22,8 +22,7 @@ textTransform(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
-\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 
 \item{...}{Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.}
 
@@ -103,7 +102,11 @@ of length one or of the same length as all matches.
 
 \examples{
 \dontrun{
-tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
+tagged.text.obj <- freq.analysis(
+  tagged.text.obj,
+  corp.freq=my.LCC.data,
+  as.feature=TRUE
+)
 textTransform(tagged.text.obj, scheme="random", paste=TRUE)
 }
 }

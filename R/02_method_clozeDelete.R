@@ -51,8 +51,8 @@ clozify <- function(words, replace.by="_"){
 #' @export
 #' @docType methods
 #' @rdname clozeDelete-methods
-#' @aliases clozeDelete,kRp.taggedText-method
-#' @param obj An object of class "kRp.taggedText"
+#' @aliases clozeDelete,kRp.tagged-method
+#' @param obj An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param every Integer numeric, setting the frequency of words to be manipulated. By default,
 #'    every fifth word is being transformed.
 #' @param offset Either an integer numeric, sets the number of words to offset the transformations. Or the
@@ -63,12 +63,10 @@ clozify <- function(words, replace.by="_"){
 #'    be repeated this much times). If set to 0, the replacement wil be as long as the replaced word.
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_02_kRp.TTR.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(obj="kRp.taggedText"),
+  signature(obj="kRp.tagged"),
   function (
     obj,
     every=5,

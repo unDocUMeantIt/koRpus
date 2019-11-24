@@ -26,7 +26,7 @@
 #' properly if the input is a tagged text object with lemmata or you've properly set up the enviroment via \code{set.kRp.env}.
 #' Calling these methods on \code{kRp.TTR} objects is just returning the respective part of its \code{tt} slot.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
 #'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a character vector.
 #' @param case.sens Logical, whether types should be counted case sensitive.
 #'    This option is available for tagged text and character input only.
@@ -88,12 +88,10 @@ setMethod("tokens", signature(txt="kRp.TTR"), function(txt){
 
 #' @export
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases types,kRp.taggedText-method
 #' @rdname types.tokens-methods
-setMethod("types", signature(txt="kRp.taggedText"), function(txt,
+setMethod("types", signature(txt="kRp.tagged"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c(), stats=FALSE){
     basicTnT <- TnT(
       txt=txt,
@@ -117,11 +115,10 @@ setMethod("types", signature(txt="kRp.taggedText"), function(txt,
 )
 #' @export
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
 #' @include koRpus-internal.R
 #' @aliases tokens,kRp.taggedText-method
 #' @rdname types.tokens-methods
-setMethod("tokens", signature(txt="kRp.taggedText"), function(txt,
+setMethod("tokens", signature(txt="kRp.tagged"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c()){
     basicTnT <- TnT(
       txt=txt,

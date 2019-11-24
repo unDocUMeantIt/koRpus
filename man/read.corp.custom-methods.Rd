@@ -2,12 +2,13 @@
 % Please edit documentation in R/02_method_read.corp.custom.R
 \name{read.corp.custom}
 \alias{read.corp.custom}
+\alias{read.corp.custom,kRp.tagged-method}
 \alias{read.corp.custom,kRp.taggedText-method}
 \title{Import custom corpus data}
 \usage{
 read.corp.custom(corpus, caseSens = TRUE, log.base = 10, ...)
 
-\S4method{read.corp.custom}{kRp.taggedText}(
+\S4method{read.corp.custom}{kRp.tagged}(
   corpus,
   caseSens = TRUE,
   log.base = 10,

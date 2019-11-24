@@ -32,8 +32,7 @@
 #' The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
 #' of length one or of the same length as all matches.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param scheme One of the following character strings:
 #' \itemize{
 #'   \item {\code{"minor"}} {Start each word with a lowercase letter.}
@@ -81,7 +80,11 @@
 #' @rdname textTransform-methods
 #' @examples
 #' \dontrun{
-#' tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
+#' tagged.text.obj <- freq.analysis(
+#'   tagged.text.obj,
+#'   corp.freq=my.LCC.data,
+#'   as.feature=TRUE
+#' )
 #' textTransform(tagged.text.obj, scheme="random", paste=TRUE)
 #' }
 setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")})
@@ -89,14 +92,12 @@ setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")}
 #' @export
 #' @docType methods
 #' @rdname textTransform-methods
-#' @aliases textTransform,kRp.taggedText-method
+#' @aliases textTransform,kRp.tagged-method
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("textTransform",
   # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(txt="kRp.taggedText"),
+  signature(txt="kRp.tagged"),
   function(txt, scheme, p=0.5, paste=FALSE, var="wclass", query="fullstop", method="replace", replacement=".", f=NA, ...){
 
     txt.df <- txt.orig <- taggedText(txt)

@@ -3,12 +3,12 @@
 \docType{methods}
 \name{cTest}
 \alias{cTest}
-\alias{cTest,kRp.taggedText-method}
+\alias{cTest,kRp.tagged-method}
 \title{Transform text into C-Test-like format}
 \usage{
 cTest(obj, ...)
 
-\S4method{cTest}{kRp.taggedText}(
+\S4method{cTest}{kRp.tagged}(
   obj,
   every = 2,
   min.length = 3,
@@ -17,7 +17,7 @@ cTest(obj, ...)
 )
 }
 \arguments{
-\item{obj}{An object of class "kRp.taggedText"}
+\item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 

@@ -3,6 +3,7 @@
 \docType{methods}
 \name{readability}
 \alias{readability}
+\alias{readability,kRp.tagged-method}
 \alias{readability,kRp.taggedText-method}
 \alias{readability,missing-method}
 \alias{[,kRp.readability,ANY,ANY,ANY-method}
@@ -13,7 +14,7 @@
 \usage{
 readability(txt.file, ...)
 
-\S4method{readability}{kRp.taggedText}(
+\S4method{readability}{kRp.tagged}(
   txt.file,
   hyphen = NULL,
   index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
@@ -40,7 +41,7 @@ readability(txt.file, ...)
 \S4method{[[}{kRp.readability}(x, i)
 }
 \arguments{
-\item{txt.file}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.}
+\item{txt.file}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
 
 \item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL},
       the text will be hyphenated automatically. All syllable handling will

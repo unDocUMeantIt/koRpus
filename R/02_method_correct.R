@@ -30,7 +30,7 @@
 #'
 #' If \code{check.token} is set it must also match \code{token} in the given row(s). Note that no check is done on the lemmata.
 #'
-#' @param obj An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
+#' @param obj An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param row Integer, the row number of the entry to be changed. Can be an integer vector
 #'    to change several rows in one go.
 #' @param tag A character string with a valid POS tag to replace the current tag entry.
@@ -56,13 +56,11 @@ setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=N
 #' @export
 #' @docType methods
 #' @rdname correct-methods
-#' @aliases correct.tag correct.tag,kRp.taggedText-method
+#' @aliases correct.tag correct.tag,kRp.tagged-method
 #' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("correct.tag",
-    signature(obj="kRp.taggedText"),
+    signature(obj="kRp.tagged"),
     function (obj, row, tag=NULL, lemma=NULL, check.token=NULL){
 
       if(!is.numeric(row)){
