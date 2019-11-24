@@ -313,10 +313,8 @@ kRp.rdb.formulae <- function(
 
     # check how to handle the hyphen parameter
     # first see if there's results to re-use
-    if(hasFeature(txt.file, "hyphen")){
-      if(is.null(hyphen)){
-        hyphen <- corpusHyphen(txt.file)
-      } else {}
+    if(all(hasFeature(txt.file, "hyphen"), is.null(hyphen))){
+      hyphen <- corpusHyphen(txt.file)
     } else {}
     # we don't need hyphenation for certain formulas,
     # then we'll skip that step automatically

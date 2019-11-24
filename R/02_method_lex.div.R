@@ -128,8 +128,8 @@
 #'    to get the results from such an aggregated object.
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
-#' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
-# @author m.eik michalke \email{meik.michalke@@hhu.de}
+#' @return Depending on \code{as.feature}, either an object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
+#'    or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{lex_div} containing it.
 #' @keywords LD
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
 #'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}

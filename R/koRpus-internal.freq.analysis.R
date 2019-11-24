@@ -23,28 +23,23 @@
 ###############################################################
 
 #' @include 01_class_03_kRp.txt.freq.R
-kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, force.lang=NULL,
-                       tagger="kRp.env", corp.rm.class="nonpunct",
-                       corp.rm.tag=c(), tfidf=TRUE, ...){
-
-  if("lang" %in% names(list(...))){
-    # since 'lang' is a valid argument for treetag(), it might have been set
-    stop(simpleError("You defined 'lang' in the '...' argument. This is confusing me! Use 'force.lang' instead."))
-  } else {}
-  # for backward compatibility
-  if("treetagger" %in% names(list(...))){
-    stop(simpleError("The option 'treetagger' is deprecated and was removed. Use 'tagger' instead."))
-  } else {}
-
-  # the internal function tag.kRp.txt() will return the object unchanged if it
-  # is already tagged, so it's safe to call it with the lang set here
-  tagged.text <- tag.kRp.txt(txt.file, tagger=tagger, lang=force.lang, objects.only=FALSE, ...)
-  # set the language definition
-  lang <- language.setting(tagged.text, force.lang)
-  commented <- taggedText(tagged.text)
+kRp.freq.analysis.calc <- function(
+  txt.file,
+  corp.freq=NULL,
+  desc.stat=TRUE,
+  corp.rm.class="nonpunct",
+  corp.rm.tag=c(),
+  tfidf=TRUE
+){
+  lang <- language(txt.file)
+  commented <- taggedText(txt.file)
 
   if(identical(corp.rm.class, "nonpunct")){
     corp.rm.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
+  } else {}
+
+  if(all(hasFeature(txt.file, "corp_freq"), is.null(corp.freq))){
+    corp.freq <- corpusCorpFreq(txt.file)
   } else {}
 
   if(!is.null(corp.freq)){
@@ -65,9 +60,9 @@ kRp.freq.analysis.calc <- function(txt.file, corp.freq=NULL, desc.stat=TRUE, for
   }
 
   if(isTRUE(desc.stat)){
-    desc.stat.res <- text.analysis(commented, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=describe(tagged.text))
+    desc.stat.res <- text.analysis(commented, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=describe(txt.file))
   } else {
-    desc.stat.res <- describe(tagged.text)
+    desc.stat.res <- describe(txt.file)
   }
 
   results <- kRp_txt_freq(lang=lang, tokens=commented, desc=desc.stat.res, freq.analysis=frequency.res)

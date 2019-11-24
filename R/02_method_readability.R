@@ -314,7 +314,8 @@
 #' @param as.feature Logical, whether the output should be just the analysis results or the input object with
 #'    the results added as a feature. Use \code{\link[koRpus:corpusReadability]{corpusReadability}}
 #'    to get the results from such an aggregated object.
-#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
+#' @return Depending on \code{as.feature}, either an object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+#'    or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{readability} containing it.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @references

@@ -103,7 +103,9 @@ to get the results from such an aggregated object.}
 \item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 }
 \value{
-An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
+Depending on \code{as.feature},
+      either an object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+   or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{readability} containing it.
 }
 \description{
 These methods calculate several readability indices.

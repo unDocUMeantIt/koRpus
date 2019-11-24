@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2019-11-22)
+changes in version 0.13-1 (2019-11-24)
 unreleased:
   - this release is under development
 fixed:
@@ -47,10 +47,10 @@ added:
   - hyphen(), lex.div(): new argument "as.feature" to store results in the new
     "feat_list" slot of the input object rather than returning it directly
 removed:
-  - readability(): removed the method that could be called on files directly
-    instead of objects of class kRp.tagged. this simplifies the code and
-    it's probably not too much to ask users to call tokenize() or treetag()
-    directly instead of doing this internally with less control
+  - readability(), freq.analysis(): removed the methods that could be called
+    on files directly instead of objects of class kRp.tagged. this simplifies
+    the code and it's probably not too much to ask users to call tokenize()
+    or treetag() directly instead of doing this internally with less control
 
 changes in version 0.12-1 (2019-05-13)
 fixed:
