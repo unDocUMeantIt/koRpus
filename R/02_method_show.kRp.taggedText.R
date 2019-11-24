@@ -18,12 +18,11 @@
 
 #' @export
 #' @docType methods
-#' @aliases show,kRp.taggedText-method
+#' @aliases show,kRp.tagged-method
 #' @rdname show-methods
 #' @include 02_method_show.kRp.lang.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
-setMethod("show", signature(object="kRp.taggedText"), function(object){
+setMethod("show", signature(object="kRp.tagged"), function(object){
   txt <- taggedText(object)
 
   # only print head an tail of long texts

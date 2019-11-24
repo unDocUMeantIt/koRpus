@@ -3,7 +3,6 @@
 \name{read.corp.custom}
 \alias{read.corp.custom}
 \alias{read.corp.custom,kRp.tagged-method}
-\alias{read.corp.custom,kRp.taggedText-method}
 \title{Import custom corpus data}
 \usage{
 read.corp.custom(corpus, caseSens = TRUE, log.base = 10, ...)

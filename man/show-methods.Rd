@@ -9,7 +9,7 @@
 \alias{show,kRp.TTR-method}
 \alias{show,kRp.corp.freq-method}
 \alias{show,kRp.readability-method}
-\alias{show,kRp.taggedText-method}
+\alias{show,kRp.tagged-method}
 \title{Show methods for koRpus objects}
 \usage{
 \S4method{show}{kRp.lang}(object)
@@ -20,7 +20,7 @@
 
 \S4method{show}{kRp.readability}(object)
 
-\S4method{show}{kRp.taggedText}(object)
+\S4method{show}{kRp.tagged}(object)
 }
 \arguments{
 \item{object}{An object of class \code{kRp.lang}, \code{kRp.readability},

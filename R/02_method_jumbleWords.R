@@ -49,7 +49,6 @@ setGeneric("jumbleWords", function(words, ...){standardGeneric("jumbleWords")})
 #' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
 setMethod("jumbleWords",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(words="kRp.tagged"),
   function(words, min.length=3, intact=c(start=1, end=1)){
     words.tokens <- taggedText(words)
@@ -64,7 +63,6 @@ setMethod("jumbleWords",
 #' @rdname jumbleWords-methods
 #' @aliases jumbleWords,character-method
 setMethod("jumbleWords",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(words="character"),
   function(words, min.length=3, intact=c(start=1, end=1)){
     words <- kRp_jumbleWords(words=words, min.length=min.length, intact=intact)

@@ -3,205 +3,208 @@
 \docType{methods}
 \name{taggedText}
 \alias{taggedText}
-\alias{taggedText,kRp.taggedText-method}
+\alias{taggedText,kRp.tagged-method}
 \alias{taggedText,-methods}
 \alias{taggedText<-}
-\alias{taggedText<-,kRp.taggedText-method}
+\alias{taggedText<-,kRp.tagged-method}
 \alias{taggedText<-,-methods}
 \alias{hasFeature}
-\alias{hasFeature,kRp.taggedText-method}
+\alias{hasFeature,kRp.tagged-method}
 \alias{hasFeature,-methods}
 \alias{hasFeature<-}
-\alias{hasFeature<-,kRp.taggedText-method}
+\alias{hasFeature<-,kRp.tagged-method}
 \alias{hasFeature<-,-methods}
 \alias{feature}
-\alias{feature,kRp.taggedText-method}
+\alias{feature,kRp.tagged-method}
 \alias{feature,-methods}
 \alias{feature<-}
-\alias{feature<-,kRp.taggedText-method}
+\alias{feature<-,kRp.tagged-method}
 \alias{feature<-,-methods}
 \alias{corpusReadability}
-\alias{corpusReadability,kRp.taggedText-method}
+\alias{corpusReadability,kRp.tagged-method}
 \alias{corpusReadability,-methods}
 \alias{corpusReadability<-}
-\alias{corpusReadability<-,kRp.taggedText-method}
+\alias{corpusReadability<-,kRp.tagged-method}
 \alias{corpusReadability<-,-methods}
 \alias{corpusHyphen}
-\alias{corpusHyphen,kRp.taggedText-method}
+\alias{corpusHyphen,kRp.tagged-method}
 \alias{corpusHyphen,-methods}
 \alias{corpusHyphen<-}
-\alias{corpusHyphen<-,kRp.taggedText-method}
+\alias{corpusHyphen<-,kRp.tagged-method}
 \alias{corpusHyphen<-,-methods}
 \alias{corpusLexDiv}
-\alias{corpusLexDiv,kRp.taggedText-method}
+\alias{corpusLexDiv,kRp.tagged-method}
 \alias{corpusLexDiv,-methods}
 \alias{corpusLexDiv<-}
-\alias{corpusLexDiv<-,kRp.taggedText-method}
+\alias{corpusLexDiv<-,kRp.tagged-method}
 \alias{corpusLexDiv<-,-methods}
 \alias{corpusFreq}
-\alias{corpusFreq,kRp.taggedText-method}
+\alias{corpusFreq,kRp.tagged-method}
 \alias{corpusFreq,-methods}
 \alias{corpusFreq<-}
-\alias{corpusFreq<-,kRp.taggedText-method}
+\alias{corpusFreq<-,kRp.tagged-method}
 \alias{corpusFreq<-,-methods}
 \alias{corpusCorpFreq}
-\alias{corpusCorpFreq,kRp.taggedText-method}
+\alias{corpusCorpFreq,kRp.tagged-method}
 \alias{corpusCorpFreq,-methods}
 \alias{corpusCorpFreq<-}
-\alias{corpusCorpFreq<-,kRp.taggedText-method}
+\alias{corpusCorpFreq<-,kRp.tagged-method}
 \alias{corpusCorpFreq<-,-methods}
 \alias{corpusStopwords}
-\alias{corpusStopwords,kRp.taggedText-method}
+\alias{corpusStopwords,kRp.tagged-method}
 \alias{corpusStopwords,-methods}
 \alias{corpusStopwords<-}
-\alias{corpusStopwords<-,kRp.taggedText-method}
+\alias{corpusStopwords<-,kRp.tagged-method}
 \alias{corpusStopwords<-,-methods}
-\alias{[,kRp.taggedText,ANY,ANY,ANY-method}
+\alias{[,kRp.tagged,ANY,ANY,ANY-method}
 \alias{[,-methods}
-\alias{[,kRp.taggedText,ANY,ANY-method}
-\alias{[<-,kRp.taggedText,ANY,ANY,ANY-method}
+\alias{[,kRp.tagged,ANY,ANY-method}
+\alias{[<-,kRp.tagged,ANY,ANY,ANY-method}
 \alias{[<-,-methods}
-\alias{[[,kRp.taggedText-method}
+\alias{[[,kRp.tagged-method}
 \alias{[[,-methods}
-\alias{[[,kRp.taggedText,ANY-method}
-\alias{[[<-,kRp.taggedText-method}
+\alias{[[,kRp.tagged,ANY-method}
+\alias{[[<-,kRp.tagged-method}
 \alias{[[<-,-methods}
-\alias{[[<-,kRp.taggedText,ANY,ANY-method}
-\alias{describe,kRp.taggedText-method}
+\alias{[[<-,kRp.tagged,ANY,ANY-method}
+\alias{describe,kRp.tagged-method}
 \alias{describe,-methods}
-\alias{describe<-,kRp.taggedText-method}
+\alias{describe<-,kRp.tagged-method}
 \alias{describe<-,-methods}
-\alias{language,kRp.taggedText-method}
+\alias{language,kRp.tagged-method}
 \alias{language,-methods}
-\alias{language<-,kRp.taggedText-method}
+\alias{language<-,kRp.tagged-method}
 \alias{language<-,-methods}
 \alias{diffText}
-\alias{diffText,kRp.taggedText-method}
+\alias{diffText,kRp.tagged-method}
 \alias{diffText,-methods}
 \alias{diffText<-}
-\alias{diffText<-,kRp.taggedText-method}
+\alias{diffText<-,kRp.tagged-method}
 \alias{diffText<-,-methods}
 \alias{originalText}
-\alias{originalText,kRp.taggedText-method}
+\alias{originalText,kRp.tagged-method}
 \alias{originalText,-methods}
 \alias{is.taggedText}
+\alias{is.kRp.tagged}
 \alias{fixObject}
-\alias{fixObject,kRp.taggedText-method}
+\alias{fixObject,kRp.tagged-method}
 \alias{fixObject,-methods}
 \alias{tif_as_tokens_df}
-\alias{tif_as_tokens_df,kRp.taggedText-method}
+\alias{tif_as_tokens_df,kRp.tagged-method}
 \alias{tif_as_tokens_df,-methods}
 \title{Getter/setter methods for koRpus objects}
 \usage{
 taggedText(obj, add.desc = FALSE, doc_id = FALSE)
 
-\S4method{taggedText}{kRp.taggedText}(obj, add.desc = FALSE, doc_id = FALSE)
+\S4method{taggedText}{kRp.tagged}(obj, add.desc = FALSE, doc_id = FALSE)
 
 taggedText(obj) <- value
 
-\S4method{taggedText}{kRp.taggedText}(obj) <- value
+\S4method{taggedText}{kRp.tagged}(obj) <- value
 
 hasFeature(obj, feature = NULL, ...)
 
-\S4method{hasFeature}{kRp.taggedText}(obj, feature = NULL)
+\S4method{hasFeature}{kRp.tagged}(obj, feature = NULL)
 
 hasFeature(obj, feature) <- value
 
-\S4method{hasFeature}{kRp.taggedText}(obj, feature) <- value
+\S4method{hasFeature}{kRp.tagged}(obj, feature) <- value
 
 feature(obj, feature, ...)
 
-\S4method{feature}{kRp.taggedText}(obj, feature)
+\S4method{feature}{kRp.tagged}(obj, feature)
 
 feature(obj, feature) <- value
 
-\S4method{feature}{kRp.taggedText}(obj, feature) <- value
+\S4method{feature}{kRp.tagged}(obj, feature) <- value
 
 corpusReadability(obj, ...)
 
-\S4method{corpusReadability}{kRp.taggedText}(obj)
+\S4method{corpusReadability}{kRp.tagged}(obj)
 
 corpusReadability(obj) <- value
 
-\S4method{corpusReadability}{kRp.taggedText}(obj) <- value
+\S4method{corpusReadability}{kRp.tagged}(obj) <- value
 
 corpusHyphen(obj, ...)
 
-\S4method{corpusHyphen}{kRp.taggedText}(obj)
+\S4method{corpusHyphen}{kRp.tagged}(obj)
 
 corpusHyphen(obj) <- value
 
-\S4method{corpusHyphen}{kRp.taggedText}(obj) <- value
+\S4method{corpusHyphen}{kRp.tagged}(obj) <- value
 
 corpusLexDiv(obj, ...)
 
-\S4method{corpusLexDiv}{kRp.taggedText}(obj)
+\S4method{corpusLexDiv}{kRp.tagged}(obj)
 
 corpusLexDiv(obj) <- value
 
-\S4method{corpusLexDiv}{kRp.taggedText}(obj) <- value
+\S4method{corpusLexDiv}{kRp.tagged}(obj) <- value
 
 corpusFreq(obj, ...)
 
-\S4method{corpusFreq}{kRp.taggedText}(obj)
+\S4method{corpusFreq}{kRp.tagged}(obj)
 
 corpusFreq(obj) <- value
 
-\S4method{corpusFreq}{kRp.taggedText}(obj) <- value
+\S4method{corpusFreq}{kRp.tagged}(obj) <- value
 
 corpusCorpFreq(obj, ...)
 
-\S4method{corpusCorpFreq}{kRp.taggedText}(obj)
+\S4method{corpusCorpFreq}{kRp.tagged}(obj)
 
 corpusCorpFreq(obj) <- value
 
-\S4method{corpusCorpFreq}{kRp.taggedText}(obj) <- value
+\S4method{corpusCorpFreq}{kRp.tagged}(obj) <- value
 
 corpusStopwords(obj, ...)
 
-\S4method{corpusStopwords}{kRp.taggedText}(obj)
+\S4method{corpusStopwords}{kRp.tagged}(obj)
 
 corpusStopwords(obj) <- value
 
-\S4method{corpusStopwords}{kRp.taggedText}(obj) <- value
+\S4method{corpusStopwords}{kRp.tagged}(obj) <- value
 
-\S4method{[}{kRp.taggedText,ANY,ANY,ANY}(x, i, j)
+\S4method{[}{kRp.tagged,ANY,ANY,ANY}(x, i, j)
 
-\S4method{[}{kRp.taggedText,ANY,ANY,ANY}(x, i, j) <- value
+\S4method{[}{kRp.tagged,ANY,ANY,ANY}(x, i, j) <- value
 
-\S4method{[[}{kRp.taggedText}(x, i)
+\S4method{[[}{kRp.tagged}(x, i)
 
-\S4method{[[}{kRp.taggedText}(x, i) <- value
+\S4method{[[}{kRp.tagged}(x, i) <- value
 
-\S4method{describe}{kRp.taggedText}(obj)
+\S4method{describe}{kRp.tagged}(obj)
 
-\S4method{describe}{kRp.taggedText}(obj) <- value
+\S4method{describe}{kRp.tagged}(obj) <- value
 
-\S4method{language}{kRp.taggedText}(obj)
+\S4method{language}{kRp.tagged}(obj)
 
-\S4method{language}{kRp.taggedText}(obj) <- value
+\S4method{language}{kRp.tagged}(obj) <- value
 
 diffText(obj, value)
 
-\S4method{diffText}{kRp.taggedText}(obj)
+\S4method{diffText}{kRp.tagged}(obj)
 
 diffText(obj) <- value
 
-\S4method{diffText}{kRp.taggedText}(obj) <- value
+\S4method{diffText}{kRp.tagged}(obj) <- value
 
 originalText(obj, value)
 
-\S4method{originalText}{kRp.taggedText}(obj)
+\S4method{originalText}{kRp.tagged}(obj)
 
 is.taggedText(obj)
 
+is.kRp.tagged(obj)
+
 fixObject(obj, doc_id = NA)
 
-\S4method{fixObject}{kRp.taggedText}(obj, doc_id = NA)
+\S4method{fixObject}{kRp.tagged}(obj, doc_id = NA)
 
 tif_as_tokens_df(tokens)
 
-\S4method{tif_as_tokens_df}{kRp.taggedText}(tokens)
+\S4method{tif_as_tokens_df}{kRp.tagged}(tokens)
 }
 \arguments{
 \item{obj}{An arbitrary \code{R} object.}
@@ -222,7 +225,7 @@ to set the document ID manually (the default \code{NA} will preserve existing va
 name is given. If \code{feature=NULL}, a character vector is returned,
       naming all features found in the object.}
 
-\item{x}{An object of class \code{kRp.taggedText} or \code{kRp.hyphen}.}
+\item{x}{An object of class \code{kRp.tagged} or \code{kRp.hyphen}.}
 
 \item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 

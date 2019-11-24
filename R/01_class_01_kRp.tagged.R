@@ -78,7 +78,7 @@ valid.tokens.kRp.tagged <- colnames(init.kRp.tagged.df())
 #      \item{\code{stopwords} }{A numeric vector with the total number of stopwords in each text, if stopwords were analyzed during tokenizing or POS tagging.}
 #      \item{\code{} }{}
 #'    }
-#'    See the \code{\link[koRpus:kRp.taggedText-methods]{getter and setter methods}} for easy access to these sub-slots.
+#'    See the \code{\link[koRpus:kRp.tagged_get-methods]{getter and setter methods}} for easy access to these sub-slots.
 #'    There can actually be any number of additional features, the above is just a list of those already defined by this package.
 #' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
 #' @name kRp.tagged,-class

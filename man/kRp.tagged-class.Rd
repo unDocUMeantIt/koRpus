@@ -51,7 +51,7 @@ Common features are listed in the description of the \code{feat_list} slot.}
   \item{\code{doc_term_matrix} }{A sparse document-term matrix,
       as produced by \code{\link[koRpus:docTermMatrix]{docTermMatrix}}.}
 }
-See the \code{\link[koRpus:kRp.taggedText-methods]{getter and setter methods}} for easy access to these sub-slots.
+See the \code{\link[koRpus:kRp.tagged_get-methods]{getter and setter methods}} for easy access to these sub-slots.
 There can actually be any number of additional features,
       the above is just a list of those already defined by this package.}
 }}

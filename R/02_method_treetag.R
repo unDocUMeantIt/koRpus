@@ -102,7 +102,6 @@
 #' @export
 #' @import methods
 #' @docType methods
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @rdname treetag-methods
 #' @examples
 #' \dontrun{
@@ -153,7 +152,7 @@ setGeneric(
     add.desc="kRp.env", ...){
       standardGeneric("treetag")
     },
-  valueClass=c("kRp.taggedText","matrix")
+  valueClass=c("kRp.tagged","matrix")
 )
 
 #' @export

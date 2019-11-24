@@ -48,12 +48,11 @@ setGeneric("filterByClass", function(txt, ...){standardGeneric("filterByClass")}
 #' @export
 #' @docType methods
 #' @rdname filterByClass-methods
-#' @aliases filterByClass,kRp.taggedText-method
-#' @include 01_class_80_kRp.taggedText_union.R
+#' @aliases filterByClass,kRp.tagged-method
+#' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
 setMethod("filterByClass",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(txt="kRp.taggedText"),
+  signature(txt="kRp.tagged"),
   function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){
     txt.tokens <- taggedText(txt)
     txt.desc <- describe(txt)

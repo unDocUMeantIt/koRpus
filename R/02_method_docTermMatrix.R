@@ -153,11 +153,10 @@ setMethod("docTermMatrix",
 #' @export
 #' @aliases
 #'    docTermMatrix,-methods
-#'    docTermMatrix,kRp.taggedText-method
-#' @include 01_class_80_kRp.taggedText_union.R
+#'    docTermMatrix,kRp.tagged-method
 #' @include koRpus-internal.R
 setMethod("docTermMatrix",
-  signature=signature(obj="kRp.taggedText"),
+  signature=signature(obj="kRp.tagged"),
   function(
     obj,
     terms="token",

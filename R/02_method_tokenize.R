@@ -79,7 +79,6 @@
 #' @docType methods
 #' @export
 #' @rdname tokenize-methods
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @examples
 #' \dontrun{
 #' tokenized.obj <- tokenize(
@@ -126,7 +125,7 @@ setGeneric(
     doc_id=NA, add.desc="kRp.env", ...){
       standardGeneric("tokenize")
     },
-  valueClass=c("kRp.taggedText","character")
+  valueClass=c("kRp.tagged","character")
 )
 
 #' @export

@@ -5,7 +5,7 @@
 \alias{docTermMatrix}
 \alias{docTermMatrix,data.frame-method}
 \alias{docTermMatrix,-methods}
-\alias{docTermMatrix,kRp.taggedText-method}
+\alias{docTermMatrix,kRp.tagged-method}
 \title{Generate a document-term matrix}
 \usage{
 docTermMatrix(obj, terms = "token", case.sens = FALSE, tfidf = FALSE, ...)
@@ -13,7 +13,7 @@ docTermMatrix(obj, terms = "token", case.sens = FALSE, tfidf = FALSE, ...)
 \S4method{docTermMatrix}{data.frame}(obj, terms = "token", case.sens = FALSE,
       tfidf = FALSE)
 
-\S4method{docTermMatrix}{kRp.taggedText}(obj, terms = "token", case.sens = FALSE,
+\S4method{docTermMatrix}{kRp.tagged}(obj, terms = "token", case.sens = FALSE,
       tfidf = FALSE)
 }
 \arguments{

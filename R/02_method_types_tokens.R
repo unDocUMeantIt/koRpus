@@ -89,7 +89,7 @@ setMethod("tokens", signature(txt="kRp.TTR"), function(txt){
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
-#' @aliases types,kRp.taggedText-method
+#' @aliases types,kRp.tagged-method
 #' @rdname types.tokens-methods
 setMethod("types", signature(txt="kRp.tagged"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c(), stats=FALSE){
@@ -116,7 +116,7 @@ setMethod("types", signature(txt="kRp.tagged"), function(txt,
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
-#' @aliases tokens,kRp.taggedText-method
+#' @aliases tokens,kRp.tagged-method
 #' @rdname types.tokens-methods
 setMethod("tokens", signature(txt="kRp.tagged"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c()){

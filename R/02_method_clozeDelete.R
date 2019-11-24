@@ -65,7 +65,6 @@ clozify <- function(words, replace.by="_"){
 #' @include 01_class_02_kRp.TTR.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(obj="kRp.tagged"),
   function (
     obj,

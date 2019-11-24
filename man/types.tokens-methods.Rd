@@ -6,9 +6,7 @@
 \alias{types,kRp.TTR-method}
 \alias{tokens,kRp.TTR-method}
 \alias{types,kRp.tagged-method}
-\alias{types,kRp.taggedText-method}
 \alias{tokens,kRp.tagged-method}
-\alias{tokens,kRp.taggedText-method}
 \alias{types,character-method}
 \alias{tokens,character-method}
 \title{Get types and tokens of a given text}

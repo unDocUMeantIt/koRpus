@@ -53,7 +53,7 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' @export
 #' @docType methods
 #' @rdname summary-methods
-#' @aliases summary,kRp.taggedText-method
+#' @aliases summary,kRp.tagged-method
 #' @examples
 #' \dontrun{
 #' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
@@ -62,7 +62,7 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' }
 #' @include 01_class_01_kRp.tagged.R
 #' @include 02_method_summary.kRp.lang.R
-setMethod("summary", signature(object="kRp.taggedText"), function(object, index=NA){
+setMethod("summary", signature(object="kRp.tagged"), function(object, index=NA){
   # to prevent hiccups from R CMD check
   Row.names <- NULL
   desc <- describe(object)

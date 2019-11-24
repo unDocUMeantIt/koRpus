@@ -16,7 +16,7 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' Plot method for objects of class union kRp.taggedText
+#' Plot method for objects of class kRp.tagged
 #'
 #' Plot method for S4 objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
 #' plots the frequencies of tagged word classes.
@@ -45,10 +45,10 @@ setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 #' @export
 #' @docType methods
 #' @rdname plot-methods
-#' @aliases plot,kRp.taggedText,missing-method
+#' @aliases plot,kRp.tagged,missing-method
 #' @include 01_class_01_kRp.tagged.R
 #' @import graphics
-setMethod("plot", signature(x="kRp.taggedText", y="missing"), function(x, what="wclass", ...){
+setMethod("plot", signature(x="kRp.tagged", y="missing"), function(x, what="wclass", ...){
   if(identical(what, "wclass")){
     wclass.distrib <- summary(x)
     # Increase bottom margin to make room for rotated labels

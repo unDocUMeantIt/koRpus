@@ -59,7 +59,7 @@ setGeneric("read.corp.custom", function(corpus, caseSens=TRUE, log.base=10, ...)
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
-#' @aliases read.corp.custom,kRp.taggedText-method
+#' @aliases read.corp.custom,kRp.tagged-method
 #' @rdname read.corp.custom-methods
 setMethod(
   "read.corp.custom",

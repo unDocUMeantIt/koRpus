@@ -96,7 +96,6 @@ setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")}
 #' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
 setMethod("textTransform",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(txt="kRp.tagged"),
   function(txt, scheme, p=0.5, paste=FALSE, var="wclass", query="fullstop", method="replace", replacement=".", f=NA, ...){
 
@@ -228,7 +227,7 @@ kRp.text.transform <- function(...){
 ## function txt_trans_diff()
 # helper function to calculate the diff data and combine results in
 # proper kRp.tagged object with added feature "diff"
-# - obj: tagged text object (class kRp.taggedText)
+# - obj: tagged text object (class kRp.tagged)
 # - tokens.new: the transformed tokens data frame
 # - transfmt: the name of the transformation
 # - normalize: arguments given for the normalization

@@ -3,12 +3,12 @@
 \docType{methods}
 \name{filterByClass}
 \alias{filterByClass}
-\alias{filterByClass,kRp.taggedText-method}
+\alias{filterByClass,kRp.tagged-method}
 \title{Remove word classes}
 \usage{
 filterByClass(txt, ...)
 
-\S4method{filterByClass}{kRp.taggedText}(
+\S4method{filterByClass}{kRp.tagged}(
   txt,
   corp.rm.class = "nonpunct",
   corp.rm.tag = c(),

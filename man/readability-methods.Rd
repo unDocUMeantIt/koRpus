@@ -4,7 +4,6 @@
 \name{readability}
 \alias{readability}
 \alias{readability,kRp.tagged-method}
-\alias{readability,kRp.taggedText-method}
 \alias{readability,missing-method}
 \alias{[,kRp.readability,ANY,ANY,ANY-method}
 \alias{[,kRp.readability,ANY-method}

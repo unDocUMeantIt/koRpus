@@ -381,7 +381,7 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include koRpus-internal.R
-#' @aliases readability,kRp.taggedText-method
+#' @aliases readability,kRp.tagged-method
 #' @rdname readability-methods
 setMethod(
   "readability",
