@@ -10,7 +10,7 @@ fixed:
     abbreviation files introduced with 0.11-5
   - correct.tag(): stopped method from adding tag descriptions to objects
     that didn't have them yet
-  - kRp_txt_freq()/kRp_readability()/kRp_corp_freq(): properly initialize
+  - kRp_readability()/kRp_corp_freq(): properly initialize
     the slots
 changed:
   - kRp.tagged: the TT.res slot was renamed into "tokens", additional columns
@@ -21,7 +21,7 @@ changed:
     unused quiet argument, as well as methods using the directory path or
     lists of tagged texts, because using methods of the tm.plugin.koRpus
     package instead is much more efficient now
-  - show(): simplified the code for kRp.TTR class objects and unified the
+  - show(): simplified the code for kRp.tagged class objects and unified the
     horizontal positioning of resulting values
   - show(): generalized the handling of factor columns to be able to deal
     with unexpected columns
@@ -42,15 +42,21 @@ added:
     docTermMatrix()
   - validate_df(): new internal method to check data frames for expected
     columns
-  - readability(): new argument "keep.input" to define whether TT.res and
+  - readability(): new argument "keep.input" to define whether
     hyphen objects should be preserved in the output or dropped
   - hyphen(), lex.div(): new argument "as.feature" to store results in the new
     "feat_list" slot of the input object rather than returning it directly
 removed:
+  - kRp.txt.freq, kRp.txt.trans: these classes were special cases of kRp.tagged,
+    and since all their information can now be part of kRp.tagged objects,
+    they are no longer used
   - readability(), freq.analysis(): removed the methods that could be called
     on files directly instead of objects of class kRp.tagged. this simplifies
     the code and it's probably not too much to ask users to call tokenize()
     or treetag() directly instead of doing this internally with less control
+  - freq.analysis(): removed the "tfidf" argument; as it turned out, its value
+    was never effectively used, the tf-idf was always calculated, and it seemed
+    like a reasonable default anyway
   - kRp.text.analysis(): now deprecated, just use lex.div() and freq.analysis()
     to the same effect
 

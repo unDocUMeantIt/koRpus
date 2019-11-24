@@ -26,6 +26,10 @@
 #' To get the results, you can use \code{taggedText} to get the \code{tokens} slot, \code{describe} to get
 #' the raw descriptive statistics (only updated if \code{desc.stat=TRUE}), and \code{corpusFreq} to get
 #' the data from the added \code{freq} feature.
+#' 
+#' If \code{corp.freq} provides appropriate idf values for the types in \code{txt.file}, the
+#' term frequency--inverse document frequency statistic (tf-idf) will also be computed.
+#' Missing idf values will result in \code{NA}.
 #'
 #' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
 #' @param corp.freq An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
@@ -34,8 +38,6 @@
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
 #' @param corp.rm.tag A character vector with POS tags which should be ignored for frequency analysis.
-#' @param tfidf Logical, whether the term frequency--inverse document frequency statistic (tf-idf) should be computed. Requires
-#'    \code{corp.freq} to provide appropriate idf values for the types in \code{txt.file}. Missing idf values will result in \code{NA}.
 #' @param ... Additional options for the generic.
 #' @return An updated object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{freq},
 #'    which is a list with information on the word frequencies of the analyzed text.
@@ -70,16 +72,14 @@ setMethod(
     corp.freq=NULL,
     desc.stat=TRUE,
     corp.rm.class="nonpunct",
-    corp.rm.tag=c(),
-    tfidf=TRUE
+    corp.rm.tag=c()
   ){
     results <- kRp.freq.analysis.calc(
       txt.file=txt.file,
       corp.freq=corp.freq,
       desc.stat=desc.stat,
       corp.rm.class=corp.rm.class,
-      corp.rm.tag=corp.rm.tag,
-      tfidf=tfidf
+      corp.rm.tag=corp.rm.tag
     )
 
     return(results)
