@@ -39,10 +39,8 @@
 )
 }
 \arguments{
-\item{words}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}, or
-\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
-      or a character vector with words to be hyphenated.}
+\item{words}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+or a character vector with words to be hyphenated.}
 
 \item{hyph.pattern}{Either an object of class \code{\link[sylly:kRp.hyph.pat-class]{kRp.hyph.pat}},
       or

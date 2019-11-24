@@ -26,7 +26,7 @@
 #' their progressing characteristics, this function will only calculate the C value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -62,7 +62,7 @@ C.ld <- function(txt, char=FALSE, ...){
 #' their progressing characteristics, this function will only calculate the CTTR value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -98,7 +98,7 @@ CTTR <- function(txt, char=FALSE, ...){
 #' their progressing characteristics, this function will only calculate the HD-D value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param rand.sample An integer value, how many tokens should be assumed to be drawn for calculating HD-D.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
@@ -137,7 +137,7 @@ HDD <- function(txt, rand.sample=42, char=FALSE, ...){
 #' their progressing characteristics, this function will only calculate the K value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -173,7 +173,7 @@ K.ld <- function(txt, char=FALSE, ...){
 #' their progressing characteristics, this function will only calculate the index values, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -208,7 +208,7 @@ maas <- function(txt, char=FALSE, ...){
 #' \code{\link[koRpus:lex.div]{lex.div}}, which by default calculates all possible measures and
 #' their progressing characteristics, this function will only calculate the MATTR value.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param window An integer value for MATTR, defining how many tokens the moving window should include.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
@@ -248,7 +248,7 @@ MATTR <- function(txt, window=100, char=FALSE, ...){
 #' \code{\link[koRpus:lex.div]{lex.div}}, which by default calculates all possible measures and
 #' their progressing characteristics, this function will only calculate the MSTTR value.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param segment An integer value, defining how many tokens should form one segment.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -281,7 +281,7 @@ MSTTR <- function(txt, segment=100, ...){
 #' 
 #' If you set \code{MA=TRUE}, the newer MTLD-MA (moving-average method) is used instead of the classic MTLD.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
 #' @param min.tokens An integer value, how many tokens a full factor must at least have to be considered for the MTLD-MA result.
 #' @param steps An integer value for MTLD-MA, defining the step size for the moving window, in tokens. The original proposal
@@ -334,7 +334,7 @@ MTLD <- function(txt, factor.size=0.72, min.tokens=9, detailed=FALSE, char=FALSE
 #' their progressing characteristics, this function will only calculate the R value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -370,7 +370,7 @@ R.ld <- function(txt, char=FALSE, ...){
 #' their progressing characteristics, this function will only calculate the S value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -406,7 +406,7 @@ S.ld <- function(txt, char=FALSE, ...){
 #' their progressing characteristics, this function will only calculate the TTR value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
@@ -442,7 +442,7 @@ TTR <- function(txt, char=FALSE, ...){
 #' their progressing characteristics, this function will only calculate the U value, and characteristics are
 #' off by default.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.
 #' @param char Logical, defining whether data for plotting characteristic curves should be calculated.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:lex.div]{lex.div}} for details.
 #' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.

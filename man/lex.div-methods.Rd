@@ -72,10 +72,8 @@ lex.div(txt, ...)
 \S4method{[[}{kRp.TTR}(x, i)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
-      containing the tagged text to be analyzed.
+\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+containing the tagged text to be analyzed.
 If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.}
 
 \item{...}{Only used for the method generic.}

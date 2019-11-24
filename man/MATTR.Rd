@@ -7,8 +7,7 @@
 MATTR(txt, window = 100, char = FALSE, ...)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
-      containing the tagged text to be analyzed.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.}
 
 \item{window}{An integer value for MATTR,
       defining how many tokens the moving window should include.}

@@ -14,8 +14,8 @@ pasteText(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
+\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.}
 
 \item{...}{Additional options, currently unused.}
 
@@ -28,9 +28,7 @@ An atomic character vector.
 Paste the text in koRpus objects.
 }
 \details{
-This function takes objects of either class \code{kRp.tagged},
-      \code{kRp.txt.freq} or \code{kRp.analysis} and pastes only
-the actual text as is.
+This function takes objects of either class \code{kRp.tagged} or \code{kRp.txt.freq} and pastes only the actual text as is.
 }
 \examples{
 \dontrun{

@@ -20,11 +20,10 @@
 #'
 #' Paste the text in koRpus objects.
 #'
-#' This function takes objects of either class \code{kRp.tagged}, \code{kRp.txt.freq} or \code{kRp.analysis} and pastes only
-#' the actual text as is.
+#' This function takes objects of either class \code{kRp.tagged} or \code{kRp.txt.freq} and pastes only the actual text as is.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
+#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 #' @param replace A named character vector to define replacements for \code{koRpus}' internal headline and paragraph tags.
 #' @param ... Additional options, currently unused.
 #' @return An atomic character vector.

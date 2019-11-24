@@ -21,8 +21,8 @@
 #' This function combines several of \code{koRpus}' methods to extract the 9-Feature Set for
 #' authorship detection (Brannon, Afroz & Greenstadt, 2011; Brannon & Greenstadt, 2009).
 #'
-#' @param text An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}. Can
+#' @param text An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
+#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}. Can
 #'    also be a list of these objects, if you want to analyze more than one text at once.
 #' @param hyphen An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}, if \code{text} has
 #'    already been hyphenated. If \code{text} is a list and \code{hyphen} is not \code{NULL}, it must

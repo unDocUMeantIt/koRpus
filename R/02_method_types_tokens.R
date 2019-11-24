@@ -26,9 +26,8 @@
 #' properly if the input is a tagged text object with lemmata or you've properly set up the enviroment via \code{set.kRp.env}.
 #' Calling these methods on \code{kRp.TTR} objects is just returning the respective part of its \code{tt} slot.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a
-#'    character vector.
+#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a character vector.
 #' @param case.sens Logical, whether types should be counted case sensitive.
 #'    This option is available for tagged text and character input only.
 #' @param lemmatize Logical, whether analysis should be carried out on the lemmatized tokens rather than all running word forms.
@@ -90,7 +89,6 @@ setMethod("tokens", signature(txt="kRp.TTR"), function(txt){
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases types,kRp.taggedText-method
@@ -120,7 +118,6 @@ setMethod("types", signature(txt="kRp.taggedText"), function(txt,
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 #' @aliases tokens,kRp.taggedText-method
 #' @rdname types.tokens-methods

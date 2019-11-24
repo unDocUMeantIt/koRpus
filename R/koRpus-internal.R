@@ -106,7 +106,7 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
       }
       return(tagged.txt)
     } else {
-      stop(simpleError("Text object is neither of class kRp.analysis, kRp.tagged nor character!"))
+      stop(simpleError("Text object is neither of class kRp.tagged nor character!"))
     }
   }
 } ## end function tag.kRp.txt()

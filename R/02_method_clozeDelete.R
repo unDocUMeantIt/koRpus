@@ -64,7 +64,6 @@ clozify <- function(words, replace.by="_"){
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_02_kRp.TTR.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",

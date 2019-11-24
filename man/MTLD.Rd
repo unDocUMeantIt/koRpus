@@ -16,8 +16,7 @@ MTLD(
 )
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
-      containing the tagged text to be analyzed.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.}
 
 \item{factor.size}{A real number between 0 and 1, defining the MTLD factor size.}
 

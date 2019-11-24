@@ -32,8 +32,8 @@
 #' The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
 #' of length one or of the same length as all matches.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
+#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
 #' @param scheme One of the following character strings:
 #' \itemize{
 #'   \item {\code{"minor"}} {Start each word with a lowercase letter.}
@@ -92,7 +92,6 @@ setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")}
 #' @aliases textTransform,kRp.taggedText-method
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 setMethod("textTransform",

@@ -22,8 +22,8 @@
 #' For details, please refer to the documentation for the generic
 #' \code{\link[sylly:hyphen]{hyphen}} method in the \code{sylly} package.
 #'
-#' @param words Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}, or
-#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}, or a character vector with words to be hyphenated.
+#' @param words Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
+#'    or a character vector with words to be hyphenated.
 #' @param hyph.pattern Either an object of class \code{\link[sylly:kRp.hyph.pat-class]{kRp.hyph.pat}}, or
 #'    a valid character string naming the language of the patterns to be used. See details.
 #' @param min.length Integer, number of letters a word must have for considering a hyphenation. \code{hyphen} will
@@ -70,7 +70,6 @@
 #' @export
 #' @include 01_class_01_kRp.tagged.R
 #' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_05_kRp.analysis.R
 #' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
 #' @aliases

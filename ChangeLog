@@ -51,6 +51,8 @@ removed:
     on files directly instead of objects of class kRp.tagged. this simplifies
     the code and it's probably not too much to ask users to call tokenize()
     or treetag() directly instead of doing this internally with less control
+  - kRp.text.analysis(): now deprecated, just use lex.div() and freq.analysis()
+    to the same effect
 
 changes in version 0.12-1 (2019-05-13)
 fixed:
