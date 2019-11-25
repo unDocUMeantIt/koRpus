@@ -21,16 +21,16 @@
 #' Summary method for S4 objects of classes
 #' \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
 #' \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
-#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, or
+#' \code{\link[koRpus:kRp.text-class]{kRp.text}}, or
 #' \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 #'
 #' @param object An object of class, \code{kRp.lang}, \code{kRp.readability}, 
-#'    \code{kRp.tagged}, or \code{kRp.TTR}.
+#'    \code{kRp.text}, or \code{kRp.TTR}.
 #' @param ... Further options, depending on the object class.
 #' @seealso
 #'    \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
 #'    \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}},
 #'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 #' @keywords methods
 #' @rdname summary-methods

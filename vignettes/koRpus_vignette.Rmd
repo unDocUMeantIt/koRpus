@@ -190,13 +190,13 @@ tagged.text <- dget("sample_text_treetagged_dput.txt")
 
 The first argument (file name) and `lang` should explain themselves. The `treetagger` option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword "manual", which will cause the interpretation of what is defined by `TT.options`. To use a preset, just put the `path` to your local TreeTagger installation and a valid `preset` name here.^[Presets are defined in the language support packages, usually named like their respective two-character language identifier. Refer to their documentation.] The document ID is optional and can be omitted.
 
-The resulting S4 object is of a class called `kRp.tagged`. If you call the object directly you get a shortened view of it's main content:
+The resulting S4 object is of a class called `kRp.text`. If you call the object directly you get a shortened view of it's main content:
 
 ```{r}
 tagged.text
 ```
 
-Once you've come this far, i.e., having a valid object of class `kRp.tagged`, all following analyses should run smoothly.
+Once you've come this far, i.e., having a valid object of class `kRp.text`, all following analyses should run smoothly.
 
 #### Troubleshooting
 If `treetag()` should fail, you should first re-run it with the extra option `debug=TRUE`. Most interestingly, that will print the contents of `sys.tt.call`, which is the TreeTagger command given to your operating system for execution. With that it should be possible to examine where exactly the erroneous behavior starts.
@@ -349,7 +349,7 @@ We can now conduct a full frequency analysis of our text:
 freq.analysis.res <- freq.analysis(tagged.text, corp.freq=LCC.en)
 ```
 
-The resulting object holds a lot of information, even if no corpus data was used (i.e., `corp.freq=NULL`). To begin with, it contains the two slots `tokens` and `lang`, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into `kRp.tagged` objects.^[This can easily be done by calling  `as(freq.analysis.res, "kRp.tagged")`.] However, if corpus data was provided, the tagging results gained three new columns:
+The resulting object holds a lot of information, even if no corpus data was used (i.e., `corp.freq=NULL`). To begin with, it contains the two slots `tokens` and `lang`, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into `kRp.text` objects.^[This can easily be done by calling  `as(freq.analysis.res, "kRp.text")`.] However, if corpus data was provided, the tagging results gained three new columns:
 
 ```{r, eval=FALSE}
 taggedText(freq.analysis.res)
@@ -408,7 +408,7 @@ describe(freq.analysis.res)$classes
 
 ## Readability
 
-The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.^[Whether this is the case can be looked up in the documentation.] To achieve this, the method `hyphen()` takes objects of class `kRp.tagged` and applies an hyphenation algorithm [@liang_word_1983] to each word. This algorithm was originally developed for automatic word hyphenation in $\LaTeX$, and is gracefully misused here to fulfill a slightly different service.^[The `hyphen()` method was originally implemented as part of the `koRpus` package, but was later split off into its own package called `sylly`.]
+The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.^[Whether this is the case can be looked up in the documentation.] To achieve this, the method `hyphen()` takes objects of class `kRp.text` and applies an hyphenation algorithm [@liang_word_1983] to each word. This algorithm was originally developed for automatic word hyphenation in $\LaTeX$, and is gracefully misused here to fulfill a slightly different service.^[The `hyphen()` method was originally implemented as part of the `koRpus` package, but was later split off into its own package called `sylly`.]
 
 ```{r, eval=FALSE}
 (hyph.txt.en <- hyphen(tagged.text))

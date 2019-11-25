@@ -3,7 +3,7 @@
 \docType{methods}
 \name{readability}
 \alias{readability}
-\alias{readability,kRp.tagged-method}
+\alias{readability,kRp.text-method}
 \alias{readability,missing-method}
 \alias{[,kRp.readability,ANY,ANY,ANY-method}
 \alias{[,kRp.readability,ANY-method}
@@ -13,7 +13,7 @@
 \usage{
 readability(txt.file, ...)
 
-\S4method{readability}{kRp.tagged}(
+\S4method{readability}{kRp.text}(
   txt.file,
   hyphen = NULL,
   index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
@@ -40,7 +40,7 @@ readability(txt.file, ...)
 \S4method{[[}{kRp.readability}(x, i)
 }
 \arguments{
-\item{txt.file}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
+\item{txt.file}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL},
       the text will be hyphenated automatically. All syllable handling will
@@ -86,7 +86,7 @@ of consequence if \code{hyphen} is not set!}
 \item{keep.input}{Logical. If \code{FALSE},
       neither the object provided by (or generated from) \code{txt.file} nor
 \code{hyphen} will be kept in the output object. By default (\code{NULL}) they are kept if the input was not already of the needed object class
-(e.g., \code{kRp.tagged}) or missing,
+(e.g., \code{kRp.text}) or missing,
       to allow for re-use without the need to tag or hyphenate the text again.
 If \code{TRUE}, they are always kept. In cases where you want smaller object sizes,
       set this to \code{FALSE} to always drop these slots.}
@@ -103,7 +103,7 @@ to get the results from such an aggregated object.}
 \value{
 Depending on \code{as.feature},
       either an object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
-   or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{readability} containing it.
+   or an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{readability} containing it.
 }
 \description{
 These methods calculate several readability indices.

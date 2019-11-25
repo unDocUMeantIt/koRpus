@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
-init.kRp.tagged.df <- function(rows=1){
+init.kRp.text.df <- function(rows=1){
   val <- rep(NA, rows)
   return(data.frame(
     doc_id=factor(val),
@@ -32,16 +32,16 @@ init.kRp.tagged.df <- function(rows=1){
   ))
 }
 
-valid.tokens.kRp.tagged <- colnames(init.kRp.tagged.df())
+valid.tokens.kRp.text <- colnames(init.kRp.text.df())
 
-#' S4 Class kRp.tagged
+#' S4 Class kRp.text
 #'
 #' This class is used for objects that are returned by \code{\link[koRpus:treetag]{treetag}} or \code{\link[koRpus:tokenize]{tokenize}}.
 #'
 #' @section Contructor function:
 #' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
-#' \code{kRp_tagged(...)} can be used instead of
-#' \code{new("kRp.tagged", ...)}.
+#' \code{kRp_text(...)} can be used instead of
+#' \code{new("kRp.text", ...)}.
 #'
 #' @slot lang A character string, naming the language that is assumed for the tokenized text in this object.
 #' @slot desc Descriptive statistics of the tagged text.
@@ -78,21 +78,21 @@ valid.tokens.kRp.tagged <- colnames(init.kRp.tagged.df())
 #      \item{\code{stopwords} }{A numeric vector with the total number of stopwords in each text, if stopwords were analyzed during tokenizing or POS tagging.}
 #      \item{\code{} }{}
 #'    }
-#'    See the \code{\link[koRpus:kRp.tagged_get-methods]{getter and setter methods}} for easy access to these sub-slots.
+#'    See the \code{\link[koRpus:kRp.text_get-methods]{getter and setter methods}} for easy access to these sub-slots.
 #'    There can actually be any number of additional features, the above is just a list of those already defined by this package.
-#' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.tagged.
-#' @name kRp.tagged,-class
-#' @aliases kRp.tagged-class
+#' @note There is also \code{as()} methods to transform objects from other koRpus classes into kRp.text.
+#' @name kRp.text,-class
+#' @aliases kRp.text-class
 #' @import methods
 #' @references
 #'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export kRp_tagged
-#' @exportClass kRp.tagged
-#' @rdname kRp.tagged-class
+#' @export kRp_text
+#' @exportClass kRp.text
+#' @rdname kRp.text-class
 
-kRp_tagged <- setClass("kRp.tagged",
+kRp_text <- setClass("kRp.text",
     representation=representation(
       lang="character",
       desc="list",
@@ -103,13 +103,13 @@ kRp_tagged <- setClass("kRp.tagged",
     prototype(
       lang=character(),
       desc=list(),
-      tokens=init.kRp.tagged.df(),
+      tokens=init.kRp.text.df(),
       features=logical(),
       feat_list=list()
     )
 )
 
-setValidity("kRp.tagged", function(object){
+setValidity("kRp.text", function(object){
   features <- slot(object, "features")
   feat_list <- slot(object, "feat_list")
   hyphen <- feat_list[["hyphen"]]
@@ -144,7 +144,7 @@ setValidity("kRp.tagged", function(object){
 
   is_valid <- validate_df(
     df=slot(object, "tokens"),
-    valid_cols=valid.tokens.kRp.tagged,
+    valid_cols=valid.tokens.kRp.text,
     strict=FALSE,
     warn_only=TRUE,
     name="tokens"
@@ -187,7 +187,7 @@ setGeneric(
   "validate_df",
   function(
     df,
-    valid_cols=valid.tokens.kRp.tagged,
+    valid_cols=valid.tokens.kRp.text,
     strict=TRUE,
     warn_only=TRUE,
     name="tokens"
@@ -197,7 +197,7 @@ setMethod("validate_df",
   signature=signature(df="data.frame"),
   function(
     df,
-    valid_cols=valid.tokens.kRp.tagged,
+    valid_cols=valid.tokens.kRp.text,
     strict=TRUE,
     warn_only=TRUE,
     name="tokens"

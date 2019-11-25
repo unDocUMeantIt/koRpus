@@ -66,12 +66,12 @@ check.file <- function(filename, mode="exist", stopOnFail=TRUE){
 ## function tag.kRp.txt()
 # this function takes normal text OR objects of koRpus classes which carry the
 # original information of the analyzed text somewhere, and
-# tries to return a valid object of class kRp.tagged instead
+# tries to return a valid object of class kRp.text instead
 # '...' will be passed through to treetag() or tokenize()
 tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
 
-  if(inherits(txt, "kRp.tagged")){
-    return(as(txt, "kRp.tagged"))
+  if(inherits(txt, "kRp.text")){
+    return(as(txt, "kRp.text"))
   } else {}
 
   if(isTRUE(objects.only)){
@@ -106,7 +106,7 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
       }
       return(tagged.txt)
     } else {
-      stop(simpleError("Text object is neither of class kRp.tagged nor character!"))
+      stop(simpleError("Text object is neither of class kRp.text nor character!"))
     }
   }
 } ## end function tag.kRp.txt()
@@ -148,7 +148,7 @@ basic.text.descriptives <- function(txt){
 
 
 ## function basic.tagged.descriptives()
-# txt must be an object of class kRp.tagged
+# txt must be an object of class kRp.text
 #' @include 02_method_filterByClass.R
 basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, doc_id=NA){
   if(is.null(lang)){
@@ -230,7 +230,7 @@ clean.text <- function(txt.vct, from.to=NULL, perl=FALSE){
 
 ## function language.setting()
 language.setting <- function(tagged.object, force.lang){
-  stopifnot(inherits(tagged.object, "kRp.tagged"))
+  stopifnot(inherits(tagged.object, "kRp.text"))
   if(is.null(force.lang)){
     lang <- tagged.object@lang
   } else {
@@ -297,7 +297,7 @@ explain_tags <- function(tags, lang, cols=c("wclass","desc"), valid=rep(TRUE, le
 treetag.com <- function(tagged.text, lang, add.desc=TRUE){
   tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
   # initialize empty target data.frame to define the order of columns
-  newDf <- init.kRp.tagged.df(rows=nrow(tagged.text))
+  newDf <- init.kRp.text.df(rows=nrow(tagged.text))
   newDf[,c("token","lemma")] <- tagged.text[,c("token","lemma")]
 
   valid_tags <- validate_tags(tags=tagged.text[["tag"]], lang=lang)
@@ -522,7 +522,7 @@ kRp.check.params <- function(given, valid, where=NULL, missing=FALSE){
 
 
 ## function count.sentences()
-# expects txt to be an object of class kRp.tagged,
+# expects txt to be an object of class kRp.text,
 # and tags a vector with POS tags indicating sentence endings
 count.sentences <- function(txt, tags){
   num.sentences <- length(unlist(sapply(tags, function(x){which(txt[,"tag"] == x)}), use.names=FALSE))
@@ -995,7 +995,7 @@ txt.compress <- function(obj, level=9, ratio=FALSE, in.mem=TRUE){
 
   if(is.character(obj)){
     txt <- obj
-  } else if(inherits(obj, "kRp.tagged")){
+  } else if(inherits(obj, "kRp.text")){
     txt <- pasteText(obj)
   } else {
     stop(simpleError("Cannot compress objects which are neither character nor of a koRpus class!"))

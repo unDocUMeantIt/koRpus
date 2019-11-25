@@ -1,4 +1,4 @@
-new("kRp.tagged", lang = "xy", desc = list(all.chars = 10L, lines = 1L, 
+new("kRp.text", lang = "xy", desc = list(all.chars = 10L, lines = 1L, 
     normalized.space = 9L, chars.no.space = 9L, punct = 0L, digits = 0L, 
     letters = c(all = 9, l1 = 0, l2 = 0, l3 = 0, l4 = 0, l5 = 0, 
     l6 = 0, l7 = 0, l8 = 0, l9 = 1), letters.only = 9L, char.distrib = structure(c(0, 

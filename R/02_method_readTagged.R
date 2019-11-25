@@ -48,13 +48,13 @@
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @param ... Additional options, currently unused.
-#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE}, prints internal variable settings and
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE}, prints internal variable settings and
 #'    attempts to return the original output if the TreeTagger system call in a matrix.
 #' @keywords misc
 #' @seealso \code{\link[koRpus:treetag]{treetag}},
 #'    \code{\link[koRpus:freq.analysis]{freq.analysis}},
 #'    \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}}
 #' @references
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
@@ -348,7 +348,7 @@ kRp_read_tagged <- function(
   # add columns "idx", "sntc" and "doc_id"
   tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-  results <- kRp_tagged(lang=lang, tokens=tagged.mtrx)
+  results <- kRp_text(lang=lang, tokens=tagged.mtrx)
   ## descriptive statistics
   describe(results) <- basic.tagged.descriptives(
     results,

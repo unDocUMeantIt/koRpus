@@ -16,48 +16,47 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' S4 Class kRp.txt.freq
-#'
-#' This class is used for objects that are returned by \code{\link[koRpus:freq.analysis]{freq.analysis}}.
-#'
-#' @section Contructor function:
-#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
-#' \code{kRp_txt_freq(...)} can be used instead of
-#' \code{new("kRp.txt.freq", ...)}.
-#'
-#' @slot lang A character string, naming the language that is assumed for the analized text in this object.
-#' @slot tokens A data.frame with a version of the fully tagged text (like \code{tokens} in class \code{kRp.tagged}, plus frequency data).
-#' @slot desc A list with detailed descriptive statistics on the analyzed text.
-#' @slot freq.analysis A list with information on the word frequencies of the analyzed text.
-#' @name kRp.txt.freq,-class
-#' @aliases kRp.txt.freq-class
-#' @import methods
-#' @keywords classes
-# @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export kRp_txt_freq
-#' @exportClass kRp.txt.freq
-#' @rdname kRp.txt.freq-class
-#' @include 01_class_01_kRp.tagged.R
-kRp_txt_freq <- setClass("kRp.txt.freq",
-    representation=representation(
-    freq.analysis="list"),
-  prototype=prototype(
-    lang=character(),
-    tokens=init.kRp.tagged.df(),
-    desc=list(),
-    freq.analysis=list()),
-  contains=c("kRp.tagged")
-)
-
-
-#' @include 01_class_01_kRp.tagged.R
-setAs(from="kRp.txt.freq", to="kRp.tagged", function(from){
-    tagged.df <- as.data.frame(taggedText(from)[, valid.tokens.kRp.tagged])
-    retagged.object <- kRp_tagged(
-      lang=language(from),
-      desc=describe(from),
-      tokens=tagged.df
-    )
-    return(retagged.object)
-  }
-)
+# S4 Class kRp.txt.freq
+#
+# This class is used for objects that are returned by \code{\link[koRpus:freq.analysis]{freq.analysis}}.
+#
+# @section Contructor function:
+# Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+# \code{kRp_txt_freq(...)} can be used instead of
+# \code{new("kRp.txt.freq", ...)}.
+#
+# @slot lang A character string, naming the language that is assumed for the analized text in this object.
+# @slot tokens A data.frame with a version of the fully tagged text (like \code{tokens} in class \code{kRp.text}, plus frequency data).
+# @slot desc A list with detailed descriptive statistics on the analyzed text.
+# @slot freq.analysis A list with information on the word frequencies of the analyzed text.
+# @name kRp.txt.freq,-class
+# @aliases kRp.txt.freq-class
+# @import methods
+# @keywords classes
+# @export kRp_txt_freq
+# @exportClass kRp.txt.freq
+# @rdname kRp.txt.freq-class
+# @include 01_class_01_kRp.text.R
+# kRp_txt_freq <- setClass("kRp.txt.freq",
+#     representation=representation(
+#     freq.analysis="list"),
+#   prototype=prototype(
+#     lang=character(),
+#     tokens=init.kRp.text.df(),
+#     desc=list(),
+#     freq.analysis=list()),
+#   contains=c("kRp.text")
+# )
+# 
+# 
+# # @include 01_class_01_kRp.text.R
+# setAs(from="kRp.txt.freq", to="kRp.text", function(from){
+#     tagged.df <- as.data.frame(taggedText(from)[, valid.tokens.kRp.text])
+#     retagged.object <- kRp_text(
+#       lang=language(from),
+#       desc=describe(from),
+#       tokens=tagged.df
+#     )
+#     return(retagged.object)
+#   }
+# )

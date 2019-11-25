@@ -3,12 +3,12 @@
 \docType{methods}
 \name{textTransform}
 \alias{textTransform}
-\alias{textTransform,kRp.tagged-method}
+\alias{textTransform,kRp.text-method}
 \title{Letter case transformation}
 \usage{
 textTransform(txt, ...)
 
-\S4method{textTransform}{kRp.tagged}(
+\S4method{textTransform}{kRp.text}(
   txt,
   scheme,
   p = 0.5,
@@ -22,7 +22,7 @@ textTransform(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.}
 
@@ -76,7 +76,7 @@ Relevant only if \code{scheme="normalize"} and \code{method="replace"}.}
 Relevant only if \code{scheme="normalize"} and \code{method="function"}.}
 }
 \value{
-By default an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff} is returned.
+By default an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff} is returned.
    If \code{paste=TRUE},
       returns an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 }

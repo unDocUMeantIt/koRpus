@@ -53,16 +53,16 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' @export
 #' @docType methods
 #' @rdname summary-methods
-#' @aliases summary,kRp.tagged-method
+#' @aliases summary,kRp.text-method
 #' @examples
 #' \dontrun{
 #' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
 #'    TT.options=list(path="~/bin/treetagger", preset="en"))
 #' summary(tagged.results)
 #' }
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include 02_method_summary.kRp.lang.R
-setMethod("summary", signature(object="kRp.tagged"), function(object, index=NA){
+setMethod("summary", signature(object="kRp.text"), function(object, index=NA){
   # to prevent hiccups from R CMD check
   Row.names <- NULL
   desc <- describe(object)

@@ -16,7 +16,7 @@ This class is used for objects that are returned by \code{\link[koRpus:readabili
 \item{\code{lang}}{A character string,
       naming the language that is assumed for the text in this object.}
 
-\item{\code{tokens}}{The tokenized and POS-tagged text. See \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} for details.}
+\item{\code{tokens}}{The tokenized and POS-tagged text. See \code{\link[koRpus:kRp.text-class]{kRp.text}} for details.}
 
 \item{\code{desc}}{Descriptive measures which were computed from the text:
 \describe{

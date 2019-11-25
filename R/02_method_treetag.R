@@ -87,13 +87,13 @@
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
 #' @param ... Only used for the method generic.
-#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
 #'    original output if the TreeTagger system call in a matrix.
 #' @author m.eik michalke \email{meik.michalke@@hhu.de}, support for various laguages was contributed by Earl Brown (Spanish), Alberto Mirisola (Italian) and
 #'    Alexandre Brulet (French).
 #' @keywords misc
 #' @seealso \code{\link[koRpus:freq.analysis]{freq.analysis}}, \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+#' \code{\link[koRpus:kRp.text-class]{kRp.text}}
 #' @references
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
@@ -152,7 +152,7 @@ setGeneric(
     add.desc="kRp.env", ...){
       standardGeneric("treetag")
     },
-  valueClass=c("kRp.tagged","matrix")
+  valueClass=c("kRp.text","matrix")
 )
 
 #' @export
@@ -552,7 +552,7 @@ setMethod("treetag",
     # add columns "idx", "sntc" and "doc_id"
     tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-    results <- kRp_tagged(lang=lang, tokens=tagged.mtrx)
+    results <- kRp_text(lang=lang, tokens=tagged.mtrx)
     ## descriptive statistics
     if(is.null(encoding)){
       encoding <- ""

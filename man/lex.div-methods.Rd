@@ -3,7 +3,7 @@
 \docType{methods}
 \name{lex.div}
 \alias{lex.div}
-\alias{lex.div,kRp.tagged-method}
+\alias{lex.div,kRp.text-method}
 \alias{lex.div,character-method}
 \alias{lex.div,missing-method}
 \alias{[,kRp.TTR,ANY,ANY,ANY-method}
@@ -14,7 +14,7 @@
 \usage{
 lex.div(txt, ...)
 
-\S4method{lex.div}{kRp.tagged}(
+\S4method{lex.div}{kRp.text}(
   txt,
   segment = 100,
   factor.size = 0.72,
@@ -72,7 +72,7 @@ lex.div(txt, ...)
 \S4method{[[}{kRp.TTR}(x, i)
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       containing the tagged text to be analyzed.
 If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.}
 
@@ -156,7 +156,7 @@ to get the results from such an aggregated object.}
 \value{
 Depending on \code{as.feature},
       either an object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
-   or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{lex_div} containing it.
+   or an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{lex_div} containing it.
 }
 \description{
 These methods analyze the lexical diversity/complexity of a text corpus.
@@ -283,7 +283,7 @@ Covington, M.A. & McFall,
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-   \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+   \code{\link[koRpus:kRp.text-class]{kRp.text}},
       \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 }
 \keyword{LD}

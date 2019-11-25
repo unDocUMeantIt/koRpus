@@ -172,7 +172,7 @@ to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\
 \item{...}{Only used for the method generic.}
 }
 \value{
-An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE},
+An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE},
       prints internal variable settings and attempts to return the
    original output if the TreeTagger system call in a matrix.
 }
@@ -239,7 +239,7 @@ Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 \seealso{
 \code{\link[koRpus:freq.analysis]{freq.analysis}},
       \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+\code{\link[koRpus:kRp.text-class]{kRp.text}}
 }
 \author{
 m.eik michalke \email{meik.michalke@hhu.de},

@@ -12,7 +12,7 @@ FOG(
 )
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation

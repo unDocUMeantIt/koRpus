@@ -2,12 +2,12 @@
 % Please edit documentation in R/02_method_read.corp.custom.R
 \name{read.corp.custom}
 \alias{read.corp.custom}
-\alias{read.corp.custom,kRp.tagged-method}
+\alias{read.corp.custom,kRp.text-method}
 \title{Import custom corpus data}
 \usage{
 read.corp.custom(corpus, caseSens = TRUE, log.base = 10, ...)
 
-\S4method{read.corp.custom}{kRp.tagged}(
+\S4method{read.corp.custom}{kRp.text}(
   corpus,
   caseSens = TRUE,
   log.base = 10,
@@ -16,7 +16,7 @@ read.corp.custom(corpus, caseSens = TRUE, log.base = 10, ...)
 )
 }
 \arguments{
-\item{corpus}{An object of class \code{kRp.tagged} (then the column \code{"token"} of the \code{tokens} slot is used).}
+\item{corpus}{An object of class \code{kRp.text} (then the column \code{"token"} of the \code{tokens} slot is used).}
 
 \item{caseSens}{Logical. If \code{FALSE},
       all tokens will be matched in their lower case form.}
@@ -40,7 +40,7 @@ An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 
 Depending on \code{as.feature},
       either an object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
-   or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{corp_freq} containing it.
+   or an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{corp_freq} containing it.
 }
 \description{
 Read data from a custom corpus into a valid object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.

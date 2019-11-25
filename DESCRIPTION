@@ -27,10 +27,10 @@ Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de
                     role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura",
                     family="Hauser", role=c("ctb")))
 Version: 0.13-1
-Date: 2019-11-24
-RoxygenNote: 7.0.0
+Date: 2019-11-25
+RoxygenNote: 7.0.1
 Collate: 
-    '01_class_01_kRp.tagged.R'
+    '01_class_01_kRp.text.R'
     '02_method_filterByClass.R'
     'koRpus-internal.R'
     '00_environment.R'
@@ -42,17 +42,18 @@ Collate:
     '01_class_09_kRp.lang.R'
     '01_class_10_kRp.readability.R'
     '01_class_81_kRp.connection_union.R'
+    '01_class_90_deprecated_classes.R'
     '02_method_cTest.R'
     '02_method_clozeDelete.R'
     '02_method_correct.R'
     '02_method_docTermMatrix.R'
     '02_method_freq.analysis.R'
+    '02_method_get_set_kRp.text.R'
     '02_method_hyphen.R'
     '02_method_jumbleWords.R'
-    '02_method_kRp.taggedText.R'
     '02_method_lex.div.R'
     '02_method_pasteText.R'
-    '02_method_plot.kRp.tagged.R'
+    '02_method_plot.kRp.text.R'
     '02_method_query.R'
     '02_method_read.corp.custom.R'
     '02_method_readTagged.R'
@@ -61,11 +62,11 @@ Collate:
     '02_method_show.kRp.TTR.R'
     '02_method_show.kRp.corp.freq.R'
     '02_method_show.kRp.readability.R'
-    '02_method_show.kRp.taggedText.R'
+    '02_method_show.kRp.text.R'
     '02_method_summary.kRp.lang.R'
     '02_method_summary.kRp.TTR.R'
     '02_method_summary.kRp.readability.R'
-    '02_method_summary.kRp.tagged.R'
+    '02_method_summary.kRp.text.R'
     '02_method_summary.kRp.txt.freq.R'
     '02_method_textTransform.R'
     '02_method_tokenize.R'

@@ -16,12 +16,12 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' Plot method for objects of class kRp.tagged
+#' Plot method for objects of class kRp.text
 #'
-#' Plot method for S4 objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#' Plot method for S4 objects of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
 #' plots the frequencies of tagged word classes.
 #'
-#' @param x An object of class \code{kRp.tagged}
+#' @param x An object of class \code{kRp.text}
 #' @param y From the generic \code{plot} function, ignored for koRpus class objects.
 #' @param what Character string, valid options are:
 #'    \describe{
@@ -29,7 +29,7 @@
 #'      \item{\code{"letters"}:}{Line plot of distribution of word length in letters}
 #'    }
 #' @param ... Any other argument suitable for plot()
-#' @seealso \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+#' @seealso \code{\link[koRpus:kRp.text-class]{kRp.text}}
 #' @examples
 #' \dontrun{
 #' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
@@ -45,10 +45,10 @@ setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 #' @export
 #' @docType methods
 #' @rdname plot-methods
-#' @aliases plot,kRp.tagged,missing-method
-#' @include 01_class_01_kRp.tagged.R
+#' @aliases plot,kRp.text,missing-method
+#' @include 01_class_01_kRp.text.R
 #' @import graphics
-setMethod("plot", signature(x="kRp.tagged", y="missing"), function(x, what="wclass", ...){
+setMethod("plot", signature(x="kRp.text", y="missing"), function(x, what="wclass", ...){
   if(identical(what, "wclass")){
     wclass.distrib <- summary(x)
     # Increase bottom margin to make room for rotated labels

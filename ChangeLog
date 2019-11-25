@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2019-11-24)
+changes in version 0.13-1 (2019-11-25)
 unreleased:
   - this release is under development
 fixed:
@@ -13,23 +13,22 @@ fixed:
   - kRp_readability()/kRp_corp_freq(): properly initialize
     the slots
 changed:
-  - kRp.tagged: the TT.res slot was renamed into "tokens", additional columns
-    in the data frame are now ok
   - docTermMatrix(): optimzed calculation speed drastically
   - read.corp.custom(): re-wrote most of the code, now based on
     docTermMatrix() and thereby up to 50 times faster; also removed the now
     unused quiet argument, as well as methods using the directory path or
     lists of tagged texts, because using methods of the tm.plugin.koRpus
     package instead is much more efficient now
-  - show(): simplified the code for kRp.tagged class objects and unified the
+  - show(): simplified the code for kRp.text class objects and unified the
     horizontal positioning of resulting values
   - show(): generalized the handling of factor columns to be able to deal
     with unexpected columns
   - tokenize(), treetag(): improved examples
 added:
-  - kRp.tagged: new slots "features" and "feat_list" to host analysis results
-    like readability or lexical diversity, replacing some of the old object
-    classes with one generic class
+  - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
+    kRp.txt.trans; the TT.res slot was renamed into "tokens", additional
+    columns in the data frame are now ok, new slots "features" and "feat_list"
+    to host analysis results like readability or lexical diversity
   - docTermMatrix(): new method to calculate document term matrices from
     TIF compliant token data frames and koRpus objects
   - hasFeatures(), hasFeatures()<-, features(), features()<-,
@@ -37,7 +36,7 @@ added:
     corpusHyphen()<-, corpusLexDiv(), corpusLexDiv()<-, corpusFreq(),
     corpusFreq()<-, corpusCorpFreq(), corpusCorpFreq()<-, corpusStopwords(),
     corpusStopwords()<-: new getter/setter
-    methods for kRp.tagged objects
+    methods for kRp.text objects
   - dependencies: the Matrix package was added to imports for
     docTermMatrix()
   - validate_df(): new internal method to check data frames for expected
@@ -47,11 +46,13 @@ added:
   - hyphen(), lex.div(): new argument "as.feature" to store results in the new
     "feat_list" slot of the input object rather than returning it directly
 removed:
-  - kRp.txt.freq, kRp.txt.trans: these classes were special cases of kRp.tagged,
-    and since all their information can now be part of kRp.tagged objects,
-    they are no longer used
+  - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes
+    were special cases of kRp.text, and since all their information can
+    now be part of kRp.text objects, they are no longer used; they are actually
+    still present, but considered deprecated and should be converted using
+    fixObject()
   - readability(), freq.analysis(): removed the methods that could be called
-    on files directly instead of objects of class kRp.tagged. this simplifies
+    on files directly instead of objects of class kRp.text. this simplifies
     the code and it's probably not too much to ask users to call tokenize()
     or treetag() directly instead of doing this internally with less control
   - freq.analysis(): removed the "tfidf" argument; as it turned out, its value

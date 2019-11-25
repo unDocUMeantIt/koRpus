@@ -5,8 +5,8 @@
 \alias{tokens}
 \alias{types,kRp.TTR-method}
 \alias{tokens,kRp.TTR-method}
-\alias{types,kRp.tagged-method}
-\alias{tokens,kRp.tagged-method}
+\alias{types,kRp.text-method}
+\alias{tokens,kRp.text-method}
 \alias{types,character-method}
 \alias{tokens,character-method}
 \title{Get types and tokens of a given text}
@@ -19,7 +19,7 @@ tokens(txt, ...)
 
 \S4method{tokens}{kRp.TTR}(txt)
 
-\S4method{types}{kRp.tagged}(
+\S4method{types}{kRp.text}(
   txt,
   case.sens = FALSE,
   lemmatize = FALSE,
@@ -28,7 +28,7 @@ tokens(txt, ...)
   stats = FALSE
 )
 
-\S4method{tokens}{kRp.tagged}(
+\S4method{tokens}{kRp.text}(
   txt,
   case.sens = FALSE,
   lemmatize = FALSE,
@@ -56,7 +56,7 @@ tokens(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
+\item{txt}{An object of either class \code{\link[koRpus:kRp.text-class]{kRp.text}} or
 \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a character vector.}
 
 \item{...}{Only used for the method generic.}
@@ -111,7 +111,7 @@ tokens(tagged.text)
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-   \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+   \code{\link[koRpus:kRp.text-class]{kRp.text}},
    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
    \code{\link[koRpus:lex.div]{lex.div}}
 }

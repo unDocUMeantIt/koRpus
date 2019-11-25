@@ -18,7 +18,7 @@
 
 #' Methods to correct koRpus objects
 #' 
-#' The method \code{correct.tag} can be used to alter objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' The method \code{correct.tag} can be used to alter objects of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #'
 #' Although automatic POS tagging and lemmatization are remarkably accurate, the algorithms do ususally produce
 #' some errors. If you want to correct for these flaws, this method can be of help, because it might prevent you from
@@ -30,7 +30,7 @@
 #'
 #' If \code{check.token} is set it must also match \code{token} in the given row(s). Note that no check is done on the lemmata.
 #'
-#' @param obj An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @param obj An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param row Integer, the row number of the entry to be changed. Can be an integer vector
 #'    to change several rows in one go.
 #' @param tag A character string with a valid POS tag to replace the current tag entry.
@@ -42,7 +42,7 @@
 #' @return An object of the same class as \code{obj}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords methods
-#' @seealso \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:treetag]{treetag}},
+#' @seealso \code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[koRpus:treetag]{treetag}},
 #'    \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}.
 #' @examples
 #' \dontrun{
@@ -56,11 +56,11 @@ setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=N
 #' @export
 #' @docType methods
 #' @rdname correct-methods
-#' @aliases correct.tag correct.tag,kRp.tagged-method
-#' @include 01_class_01_kRp.tagged.R
+#' @aliases correct.tag correct.tag,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 setMethod("correct.tag",
-    signature(obj="kRp.tagged"),
+    signature(obj="kRp.text"),
     function (obj, row, tag=NULL, lemma=NULL, check.token=NULL){
 
       if(!is.numeric(row)){

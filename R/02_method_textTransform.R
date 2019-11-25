@@ -32,7 +32,7 @@
 #' The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
 #' of length one or of the same length as all matches.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param scheme One of the following character strings:
 #' \itemize{
 #'   \item {\code{"minor"}} {Start each word with a lowercase letter.}
@@ -70,7 +70,7 @@
 #' @param f A function to calculate the replacement for all query matches.
 #'    Relevant only if \code{scheme="normalize"} and \code{method="function"}.
 #' @param ... Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.
-#' @return By default an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff} is returned.
+#' @return By default an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff} is returned.
 #'    If \code{paste=TRUE}, returns an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
@@ -92,11 +92,11 @@ setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")}
 #' @export
 #' @docType methods
 #' @rdname textTransform-methods
-#' @aliases textTransform,kRp.tagged-method
-#' @include 01_class_01_kRp.tagged.R
+#' @aliases textTransform,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 setMethod("textTransform",
-  signature(txt="kRp.tagged"),
+  signature(txt="kRp.text"),
   function(txt, scheme, p=0.5, paste=FALSE, var="wclass", query="fullstop", method="replace", replacement=".", f=NA, ...){
 
     txt.df <- txt.orig <- taggedText(txt)
@@ -226,14 +226,14 @@ kRp.text.transform <- function(...){
 
 ## function txt_trans_diff()
 # helper function to calculate the diff data and combine results in
-# proper kRp.tagged object with added feature "diff"
-# - obj: tagged text object (class kRp.tagged)
+# proper kRp.text object with added feature "diff"
+# - obj: tagged text object (class kRp.text)
 # - tokens.new: the transformed tokens data frame
 # - transfmt: the name of the transformation
 # - normalize: arguments given for the normalization
 # - check_missing_letters: transformations like "normalize" can replace tokens
 #     with shorter ones. this option adds missing letters as changes to the original tokens
-# returns an object of kRp.tagged
+# returns an object of kRp.text
 txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list(), check_missing_letters=FALSE){
   lang <- language(obj)
   doc_id <- describe(obj)[["doc_id"]]

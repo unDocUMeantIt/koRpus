@@ -16,7 +16,7 @@ MTLD(
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} containing the tagged text to be analyzed.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} containing the tagged text to be analyzed.}
 
 \item{factor.size}{A real number between 0 and 1, defining the MTLD factor size.}
 
@@ -72,7 +72,7 @@ McCarthy, P. M. & Jarvis, S. (2010). MTLD, vocd-D,
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
- \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+ \code{\link[koRpus:kRp.text-class]{kRp.text}},
       \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 }
 \keyword{LD}

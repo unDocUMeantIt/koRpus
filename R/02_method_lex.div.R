@@ -90,7 +90,7 @@
 #' and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid value, if you want to forcibly overwrite this
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, containing the tagged text to be analyzed.
 #'    If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.
 #' @param segment An integer value for MSTTR, defining how many tokens should form one segment.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
@@ -128,10 +128,10 @@
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
 #' @return Depending on \code{as.feature}, either an object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
-#'    or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{lex_div} containing it.
+#'    or an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{lex_div} containing it.
 #' @keywords LD
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 #' @references
 #'    Covington, M.A. & McFall, J.D. (2010). Cutting the Gordian Knot: The Moving-Average Type-Token Ratio (MATTR). 
 #'      \emph{Journal of Quantitative Linguistics}, 17(2), 94--100.
@@ -165,13 +165,13 @@ setGeneric("lex.div", function(txt, ...) standardGeneric("lex.div"))
 ######################################################################
 
 #' @export
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases lex.div lex.div,kRp.tagged-method
+#' @aliases lex.div lex.div,kRp.text-method
 #' @rdname lex.div-methods
 setMethod(
   "lex.div",
-  signature(txt="kRp.tagged"),
+  signature(txt="kRp.text"),
   function(
     txt,
     segment=100,

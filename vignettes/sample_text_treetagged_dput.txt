@@ -1,4 +1,4 @@
-new("kRp.tagged"
+new("kRp.text"
     , lang = "en"
     , desc = structure(list(all.chars = 3554L, lines = 10L, normalized.space = 3549L, 
     chars.no.space = 2996L, punct = 78L, digits = 4L, letters = structure(c(2918, 

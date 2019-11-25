@@ -31,7 +31,7 @@
 #' term frequency--inverse document frequency statistic (tf-idf) will also be computed.
 #' Missing idf values will result in \code{NA}.
 #'
-#' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @param txt.file An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param corp.freq An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 #' @param desc.stat Logical, whether an updated descriptive statistical analysis should be conducted.
 #' @param corp.rm.class A character vector with word classes which should be ignored for frequency analysis. The default value
@@ -39,11 +39,11 @@
 #'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
 #' @param corp.rm.tag A character vector with POS tags which should be ignored for frequency analysis.
 #' @param ... Additional options for the generic.
-#' @return An updated object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{freq},
+#' @return An updated object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{freq},
 #'    which is a list with information on the word frequencies of the analyzed text.
 #'    Use \code{\link[koRpus:corpusFreq]{corpusFreq}} to get that slot.
 #' @keywords misc
-#' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#' @seealso \code{\link[koRpus:get.kRp.env]{get.kRp.env}}, \code{\link[koRpus:kRp.text-class]{kRp.text}},
 #'    \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 #' @import methods
 #' @export
@@ -60,13 +60,13 @@
 setGeneric("freq.analysis", function(txt.file, ...) standardGeneric("freq.analysis"))
 
 #' @export
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases freq.analysis,kRp.tagged-method
+#' @aliases freq.analysis,kRp.text-method
 #' @rdname freq.analysis-methods
 setMethod(
   "freq.analysis",
-  signature(txt.file="kRp.tagged"),
+  signature(txt.file="kRp.text"),
   function(
     txt.file,
     corp.freq=NULL,

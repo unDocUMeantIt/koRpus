@@ -282,7 +282,7 @@
 #' In case you want to provide different parameters, you must provide a complete set for an index, or special parameters that are
 #' mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 #'
-#' @param txt.file An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @param txt.file An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param hyphen An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL}, the text will be hyphenated automatically. All syllable handling will
 #'    be skipped automatically if it's not needed for the selected indices.
 #' @param index A character vector, indicating which indices should actually be computed. If set to \code{"all"}, then all available indices
@@ -308,13 +308,13 @@
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
 #' @param keep.input Logical. If \code{FALSE}, neither the object provided by (or generated from) \code{txt.file} nor
 #'    \code{hyphen} will be kept in the output object. By default (\code{NULL}) they are kept if the input was not already of the needed object class
-#'    (e.g., \code{kRp.tagged}) or missing, to allow for re-use without the need to tag or hyphenate the text again.
+#'    (e.g., \code{kRp.text}) or missing, to allow for re-use without the need to tag or hyphenate the text again.
 #'    If \code{TRUE}, they are always kept. In cases where you want smaller object sizes, set this to \code{FALSE} to always drop these slots.
 #' @param as.feature Logical, whether the output should be just the analysis results or the input object with
 #'    the results added as a feature. Use \code{\link[koRpus:corpusReadability]{corpusReadability}}
 #'    to get the results from such an aggregated object.
 #' @return Depending on \code{as.feature}, either an object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
-#'    or an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{readability} containing it.
+#'    or an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{readability} containing it.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords readability
 #' @references
@@ -379,13 +379,13 @@ setGeneric("readability", function(txt.file, ...) standardGeneric("readability")
 ##################################################################
 
 #' @export
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases readability,kRp.tagged-method
+#' @aliases readability,kRp.text-method
 #' @rdname readability-methods
 setMethod(
   "readability",
-  signature(txt.file="kRp.tagged"),
+  signature(txt.file="kRp.text"),
   function(
     txt.file,
     hyphen=NULL,

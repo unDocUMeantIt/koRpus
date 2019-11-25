@@ -29,7 +29,7 @@
 #' @export
 #' @docType methods
 #' @param ... Additional arguments to the method (as described in this document).
-#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff}.
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 #' @rdname clozeDelete-methods
 #' @examples
 #' \dontrun{
@@ -51,8 +51,8 @@ clozify <- function(words, replace.by="_"){
 #' @export
 #' @docType methods
 #' @rdname clozeDelete-methods
-#' @aliases clozeDelete,kRp.tagged-method
-#' @param obj An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @aliases clozeDelete,kRp.text-method
+#' @param obj An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param every Integer numeric, setting the frequency of words to be manipulated. By default,
 #'    every fifth word is being transformed.
 #' @param offset Either an integer numeric, sets the number of words to offset the transformations. Or the
@@ -61,11 +61,11 @@ clozify <- function(words, replace.by="_"){
 #' @param replace.by Character, will be used as the replacement for the removed words.
 #' @param fixed Integer numberic, defines the length of the replacement (\code{replace.by} will
 #'    be repeated this much times). If set to 0, the replacement wil be as long as the replaced word.
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include 01_class_02_kRp.TTR.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",
-  signature(obj="kRp.tagged"),
+  signature(obj="kRp.text"),
   function (
     obj,
     every=5,

@@ -1,4 +1,4 @@
-new("kRp.tagged", lang = "xy", desc = list(all.chars = 3557L, 
+new("kRp.text", lang = "xy", desc = list(all.chars = 3557L, 
     lines = 1L, normalized.space = 3556L, chars.no.space = 2996L, 
     punct = 78L, digits = 4L, letters = c(all = 2918, l1 = 22, 
     l2 = 87, l3 = 76, l4 = 80, l5 = 53, l6 = 49, l7 = 64, l8 = 46, 

@@ -18,7 +18,7 @@
 #' Generate a document-term matrix
 #'
 #' Returns a sparse document-term matrix calculated from a given TIF[1] compliant token data frame
-#' or object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. You can also
+#' or object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. You can also
 #' calculate the term frequency inverted document frequency value (tf-idf) for each term.
 #' 
 #' This is usually more interesting if done with more than one single text. If you're interested
@@ -27,7 +27,7 @@
 #' 
 #' See the examples to learn how to limit the analysis to desired word classes.
 #' 
-#' @param obj Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, or a TIF[1] compliant token data frame.
+#' @param obj Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, or a TIF[1] compliant token data frame.
 #' @param terms A character string defining the \code{tokens} column to be used for calculating the matrix.
 #' @param case.sens Logical, whether terms should be counted case sensitive.
 #' @param tfidf Logical, if \code{TRUE} calculates term frequency--inverse document frequency (tf-idf)
@@ -153,10 +153,10 @@ setMethod("docTermMatrix",
 #' @export
 #' @aliases
 #'    docTermMatrix,-methods
-#'    docTermMatrix,kRp.tagged-method
+#'    docTermMatrix,kRp.text-method
 #' @include koRpus-internal.R
 setMethod("docTermMatrix",
-  signature=signature(obj="kRp.tagged"),
+  signature=signature(obj="kRp.text"),
   function(
     obj,
     terms="token",

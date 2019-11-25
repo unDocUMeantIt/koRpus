@@ -112,7 +112,7 @@ this file must have the same encoding as defined by \code{fileEncoding}.}
 
 \item{tag}{Logical. If \code{TRUE},
       the text will be rudimentarily tagged and returned as an object
-of class \code{kRp.tagged}.}
+of class \code{kRp.text}.}
 
 \item{lang}{A character string naming the language of the analyzed text. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
 
@@ -154,7 +154,7 @@ to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\
 }
 \value{
 If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE},
-      returns an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+      returns an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 }
 \description{
 This tokenizer can be used to try replace TreeTagger. Its results are not as detailed when it comes to word classes,

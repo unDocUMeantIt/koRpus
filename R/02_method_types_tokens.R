@@ -26,7 +26,7 @@
 #' properly if the input is a tagged text object with lemmata or you've properly set up the enviroment via \code{set.kRp.env}.
 #' Calling these methods on \code{kRp.TTR} objects is just returning the respective part of its \code{tt} slot.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} or
+#' @param txt An object of either class \code{\link[koRpus:kRp.text-class]{kRp.text}} or
 #'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a character vector.
 #' @param case.sens Logical, whether types should be counted case sensitive.
 #'    This option is available for tagged text and character input only.
@@ -45,7 +45,7 @@
 #'    and frequency. The \code{types} result is always sorted by frequency, with more frequent types coming first.
 #' @keywords LD
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}},
 #'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
 #'    \code{\link[koRpus:lex.div]{lex.div}}
 #' @import methods
@@ -87,11 +87,11 @@ setMethod("tokens", signature(txt="kRp.TTR"), function(txt){
 
 
 #' @export
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases types,kRp.tagged-method
+#' @aliases types,kRp.text-method
 #' @rdname types.tokens-methods
-setMethod("types", signature(txt="kRp.tagged"), function(txt,
+setMethod("types", signature(txt="kRp.text"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c(), stats=FALSE){
     basicTnT <- TnT(
       txt=txt,
@@ -114,11 +114,11 @@ setMethod("types", signature(txt="kRp.tagged"), function(txt,
   }
 )
 #' @export
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases tokens,kRp.tagged-method
+#' @aliases tokens,kRp.text-method
 #' @rdname types.tokens-methods
-setMethod("tokens", signature(txt="kRp.tagged"), function(txt,
+setMethod("tokens", signature(txt="kRp.text"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c()){
     basicTnT <- TnT(
       txt=txt,

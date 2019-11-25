@@ -20,9 +20,9 @@
 #'
 #' Paste the text in koRpus objects.
 #'
-#' This function takes objects of class \code{kRp.tagged} and pastes only the actual text as is.
+#' This function takes objects of class \code{kRp.text} and pastes only the actual text as is.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param replace A named character vector to define replacements for \code{koRpus}' internal headline and paragraph tags.
 #' @param ... Additional options, currently unused.
 #' @return An atomic character vector.
@@ -42,11 +42,11 @@ setGeneric("pasteText", function(txt, ...){standardGeneric("pasteText")})
 #' @export
 #' @docType methods
 #' @rdname pasteText-methods
-#' @aliases pasteText,kRp.tagged-method
-#' @include 01_class_01_kRp.tagged.R
+#' @aliases pasteText,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 setMethod("pasteText",
-  signature(txt="kRp.tagged"),
+  signature(txt="kRp.text"),
   function(txt, replace=c(hon.kRp="", hoff.kRp="\n\n", p.kRp="\n\n")){
     tokens <- taggedText(txt)
 

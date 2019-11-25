@@ -27,7 +27,7 @@
 #' \code{new("kRp.readability", ...)}.
 #'
 #' @slot lang A character string, naming the language that is assumed for the text in this object.
-#' @slot tokens The tokenized and POS-tagged text. See \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} for details.
+#' @slot tokens The tokenized and POS-tagged text. See \code{\link[koRpus:kRp.text-class]{kRp.text}} for details.
 #' @slot desc Descriptive measures which were computed from the text:
 #'    \describe{
 #'      \item{\code{sentences}:}{Number of sentences.}
@@ -117,7 +117,7 @@
 #' @exportClass kRp.readability
 #' @rdname kRp.readability-class
 
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 
 kRp_readability <- setClass("kRp.readability",
     representation=representation(
@@ -172,7 +172,7 @@ kRp_readability <- setClass("kRp.readability",
       Wiener.STF="list"),
     prototype(
       lang=character(),
-      tokens=init.kRp.tagged.df(),
+      tokens=init.kRp.text.df(),
       desc=list(NA),
       hyphen=new("kRp.hyphen"),
       param=list(NA),
@@ -224,14 +224,14 @@ kRp_readability <- setClass("kRp.readability",
       Wheeler.Smith.de=list(NA),
       Wiener.STF=list(NA)
       ),
-    contains=c("kRp.tagged")
+    contains=c("kRp.text")
 )
 
 setValidity("kRp.readability", function(object){
   ## TODO: this can probably be improved if necessary
   validate_df(
     df=slot(object, "tokens"),
-    valid_cols=valid.tokens.kRp.tagged,
+    valid_cols=valid.tokens.kRp.text,
     strict=FALSE,
     warn_only=FALSE,
     name="tokens"

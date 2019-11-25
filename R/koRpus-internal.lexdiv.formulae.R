@@ -28,7 +28,7 @@
 TnT <- function(txt, force.lang=NULL, corp.rm.class="nonpunct",
     corp.rm.tag=c(), case.sens=FALSE, lemmatize=FALSE, keep.tokens=FALSE, type.index=FALSE, quiet=FALSE){
   result <- list()
-  # get class kRp.tagged from txt object
+  # get class kRp.text from txt object
   # the internal function tag.kRp.txt() will return the object unchanged if it
   # is already tagged, so it's safe to call it with the lang set here
   tagged.text <- tag.kRp.txt(

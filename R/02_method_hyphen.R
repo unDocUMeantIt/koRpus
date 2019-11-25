@@ -22,7 +22,7 @@
 #' For details, please refer to the documentation for the generic
 #' \code{\link[sylly:hyphen]{hyphen}} method in the \code{sylly} package.
 #'
-#' @param words Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#' @param words Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
 #'    or a character vector with words to be hyphenated.
 #' @param hyph.pattern Either an object of class \code{\link[sylly:kRp.hyph.pat-class]{kRp.hyph.pat}}, or
 #'    a valid character string naming the language of the patterns to be used. See details.
@@ -47,7 +47,7 @@
 #' @param as.feature Logical, whether the output should be just the analysis results or the input object with
 #'    the results added as a feature. Use \code{\link[koRpus:corpusHyphen]{corpusHyphen}} to get the results from such an aggregated object.
 #'    If set to \code{TRUE}, \code{as="kRp.hyphen"} is automatically set, overwriting other setting of \code{as} with a warning.
-#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
 #'    \code{data.frame} or a numeric vector, depending on the values of the \code{as} and \code{as.feature} arguments.
 #' @keywords hyphenation
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
@@ -68,11 +68,11 @@
 #' hyphen(tagged.text)
 #' }
 #' @export
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 #' @aliases
 #'    hyphen
-#'    hyphen,kRp.tagged-method
+#'    hyphen,kRp.text-method
 #' @rdname hyphen-methods
 
 ####################################################################################
@@ -81,7 +81,7 @@
 
 setMethod(
   "hyphen",
-  signature(words="kRp.tagged"),
+  signature(words="kRp.text"),
   function(
     words,
     hyph.pattern=NULL,
@@ -102,7 +102,7 @@ setMethod(
         as <- "kRp.hyphen"
       } else {}
     } else {}
-    # get class kRp.tagged from words object
+    # get class kRp.text from words object
     # the internal function tag.kRp.txt() will return the object unchanged if it
     # is already tagged, so it's safe to call it with the lang set here
     tagged.text <- tag.kRp.txt(words, objects.only=TRUE)
@@ -127,9 +127,9 @@ setMethod(
 
 #' @export
 #' @importFrom sylly hyphen_df
-#' @aliases hyphen_df,kRp.tagged-method
+#' @aliases hyphen_df,kRp.text-method
 #' @rdname hyphen-methods
-setMethod("hyphen_df", signature(words="kRp.tagged"), function(words,
+setMethod("hyphen_df", signature(words="kRp.text"), function(words,
     hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
 
     results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
@@ -141,9 +141,9 @@ setMethod("hyphen_df", signature(words="kRp.tagged"), function(words,
 
 #' @export
 #' @importFrom sylly hyphen_c
-#' @aliases hyphen_c,kRp.tagged-method
+#' @aliases hyphen_c,kRp.text-method
 #' @rdname hyphen-methods
-setMethod("hyphen_c", signature(words="kRp.tagged"), function(words,
+setMethod("hyphen_c", signature(words="kRp.text"), function(words,
     hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
 
     results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,

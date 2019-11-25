@@ -52,7 +52,7 @@
 #' @param abbrev Path to a text file with abbreviations to take care of, one per line. Note that
 #'    this file must have the same encoding as defined by \code{fileEncoding}.
 #' @param tag Logical. If \code{TRUE}, the text will be rudimentarily tagged and returned as an object
-#'    of class \code{kRp.tagged}.
+#'    of class \code{kRp.text}.
 #' @param lang A character string naming the language of the analyzed text. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @param sentc.end A character vector with tokens indicating a sentence ending. Only needed if \code{tag=TRUE}.
 #' @param detect A named logical vector, indicating by the setting of \code{parag} and \code{hline} whether \code{tokenize} should try
@@ -72,7 +72,7 @@
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @param ... Only used for the method generic.
-#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @import methods
@@ -125,7 +125,7 @@ setGeneric(
     doc_id=NA, add.desc="kRp.env", ...){
       standardGeneric("tokenize")
     },
-  valueClass=c("kRp.tagged","character")
+  valueClass=c("kRp.text","character")
 )
 
 #' @export
@@ -203,7 +203,7 @@ setMethod("tokenize",
       # add columns "idx", "sntc" and "doc_id"
       tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
       # create object, combine descriptives afterwards
-      tokens <- kRp_tagged(lang=lang, tokens=tagged.mtrx)
+      tokens <- kRp_text(lang=lang, tokens=tagged.mtrx)
       ## descriptive statistics
       tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
     } else {}

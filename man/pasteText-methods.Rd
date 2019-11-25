@@ -3,18 +3,18 @@
 \docType{methods}
 \name{pasteText}
 \alias{pasteText}
-\alias{pasteText,kRp.tagged-method}
+\alias{pasteText,kRp.text-method}
 \title{Paste koRpus objects}
 \usage{
 pasteText(txt, ...)
 
-\S4method{pasteText}{kRp.tagged}(
+\S4method{pasteText}{kRp.text}(
   txt,
   replace = c(hon.kRp = "", hoff.kRp = "\\n\\n", p.kRp = "\\n\\n")
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Additional options, currently unused.}
 
@@ -27,7 +27,7 @@ An atomic character vector.
 Paste the text in koRpus objects.
 }
 \details{
-This function takes objects of class \code{kRp.tagged} and pastes only the actual text as is.
+This function takes objects of class \code{kRp.text} and pastes only the actual text as is.
 }
 \examples{
 \dontrun{

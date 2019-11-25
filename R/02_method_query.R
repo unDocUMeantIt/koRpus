@@ -19,7 +19,7 @@
 #' A method to get information out of koRpus objects
 #'
 #' The method \code{query} returns query information from objects of classes \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}} and
-#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #'
 #' \emph{kRp.corp.freq:} Depending on the setting of the \code{var} parameter, will return entries with a matching character (\code{var="word"}),
 #' or all entries of the desired frequency (see the examples). A special case is the need for a range of frequencies,
@@ -27,7 +27,7 @@
 #' the range, respectively. In these cases, if \code{rel} is set to \code{"gt"} or \code{"lt"},
 #' the given range borders are excluded, otherwise they will be included as true matches.
 #'
-#' \emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{tokens}. If \code{rel="num"},
+#' \emph{kRp.text:} \code{var} can be any of the variables in slot \code{tokens}. If \code{rel="num"},
 #' a vector with the row numbers in which the query was found is returned.
 #'
 #' @section Query lists: You can combine an arbitrary number of queries in a simple way by providing a list of named lists to the
@@ -40,7 +40,7 @@
 #' This method calls \code{\link[base]{subset}}, which might actually be even more flexible if you need more control.
 #'
 #' @param obj An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, or \code{data.frame}.
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}}, or \code{data.frame}.
 #' @param var A character string naming a variable in the object (i.e., colname). If set to
 #'    \code{"regexp"}, \code{grepl} is called on the column specified by \code{regexp_var}.
 #' @param query A character vector (for words), regular expression, or single number naming values to be matched in the variable.
@@ -125,10 +125,10 @@ setMethod("query",
 #' @export
 #' @docType methods
 #' @rdname query-methods
-#' @aliases query,kRp.tagged-method
-#' @include 01_class_01_kRp.tagged.R
+#' @aliases query,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 setMethod("query",
-    signature(obj="kRp.tagged"),
+    signature(obj="kRp.text"),
     function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="token"){
       # if query is a list, invoke queryList()
       if(is.list(query)){

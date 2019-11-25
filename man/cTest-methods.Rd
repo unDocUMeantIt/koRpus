@@ -3,12 +3,12 @@
 \docType{methods}
 \name{cTest}
 \alias{cTest}
-\alias{cTest,kRp.tagged-method}
+\alias{cTest,kRp.text-method}
 \title{Transform text into C-Test-like format}
 \usage{
 cTest(obj, ...)
 
-\S4method{cTest}{kRp.tagged}(
+\S4method{cTest}{kRp.text}(
   obj,
   every = 2,
   min.length = 3,
@@ -17,7 +17,7 @@ cTest(obj, ...)
 )
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
+\item{obj}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 
@@ -36,7 +36,7 @@ The default is to ignore the first and last sentence.}
 \item{replace.by}{Character, will be used as the replacement for the removed word halves.}
 }
 \value{
-An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{diff}.
+An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 }
 \description{
 If you feed a tagged text object to this function, its text will be transformed into

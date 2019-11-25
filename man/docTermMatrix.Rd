@@ -5,7 +5,7 @@
 \alias{docTermMatrix}
 \alias{docTermMatrix,data.frame-method}
 \alias{docTermMatrix,-methods}
-\alias{docTermMatrix,kRp.tagged-method}
+\alias{docTermMatrix,kRp.text-method}
 \title{Generate a document-term matrix}
 \usage{
 docTermMatrix(obj, terms = "token", case.sens = FALSE, tfidf = FALSE, ...)
@@ -13,11 +13,10 @@ docTermMatrix(obj, terms = "token", case.sens = FALSE, tfidf = FALSE, ...)
 \S4method{docTermMatrix}{data.frame}(obj, terms = "token", case.sens = FALSE,
       tfidf = FALSE)
 
-\S4method{docTermMatrix}{kRp.tagged}(obj, terms = "token", case.sens = FALSE,
-      tfidf = FALSE)
+\S4method{docTermMatrix}{kRp.text}(obj, terms = "token", case.sens = FALSE, tfidf = FALSE)
 }
 \arguments{
-\item{obj}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{obj}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       or a TIF[1] compliant token data frame.}
 
 \item{terms}{A character string defining the \code{tokens} column to be used for calculating the matrix.}
@@ -35,7 +34,7 @@ A sparse matrix of class \code{\link[Matrix:dgCMatrix-class]{dgCMatrix}}.
 }
 \description{
 Returns a sparse document-term matrix calculated from a given TIF[1] compliant token data frame
-or object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. You can also
+or object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. You can also
 calculate the term frequency inverted document frequency value (tf-idf) for each term.
 }
 \details{

@@ -24,7 +24,7 @@
 #' \dontrun{
 #' summary(freq.analysis(tagged.txt))
 #' }
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include 01_class_03_kRp.txt.freq.R
 #' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.txt.freq"), function(object){

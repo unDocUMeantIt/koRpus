@@ -122,7 +122,7 @@ This argument is ignored unless \code{tagger="manual"} and data is provided as e
       like  \code{"Latin1"} or \code{"UTF-8"}.}
 }
 \value{
-An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE},
+An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE},
       prints internal variable settings and
    attempts to return the original output if the TreeTagger system call in a matrix.
 }
@@ -168,6 +168,6 @@ Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 \code{\link[koRpus:treetag]{treetag}},
    \code{\link[koRpus:freq.analysis]{freq.analysis}},
    \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-   \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+   \code{\link[koRpus:kRp.text-class]{kRp.text}}
 }
 \keyword{misc}

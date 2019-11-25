@@ -3,12 +3,12 @@
 \docType{methods}
 \name{filterByClass}
 \alias{filterByClass}
-\alias{filterByClass,kRp.tagged-method}
+\alias{filterByClass,kRp.text-method}
 \title{Remove word classes}
 \usage{
 filterByClass(txt, ...)
 
-\S4method{filterByClass}{kRp.tagged}(
+\S4method{filterByClass}{kRp.text}(
   txt,
   corp.rm.class = "nonpunct",
   corp.rm.tag = c(),
@@ -17,7 +17,7 @@ filterByClass(txt, ...)
 )
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Additional options, currently unused.}
 

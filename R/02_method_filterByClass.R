@@ -20,7 +20,7 @@
 #'
 #' This method strips off defined word classes of tagged text objects.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param corp.rm.class A character vector with word classes which should be removed. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
@@ -48,11 +48,11 @@ setGeneric("filterByClass", function(txt, ...){standardGeneric("filterByClass")}
 #' @export
 #' @docType methods
 #' @rdname filterByClass-methods
-#' @aliases filterByClass,kRp.tagged-method
-#' @include 01_class_01_kRp.tagged.R
+#' @aliases filterByClass,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 setMethod("filterByClass",
-  signature(txt="kRp.tagged"),
+  signature(txt="kRp.text"),
   function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){
     txt.tokens <- taggedText(txt)
     txt.desc <- describe(txt)

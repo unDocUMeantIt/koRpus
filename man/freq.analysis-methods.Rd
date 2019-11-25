@@ -2,22 +2,21 @@
 % Please edit documentation in R/02_method_freq.analysis.R
 \name{freq.analysis}
 \alias{freq.analysis}
-\alias{freq.analysis,kRp.tagged-method}
+\alias{freq.analysis,kRp.text-method}
 \title{Analyze word frequencies}
 \usage{
 freq.analysis(txt.file, ...)
 
-\S4method{freq.analysis}{kRp.tagged}(
+\S4method{freq.analysis}{kRp.text}(
   txt.file,
   corp.freq = NULL,
   desc.stat = TRUE,
   corp.rm.class = "nonpunct",
-  corp.rm.tag = c(),
-  tfidf = TRUE
+  corp.rm.tag = c()
 )
 }
 \arguments{
-\item{txt.file}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.}
+\item{txt.file}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Additional options for the generic.}
 
@@ -31,13 +30,9 @@ freq.analysis(txt.file, ...)
 \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.}
 
 \item{corp.rm.tag}{A character vector with POS tags which should be ignored for frequency analysis.}
-
-\item{tfidf}{Logical,
-      whether the term frequency--inverse document frequency statistic (tf-idf) should be computed. Requires
-\code{corp.freq} to provide appropriate idf values for the types in \code{txt.file}. Missing idf values will result in \code{NA}.}
 }
 \value{
-An updated object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}} with the added feature \code{freq},
+An updated object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{freq},
    which is a list with information on the word frequencies of the analyzed text.
    Use \code{\link[koRpus:corpusFreq]{corpusFreq}} to get that slot.
 }
@@ -54,6 +49,10 @@ To get the results, you can use \code{taggedText} to get the \code{tokens} slot,
 the raw descriptive statistics (only updated if \code{desc.stat=TRUE}),
       and \code{corpusFreq} to get
 the data from the added \code{freq} feature.
+
+If \code{corp.freq} provides appropriate idf values for the types in \code{txt.file}, the
+term frequency--inverse document frequency statistic (tf-idf) will also be computed.
+Missing idf values will result in \code{NA}.
 }
 \examples{
 \dontrun{
@@ -62,7 +61,7 @@ freq.analysis(tagged.text, corp.freq=my.LCC.data)
 }
 \seealso{
 \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-      \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+      \code{\link[koRpus:kRp.text-class]{kRp.text}},
    \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 }
 \keyword{misc}
