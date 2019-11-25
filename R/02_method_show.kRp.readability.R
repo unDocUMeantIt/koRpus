@@ -24,7 +24,7 @@
 #' \dontrun{
 #' flesch(tagged.txt)
 #' }
-#' @include 01_class_10_kRp.readability.R
+#' @include 01_class_05_kRp.readability.R
 #' @include 02_method_show.kRp.lang.R
 setMethod("show", signature(object="kRp.readability"), function(object){
 

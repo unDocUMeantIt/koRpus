@@ -46,7 +46,7 @@ setGeneric("summary")
 #' @aliases summary,kRp.lang-method
 #' @export
 #' @docType methods
-#' @include 01_class_10_kRp.readability.R
+#' @include 01_class_05_kRp.readability.R
 #' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.lang"), function(object){
   # show the main results

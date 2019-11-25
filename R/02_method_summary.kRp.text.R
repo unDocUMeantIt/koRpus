@@ -50,6 +50,8 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #'    or the name of a particular transformation that was previously done to the object, if more than one transformation was applied.
 #'    If \code{NA}, all rows where \code{"equal"} is \code{FALSE} are used.
 #'    Only valid for objects providing a \code{diff} feature.
+#' @param feature A character string naming a feature present in the object, to trigger a summary regarding that feature.
+#'    Currently only \code{"freq"} is implemented.
 #' @export
 #' @docType methods
 #' @rdname summary-methods
@@ -62,55 +64,76 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #' }
 #' @include 01_class_01_kRp.text.R
 #' @include 02_method_summary.kRp.lang.R
-setMethod("summary", signature(object="kRp.text"), function(object, index=NA){
-  # to prevent hiccups from R CMD check
-  Row.names <- NULL
-  desc <- describe(object)
-  lang <- language(object)
-  tokens <- taggedText(object)
-  wclass.nopunct.num <- wClassNoPunct(wclass=tokens[["wclass"]], lang=lang)
-  if(hasFeature(object, "diff")){
-    wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
-    if(isTRUE(is.na(index))){
-      wclass.index <- !tokens[["equal"]]
-    } else if(is.character(index)){
-      if(length(index) > 1){
-        stop(simpleError(paste0("If \"index\" is character, it must be a single value!")))
-      } else {}
-      diffObj <- diffText(object)
-      if(index %in% colnames(diffObj[["transfmt.equal"]])){
-        indexPosition <- which(colnames(diffObj[["transfmt.equal"]]) %in% index)
-        if(length(indexPosition) > 1){
-          warning(paste0("Index \"", index,"\" found multiple times, using last occurrence only!"), call.=FALSE)
-          indexPosition <- max(indexPosition)
+setMethod("summary", signature(object="kRp.text"), function(object, index=NA, feature=NULL){
+  if(identical(feature, "freq")){
+    stopifnot(hasFeature(object, "freq"))
+    summary.table <- t(data.frame(
+      sentences=describe(object)[["sentences"]],
+      avg.sentence.length=describe(object)[["avg.sentc.length"]],
+      words=describe(object)[["words"]],
+      avg.word.length=describe(object)[["avg.word.length"]],
+      all.characters=describe(object)[["all.chars"]],
+      letters=describe(object)[["letters"]][["all"]],
+      lemmata=describe(object)[["lemmata"]],
+      questions=describe(object)[["questions"]],
+      exclamations=describe(object)[["exclam"]],
+      semicolon=describe(object)[["semicolon"]],
+      colon=describe(object)[["colon"]],
+      stringsAsFactors=FALSE))
+
+    colnames(summary.table) <- "freq"
+
+    return(summary.table)
+  } else {
+    # to prevent hiccups from R CMD check
+    Row.names <- NULL
+    desc <- describe(object)
+    lang <- language(object)
+    tokens <- taggedText(object)
+    wclass.nopunct.num <- wClassNoPunct(wclass=tokens[["wclass"]], lang=lang)
+    if(hasFeature(object, "diff")){
+      wclass.orig.order <- order(order(rownames(wclass.nopunct.num)))
+      if(isTRUE(is.na(index))){
+        wclass.index <- !tokens[["equal"]]
+      } else if(is.character(index)){
+        if(length(index) > 1){
+          stop(simpleError(paste0("If \"index\" is character, it must be a single value!")))
         } else {}
+        diffObj <- diffText(object)
+        if(index %in% colnames(diffObj[["transfmt.equal"]])){
+          indexPosition <- which(colnames(diffObj[["transfmt.equal"]]) %in% index)
+          if(length(indexPosition) > 1){
+            warning(paste0("Index \"", index,"\" found multiple times, using last occurrence only!"), call.=FALSE)
+            indexPosition <- max(indexPosition)
+          } else {}
+        } else {
+          stop(simpleError(paste0("Transformation data \"", index,"\" not found in object!")))
+        }
+        wclass.index <- !diffObj[["transfmt.equal"]][[indexPosition]]
       } else {
-        stop(simpleError(paste0("Transformation data \"", index,"\" not found in object!")))
+        wclass.index <- index
       }
-      wclass.index <- !diffObj[["transfmt.equal"]][[indexPosition]]
-    } else {
-      wclass.index <- index
-    }
-    wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=tokens[wclass.index,"wclass"], lang=lang, abs=desc[["words"]])
-    colnames(wclass.nopunct.num.transfmt) <- c("num.transfmt", "pct.transfmt", "pct.transfmt.abs")
-    wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.transfmt, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".transfmt"))
-    # merge adds a column for row numbers, reverse that
-    rownames(wclass.nopunct.num) <- wclass.nopunct.num[["Row.names"]]
-    wclass.nopunct.num <- subset(wclass.nopunct.num, select=-Row.names)
-    # regain original order
-    wclass.nopunct.num <- wclass.nopunct.num[order(rownames(wclass.nopunct.num))[wclass.orig.order],]
-    # add another column for the percentage of words of each class which were removed
-    wclass.nopunct.num[["pct.transfmt.wclass"]] <- wclass.nopunct.num[["num.transfmt"]] * 100 / wclass.nopunct.num[["num"]]
-    # correct for possible division by zero, NaN looks confusing here
-    wclass.nopunct.num[is.nan(wclass.nopunct.num[["pct.transfmt.wclass"]]), "pct.transfmt.wclass"] <- 0
-  } else {}
+      wclass.nopunct.num.transfmt <- wClassNoPunct(wclass=tokens[wclass.index,"wclass"], lang=lang, abs=desc[["words"]])
+      colnames(wclass.nopunct.num.transfmt) <- c("num.transfmt", "pct.transfmt", "pct.transfmt.abs")
+      wclass.nopunct.num <- merge(wclass.nopunct.num, wclass.nopunct.num.transfmt, all=TRUE, by='row.names', sort=FALSE, suffixes=c("", ".transfmt"))
+      # merge adds a column for row numbers, reverse that
+      rownames(wclass.nopunct.num) <- wclass.nopunct.num[["Row.names"]]
+      wclass.nopunct.num <- subset(wclass.nopunct.num, select=-Row.names)
+      # regain original order
+      wclass.nopunct.num <- wclass.nopunct.num[order(rownames(wclass.nopunct.num))[wclass.orig.order],]
+      # add another column for the percentage of words of each class which were removed
+      wclass.nopunct.num[["pct.transfmt.wclass"]] <- wclass.nopunct.num[["num.transfmt"]] * 100 / wclass.nopunct.num[["num"]]
+      # correct for possible division by zero, NaN looks confusing here
+      wclass.nopunct.num[is.nan(wclass.nopunct.num[["pct.transfmt.wclass"]]), "pct.transfmt.wclass"] <- 0
+    } else {}
 
-  cat(
-  "\n  Sentences: ", desc[["sentences"]], "\n",
-  "  Words:     ", desc[["words"]], " (", round(desc[["avg.sentc.length"]], digits=2), " per sentence)\n",
-  "  Letters:   ", desc[["letters"]][["all"]], " (", round(desc[["avg.word.length"]], digits=2), " per word)\n\n  Word class distribution:\n\n",
-  sep="")
+    cat(
+    "\n  Sentences: ", desc[["sentences"]], "\n",
+    "  Words:     ", desc[["words"]], " (", round(desc[["avg.sentc.length"]], digits=2), " per sentence)\n",
+    "  Letters:   ", desc[["letters"]][["all"]], " (", round(desc[["avg.word.length"]], digits=2), " per word)\n\n  Word class distribution:\n\n",
+    sep="")
 
-  return(wclass.nopunct.num)
+    return(wclass.nopunct.num)
+  }
 })
 

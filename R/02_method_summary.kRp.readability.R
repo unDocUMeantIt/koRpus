@@ -25,7 +25,7 @@
 #' \dontrun{
 #' summary(flesch(tagged.txt))
 #' }
-#' @include 01_class_10_kRp.readability.R
+#' @include 01_class_05_kRp.readability.R
 #' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.readability"), function(object, flat=FALSE){
 
