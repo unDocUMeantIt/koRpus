@@ -27,7 +27,7 @@ Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de
                     role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura",
                     family="Hauser", role=c("ctb")))
 Version: 0.13-1
-Date: 2019-11-25
+Date: 2019-11-29
 RoxygenNote: 7.0.1
 Collate: 
     '01_class_01_kRp.text.R'
@@ -81,7 +81,6 @@ Collate:
     'koRpus-internal.rdb.formulae.R'
     'koRpus-internal.rdb.params.grades.R'
     'koRpus-internal.read.corp.custom.R'
-    'koRpus-internal.roxy.all.R'
     'koRpus-package.R'
     'lex.div.num.R'
     'read.BAWL.R'
