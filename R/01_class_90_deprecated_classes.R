@@ -112,6 +112,28 @@ setValidity("kRp.tagged", function(object){
   return(TRUE)
 })
 
+#' @rdname kRp.text_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    fixObject,-methods
+#'    fixObject,kRp.tagged-method
+#' @include 02_method_get_set_kRp.text.R
+setMethod("fixObject",
+  signature=signature(obj="kRp.tagged"),
+  function (obj, doc_id=NA){
+    obj <- fixObject(
+      kRp_text(
+        lang=language(obj),
+        desc=describe(obj),
+        tokens=taggedText(obj)
+      ),
+      doc_id=doc_id
+    )
+    return(obj)
+  }
+)
+
 #' @slot freq.analysis A list with information on the word frequencies of the analyzed text.
 #' @import methods
 #' @keywords classes
@@ -129,6 +151,29 @@ kRp_txt_freq <- setClass("kRp.txt.freq",
     desc=list(),
     freq.analysis=list()),
   contains=c("kRp.tagged")
+)
+
+#' @rdname kRp.text_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    fixObject,-methods
+#'    fixObject,kRp.txt.freq-method
+#' @include 02_method_get_set_kRp.text.R
+setMethod("fixObject",
+  signature=signature(obj="kRp.txt.freq"),
+  function (obj, doc_id=NA){
+    new_obj <- fixObject(
+      kRp_text(
+        lang=language(obj),
+        desc=describe(obj),
+        tokens=taggedText(obj)
+      ),
+      doc_id=doc_id
+    )
+    corpusFreq(new_obj) <- slot(obj, "freq.analysis")
+    return(obj)
+  }
 )
 
 #' @slot diff A list with mostly atomic vectors, describing the amount of diffences between both text variants (percentage):
@@ -170,6 +215,29 @@ setValidity("kRp.txt.trans", function(object){
   )
 })
 
+#' @rdname kRp.text_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    fixObject,-methods
+#'    fixObject,kRp.txt.trans-method
+#' @include 02_method_get_set_kRp.text.R
+setMethod("fixObject",
+  signature=signature(obj="kRp.txt.trans"),
+  function (obj, doc_id=NA){
+    new_obj <- fixObject(
+      kRp_text(
+        lang=language(obj),
+        desc=describe(obj),
+        tokens=taggedText(obj)
+      ),
+      doc_id=doc_id
+    )
+    diffText(new_obj) <- slot(obj, "diff")
+    return(obj)
+  }
+)
+
 #' @slot lex.div Information on lexical diversity
 #' @import methods
 #' @keywords classes
@@ -190,4 +258,28 @@ kRp_analysis <- setClass("kRp.analysis",
     lex.div=kRp_TTR(),
     freq.analysis=list()),
   contains=c("kRp.tagged")
+)
+
+#' @rdname kRp.text_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    fixObject,-methods
+#'    fixObject,kRp.analysis-method
+#' @include 02_method_get_set_kRp.text.R
+setMethod("fixObject",
+  signature=signature(obj="kRp.analysis"),
+  function (obj, doc_id=NA){
+    new_obj <- fixObject(
+      kRp_text(
+        lang=language(obj),
+        desc=describe(obj),
+        tokens=taggedText(obj)
+      ),
+      doc_id=doc_id
+    )
+    corpusFreq(new_obj) <- slot(obj, "freq.analysis")
+    corpusLexDiv(new_obj) <- slot(obj, "lex.div")
+    return(obj)
+  }
 )

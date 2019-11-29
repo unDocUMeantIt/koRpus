@@ -46,6 +46,7 @@
 #' @param doc_id Logical (except for \code{fixObject}), if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
 #'    of the \code{desc} slot, i.\,e., the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
 #'    to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).
+#' @param ... Additional arguments for the generics.
 #' @rdname kRp.text_get-methods
 #' @docType methods
 #' @export

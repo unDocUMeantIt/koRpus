@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2019-11-25)
+changes in version 0.13-1 (2019-11-29)
 unreleased:
   - this release is under development
 fixed:
@@ -12,6 +12,8 @@ fixed:
     that didn't have them yet
   - kRp_readability()/kRp_corp_freq(): properly initialize
     the slots
+  - readability() wrapper functions: fixed a bunch of readability.num() calls
+    including an unused hyphen argument
 changed:
   - docTermMatrix(): optimzed calculation speed drastically
   - read.corp.custom(): re-wrote most of the code, now based on
@@ -24,6 +26,7 @@ changed:
   - show(): generalized the handling of factor columns to be able to deal
     with unexpected columns
   - tokenize(), treetag(): improved examples
+  - updated unit test
 added:
   - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
     kRp.txt.trans; the TT.res slot was renamed into "tokens", additional
@@ -45,6 +48,8 @@ added:
     hyphen objects should be preserved in the output or dropped
   - hyphen(), lex.div(): new argument "as.feature" to store results in the new
     "feat_list" slot of the input object rather than returning it directly
+  - fixObject(): new methods to convert old objects of deprecated classes
+    kRp.tagged, kRp.txt.freq, kRp.txt.trans, and kRp.analysis
 removed:
   - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes
     were special cases of kRp.text, and since all their information can

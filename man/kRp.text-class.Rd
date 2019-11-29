@@ -46,8 +46,7 @@ Common features are listed in the description of the \code{feat_list} slot.}
   \item{\code{corp_freq} }{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
       e.g., results of a call to
     \code{\link[koRpus:read.corp.custom]{read.corp.custom}}.}
-  \item{\code{diff} }{A named list of \code{diff} slots of a \code{\link[sylly:kRp.text.trans-class]{kRp.text.trans}} object after
-    a method like \code{\link[koRpus:textTransform]{textTransform}} was called.}
+  \item{\code{diff} }{Additional results of calls to a method like \code{\link[koRpus:textTransform]{textTransform}}.}
   \item{\code{doc_term_matrix} }{A sparse document-term matrix,
       as produced by \code{\link[koRpus:docTermMatrix]{docTermMatrix}}.}
 }

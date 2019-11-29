@@ -70,8 +70,7 @@ valid.tokens.kRp.text <- colnames(init.kRp.text.df())
 #'      \item{\code{freq} }{A list with additional results of \code{\link[koRpus:freq.analysis]{freq.analysis}}.}
 #'      \item{\code{corp_freq} }{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, e.g., results of a call to
 #'        \code{\link[koRpus:read.corp.custom]{read.corp.custom}}.}
-#'      \item{\code{diff} }{A named list of \code{diff} slots of a \code{\link[sylly:kRp.text.trans-class]{kRp.text.trans}} object after
-#'        a method like \code{\link[koRpus:textTransform]{textTransform}} was called.}
+#'      \item{\code{diff} }{Additional results of calls to a method like \code{\link[koRpus:textTransform]{textTransform}}.}
 #      \item{\code{summary} }{A summary data frame for the full corpus, including descriptive statistics on all texts, as well as
 #        results of analyses like readability and lexical diversity, if available.}
 #'      \item{\code{doc_term_matrix} }{A sparse document-term matrix, as produced by \code{\link[koRpus:docTermMatrix]{docTermMatrix}}.}

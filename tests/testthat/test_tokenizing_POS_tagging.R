@@ -260,7 +260,6 @@ test_that("importing already tagged texts", {
   # methods internally
   treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy")
 
-  
   RDRPOSTaggedText <- readTagged(
     sampleTextFileRDRTagged,
     lang="xy",
@@ -293,6 +292,10 @@ test_that("lexical diversity", {
   lexdivTextObj <- summary(lex.div(sampleTextTokenized, char=NULL, quiet=TRUE))
   TTRCharTextObj <- slot(TTR(sampleTextTokenized, char=TRUE, quiet=TRUE), "TTR.char")
 
+  # try with feature object
+  lexdivTextFeatureObj <- lex.div(sampleTextTokenized, char=NULL, quiet=TRUE, as.feature=TRUE)
+  lexdivTextFeatureSummary <- summary(corpusLexDiv(lexdivTextFeatureObj))
+
   expect_equal(
     lexdivTextObj,
     sampleTextStandard
@@ -300,6 +303,10 @@ test_that("lexical diversity", {
   expect_equal(
     TTRCharTextObj,
     sampleTextStandardTTRChar
+  )
+  expect_equal(
+    lexdivTextFeatureSummary,
+    sampleTextStandard
   )
 })
 
@@ -326,6 +333,15 @@ test_that("hyphenation/syllable count", {
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjCache, "Papua", "Pa-pu-a")
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjChanged, "in-edible", "inedible")
 
+  # try with feature object, using the updated cache
+  hyphenTextFeatureObj <- hyphen(
+    sampleTextTokenized,
+    hyph.pattern=samplePatternStandard,
+    quiet=TRUE,
+    as.feature=TRUE
+  )
+  hyphenTextFeature <- corpusHyphen(hyphenTextFeatureObj)
+
   expect_equal(
     hyphenTextObjNoCache,
     sampleTextStandard
@@ -336,6 +352,10 @@ test_that("hyphenation/syllable count", {
   )
   expect_equal(
     hyphenTextObjChanged,
+    sampleTextStandardChanged
+  )
+  expect_equal(
+    hyphenTextFeature,
     sampleTextStandardChanged
   )
 })
@@ -363,8 +383,28 @@ test_that("readability", {
         Spache=pseudoWordList)), flat=TRUE)
   )
 
+  # try with feature object
+  expect_warning(
+    readabilityTextFeatureObj <- readability(sampleTextTokenized,
+      hyphen=sampleTextHyphen,
+      index=c("all"),
+      word.lists=list(
+        Bormuth=pseudoWordList,
+        Dale.Chall=pseudoWordList,
+        Harris.Jacobson=pseudoWordList,
+        Spache=pseudoWordList
+      ),
+      as.feature=TRUE
+    )
+  )
+  readabilityTextFeatureSummary <- summary(corpusReadability(readabilityTextFeatureObj), flat=TRUE)
+
   expect_equal(
     readabilityTextObj,
+    sampleTextStandard
+  )
+  expect_equal(
+    readabilityTextFeatureSummary,
     sampleTextStandard
   )
 })
@@ -390,19 +430,19 @@ test_that("query", {
     sum(queryLttrGe5[["lttr"]]),
     2178
   )
-  
+
   queryLttr6to9 <- query(sampleTextTokenized, "lttr", c(5, 10), "gt")
   expect_equal(
     nrow(queryLttr6to9),
     191
   )
-  
+
   querySntc5 <- query(sampleTextTokenized, "sntc", 5)
   expect_equal(
     nrow(querySntc5),
     46
   )
-  
+
   expect_error(
     query(sampleTextTokenized, "sntcs", 30)
   )
@@ -414,7 +454,7 @@ context("filterByClass")
 
 test_that("filterByClass", {
   sampleTextTreeTagged <- dget("sample_text_treetagged_dput.txt")
-  
+
   sampleTextNoPunct <- filterByClass(sampleTextTreeTagged)
   sampleTextNoNounsVerbs <- filterByClass(
     sampleTextTreeTagged,
@@ -430,7 +470,7 @@ test_that("filterByClass", {
     nrow(taggedText(sampleTextNoPunct)),
     556 # vs. 617
   )
-  
+
   expect_equal(
     nrow(taggedText(sampleTextNoPossPron)),
     608 # vs. 617
@@ -454,7 +494,6 @@ test_that("filterByClass", {
     describe(sampleTextNoPunct)[["punct"]],
     17 # vs. 78
   )
-  
 })
 
 
@@ -492,7 +531,6 @@ test_that("pasteText", {
       c(21,22,1207,1208) %in% grep("\n", unlist(strsplit(tokenizedPasted, "")))
     )
   )
-  
 })
 
 
@@ -505,7 +543,7 @@ tokenizedSentence <- tokenize(
   lang="xy",
   add.desc=TRUE
 )
-  
+
 test_that("textTransform", {
   transMinor <- textTransform(tokenizedSentence, scheme="minor")
   transMajor <- textTransform(tokenizedSentence, scheme="major")
@@ -516,7 +554,7 @@ test_that("textTransform", {
   transEUNorm <- textTransform(tokenizedSentence, scheme="eu.norm")
   transEUInv <- textTransform(tokenizedSentence, scheme="eu.inv")
   transRandom <- textTransform(tokenizedSentence, scheme="random")
-  
+
   expect_equal(
     sum(taggedText(transMinor)[["lttr.diff"]]),
     2
@@ -593,4 +631,3 @@ test_that("originalText", {
     taggedText(tokenizedSentence)
   )
 })
- 

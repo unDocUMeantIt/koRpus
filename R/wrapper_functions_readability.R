@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -185,7 +185,7 @@ coleman <- function(txt.file, hyphen=NULL,
     clz4=c(word=1.04, sntc=1.06, pron=0.56, prep=0.36, const=26.01), ...){
   all.parameters <- list(syll=parameters[["syll"]], clz1=clz1, clz2=clz2,  clz3=clz3,  clz4=clz4)
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Coleman", parameters=list(Coleman=all.parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Coleman", parameters=list(Coleman=all.parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Coleman", parameters=list(Coleman=all.parameters), ...)
   }
@@ -367,7 +367,7 @@ DRP <- function(txt.file, word.list, ...){
 #'
 #' @param txt.file Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
-#'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
+#'    is done by \code{\link[koRpus:readability.num]{readability.num}}.
 #' @param hyphen An object of class kRp.hyphen. If \code{NULL}, the text will be hyphenated automatically.
 #' @param parameters A numeric vector with named magic numbers, defining the relevant parameters for the index.
 #' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
@@ -385,7 +385,7 @@ DRP <- function(txt.file, word.list, ...){
 
 ELF <- function(txt.file, hyphen=NULL, parameters=c(syll=1), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="ELF", parameters=list(ELF=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="ELF", parameters=list(ELF=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="ELF", parameters=list(ELF=parameters), ...)
   }
@@ -427,7 +427,7 @@ ELF <- function(txt.file, hyphen=NULL, parameters=c(syll=1), ...){
 
 farr.jenkins.paterson <- function(txt.file, hyphen=NULL, parameters=c(const=-31.517, asl=1.015, monsy=1.599), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Farr.Jenkins.Paterson", parameters=list(Farr.Jenkins.Paterson=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Farr.Jenkins.Paterson", parameters=list(Farr.Jenkins.Paterson=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Farr.Jenkins.Paterson", parameters=list(Farr.Jenkins.Paterson=parameters), ...)
   }
@@ -461,7 +461,7 @@ farr.jenkins.paterson <- function(txt.file, hyphen=NULL, parameters=c(const=-31.
 
 flesch.kincaid <- function(txt.file, hyphen=NULL, parameters=c(asl=0.39, asw=11.8, const=15.59), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Flesch.Kincaid", parameters=list(Flesch.Kincaid=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Flesch.Kincaid", parameters=list(Flesch.Kincaid=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Flesch.Kincaid", parameters=list(Flesch.Kincaid=parameters), ...)
   }
@@ -506,7 +506,7 @@ flesch.kincaid <- function(txt.file, hyphen=NULL, parameters=c(asl=0.39, asw=11.
 
 flesch <- function(txt.file, hyphen=NULL, parameters=c(const=206.835, asl=1.015, asw=84.6), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Flesch", parameters=list(Flesch=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Flesch", parameters=list(Flesch=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Flesch", parameters=list(Flesch=parameters), ...)
   }
@@ -550,7 +550,7 @@ flesch <- function(txt.file, hyphen=NULL, parameters=c(const=206.835, asl=1.015,
 
 FOG <- function(txt.file, hyphen=NULL, parameters=list(syll=3, const=0.4, suffix=c("es", "ed", "ing")), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="FOG", parameters=list(FOG=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="FOG", parameters=list(FOG=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="FOG", parameters=list(FOG=parameters), ...)
   }
@@ -588,7 +588,7 @@ FOG <- function(txt.file, hyphen=NULL, parameters=list(syll=3, const=0.4, suffix
 
 FORCAST <- function(txt.file, hyphen=NULL, parameters=c(syll=1, mult=.10, const=20), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="FORCAST", parameters=list(FORCAST=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="FORCAST", parameters=list(FORCAST=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="FORCAST", parameters=list(FORCAST=parameters), ...)
   }
@@ -677,7 +677,7 @@ harris.jacobson <- function(txt.file, word.list,
   hj5=c(dword=0.118, asl=0.134, lword=0.032, const=0.424), ...){
   all.parameters <- list(char=parameters[["char"]], hj1=hj1, hj2=hj2,  hj3=hj3,  hj4=hj4,  hj5=hj5)
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Harris.Jacobson", parameters=list(Harris.Jacobson=all.parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Harris.Jacobson", parameters=list(Harris.Jacobson=all.parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Harris.Jacobson", parameters=list(Harris.Jacobson=all.parameters), word.lists=list(Harris.Jacobson=word.list), ...)
   }
@@ -711,7 +711,7 @@ harris.jacobson <- function(txt.file, word.list,
 
 linsear.write <- function(txt.file, hyphen=NULL, parameters=c(short.syll=2, long.syll=3, thrs=20), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Linsear.Write", parameters=list(Linsear.Write=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Linsear.Write", parameters=list(Linsear.Write=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Linsear.Write", parameters=list(Linsear.Write=parameters), ...)
   }
@@ -797,7 +797,7 @@ nWS <- function(txt.file, hyphen=NULL,
   nws4=c(ms=27.44, sl=0.2656, const=1.693), ...){
   all.parameters <- list(ms.syll=parameters[["ms.syll"]], iw.char=parameters[["iw.char"]], es.syll=parameters[["es.syll"]], nws1=nws1, nws2=nws2,  nws3=nws3,  nws4=nws4)
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="nWS", parameters=list(nWS=all.parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="nWS", parameters=list(nWS=all.parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="nWS", parameters=list(nWS=all.parameters), ...)
   }
@@ -881,7 +881,7 @@ RIX <- function(txt.file, parameters=c(char=6), ...){
 
 SMOG <- function(txt.file, hyphen=NULL, parameters=c(syll=3, sqrt=1.043, fact=30, const=3.1291, sqrt.const=0), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="SMOG", parameters=list(SMOG=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="SMOG", parameters=list(SMOG=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="SMOG", parameters=list(SMOG=parameters), ...)
   }
@@ -961,7 +961,7 @@ spache <- function(txt.file, word.list, parameters=c(asl=0.121, dword=0.082, con
 
 strain <- function(txt.file, hyphen=NULL, parameters=c(sent=3, const=10), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Strain", parameters=list(Strain=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Strain", parameters=list(Strain=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Strain", parameters=list(Strain=parameters), ...)
   }
@@ -1035,7 +1035,7 @@ traenkle.bailer <- function(txt.file,
 
 TRI <- function(txt.file, hyphen=NULL, parameters=c(syll=1, word=0.449, pnct=2.467, frgn=0.937, const=14.417), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="TRI", parameters=list(TRI=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="TRI", parameters=list(TRI=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="TRI", parameters=list(TRI=parameters), ...)
   }
@@ -1072,7 +1072,7 @@ TRI <- function(txt.file, hyphen=NULL, parameters=c(syll=1, word=0.449, pnct=2.4
 
 tuldava <- function(txt.file, hyphen=NULL, parameters=c(syll=1, word1=1, word2=1, sent=1), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Tuldava", parameters=list(Tuldava=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Tuldava", parameters=list(Tuldava=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Tuldava", parameters=list(Tuldava=parameters), ...)
   }
@@ -1115,7 +1115,7 @@ tuldava <- function(txt.file, hyphen=NULL, parameters=c(syll=1, word1=1, word2=1
 
 wheeler.smith <- function(txt.file, hyphen=NULL, parameters=c(syll=2), ...){
   if(is.list(txt.file)){
-    results <- readability.num(txt.features=txt.file, hyphen=hyphen, index="Wheeler.Smith", parameters=list(Wheeler.Smith=parameters), ...)
+    results <- readability.num(txt.features=txt.file, index="Wheeler.Smith", parameters=list(Wheeler.Smith=parameters), ...)
   } else {
     results <- readability(txt.file=txt.file, hyphen=hyphen, index="Wheeler.Smith", parameters=list(Wheeler.Smith=parameters), ...)
   }

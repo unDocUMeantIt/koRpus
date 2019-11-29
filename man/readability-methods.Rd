@@ -42,6 +42,8 @@ readability(txt.file, ...)
 \arguments{
 \item{txt.file}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
+\item{...}{Additional arguments for the generics.}
+
 \item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL},
       the text will be hyphenated automatically. All syllable handling will
 be skipped automatically if it's not needed for the selected indices.}
