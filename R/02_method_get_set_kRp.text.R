@@ -23,6 +23,7 @@
 #' 
 #' \itemize{
 #'   \item{\code{taggedText()} }{returns the \code{tokens} slot.}
+#'   \item{\code{doc_id()} }{Returns a character vector of all \code{doc_id} values in the object.}
 #'   \item{\code{describe()} }{returns the \code{desc} slot.}
 #'   \item{\code{language()} }{returns the \code{lang} slot.}
 #'   \item{\code{[}/\code{[[} }{Can be used as a shortcut to index the results of \code{taggedText()}.}
@@ -101,6 +102,29 @@ setMethod("taggedText<-",
   }
 )
 
+setGeneric("doc_id", function(obj, ...) standardGeneric("doc_id"))
+#' @rdname kRp.text_get-methods
+#' @param has_id A character vector with \code{doc_id}s to look for in the object. The return value
+#'    is then a logical vector of the same length, indicating if the respective id was found or not.
+#' @export
+#' @docType methods
+#' @aliases
+#'    doc_id,-methods
+#'    doc_id,kRp.text-method
+setMethod("doc_id",
+  signature=signature(obj="kRp.text"),
+  function (obj, has_id=NULL){
+    result <- unique(as.character(slot(obj, name="tokens")[["doc_id"]]))
+    if(is.null(has_id)){
+      return(result)
+    } else if(length(has_id) > 1) {
+      return(has_id %in% result)
+    } else {
+      return(any(result == has_id))
+    }
+  }
+)
+
 
 #' @rdname kRp.text_get-methods
 #' @docType methods
@@ -167,8 +191,21 @@ setGeneric("feature", function(obj, feature, ...) standardGeneric("feature"))
 #'    feature,kRp.text-method
 setMethod("feature",
   signature=signature(obj="kRp.text"),
-  function (obj, feature){
-    return(slot(obj, name="feat_list")[[feature]])
+  function (obj, feature, doc_id=NULL){
+    if(is.null(doc_id)){
+      return(slot(obj, name="feat_list")[[feature]])
+    } else {
+      doc_ids_in_obj <- doc_id(obj, has_id=doc_id)
+      if(all(doc_ids_in_obj)){
+        return(slot(obj, name="feat_list")[[feature]][doc_id])
+      } else {
+        warning(
+          paste0("Invalid doc_id, omitted:\n  \"", paste0(doc_id[!doc_ids_in_obj], collapse="\", \""), "\""),
+          call.=FALSE
+        )
+        return(slot(obj, name="feat_list")[[feature]][doc_id[doc_ids_in_obj]])
+      }
+    }
   }
 )
 
@@ -210,8 +247,8 @@ setGeneric("corpusReadability", function(obj, ...) standardGeneric("corpusReadab
 #'    corpusReadability,kRp.text-method
 setMethod("corpusReadability",
   signature=signature(obj="kRp.text"),
-  function (obj){
-    return(feature(obj, "readability"))
+  function (obj, doc_id=NULL){
+    return(feature(obj, "readability", doc_id=doc_id))
   }
 )
 
@@ -247,8 +284,8 @@ setGeneric("corpusHyphen", function(obj, ...) standardGeneric("corpusHyphen"))
 #'    corpusHyphen,kRp.text-method
 setMethod("corpusHyphen",
   signature=signature(obj="kRp.text"),
-  function (obj){
-    return(feature(obj, "hyphen"))
+  function (obj, doc_id=NULL){
+    return(feature(obj, "hyphen", doc_id=doc_id))
   }
 )
 
@@ -284,8 +321,8 @@ setGeneric("corpusLexDiv", function(obj, ...) standardGeneric("corpusLexDiv"))
 #'    corpusLexDiv,kRp.text-method
 setMethod("corpusLexDiv",
   signature=signature(obj="kRp.text"),
-  function (obj){
-    return(feature(obj, "lex_div"))
+  function (obj, doc_id=NULL){
+    return(feature(obj, "lex_div", doc_id=doc_id))
   }
 )
 
@@ -547,7 +584,7 @@ setMethod("language<-",
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods
-setGeneric("diffText", function(obj, value) standardGeneric("diffText"))
+setGeneric("diffText", function(obj, doc_id) standardGeneric("diffText"))
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods
@@ -556,9 +593,9 @@ setGeneric("diffText", function(obj, value) standardGeneric("diffText"))
 #'    diffText,kRp.text-method
 setMethod("diffText",
   signature=signature(obj="kRp.text"),
-  function (obj){
+  function (obj, doc_id=NULL){
     if(hasFeature(obj, "diff")){
-      result <- feature(obj, "diff")
+      result <- feature(obj, "diff", doc_id=doc_id)
       return(result)
     } else {
       warning("There is no feature \"diff\" in this object!")
@@ -589,7 +626,7 @@ setMethod("diffText<-",
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods
-setGeneric("originalText", function(obj, value) standardGeneric("originalText"))
+setGeneric("originalText", function(obj) standardGeneric("originalText"))
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods

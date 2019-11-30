@@ -145,13 +145,25 @@
 setGeneric(
   "treetag",
   def=function(
-    file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
-    apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-    encoding=NULL, TT.options=NULL, debug=FALSE, TT.tknz=TRUE,
-    format="file", stopwords=NULL, stemmer=NULL, doc_id=NA,
-    add.desc="kRp.env", ...){
-      standardGeneric("treetag")
-    },
+    file,
+    treetagger="kRp.env",
+    rm.sgml=TRUE,
+    lang="kRp.env",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    encoding=NULL,
+    TT.options=NULL,
+    debug=FALSE,
+    TT.tknz=TRUE,
+    format="file",
+    stopwords=NULL,
+    stemmer=NULL,
+    doc_id=NA,
+    add.desc="kRp.env",
+    ...
+  ){
+    standardGeneric("treetag")
+  },
   valueClass=c("kRp.text","matrix")
 )
 
@@ -161,10 +173,23 @@ setGeneric(
 #' @aliases treetag,character-method
 setMethod("treetag",
   signature(file="character"),
-  function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
-    apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-    encoding=NULL, TT.options=NULL, debug=FALSE, TT.tknz=TRUE,
-    format="file", stopwords=NULL, stemmer=NULL, doc_id=NA, add.desc="kRp.env"){
+  function(
+    file,
+    treetagger="kRp.env",
+    rm.sgml=TRUE,
+    lang="kRp.env",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    encoding=NULL,
+    TT.options=NULL,
+    debug=FALSE,
+    TT.tknz=TRUE,
+    format="file",
+    stopwords=NULL,
+    stemmer=NULL,
+    doc_id=NA,
+    add.desc="kRp.env"
+  ){
 
     # TreeTagger uses slightly different presets on windows and unix machines,
     # so we'll need to check the OS first

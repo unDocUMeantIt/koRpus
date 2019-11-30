@@ -195,9 +195,10 @@ setMethod(
     as.feature=FALSE,
     quiet=FALSE
   ){
-
-    lex.div.results <- kRp.lex.div.formulae(
-      txt=txt,
+    doc_list <- split_by_doc_id(txt)
+    lex.div.results <- lapply(
+      doc_list,
+      kRp.lex.div.formulae,
       segment=segment,
       factor.size=factor.size,
       min.tokens=min.tokens,
@@ -218,12 +219,17 @@ setMethod(
       corp.rm.tag=corp.rm.tag,
       quiet=quiet
     )
+    names(lex.div.results) <- names(doc_list)
 
     if(isTRUE(as.feature)){
       corpusLexDiv(txt) <- lex.div.results
       return(txt)
     } else {
-      return(lex.div.results)
+      if(length(lex.div.results) > 1){
+        return(lex.div.results)
+      } else {
+        return(lex.div.results[[1]])
+      }
     }
   }
 )

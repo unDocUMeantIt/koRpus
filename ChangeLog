@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2019-11-29)
+changes in version 0.13-1 (2019-11-30)
 unreleased:
   - this release is under development
 fixed:
@@ -34,7 +34,7 @@ added:
     to host analysis results like readability or lexical diversity
   - docTermMatrix(): new method to calculate document term matrices from
     TIF compliant token data frames and koRpus objects
-  - hasFeatures(), hasFeatures()<-, features(), features()<-,
+  - doc_id(), hasFeatures(), hasFeatures()<-, features(), features()<-,
     corpusReadability(), corpusReadability()<-, corpusHyphen(),
     corpusHyphen()<-, corpusLexDiv(), corpusLexDiv()<-, corpusFreq(),
     corpusFreq()<-, corpusCorpFreq(), corpusCorpFreq()<-, corpusStopwords(),
@@ -50,6 +50,8 @@ added:
     "feat_list" slot of the input object rather than returning it directly
   - fixObject(): new methods to convert old objects of deprecated classes
     kRp.tagged, kRp.txt.freq, kRp.txt.trans, and kRp.analysis
+  - split_by_doc_id(): new method transforms a kRp.text object with multiple
+    doc_ids into a list of single-document kRp.text objects
 removed:
   - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes
     were special cases of kRp.text, and since all their information can
