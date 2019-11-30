@@ -83,7 +83,7 @@
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
 #' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-#'    of the \code{tokens} slot.
+#'    of the \code{tokens} slot. If \code{NA}, the document name will be used (for \code{format="obj"} a random name).
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
 #' @param ... Only used for the method generic.
@@ -235,6 +235,10 @@ setMethod("treetag",
       takeAsFile <- normalizePath(file)
     }
     check.file(takeAsFile, mode="exist")
+
+    if(is.na(doc_id)){
+      doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(takeAsFile))
+    } else {}
 
     # TODO: move TT.options checks to internal function to call it here
     manual.config <- identical(treetagger, "manual")

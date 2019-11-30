@@ -163,7 +163,8 @@ the \code{SnowballC} package installed. As of now,
 
 \item{doc_id}{Character string,
       optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-of the \code{tokens} slot.}
+of the \code{tokens} slot. If \code{NA},
+      the document name will be used (for \code{format="obj"} a random name).}
 
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly

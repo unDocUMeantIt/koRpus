@@ -25,7 +25,8 @@ changed:
     horizontal positioning of resulting values
   - show(): generalized the handling of factor columns to be able to deal
     with unexpected columns
-  - tokenize(), treetag(): improved examples
+  - tokenize(), treetag(): always generate a doc_id if none was given; also
+    improved the examples
   - updated unit test
 added:
   - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
