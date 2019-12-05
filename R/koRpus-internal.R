@@ -521,6 +521,30 @@ kRp.check.params <- function(given, valid, where=NULL, missing=FALSE){
 } ## end function kRp.check.params()
 
 
+## function kRp_check_params()
+# TODO: to soon replace kRp.check.params()
+# - given: character string of parameter names
+# - valid: named logical vector all values of "given" are checked against
+kRp_check_params <- function(given, valid, where=NULL, missing=FALSE){
+  if(all(valid[given])){
+    return(TRUE)
+  } else {
+    valid_true <- valid[valid]
+    invalid_params <- !given %in% names(valid)
+    if(!is.null(where)){
+      check_location <- paste0(" in \"", where, "\"")
+    } else {
+      check_location <- ""
+    }
+    if(isTRUE(missing)){
+      stop(simpleError(paste0("Missing elements", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
+    } else {
+      stop(simpleError(paste0("Invalid elements given", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
+    }
+  }
+} ## end function kRp.check.params()
+
+
 ## function count.sentences()
 # expects txt to be an object of class kRp.text,
 # and tags a vector with POS tags indicating sentence endings

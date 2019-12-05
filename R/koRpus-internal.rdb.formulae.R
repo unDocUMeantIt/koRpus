@@ -34,6 +34,121 @@
 
 #  - grade eqivalent zum DRP
 
+rdb_indices <- matrix(
+  c(
+  # fast    sylls   params
+    TRUE,   FALSE,  TRUE,   # ARI
+    FALSE,  FALSE,  FALSE,  # ARI.NRI
+    FALSE,  FALSE,  FALSE,  # ARI.simple
+    TRUE,   FALSE,  TRUE,   # Bormuth
+    TRUE,   TRUE,   TRUE,   # Coleman
+    TRUE,   FALSE,  TRUE,   # Coleman.Liau
+    TRUE,   FALSE,  TRUE,   # Dale.Chall
+    FALSE,  FALSE,  FALSE,  # Dale.Chall.old
+    FALSE,  FALSE,  FALSE,  # Dale.Chall.PSK
+    TRUE,   FALSE,  TRUE,   # Danielson.Bryan
+    TRUE,   FALSE,  TRUE,   # Dickes.Steiwer
+    TRUE,   FALSE,  FALSE,  # DRP
+    TRUE,   TRUE,   TRUE,   # ELF
+    TRUE,   TRUE,   TRUE,   # Farr.Jenkins.Paterson
+    FALSE,  TRUE,   FALSE,  # Farr.Jenkins.Paterson.PSK
+    TRUE,   TRUE,   TRUE,   # Flesch
+    FALSE,  TRUE,   FALSE,  # Flesch.Brouwer
+    FALSE,  TRUE,   FALSE,  # Flesch.de
+    FALSE,  TRUE,   FALSE,  # Flesch.es
+    FALSE,  TRUE,   FALSE,  # Flesch.fr
+    TRUE,   TRUE,   TRUE,   # Flesch.Kincaid
+    FALSE,  TRUE,   FALSE,  # Flesch.nl
+    FALSE,  TRUE,   FALSE,  # Flesch.nl-b
+    FALSE,  TRUE,   FALSE,  # Flesch.PSK
+    FALSE,  TRUE,   FALSE,  # Flesch.Szigriszt
+    FALSE,  TRUE,   TRUE,   # FOG
+    FALSE,  TRUE,   FALSE,  # FOG.NRI
+    FALSE,  TRUE,   FALSE,  # FOG.PSK
+    TRUE,   TRUE,   TRUE,   # FORCAST
+    FALSE,  TRUE,   FALSE,  # FORCAST.RGL
+    TRUE,   FALSE,  FALSE,  # Fucks
+    TRUE,   FALSE,  TRUE,   # Harris.Jacobson
+    TRUE,   TRUE,   TRUE,   # Linsear.Write
+    TRUE,   FALSE,  TRUE,   # LIX
+    TRUE,   TRUE,   TRUE,   # nWS
+    TRUE,   FALSE,  TRUE,   # RIX
+    TRUE,   TRUE,   TRUE,   # SMOG
+    FALSE,  TRUE,   FALSE,  # SMOG.C
+    FALSE,  TRUE,   FALSE,  # SMOG.de
+    FALSE,  TRUE,   FALSE,  # SMOG.simple
+    TRUE,   FALSE,  TRUE,   # Spache
+    FALSE,  FALSE,  FALSE,  # Spache.de
+    FALSE,  FALSE,  FALSE,  # Spache.old
+    TRUE,   TRUE,   TRUE,   # Strain
+    TRUE,   FALSE,  TRUE,   # Traenkle.Bailer
+    TRUE,   TRUE,   TRUE,   # TRI
+    TRUE,   TRUE,   TRUE,   # Tuldava
+    TRUE,   TRUE,   TRUE,   # Wheeler.Smith
+    FALSE,  TRUE,   FALSE  # Wheeler.Smith.de
+  ),
+  ncol=3,
+  byrow=TRUE,
+  dimnames=list(
+    c(
+      "ARI", 
+      "ARI.NRI", 
+      "ARI.simple", 
+      "Bormuth", 
+      "Coleman", 
+      "Coleman.Liau", 
+      "Dale.Chall", 
+      "Dale.Chall.old", 
+      "Dale.Chall.PSK", 
+      "Danielson.Bryan", 
+      "Dickes.Steiwer", 
+      "DRP", 
+      "ELF", 
+      "Farr.Jenkins.Paterson", 
+      "Farr.Jenkins.Paterson.PSK", 
+      "Flesch", 
+      "Flesch.Brouwer", 
+      "Flesch.de", 
+      "Flesch.es", 
+      "Flesch.fr", 
+      "Flesch.Kincaid", 
+      "Flesch.nl", 
+      "Flesch.nl-b", 
+      "Flesch.PSK", 
+      "Flesch.Szigriszt", 
+      "FOG", 
+      "FOG.NRI", 
+      "FOG.PSK", 
+      "FORCAST", 
+      "FORCAST.RGL", 
+      "Fucks", 
+      "Harris.Jacobson", 
+      "Linsear.Write", 
+      "LIX", 
+      "nWS", 
+      "RIX", 
+      "SMOG", 
+      "SMOG.C", 
+      "SMOG.de", 
+      "SMOG.simple", 
+      "Spache", 
+      "Spache.de", 
+      "Spache.old", 
+      "Strain", 
+      "Traenkle.Bailer", 
+      "TRI", 
+      "Tuldava", 
+      "Wheeler.Smith", 
+      "Wheeler.Smith.de"
+    ),
+    c(
+      "fast",
+      "sylls",
+      "params"
+    )
+  )
+)
+
 ## additional options:
 # - analyze.text:
 #     TRUE for kRp.rdb.formulae(), i.e. get values from text object examination,
@@ -141,155 +256,29 @@ kRp.rdb.formulae <- function(
     stop(simpleError("Missing accurate paramteter list!"))
   } else {
     # first complain if unknown parameters supplied
-    valid.params <- c(
-      "ARI",
-      "Bormuth",
-      "Coleman",
-      "Coleman.Liau",
-      "Dale.Chall",
-      "Danielson.Bryan",
-      "Dickes.Steiwer",
-      "ELF",
-      "Farr.Jenkins.Paterson",
-      "Flesch",
-      "Flesch.Kincaid",
-      "FOG",
-      "FORCAST",
-      "Harris.Jacobson",
-      "Linsear.Write",
-      "LIX",
-      "nWS",
-      "RIX",
-      "SMOG",
-      "Spache",
-      "Strain",
-      "Traenkle.Bailer",
-      "TRI",
-      "Tuldava",
-      "Wheeler.Smith"
+    ## TODO: replace with kRp_check_params()
+#     valid.params <- rownames(rdb_indices)[rdb_indices[,"params"]]
+    kRp_check_params(
+      names(parameters),
+      rdb_indices[,"params"],
+      where="parameters"
     )
-    kRp.check.params(names(parameters), valid.params, where="parameters")
   }
-
-  all.valid.indices <- c(
-    "ARI",
-    "ARI.NRI",
-    "ARI.simple",
-    "Bormuth",
-    "Coleman",
-    "Coleman.Liau",
-    "Dale.Chall",
-    "Dale.Chall.old",
-    "Dale.Chall.PSK",
-    "Danielson.Bryan",
-    "Dickes.Steiwer",
-    "DRP",
-    "ELF",
-    "Farr.Jenkins.Paterson",
-    "Farr.Jenkins.Paterson.PSK",
-    "Flesch",
-    "Flesch.Brouwer",
-    "Flesch.de",
-    "Flesch.es",
-    "Flesch.fr",
-    "Flesch.Kincaid",
-    "Flesch.nl",
-    "Flesch.nl-b",
-    "Flesch.PSK",
-    "Flesch.Szigriszt",
-    "FOG",
-    "FOG.NRI",
-    "FOG.PSK",
-    "FORCAST",
-    "FORCAST.RGL",
-    "Fucks",
-    "Harris.Jacobson",
-    "Linsear.Write",
-    "LIX",
-    "nWS",
-    "RIX",
-    "SMOG",
-    "SMOG.C",
-    "SMOG.de",
-    "SMOG.simple",
-    "Spache",
-    "Spache.de",
-    "Spache.old",
-    "Strain",
-    "Traenkle.Bailer",
-    "TRI",
-    "Tuldava",
-    "Wheeler.Smith",
-    "Wheeler.Smith.de"
-  )
+  
+  ## TODO: replace with rdb_indices
+  all.valid.indices <- rownames(rdb_indices)
   # activate all?
   if(identical(index, "all")){
-    index <- all.valid.indices
+    index <- rownames(rdb_indices)
   } else {}
   if(identical(index, "fast")){
+    ## TODO: replace with rdb_indices
     # this should be like the defaults but without FOG
-    index <- c(
-      "ARI",
-      "Bormuth",
-      "Coleman",
-      "Coleman.Liau",
-      "Dale.Chall",
-      "Danielson.Bryan",
-      "Dickes.Steiwer",
-      "DRP",
-      "ELF",
-      "Farr.Jenkins.Paterson",
-      "Flesch",
-      "Flesch.Kincaid",
-      "FORCAST",
-      "Fucks",
-      "Harris.Jacobson",
-      "Linsear.Write",
-      "LIX",
-      "nWS",
-      "RIX",
-      "SMOG",
-      "Spache",
-      "Strain",
-      "Traenkle.Bailer",
-      "TRI",
-      "Tuldava",
-      "Wheeler.Smith"
-    )
+    index <- rownames(rdb_indices)[rdb_indices[, "fast"]]
   } else {}
 
-  need.sylls <- c(
-    "Coleman",
-    "ELF",
-    "Farr.Jenkins.Paterson",
-    "Farr.Jenkins.Paterson.PSK",
-    "Flesch",
-    "Flesch.Brouwer",
-    "Flesch.de",
-    "Flesch.es",
-    "Flesch.fr",
-    "Flesch.Kincaid",
-    "Flesch.nl",
-    "Flesch.nl-b",
-    "Flesch.PSK",
-    "Flesch.Szigriszt",
-    "FOG",
-    "FOG.NRI",
-    "FOG.PSK",
-    "FORCAST",
-    "FORCAST.RGL",
-    "Linsear.Write",
-    "nWS",
-    "SMOG",
-    "SMOG.C",
-    "SMOG.de",
-    "SMOG.simple",
-    "Strain",
-    "TRI",
-    "Tuldava",
-    "Wheeler.Smith",
-    "Wheeler.Smith.de"
-  )
+  ## TODO: replace with rdb_indices
+  need.sylls <- rownames(rdb_indices)[rdb_indices[, "sylls"]]
 
   # use for keep.input
   dropHyphen <- FALSE
