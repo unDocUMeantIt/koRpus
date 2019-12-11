@@ -118,24 +118,13 @@ setValidity("kRp.text", function(object){
   corp_freq <- feat_list[["corp_freq"]]
   # obj_summary <- feat_list[["summary"]]
 
-  missingFeatures <- sapply(
-    names(features),
-    function(this_feature){
-      if(
-        all(
-          isTRUE(features[[this_feature]]),
-          is.null(feat_list[[this_feature]])
-        )
-      ){
-        return(this_feature)
-      } else {}
-    }
-  )
-  if(length(missingFeatures) > 0) {
+  announced_features <- names(features[features])
+  missingFeatures <- sapply(feat_list[announced_features], is.null)
+  if(any(missingFeatures)){
     warning(
       paste0(
         "Invalid object: There's no data for activated \"features\":\n  ",
-        paste0(missingFeatures, collapse=", ")
+        paste0(announced_features[missingFeatures], collapse=", ")
       ),
       call.=FALSE
     )
