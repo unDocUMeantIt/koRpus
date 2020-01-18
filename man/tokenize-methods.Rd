@@ -196,7 +196,7 @@ tokenized.obj <- tokenize(
 # two digits:
 tokenized.obj <- tokenize(
   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
-  clean.raw=list("(A)([[:digit:]]{2})"="B\\2"),
+  clean.raw=list("(A)([[:digit:]]{2})"="B\\\\2"),
   perl=TRUE)
 
 ## enabling stopword detection and stemming

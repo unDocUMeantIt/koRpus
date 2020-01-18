@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2019-11-30)
+changes in version 0.13-1 (2020-01-18)
 unreleased:
   - this release is under development
 fixed:
@@ -14,6 +14,8 @@ fixed:
     the slots
   - readability() wrapper functions: fixed a bunch of readability.num() calls
     including an unused hyphen argument
+  - readability(): HTML documentation had a wrong formula for LIX (LaTeX was
+    correct)
 changed:
   - docTermMatrix(): optimzed calculation speed drastically
   - read.corp.custom(): re-wrote most of the code, now based on
@@ -27,6 +29,8 @@ changed:
     with unexpected columns
   - tokenize(), treetag(): always generate a doc_id if none was given; also
     improved the examples
+  - readability(): added some ASCII versions of the formulae to the
+    documentation
   - updated unit test
 added:
   - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
