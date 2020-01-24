@@ -77,6 +77,22 @@ Relevant only if \code{scheme="normalize"} and \code{method="function"}.}
 }
 \value{
 By default an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff} is returned.
+   It provides a list with mostly atomic vectors,
+      describing the amount of diffences between both text variants (percentage):
+   \describe{
+     \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation,
+      that were altered.}
+     \item{\code{words}:}{Percentage of altered words only.}
+     \item{\code{all.chars}:}{Percentage of all characters, including punctuation,
+      that were altered.}
+     \item{\code{letters}:}{Percentage of altered letters in words only.}
+     \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
+     \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
+     \item{\code{transfmt.normalize}:}{A list documenting steps of normalization that were done to the object,
+      one element per transformation.
+       Each entry holds the name of the method, the query parameters,
+      and the effective replacement value.}
+   }
    If \code{paste=TRUE},
       returns an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 }

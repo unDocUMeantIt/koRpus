@@ -126,7 +126,7 @@ setMethod("clozeDelete",
       }
       tagged.text[txtToChange, "token"] <- relevant.text
 
-      results <- txt_trans_diff(obj=obj, tokens.new=tagged.text, transfmt="clozeDelete")
+      results <- txt_trans_diff(obj=obj, tokens.new=tagged.text[["token"]], transfmt="clozeDelete")
       return(results)
     }
   }

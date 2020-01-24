@@ -191,7 +191,7 @@ corpusStopwords(obj) <- value
 
 \S4method{language}{kRp.text}(obj) <- value
 
-diffText(obj, doc_id)
+diffText(obj, doc_id = NULL)
 
 \S4method{diffText}{kRp.text}(obj, doc_id = NULL)
 

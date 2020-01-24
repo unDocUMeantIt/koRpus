@@ -119,7 +119,7 @@ setMethod("cTest",
       result.DF <- rbind(result.DF, this.sntc)
     }
 
-    results <- txt_trans_diff(obj=obj, tokens.new=result.DF, transfmt="cTest")
+    results <- txt_trans_diff(obj=obj, tokens.new=result.DF[["token"]], transfmt="cTest")
     return(results)
   }
 )

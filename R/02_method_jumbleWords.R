@@ -53,7 +53,7 @@ setMethod("jumbleWords",
   function(words, min.length=3, intact=c(start=1, end=1)){
     words.tokens <- taggedText(words)
     words.tokens[["token"]] <- kRp_jumbleWords(words=words.tokens[["token"]], min.length=min.length, intact=intact)
-    results <- txt_trans_diff(obj=words, tokens.new=words.tokens, transfmt="jumbleWords")
+    results <- txt_trans_diff(obj=words, tokens.new=words.tokens[["token"]], transfmt="jumbleWords")
     return(results)
   }
 )

@@ -71,6 +71,17 @@
 #'    Relevant only if \code{scheme="normalize"} and \code{method="function"}.
 #' @param ... Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.
 #' @return By default an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff} is returned.
+#'    It provides a list with mostly atomic vectors, describing the amount of diffences between both text variants (percentage):
+#'    \describe{
+#'      \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation, that were altered.}
+#'      \item{\code{words}:}{Percentage of altered words only.}
+#'      \item{\code{all.chars}:}{Percentage of all characters, including punctuation, that were altered.}
+#'      \item{\code{letters}:}{Percentage of altered letters in words only.}
+#'      \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
+#'      \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
+#'      \item{\code{transfmt.normalize}:}{A list documenting steps of normalization that were done to the object, one element per transformation.
+#'        Each entry holds the name of the method, the query parameters, and the effective replacement value.}
+#'    }
 #'    If \code{paste=TRUE}, returns an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
@@ -176,7 +187,7 @@ setMethod("textTransform",
           txt.df[relevant_tokens, "token"] <- replacement <- longest_matches[match(max(longest_matches[["num"]]), longest_matches[["num"]]), "token"]
         } else if(identical(method, "function")){
           if(is.function(f)){
-            txt.df[relevant_tokens, "token"] <- replacement <- f(tokens=txt.df, match=relevant_tokens)
+            txt.df[relevant_tokens, "token"] <- replacement <- do.call(f, list(tokens=txt.df, match=relevant_tokens))
           } else {
             stop(simpleError("\"f\" must be a function!"))
           }
@@ -193,7 +204,7 @@ setMethod("textTransform",
     } else {
       results <- txt_trans_diff(
         obj=txt,
-        tokens.new=txt.df,
+        tokens.new=txt.df[["token"]],
         transfmt=scheme,
         normalize=list(
           method=method,
@@ -203,7 +214,7 @@ setMethod("textTransform",
           f=f,
           ...
         ),
-        check_missing_letters=scheme %in% "normalize"
+        check_missing_letters=isTRUE(scheme == "normalize")
       )
     }
 
@@ -228,7 +239,7 @@ kRp.text.transform <- function(...){
 # helper function to calculate the diff data and combine results in
 # proper kRp.text object with added feature "diff"
 # - obj: tagged text object (class kRp.text)
-# - tokens.new: the transformed tokens data frame
+# - tokens.new: the transformed tokens (character vector)
 # - transfmt: the name of the transformation
 # - normalize: arguments given for the normalization
 # - check_missing_letters: transformations like "normalize" can replace tokens
@@ -247,16 +258,15 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
   all_letters <- old.new.comp[["lttr"]]
 
   # keep an already present "token.orig" if present
-  tokens.orig      <- txt_trans_revert_orig(tokens=old.new.comp)[["token"]]
-  tokens.trans     <- tokens.new[["token"]]
+  tokens.orig      <- koRpus:::txt_trans_revert_orig(tokens=old.new.comp)[["token"]]
 
-  tokens.equal     <- tokens.orig == tokens.trans
+  tokens.equal     <- tokens.orig == tokens.new
   # the above shows the global differences between original and current tokens
   # if there was more than one transformation to this object, we also want to
   # document the tokens that have changed only in this transformational step
   if(obj_has_diff){
     tokens.last    <- old.new.comp[["token"]]
-    trans.equal    <- tokens.last == tokens.trans
+    trans.equal    <- tokens.last == tokens.new
     transfmt.normalize <- diffObj[["transfmt.normalize"]]
     if(is.data.frame(diffObj[["transfmt.equal"]])){
       transfmt.equal <- cbind(diffObj[["transfmt.equal"]], trans.equal)
@@ -280,14 +290,14 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
     which(!tokens.equal),
     function(thisToken){
       letters.orig  <- unlist(strsplit(tokens.orig[thisToken], ""))
-      letters.trans <- unlist(strsplit(tokens.trans[thisToken], ""))
+      letters.trans <- unlist(strsplit(tokens.new[thisToken], ""))
       # transformations like clozeDelete might change the number of
       # characters, so for a safe comparison, we'll discard all
       # additional characters of the longer token
       relevant_length <- min(length(letters.orig), length(letters.trans))
       result <- sum(letters.orig[1:relevant_length] != letters.trans[1:relevant_length])
       if(isTRUE(check_missing_letters)){
-        # however, transformations lie "normalize" might replace tokens
+        # however, transformations like "normalize" might replace tokens
         # with much shorter ones, so for a full comparison, let's add the
         # missing letters as changes
         result <- result + (max(length(letters.orig), length(letters.trans)) - relevant_length)
@@ -297,8 +307,8 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
   )
 
   tokens.orig.np   <- tokens.orig[no_punct]
-  tokens.trans.np  <- tokens.trans[no_punct]
-  tokens.equal.np  <- tokens.orig.np == tokens.trans.np
+  tokens.new.np  <- tokens.new[no_punct]
+  tokens.equal.np  <- tokens.orig.np == tokens.new.np
   letters.diff.np  <- letters.diff[no_punct]
   all_letters.np   <- all_letters[no_punct]
 
@@ -307,13 +317,18 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
   diff.pct.lett.all  <- 100 * sum(letters.diff) / sum(all_letters)
   diff.pct.lett      <- 100 * sum(letters.diff.np) / sum(all_letters.np)
 
-  old.new.comp[["token"]] <- tokens.trans
+  old.new.comp[["token"]] <- tokens.new
   old.new.comp[!tokens.equal,"token.orig"] <- tokens.orig[!tokens.equal]
   old.new.comp[["equal"]] <- tokens.equal
   old.new.comp[["lttr.diff"]] <- letters.diff
 
   if(obj_has_diff){
     transfmt <- c(diffObj[["transfmt"]], transfmt)
+  } else {}
+
+  # since "normalize" might change tokens, let's update the stats
+  if("normalize" %in% transfmt){
+    old.new.comp[!tokens.equal, "lttr"] <- as.integer(nchar(old.new.comp[!tokens.equal, "token"], type="width"))
   } else {}
 
   taggedText(obj) <- old.new.comp
@@ -342,7 +357,9 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
 txt_trans_revert_orig <- function(tokens){
   cols <- colnames(tokens)
   if(all(c("equal", "token.orig") %in% cols)){
-    tokens[!tokens[["equal"]],"token"] <- tokens[!tokens[["equal"]],"token.orig"]
+    tokens[!tokens[["equal"]], "token"] <- tokens[!tokens[["equal"]], "token.orig"]
+    # recount letters to be sure
+    tokens[!tokens[["equal"]], "lttr"]  <- as.integer(nchar(tokens[!tokens[["equal"]], "token"], type="width"))
     return(tokens[,cols[!cols %in% c("token.orig","equal","lttr.diff")]])
   } else {
     return(tokens)
