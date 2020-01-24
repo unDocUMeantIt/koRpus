@@ -258,7 +258,7 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
   all_letters <- old.new.comp[["lttr"]]
 
   # keep an already present "token.orig" if present
-  tokens.orig      <- koRpus:::txt_trans_revert_orig(tokens=old.new.comp)[["token"]]
+  tokens.orig      <- txt_trans_revert_orig(tokens=old.new.comp)[["token"]]
 
   tokens.equal     <- tokens.orig == tokens.new
   # the above shows the global differences between original and current tokens
@@ -284,27 +284,30 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
     transfmt.normalize[[length(transfmt.normalize) + 1]] <- normalize
   } else {}
 
-  letters.diff     <- rep(0, length(tokens.equal))
-  letters.diff[!tokens.equal] <- sapply(
-    # only do this for tokens which are actually different from the originalText
-    which(!tokens.equal),
-    function(thisToken){
-      letters.orig  <- unlist(strsplit(tokens.orig[thisToken], ""))
-      letters.trans <- unlist(strsplit(tokens.new[thisToken], ""))
-      # transformations like clozeDelete might change the number of
-      # characters, so for a safe comparison, we'll discard all
-      # additional characters of the longer token
-      relevant_length <- min(length(letters.orig), length(letters.trans))
-      result <- sum(letters.orig[1:relevant_length] != letters.trans[1:relevant_length])
-      if(isTRUE(check_missing_letters)){
-        # however, transformations like "normalize" might replace tokens
-        # with much shorter ones, so for a full comparison, let's add the
-        # missing letters as changes
-        result <- result + (max(length(letters.orig), length(letters.trans)) - relevant_length)
-      } else {}
-      return(result)
-    }
-  )
+  letters.diff     <- rep.int(0, length(tokens.equal))
+  # skip this in case nothing was changed, sapply() might have unexpected side effects otherwise
+  if(any(!tokens.equal)){
+    letters.diff[!tokens.equal] <- sapply(
+      # only do this for tokens which are actually different from the originalText
+      which(!tokens.equal),
+      function(thisToken){
+        letters.orig  <- unlist(strsplit(tokens.orig[thisToken], ""))
+        letters.trans <- unlist(strsplit(tokens.new[thisToken], ""))
+        # transformations like clozeDelete might change the number of
+        # characters, so for a safe comparison, we'll discard all
+        # additional characters of the longer token
+        relevant_length <- min(length(letters.orig), length(letters.trans))
+        result <- sum(letters.orig[1:relevant_length] != letters.trans[1:relevant_length])
+        if(isTRUE(check_missing_letters)){
+          # however, transformations like "normalize" might replace tokens
+          # with much shorter ones, so for a full comparison, let's add the
+          # missing letters as changes
+          result <- result + (max(length(letters.orig), length(letters.trans)) - relevant_length)
+        } else {}
+        return(result)
+      }
+    )
+  } else {}
 
   tokens.orig.np   <- tokens.orig[no_punct]
   tokens.new.np  <- tokens.new[no_punct]
