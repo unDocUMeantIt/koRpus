@@ -59,6 +59,8 @@ added:
     kRp.tagged, kRp.txt.freq, kRp.txt.trans, and kRp.analysis
   - split_by_doc_id(): new method transforms a kRp.text object with multiple
     doc_ids into a list of single-document kRp.text objects
+  - [[/[[<-: gained new argument "doc_id" to limit the scope to particular
+    documents
 removed:
   - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes
     were special cases of kRp.text, and since all their information can

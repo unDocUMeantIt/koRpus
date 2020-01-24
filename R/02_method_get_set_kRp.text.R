@@ -44,9 +44,10 @@
 #'
 #' @param add.desc Logical, determines whether the \code{desc} column should be re-written with descriptions
 #'    for all POS tags.
-#' @param doc_id Logical (except for \code{fixObject}), if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
+#' @param doc_id Logical (except for \code{fixObject}, \code{feature}, and \code{[[/[[<-}), if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
 #'    of the \code{desc} slot, i.\,e., the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
-#'    to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).
+#'    to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them). If used with \code{feature} or \code{[[/[[<-},
+#'    a character vector to limit the scope to one or more particular document IDs.
 #' @param ... Additional arguments for the generics.
 #' @rdname kRp.text_get-methods
 #' @docType methods
@@ -497,8 +498,22 @@ setMethod("[<-",
 #'    [[,kRp.text,ANY-method
 setMethod("[[",
   signature=signature(x="kRp.text"),
-  function (x, i){
-    return(taggedText(x)[[i]])
+  function (x, i, doc_id=NULL){
+    if(is.null(doc_id)){
+      return(taggedText(x)[[i]])
+    } else {
+      doc_ids_in_obj <- doc_id(x, has_id=doc_id)
+      tt <- taggedText(x)
+      if(all(doc_ids_in_obj)){
+        return(tt[tt[["doc_id"]] %in% doc_id, i])
+      } else {
+        warning(
+          paste0("Invalid doc_id, omitted:\n  \"", paste0(doc_id[!doc_ids_in_obj], collapse="\", \""), "\""),
+          call.=FALSE
+        )
+        return(tt[tt[["doc_id"]] %in% doc_id[doc_ids_in_obj], i])
+      }
+    }
   }
 )
 
@@ -510,8 +525,21 @@ setMethod("[[",
 #'    [[<-,kRp.text,ANY,ANY-method
 setMethod("[[<-",
   signature=signature(x="kRp.text"),
-  function (x, i, value){
-    taggedText(x)[[i]] <- value
+  function (x, i, doc_id=NULL, value){
+    if(is.null(doc_id)){
+      taggedText(x)[[i]] <- value
+    } else {
+      doc_ids_in_obj <- doc_id(x, has_id=doc_id)
+      tt <- taggedText(x)
+      if(all(doc_ids_in_obj)){
+        tt[tt[["doc_id"]] %in% doc_id, i] <- value
+        taggedText(x) <- tt
+      } else {
+        stop(simpleError(
+          paste0("Invalid doc_id:\n  \"", paste0(doc_id[!doc_ids_in_obj], collapse="\", \""), "\"!")
+        ))
+      }
+    }
     return(x)
   }
 )
