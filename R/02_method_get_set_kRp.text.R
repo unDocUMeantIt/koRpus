@@ -584,7 +584,7 @@ setMethod("language<-",
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods
-setGeneric("diffText", function(obj, doc_id) standardGeneric("diffText"))
+setGeneric("diffText", function(obj, doc_id=NULL) standardGeneric("diffText"))
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods
