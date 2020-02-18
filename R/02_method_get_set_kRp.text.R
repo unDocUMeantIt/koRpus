@@ -554,8 +554,19 @@ setMethod("[[<-",
 #'    describe,kRp.text-method
 setMethod("describe",
   signature=signature(obj="kRp.text"),
-  function (obj){
+  function (obj, doc_id=NULL){
     result <- slot(obj, name="desc")
+    if(!is.null(doc_id)){
+      doc_ids_in_obj <- doc_id(obj, has_id=doc_id)
+      if(all(doc_ids_in_obj)){
+        result <- result[names(result) %in% doc_id]
+      } else {
+        stop(simpleError(
+          paste0("Invalid doc_id:\n  \"", paste0(doc_id[!doc_ids_in_obj], collapse="\", \""), "\"!")
+        ))
+      }
+    } else {}
+
     return(result)
   }
 )
@@ -570,8 +581,23 @@ setMethod("describe",
 #'    describe<-,kRp.text-method
 setMethod("describe<-",
   signature=signature(obj="kRp.text"),
-  function (obj, value){
-    slot(obj, name="desc") <- value
+  function (obj, doc_id=NULL, value){
+    if(is.null(doc_id)){
+      slot(obj, name="desc") <- value
+    } else {
+      doc_ids_in_obj <- doc_id(obj, has_id=doc_id)
+      if(all(doc_ids_in_obj)){
+        if(length(doc_id) > 1){
+          slot(obj, name="desc")[doc_id] <- value
+        } else {
+          slot(obj, name="desc")[[doc_id]] <- value
+        }
+      } else {
+        stop(simpleError(
+          paste0("Invalid doc_id:\n  \"", paste0(doc_id[!doc_ids_in_obj], collapse="\", \""), "\"!")
+        ))
+      }
+    }
     return(obj)
   }
 )

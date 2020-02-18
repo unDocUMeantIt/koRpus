@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2020-01-24)
+changes in version 0.13-1 (2020-02-18)
 unreleased:
   - this release is under development
 fixed:
@@ -61,6 +61,7 @@ added:
     doc_ids into a list of single-document kRp.text objects
   - [[/[[<-: gained new argument "doc_id" to limit the scope to particular
     documents
+  - describe()/describe()<-: now support filtering by doc_id
 removed:
   - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes
     were special cases of kRp.text, and since all their information can
