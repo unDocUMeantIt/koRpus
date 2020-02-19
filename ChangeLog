@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2020-02-18)
+changes in version 0.13-1 (2020-02-19)
 unreleased:
   - this release is under development
 fixed:
@@ -38,7 +38,8 @@ added:
   - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
     kRp.txt.trans; the TT.res slot was renamed into "tokens", additional
     columns in the data frame are now ok, new slots "features" and "feat_list"
-    to host analysis results like readability or lexical diversity
+    to host analysis results like readability or lexical diversity, and
+    the "desc" slot now always contains elements named by doc_id
   - docTermMatrix(): new method to calculate document term matrices from
     TIF compliant token data frames and koRpus objects
   - doc_id(), hasFeatures(), hasFeatures()<-, features(), features()<-,
