@@ -471,8 +471,8 @@ setMethod("corpusStopwords<-",
 #'    [,kRp.text,ANY,ANY-method
 setMethod("[",
   signature=signature(x="kRp.text"),
-  function (x, i, j){
-    return(taggedText(x)[i, j])
+  function (x, i, j, ...){
+    return(taggedText(x)[i, j, ...])
   }
 )
 
@@ -484,8 +484,8 @@ setMethod("[",
 #'    [<-,kRp.text,ANY,ANY,ANY-method
 setMethod("[<-",
   signature=signature(x="kRp.text"),
-  function (x, i, j, value){
-    taggedText(x)[i, j] <- value
+  function (x, i, j, ..., value){
+    taggedText(x)[i, j, ...] <- value
     return(x)
   }
 )
@@ -500,18 +500,18 @@ setMethod("[[",
   signature=signature(x="kRp.text"),
   function (x, i, doc_id=NULL, ...){
     if(is.null(doc_id)){
-      return(taggedText(x)[[i]])
+      return(taggedText(x)[[i, ...]])
     } else {
       doc_ids_in_obj <- doc_id(x, has_id=doc_id)
       tt <- taggedText(x)
       if(all(doc_ids_in_obj)){
-        return(tt[tt[["doc_id"]] %in% doc_id, i])
+        return(tt[tt[["doc_id"]] %in% doc_id, i, ...])
       } else {
         warning(
           paste0("Invalid doc_id, omitted:\n  \"", paste0(doc_id[!doc_ids_in_obj], collapse="\", \""), "\""),
           call.=FALSE
         )
-        return(tt[tt[["doc_id"]] %in% doc_id[doc_ids_in_obj], i])
+        return(tt[tt[["doc_id"]] %in% doc_id[doc_ids_in_obj], i, ...])
       }
     }
   }
@@ -532,7 +532,7 @@ setMethod("[[<-",
       doc_ids_in_obj <- doc_id(x, has_id=doc_id)
       tt <- taggedText(x)
       if(all(doc_ids_in_obj)){
-        tt[tt[["doc_id"]] %in% doc_id, i] <- value
+        tt[tt[["doc_id"]] %in% doc_id, i, ...] <- value
         taggedText(x) <- tt
       } else {
         stop(simpleError(
