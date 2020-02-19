@@ -255,7 +255,7 @@ setMethod("tokenize",
       # create object, combine descriptives afterwards
       tokens <- kRp_text(lang=lang, tokens=tagged.mtrx)
       ## descriptive statistics
-      tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
+      describe(tokens)[[doc_id]] <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
     } else {}
 
     return(tokens)

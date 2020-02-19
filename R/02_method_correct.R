@@ -51,7 +51,7 @@
 #' @export
 #' @docType methods
 #' @rdname correct-methods
-setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=NULL){standardGeneric("correct.tag")})
+setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=NULL, quiet=TRUE){standardGeneric("correct.tag")})
 
 #' @export
 #' @docType methods
@@ -61,7 +61,14 @@ setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=N
 #' @include koRpus-internal.R
 setMethod("correct.tag",
     signature(obj="kRp.text"),
-    function (obj, row, tag=NULL, lemma=NULL, check.token=NULL){
+    function(
+      obj,
+      row,
+      tag=NULL,
+      lemma=NULL,
+      check.token=NULL,
+      quiet=TRUE
+    ){
 
       if(!is.numeric(row)){
         stop(simpleError("Not a valid row number!"))
@@ -100,12 +107,23 @@ setMethod("correct.tag",
       } else {}
 
       # update descriptive statistics
-      describe(local.obj.copy) <- basic.tagged.descriptives(local.obj.copy, lang=lang, desc=describe(local.obj.copy), update.desc=TRUE)
+      describe(local.obj.copy) <- lapply(split_by_doc_id(local.obj.copy),
+        function(this_obj){
+          return(basic.tagged.descriptives(
+            this_obj,
+            lang=lang,
+            desc=describe(this_obj),
+            update.desc=TRUE
+          ))
+        }
+      )
 
-      cat("Changed\n\n")
-      print(obj[row, ])
-      cat("\n  into\n\n")
-      print(local.obj.copy[row, ])
+      if(!isTRUE(quiet)){
+        cat("Changed\n\n")
+        print(obj[row, ])
+        cat("\n  into\n\n")
+        print(local.obj.copy[row, ])
+      } else {}
 
       return(local.obj.copy)
     }

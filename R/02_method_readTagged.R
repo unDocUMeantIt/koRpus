@@ -350,7 +350,10 @@ kRp_read_tagged <- function(
 
   results <- kRp_text(lang=lang, tokens=tagged.mtrx)
   ## descriptive statistics
-  describe(results) <- basic.tagged.descriptives(
+  if(is.na(doc_id)){
+    doc_id <- 1
+  } else {}
+  describe(results)[[doc_id]] <- basic.tagged.descriptives(
     results,
     lang=lang,
     txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]),

@@ -589,7 +589,7 @@ setMethod("treetag",
     txt.vector <- readLines(takeAsFile, encoding=encoding, warn=FALSE)
     # force text into UTF-8 format
     txt.vector <- enc2utf8(txt.vector)
-    describe(results) <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
+    describe(results)[[doc_id]] <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
 
     return(results)
   }

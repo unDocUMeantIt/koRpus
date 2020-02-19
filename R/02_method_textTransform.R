@@ -344,7 +344,7 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
       transfmt.equal=transfmt.equal,
       transfmt.normalize=transfmt.normalize
     )
-  describe(obj) <- basic.tagged.descriptives(
+  describe(obj)[[doc_id]] <- basic.tagged.descriptives(
     obj,
     lang=lang,
     txt.vector=old.new.comp[["token"]],

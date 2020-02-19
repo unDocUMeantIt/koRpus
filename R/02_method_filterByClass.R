@@ -70,9 +70,9 @@ setMethod("filterByClass",
       taggedText(results) <- pre.results
       if(!is.null(update.desc)){
         if(isTRUE(update.desc)){
-          describe(results) <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=txt.desc[["doc_id"]])
+          describe(results)[[doc_id(results)]] <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=doc_id(results))
         } else {
-          describe(results) <- txt.desc
+          describe(results)[[doc_id(results)]] <- txt.desc
         }
       } else {}
     }

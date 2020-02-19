@@ -498,7 +498,7 @@ setMethod("[<-",
 #'    [[,kRp.text,ANY-method
 setMethod("[[",
   signature=signature(x="kRp.text"),
-  function (x, i, doc_id=NULL){
+  function (x, i, doc_id=NULL, ...){
     if(is.null(doc_id)){
       return(taggedText(x)[[i]])
     } else {
@@ -525,7 +525,7 @@ setMethod("[[",
 #'    [[<-,kRp.text,ANY,ANY-method
 setMethod("[[<-",
   signature=signature(x="kRp.text"),
-  function (x, i, doc_id=NULL, value){
+  function (x, i, doc_id=NULL, ..., value){
     if(is.null(doc_id)){
       taggedText(x)[[i]] <- value
     } else {
@@ -546,6 +546,8 @@ setMethod("[[<-",
 
 ## the standard generic for describe() is defined in the sylly package
 #' @importFrom sylly describe
+#' @param simplify Logical, if \code{TRUE} and the result is a list oft length one (i.e., just a single \code{doc_id}),
+#'    returns the contents of the single list entry.
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods
@@ -554,7 +556,7 @@ setMethod("[[<-",
 #'    describe,kRp.text-method
 setMethod("describe",
   signature=signature(obj="kRp.text"),
-  function (obj, doc_id=NULL){
+  function (obj, doc_id=NULL, simplify=TRUE, ...){
     result <- slot(obj, name="desc")
     if(!is.null(doc_id)){
       doc_ids_in_obj <- doc_id(obj, has_id=doc_id)
@@ -567,6 +569,10 @@ setMethod("describe",
       }
     } else {}
 
+    if(all(isTRUE(simplify), length(result) == 1)){
+      result <- result[[1]]
+    } else {}
+    
     return(result)
   }
 )
@@ -581,7 +587,7 @@ setMethod("describe",
 #'    describe<-,kRp.text-method
 setMethod("describe<-",
   signature=signature(obj="kRp.text"),
-  function (obj, doc_id=NULL, value){
+  function (obj, doc_id=NULL, ..., value){
     if(is.null(doc_id)){
       slot(obj, name="desc") <- value
     } else {
