@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -344,7 +344,7 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
       transfmt.equal=transfmt.equal,
       transfmt.normalize=transfmt.normalize
     )
-  describe(obj)[[doc_id]] <- basic.tagged.descriptives(
+  describe(obj, doc_id=doc_id) <- basic.tagged.descriptives(
     obj,
     lang=lang,
     txt.vector=old.new.comp[["token"]],

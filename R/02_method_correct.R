@@ -113,7 +113,8 @@ setMethod("correct.tag",
             this_obj,
             lang=lang,
             desc=describe(this_obj),
-            update.desc=TRUE
+            update.desc=TRUE,
+            doc_id=doc_id(this_obj)
           ))
         }
       )
