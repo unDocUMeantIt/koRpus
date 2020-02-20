@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -102,7 +102,7 @@ textFeatures <- function(text, hyphen=NULL){
     complx=rdb.desc[["TTR"]],
     sntCt=text.desc[["sentences"]],
     sntLen=text.desc[["avg.sentc.length"]],
-    syllCt=text.hyph@desc[["avg.syll.word"]],
+    syllCt=describe(text.hyph)[["avg.syll.word"]],
     charCt=text.desc[["all.chars"]],
     lttrCt=text.desc[["letters"]][["all"]],
     FOG=text.rdb@FOG[["FOG"]],

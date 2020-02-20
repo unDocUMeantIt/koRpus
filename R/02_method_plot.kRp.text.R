@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -59,7 +59,7 @@ setMethod("plot", signature(x="kRp.text", y="missing"), function(x, what="wclass
     text(barplot.ticks, par("usr")[3]-6, srt=45, adj=1, labels=labels, xpd=TRUE)
     mtext(1, text="word class", line=6)
   } else if(identical(what, "letters")){
-    lttr.distrib <- x@desc[["lttr.distrib"]]
+    lttr.distrib <- describe(x)[["lttr.distrib"]]
     plot(lttr.distrib["pct",], type="l", xlab="letters", ylab="percent", main="Distribution of word lengths (letters)", xaxt="n", ...)
     axis(1, at=c(1:ncol(lttr.distrib)), labels=colnames(lttr.distrib))
   } else {}
