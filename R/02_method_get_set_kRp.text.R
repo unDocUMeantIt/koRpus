@@ -761,8 +761,13 @@ setMethod("fixObject",
       currentDesc[["doc_id"]] <- doc_id
     } else {}
 
-    slot(obj, "tokens") <- newDf
-    slot(obj, "desc") <- currentDesc
+    taggedText(obj) <- newDf
+
+    newDesc <- list(currentDesc)
+    if(!is.na(currentDesc[["doc_id"]])){
+      names(newDesc) <- currentDesc[["doc_id"]]
+    }
+    describe(obj) <- newDesc
 
     return(obj)
   }

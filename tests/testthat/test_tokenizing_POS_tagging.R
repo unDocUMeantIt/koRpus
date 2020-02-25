@@ -193,19 +193,44 @@ test_that("basic tokenizing", {
   # without a local TreeTagger installation, these tests will be limited
   # to what is possible with tokenize()
   tokenizedTextFile <- tokenize(
-    sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    sampleTextFile,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE
+  )
   tokenizedTextFileNoDesc <- tokenize(
-    sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=FALSE)
+    sampleTextFile,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=FALSE
+  )
   tokenizedTextObj <- tokenize(
-    sampleTextObj, format="obj", lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    sampleTextObj,
+    format="obj",
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE,
+    doc_id="sample_text.txt"
+  )
 
   textToTag <- file(sampleTextFile)
   tokenizedTextConnection <- tokenize(
-    textToTag, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    textToTag,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE,
+    doc_id="sample_text.txt"
+  )
   close(textToTag)
 
   # this was fixed in koRpus 0.06-4, checking it's still working
-  tokenizedToken <- tokenize("singleton", format="obj", lang="xy", add.desc=TRUE)
+  tokenizedToken <- tokenize(
+    "singleton",
+    format="obj",
+    lang="xy",
+    add.desc=TRUE,
+    doc_id="sample_text.txt"
+  )
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
   expect_equal(
@@ -233,11 +258,18 @@ test_that("basic tokenizing", {
 test_that("fixing old objects", {
   sampleTextFile <- normalizePath("sample_text.txt")
   expect_warning(
-    sampleTextStandardOld <- fixObject(dget("sample_text_tokenized_dput_old.txt"))
+    sampleTextStandardOld <- fixObject(
+      dget("sample_text_tokenized_dput_old.txt"),
+      doc_id="sample_text.txt"
+    )
   )
 
   tokenizedTextFile <- tokenize(
-    sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    sampleTextFile,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE
+  )
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
   expect_equal(
@@ -267,7 +299,7 @@ test_that("importing already tagged texts", {
     tagger="manual",
     mtx_cols=c(token="token", tag="pos", lemma=NA)
   )
-  
+
   expect_equal(
     treeTaggedText,
     sampleTextTreeTaggedStandard
@@ -294,7 +326,7 @@ test_that("lexical diversity", {
 
   # try with feature object
   lexdivTextFeatureObj <- lex.div(sampleTextTokenized, char=NULL, quiet=TRUE, as.feature=TRUE)
-  lexdivTextFeatureSummary <- summary(corpusLexDiv(lexdivTextFeatureObj))
+  lexdivTextFeatureSummary <- summary(corpusLexDiv(lexdivTextFeatureObj)[[1]])
 
   expect_equal(
     lexdivTextObj,
