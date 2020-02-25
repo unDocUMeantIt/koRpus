@@ -17,7 +17,10 @@ fixed:
   - readability(): HTML documentation had a wrong formula for LIX (LaTeX was
     correct)
   - textTransform(): now recounting letters when scheme is "normalize" as
-    it might have altered word lengths
+    it might have altered word lengths; the calculations of some data in the
+    desc slot (all.chars, lines, normalized.space) as now also done relative
+    to the old values, because they can't be correctly recalculated from a
+    mere vector of tokens
 changed:
   - docTermMatrix(): optimzed calculation speed drastically
   - read.corp.custom(): re-wrote most of the code, now based on

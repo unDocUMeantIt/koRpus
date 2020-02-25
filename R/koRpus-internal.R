@@ -149,15 +149,30 @@ basic.text.descriptives <- function(txt){
 
 ## function basic.tagged.descriptives()
 # txt must be an object of class kRp.text
+#  - if "txt.vector" is given alone, an all new desc slot is prepared
+#  - if "desc" is given alone, some of its content is being updated by examining "txt"
+# using "txt.vector" for re-calculations of lines, all.chars or normalized.space is most definitely a bad idea
+# because the vector lost all information on spaces between tokens or newlines. therefore:
+#  - if *both* "txt.vector" and "desc" are provided and "update.desc=TRUE", as is done by textTransform(),
+#    the old value of lines is left untouched, and all.chars and normalized.space are adjusted according to
+#    the difference betrwee the old and new value of chars.no.space
 #' @include 02_method_filterByClass.R
 basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, doc_id=NA){
+  extended_update <- FALSE
+  
   if(is.null(lang)){
     lang <- language(txt)
   } else {}
-  # create desc if not present
-  if(all(!is.null(txt.vector), is.null(desc))){
+
+  if(all(!is.null(txt.vector), !is.null(desc), isTRUE(update.desc))){
+    desc.old <- desc
     desc <- basic.text.descriptives(txt.vector)
-  }
+    extended_update <- TRUE
+  } else if(all(!is.null(txt.vector), is.null(desc))){
+    # create desc if not present
+    desc <- basic.text.descriptives(txt.vector)
+  } else {}
+
   # count sentences
   txt.stend.tags <- kRp.POS.tags(lang, list.tags=TRUE, tags="sentc")
   txt.stend <- count.sentences(taggedText(txt), txt.stend.tags)
@@ -165,7 +180,6 @@ basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL
   txt.nopunct <- filterByClass(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=NULL)
   num.words <- nrow(taggedText(txt.nopunct))
   avg.sentc.length <- num.words / txt.stend
-
   # character distribution
   char.distrib <- value.distribs(taggedText(txt)[["lttr"]], omit.missings=FALSE)
   lttr.distrib <- value.distribs(taggedText(txt.nopunct)[["lttr"]], omit.missings=FALSE)
@@ -189,6 +203,12 @@ basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL
     desc[["sentences"]] <- txt.stend
     desc[["avg.sentc.length"]] <- avg.sentc.length
     desc[["avg.word.length"]] <- avg.word.length
+    if(isTRUE(extended_update)){
+      desc[["lines"]] <- desc.old[["lines"]]
+      chars.diff <- desc[["chars.no.space"]] - desc.old[["chars.no.space"]]
+      desc[["all.chars"]] <- desc.old[["all.chars"]] + chars.diff
+      desc[["normalized.space"]] <- desc.old[["normalized.space"]] + chars.diff
+    } else {}
     results <- desc
   } else {
     results <- append(

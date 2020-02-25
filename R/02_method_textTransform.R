@@ -247,7 +247,8 @@ kRp.text.transform <- function(...){
 # returns an object of kRp.text
 txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list(), check_missing_letters=FALSE){
   lang <- language(obj)
-  doc_id <- describe(obj)[["doc_id"]]
+  old.desc <- describe(obj)
+  doc_id <- old.desc[["doc_id"]]
   old.new.comp <- taggedText(obj)
   obj_has_diff <- hasFeature(obj, "diff")
   if(obj_has_diff){
@@ -347,7 +348,9 @@ txt_trans_diff <- function(obj, tokens.new, transfmt="unknown", normalize=list()
   describe(obj, doc_id=doc_id) <- basic.tagged.descriptives(
     obj,
     lang=lang,
+    desc=old.desc,
     txt.vector=old.new.comp[["token"]],
+    update.desc=TRUE,
     doc_id=doc_id
   )
 
