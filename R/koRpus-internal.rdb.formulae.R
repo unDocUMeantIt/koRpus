@@ -252,32 +252,27 @@ kRp.rdb.formulae <- function(
   } else {}
 
   # check for given magic numbers
-  if(!is.list(parameters) | identical(length(parameters), 0)){
+  if(!is.list(parameters)){
     stop(simpleError("Missing accurate paramteter list!"))
   } else {
     # first complain if unknown parameters supplied
-    ## TODO: replace with kRp_check_params()
-#     valid.params <- rownames(rdb_indices)[rdb_indices[,"params"]]
     kRp_check_params(
       names(parameters),
       rdb_indices[,"params"],
       where="parameters"
     )
   }
-  
-  ## TODO: replace with rdb_indices
+
   all.valid.indices <- rownames(rdb_indices)
   # activate all?
   if(identical(index, "all")){
     index <- rownames(rdb_indices)
   } else {}
   if(identical(index, "fast")){
-    ## TODO: replace with rdb_indices
     # this should be like the defaults but without FOG
     index <- rownames(rdb_indices)[rdb_indices[, "fast"]]
   } else {}
 
-  ## TODO: replace with rdb_indices
   need.sylls <- rownames(rdb_indices)[rdb_indices[, "sylls"]]
 
   # use for keep.input

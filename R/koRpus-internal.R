@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -562,7 +562,7 @@ kRp_check_params <- function(given, valid, where=NULL, missing=FALSE){
       stop(simpleError(paste0("Invalid elements given", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
     }
   }
-} ## end function kRp.check.params()
+} ## end function kRp_check_params()
 
 
 ## function count.sentences()
