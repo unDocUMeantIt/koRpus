@@ -172,28 +172,39 @@ kRp.check.params <- function(given, valid, where=NULL, missing=FALSE){
 } ## end function kRp.check.params()
 
 
-## function kRp_check_params()
+## function check_parameters()
 # TODO: to soon replace kRp.check.params()
-# - given: character string of parameter names
-# - valid: named logical vector all values of "given" are checked against
-kRp_check_params <- function(given, valid, where=NULL, missing=FALSE){
-  if(all(valid[given])){
+# - given: character string or list of parameter names
+# - index: name of the index that all values of "given" qill be checked against
+#     if "all" a basic check is done whether params for unknown indizes are given
+check_parameters <- function(given, index){
+  if(identical(index, "all")){
+    valid <- rdb_indices[,"params"]
+    given <- names(given)
+    index <- "parameters"
+  } else {
+    valid <- sapply(unlist(rdb_parameters(index=index)), function(x) TRUE)
+    given <- names(unlist(given))
+  }
+  if(
+    any(
+      all(identical(index, "parameters"), isTRUE(all(valid[given]))),
+      sum(valid[given], na.rm=TRUE) == length(given)
+    )
+  ){
     return(TRUE)
   } else {
     valid_true <- valid[valid]
-    invalid_params <- !given %in% names(valid)
-    if(!is.null(where)){
-      check_location <- paste0(" in \"", where, "\"")
+    invalid_params <- given[!given %in% names(valid)]
+    missing_params <- names(valid)[!names(valid) %in% given]
+    check_location <- paste0(" in \"", index, "\"")
+    if(length(missing_params)){
+      stop(simpleError(paste0("Missing parameters", check_location, ": \"", paste(missing_params, collapse="\", \""), "\"")))
     } else {
-      check_location <- ""
-    }
-    if(isTRUE(missing)){
-      stop(simpleError(paste0("Missing elements", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
-    } else {
-      stop(simpleError(paste0("Invalid elements given", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
+      stop(simpleError(paste0("Invalid parameters", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
     }
   }
-} ## end function kRp_check_params()
+} ## end function check_parameters()
 
 
 
@@ -304,10 +315,9 @@ kRp.rdb.formulae <- function(
     stop(simpleError("Missing accurate paramteter list!"))
   } else {
     # first complain if unknown parameters supplied
-    kRp_check_params(
+    check_parameters(
       names(parameters),
-      rdb_indices[,"params"],
-      where="parameters"
+      index="all"
     )
   }
 
