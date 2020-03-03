@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -149,6 +149,54 @@ rdb_indices <- matrix(
   )
 )
 
+
+# TODO: replace with kRp_check_params()
+## function kRp.check.params()
+kRp.check.params <- function(given, valid, where=NULL, missing=FALSE){
+  compared <- given %in% valid
+  invalid.params <- given[!compared]
+  if(!is.null(where)){
+    check.location <- paste0(" in \"",where,"\"")
+  } else {
+    check.location <- ""
+  }
+  if(!length(invalid.params) == 0){
+    if(isTRUE(missing)){
+      stop(simpleError(paste0("Missing elements", check.location,": \"", paste(invalid.params, collapse="\", \""), "\"")))
+    } else {
+      stop(simpleError(paste0("Invalid elements given", check.location,": \"", paste(invalid.params, collapse="\", \""), "\"")))
+    }
+  } else {
+    return(TRUE)
+  }
+} ## end function kRp.check.params()
+
+
+## function kRp_check_params()
+# TODO: to soon replace kRp.check.params()
+# - given: character string of parameter names
+# - valid: named logical vector all values of "given" are checked against
+kRp_check_params <- function(given, valid, where=NULL, missing=FALSE){
+  if(all(valid[given])){
+    return(TRUE)
+  } else {
+    valid_true <- valid[valid]
+    invalid_params <- !given %in% names(valid)
+    if(!is.null(where)){
+      check_location <- paste0(" in \"", where, "\"")
+    } else {
+      check_location <- ""
+    }
+    if(isTRUE(missing)){
+      stop(simpleError(paste0("Missing elements", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
+    } else {
+      stop(simpleError(paste0("Invalid elements given", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
+    }
+  }
+} ## end function kRp_check_params()
+
+
+
 ## additional options:
 # - analyze.text:
 #     TRUE for kRp.rdb.formulae(), i.e. get values from text object examination,
@@ -284,16 +332,17 @@ kRp.rdb.formulae <- function(
     #######################
 
     lang <- language(txt.file)
+    docID <- doc_id(txt.file)
 
     if(identical(nonword.class, "nonpunct")){
       nonword.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
     } else {}
 
     tagged.words.only <- filterByClass(txt.file, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
-    if(is.null(slot(txt.file, "desc")$all.words)){
-      slot(txt.file, "desc")$all.words <- tagged.words.only[["token"]]
+    if(is.null(describe(txt.file, doc_id=docID)[["all.words"]])){
+      describe(txt.file, doc_id=docID)[["all.words"]] <- tagged.words.only[["token"]]
     } else {}
-    txt.desc <- slot(txt.file, "desc")
+    txt.desc <- describe(txt.file, doc_id=docID)
 
     # check how to handle the hyphen parameter
     # first see if there's results to re-use
@@ -343,13 +392,13 @@ kRp.rdb.formulae <- function(
     lett.per100 <- num.letters * 100 / num.words
     num.punct <- txt.desc$punct
     if(isTRUE(sylls.available)){
-      num.syll <- slot(hyphen, "desc")[["num.syll"]]
-      num.monosyll <- slot(hyphen, "desc")[["syll.distrib"]]["num", 1]
+      num.syll <- describe(hyphen)[["num.syll"]]
+      num.monosyll <- describe(hyphen)[["syll.distrib"]]["num", 1]
       pct.monosyll <- num.monosyll * 100 / num.words
-      syll.distrib <- slot(hyphen, "desc")[["syll.distrib"]]
-      syll.uniq.distrib <- slot(hyphen, "desc")[["syll.uniq.distrib"]]
-      avg.syll.word <- slot(hyphen, "desc")[["avg.syll.word"]]
-      syll.per100 <- slot(hyphen, "desc")[["syll.per100"]]
+      syll.distrib <- describe(hyphen)[["syll.distrib"]]
+      syll.uniq.distrib <- describe(hyphen)[["syll.uniq.distrib"]]
+      avg.syll.word <- describe(hyphen)[["avg.syll.word"]]
+      syll.per100 <- describe(hyphen)[["syll.per100"]]
       fixed.syllables <- distrib.to.fixed(syll.distrib, all.values=num.syll, idx="s")
     } else {
       num.syll <- NA
@@ -581,7 +630,7 @@ kRp.rdb.formulae <- function(
       kRp.check.params(names(prms), valid.params, where="Coleman")
       # we don't necessarily need all params
       kRp.check.params("syll", names(prms), where="Coleman", missing=TRUE)
-      coleman.words   <- slot(hyphen, "desc")[["syll.distrib"]]["cum.sum", prms[["syll"]]] * 100 / num.words
+      coleman.words   <- describe(hyphen)[["syll.distrib"]]["cum.sum", prms[["syll"]]] * 100 / num.words
       coleman.sentc   <- sntc.per100
       coleman.pronoun <- num.pronouns * 100 / num.words
       coleman.prepos  <- num.prepositions * 100 / num.words
@@ -1008,7 +1057,7 @@ kRp.rdb.formulae <- function(
     }
     kRp.check.params(names(prms), valid.params, where="FORCAST")
     kRp.check.params(valid.params, names(prms), where="FORCAST", missing=TRUE)
-    FORCAST.monosyll <- slot(hyphen, "desc")[["syll.distrib"]]["cum.sum", prms[["syll"]]] * 150 / num.words
+    FORCAST.monosyll <- describe(hyphen)[["syll.distrib"]]["cum.sum", prms[["syll"]]] * 150 / num.words
     FORCAST.grade <- prms[["const"]] - (FORCAST.monosyll * prms[["mult"]])
     FORCAST.age <- FORCAST.grade + 5
     slot(all.results, "FORCAST") <- list(flavour=flavour, grade=FORCAST.grade, age=FORCAST.age)
@@ -1305,7 +1354,7 @@ kRp.rdb.formulae <- function(
     wien.MS <- long.words(prms[["ms.syll"]] - 1, hyphen=hyphen) / num.words
     wien.SL <- avg.sntc.len
     wien.IW <- long.words(prms[["iw.char"]], txt.desc=txt.desc) / num.words
-    wien.ES <- slot(hyphen, "desc")[["syll.distrib"]]["cum.sum", prms[["es.syll"]]] / num.words
+    wien.ES <- describe(hyphen)[["syll.distrib"]]["cum.sum", prms[["es.syll"]]] / num.words
 
     if(!any(c("nws1", "nws2", "nws3", "nws4") %in% names(prms))){
       stop(simpleError("nWS: You need to specify parameters for at least *one* of the four formulas!"))
@@ -1661,8 +1710,8 @@ long.words <- function(min.num, txt.desc=NULL, hyphen=NULL){
       result <- 0
     }
   } else if(!is.null(hyphen)){
-    if(min.num %in% colnames(slot(hyphen, "desc")[["syll.distrib"]])){
-      result <- slot(hyphen, "desc")[["syll.distrib"]]["cum.inv", as.character(min.num)]
+    if(min.num %in% colnames(describe(hyphen)[["syll.distrib"]])){
+      result <- describe(hyphen)[["syll.distrib"]]["cum.inv", as.character(min.num)]
     } else {
       result <- 0
     }

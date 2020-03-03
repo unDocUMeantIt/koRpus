@@ -290,7 +290,7 @@ test_that("importing already tagged texts", {
   # methods, because the string is made into a connection and that
   # in turn into a matrix, both times calling the appropriate readTagged()
   # methods internally
-  treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy")
+  treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy", doc_id="sample_text.txt")
 
   RDRPOSTaggedText <- readTagged(
     sampleTextFileRDRTagged,
@@ -478,7 +478,6 @@ test_that("query", {
   expect_error(
     query(sampleTextTokenized, "sntcs", 30)
   )
-
 })
 
 
@@ -514,7 +513,7 @@ test_that("filterByClass", {
   )
 
   expect_equal(
-    describe(sampleTextNoPunct)[["all.chars"]],
+    koRpus::describe(sampleTextNoPunct)[["all.chars"]],
     3491 # vs. 3551
   )
 
@@ -523,7 +522,7 @@ test_that("filterByClass", {
   # character level. due to some punctuation not removed from tokens
   # by the TreeTagger tokenizer, there's still some residual left
   expect_equal(
-    describe(sampleTextNoPunct)[["punct"]],
+    koRpus::describe(sampleTextNoPunct)[["punct"]],
     17 # vs. 78
   )
 })

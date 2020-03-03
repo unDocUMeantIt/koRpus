@@ -56,6 +56,7 @@ setMethod("filterByClass",
   function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){
     txt.tokens <- taggedText(txt)
     txt.desc <- describe(txt)
+    txt.id <- doc_id(txt)
 
     # set the language definition
     lang <- language.setting(txt, NULL)
@@ -70,9 +71,9 @@ setMethod("filterByClass",
       taggedText(results) <- pre.results
       if(!is.null(update.desc)){
         if(isTRUE(update.desc)){
-          describe(results)[[doc_id(results)]] <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=doc_id(results))
+          describe(results, doc_id=txt.id) <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=txt.id)
         } else {
-          describe(results)[[doc_id(results)]] <- txt.desc
+          describe(results, doc_id=txt.id) <- txt.desc
         }
       } else {}
     }
