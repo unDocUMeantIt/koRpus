@@ -47,7 +47,7 @@ V\"o, M. L.-H., Conrad, M., Kuchinke, L., Hartfeld, K., Hofmann, M.F. & Jacobs,
       41(2), 534--538.
   doi: 10.3758/BRM.41.2.534
 
-[1] \url{http://www.ewi-psy.fu-berlin.de/einrichtungen/arbeitsbereiche/allgpsy/forschung/Download/}
+[1] \url{https://www.ewi-psy.fu-berlin.de/einrichtungen/arbeitsbereiche/allgpsy/Download/BAWL/index.html}
 }
 \seealso{
 \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},

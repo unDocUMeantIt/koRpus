@@ -175,17 +175,17 @@ corpusStopwords(obj) <- value
 
 \S4method{corpusStopwords}{kRp.text}(obj) <- value
 
-\S4method{[}{kRp.text,ANY,ANY,ANY}(x, i, j)
+\S4method{[}{kRp.text,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
-\S4method{[}{kRp.text,ANY,ANY,ANY}(x, i, j) <- value
+\S4method{[}{kRp.text,ANY,ANY,ANY}(x, i, j, ...) <- value
 
-\S4method{[[}{kRp.text}(x, i)
+\S4method{[[}{kRp.text}(x, i, doc_id = NULL, ...)
 
-\S4method{[[}{kRp.text}(x, i) <- value
+\S4method{[[}{kRp.text}(x, i, doc_id = NULL, ...) <- value
 
-\S4method{describe}{kRp.text}(obj)
+\S4method{describe}{kRp.text}(obj, doc_id = NULL, simplify = TRUE, ...)
 
-\S4method{describe}{kRp.text}(obj) <- value
+\S4method{describe}{kRp.text}(obj, doc_id = NULL, ...) <- value
 
 \S4method{language}{kRp.text}(obj)
 
@@ -230,11 +230,12 @@ tif_as_tokens_df(tokens)
       determines whether the \code{desc} column should be re-written with descriptions
 for all POS tags.}
 
-\item{doc_id}{Logical (except for \code{fixObject}),
+\item{doc_id}{Logical (except for \code{fixObject}, \code{feature}, and \code{[[/[[<-}),
       if \code{TRUE} the \code{doc_id} column will be a factor with the respective value
 of the \code{desc} slot, i.\,e.,
       the document ID will be preserved in the data.frame. If used with \code{fixObject}, can be a character string
-to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them).}
+to set the document ID manually (the default \code{NA} will preserve existing values and not overwrite them). If used with \code{feature} or \code{[[/[[<-},
+a character vector to limit the scope to one or more particular document IDs.}
 
 \item{value}{The new value to replace the current with.}
 
@@ -253,6 +254,10 @@ name is given. If \code{feature=NULL}, a character vector is returned,
 \item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 
 \item{j}{Defines the column selector.}
+
+\item{simplify}{Logical, if \code{TRUE} and the result is a list oft length one (i.e.,
+      just a single \code{doc_id}),
+returns the contents of the single list entry.}
 
 \item{tokens}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 }

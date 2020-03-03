@@ -39,6 +39,7 @@
 #'    If \code{NULL} (the default) the entry remains unchanged.
 #' @param check.token A character string naming the token you expect to be in this row.
 #'    If not \code{NULL}, \code{correct} will stop with an error if this values don't match.
+#' @param quiet If \code{FALSE}, messages about all applied changes are shown.
 #' @return An object of the same class as \code{obj}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords methods

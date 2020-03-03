@@ -6,9 +6,23 @@
 \alias{correct.tag,kRp.text-method}
 \title{Methods to correct koRpus objects}
 \usage{
-correct.tag(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
+correct.tag(
+  obj,
+  row,
+  tag = NULL,
+  lemma = NULL,
+  check.token = NULL,
+  quiet = TRUE
+)
 
-\S4method{correct.tag}{kRp.text}(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
+\S4method{correct.tag}{kRp.text}(
+  obj,
+  row,
+  tag = NULL,
+  lemma = NULL,
+  check.token = NULL,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{obj}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
@@ -24,6 +38,8 @@ If \code{NULL} (the default) the entry remains unchanged.}
 
 \item{check.token}{A character string naming the token you expect to be in this row.
 If not \code{NULL}, \code{correct} will stop with an error if this values don't match.}
+
+\item{quiet}{If \code{FALSE}, messages about all applied changes are shown.}
 }
 \value{
 An object of the same class as \code{obj}.
