@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2020-02-19)
+changes in version 0.13-1 (2020-03-04)
 unreleased:
   - this release is under development
 fixed:
@@ -36,6 +36,9 @@ changed:
     improved the examples
   - readability(): added some ASCII versions of the formulae to the
     documentation
+  - readability(): the code of the internal workhorse kRp.rdb.formulae()
+    was cleaned up, now using the new helper functions validate_parameters(),
+    check_parameters() and rdb_parameters(), saving ~350 lines of code
   - updated unit test
 added:
   - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
