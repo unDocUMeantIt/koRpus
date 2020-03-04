@@ -172,12 +172,12 @@ kRp.check.params <- function(given, valid, where=NULL, missing=FALSE){
 } ## end function kRp.check.params()
 
 
-## function check_parameters()
+## function validate_parameters()
 # TODO: to soon replace kRp.check.params()
 # - given: character string or list of parameter names
 # - index: name of the index that all values of "given" qill be checked against
 #     if "all" a basic check is done whether params for unknown indizes are given
-check_parameters <- function(given, index){
+validate_parameters <- function(given, index){
   if(identical(index, "all")){
     valid <- rdb_indices[,"params"]
     given <- names(given)
@@ -189,12 +189,11 @@ check_parameters <- function(given, index){
   if(
     any(
       all(identical(index, "parameters"), isTRUE(all(valid[given]))),
-      sum(valid[given], na.rm=TRUE) == length(given)
+      all(sum(valid[given], na.rm=TRUE) == length(given), length(valid) == length(given))
     )
   ){
     return(TRUE)
   } else {
-    valid_true <- valid[valid]
     invalid_params <- given[!given %in% names(valid)]
     missing_params <- names(valid)[!names(valid) %in% given]
     check_location <- paste0(" in \"", index, "\"")
@@ -204,8 +203,51 @@ check_parameters <- function(given, index){
       stop(simpleError(paste0("Invalid parameters", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
     }
   }
-} ## end function check_parameters()
+} ## end function validate_parameters()
 
+
+## function check_parameters()
+# takes provided parameters (if any) and tries to figure out if they should be
+# used as-is or need to be replaced because they are a shortcut string
+# the function calls validate_parameters() and returns a list of two
+# elements, "p" with the parameters to use and "f" with the name of the
+# index flavour
+#  - index: character string, name of the readability index
+#  - given: a list of parameters to check
+#  - short: a named list of character strings, where element names are shortcuts used
+#      as parameters and the value is to be used as its flavour; if missing
+#      the flavour will be "default", "custom", or identical to the shortcut
+check_parameters <- function(
+  index,
+  given,
+  flav_names=NULL
+){
+  if(length(given)){
+    if(all(length(given) == 1, is.null(names(given)))){
+      # should be a shortcut
+      flavour <- given
+      params <- rdb_parameters(index=index, flavour=given)
+    } else {
+      # should be custom parameters
+      validate_parameters(given=given, index=index)
+      flavour <- ifelse(
+        identical(given, rdb_parameters(index=index, flavour="default")),
+        "default",
+        "custom"
+      )
+      params <- given
+    }
+  } else {
+    # no parameters given, fall back to defaults
+    flavour <- "default"
+    params <- rdb_parameters(index=index, flavour=flavour)
+  }
+  # finally check for flavour name replacement
+  if(length(flav_names[[flavour]])){
+    flavour <- flav_names[[flavour]]
+  }
+  return(list(p=params, f=flavour))
+} ## end function check_parameters()
 
 
 ## additional options:
@@ -315,7 +357,7 @@ kRp.rdb.formulae <- function(
     stop(simpleError("Missing accurate paramteter list!"))
   } else {
     # first complain if unknown parameters supplied
-    check_parameters(
+    validate_parameters(
       names(parameters),
       index="all"
     )
@@ -377,6 +419,7 @@ kRp.rdb.formulae <- function(
         # we'll just create an empty object to not disturb the other functions
         hyphen <- new("kRp.hyphen")
         sylls.available <- FALSE
+        dropHyphen <- TRUE
       }
     }
 
@@ -529,29 +572,16 @@ kRp.rdb.formulae <- function(
 
   ## Automated Readability Index (ARI)
   if("ARI" %in% index){
-    flavour <- "default"
-    valid.params <- c("asl", "awl", "const")
-    if("ARI" %in% names(parameters)){
-      flavour <- check.flavour(parameters$ARI, default.params("ARI"))
-      prms <- parameters$ARI
-      if(identical(prms, "NRI")){
-        flavour <- "NRI"
-        prms <- c(asl=0.4, awl=6, const=27.4)
-      } else {}
-      if(identical(prms, "simple")){
-        flavour <- "simplified"
-        prms <- c(asl=1, awl=9, const=0)
-      } else {}
+    pf <- check_parameters(
+      index="ARI",
+      given=parameters[["ARI"]],
+      flav_names=list(simple="simplified")
+    )
+    ARI.grade <- pf[["p"]][["asl"]] * avg.sntc.len + pf[["p"]][["awl"]] * avg.word.len - pf[["p"]][["const"]]
+    if(identical(pf[["f"]], "simplified")){
+      slot(all.results, "ARI") <- list(flavour=pf[["f"]], index=ARI.grade, grade=NA)
     } else {
-      prms <- default.params("ARI")
-    }
-    kRp.check.params(names(prms), valid.params, where="ARI")
-    kRp.check.params(valid.params, names(prms), where="ARI", missing=TRUE)
-    ARI.grade <- prms[["asl"]] * avg.sntc.len + prms[["awl"]] * avg.word.len - prms[["const"]]
-    if(identical(flavour, "simplified")){
-      slot(all.results, "ARI") <- list(flavour=flavour, index=ARI.grade, grade=NA)
-    } else {
-      slot(all.results, "ARI") <- list(flavour=flavour, index=NA, grade=ARI.grade)
+      slot(all.results, "ARI") <- list(flavour=pf[["f"]], index=NA, grade=ARI.grade)
     }
   } else{}
   # recursive calls for alternative shortcuts
