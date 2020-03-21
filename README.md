@@ -75,7 +75,7 @@ There's also precompiled [Debian packages](https://undocumeantit.github.io/repos
 
 To ask for help, report bugs, suggest feature improvements, or discuss the global
 development of the package, please either subscribe to the
-[koRpus-dev mailing list](https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de), or
+[koRpus-dev mailing list](https://korpusml.reaktanz.de), or
 use the issue tracker on GitHub.
 
 ### Branches
@@ -85,7 +85,7 @@ branch will be rejected, as it is reserved for the current stable release.
 
 ## Licence
 
-Copyright 2012-2017 Meik Michalke <meik.michalke@hhu.de>
+Copyright 2012-2020 Meik Michalke <meik.michalke@hhu.de>
 
 koRpus is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
