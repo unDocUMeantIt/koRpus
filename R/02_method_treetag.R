@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -526,7 +526,7 @@ setMethod("treetag",
     if(isTRUE(unix.OS)){
       tagged.text <- system(sys.tt.call, ignore.stderr=TRUE, intern=TRUE)
     } else {
-      tagged.text <- shell(sys.tt.call, translate=TRUE, ignore.stderr=TRUE, intern=TRUE)
+      tagged.text <- shell(sys.tt.call, translate=FALSE, ignore.stderr=TRUE, intern=TRUE)
     }
     # TreeTagger should return UTF-8; explicitly declare it so there's no doubt about it
     Encoding(tagged.text) <- "UTF-8"
