@@ -406,7 +406,7 @@ setMethod("treetag",
         # TreeTagger can produce mixed encoded results if fed with UTF-8 in Latin1 mode
         tknz.results <- iconv(tknz.results, from="UTF-8", to=input.enc)
         on.exit(message(paste0("Assuming '", input.enc, "' as encoding for the input file. If the results turn out to be erroneous, check the file for invalid characters, e.g. em.dashes or fancy quotes, and/or consider setting 'encoding' manually.")))
-        cat(paste(tknz.results, collapse="\n"), "\n", file=tknz.tempfile)
+        cat(paste(tknz.results, collapse="\n"), "\n", file=tknz.tempfile, sep="")
         if(!isTRUE(debug)){
           on.exit(unlink(tknz.tempfile), add=TRUE)
         } else {}
