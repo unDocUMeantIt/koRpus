@@ -20,7 +20,7 @@ There are three easy ways of getting koRpus:
 The latest release that is considered stable for productive work can be found on the CRAN mirrors, which
 means you can install it from a running R session like this:
 
-```
+```r
 install.packages("koRpus")
 ```
 
@@ -35,7 +35,7 @@ or supposed bug fixes, and get feedback before the next release goes to CRAN.
 
 Installation is fairly easy, too:
 
-```
+```r
 install.packages("koRpus", repo=c(getOption("repos"), reaktanz="https://reaktanz.de/R"))
 ```
 
@@ -47,12 +47,11 @@ If you're running a Debian based operating system, you might be interested in th
 
 ### Installation via GitHub
 
-To install it directly from GitHub, you can use `install_github()` from the [devtools](https://github.com/hadley/devtools) package:
+To install it directly from GitHub, you can use `install_github()` from the [devtools](https://github.com/r-lib/devtools) package:
 
-```
-library(devtools)
-install_github("unDocUMeantIt/koRpus") # stable release
-install_github("unDocUMeantIt/koRpus", ref="develop") # development release
+```r
+devtools::install_github("unDocUMeantIt/koRpus") # stable release
+devtools::install_github("unDocUMeantIt/koRpus", ref="develop") # development release
 ```
 
 ### Installing language support
@@ -64,7 +63,7 @@ You can find these in the [l10n](https://undocumeantit.github.io/repos) reposito
 The most straight forward way to get these packages is to use the function `install.koRpus.lang()`.
 Here's an example how to install support for English and German:
 
-```
+```r
 library(koRpus)
 install.koRpus.lang(lang=c("en", "de"))
 ```
