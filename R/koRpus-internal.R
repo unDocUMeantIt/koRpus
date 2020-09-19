@@ -1613,10 +1613,10 @@ check_lang_packages <- function(
 
 ## function check_toggle_utf8()
 # used in treetag() to work around inconsistent naming of parameter
-# files over the releases; some have "utf8-" or "-utf8" in their name,
-# both earlier and later versions don't. so we'll first try with these
-# pre- and suffixes, then without, and use whatever is found first.
-# returns either a validated path or throws an error.
+# and other files over the releases; some have "utf8-" or "-utf8" in their name,
+# both earlier and later versions don't. some use the ".txt" extension, later versions
+# don't. so we'll first try with these pre- and suffixes, then without, and use
+# whatever is found first. returns either a validated path or throws an error.
 #
 # - file_utf8: file to check for existance, the variant including "utf8" in its name
 # - dir: full path to expected file (directory only)
@@ -1627,32 +1627,34 @@ check_toggle_utf8 <- function(file_utf8, dir=NA){
   } else {
     dir <- normalizePath(dir, mustWork=FALSE)
   }
+
   check.file(filename=dir, mode="dir", stopOnFail=TRUE)
-  path_file_utf8 <- file.path(dir, file_utf8)
-  # first check for the utf8 version
-  file_exists <- check.file(filename=path_file_utf8, mode="exist", stopOnFail=FALSE)
-  if(isTRUE(file_exists)){
-    return(path_file_utf8)
+
+  if(isTRUE(grepl("utf8", file_utf8))){
+    all_possible_files <- c(file_utf8, gsub("-utf8", "", gsub("^utf8-", "", file_utf8)))
   } else {
-    if(isTRUE(grepl("utf8", file_utf8))){
-      file_non_utf8 <- gsub("-utf8", "", gsub("^utf8-", "", file_utf8))
-      path_file_non_utf8 <- file.path(dir, file_non_utf8)
-      file_exists <- check.file(filename=path_file_non_utf8, mode="exist", stopOnFail=FALSE)
-      if(isTRUE(file_exists)){
-        return(path_file_non_utf8)
-      } else {
-        stop(simpleError(
-          paste0(
-            "None of the following files were found, please check your TreeTagger installation!\n ",
-            path_file_utf8, "\n ",
-            path_file_non_utf8
-          )
-        ))
-      }
-    } else {
-      stop(simpleError(
-        paste0("The following file cannot be found, please check your TreeTagger installation!\n ", path_file_utf8)
-      ))
-    }
+    all_possible_files <- file_utf8
+  }
+  if(isTRUE(grepl("\\.txt$", file_utf8))){
+    all_possible_files <- c(all_possible_files, gsub("\\.txt$", "", all_possible_files))
+  } else {}
+
+  all_possible_files <- file.path(dir, all_possible_files)
+  all_files_found <- sapply(
+    all_possible_files,
+    check.file,
+    mode="exist",
+    stopOnFail=FALSE
+  )
+
+  if(any(all_files_found)){
+    return(all_possible_files[all_files_found][1])
+  } else {
+    stop(simpleError(
+      paste0(
+        "None of the following files were found, please check your TreeTagger installation!\n ",
+        paste0(all_possible_files, collapse="\n ")
+      )
+    ))
   }
 } ## end function check_toggle_utf8()

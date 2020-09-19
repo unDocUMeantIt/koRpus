@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2020-03-04)
+changes in version 0.13-1 (2020-09-19)
 unreleased:
   - this release is under development
 fixed:
@@ -8,6 +8,8 @@ fixed:
     to the wrong columns, leading to a completely wrong document term matrix
   - treetag(): a dumb misorderig of calls suppressed the "utf8" check for
     abbreviation files introduced with 0.11-5
+  - treetag(): also added a "utf8" check for lexicon files and ".txt" file
+    extensions (which might be missing in newer versions of TreeTagger)
   - correct.tag(): stopped method from adding tag descriptions to objects
     that didn't have them yet
   - kRp_readability()/kRp_corp_freq(): properly initialize

@@ -311,6 +311,11 @@ setMethod("treetag",
       } else {
         TT.params      <- check_toggle_utf8(file_utf8=TT.params)
       }
+      if(any(in.TT.options == "lexicon")){
+        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.options[["lexicon"]], dir=TT.lib)
+      } else {
+        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.lexicon)
+      }
 
       # check the input encoding
       input.enc <- ifelse(
