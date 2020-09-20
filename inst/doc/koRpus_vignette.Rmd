@@ -127,9 +127,9 @@ a tokenizer/POS tagger.
 ## TreeTagger
 At the very beginning of almost every analysis with this package, the text you want to examine has to be sliced into its components, and the components
 must be identified and named. That is, it has to be split into its semantic parts (tokens), words, numbers, punctuation marks. After that, each token will
-be tagged regarding its part-of-speech (POS). For both of these steps, `koRpus` can use the third party software [TreeTagger](http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/DecisionTreeTagger.html) [@schmid_TT_1994].
+be tagged regarding its part-of-speech (POS). For both of these steps, `koRpus` can use the third party software [TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/) [@schmid_TT_1994].
 
-Especially for Windows users installation of TreeTagger might be a little more complex -- e.g., it depends on Perl^[For a free implementation try <http://strawberryperl.com>], and you need a tool to extract .tar.gz archives.^[Like <http://7-zip.org>] Detailed installations instructions are beyond the scope of this vignette.
+Especially for Windows users installation of TreeTagger might be a little more complex -- e.g., it depends on Perl^[For a free implementation try <http://strawberryperl.com>], and you need a tool to extract .tar.gz archives.^[Like <https://7-zip.org>] Detailed installations instructions are beyond the scope of this vignette.
 
 If you don't want to use TreeTagger, `koRpus` provides a simple tokenizer of its own called `tokenize()`. While the tokenizing itself works quite well, `tokenize()` is not as elaborate as is TreeTagger when it comes to POS tagging, as it can merely tell words from numbers, punctuation and abbreviations. Although this is sufficient for most readability formulae, you can't evaluate word classes in detail. If that's what you want, a TreeTagger installation is needed.
 
@@ -145,10 +145,10 @@ If you want to estimate the language of a text, reference texts in known languag
 
 # A sample session
 From now on it is assumed that the above requirements are correctly installed and working. If an optional component is used it will be noted. Further, we'll need a sample text to analyze.
-We'll use the section on [defense mechanisms of Phasmatodea](http://en.wikipedia.org/wiki/Phasmatodea\#Defense\_mechanisms) from Wikipedia for this purpose.
+We'll use the section on [defense mechanisms of Phasmatodea](https://en.wikipedia.org/wiki/Phasmatodea\#Defense\_mechanisms) from Wikipedia for this purpose.
 
 ## Loading a language package
-In order to do some analysis, you need to load a language support package for each language you would like to work with. For instance, in this vignette we're analyzing an English sample text. Language support packages for `koRpus` are named `koRpus.lang.**`, where `**` is a two-character ID for the respective language, like `en` for English.^[Unfortunately, these language packages did not get the approval of the CRAN maintainers and are officially hosted at (https://undocumeantit.github.io/repos/l10n)[https://undocumeantit.github.io/repos/l10n]. For your convenience the function `install.koRpus.lang()` can be used to easily install them anyway.]
+In order to do some analysis, you need to load a language support package for each language you would like to work with. For instance, in this vignette we're analyzing an English sample text. Language support packages for `koRpus` are named `koRpus.lang.**`, where `**` is a two-character ID for the respective language, like `en` for English.^[Unfortunately, these language packages did not get the approval of the CRAN maintainers and are officially hosted at (https://undocumeantit.github.io/repos/l10n/)[https://undocumeantit.github.io/repos/l10n/]. For your convenience the function `install.koRpus.lang()` can be used to easily install them anyway.]
 
 ```{r, eval=FALSE}
 # install the language support package
@@ -190,13 +190,13 @@ tagged.text <- dget("sample_text_treetagged_dput.txt")
 
 The first argument (file name) and `lang` should explain themselves. The `treetagger` option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword "manual", which will cause the interpretation of what is defined by `TT.options`. To use a preset, just put the `path` to your local TreeTagger installation and a valid `preset` name here.^[Presets are defined in the language support packages, usually named like their respective two-character language identifier. Refer to their documentation.] The document ID is optional and can be omitted.
 
-The resulting S4 object is of a class called `kRp.tagged`. If you call the object directly you get a shortened view of it's main content:
+The resulting S4 object is of a class called `kRp.text`. If you call the object directly you get a shortened view of it's main content:
 
 ```{r}
 tagged.text
 ```
 
-Once you've come this far, i.e., having a valid object of class `kRp.tagged`, all following analyses should run smoothly.
+Once you've come this far, i.e., having a valid object of class `kRp.text`, all following analyses should run smoothly.
 
 #### Troubleshooting
 If `treetag()` should fail, you should first re-run it with the extra option `debug=TRUE`. Most interestingly, that will print the contents of `sys.tt.call`, which is the TreeTagger command given to your operating system for execution. With that it should be possible to examine where exactly the erroneous behavior starts.
@@ -215,13 +215,13 @@ If you don't need detailed word class analysis, you should be fine using `koRpus
 
 ### Accessing data from `koRpus` objects
 
-For this class of objects, `koRpus` provides some comfortable methods to extract the portions you're interested in. For example, the main results are to be found in the slot `TT.res`. In addition to TreeTagger's original output (token, tag and lemma) `treetag()` also automatically counts letters and assigns tokens to global word classes. To get these results as a data.frame, use the getter method `taggedText()`:
+For this class of objects, `koRpus` provides some comfortable methods to extract the portions you're interested in. For example, the main results are to be found in the slot `tokens`. In addition to TreeTagger's original output (token, tag and lemma) `treetag()` also automatically counts letters and assigns tokens to global word classes. To get these results as a data.frame, use the getter method `taggedText()`:
 
 ```{r}
 taggedText(tagged.text)[26:34,]
 ```
 
-In case you want to access a subset of the data in the resulting object, e.g., only the column with number of letters or the first five rows of `TT.res`, you'll be happy to know there's special `[` and `[[` methods for these kinds of objects:
+In case you want to access a subset of the data in the resulting object, e.g., only the column with number of letters or the first five rows of `tokens`, you'll be happy to know there's special `[` and `[[` methods for these kinds of objects:
 
 ```{r}
 head(tagged.text[["lttr"]], n=50)
@@ -349,7 +349,7 @@ We can now conduct a full frequency analysis of our text:
 freq.analysis.res <- freq.analysis(tagged.text, corp.freq=LCC.en)
 ```
 
-The resulting object holds a lot of information, even if no corpus data was used (i.e., `corp.freq=NULL`). To begin with, it contains the two slots `TT.res` and `lang`, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into `kRp.tagged` objects.^[This can easily be done by calling  `as(freq.analysis.res, "kRp.tagged")`.] However, if corpus data was provided, the tagging results gained three new columns:
+The resulting object holds a lot of information, even if no corpus data was used (i.e., `corp.freq=NULL`). To begin with, it contains the two slots `tokens` and `lang`, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into `kRp.text` objects.^[This can easily be done by calling  `as(freq.analysis.res, "kRp.text")`.] However, if corpus data was provided, the tagging results gained three new columns:
 
 ```{r, eval=FALSE}
 taggedText(freq.analysis.res)
@@ -408,7 +408,7 @@ describe(freq.analysis.res)$classes
 
 ## Readability
 
-The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.^[Whether this is the case can be looked up in the documentation.] To achieve this, the method `hyphen()` takes objects of class `kRp.tagged` and applies an hyphenation algorithm [@liang_word_1983] to each word. This algorithm was originally developed for automatic word hyphenation in $\LaTeX$, and is gracefully misused here to fulfill a slightly different service.^[The `hyphen()` method was originally implemented as part of the `koRpus` package, but was later split off into its own package called `sylly`.]
+The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.^[Whether this is the case can be looked up in the documentation.] To achieve this, the method `hyphen()` takes objects of class `kRp.text` and applies an hyphenation algorithm [@liang_word_1983] to each word. This algorithm was originally developed for automatic word hyphenation in $\LaTeX$, and is gracefully misused here to fulfill a slightly different service.^[The `hyphen()` method was originally implemented as part of the `koRpus` package, but was later split off into its own package called `sylly`.]
 
 ```{r, eval=FALSE}
 (hyph.txt.en <- hyphen(tagged.text))
@@ -546,6 +546,6 @@ Despite its name, the scope of `koRpus` is single texts. If you would like to do
 
 # Acknowledgements
 
-The APA style used in this vignette was kindly provided by the [CSL project](http://CitationStyles.org), licensed under [Creative Commons Attribution-ShareAlike 3.0 Unported license](https://creativecommons.org/licenses/by-sa/3.0/).
+The APA style used in this vignette was kindly provided by the [CSL project](https://citationstyles.org), licensed under [Creative Commons Attribution-ShareAlike 3.0 Unported license](https://creativecommons.org/licenses/by-sa/3.0/).
 
 # References

@@ -232,7 +232,7 @@ check_parameters <- function(
 #     TRUE for kRp.rdb.formulae(), i.e. get values from text object examination,
 #     FALSE to calculate with the values in txt.features
 # - txt.features: a named list with key values needed to calculate
-
+#' @importFrom sylly hyphenText hyphenText<-
 kRp.rdb.formulae <- function(
   txt.file=NULL,
   hyphen=NULL,

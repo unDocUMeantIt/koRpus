@@ -1,35 +1,34 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-1 (2020-09-19)
+changes in version 0.13-1 (2020-09-20)
 unreleased:
   - this release is under development
 fixed:
-  - docTermMatrix(): numbers were calculated correctly, but possibly added
-    to the wrong columns, leading to a completely wrong document term matrix
+  - docTermMatrix(): numbers were calculated correctly, but possibly added to
+    the wrong columns, leading to a completely wrong document term matrix
   - treetag(): a dumb misorderig of calls suppressed the "utf8" check for
     abbreviation files introduced with 0.11-5
   - treetag(): also added a "utf8" check for lexicon files and ".txt" file
     extensions (which might be missing in newer versions of TreeTagger)
   - correct.tag(): stopped method from adding tag descriptions to objects
     that didn't have them yet
-  - kRp_readability()/kRp_corp_freq(): properly initialize
-    the slots
+  - kRp_readability()/kRp_corp_freq(): properly initialize the slots
   - readability() wrapper functions: fixed a bunch of readability.num() calls
     including an unused hyphen argument
   - readability(): HTML documentation had a wrong formula for LIX (LaTeX was
     correct)
-  - textTransform(): now recounting letters when scheme is "normalize" as
-    it might have altered word lengths; the calculations of some data in the
-    desc slot (all.chars, lines, normalized.space) as now also done relative
-    to the old values, because they can't be correctly recalculated from a
-    mere vector of tokens
+  - textTransform(): now recounting letters when scheme is "normalize" as it
+    might have altered word lengths; the calculations of some data in the desc
+    slot (all.chars, lines, normalized.space) as now also done relative to
+    the old values, because they can't be correctly recalculated from a mere
+    vector of tokens
 changed:
   - docTermMatrix(): optimzed calculation speed drastically
   - read.corp.custom(): re-wrote most of the code, now based on
-    docTermMatrix() and thereby up to 50 times faster; also removed the now
-    unused quiet argument, as well as methods using the directory path or
-    lists of tagged texts, because using methods of the tm.plugin.koRpus
-    package instead is much more efficient now
+    docTermMatrix() and thereby up to 50 times faster; also removed the now unused quiet
+    argument, as well as methods using the directory path or lists of tagged
+    texts, because using methods of the tm.plugin.koRpus package instead is much
+    more efficient now
   - show(): simplified the code for kRp.text class objects and unified the
     horizontal positioning of resulting values
   - show(): generalized the handling of factor columns to be able to deal
@@ -38,32 +37,30 @@ changed:
     improved the examples
   - readability(): added some ASCII versions of the formulae to the
     documentation
-  - readability(): the code of the internal workhorse kRp.rdb.formulae()
-    was cleaned up, now using the new helper functions validate_parameters(),
+  - readability(): the code of the internal workhorse kRp.rdb.formulae() was
+    cleaned up, now using the new helper functions validate_parameters(),
     check_parameters() and rdb_parameters(), saving ~350 lines of code
   - updated unit test
 added:
   - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
-    kRp.txt.trans; the TT.res slot was renamed into "tokens", additional
-    columns in the data frame are now ok, new slots "features" and "feat_list"
-    to host analysis results like readability or lexical diversity, and
-    the "desc" slot now always contains elements named by doc_id
-  - docTermMatrix(): new method to calculate document term matrices from
-    TIF compliant token data frames and koRpus objects
+    kRp.txt.trans; the TT.res slot was renamed into "tokens", additional columns in the
+    data frame are now ok, new slots "features" and "feat_list" to host
+    analysis results like readability or lexical diversity, and the "desc" slot now
+    always contains elements named by doc_id
+  - docTermMatrix(): new method to calculate document term matrices from TIF
+    compliant token data frames and koRpus objects
   - doc_id(), hasFeatures(), hasFeatures()<-, features(), features()<-,
-    corpusReadability(), corpusReadability()<-, corpusHyphen(),
-    corpusHyphen()<-, corpusLexDiv(), corpusLexDiv()<-, corpusFreq(),
-    corpusFreq()<-, corpusCorpFreq(), corpusCorpFreq()<-, corpusStopwords(),
-    corpusStopwords()<-: new getter/setter
-    methods for kRp.text objects
-  - dependencies: the Matrix package was added to imports for
-    docTermMatrix()
+    corpusReadability(), corpusReadability()<-, corpusHyphen(), corpusHyphen()<-,
+    corpusLexDiv(), corpusLexDiv()<-, corpusFreq(), corpusFreq()<-,
+    corpusCorpFreq(), corpusCorpFreq()<-, corpusStopwords(), corpusStopwords()<-: new
+    getter/setter methods for kRp.text objects
+  - dependencies: the Matrix package was added to imports for docTermMatrix()
   - validate_df(): new internal method to check data frames for expected
     columns
-  - readability(): new argument "keep.input" to define whether
-    hyphen objects should be preserved in the output or dropped
-  - hyphen(), lex.div(): new argument "as.feature" to store results in the new
-    "feat_list" slot of the input object rather than returning it directly
+  - readability(): new argument "keep.input" to define whether hyphen objects
+    should be preserved in the output or dropped
+  - hyphen(), lex.div(): new argument "as.feature" to store results in the
+    new "feat_list" slot of the input object rather than returning it directly
   - fixObject(): new methods to convert old objects of deprecated classes
     kRp.tagged, kRp.txt.freq, kRp.txt.trans, and kRp.analysis
   - split_by_doc_id(): new method transforms a kRp.text object with multiple
@@ -72,20 +69,19 @@ added:
     documents
   - describe()/describe()<-: now support filtering by doc_id
 removed:
-  - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes
-    were special cases of kRp.text, and since all their information can
-    now be part of kRp.text objects, they are no longer used; they are actually
-    still present, but considered deprecated and should be converted using
-    fixObject()
+  - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes were
+    special cases of kRp.text, and since all their information can now be
+    part of kRp.text objects, they are no longer used; they are actually still
+    present, but considered deprecated and should be converted using fixObject()
   - readability(), freq.analysis(): removed the methods that could be called
     on files directly instead of objects of class kRp.text. this simplifies
-    the code and it's probably not too much to ask users to call tokenize()
-    or treetag() directly instead of doing this internally with less control
-  - freq.analysis(): removed the "tfidf" argument; as it turned out, its value
-    was never effectively used, the tf-idf was always calculated, and it seemed
-    like a reasonable default anyway
-  - kRp.text.analysis(): now deprecated, just use lex.div() and freq.analysis()
-    to the same effect
+    the code and it's probably not too much to ask users to call tokenize() or
+    treetag() directly instead of doing this internally with less control
+  - freq.analysis(): removed the "tfidf" argument; as it turned out, its
+    value was never effectively used, the tf-idf was always calculated, and it
+    seemed like a reasonable default anyway
+  - kRp.text.analysis(): now deprecated, just use lex.div() and
+    freq.analysis() to the same effect
 
 changes in version 0.12-1 (2019-05-13)
 fixed:
