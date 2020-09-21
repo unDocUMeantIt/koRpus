@@ -11,29 +11,61 @@
 \usage{
 readTagged(file, ...)
 
-\S4method{readTagged}{matrix}(file, lang = "kRp.env",
-  tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
-  "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env",
-  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma"))
+\S4method{readTagged}{matrix}(
+  file,
+  lang = "kRp.env",
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env",
+  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma")
+)
 
-\S4method{readTagged}{data.frame}(file, lang = "kRp.env",
-  tagger = "TreeTagger", apply.sentc.end = TRUE, sentc.end = c(".",
-  "!", "?", ";", ":"), stopwords = NULL, stemmer = NULL,
-  rm.sgml = TRUE, doc_id = NA, add.desc = "kRp.env",
-  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma"))
+\S4method{readTagged}{data.frame}(
+  file,
+  lang = "kRp.env",
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env",
+  mtx_cols = c(token = "token", tag = "tag", lemma = "lemma")
+)
 
-\S4method{readTagged}{kRp.connection}(file, lang = "kRp.env",
-  encoding = "unknown", tagger = "TreeTagger",
-  apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
-  stopwords = NULL, stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{readTagged}{kRp.connection}(
+  file,
+  lang = "kRp.env",
+  encoding = "unknown",
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 
-\S4method{readTagged}{character}(file, lang = "kRp.env",
-  encoding = getOption("encoding"), tagger = "TreeTagger",
-  apply.sentc.end = TRUE, sentc.end = c(".", "!", "?", ";", ":"),
-  stopwords = NULL, stemmer = NULL, rm.sgml = TRUE, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{readTagged}{character}(
+  file,
+  lang = "kRp.env",
+  encoding = getOption("encoding"),
+  tagger = "TreeTagger",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  stopwords = NULL,
+  stemmer = NULL,
+  rm.sgml = TRUE,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 }
 \arguments{
 \item{file}{Either a matrix, a connection or a character vector. If the latter,
@@ -90,7 +122,7 @@ This argument is ignored unless \code{tagger="manual"} and data is provided as e
       like  \code{"Latin1"} or \code{"UTF-8"}.}
 }
 \value{
-An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE},
+An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE},
       prints internal variable settings and
    attempts to return the original output if the TreeTagger system call in a matrix.
 }
@@ -130,12 +162,12 @@ Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
    \emph{International Conference on New Methods in Language Processing}, Manchester, UK,
       44--49.
 
-[1] \url{http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/DecisionTreeTagger.html}
+[1] \url{https://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/DecisionTreeTagger.html}
 }
 \seealso{
 \code{\link[koRpus:treetag]{treetag}},
    \code{\link[koRpus:freq.analysis]{freq.analysis}},
    \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-   \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+   \code{\link[koRpus:kRp.text-class]{kRp.text}}
 }
 \keyword{misc}

@@ -4,12 +4,15 @@
 \alias{traenkle.bailer}
 \title{Readability: Traenkle-Bailer Formeln}
 \usage{
-traenkle.bailer(txt.file, TB1 = c(const = 224.6814, awl = 79.8304, asl =
-  12.24032, prep = 1.292857), TB2 = c(const = 234.1063, awl = 96.11069,
-  prep = 2.05444, conj = 1.02805), ...)
+traenkle.bailer(
+  txt.file,
+  TB1 = c(const = 224.6814, awl = 79.8304, asl = 12.24032, prep = 1.292857),
+  TB2 = c(const = 234.1063, awl = 96.11069, prep = 2.05444, conj = 1.02805),
+  ...
+)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation

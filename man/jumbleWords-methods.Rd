@@ -3,20 +3,18 @@
 \docType{methods}
 \name{jumbleWords}
 \alias{jumbleWords}
-\alias{jumbleWords,kRp.taggedText-method}
+\alias{jumbleWords,kRp.text-method}
 \alias{jumbleWords,character-method}
 \title{Produce jumbled words}
 \usage{
 jumbleWords(words, ...)
 
-\S4method{jumbleWords}{kRp.taggedText}(words, min.length = 3,
-  intact = c(start = 1, end = 1))
+\S4method{jumbleWords}{kRp.text}(words, min.length = 3, intact = c(start = 1, end = 1))
 
-\S4method{jumbleWords}{character}(words, min.length = 3,
-  intact = c(start = 1, end = 1))
+\S4method{jumbleWords}{character}(words, min.length = 3, intact = c(start = 1, end = 1))
 }
 \arguments{
-\item{words}{Either a character vector or an object inheriting from class \code{kRp.tagged}.}
+\item{words}{Either a character vector or an object inheriting from class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Additional options, currently unused.}
 
@@ -30,10 +28,10 @@ and its end, respectively.}
 }
 \value{
 Depending on the class of \code{words}, either a character vector or an object of class
-   \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+   \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 }
 \description{
-This method either takes a character vector or objects inheriting class \code{kRp.tagged}
+This method either takes a character vector or objects inheriting class \code{kRp.text}
 (i.e., text tokenized by \code{koRpus}),
       and jumbles the words. This usually means that the
 first and last letter of each word is left intact,

@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -34,30 +34,225 @@
 
 #  - grade eqivalent zum DRP
 
+rdb_indices <- matrix(
+  c(
+  # fast    sylls   params
+    TRUE,   FALSE,  TRUE,   # ARI
+    FALSE,  FALSE,  FALSE,  # ARI.NRI
+    FALSE,  FALSE,  FALSE,  # ARI.simple
+    TRUE,   FALSE,  TRUE,   # Bormuth
+    TRUE,   TRUE,   TRUE,   # Coleman
+    TRUE,   FALSE,  TRUE,   # Coleman.Liau
+    TRUE,   FALSE,  TRUE,   # Dale.Chall
+    FALSE,  FALSE,  FALSE,  # Dale.Chall.old
+    FALSE,  FALSE,  FALSE,  # Dale.Chall.PSK
+    TRUE,   FALSE,  TRUE,   # Danielson.Bryan
+    TRUE,   FALSE,  TRUE,   # Dickes.Steiwer
+    TRUE,   FALSE,  FALSE,  # DRP
+    TRUE,   TRUE,   TRUE,   # ELF
+    TRUE,   TRUE,   TRUE,   # Farr.Jenkins.Paterson
+    FALSE,  TRUE,   FALSE,  # Farr.Jenkins.Paterson.PSK
+    TRUE,   TRUE,   TRUE,   # Flesch
+    FALSE,  TRUE,   FALSE,  # Flesch.Brouwer
+    FALSE,  TRUE,   FALSE,  # Flesch.de
+    FALSE,  TRUE,   FALSE,  # Flesch.es
+    FALSE,  TRUE,   FALSE,  # Flesch.fr
+    TRUE,   TRUE,   TRUE,   # Flesch.Kincaid
+    FALSE,  TRUE,   FALSE,  # Flesch.nl
+    FALSE,  TRUE,   FALSE,  # Flesch.nl-b
+    FALSE,  TRUE,   FALSE,  # Flesch.PSK
+    FALSE,  TRUE,   FALSE,  # Flesch.Szigriszt
+    FALSE,  TRUE,   TRUE,   # FOG
+    FALSE,  TRUE,   FALSE,  # FOG.NRI
+    FALSE,  TRUE,   FALSE,  # FOG.PSK
+    TRUE,   TRUE,   TRUE,   # FORCAST
+    FALSE,  TRUE,   FALSE,  # FORCAST.RGL
+    TRUE,   FALSE,  FALSE,  # Fucks
+    TRUE,   FALSE,  TRUE,   # Harris.Jacobson
+    TRUE,   TRUE,   TRUE,   # Linsear.Write
+    TRUE,   FALSE,  TRUE,   # LIX
+    TRUE,   TRUE,   TRUE,   # nWS
+    TRUE,   FALSE,  TRUE,   # RIX
+    TRUE,   TRUE,   TRUE,   # SMOG
+    FALSE,  TRUE,   FALSE,  # SMOG.C
+    FALSE,  TRUE,   FALSE,  # SMOG.de
+    FALSE,  TRUE,   FALSE,  # SMOG.simple
+    TRUE,   FALSE,  TRUE,   # Spache
+    FALSE,  FALSE,  FALSE,  # Spache.de
+    FALSE,  FALSE,  FALSE,  # Spache.old
+    TRUE,   TRUE,   TRUE,   # Strain
+    TRUE,   FALSE,  TRUE,   # Traenkle.Bailer
+    TRUE,   TRUE,   TRUE,   # TRI
+    TRUE,   TRUE,   TRUE,   # Tuldava
+    TRUE,   TRUE,   TRUE,   # Wheeler.Smith
+    FALSE,  TRUE,   FALSE  # Wheeler.Smith.de
+  ),
+  ncol=3,
+  byrow=TRUE,
+  dimnames=list(
+    c(
+      "ARI", 
+      "ARI.NRI", 
+      "ARI.simple", 
+      "Bormuth", 
+      "Coleman", 
+      "Coleman.Liau", 
+      "Dale.Chall", 
+      "Dale.Chall.old", 
+      "Dale.Chall.PSK", 
+      "Danielson.Bryan", 
+      "Dickes.Steiwer", 
+      "DRP", 
+      "ELF", 
+      "Farr.Jenkins.Paterson", 
+      "Farr.Jenkins.Paterson.PSK", 
+      "Flesch", 
+      "Flesch.Brouwer", 
+      "Flesch.de", 
+      "Flesch.es", 
+      "Flesch.fr", 
+      "Flesch.Kincaid", 
+      "Flesch.nl", 
+      "Flesch.nl-b", 
+      "Flesch.PSK", 
+      "Flesch.Szigriszt", 
+      "FOG", 
+      "FOG.NRI", 
+      "FOG.PSK", 
+      "FORCAST", 
+      "FORCAST.RGL", 
+      "Fucks", 
+      "Harris.Jacobson", 
+      "Linsear.Write", 
+      "LIX", 
+      "nWS", 
+      "RIX", 
+      "SMOG", 
+      "SMOG.C", 
+      "SMOG.de", 
+      "SMOG.simple", 
+      "Spache", 
+      "Spache.de", 
+      "Spache.old", 
+      "Strain", 
+      "Traenkle.Bailer", 
+      "TRI", 
+      "Tuldava", 
+      "Wheeler.Smith", 
+      "Wheeler.Smith.de"
+    ),
+    c(
+      "fast",
+      "sylls",
+      "params"
+    )
+  )
+)
+
+
+## function validate_parameters()
+# - given: character string or list of parameter names
+# - index: name of the index that all values of "given" qill be checked against
+#     if "all" a basic check is done whether params for unknown indizes are given
+validate_parameters <- function(given, index){
+  if(identical(index, "all")){
+    valid <- rdb_indices[,"params"]
+    given <- names(given)
+    index <- "parameters"
+  } else {
+    valid <- sapply(unlist(rdb_parameters(index=index)), function(x) TRUE)
+    given <- names(unlist(given))
+  }
+  if(
+    any(
+      all(identical(index, "parameters"), isTRUE(all(valid[given]))),
+      all(sum(valid[given], na.rm=TRUE) == length(given), length(valid) == length(given))
+    )
+  ){
+    return(TRUE)
+  } else {
+    invalid_params <- given[!given %in% names(valid)]
+    missing_params <- names(valid)[!names(valid) %in% given]
+    check_location <- paste0(" in \"", index, "\"")
+    if(length(missing_params)){
+      stop(simpleError(paste0("Missing parameters", check_location, ": \"", paste(missing_params, collapse="\", \""), "\"")))
+    } else {
+      stop(simpleError(paste0("Invalid parameters", check_location, ": \"", paste(invalid_params, collapse="\", \""), "\"")))
+    }
+  }
+} ## end function validate_parameters()
+
+
+## function check_parameters()
+# takes provided parameters (if any) and tries to figure out if they should be
+# used as-is or need to be replaced because they are a shortcut string
+# the function calls validate_parameters() and returns a list of two
+# elements, "p" with the parameters to use and "f" with the name of the
+# index flavour
+#  - index: character string, name of the readability index
+#  - given: a list of parameters to check
+#  - short: a named list of character strings, where element names are shortcuts used
+#      as parameters and the value is to be used as its flavour; if missing
+#      the flavour will be "default", "custom", or identical to the shortcut
+check_parameters <- function(
+  index,
+  given,
+  flav_names=NULL
+){
+  if(length(given)){
+    if(all(length(given) == 1, is.null(names(given)))){
+      # should be a shortcut
+      flavour <- given
+      params <- rdb_parameters(index=index, flavour=given)
+    } else {
+      # should be custom parameters
+      validate_parameters(given=given, index=index)
+      flavour <- ifelse(
+        identical(given, rdb_parameters(index=index, flavour="default")),
+        "default",
+        "custom"
+      )
+      params <- given
+    }
+  } else {
+    # no parameters given, fall back to defaults
+    flavour <- "default"
+    params <- rdb_parameters(index=index, flavour=flavour)
+  }
+  # finally check for flavour name replacement
+  if(length(flav_names[[flavour]])){
+    flavour <- flav_names[[flavour]]
+  }
+  return(list(p=params, f=flavour))
+} ## end function check_parameters()
+
+
 ## additional options:
 # - analyze.text:
 #     TRUE for kRp.rdb.formulae(), i.e. get values from text object examination,
 #     FALSE to calculate with the values in txt.features
 # - txt.features: a named list with key values needed to calculate
-
-kRp.rdb.formulae <- function(txt.file=NULL,
-      hyphen=NULL,
-      index=c(),
-      parameters=list(),
-      word.lists=list(),
-      fileEncoding="UTF-8",
-      tagger=NULL,
-      force.lang=NULL,
-      sentc.tag="sentc",
-      nonword.class="nonpunct",
-      nonword.tag=c(),
-      quiet=FALSE, 
-      analyze.text=TRUE,
-      txt.features=list(), ...){
+#' @importFrom sylly hyphenText hyphenText<-
+kRp.rdb.formulae <- function(
+  txt.file=NULL,
+  hyphen=NULL,
+  index=c(),
+  parameters=list(),
+  word.lists=list(),
+  fileEncoding="UTF-8",
+  sentc.tag="sentc",
+  nonword.class="nonpunct",
+  nonword.tag=c(),
+  quiet=FALSE,
+  keep.input=NULL,
+  analyze.text=TRUE,
+  txt.features=list(),
+  as.feature=FALSE
+){
 
   ## TODO: validation
   if(identical(index, "validation")){
-  message(paste0("
+    message(paste0("
   The following implementations have already been checked against various tools
   to validate the correctness of calculation. This doesn't mean they always came to identical
   results at once, since the accuracy of input data (like number of syllables or sentences)
@@ -124,122 +319,84 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   
   Other:
   WHE: example from original article by Wheeler & Smith"
-  ))
-  return(invisible(NULL))
+    ))
+    return(invisible(NULL))
   } else {}
 
   # see if just the default parameters should be returned:
   if(identical(parameters, "dput")){
-    # default.params() is defined in koRpus-internal.readability.R
-    return(default.params("dput"))
+    # rdb_parameters() is defined in koRpus-internal.rdb.params.grades.R
+    return(rdb_parameters("dput"))
   } else {}
 
   # check for given magic numbers
-  if(!is.list(parameters) | identical(length(parameters), 0)){
+  if(!is.list(parameters)){
     stop(simpleError("Missing accurate paramteter list!"))
   } else {
     # first complain if unknown parameters supplied
-    valid.params <- c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-      "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer",
-      "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-      "FOG", "FORCAST", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX",
-      "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith")
-    kRp.check.params(names(parameters), valid.params, where="parameters")
+    validate_parameters(
+      names(parameters),
+      index="all"
+    )
   }
 
-  all.valid.indices <- c("ARI", "ARI.NRI", "ARI.simple", "Bormuth", "Coleman", "Coleman.Liau",
-      "Dale.Chall", "Dale.Chall.old", "Dale.Chall.PSK", "Danielson.Bryan",
-      "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Farr.Jenkins.Paterson.PSK",
-      "Flesch", "Flesch.Brouwer", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
-      "Flesch.nl", "Flesch.nl-b", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
-      "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "SMOG.C",
-      "SMOG.de", "SMOG.simple", "Spache", "Spache.de", "Spache.old", "Strain", "Traenkle.Bailer", "TRI",
-      "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
+  all.valid.indices <- rownames(rdb_indices)
   # activate all?
   if(identical(index, "all")){
-    index <- all.valid.indices
+    index <- rownames(rdb_indices)
   } else {}
   if(identical(index, "fast")){
     # this should be like the defaults but without FOG
-    index <- c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
-        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-        "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
-        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-        "Wheeler.Smith")
+    index <- rownames(rdb_indices)[rdb_indices[, "fast"]]
   } else {}
 
-  need.sylls <- c("Coleman", "ELF", "Farr.Jenkins.Paterson", "Farr.Jenkins.Paterson.PSK",
-    "Flesch", "Flesch.Brouwer", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid",
-    "Flesch.nl", "Flesch.nl-b", "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
-    "Linsear.Write", "nWS", "SMOG", "SMOG.C", "SMOG.de", "SMOG.simple",
-    "Strain", "TRI", "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
+  need.sylls <- rownames(rdb_indices)[rdb_indices[, "sylls"]]
+
+  # use for keep.input
+  dropHyphen <- FALSE
 
   if(isTRUE(analyze.text)){
     #######################
     ## analyze.text=TRUE ##
     #######################
-    if("lang" %in% names(list(...))){
-      # since 'lang' is a valid argument for treetag(), it might have been set
-      stop(simpleError("You defined 'lang' in the '...' argument. This is confusing me! Use 'force.lang' instead."))
-    } else {}
-    # for backward compatibility
-    if("treetagger" %in% names(list(...))){
-      stop(simpleError("The option 'treetagger' is deprecated and was removed. Use 'tagger' instead."))
-    } else {}
 
-    if(inherits(txt.file, "kRp.tagged")){
-      lang <- language.setting(as(txt.file,"kRp.tagged"), force.lang)
-    } else if(!is.null(force.lang)){
-      lang <- force.lang
-    } else {
-      lang <- get.kRp.env(lang=TRUE)
-    }
+    lang <- language(txt.file)
+    docID <- doc_id(txt.file)
 
     if(identical(nonword.class, "nonpunct")){
       nonword.class <- kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)
     } else {}
 
-    if(inherits(txt.file, "kRp.tagged")){
-      txt.freq <- txt.file
-      tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
-      if(is.null(slot(txt.freq, "desc")$all.words)){
-        slot(txt.freq, "desc")$all.words <- tagged.words.only[["token"]]
-      } else {}
-    } else {
-      txt.freq <- freq.analysis(txt.file=txt.file, desc.stat=TRUE, force.lang=lang,
-                tagger=tagger, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, ...)
-      tagged.words.only <- filterByClass(txt.freq, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
-    }
-    txt.desc <- slot(txt.freq, "desc")
-    # set objects.only=FALSE to enable automatic tagging if a file name is given
-    tagged.text <- tag.kRp.txt(txt.file, lang=lang, objects.only=FALSE)
+    tagged.words.only <- filterByClass(txt.file, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, update.desc=NULL)
+    if(is.null(describe(txt.file, doc_id=docID)[["all.words"]])){
+      describe(txt.file, doc_id=docID)[["all.words"]] <- tagged.words.only[["token"]]
+    } else {}
+    txt.desc <- describe(txt.file, doc_id=docID)
 
     # check how to handle the hyphen parameter
     # first see if there's results to re-use
-    if("hyphen" %in% slotNames(txt.freq)){
-      if(inherits(slot(txt.freq ,"hyphen"), "kRp.hyphen")){
-        if(nrow(slot(slot(txt.freq ,"hyphen"), "hyphen")) > 0 && is.null(hyphen)){
-          hyphen <- slot(txt.freq ,"hyphen")
-        } else {}
-      } else {}
+    if(all(hasFeature(txt.file, "hyphen"), is.null(hyphen))){
+      hyphen <- corpusHyphen(txt.file)
     } else {}
     # we don't need hyphenation for certain formulas,
     # then we'll skip that step automatically
     if(any(index %in% need.sylls)){
       if(is.null(hyphen)){
-        hyphen <- hyphen(tagged.text, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, quiet=quiet)
+        hyphen <- hyphen(txt.file, corp.rm.class=nonword.class, corp.rm.tag=nonword.tag, quiet=quiet)
       } else {
         stopifnot(inherits(hyphen, "kRp.hyphen"))
+        dropHyphen <- TRUE
       }
       sylls.available <- TRUE
     } else {
       if(inherits(hyphen, "kRp.hyphen")){
         sylls.available <- TRUE
+        dropHyphen <- TRUE
       } else {
         # we'll just create an empty object to not disturb the other functions
         hyphen <- new("kRp.hyphen")
         sylls.available <- FALSE
+        dropHyphen <- TRUE
       }
     }
 
@@ -265,13 +422,13 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     lett.per100 <- num.letters * 100 / num.words
     num.punct <- txt.desc$punct
     if(isTRUE(sylls.available)){
-      num.syll <- slot(hyphen, "desc")[["num.syll"]]
-      num.monosyll <- slot(hyphen, "desc")[["syll.distrib"]]["num", 1]
+      num.syll <- describe(hyphen)[["num.syll"]]
+      num.monosyll <- describe(hyphen)[["syll.distrib"]]["num", 1]
       pct.monosyll <- num.monosyll * 100 / num.words
-      syll.distrib <- slot(hyphen, "desc")[["syll.distrib"]]
-      syll.uniq.distrib <- slot(hyphen, "desc")[["syll.uniq.distrib"]]
-      avg.syll.word <- slot(hyphen, "desc")[["avg.syll.word"]]
-      syll.per100 <- slot(hyphen, "desc")[["syll.per100"]]
+      syll.distrib <- describe(hyphen)[["syll.distrib"]]
+      syll.uniq.distrib <- describe(hyphen)[["syll.uniq.distrib"]]
+      avg.syll.word <- describe(hyphen)[["avg.syll.word"]]
+      syll.per100 <- describe(hyphen)[["syll.per100"]]
       fixed.syllables <- distrib.to.fixed(syll.distrib, all.values=num.syll, idx="s")
     } else {
       num.syll <- NA
@@ -284,16 +441,16 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       fixed.syllables <- NULL
     }
     # check if the "Dickes.Steiwer" parameters are set for TTR
-    DS.case.sens <- ifelse(
-      is.null(parameters$Dickes.Steiwer$case.sens),
-      default.params("Dickes.Steiwer", "case.sens"),
-      parameters$Dickes.Steiwer$case.sens)
-    num.TTR <- slot(TTR(tagged.text, case.sens=DS.case.sens, quiet=TRUE), "TTR")
+    DS.case.sens <- check_parameters(
+      index="Dickes.Steiwer",
+      given=parameters[["Dickes.Steiwer"]]
+    )[["case.sens"]]
+    num.TTR <- slot(TTR(txt.file, case.sens=DS.case.sens, quiet=TRUE), "TTR")
     # some word classes needed by one formula or the other
-    num.conjunctions <- sum(slot(tagged.text, "TT.res")$wclass %in% "conjunction", na.rm=TRUE)
-    num.prepositions <- sum(slot(tagged.text, "TT.res")$wclass %in% "preposition", na.rm=TRUE)
-    num.pronouns <- sum(slot(tagged.text, "TT.res")$wclass %in% "pronoun", na.rm=TRUE)
-    num.foreign <- sum(slot(tagged.text, "TT.res")$wclass %in% "foreign", na.rm=TRUE)
+    num.conjunctions <- sum(taggedText(txt.file)$wclass %in% "conjunction", na.rm=TRUE)
+    num.prepositions <- sum(taggedText(txt.file)$wclass %in% "preposition", na.rm=TRUE)
+    num.pronouns <- sum(taggedText(txt.file)$wclass %in% "pronoun", na.rm=TRUE)
+    num.foreign <- sum(taggedText(txt.file)$wclass %in% "foreign", na.rm=TRUE)
   } else {
     ########################
     ## analyze.text=FALSE ##
@@ -327,16 +484,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     num.prepositions <- txt.features$prepositions
     num.pronouns <- txt.features$pronouns
     num.foreign <- txt.features$foreign
-    if(inherits(txt.file, "kRp.tagged")){
-      lang <- language.setting(as(txt.file,"kRp.tagged"), force.lang)
-      tagged.text <- txt.file
-    } else if(!is.null(force.lang)){
-      lang <- force.lang
-      tagged.text <- kRp_tagged()
-    } else {
-      lang <- character()
-      tagged.text <- kRp_tagged()
-    }
+    lang <- language(txt.file)
     if(!inherits(hyphen, "kRp.hyphen")){
       hyphen <- new("kRp.hyphen",
         desc=list(
@@ -346,8 +494,9 @@ kRp.rdb.formulae <- function(txt.file=NULL,
           avg.syll.word=avg.syll.word,
           syll.per100=syll.per100
         ))
-    } else {}
-    txt.freq <- tagged.text
+    } else {
+      dropHyphen <- TRUE
+    }
   }
 
   # keep the descriptives in the results
@@ -381,21 +530,18 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   )
 
   # initialize result object
-  if(inherits(txt.file, "kRp.readability")){
-    all.results <- txt.file
-    slot(all.results, "lang") <- lang
-    slot(all.results, "TT.res") <- slot(tagged.text, "TT.res")
-    slot(all.results, "hyphen") <- hyphen
-    slot(all.results, "desc") <- desc
-    slot(all.results, "param") <- parameters
-  } else {
-    all.results <- kRp_readability(
-      lang=lang,
-      TT.res=slot(tagged.text, "TT.res"),
-      desc=desc,
-      hyphen=hyphen,
-      param=parameters)
-  }
+  all.results <- kRp_readability(
+    lang=lang,
+    desc=desc,
+    param=parameters
+  )
+  if(isTRUE(keep.input)){
+    feature(txt.file, "hyphen") <- hyphen
+  } else if(is.null(keep.input)){
+    if(!isTRUE(dropHyphen)){
+      feature(txt.file, "hyphen") <- hyphen
+    } else {}
+  } else {}
 
   #####################################
   ## readability measures start here ##
@@ -403,43 +549,30 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 
   ## Automated Readability Index (ARI)
   if("ARI" %in% index){
-    flavour <- "default"
-    valid.params <- c("asl", "awl", "const")
-    if("ARI" %in% names(parameters)){
-      flavour <- check.flavour(parameters$ARI, default.params("ARI"))
-      prms <- parameters$ARI
-      if(identical(prms, "NRI")){
-        flavour <- "NRI"
-        prms <- c(asl=0.4, awl=6, const=27.4)
-      } else {}
-      if(identical(prms, "simple")){
-        flavour <- "simplified"
-        prms <- c(asl=1, awl=9, const=0)
-      } else {}
+    pf <- check_parameters(
+      index="ARI",
+      given=parameters[["ARI"]],
+      flav_names=list(simple="simplified")
+    )
+    ARI.grade <- pf[["p"]][["asl"]] * avg.sntc.len + pf[["p"]][["awl"]] * avg.word.len - pf[["p"]][["const"]]
+    if(identical(pf[["f"]], "simplified")){
+      slot(all.results, "ARI") <- list(flavour=pf[["f"]], index=ARI.grade, grade=NA)
     } else {
-      prms <- default.params("ARI")
-    }
-    kRp.check.params(names(prms), valid.params, where="ARI")
-    kRp.check.params(valid.params, names(prms), where="ARI", missing=TRUE)
-    ARI.grade <- prms[["asl"]] * avg.sntc.len + prms[["awl"]] * avg.word.len - prms[["const"]]
-    if(identical(flavour, "simplified")){
-      slot(all.results, "ARI") <- list(flavour=flavour, index=ARI.grade, grade=NA)
-    } else {
-      slot(all.results, "ARI") <- list(flavour=flavour, index=NA, grade=ARI.grade)
+      slot(all.results, "ARI") <- list(flavour=pf[["f"]], index=NA, grade=ARI.grade)
     }
   } else{}
   # recursive calls for alternative shortcuts
   if("ARI.NRI" %in% index){
      # setting hyphen to NULL here, because otherwise we could end up with pseudo hyphen objects crashing the function
-     slot(all.results, "ARI.NRI") <- slot(kRp.rdb.formulae(txt.freq, hyphen=NULL, index=c("ARI"), parameters=list(ARI="NRI"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "ARI")
+     slot(all.results, "ARI.NRI") <- slot(kRp.rdb.formulae(txt.file, hyphen=NULL, index=c("ARI"), parameters=list(ARI="NRI"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "ARI")
   } else {}
   if("ARI.simple" %in% index){
      # setting hyphen to NULL here, because otherwise we could end up with pseudo hyphen objects crashing the function
-     slot(all.results, "ARI.simple") <- slot(kRp.rdb.formulae(txt.freq, hyphen=NULL, index=c("ARI"), parameters=list(ARI="simple"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "ARI")
+     slot(all.results, "ARI.simple") <- slot(kRp.rdb.formulae(txt.file, hyphen=NULL, index=c("ARI"), parameters=list(ARI="simple"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "ARI")
   } else {}
 
   ## Bormuth Grade Level
@@ -448,165 +581,67 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     if(!"Bormuth" %in% names(word.lists) | is.null(word.lists[["Bormuth"]])){
       warning("Bormuth: Missing word list, hence not calculated.", call.=FALSE)
     } else {
-      flavour <- "default"
-      valid.params <- c("clz", "meanc", "grade")
-      valid.params.meanc <- c("const", "awl", "afw", "asl1", "asl2", "asl3")
-      valid.params.grade <- c("const", "m1", "m2", "m3", "c1", "c2", "c3", "mc1", "mc2", "mc3")
       bormuth.word.list <- read.word.list(word.lists[["Bormuth"]], encoding=fileEncoding)
-      if("Bormuth" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Bormuth, default.params("Bormuth"))
-        prms <- parameters$Bormuth
-      } else {
-        prms <- default.params("Bormuth")
-      }
-      kRp.check.params(names(prms), valid.params, where="Bormuth")
-      kRp.check.params("meanc", names(prms), where="Bormuth", missing=TRUE)
-      prms.meanc <- prms$meanc
-      kRp.check.params(names(prms.meanc), valid.params.meanc, where="Bormuth$meanc")
-      kRp.check.params(valid.params.meanc, names(prms.meanc), where="Bormuth$meanc", missing=TRUE)
+      pf <- check_parameters(
+        index="Bormuth",
+        given=parameters[["Bormuth"]]
+      )
       fam.words.all.txt <- difficult.words(txt.words.only, bormuth.word.list)
       fam.words.txt <- fam.words.all.txt[["num.listed"]]/num.words
       fam.words.nol <- fam.words.all.txt[["words.not.listed"]]
-      bmc <- prms.meanc[["const"]] - (prms.meanc[["awl"]] * avg.word.len) + (prms.meanc[["afw"]] * fam.words.txt^3) -
-        (prms.meanc[["asl1"]] * avg.sntc.len) + (prms.meanc[["asl2"]] * avg.sntc.len^2) - (prms.meanc[["asl3"]] * avg.sntc.len^3)
+      bmc <- pf[["p"]][["meanc"]][["const"]] - (pf[["p"]][["meanc"]][["awl"]] * avg.word.len) + (pf[["p"]][["meanc"]][["afw"]] * fam.words.txt^3) -
+        (pf[["p"]][["meanc"]][["asl1"]] * avg.sntc.len) + (pf[["p"]][["meanc"]][["asl2"]] * avg.sntc.len^2) - (pf[["p"]][["meanc"]][["asl3"]] * avg.sntc.len^3)
 
-      if("grade" %in% names(prms)) {
-        prms.grade <- prms$grade
-        kRp.check.params(names(prms.grade), valid.params.grade, where="Bormuth$grade")
-        kRp.check.params(valid.params.grade, names(prms.grade), where="Bormuth$grade", missing=TRUE)
-        if("clz" %in% names(prms)){
-          cloze.crit <- prms[["clz"]] / 100
-        } else {
-          cloze.crit <- default.params("Bormuth", "clz") / 100
-        }
-        # here comes the rather long formula...
-        bm.grade <- prms.grade[["const"]] + (prms.grade[["m1"]] * bmc) - (prms.grade[["m2"]] * bmc^2) + (prms.grade[["m3"]] * bmc^3) +
-          (prms.grade[["c1"]] * cloze.crit) - (prms.grade[["c2"]] * cloze.crit^2) - (prms.grade[["c3"]] * cloze.crit^3) -
-          (prms.grade[["mc1"]] * bmc * cloze.crit) + (prms.grade[["mc2"]] * (bmc * cloze.crit)^2) - (prms.grade[["mc3"]] * (bmc * cloze.crit)^3)
-      } else {
-        bm.grade <- NA
-      }
+      cloze.crit <- pf[["p"]][["clz"]] / 100
+      # here comes the rather long formula...
+      bm.grade <- pf[["p"]][["grade"]][["const"]] + (pf[["p"]][["grade"]][["m1"]] * bmc) - (pf[["p"]][["grade"]][["m2"]] * bmc^2) + (pf[["p"]][["grade"]][["m3"]] * bmc^3) +
+        (pf[["p"]][["grade"]][["c1"]] * cloze.crit) - (pf[["p"]][["grade"]][["c2"]] * cloze.crit^2) - (pf[["p"]][["grade"]][["c3"]] * cloze.crit^3) -
+        (pf[["p"]][["grade"]][["mc1"]] * bmc * cloze.crit) + (pf[["p"]][["grade"]][["mc2"]] * (bmc * cloze.crit)^2) - (pf[["p"]][["grade"]][["mc3"]] * (bmc * cloze.crit)^3)
       # preserve hard words in the desc slot
       if(isTRUE(analyze.text)){
         slot(all.results, "desc")[["Bormuth.NOL"]] <- length(fam.words.nol)
       } else {
         slot(all.results, "desc")[["Bormuth.NOL"]] <- bormuth.word.list
       }
-      slot(all.results, "Bormuth") <- list(flavour=flavour, word.list=bormuth.word.list, not.on.list=fam.words.nol, pct.fam=fam.words.txt * 100, mean.cloze=bmc * 100, grade=bm.grade)
+      slot(all.results, "Bormuth") <- list(flavour=pf[["f"]], word.list=bormuth.word.list, not.on.list=fam.words.nol, pct.fam=fam.words.txt * 100, mean.cloze=bmc * 100, grade=bm.grade)
     }
   } else{}
 
   ## Coleman Formulas
   if("Coleman" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(slot(tagged.text, "TT.res")[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(all(taggedText(txt.file)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
       # this text was just tagged with tokenize() and misses important tags
       warning("Coleman: POS tags are not elaborate enough, can't count pronouns and prepositions. Formulae skipped.", call.=FALSE)
     } else {
-      flavour <- "default"
-      valid.params <- c("syll", "clz1", "clz2", "clz3", "clz4")
-      if("Coleman" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Coleman, default.params("Coleman"))
-        prms <- parameters$Coleman
-      } else {
-        prms <- default.params("Coleman")
-      }
-      kRp.check.params(names(prms), valid.params, where="Coleman")
-      # we don't necessarily need all params
-      kRp.check.params("syll", names(prms), where="Coleman", missing=TRUE)
-      coleman.words   <- slot(hyphen, "desc")[["syll.distrib"]]["cum.sum", prms[["syll"]]] * 100 / num.words
+      pf <- check_parameters(
+        index="Coleman",
+        given=parameters[["Coleman"]]
+      )
+
+      coleman.words   <- describe(hyphen)[["syll.distrib"]]["cum.sum", pf[["p"]][["syll"]]] * 100 / num.words
       coleman.sentc   <- sntc.per100
       coleman.pronoun <- num.pronouns * 100 / num.words
       coleman.prepos  <- num.prepositions * 100 / num.words
 
-      if(!any(c("clz1", "clz2", "clz3", "clz4") %in% names(prms))){
-        stop(simpleError("Coleman: you need to specify parameters for at least *one* of the four formulas!"))
-      }
-
-      if("clz1" %in% names(prms)){
-        prms.c1 <- prms$clz1
-        valid.prms <- c("word", "const")
-        kRp.check.params(names(prms.c1), valid.prms, where="Coleman$clz1")
-        kRp.check.params(valid.prms, names(prms.c1), where="Coleman$clz1", missing=TRUE)
-        Coleman1 <- (prms.c1[["word"]] * coleman.words) - prms.c1[["const"]]
-      } else {
-        Coleman1 <- NA
-      }
-
-      if("clz2" %in% names(prms)){
-        prms.c2 <- prms$clz2
-        valid.prms <- c("word", "sntc", "const")
-        kRp.check.params(names(prms.c2), valid.prms, where="Coleman$clz2")
-        kRp.check.params(valid.prms, names(prms.c2), where="Coleman$clz2", missing=TRUE)
-        Coleman2 <- (prms.c2[["word"]] * coleman.words) + (prms.c2[["sntc"]] * coleman.sentc) - prms.c2[["const"]]
-      } else {
-        Coleman2 <- NA
-      }
-
-      if("clz3" %in% names(prms)){
-        prms.c3 <- prms$clz3
-        valid.prms <- c("word", "sntc", "pron", "const")
-        kRp.check.params(names(prms.c3), valid.prms, where="Coleman$clz3")
-        kRp.check.params(valid.prms, names(prms.c3), where="Coleman$clz3", missing=TRUE)
-        Coleman3 <- (prms.c3[["word"]] * coleman.words) + (prms.c3[["sntc"]] * coleman.sentc) + (prms.c3[["pron"]] * coleman.pronoun) - prms.c3[["const"]]
-      } else {
-        Coleman3 <- NA
-      }
-
-      if("clz4" %in% names(prms)){
-        prms.c4 <- prms$clz4
-        valid.prms <- c("word", "sntc", "pron", "prep", "const")
-        kRp.check.params(names(prms.c4), valid.prms, where="Coleman$clz4")
-        kRp.check.params(valid.prms, names(prms.c4), where="Coleman$clz4", missing=TRUE)
-        Coleman4 <- (prms.c4[["word"]] * coleman.words) + (prms.c4[["sntc"]] * coleman.sentc) + (prms.c4[["pron"]] * coleman.pronoun) - (prms.c4[["prep"]] * coleman.prepos) - prms.c4[["const"]]
-      } else {
-        Coleman4 <- NA
-      }
-      slot(all.results, "Coleman") <- list(flavour=flavour, num.pron=coleman.pronoun, num.prep=coleman.prepos, C1=Coleman1, C2=Coleman2, C3=Coleman3, C4=Coleman4)
+      Coleman1 <- (pf[["p"]][["clz1"]][["word"]] * coleman.words) - pf[["p"]][["clz1"]][["const"]]
+      Coleman2 <- (pf[["p"]][["clz2"]][["word"]] * coleman.words) + (pf[["p"]][["clz2"]][["sntc"]] * coleman.sentc) - pf[["p"]][["clz2"]][["const"]]
+      Coleman3 <- (pf[["p"]][["clz3"]][["word"]] * coleman.words) + (pf[["p"]][["clz3"]][["sntc"]] * coleman.sentc) + (pf[["p"]][["clz3"]][["pron"]] * coleman.pronoun) - pf[["p"]][["clz3"]][["const"]]
+      Coleman4 <- (pf[["p"]][["clz4"]][["word"]] * coleman.words) + (pf[["p"]][["clz4"]][["sntc"]] * coleman.sentc) + (pf[["p"]][["clz4"]][["pron"]] * coleman.pronoun) - (pf[["p"]][["clz4"]][["prep"]] * coleman.prepos) - pf[["p"]][["clz4"]][["const"]]
+      slot(all.results, "Coleman") <- list(flavour=pf[["f"]], num.pron=coleman.pronoun, num.prep=coleman.prepos, C1=Coleman1, C2=Coleman2, C3=Coleman3, C4=Coleman4)
     }
   } else {}
 
   ## Coleman-Liau
   if("Coleman.Liau" %in% index){
-    flavour <- "default"
-    valid.params <- c("ecp", "grade", "short")
-    valid.params.ecp <- c("const", "char", "sntc")
-    valid.params.grade <- c("ecp", "const")
-    valid.params.short <- c("awl", "spw", "const")
-    if("Coleman.Liau" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Coleman.Liau, default.params("Coleman.Liau"))
-      prms <- parameters$Coleman.Liau
-    } else {
-      prms <- default.params("Coleman.Liau")
-    }
-
-    kRp.check.params(names(prms), valid.params, where="Coleman.Liau")
-    if(sum(c("ecp", "grade") %in% names(prms)) != 2 & !isTRUE("short" %in% names(prms))) {
-      stop(simpleError("Coleman.Liau: You need to specify either parameters for \"ecp\" & \"grade\", or \"short\"!"))
-    }
-
-    if("ecp" %in% names(prms)){
-      prms.ecp <- prms$ecp
-      prms.grade <- prms$grade
-      kRp.check.params(names(prms.ecp), valid.params.ecp, where="Coleman.Liau$ecp")
-      kRp.check.params(valid.params.ecp, names(prms.ecp), where="Coleman.Liau$ecp", missing=TRUE)
-      kRp.check.params(names(prms.grade), valid.params.grade, where="Coleman.Liau$grade")
-      kRp.check.params(valid.params.grade, names(prms.grade), where="Coleman.Liau$grade", missing=TRUE)
-      co.li.ECP <- prms.ecp[["const"]] - (prms.ecp[["char"]] * lett.per100) + (prms.ecp[["sntc"]] * sntc.per100)
-      co.li.grade <- (prms.grade[["ecp"]] * (co.li.ECP / 100)) + prms.grade[["const"]]
-    } else {
-      co.li.ECP <- NA
-      co.li.grade <- NA
-    }
-    if("short" %in% names(prms)){
-      prms.short <- prms$short
-      kRp.check.params(names(prms.short), valid.params.short, where="Coleman.Liau$short")
-      kRp.check.params(valid.params.short, names(prms.short), where="Coleman.Liau$short", missing=TRUE)
-      co.li.short <- prms.short[["awl"]] * avg.word.len - prms.short[["spw"]] * sntc.per.word - prms.short[["const"]]
-    } else {
-      co.li.short <- NA
-    }
-    slot(all.results, "Coleman.Liau") <- list(flavour=flavour, ECP=co.li.ECP, grade=co.li.grade, short=co.li.short)
+    pf <- check_parameters(
+      index="Coleman.Liau",
+      given=parameters[["Coleman.Liau"]]
+    )
+    co.li.ECP <- pf[["p"]][["ecp"]][["const"]] - (pf[["p"]][["ecp"]][["char"]] * lett.per100) + (pf[["p"]][["ecp"]][["sntc"]] * sntc.per100)
+    co.li.grade <- (pf[["p"]][["grade"]][["ecp"]] * (co.li.ECP / 100)) + pf[["p"]][["grade"]][["const"]]
+    co.li.short <- pf[["p"]][["short"]][["awl"]] * avg.word.len - pf[["p"]][["short"]][["spw"]] * sntc.per.word - pf[["p"]][["short"]][["const"]]
+    slot(all.results, "Coleman.Liau") <- list(flavour=pf[["f"]], ECP=co.li.ECP, grade=co.li.grade, short=co.li.short)
   } else{}
 
   ## Dale-Chall
@@ -616,36 +651,27 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     if(!"Dale.Chall" %in% names(word.lists) | is.null(word.lists[["Dale.Chall"]])){
       warning("Dale-Chall: Missing word list, hence not calculated.", call.=FALSE)
     } else {
-      flavour <- "default"
-      valid.params <- c("const", "dword", "asl")
+      pf <- check_parameters(
+        index="Dale.Chall",
+        given=parameters[["Dale.Chall"]],
+        flav_names=list(
+          PSK="Powers-Sumner-Kearl",
+          old="Dale-Chall (1948)",
+          default="New Dale-Chall (1995)"
+        )
+      )
       dale.chall.word.list <- read.word.list(word.lists[["Dale.Chall"]], encoding=fileEncoding)
-      if("Dale.Chall" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Dale.Chall, default.params("Dale.Chall"), default.name="New Dale-Chall (1995)")
-        prms <- parameters$Dale.Chall
-      } else {
-        prms <- default.params("Dale.Chall")
-      }
-      if(identical(prms, "PSK")){
-        flavour <- "Powers-Sumner-Kearl"
-        diff.words.all.txt <- difficult.words(txt.words.only, dale.chall.word.list)
-        diff.words.txt <- diff.words.all.txt[["pct.not.listed"]]
-        diff.words.nol <- diff.words.all.txt[["words.not.listed"]]
-        dale.chall.raw <- 3.2672  + (0.0596 * avg.sntc.len) + (0.1155 * diff.words.txt)
+      diff.words.all.txt <- difficult.words(txt.words.only, dale.chall.word.list)
+      diff.words.txt <- diff.words.all.txt[["pct.not.listed"]]
+      diff.words.nol <- diff.words.all.txt[["words.not.listed"]]
+      if(identical(pf[["f"]], "Powers-Sumner-Kearl")){
+        dale.chall.raw <- pf[["p"]][["const"]] + (pf[["p"]][["asl"]] * avg.sntc.len) + (pf[["p"]][["dword"]] * diff.words.txt)
         dale.chall.grade <- get.grade.level(dale.chall.raw, measure="Dale.Chall.PSK")
-      } else if(identical(prms, "old")){
-        flavour <- "Dale-Chall (1948)"
-        diff.words.all.txt <- difficult.words(txt.words.only, dale.chall.word.list)
-        diff.words.txt <- diff.words.all.txt[["pct.not.listed"]]
-        diff.words.nol <- diff.words.all.txt[["words.not.listed"]]
-        dale.chall.raw <- (0.1579 * diff.words.txt) + (0.0496 * avg.sntc.len) + 3.6365
+      } else if(identical(pf[["f"]], "Dale-Chall (1948)")){
+        dale.chall.raw <- (pf[["p"]][["dword"]] * diff.words.txt) + (pf[["p"]][["asl"]] * avg.sntc.len) + pf[["p"]][["const"]]
         dale.chall.grade <- get.grade.level(dale.chall.raw, measure="Dale.Chall")
       } else {
-        kRp.check.params(names(prms), valid.params, where="Dale.Chall")
-        kRp.check.params(valid.params, names(prms), where="Dale.Chall", missing=TRUE)
-        diff.words.all.txt <- difficult.words(txt.words.only, dale.chall.word.list)
-        diff.words.txt <- diff.words.all.txt[["pct.not.listed"]]
-        diff.words.nol <- diff.words.all.txt[["words.not.listed"]]
-        dale.chall.raw <- prms[["const"]] - (prms[["dword"]] * diff.words.txt) - (prms[["asl"]] * avg.sntc.len)
+        dale.chall.raw <- pf[["p"]][["const"]] - (pf[["p"]][["dword"]] * diff.words.txt) - (pf[["p"]][["asl"]] * avg.sntc.len)
         dale.chall.grade <- get.grade.level(dale.chall.raw, measure="Dale.Chall.new")
       }
       # preserve hard words in the desc slot
@@ -654,23 +680,23 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       } else {
         slot(all.results, "desc")[["Dale.Chall.NOL"]] <- dale.chall.word.list
       }
-      slot(all.results, "Dale.Chall") <- list(flavour=flavour, word.list=dale.chall.word.list, not.on.list=diff.words.nol, pct=diff.words.txt, raw=dale.chall.raw,
+      slot(all.results, "Dale.Chall") <- list(flavour=pf[["f"]], word.list=dale.chall.word.list, not.on.list=diff.words.nol, pct=diff.words.txt, raw=dale.chall.raw,
       grade=dale.chall.grade[["grade"]], grade.min=dale.chall.grade[["grade.min"]],
       age=dale.chall.grade[["age"]], age.min=dale.chall.grade[["age.min"]])
     }
   } else{}
   # recursive calls for alternative shortcuts
   if("Dale.Chall.PSK" %in% index){
-    slot(all.results, "Dale.Chall.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="PSK"),
+    slot(all.results, "Dale.Chall.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="PSK"),
       word.lists=list(Dale.Chall=word.lists[["Dale.Chall"]]),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Dale.Chall")
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Dale.Chall")
   } else {}
   if("Dale.Chall.old" %in% index){
-    slot(all.results, "Dale.Chall.old") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="old"),
+    slot(all.results, "Dale.Chall.old") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Dale.Chall"), parameters=list(Dale.Chall="old"),
       word.lists=list(Dale.Chall=word.lists[["Dale.Chall"]]),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Dale.Chall")
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Dale.Chall")
   } else {}
 
   ## Danielson-Bryan
@@ -678,48 +704,20 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # the blanks any more, we'll assume one blank between
   # every two words, hence blanks = num.words - 1
   if("Danielson.Bryan" %in% index){
-    flavour <- "default"
-    valid.params <- c("db1", "db2")
-    if("Danielson.Bryan" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Danielson.Bryan, default.params("Danielson.Bryan"))
-      prms <- parameters$Danielson.Bryan
-    } else{
-      prms <- default.params("Danielson.Bryan")
-    }
-
-    kRp.check.params(names(prms), valid.params, where="parameters$Danielson.Bryan")
-    # we don't necessarily need all params
-    if(!any(c("db1", "db2") %in% names(prms))){
-      stop(simpleError("Danielson.Bryan: you need to specify parameters for at least *one* of the two formulas!"))
-    }
+    pf <- check_parameters(
+      index="Danielson.Bryan",
+      given=parameters[["Danielson.Bryan"]]
+    )
 
     db.num.blanks <- num.words - 1
     db.avg.let.blnk <- num.all.chars / db.num.blanks
     db.avg.let.sntc <- num.all.chars / num.sentences
 
-    if("db1" %in% names(prms)){
-      prms.db1 <- prms$db1
-      valid.prms <- c("cpb", "cps", "const")
-      kRp.check.params(names(prms.db1), valid.prms, where="parameters$Danielson.Bryan$db1")
-      kRp.check.params(valid.prms, names(prms.db1), where="parameters$Danielson.Bryan$db1", missing=TRUE)
-      DB1 <- (prms.db1[["cpb"]] * db.avg.let.blnk) + (prms.db1[["cps"]] * db.avg.let.sntc) - prms.db1[["const"]]
-    } else {
-      DB1 <- NA
-    }
+    DB1 <- (pf[["p"]][["db1"]][["cpb"]] * db.avg.let.blnk) + (pf[["p"]][["db1"]][["cps"]] * db.avg.let.sntc) - pf[["p"]][["db1"]][["const"]]
+    DB2 <- pf[["p"]][["db2"]][["const"]] - (pf[["p"]][["db2"]][["cpb"]] * db.avg.let.blnk) - (pf[["p"]][["db2"]][["cps"]] * db.avg.let.sntc)
+    DB2.grade <- get.grade.level(DB2, measure="Danielson.Bryan")
 
-    if("db2" %in% names(prms)){
-      prms.db2 <- prms$db2
-      valid.prms <- c( "const", "cpb", "cps")
-      kRp.check.params(names(prms.db2), valid.prms, where="parameters$Danielson.Bryan$db2")
-      kRp.check.params(valid.prms, names(prms.db2), where="parameters$Danielson.Bryan$db2", missing=TRUE)
-      DB2 <- prms.db2[["const"]] - (prms.db2[["cpb"]] * db.avg.let.blnk) - (prms.db2[["cps"]] * db.avg.let.sntc)
-      DB2.grade <- get.grade.level(DB2, measure="Danielson.Bryan")
-    } else {
-      DB2 <- NA
-      DB2.grade <- NA
-    }
-
-    slot(all.results, "Danielson.Bryan") <- list(flavour=flavour, avg.blank=db.avg.let.blnk, avg.sentc=db.avg.let.sntc,
+    slot(all.results, "Danielson.Bryan") <- list(flavour=pf[["f"]], avg.blank=db.avg.let.blnk, avg.sentc=db.avg.let.sntc,
       DB1=DB1, DB2=DB2, DB2.grade=DB2.grade[["grade"]], DB2.grade.min=DB2.grade[["grade.min"]])
   } else {}
 
@@ -740,35 +738,23 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # if more elaborate info on pronouns was available,
   # the "computer formula" could easily be added
   if("Dickes.Steiwer" %in% index){
-    flavour <- "default"
-    valid.params <- c("const", "awl", "asl", "ttr", "case.sens")
-    if("Dickes.Steiwer" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Dickes.Steiwer, default.params("Dickes.Steiwer"))
-      prms <- parameters$Dickes.Steiwer
-    } else{
-      prms <- default.params("Dickes.Steiwer")
-    }
-    kRp.check.params(names(prms), valid.params, where="Dickes.Steiwer")
-    kRp.check.params(valid.params, names(prms), where="Dickes.Steiwer", missing=TRUE)
-    Dickes.Steiwer.score <- prms[["const"]] - (log(avg.word.len + 1) * prms[["awl"]]) - (log(avg.sntc.len + 1) * prms[["asl"]]) - (num.TTR * prms[["ttr"]])
-    slot(all.results, "Dickes.Steiwer") <- list(flavour=flavour, TTR=num.TTR, Dickes.Steiwer=Dickes.Steiwer.score)
+    pf <- check_parameters(
+      index="Dickes.Steiwer",
+      given=parameters[["Dickes.Steiwer"]]
+    )
+    Dickes.Steiwer.score <- pf[["p"]][["const"]] - (log(avg.word.len + 1) * pf[["p"]][["awl"]]) - (log(avg.sntc.len + 1) * pf[["p"]][["asl"]]) - (num.TTR * pf[["p"]][["ttr"]])
+    slot(all.results, "Dickes.Steiwer") <- list(flavour=pf[["f"]], TTR=num.TTR, Dickes.Steiwer=Dickes.Steiwer.score)
   } else {}
 
   ## Easy Listening Formula
   if("ELF" %in% index){
-    flavour <- "default"
-    valid.params <- c("syll")
-    if("ELF" %in% names(parameters)){
-      flavour <- check.flavour(parameters$ELF, default.params("ELF"))
-      prms <- parameters$ELF
-    } else {
-      prms <- default.params("ELF")
-    }
-    kRp.check.params(names(prms), valid.params, where="ELF")
-    kRp.check.params(valid.params, names(prms), where="ELF", missing=TRUE)
-    ELF.exsyls <- long.words(prms[["syll"]] - 1, hyphen=hyphen)
+    pf <- check_parameters(
+      index="ELF",
+      given=parameters[["ELF"]]
+    )
+    ELF.exsyls <- long.words(pf[["p"]][["syll"]] - 1, hyphen=hyphen)
     ELF.score <- ELF.exsyls / num.sentences
-    slot(all.results, "ELF") <- list(flavour=flavour, num.exsyls=ELF.exsyls, ELF=ELF.score)
+    slot(all.results, "ELF") <- list(flavour=pf[["f"]], num.exsyls=ELF.exsyls, ELF=ELF.score)
   } else {}
 
 ## "Fasse-Dich-Kurz-Index" (FDK-Index, Rolf W. Schirm)
@@ -788,169 +774,113 @@ kRp.rdb.formulae <- function(txt.file=NULL,
   # monsy: percentage of monosyllabic words
   # asl: number of sentenvces
   if("Farr.Jenkins.Paterson" %in% index){
-    flavour <- "default"
-    valid.params <- c("const", "asl", "monsy")
-    if("Farr.Jenkins.Paterson" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Farr.Jenkins.Paterson, default.params("Farr.Jenkins.Paterson"))
-      prms <- parameters$Farr.Jenkins.Paterson
-      if(identical(prms, "PSK")){
-       flavour <- "Powers-Sumner-Kearl"
-       prms <- c(const=8.4335, asl=-0.0923, monsy=-0.0648)
-      } else {}
-    } else {
-      prms <- default.params("Farr.Jenkins.Paterson")
-    }
-    kRp.check.params(names(prms), valid.params, where="Farr.Jenkins.Paterson")
-    kRp.check.params(valid.params, names(prms), where="Farr.Jenkins.Paterson", missing=TRUE)
-    fjp.RE <- prms[["const"]] - (prms[["asl"]] * avg.sntc.len) + (prms[["monsy"]] * pct.monosyll)
+    pf <- check_parameters(
+      index="Farr.Jenkins.Paterson",
+      given=parameters[["Farr.Jenkins.Paterson"]],
+      flav_names=list(PSK="Powers-Sumner-Kearl")
+    )
+    fjp.RE <- pf[["p"]][["const"]] - (pf[["p"]][["asl"]] * avg.sntc.len) + (pf[["p"]][["monsy"]] * pct.monosyll)
     fjp.grade <- get.grade.level(fjp.RE, measure="Flesch")
-    slot(all.results, "Farr.Jenkins.Paterson") <- list(flavour=flavour, FJP=fjp.RE, grade=fjp.grade[["grade"]], grade.min=fjp.grade[["grade.min"]])
+    slot(all.results, "Farr.Jenkins.Paterson") <- list(flavour=pf[["f"]], FJP=fjp.RE, grade=fjp.grade[["grade"]], grade.min=fjp.grade[["grade.min"]])
   } else {}
   # recursive calls for alternative shortcuts
   if("Farr.Jenkins.Paterson.PSK" %in% index){
-    slot(all.results, "Farr.Jenkins.Paterson.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Farr.Jenkins.Paterson"), parameters=list(Farr.Jenkins.Paterson="PSK"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Farr.Jenkins.Paterson")
+    slot(all.results, "Farr.Jenkins.Paterson.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Farr.Jenkins.Paterson"), parameters=list(Farr.Jenkins.Paterson="PSK"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Farr.Jenkins.Paterson")
   } else {}
 
   ## Flesch Reading Ease
   if("Flesch" %in% index){
-    flavour <- "en (Flesch)"
-    valid.params <- c("const", "asl", "asw")
-    if("Flesch" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Flesch, default.params("Flesch"), "en (Flesch)")
-      prms <- parameters$Flesch
-      if(identical(prms, "en")){
-        flavour <- "en (Flesch)"
-        prms <- c(const=206.835, asl=1.015, asw=84.6)
-      } else {}
-      if(identical(prms, "de")){
-        flavour <-  "de (Amstad)"
-        prms <- c(const=180, asl=1, asw=58.5)
-      } else {}
-      if(identical(prms, "es")){
-        # Fernandez-Huerta
-        flavour <- "es (Fernandez-Huerta)"
-        prms <- c(const=206.835, asl=1.02, asw=60)
-      } else {}
-      if(identical(prms, "es-s")){
-        # Fernandez-Huerta
-        flavour <- "es (Szigriszt)"
-        prms <- c(const=206.835, asl=1, asw=62.3)
-      } else {}
-      if(identical(prms, "nl")){
-        # Douma
-        flavour <- "nl (Douma)"
-        prms <- c(const=206.835, asl=0.93, asw=77)
-      } else {}
-      if(identical(prms, "nl-b")){
-        # Douma
-        flavour <- "nl (Brouwer)"
-        prms <- c(const=195, asl=2, asw=67)
-      } else {}
-      if(identical(prms, "fr")){
-        # Kandel & Moles
-        flavour <- "fr (Kandel-Moles)"
-        prms <- c(const=209, asl=1.15, asw=68)
-      } else {}
-      if(identical(prms, "PSK")){
-        flavour <- "Powers-Sumner-Kearl"
-        prms <- c(const=-2.2029, asl=-0.0778, asw=-4.55)
-      } else {}
+    pf <- check_parameters(
+      index="Flesch",
+      given=parameters[["Flesch"]],
+      flav_names=list(
+        default="en (Flesch)",
+        en="en (Flesch)",
+        de="de (Amstad)",
+        es="es (Fernandez-Huerta)",
+        "es-s"="es (Szigriszt)",
+        nl="nl (Douma)",
+        "nl-b"="nl (Brouwer)",
+        fr="fr (Kandel-Moles)",
+        PSK="Powers-Sumner-Kearl"
+      )
+    )
+    Flesch.RE <- pf[["p"]][["const"]] - (pf[["p"]][["asl"]] * avg.sntc.len) - (pf[["p"]][["asw"]] * avg.syll.word)
+    if(identical(pf[["f"]], "Powers-Sumner-Kearl")){
+      slot(all.results, "Flesch") <- list(flavour=pf[["f"]], RE=NA, grade=Flesch.RE, grade.min=Flesch.RE, age=(Flesch.RE + 5))
     } else {
-      prms <- default.params("Flesch")
+      Flesch.grade <- get.grade.level(Flesch.RE, measure="Flesch")
+      slot(all.results, "Flesch") <- list(flavour=pf[["f"]], RE=Flesch.RE, grade=Flesch.grade[["grade"]], grade.min=Flesch.grade[["grade.min"]], age=NA)
     }
-      kRp.check.params(names(prms), valid.params, where="Flesch")
-      kRp.check.params(valid.params, names(prms), where="Flesch", missing=TRUE)
-      Flesch.RE <- prms[["const"]] - (prms[["asl"]] * avg.sntc.len) - (prms[["asw"]] * avg.syll.word)
-      if(identical(flavour, "Powers-Sumner-Kearl")){
-        slot(all.results, "Flesch") <- list(flavour=flavour, RE=NA, grade=Flesch.RE, grade.min=Flesch.RE, age=(Flesch.RE + 5))
-      } else {
-        Flesch.grade <- get.grade.level(Flesch.RE, measure="Flesch")
-        slot(all.results, "Flesch") <- list(flavour=flavour, RE=Flesch.RE, grade=Flesch.grade[["grade"]], grade.min=Flesch.grade[["grade.min"]], age=NA)
-      }
   } else {}
   # recursive calls for alternative shortcuts
   if("Flesch.PSK" %in% index){
-    slot(all.results, "Flesch.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="PSK"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+    slot(all.results, "Flesch.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="PSK"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.de" %in% index){
-    slot(all.results, "Flesch.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="de"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+    slot(all.results, "Flesch.de") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="de"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.es" %in% index){
-    slot(all.results, "Flesch.es") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+    slot(all.results, "Flesch.es") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.Szigriszt" %in% index){
     # Flesch-Szigriszt (Indice de Legibilidad de Flesch-Szigriszt (IFSZ))
     # see http://www.legibilidad.com/home/acercade.html
-    slot(all.results, "Flesch.Szigriszt") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es-s"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+    slot(all.results, "Flesch.Szigriszt") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="es-s"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.fr" %in% index){
-    slot(all.results, "Flesch.fr") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="fr"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+    slot(all.results, "Flesch.fr") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="fr"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.nl" %in% index){
-    slot(all.results, "Flesch.nl") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+    slot(all.results, "Flesch.nl") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
   if("Flesch.Brouwer" %in% index){
-    slot(all.results, "Flesch.Brouwer") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl-b"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Flesch")
+    slot(all.results, "Flesch.Brouwer") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Flesch"), parameters=list(Flesch="nl-b"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Flesch")
   } else {}
 
   ## Flesch-Kincaid Grade Level
   if("Flesch.Kincaid" %in% index){
-    flavour <- "default"
-    valid.params <- c("asl", "asw", "const")
-    if("Flesch.Kincaid" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Flesch.Kincaid, default.params("Flesch.Kincaid"))
-      prms <- parameters$Flesch.Kincaid
-    } else {
-      prms <- default.params("Flesch.Kincaid")
-    }
-    kRp.check.params(names(prms), valid.params, where="Flesch.Kincaid")
-    kRp.check.params(valid.params, names(prms), where="Flesch.Kincaid", missing=TRUE)
-    Flesch.Kincaid.GL <- (prms[["asl"]] * avg.sntc.len) + (prms[["asw"]] * avg.syll.word) - prms[["const"]]
-    slot(all.results, "Flesch.Kincaid") <- list(flavour=flavour, grade=Flesch.Kincaid.GL, age=Flesch.Kincaid.GL+5)
+    pf <- check_parameters(
+      index="Flesch.Kincaid",
+      given=parameters[["Flesch.Kincaid"]]
+    )
+    Flesch.Kincaid.GL <- (pf[["p"]][["asl"]] * avg.sntc.len) + (pf[["p"]][["asw"]] * avg.syll.word) - pf[["p"]][["const"]]
+    slot(all.results, "Flesch.Kincaid") <- list(flavour=pf[["f"]], grade=Flesch.Kincaid.GL, age=Flesch.Kincaid.GL+5)
   } else {}
 
   ## FORCAST
   if("FORCAST" %in% index){
-    flavour <- "default"
-    valid.params <- c("syll", "const", "mult")
-    if("FORCAST" %in% names(parameters)){
-      flavour <- check.flavour(parameters$FORCAST, default.params("FORCAST"))
-      prms <- parameters$FORCAST
-      if(identical(prms, "RGL")){
-        flavour <- "precise reading grade level"
-        prms <- c(syll=1, const=20.43, mult=.11)
-      } else {}
-    } else {
-      prms <- default.params("FORCAST")
-    }
-    kRp.check.params(names(prms), valid.params, where="FORCAST")
-    kRp.check.params(valid.params, names(prms), where="FORCAST", missing=TRUE)
-    FORCAST.monosyll <- slot(hyphen, "desc")[["syll.distrib"]]["cum.sum", prms[["syll"]]] * 150 / num.words
-    FORCAST.grade <- prms[["const"]] - (FORCAST.monosyll * prms[["mult"]])
+    pf <- check_parameters(
+      index="FORCAST",
+      given=parameters[["FORCAST"]],
+      flav_names=list(RGL="precise reading grade level")
+    )
+    FORCAST.monosyll <- describe(hyphen)[["syll.distrib"]]["cum.sum", pf[["p"]][["syll"]]] * 150 / num.words
+    FORCAST.grade <- pf[["p"]][["const"]] - (FORCAST.monosyll * pf[["p"]][["mult"]])
     FORCAST.age <- FORCAST.grade + 5
-    slot(all.results, "FORCAST") <- list(flavour=flavour, grade=FORCAST.grade, age=FORCAST.age)
+    slot(all.results, "FORCAST") <- list(flavour=pf[["f"]], grade=FORCAST.grade, age=FORCAST.age)
   } else {}
   # recursive calls for alternative shortcuts
   if("FORCAST.RGL" %in% index){
-    slot(all.results, "FORCAST.RGL") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FORCAST"), parameters=list(FORCAST="RGL"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "FORCAST")
+    slot(all.results, "FORCAST.RGL") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("FORCAST"), parameters=list(FORCAST="RGL"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FORCAST")
   } else {}
 
   ## Fucks Stilcharakteristik
@@ -962,27 +892,15 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 
   ## Gunning FOG Index
   if("FOG" %in% index){
-    flavour <- "default"
-    valid.params <- c("syll", "const", "suffix")
-    if("FOG" %in% names(parameters)){
-      flavour <- check.flavour(parameters$FOG, default.params("FOG"))
-      prms <- parameters$FOG
-      # we need syllable and suffix parameters for all variants
-      if("syll" %in% names(prms)){
-        FOG.sylls <- prms[["syll"]]
-      } else {
-        FOG.sylls <- default.params("FOG", "syll")
-      }
-      if("suffix" %in% names(prms)){
-        FOG.suffix <- prms[["suffix"]]
-      } else {
-        FOG.suffix <- default.params("FOG", "suffix")
-      }
-    } else {
-      prms <- default.params("FOG")
-      FOG.sylls <- prms[["syll"]]
-      FOG.suffix <- prms[["suffix"]]
-    }
+    pf <- check_parameters(
+      index="FOG",
+      given=parameters[["FOG"]],
+      flav_names=list(
+        PSK="Powers-Sumner-Kearl",
+        NRI="New FOG (NRI)"
+      )
+    )
+
     FOG.hyphen <- hyphen
 
     # a list for dropped tokens
@@ -992,15 +910,15 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       # exclude certain words
       # proper nouns/names will completely be omitted
       FOG.names <- which(tagged.words.only[["wclass"]] == "name")
-      # check for verbs ending in -es, -ed, or -ing (or anything else set in prms[["suffix"]])
+      # check for verbs ending in -es, -ed, or -ing (or anything else set in pf[["p"]][["suffix"]])
       # these endings must not be counted as syllables
       FOG.verbs <- which(tagged.words.only[["wclass"]] == "verb")
-      FOG.verb.suffix <- paste0("(", paste(FOG.suffix, collapse="|"), ")$")
+      FOG.verb.suffix <- paste0("(", paste(pf[["p"]][["suffix"]], collapse="|"), ")$")
       FOG.verbs <- FOG.verbs[grepl(FOG.verb.suffix, tagged.words.only[FOG.verbs,"token"])]
       # count one syllable less for these
       if(length(FOG.verbs) > 0){
-        FOG.dropped[["verbs"]] <- tagged.words.only[FOG.verbs[slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] == FOG.sylls],]
-        slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] <- slot(FOG.hyphen, "hyphen")[FOG.verbs,"syll"] - 1
+        FOG.dropped[["verbs"]] <- tagged.words.only[FOG.verbs[hyphenText(FOG.hyphen)[FOG.verbs,"syll"] == pf[["p"]][["syll"]]],]
+        hyphenText(FOG.hyphen)[FOG.verbs,"syll"] <- hyphenText(FOG.hyphen)[FOG.verbs,"syll"] - 1
       } else {}
       # syllables of combined words must be counted separately
       # \p{Pd} matches dashes, indicating hyphenated/combined words
@@ -1011,10 +929,10 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       for(combi in FOG.combi){
         combi.to.check <- unlist(strsplit(tagged.words.only[combi, "token"], "\\p{Pd}", perl=TRUE))
         # quite liberal check here, just to ensure that we don't run into empty strings, e.g. when a single dash was tagged as a word
-        if(all(any(nchar(combi.to.check, type="width") >= FOG.sylls), all(nchar(combi.to.check, type="width") >= 1))){
+        if(all(any(nchar(combi.to.check, type="width") >= pf[["p"]][["syll"]]), all(nchar(combi.to.check, type="width") >= 1))){
           ## TODO: should this be cached or not?
           FOG.this.combi <- hyphen(combi.to.check, hyph.pattern=lang, quiet=TRUE)
-          if(all(slot(FOG.this.combi, "hyphen")[["syll"]] < FOG.sylls)){
+          if(all(hyphenText(FOG.this.combi)[["syll"]] < pf[["p"]][["syll"]])){
             # don't count this as a hard word
             FOG.combi.dopped <- combi
           } else {}
@@ -1023,7 +941,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
         }
       }
 
-      FOG.num.syll <- slot(FOG.hyphen, "hyphen")$syll
+      FOG.num.syll <- hyphenText(FOG.hyphen)$syll
       FOG.all.dropped <- c()
       # disarm the found names
       if(length(FOG.names) > 0){
@@ -1045,35 +963,31 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 
     FOG.hard.words <- FOG.hard.words.absolute * 100 / num.words
 
-    if(identical(prms, "PSK")){
-      flavour <- "Powers-Sumner-Kearl"
-      Gunning.FOG <- 3.0680 + (0.0877 * avg.sntc.len) + (0.0984 * FOG.hard.words)
-    } else if(identical(prms, "NRI")){
-      flavour <- "New FOG (NRI)"
-      F0G.easy.words <- (num.words - FOG.hard.words) * 100 / num.words
-      Gunning.FOG <- (((F0G.easy.words + (3 * FOG.hard.words)) / sntc.per100) - 3) / 2
+    if(identical(pf[["f"]], "Powers-Sumner-Kearl")){
+      Gunning.FOG <- pf[["p"]][["const"]] + (pf[["p"]][["asl"]] * avg.sntc.len) + (pf[["p"]][["hword"]] * FOG.hard.words)
+    } else if(identical(pf[["f"]], "New FOG (NRI)")){
+      FOG.easy.words <- (num.words - FOG.hard.words) * 100 / num.words
+      Gunning.FOG <- (((FOG.easy.words + (pf[["p"]][["hword"]] * FOG.hard.words)) / sntc.per100) - pf[["p"]][["const"]]) / pf[["p"]][["div"]]
     } else {
-      kRp.check.params(names(prms), valid.params, where="FOG")
-      kRp.check.params(valid.params, names(prms), where="FOG", missing=TRUE)
       if(isTRUE(analyze.text)){
-        FOG.hard.words <- sum(FOG.num.syll > (FOG.sylls - 1), na.rm=TRUE) * 100 / num.words
+        FOG.hard.words <- sum(FOG.num.syll > (pf[["p"]][["syll"]] - 1), na.rm=TRUE) * 100 / num.words
       } else {}
-      Gunning.FOG <- (avg.sntc.len + FOG.hard.words) * prms[["const"]]
+      Gunning.FOG <- (avg.sntc.len + FOG.hard.words) * pf[["p"]][["const"]]
     }
     # preserve hard words in the desc slot
     slot(all.results, "desc")[["FOG.hard.words"]] <- FOG.hard.words.absolute
-    slot(all.results, "FOG") <- list(flavour=flavour, dropped=FOG.dropped, FOG.hard.words=FOG.hard.words.absolute, FOG=Gunning.FOG)
+    slot(all.results, "FOG") <- list(flavour=pf[["f"]], dropped=FOG.dropped, FOG.hard.words=FOG.hard.words.absolute, FOG=Gunning.FOG)
   } else {}
   # recursive calls for alternative shortcuts
   if("FOG.PSK" %in% index){
-    slot(all.results, "FOG.PSK") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="PSK"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "FOG")
+    slot(all.results, "FOG.PSK") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="PSK"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
   } else {}
   if("FOG.NRI" %in% index){
-    slot(all.results, "FOG.NRI") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="NRI"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "FOG")
+    slot(all.results, "FOG.NRI") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="NRI"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
   } else {}
 
   ## Harris-Jacobson
@@ -1086,85 +1000,27 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     if(!"Harris.Jacobson" %in% names(word.lists) | is.null(word.lists[["Harris.Jacobson"]])){
       warning("Harris.Jacobson: Missing word list, hence not calculated.", call.=FALSE)
     } else {
-      flavour <- "default"
-      valid.params <- c("char", "hj1", "hj2", "hj3", "hj4", "hj5")
+      pf <- check_parameters(
+        index="Harris.Jacobson",
+        given=parameters[["Harris.Jacobson"]]
+      )
       hj.word.list <- read.word.list(word.lists[["Harris.Jacobson"]], encoding=fileEncoding)
-      if("Harris.Jacobson" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Harris.Jacobson, default.params("Harris.Jacobson"))
-        prms <- parameters$Harris.Jacobson
-      } else {
-        prms <- default.params("Harris.Jacobson")
-      }
-
-      kRp.check.params(names(prms), valid.params, where="Harris.Jacobson")
-      # we don't necessarily need all params
-      kRp.check.params(c("char"), names(prms), where="Harris.Jacobson", missing=TRUE)
-
       hj.diff.words.all.txt <- difficult.words(txt.words.only, hj.word.list)
       hj.diff.words.txt <- hj.diff.words.all.txt[["pct.not.listed"]]
       hj.diff.words.nol <- hj.diff.words.all.txt[["words.not.listed"]]
-
       # percentage of long words
-      hj.long.words <- (long.words(prms[["char"]], txt.desc=txt.desc) * 100) / num.words
+      hj.long.words <- (long.words(pf[["p"]][["char"]], txt.desc=txt.desc) * 100) / num.words
 
-      if(!any(c("hj1", "hj2", "hj3", "hj4", "hj5") %in% names(prms))){
-      stop(simpleError("Harris.Jacobson: you need to specify parameters for at least *one* of the five formulas!"))
-      }
-
-      if("hj1" %in% names(prms)){
-        prms.hj1 <- prms$hj1
-        valid.prms <- c("dword", "asl", "const")
-        kRp.check.params(names(prms.hj1), valid.prms, where="Harris.Jacobson$hj1")
-        kRp.check.params(valid.prms, names(prms.hj1), where="Harris.Jacobson$hj1", missing=TRUE)
-        # HJ1 <- 0.094 * V1 + 0.168 * V2 + 0.502
-        Harris.Jacobson1 <- (prms.hj1[["dword"]] * hj.diff.words.txt) + (prms.hj1[["asl"]] * avg.sntc.len) + prms.hj1[["const"]]
-      } else {
-        Harris.Jacobson1 <- NA
-      }
-
-      if("hj2" %in% names(prms)){
-        prms.hj2 <- prms$hj2
-        valid.prms <- c("dword", "asl", "const")
-        kRp.check.params(names(prms.hj2), valid.prms, where="Harris.Jacobson$hj2")
-        kRp.check.params(valid.prms, names(prms.hj2), where="Harris.Jacobson$hj2", missing=TRUE)
-        # HJ2 <- 0.140 * V1 + 0.153 * V2 + 0.560
-        Harris.Jacobson2 <- (prms.hj2[["dword"]] * hj.diff.words.txt) + (prms.hj2[["asl"]] * avg.sntc.len) + prms.hj2[["const"]]
-      } else {
-        Harris.Jacobson2 <- NA
-      }
-
-      if("hj3" %in% names(prms)){
-        prms.hj3 <- prms$hj3
-        valid.prms <- c("asl", "lword", "const")
-        kRp.check.params(names(prms.hj3), valid.prms, where="Harris.Jacobson$hj3")
-        kRp.check.params(valid.prms, names(prms.hj3), where="Harris.Jacobson$hj3", missing=TRUE)
-        # HJ3 <- 0.158 * V2 + 0.055 * V3 + 0.355
-        Harris.Jacobson3 <- (prms.hj3[["asl"]] * avg.sntc.len) + (prms.hj3[["lword"]] * hj.long.words) + prms.hj3[["const"]]
-      } else {
-        Harris.Jacobson3 <- NA
-      }
-
-      if("hj4" %in% names(prms)){
-        prms.hj4 <- prms$hj4
-        valid.prms <- c("dword", "asl", "lword", "const")
-        kRp.check.params(names(prms.hj4), valid.prms, where="Harris.Jacobson$hj4")
-        kRp.check.params(valid.prms, names(prms.hj4), where="Harris.Jacobson$hj4", missing=TRUE)
-        # HJ4 <- 0.070 * V1 + 0.125 * V2 + 0.037 * V3 + 0.497 ## best validity, formula of choice
-        Harris.Jacobson4 <- (prms.hj4[["dword"]] * hj.diff.words.txt) + (prms.hj4[["asl"]] * avg.sntc.len) + (prms.hj4[["lword"]] * hj.long.words) + prms.hj4[["const"]]
-      } else {
-        Harris.Jacobson4 <- NA
-      }
-
-      if("hj5" %in% names(prms)){
-        prms.hj5 <- prms$hj5
-        valid.prms <- c("dword", "asl", "lword", "const")
-        kRp.check.params(names(prms.hj5), valid.prms, where="Harris.Jacobson$hj5")
-        kRp.check.params(valid.prms, names(prms.hj5), where="Harris.Jacobson$hj5", missing=TRUE)
-        # HJ5 <- 0.118 * V1 + 0.134 * V2 + 0.032 * V3 + 0.424 ## > 3. grade
-        Harris.Jacobson5 <- (prms.hj5[["dword"]] * hj.diff.words.txt) + (prms.hj5[["asl"]] * avg.sntc.len) + (prms.hj5[["lword"]] * hj.long.words) + prms.hj5[["const"]]
-      } else {
-        Harris.Jacobson5 <- NA
-      }
+      # HJ1 <- 0.094 * V1 + 0.168 * V2 + 0.502
+      Harris.Jacobson1 <- (pf[["p"]][["hj1"]][["dword"]] * hj.diff.words.txt) + (pf[["p"]][["hj1"]][["asl"]] * avg.sntc.len) + pf[["p"]][["hj1"]][["const"]]
+      # HJ2 <- 0.140 * V1 + 0.153 * V2 + 0.560
+      Harris.Jacobson2 <- (pf[["p"]][["hj2"]][["dword"]] * hj.diff.words.txt) + (pf[["p"]][["hj2"]][["asl"]] * avg.sntc.len) + pf[["p"]][["hj2"]][["const"]]
+      # HJ3 <- 0.158 * V2 + 0.055 * V3 + 0.355
+      Harris.Jacobson3 <- (pf[["p"]][["hj3"]][["asl"]] * avg.sntc.len) + (pf[["p"]][["hj3"]][["lword"]] * hj.long.words) + pf[["p"]][["hj3"]][["const"]]
+      # HJ4 <- 0.070 * V1 + 0.125 * V2 + 0.037 * V3 + 0.497 ## best validity, formula of choice
+      Harris.Jacobson4 <- (pf[["p"]][["hj4"]][["dword"]] * hj.diff.words.txt) + (pf[["p"]][["hj4"]][["asl"]] * avg.sntc.len) + (pf[["p"]][["hj4"]][["lword"]] * hj.long.words) + pf[["p"]][["hj4"]][["const"]]
+      # HJ5 <- 0.118 * V1 + 0.134 * V2 + 0.032 * V3 + 0.424 ## > 3. grade
+      Harris.Jacobson5 <- (pf[["p"]][["hj5"]][["dword"]] * hj.diff.words.txt) + (pf[["p"]][["hj5"]][["asl"]] * avg.sntc.len) + (pf[["p"]][["hj5"]][["lword"]] * hj.long.words) + pf[["p"]][["hj5"]][["const"]]
 
       # preserve hard words in the desc slot
       if(isTRUE(analyze.text)){
@@ -1172,7 +1028,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       } else {
         slot(all.results, "desc")[["Harris.Jacobson.NOL"]] <- hj.word.list
       }
-      slot(all.results, "Harris.Jacobson") <- list(flavour=flavour,
+      slot(all.results, "Harris.Jacobson") <- list(flavour=pf[["f"]],
         word.list=hj.word.list, not.on.list=hj.diff.words.nol, pct=hj.diff.words.txt,
         pct.long=hj.long.words,
         HJ1=Harris.Jacobson1, HJ2=Harris.Jacobson2, HJ3=Harris.Jacobson3, HJ4=Harris.Jacobson4, HJ5=Harris.Jacobson5)
@@ -1181,172 +1037,96 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 
   ## Laesbarhetsindex (LIX)
   if("LIX" %in% index){
-    flavour <- "default"
-    valid.params <- c("char", "const")
-    if("LIX" %in% names(parameters)){
-      flavour <- check.flavour(parameters$LIX, default.params("LIX"))
-      prms <- parameters$LIX
-    } else {
-      prms <- default.params("LIX")
-    }
-    kRp.check.params(names(prms), valid.params, where="LIX")
-    kRp.check.params(valid.params, names(prms), where="LIX", missing=TRUE)
-    LIX.long.words <- long.words(prms[["char"]], txt.desc=txt.desc)
-    LIX.idx <- (num.words / num.sentences) + ((LIX.long.words * prms[["const"]]) / num.words)
+    pf <- check_parameters(
+      index="LIX",
+      given=parameters[["LIX"]]
+    )
+    LIX.long.words <- long.words(pf[["p"]][["char"]], txt.desc=txt.desc)
+    LIX.idx <- (num.words / num.sentences) + ((LIX.long.words * pf[["p"]][["const"]]) / num.words)
     LIX.rating <- get.grade.level(LIX.idx, measure="LIX")
     LIX.grade <- get.grade.level(LIX.idx, measure="LIX.grade")
-    slot(all.results, "LIX") <- list(flavour=flavour, index=LIX.idx, rating=LIX.rating[["grade"]], grade=LIX.grade[["grade"]], grade.min=LIX.grade[["grade.min"]])
+    slot(all.results, "LIX") <- list(flavour=pf[["f"]], index=LIX.idx, rating=LIX.rating[["grade"]], grade=LIX.grade[["grade"]], grade.min=LIX.grade[["grade.min"]])
   } else {}
 
   ## Linsear Write
   if("Linsear.Write" %in% index){
-    flavour <- "default"
-    valid.params <- c("short.syll", "long.syll", "thrs")
-    if("Linsear.Write" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Linsear.Write, default.params("Linsear.Write"))
-      prms <- parameters$Linsear.Write
-    } else {
-      prms <- default.params("Linsear.Write")
-    }
-    kRp.check.params(names(prms), valid.params, where="Linsear.Write")
-    kRp.check.params(valid.params, names(prms), where="Linsear.Write", missing=TRUE)
-    hard.words <- (long.words(prms[["long.syll"]] - 1, hyphen=hyphen) * 100) / num.words
-    easy.words <- 100 - ((long.words(prms[["short.syll"]], hyphen=hyphen) * 100) / num.words)
+    pf <- check_parameters(
+      index="Linsear.Write",
+      given=parameters[["Linsear.Write"]]
+    )
+    hard.words <- (long.words(pf[["p"]][["long.syll"]] - 1, hyphen=hyphen) * 100) / num.words
+    easy.words <- 100 - ((long.words(pf[["p"]][["short.syll"]], hyphen=hyphen) * 100) / num.words)
     Linsear.Write.raw <- (easy.words + (hard.words * 3)) / sntc.per100
-    if(Linsear.Write.raw > prms[["thrs"]]){
+    if(Linsear.Write.raw > pf[["p"]][["thrs"]]){
       Linsear.Write.RM <- Linsear.Write.raw / 2
     } else {
       Linsear.Write.RM <- (Linsear.Write.raw - 2) / 2
     }
-    slot(all.results, "Linsear.Write") <- list(flavour=flavour, easy.words=easy.words, hard.words=hard.words, raw=Linsear.Write.raw, grade=Linsear.Write.RM)
+    slot(all.results, "Linsear.Write") <- list(flavour=pf[["f"]], easy.words=easy.words, hard.words=hard.words, raw=Linsear.Write.raw, grade=Linsear.Write.RM)
   } else {}
 
   ## Neue Wiener Sachtextformeln
   if("nWS" %in% index){
-    flavour <- "default"
-    valid.params <- c("ms.syll", "iw.char", "es.syll", "nws1", "nws2", "nws3", "nws4")
-    if("nWS" %in% names(parameters)){
-      flavour <- check.flavour(parameters$nWS, default.params("nWS"))
-      prms <- parameters$nWS
-    } else {
-      prms <- default.params("nWS")
-    }
-    kRp.check.params(names(prms), valid.params, where="nWS")
-    # we don't necessarily need all params
-    kRp.check.params(c("ms.syll", "iw.char", "es.syll"), names(prms), where="nWS", missing=TRUE)
+    pf <- check_parameters(
+      index="nWS",
+      given=parameters[["nWS"]]
+    )
 
-    wien.MS <- long.words(prms[["ms.syll"]] - 1, hyphen=hyphen) / num.words
+    wien.MS <- long.words(pf[["p"]][["ms.syll"]] - 1, hyphen=hyphen) / num.words
     wien.SL <- avg.sntc.len
-    wien.IW <- long.words(prms[["iw.char"]], txt.desc=txt.desc) / num.words
-    wien.ES <- slot(hyphen, "desc")[["syll.distrib"]]["cum.sum", prms[["es.syll"]]] / num.words
+    wien.IW <- long.words(pf[["p"]][["iw.char"]], txt.desc=txt.desc) / num.words
+    wien.ES <- describe(hyphen)[["syll.distrib"]]["cum.sum", pf[["p"]][["es.syll"]]] / num.words
 
-    if(!any(c("nws1", "nws2", "nws3", "nws4") %in% names(prms))){
-      stop(simpleError("nWS: You need to specify parameters for at least *one* of the four formulas!"))
-    }
+    nWS1 <- (pf[["p"]][["nws1"]][["ms"]] * wien.MS) + (pf[["p"]][["nws1"]][["sl"]] * wien.SL) + (pf[["p"]][["nws1"]][["iw"]] * wien.IW) - (pf[["p"]][["nws1"]][["es"]] * wien.ES) - pf[["p"]][["nws1"]][["const"]]
+    nWS2 <- (pf[["p"]][["nws2"]][["ms"]] * wien.MS) + (pf[["p"]][["nws2"]][["sl"]] * wien.SL) + (pf[["p"]][["nws2"]][["iw"]] * wien.IW) - pf[["p"]][["nws2"]][["const"]]
 
-    if("nws1" %in% names(prms)){
-      prms.w1 <- prms$nws1
-      valid.prms <- c("ms", "sl", "iw", "es", "const")
-      kRp.check.params(names(prms.w1), valid.prms, where="nWS$nws1")
-      kRp.check.params(valid.prms, names(prms.w1), where="nWS$nws1", missing=TRUE)
-      nWS1 <- (prms.w1[["ms"]] * wien.MS) + (prms.w1[["sl"]] * wien.SL) + (prms.w1[["iw"]] * wien.IW) - (prms.w1[["es"]] * wien.ES) - prms.w1[["const"]]
-    } else {
-      nWS1 <- NA
-    }
+    nWS3 <- (pf[["p"]][["nws3"]][["ms"]] * wien.MS) + (pf[["p"]][["nws3"]][["sl"]] * wien.SL) - pf[["p"]][["nws3"]][["const"]]
+    nWS4 <- (pf[["p"]][["nws4"]][["sl"]] * wien.SL) + (pf[["p"]][["nws4"]][["ms"]] * wien.MS) - pf[["p"]][["nws4"]][["const"]]
 
-    if("nws2" %in% names(prms)){
-      prms.w2 <- prms$nws2
-      valid.prms <- c("ms", "sl", "iw", "const")
-      kRp.check.params(names(prms.w2), valid.prms, where="nWS$nws2")
-      kRp.check.params(valid.prms, names(prms.w2), where="nWS$nws2", missing=TRUE)
-      nWS2 <- (prms.w2[["ms"]] * wien.MS) + (prms.w2[["sl"]] * wien.SL) + (prms.w2[["iw"]] * wien.IW) - prms.w2[["const"]]
-    } else {
-      nWS2 <- NA
-    }
-
-    if("nws3" %in% names(prms)){
-      prms.w3 <- prms$nws3
-      valid.prms <- c("ms", "sl", "const")
-      kRp.check.params(names(prms.w3), valid.prms, where="nWS$nws3")
-      kRp.check.params(valid.prms, names(prms.w3), where="nWS$nws3", missing=TRUE)
-      nWS3 <- (prms.w3[["ms"]] * wien.MS) + (prms.w3[["sl"]] * wien.SL) - prms.w3[["const"]]
-    } else {
-      nWS3 <- NA
-    }
-
-    if("nws4" %in% names(prms)){
-      prms.w4 <- prms$nws4
-      valid.prms <- c("ms", "sl", "const")
-      kRp.check.params(names(prms.w4), valid.prms, where="nWS$nws4")
-      kRp.check.params(valid.prms, names(prms.w4), where="nWS$nws4", missing=TRUE)
-      nWS4 <- (prms.w4[["sl"]] * wien.SL) + (prms.w4[["ms"]] * wien.MS) - prms.w4[["const"]]
-    } else {
-      nWS4 <- NA
-    }
-
-    slot(all.results, "Wiener.STF") <- list(flavour=flavour, nWS1=nWS1, nWS2=nWS2, nWS3=nWS3, nWS4=nWS4)
+    slot(all.results, "Wiener.STF") <- list(flavour=pf[["f"]], nWS1=nWS1, nWS2=nWS2, nWS3=nWS3, nWS4=nWS4)
   } else {}
 
   ## RIX
   if("RIX" %in% index){
-    flavour <- "default"
-    valid.params <- c("char")
-    if("RIX" %in% names(parameters)){
-      flavour <- check.flavour(parameters$RIX, default.params("RIX"))
-      prms <- parameters$RIX
-    } else {
-      prms <- default.params("RIX")
-    }
-    kRp.check.params(names(prms), valid.params, where="RIX")
-    kRp.check.params(valid.params, names(prms), where="RIX", missing=TRUE)
-    RIX.long.words <- long.words(prms[["char"]], txt.desc=txt.desc)
+    pf <- check_parameters(
+      index="RIX",
+      given=parameters[["RIX"]]
+    )
+    RIX.long.words <- long.words(pf[["p"]][["char"]], txt.desc=txt.desc)
     RIX.idx <- RIX.long.words / num.sentences
     RIX.grade <- get.grade.level(RIX.idx, measure="RIX")
-    slot(all.results, "RIX") <- list(flavour=flavour, index=RIX.idx, grade=RIX.grade[["grade"]], grade.min=RIX.grade[["grade.min"]])
+    slot(all.results, "RIX") <- list(flavour=pf[["f"]], index=RIX.idx, grade=RIX.grade[["grade"]], grade.min=RIX.grade[["grade.min"]])
   } else {}
 
   ## Simple Measure of Gobbledygook (SMOG)
   if("SMOG" %in% index){
-    flavour <- "default"
-    valid.params <- c("sqrt", "fact", "syll", "const", "sqrt.const")
-    if("SMOG" %in% names(parameters)){
-      flavour <- check.flavour(parameters$SMOG, default.params("SMOG"))
-      prms <- parameters$SMOG
-      if(identical(prms, "de")){
-        flavour <- "de (\"Qu\", Bamberger-Vanecek)"
-        prms <- c(sqrt=1, fact=30, syll=3, const=-2, sqrt.const=0)
-      } else {}
-      if(identical(prms, "C")){
-        flavour <- "Fomula C"
-        prms <- c(sqrt=0.9986, fact=30, syll=3, const=2.8795, sqrt.const=5)
-      } else {}
-      if(identical(prms, "simple")){
-        flavour <- "simplified"
-        prms <- c(sqrt=1, fact=30, syll=3, const=3, sqrt.const=0)
-      } else {}
-    } else {
-      prms <- default.params("SMOG")
-    }
-    kRp.check.params(names(prms), valid.params, where="SMOG")
-    kRp.check.params(valid.params, names(prms), where="SMOG", missing=TRUE)
-    SMOG.grade <- prms[["sqrt"]] * sqrt((prms[["fact"]] * (long.words(prms[["syll"]] - 1, hyphen=hyphen) / num.sentences)) + prms[["sqrt.const"]]) + prms[["const"]]
-    slot(all.results, "SMOG") <- list(flavour=flavour, grade=SMOG.grade, age=SMOG.grade + 5)
+    pf <- check_parameters(
+      index="SMOG",
+      given=parameters[["SMOG"]],
+      flav_names=list(
+        de="de (\"Qu\", Bamberger-Vanecek)",
+        C="Fomula C",
+        simple="simplified"
+      )
+    )
+    SMOG.grade <- pf[["p"]][["sqrt"]] * sqrt((pf[["p"]][["fact"]] * (long.words(pf[["p"]][["syll"]] - 1, hyphen=hyphen) / num.sentences)) + pf[["p"]][["sqrt.const"]]) + pf[["p"]][["const"]]
+    slot(all.results, "SMOG") <- list(flavour=pf[["f"]], grade=SMOG.grade, age=SMOG.grade + 5)
   } else {}
   # recursive calls for alternative shortcuts
   if("SMOG.de" %in% index){
-    slot(all.results, "SMOG.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="de"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "SMOG")
+    slot(all.results, "SMOG.de") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="de"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
   if("SMOG.C" %in% index){
-    slot(all.results, "SMOG.C") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="C"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "SMOG")
+    slot(all.results, "SMOG.C") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="C"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
   if("SMOG.simple" %in% index){
-    slot(all.results, "SMOG.simple") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="simple"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "SMOG")
+    slot(all.results, "SMOG.simple") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("SMOG"), parameters=list(SMOG="simple"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "SMOG")
   } else {}
 
   ## Spache
@@ -1355,111 +1135,72 @@ kRp.rdb.formulae <- function(txt.file=NULL,
     if(!"Spache" %in% names(word.lists) | is.null(word.lists[["Spache"]])){
       warning("Spache: Missing word list, hence not calculated.", call.=FALSE)
     } else {
-      flavour <- "default"
-      valid.params <- c("asl", "dword", "const")
+      pf <- check_parameters(
+        index="Spache",
+        given=parameters[["Spache"]],
+        flav_names=list(
+          old="First formula (1953)"
+        )
+      )
       spache.word.list <- read.word.list(word.lists[["Spache"]], encoding=fileEncoding)
-      if("Spache" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Spache, default.params("Spache"), default.name="Revised formula (1978)")
-        prms <- parameters$Spache
-        if(identical(prms, "old")){
-          flavour <- "First formula (1953)"
-          prms <- list(asl=0.141, dword=0.086, const=0.839)
-        } else {}
-      } else {
-        prms <- default.params("Spache")
-      }
-      kRp.check.params(names(prms), valid.params, where="Spache")
-      kRp.check.params(valid.params, names(prms), where="Spache", missing=TRUE)
       diff.words.all.txt <- difficult.words(txt.words.only, spache.word.list, only.once=TRUE)
       diff.words.txt <- diff.words.all.txt[["pct.not.listed"]]
       diff.words.nol <- diff.words.all.txt[["words.not.listed"]]
-      Spache.grade <- prms[["asl"]] * avg.sntc.len + prms[["dword"]] * diff.words.txt + prms[["const"]]
+      Spache.grade <- pf[["p"]][["asl"]] * avg.sntc.len + pf[["p"]][["dword"]] * diff.words.txt + pf[["p"]][["const"]]
       # preserve hard words in the desc slot
       if(isTRUE(analyze.text)){
         slot(all.results, "desc")[["Spache.NOL"]] <- length(diff.words.nol)
       } else {
         slot(all.results, "desc")[["Spache.NOL"]] <- spache.word.list
       }
-      slot(all.results, "Spache") <- list(flavour=flavour, word.list=spache.word.list, not.on.list=diff.words.nol, pct=diff.words.txt, grade=Spache.grade)
+      slot(all.results, "Spache") <- list(flavour=pf[["f"]], word.list=spache.word.list, not.on.list=diff.words.nol, pct=diff.words.txt, grade=Spache.grade)
     }
   } else {}
   # recursive calls for alternative shortcuts
   if("Spache.old" %in% index){
-    slot(all.results, "Spache.old") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Spache"), parameters=list(Spache="old"),
+    slot(all.results, "Spache.old") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Spache"), parameters=list(Spache="old"),
       word.lists=list(Spache=word.lists[["Spache"]]),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Spache")
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Spache")
   } else {}
 
   ## Strain Index
   # http://strainindex.wordpress.com/2007/09/25/hello-world/
   if("Strain" %in% index){
-    flavour <- "default"
-    valid.params <- c("sent", "const")
-    if("Strain" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Strain, default.params("Strain"))
-      prms <- parameters$Strain
-    } else {
-      prms <- default.params("Strain")
-    }
-    kRp.check.params(names(prms), valid.params, where="Strain")
-    kRp.check.params(valid.params, names(prms), where="Strain", missing=TRUE)
+    pf <- check_parameters(
+      index="Strain",
+      given=parameters[["Strain"]]
+    )
     # syllables per 3 sentences divided by 10
-    Strain.id <- (num.syll / (num.sentences / prms[["sent"]])) / prms[["const"]]
-    slot(all.results, "Strain") <- list(flavour=flavour, index=Strain.id)
+    Strain.id <- (num.syll / (num.sentences / pf[["p"]][["sent"]])) / pf[["p"]][["const"]]
+    slot(all.results, "Strain") <- list(flavour=pf[["f"]], index=Strain.id)
   } else {}
 
   ## Traenkle-Bailer
   # new Dickes-Steiwer for german texts
   if("Traenkle.Bailer" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(slot(tagged.text, "TT.res")[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(all(taggedText(txt.file)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
       # this text was just tagged with tokenize() and misses important tags
       warning("Traenkle.Bailer: POS tags are not elaborate enough, can't count prepositions and conjuctions. Formulae skipped.", call.=FALSE)
     } else {
-      flavour <- "default"
-      valid.params <- c("TB1", "TB2")
-      if("Traenkle.Bailer" %in% names(parameters)){
-        flavour <- check.flavour(parameters$Traenkle.Bailer, default.params("Traenkle.Bailer"))
-        prms <- parameters$Traenkle.Bailer
-      } else{
-        prms <- default.params("Traenkle.Bailer")
-      }
-      kRp.check.params(names(prms), valid.params, where="Traenkle.Bailer")
+      pf <- check_parameters(
+        index="Traenkle.Bailer",
+        given=parameters[["Traenkle.Bailer"]]
+      )
 
-      if(num.prepositions == 0 && num.conjunctions == 0){
+      if(all(num.prepositions == 0, num.conjunctions == 0)){
         warning("Traenkle.Bailer: No tokens tagged as preposition or conjunction found. Was the text properly tagged?", call.=FALSE)
       } else {}
       TrBa.pct.prep <- num.prepositions * 100 / num.words
       TrBa.pct.conj <- num.conjunctions * 100 / num.words
 
-      if(!any(c("TB1", "TB2") %in% names(prms))){
-        stop(simpleError("Traenkle.Bailer: You need to specify parameters for at least *one* of the two formulas!"))
-      }
+      # TB1 = 224.6814 - (79.8304 * ln(awl + 1)) - (12.24032 * ln(asl + 1)) - (1.292857 * %prepos)
+      Traenkle.Bailer1 <- pf[["p"]][["TB1"]][["const"]] - (log(avg.word.len + 1) * pf[["p"]][["TB1"]][["awl"]]) - (log(avg.sntc.len + 1) * pf[["p"]][["TB1"]][["asl"]]) - (TrBa.pct.prep * pf[["p"]][["TB1"]][["prep"]])
+      # TB2 = 234.1063 - (96.11069 * ln(awl + 1)) - (2.05444 * %prepos) - (1.02805 * %conjct)
+      Traenkle.Bailer2 <- pf[["p"]][["TB2"]][["const"]] - (log(avg.word.len + 1) * pf[["p"]][["TB2"]][["awl"]]) - (TrBa.pct.prep * pf[["p"]][["TB2"]][["prep"]]) - (TrBa.pct.conj * pf[["p"]][["TB2"]][["conj"]])
 
-      if("TB1" %in% names(prms)){
-        prms.TB1 <- prms$TB1
-        valid.prms <- c("const", "awl", "asl", "prep")
-        kRp.check.params(names(prms.TB1), valid.prms, where="Traenkle.Bailer$TB1")
-        kRp.check.params(valid.prms, names(prms.TB1), where="Traenkle.Bailer$TB1", missing=TRUE)
-        # TB1 = 224.6814 - (79.8304 * ln(awl + 1)) - (12.24032 * ln(asl + 1)) - (1.292857 * %prepos)
-        Traenkle.Bailer1 <- prms.TB1[["const"]] - (log(avg.word.len + 1) * prms.TB1[["awl"]]) - (log(avg.sntc.len + 1) * prms.TB1[["asl"]]) - (TrBa.pct.prep * prms.TB1[["prep"]])
-      } else {
-        Traenkle.Bailer1 <- NA
-      }
-
-      if("TB2" %in% names(prms)){
-        prms.TB2 <- prms$TB2
-        valid.prms <- c("const", "awl", "prep", "conj")
-        kRp.check.params(names(prms.TB2), valid.prms, where="Traenkle.Bailer$TB2")
-        kRp.check.params(valid.prms, names(prms.TB2), where="Traenkle.Bailer$TB2", missing=TRUE)
-        # TB2 = 234.1063 - (96.11069 * ln(awl + 1)) - (2.05444 * %prepos) - (1.02805 * %conjct)
-        Traenkle.Bailer2 <- prms.TB2[["const"]] - (log(avg.word.len + 1) * prms.TB2[["awl"]]) - (TrBa.pct.prep * prms.TB2[["prep"]]) - (TrBa.pct.conj * prms.TB2[["conj"]])
-      } else {
-        Traenkle.Bailer2 <- NA
-      }
-
-      slot(all.results, "Traenkle.Bailer") <- list(flavour=flavour, pct.prep=TrBa.pct.prep, pct.conj=TrBa.pct.conj, TB1=Traenkle.Bailer1, TB2=Traenkle.Bailer2)
+      slot(all.results, "Traenkle.Bailer") <- list(flavour=pf[["f"]], pct.prep=TrBa.pct.prep, pct.conj=TrBa.pct.conj, TB1=Traenkle.Bailer1, TB2=Traenkle.Bailer2)
     }
   } else {}
 
@@ -1467,76 +1208,62 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 # zit. nach Klein, H. (2002). Lesbarkeit und Verstaendlichkeit von Texten (Teil 2). Technische Dokumentation, 2002/07.
 #    http://www.doku.net/ausgabe/200207.htm (2011-05-09)
   if("TRI" %in% index){
-    flavour <- "default"
-    valid.params <- c("syll", "word", "pnct", "frgn", "const")
-    if("TRI" %in% names(parameters)){
-      flavour <- check.flavour(parameters$TRI, default.params("TRI"))
-      prms <- parameters$TRI
-    } else{
-      prms <- default.params("TRI")
-    }
-    kRp.check.params(names(prms), valid.params, where="TRI")
-    kRp.check.params(valid.params, names(prms), where="TRI", missing=TRUE)
-    num.one.syll <- num.words - long.words(prms[["syll"]], hyphen=hyphen)
-    TRI <- (num.one.syll * prms[["word"]]) - (num.punct * prms[["pnct"]]) - (num.foreign * prms[["frgn"]]) - prms[["const"]]
-    slot(all.results, "TRI") <- list(flavour=flavour, short=num.one.syll, punct=num.punct, foreign=num.foreign, TRI=TRI)
+    pf <- check_parameters(
+      index="TRI",
+      given=parameters[["TRI"]]
+    )
+    num.one.syll <- num.words - long.words(pf[["p"]][["syll"]], hyphen=hyphen)
+    TRI <- (num.one.syll * pf[["p"]][["word"]]) - (num.punct * pf[["p"]][["pnct"]]) - (num.foreign * pf[["p"]][["frgn"]]) - pf[["p"]][["const"]]
+    slot(all.results, "TRI") <- list(flavour=pf[["f"]], short=num.one.syll, punct=num.punct, foreign=num.foreign, TRI=TRI)
   } else {}
 
   ## Tuldava
   if("Tuldava" %in% index){
-    flavour <- "default"
-    valid.params <- c("syll", "word1", "word2", "sent")
-    if("Tuldava" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Tuldava, default.params("Tuldava"))
-      prms <- parameters$Tuldava
-    } else{
-      prms <- default.params("Tuldava")
-    }
-    kRp.check.params(names(prms), valid.params, where="Tuldava")
-    kRp.check.params(valid.params, names(prms), where="Tuldava", missing=TRUE)
-    Tuldava.score <- ((prms[["syll"]] * num.syll) / (prms[["word1"]] * num.words)) * log(((prms[["word2"]] * num.words) / (prms[["sent"]] * num.sentences)))
+    pf <- check_parameters(
+      index="Tuldava",
+      given=parameters[["Tuldava"]]
+    )
+    Tuldava.score <- ((pf[["p"]][["syll"]] * num.syll) / (pf[["p"]][["word1"]] * num.words)) * log(((pf[["p"]][["word2"]] * num.words) / (pf[["p"]][["sent"]] * num.sentences)))
 #     Tuldava.score <- avg.syll.word * log(avg.sntc.len)
-    slot(all.results, "Tuldava") <- list(flavour=flavour, Tuldava=Tuldava.score)
+    slot(all.results, "Tuldava") <- list(flavour=pf[["f"]], Tuldava=Tuldava.score)
   } else {}
 
   ## Wheeler-Smith
   if("Wheeler.Smith" %in% index){
-    flavour <- "default"
-    valid.params <- c("syll")
-    grade.measure <- "Wheeler.Smith"
-    if("Wheeler.Smith" %in% names(parameters)){
-      flavour <- check.flavour(parameters$Wheeler.Smith, default.params("Wheeler.Smith"))
-      prms <- parameters$Wheeler.Smith
-      grade.measure <- "Wheeler.Smith"
-      if(identical(prms, "de")){
-        flavour <- "de (Bamberger & Vanecek)"
-        prms <- default.params("Wheeler.Smith")
-        grade.measure <- "Wheeler.Smith.de"
-      } else {}
+    pf <- check_parameters(
+      index="Wheeler.Smith",
+      given=parameters[["Wheeler.Smith"]],
+      flav_names=list(
+        de="de (Bamberger & Vanecek)"
+      )
+    )
+    if(identical(pf[["f"]], "de (Bamberger & Vanecek)")){
+      grade.measure <- "Wheeler.Smith.de"
     } else {
-      prms <- default.params("Wheeler.Smith")
+      grade.measure <- "Wheeler.Smith"
     }
-    kRp.check.params(names(prms), valid.params, where="Wheeler.Smith")
-    kRp.check.params(valid.params, names(prms), where="Wheeler.Smith", missing=TRUE)
-    Wheeler.Smith.long.words <- 10 * long.words(prms[["syll"]] - 1, hyphen=hyphen) / num.words
+    Wheeler.Smith.long.words <- 10 * long.words(pf[["p"]][["syll"]] - 1, hyphen=hyphen) / num.words
     Wheeler.Smith.score <- avg.sntc.len * Wheeler.Smith.long.words
     Wheeler.Smith.grade <- get.grade.level(Wheeler.Smith.score, measure=grade.measure)
-    slot(all.results, "Wheeler.Smith") <- list(flavour=flavour, score=Wheeler.Smith.score,
+    slot(all.results, "Wheeler.Smith") <- list(flavour=pf[["f"]], score=Wheeler.Smith.score,
       grade=Wheeler.Smith.grade[["grade"]], grade.min=Wheeler.Smith.grade[["grade.min"]])
   } else {}
   # recursive calls for alternative shortcuts
   if("Wheeler.Smith.de" %in% index){
-    slot(all.results, "Wheeler.Smith.de") <- slot(kRp.rdb.formulae(txt.freq, hyphen=hyphen, index=c("Wheeler.Smith"), parameters=list(Wheeler.Smith="de"),
-      fileEncoding=fileEncoding, tagger=tagger, force.lang=force.lang, sentc.tag=sentc.tag,
-      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE), "Wheeler.Smith")
+    slot(all.results, "Wheeler.Smith.de") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("Wheeler.Smith"), parameters=list(Wheeler.Smith="de"),
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "Wheeler.Smith")
   } else {}
 
 
 #   if("" %in% names(parameters)){
-#     prms <- parameters$
-#     valid.params <- c()
-#     kRp.check.params(names(prms), valid.params)
-#     kRp.check.params(valid.params, names(prms), missing=TRUE)
+#     pf <- check_parameters(
+#       index="",
+#       given=parameters[[""]],
+#       flav_names=list(
+#         =""
+#       )
+#     )
 #     slot(all.results, "<nm>") <- <frml>
 #   } else {}
 
@@ -1545,13 +1272,19 @@ kRp.rdb.formulae <- function(txt.file=NULL,
       "Dickes.Steiwer", "ELF", "Flesch.Brouwer", "Flesch.de", "Flesch.fr",
       "Flesch.nl", "Fucks", "Harris.Jacobson", "nWS",
       "SMOG.C", "SMOG.de", "Strain", "Traenkle.Bailer", "TRI")
-  if(!isTRUE(quiet) && any(needs.warning)){
+  if(all(!isTRUE(quiet), any(needs.warning))){
     warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
     paste(index[needs.warning], collapse=", "),
     "\n  Use the results with caution, even if they seem plausible!",
     "\n  See readability(index=\"validation\") for more details."), call.=FALSE)
   } else {}
-  return(all.results)
+
+  if(isTRUE(as.feature)){
+    corpusReadability(txt.file) <- all.results
+    return(txt.file)
+  } else {
+    return(all.results)
+  }
 }
 
 ############################
@@ -1561,7 +1294,7 @@ kRp.rdb.formulae <- function(txt.file=NULL,
 # this function tries to get the actual word vector out of a given
 # word list, be it a vector, matrix, data.frame or file name
 read.word.list <- function(word.list, encoding="UTF-8"){
-  if(length(word.list) == 1 && is.numeric(word.list)){
+  if(all(length(word.list) == 1, is.numeric(word.list))){
       # we got a number, seems to be no word list, but already the result
       return(word.list)
     } else {}
@@ -1588,8 +1321,8 @@ long.words <- function(min.num, txt.desc=NULL, hyphen=NULL){
       result <- 0
     }
   } else if(!is.null(hyphen)){
-    if(min.num %in% colnames(slot(hyphen, "desc")[["syll.distrib"]])){
-      result <- slot(hyphen, "desc")[["syll.distrib"]]["cum.inv", as.character(min.num)]
+    if(min.num %in% colnames(describe(hyphen)[["syll.distrib"]])){
+      result <- describe(hyphen)[["syll.distrib"]]["cum.inv", as.character(min.num)]
     } else {
       result <- 0
     }
@@ -1653,15 +1386,3 @@ difficult.words <- function(words.only, word.list, only.once=FALSE){
     num.listed=(length(local.tokens)-num.not.listed), pct.listed=(100-pct.not.listed))
   return(result)
 } ## end function difficult.words()
-
-
-## function check.flavour()
-# checks if a word list was called with a customized parameter set
-# by mere name comparison
-check.flavour <- function(given, default, default.name="default"){
-  if(identical(given, default)){
-    return(default.name)
-  } else {
-    return(c("custom"))
-  }
-} ## function check.flavour()

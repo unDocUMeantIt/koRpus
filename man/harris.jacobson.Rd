@@ -4,15 +4,20 @@
 \alias{harris.jacobson}
 \title{Readability: Harris-Jacobson indices}
 \usage{
-harris.jacobson(txt.file, word.list, parameters = c(char = 6),
-  hj1 = c(dword = 0.094, asl = 0.168, const = 0.502), hj2 = c(dword =
-  0.14, asl = 0.153, const = 0.56), hj3 = c(asl = 0.158, lword = 0.055,
-  const = 0.355), hj4 = c(dword = 0.07, asl = 0.125, lword = 0.037, const
-  = 0.497), hj5 = c(dword = 0.118, asl = 0.134, lword = 0.032, const =
-  0.424), ...)
+harris.jacobson(
+  txt.file,
+  word.list,
+  parameters = c(char = 6),
+  hj1 = c(dword = 0.094, asl = 0.168, const = 0.502),
+  hj2 = c(dword = 0.14, asl = 0.153, const = 0.56),
+  hj3 = c(asl = 0.158, lword = 0.055, const = 0.355),
+  hj4 = c(dword = 0.07, asl = 0.125, lword = 0.037, const = 0.497),
+  hj5 = c(dword = 0.118, asl = 0.134, lword = 0.032, const = 0.424),
+  ...
+)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation

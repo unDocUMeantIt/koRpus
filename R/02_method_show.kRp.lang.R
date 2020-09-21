@@ -1,4 +1,4 @@
-# Copyright 2010-2017 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -40,7 +40,7 @@
 #' @export
 #' @docType methods
 #' @rdname show-methods
-#' @include 01_class_09_kRp.lang.R
+#' @include 01_class_04_kRp.lang.R
 setMethod("show", signature(object="kRp.lang"), function(object){
   estim.lang <- slot(object, "lang.name")
   estim.lang.uli <- slot(object, "lang")

@@ -52,7 +52,7 @@
 #' @param abbrev Path to a text file with abbreviations to take care of, one per line. Note that
 #'    this file must have the same encoding as defined by \code{fileEncoding}.
 #' @param tag Logical. If \code{TRUE}, the text will be rudimentarily tagged and returned as an object
-#'    of class \code{kRp.tagged}.
+#'    of class \code{kRp.text}.
 #' @param lang A character string naming the language of the analyzed text. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @param sentc.end A character vector with tokens indicating a sentence ending. Only needed if \code{tag=TRUE}.
 #' @param detect A named logical vector, indicating by the setting of \code{parag} and \code{hline} whether \code{tokenize} should try
@@ -68,21 +68,22 @@
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
 #' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-#'    of the \code{TT.res} slot.
+#'    of the \code{tokens} slot. If \code{NA}, the document name will be used (for \code{format="obj"} a random name).
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @param ... Only used for the method generic.
-#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @import methods
 #' @docType methods
 #' @export
 #' @rdname tokenize-methods
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @examples
 #' \dontrun{
-#' tokenized.obj <- tokenize("~/mydata/corpora/russian_corpus/")
+#' tokenized.obj <- tokenize(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+#' )
 #' 
 #' ## character manipulation
 #' # this is useful if you know of problematic characters in your
@@ -90,21 +91,24 @@
 #' # don't have to, as you can substitute them, even using regular
 #' # expressions. a simple example: replace all single quotes by
 #' # double quotes througout the text:
-#' tokenized.obj <- tokenize("~/my.data/speech.txt",
+#' tokenized.obj <- tokenize(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
 #'   clean.raw=list("'"='\"')
 #' )
 #' 
 #' # now replace all occurrances of the letter A followed
 #' # by two digits with the letter B, followed by the same
 #' # two digits:
-#' tokenized.obj <- tokenize("~/my.data/speech.txt",
+#' tokenized.obj <- tokenize(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
 #'   clean.raw=list("(A)([[:digit:]]{2})"="B\\2"),
 #'   perl=TRUE)
 #'
 #' ## enabling stopword detection and stemming
 #' # if you also installed the packages tm and Snowball,
 #' # you can use some of their features with koRpus:
-#' tokenized.obj <- tokenize("~/my.data/speech.txt",
+#' tokenized.obj <- tokenize(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
 #'   stopwords=tm::stopwords("en"),
 #'   stemmer=SnowballC::wordStem)
 #'
@@ -114,14 +118,34 @@
 setGeneric(
   "tokenize",
   def=function(
-    txt, format="file", fileEncoding=NULL, split="[[:space:]]",
-    ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
-    abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
-    detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
-    doc_id=NA, add.desc="kRp.env", ...){
-      standardGeneric("tokenize")
-    },
-  valueClass=c("kRp.taggedText","character")
+    txt,
+    format="file",
+    fileEncoding=NULL,
+    split="[[:space:]]",
+    ign.comp="-",
+    heuristics="abbr",
+    heur.fix=list(
+      pre=c("\u2019","'"),
+      suf=c("\u2019","'")
+    ),
+    abbrev=NULL,
+    tag=TRUE,
+    lang="kRp.env",
+    sentc.end=c(".","!","?",";",":"),
+    detect=c(
+      parag=FALSE,
+      hline=FALSE
+    ),
+    clean.raw=NULL,
+    perl=FALSE,
+    stopwords=NULL,
+    stemmer=NULL,
+    doc_id=NA,
+    add.desc="kRp.env", ...
+  ){
+    standardGeneric("tokenize")
+  },
+  valueClass=c("kRp.text","character")
 )
 
 #' @export
@@ -130,11 +154,32 @@ setGeneric(
 #' @aliases tokenize,character-method
 setMethod("tokenize",
   signature(txt="character"),
-  function(txt, format="file", fileEncoding=NULL, split="[[:space:]]",
-          ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
-          abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
-          detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
-          doc_id=NA, add.desc="kRp.env"){
+  function(
+    txt,
+    format="file",
+    fileEncoding=NULL,
+    split="[[:space:]]",
+    ign.comp="-",
+    heuristics="abbr",
+    heur.fix=list(
+      pre=c("\u2019","'"),
+      suf=c("\u2019","'")
+    ),
+    abbrev=NULL,
+    tag=TRUE,
+    lang="kRp.env",
+    sentc.end=c(".","!","?",";",":"),
+    detect=c(
+      parag=FALSE,
+      hline=FALSE
+    ),
+    clean.raw=NULL,
+    perl=FALSE,
+    stopwords=NULL,
+    stemmer=NULL,
+    doc_id=NA,
+    add.desc="kRp.env"
+  ){
 
     if(is.null(fileEncoding)){
       fileEncoding <- ""
@@ -145,15 +190,24 @@ setMethod("tokenize",
       # valid path? file or directory?
       if(check.file(txt, mode="exist", stopOnFail=FALSE)){
         txt.file <- txt
+        if(is.na(doc_id)){
+          doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(txt))
+        } else {}
         read.txt.files <- TRUE
       } else if(check.file(txt, mode="dir", stopOnFail=FALSE)){
         txt.file <- file.path(txt, dir(txt))
+        if(is.na(doc_id)){
+          doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(txt))
+        } else {}
         read.txt.files <- TRUE
       } else {
         stop(simpleError(paste0("Unable to locate\n ",txt)))
       }
     } else if(identical(format, "obj")){
       takeAsTxt <- txt
+      if(is.na(doc_id)){
+        doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(tempfile()))
+      } else {}
       read.txt.files <- FALSE
     } else {
       stop(simpleError(paste0("Invalid value for format: ",format)))
@@ -172,7 +226,7 @@ setMethod("tokenize",
       # process object
       txt.vector <- enc2utf8(as.vector(takeAsTxt))
     }
-    
+
     ## see if the text should be cleaned up further
     if(!is.null(clean.raw)){
       txt.vector <- clean.text(txt.vector, from.to=clean.raw, perl=perl)
@@ -199,9 +253,9 @@ setMethod("tokenize",
       # add columns "idx", "sntc" and "doc_id"
       tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
       # create object, combine descriptives afterwards
-      tokens <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
+      tokens <- kRp_text(lang=lang, tokens=tagged.mtrx)
       ## descriptive statistics
-      tokens@desc <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
+      describe(tokens)[[doc_id]] <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
     } else {}
 
     return(tokens)
@@ -215,24 +269,63 @@ setMethod("tokenize",
 #' @include 01_class_81_kRp.connection_union.R
 setMethod("tokenize",
   signature(txt="kRp.connection"),
-  function(txt, format=NA, fileEncoding=NULL, split="[[:space:]]",
-          ign.comp="-", heuristics="abbr", heur.fix=list(pre=c("\u2019","'"), suf=c("\u2019","'")),
-          abbrev=NULL, tag=TRUE, lang="kRp.env", sentc.end=c(".","!","?",";",":"),
-          detect=c(parag=FALSE, hline=FALSE), clean.raw=NULL, perl=FALSE, stopwords=NULL, stemmer=NULL,
-          doc_id=NA, add.desc="kRp.env"){
+  function(
+    txt,
+    format=NA,
+    fileEncoding=NULL,
+    split="[[:space:]]",
+    ign.comp="-",
+    heuristics="abbr",
+    heur.fix=list(
+      pre=c("\u2019","'"),
+      suf=c("\u2019","'")
+    ),
+    abbrev=NULL,
+    tag=TRUE,
+    lang="kRp.env",
+    sentc.end=c(".","!","?",";",":"),
+    detect=c(
+      parag=FALSE,
+      hline=FALSE
+    ),
+    clean.raw=NULL,
+    perl=FALSE,
+    stopwords=NULL,
+    stemmer=NULL,
+    doc_id=NA,
+    add.desc="kRp.env"
+  ){
 
     if(is.null(fileEncoding)){
       fileEncoding <- ""
     } else {}
 
     takeAsTxt <- readLines(txt, encoding=fileEncoding, warn=FALSE)
-    
-    results <- tokenize(txt=takeAsTxt, format="obj", fileEncoding=fileEncoding, split=split,
-          ign.comp=ign.comp, heuristics=heuristics, heur.fix=heur.fix,
-          abbrev=abbrev, tag=tag, lang=lang, sentc.end=sentc.end,
-          detect=detect, clean.raw=clean.raw, perl=perl, stopwords=stopwords, stemmer=stemmer,
-          doc_id=doc_id, add.desc=add.desc)
-          
+    if(is.na(doc_id)){
+      doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(tempfile()))
+    } else {}
+
+    results <- tokenize(
+      txt=takeAsTxt,
+      format="obj",
+      fileEncoding=fileEncoding,
+      split=split,
+      ign.comp=ign.comp,
+      heuristics=heuristics,
+      heur.fix=heur.fix,
+      abbrev=abbrev,
+      tag=tag,
+      lang=lang,
+      sentc.end=sentc.end,
+      detect=detect,
+      clean.raw=clean.raw,
+      perl=perl,
+      stopwords=stopwords,
+      stemmer=stemmer,
+      doc_id=doc_id,
+      add.desc=add.desc
+    )
+
     return(results)
   }
 )

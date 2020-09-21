@@ -18,23 +18,23 @@
 
 #' @export
 #' @docType methods
-#' @aliases show,kRp.taggedText-method
+#' @aliases show,kRp.text-method
 #' @rdname show-methods
 #' @include 02_method_show.kRp.lang.R
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @include koRpus-internal.R
-setMethod("show", signature(object="kRp.taggedText"), function(object){
+setMethod("show", signature(object="kRp.text"), function(object){
   txt <- taggedText(object)
 
   # only print head an tail of long texts
   headLength <- formals(head.matrix)[["n"]]
   if(isTRUE(nrow(txt) > (headLength * 2 + 1))){
     # we need to extend the levels of the factors so they don't show ugly <NA>s
-    for (thisFactor in c("tag","desc","wclass","doc_id")){
+    factor_cols <- sapply(txt, is.factor)
+    for (thisFactor in names(factor_cols)[factor_cols]){
       # the dots are actually just needed for "wclass", but we'll keep it simple here...
       levels(txt[[thisFactor]]) <- c(levels(txt[[thisFactor]]), "", "[...]")
     }
-    # the TT.res slot can change its columns, this must be dealt with dynamically
+    # the tokens slot can change its columns, this must be dealt with dynamically
     middle <- txt[1,]
     for (thisCol in seq_along(middle)){
       # haha, checking for middle class :-D
@@ -45,7 +45,7 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
         ""
       )
     }
-    middle[["wclass"]] <- "[...]"
+    middle[[round(length(factor_cols) / 2)]] <- "[...]"
     rownames(middle) <- ""
     show.mtx <- rbind(head(txt), middle, tail(txt))
     show(show.mtx)
@@ -53,8 +53,14 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
     show(txt)
   }
 
-  # add some stats if text was transformed
-  if(inherits(object, "kRp.txt.trans")){
+  features <- slot(object, "features")
+  features <- features[features]
+  if(length(features) > 0){
+    message(paste0("\nAdditional features:\n  \"", paste0(names(features), collapse="\", \""), "\""))
+  } else {}
+
+# add some stats if text was transformed
+  if(hasFeature(object, "diff")){
     diff <- diffText(object)
     message(paste0(
       "\nDifference between original and transformed text (punctuation ignored)\n",
@@ -63,4 +69,6 @@ setMethod("show", signature(object="kRp.taggedText"), function(object){
       "  Transformations: \"", paste0(diff[["transfmt"]], collapse="\", \""), "\""      
     ))
   } else {}
+  
+
 })

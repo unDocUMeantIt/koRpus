@@ -7,25 +7,60 @@
 \alias{treetag,kRp.connection-method}
 \title{A method to call TreeTagger}
 \usage{
-treetag(file, treetagger = "kRp.env", rm.sgml = TRUE,
-  lang = "kRp.env", apply.sentc.end = TRUE, sentc.end = c(".", "!",
-  "?", ";", ":"), encoding = NULL, TT.options = NULL, debug = FALSE,
-  TT.tknz = TRUE, format = "file", stopwords = NULL,
-  stemmer = NULL, doc_id = NA, add.desc = "kRp.env", ...)
+treetag(
+  file,
+  treetagger = "kRp.env",
+  rm.sgml = TRUE,
+  lang = "kRp.env",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  encoding = NULL,
+  TT.options = NULL,
+  debug = FALSE,
+  TT.tknz = TRUE,
+  format = "file",
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env",
+  ...
+)
 
-\S4method{treetag}{character}(file, treetagger = "kRp.env",
-  rm.sgml = TRUE, lang = "kRp.env", apply.sentc.end = TRUE,
-  sentc.end = c(".", "!", "?", ";", ":"), encoding = NULL,
-  TT.options = NULL, debug = FALSE, TT.tknz = TRUE,
-  format = "file", stopwords = NULL, stemmer = NULL, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{treetag}{character}(
+  file,
+  treetagger = "kRp.env",
+  rm.sgml = TRUE,
+  lang = "kRp.env",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  encoding = NULL,
+  TT.options = NULL,
+  debug = FALSE,
+  TT.tknz = TRUE,
+  format = "file",
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 
-\S4method{treetag}{kRp.connection}(file, treetagger = "kRp.env",
-  rm.sgml = TRUE, lang = "kRp.env", apply.sentc.end = TRUE,
-  sentc.end = c(".", "!", "?", ";", ":"), encoding = NULL,
-  TT.options = NULL, debug = FALSE, TT.tknz = TRUE, format = NA,
-  stopwords = NULL, stemmer = NULL, doc_id = NA,
-  add.desc = "kRp.env")
+\S4method{treetag}{kRp.connection}(
+  file,
+  treetagger = "kRp.env",
+  rm.sgml = TRUE,
+  lang = "kRp.env",
+  apply.sentc.end = TRUE,
+  sentc.end = c(".", "!", "?", ";", ":"),
+  encoding = NULL,
+  TT.options = NULL,
+  debug = FALSE,
+  TT.tknz = TRUE,
+  format = NA,
+  stopwords = NULL,
+  stemmer = NULL,
+  doc_id = NA,
+  add.desc = "kRp.env"
+)
 }
 \arguments{
 \item{file}{Either a connection or a character vector, valid path to a file,
@@ -128,7 +163,8 @@ the \code{SnowballC} package installed. As of now,
 
 \item{doc_id}{Character string,
       optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-of the \code{TT.res} slot.}
+of the \code{tokens} slot. If \code{NA},
+      the document name will be used (for \code{format="obj"} a random name).}
 
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
@@ -137,7 +173,7 @@ to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\
 \item{...}{Only used for the method generic.}
 }
 \value{
-An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE},
+An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE},
       prints internal variable settings and attempts to return the
    original output if the TreeTagger system call in a matrix.
 }
@@ -157,14 +193,23 @@ in your workspace, and not worry about that too much.
 \examples{
 \dontrun{
 # first way to invoke POS tagging, using a built-in preset:
-tagged.results <- treetag("~/my.data/speech.txt", treetagger="manual", lang="en",
-   TT.options=list(path="~/bin/treetagger", preset="en"))
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+  treetagger="manual",
+  lang="en",
+  TT.options=list(path="~/bin/treetagger", preset="en")
+)
 # second way, use one of the batch scripts that come with TreeTagger:
-tagged.results <- treetag("~/my.data/speech.txt",
-   treetagger="~/bin/treetagger/cmd/tree-tagger-english", lang="en")
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+  treetagger="~/bin/treetagger/cmd/tree-tagger-english",
+  lang="en"
+)
 # third option, set the above batch script in an environment object first:
 set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-english", lang="en")
-tagged.results <- treetag("~/my.data/speech.txt")
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+)
 
 # after tagging, use the resulting object with other functions in this package:
 readability(tagged.results)
@@ -174,10 +219,12 @@ lex.div(tagged.results)
 # if you also installed the packages tm and SnowballC,
 # you can use some of their features with koRpus:
 set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger",
-   preset="en"))
-tagged.results <- treetag("~/my.data/speech.txt",
-   stopwords=tm::stopwords("en"),
-   stemmer=SnowballC::wordStem)
+  preset="en"))
+tagged.results <- treetag(
+  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+  stopwords=tm::stopwords("en"),
+  stemmer=SnowballC::wordStem
+)
 
 # removing all stopwords now is simple:
 tagged.noStopWords <- filterByClass(tagged.results, "stopword")
@@ -193,7 +240,7 @@ Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 \seealso{
 \code{\link[koRpus:freq.analysis]{freq.analysis}},
       \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+\code{\link[koRpus:kRp.text-class]{kRp.text}}
 }
 \author{
 m.eik michalke \email{meik.michalke@hhu.de},

@@ -35,7 +35,7 @@
 #' @export
 #' @param ... Additional arguments to the method (as described in this document).
 #' @docType methods
-#' @return An object of class  \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 #' @rdname cTest-methods
 #' @examples
 #' \dontrun{
@@ -59,8 +59,8 @@ cTestify <- function(words, replace.by="_"){
 #' @export
 #' @docType methods
 #' @rdname cTest-methods
-#' @aliases cTest,kRp.taggedText-method
-#' @param obj An object of class "kRp.taggedText"
+#' @aliases cTest,kRp.text-method
+#' @param obj An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param every Integer numeric, setting the frequency of words to be manipulated. By default,
 #'    every other word is being transformed.
 #' @param min.length Integer numeric, sets the minimum length of words to be considered (in letters).
@@ -68,9 +68,9 @@ cTestify <- function(words, replace.by="_"){
 #'    and define, which sentences are to be left untouched, counted in sentences from beginning and end of the text.
 #'    The default is to ignore the first and last sentence.
 #' @param replace.by Character, will be used as the replacement for the removed word halves.
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 setMethod("cTest",
-    signature(obj="kRp.taggedText"),
+    signature(obj="kRp.text"),
     function (obj, every=2, min.length=3, intact=c(start=1, end=1), replace.by="_"){
     # check start and end values to leave intact
     start <- ifelse("start" %in% names(intact), intact[["start"]], 1)
@@ -119,7 +119,7 @@ setMethod("cTest",
       result.DF <- rbind(result.DF, this.sntc)
     }
 
-    results <- txt_trans_diff(obj=obj, TT.res.new=result.DF, transfmt="cTest")
+    results <- txt_trans_diff(obj=obj, tokens.new=result.DF[["token"]], transfmt="cTest")
     return(results)
   }
 )

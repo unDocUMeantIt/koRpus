@@ -4,14 +4,19 @@
 \alias{nWS}
 \title{Readability: Neue Wiener Sachtextformeln}
 \usage{
-nWS(txt.file, hyphen = NULL, parameters = c(ms.syll = 3, iw.char = 6,
-  es.syll = 1), nws1 = c(ms = 19.35, sl = 0.1672, iw = 12.97, es = 3.27,
-  const = 0.875), nws2 = c(ms = 20.07, sl = 0.1682, iw = 13.73, const =
-  2.779), nws3 = c(ms = 29.63, sl = 0.1905, const = 1.1144),
-  nws4 = c(ms = 27.44, sl = 0.2656, const = 1.693), ...)
+nWS(
+  txt.file,
+  hyphen = NULL,
+  parameters = c(ms.syll = 3, iw.char = 6, es.syll = 1),
+  nws1 = c(ms = 19.35, sl = 0.1672, iw = 12.97, es = 3.27, const = 0.875),
+  nws2 = c(ms = 20.07, sl = 0.1682, iw = 13.73, const = 2.779),
+  nws3 = c(ms = 29.63, sl = 0.1905, const = 1.1144),
+  nws4 = c(ms = 27.44, sl = 0.2656, const = 1.693),
+  ...
+)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation

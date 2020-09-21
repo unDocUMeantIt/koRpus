@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -21,8 +21,7 @@
 #' This function combines several of \code{koRpus}' methods to extract the 9-Feature Set for
 #' authorship detection (Brannon, Afroz & Greenstadt, 2011; Brannon & Greenstadt, 2009).
 #'
-#' @param text An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}. Can
+#' @param text An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. Can
 #'    also be a list of these objects, if you want to analyze more than one text at once.
 #' @param hyphen An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}, if \code{text} has
 #'    already been hyphenated. If \code{text} is a list and \code{hyphen} is not \code{NULL}, it must
@@ -59,8 +58,8 @@ textFeatures <- function(text, hyphen=NULL){
 ## TODO: signature approach (chisq test letters/sentences/punctuation)
 # http://www.philocomp.net/humanities/signature
 
-  if(inherits(text, "kRp.tagged")){
-    # get class kRp.tagged from words object
+  if(inherits(text, "kRp.text")){
+    # get class kRp.text from words object
     # the internal function tag.kRp.txt() will return the object unchanged if it
     # is already tagged, so it's safe to call it with the lang set here
     tagged.text <- tag.kRp.txt(text, objects.only=TRUE)
@@ -103,7 +102,7 @@ textFeatures <- function(text, hyphen=NULL){
     complx=rdb.desc[["TTR"]],
     sntCt=text.desc[["sentences"]],
     sntLen=text.desc[["avg.sentc.length"]],
-    syllCt=text.hyph@desc[["avg.syll.word"]],
+    syllCt=describe(text.hyph)[["avg.syll.word"]],
     charCt=text.desc[["all.chars"]],
     lttrCt=text.desc[["letters"]][["all"]],
     FOG=text.rdb@FOG[["FOG"]],

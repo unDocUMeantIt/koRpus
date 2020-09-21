@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -21,19 +21,17 @@
 #' Summary method for S4 objects of classes
 #' \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
 #' \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
-#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-#' \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}} or
-#' \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}.
+#' \code{\link[koRpus:kRp.text-class]{kRp.text}}, or
+#' \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 #'
 #' @param object An object of class, \code{kRp.lang}, \code{kRp.readability}, 
-#'    \code{kRp.tagged}, \code{kRp.TTR}, or \code{kRp.txt.freq}.
+#'    \code{kRp.text}, or \code{kRp.TTR}.
 #' @param ... Further options, depending on the object class.
 #' @seealso
 #'    \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
 #'    \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}}
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}},
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 #' @keywords methods
 #' @rdname summary-methods
 #' @export
@@ -48,7 +46,7 @@ setGeneric("summary")
 #' @aliases summary,kRp.lang-method
 #' @export
 #' @docType methods
-#' @include 01_class_10_kRp.readability.R
+#' @include 01_class_05_kRp.readability.R
 #' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.lang"), function(object){
   # show the main results

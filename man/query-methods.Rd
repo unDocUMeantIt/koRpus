@@ -4,25 +4,48 @@
 \name{query}
 \alias{query}
 \alias{query,kRp.corp.freq-method}
-\alias{query,kRp.tagged-method}
+\alias{query,kRp.text-method}
 \alias{query,data.frame-method}
 \title{A method to get information out of koRpus objects}
 \usage{
 query(obj, ...)
 
-\S4method{query}{kRp.corp.freq}(obj, var = NULL, query, rel = "eq",
-  as.df = TRUE, ignore.case = TRUE, perl = FALSE,
-  regexp_var = "word")
+\S4method{query}{kRp.corp.freq}(
+  obj,
+  var = NULL,
+  query,
+  rel = "eq",
+  as.df = TRUE,
+  ignore.case = TRUE,
+  perl = FALSE,
+  regexp_var = "word"
+)
 
-\S4method{query}{kRp.tagged}(obj, var, query, rel = "eq", as.df = TRUE,
-  ignore.case = TRUE, perl = FALSE, regexp_var = "token")
+\S4method{query}{kRp.text}(
+  obj,
+  var,
+  query,
+  rel = "eq",
+  as.df = TRUE,
+  ignore.case = TRUE,
+  perl = FALSE,
+  regexp_var = "token"
+)
 
-\S4method{query}{data.frame}(obj, var, query, rel = "eq", as.df = TRUE,
-  ignore.case = TRUE, perl = FALSE, regexp_var = "token")
+\S4method{query}{data.frame}(
+  obj,
+  var,
+  query,
+  rel = "eq",
+  as.df = TRUE,
+  ignore.case = TRUE,
+  perl = FALSE,
+  regexp_var = "token"
+)
 }
 \arguments{
 \item{obj}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
-\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, or \code{data.frame}.}
+\code{\link[koRpus:kRp.text-class]{kRp.text}}, or \code{data.frame}.}
 
 \item{...}{Optional arguments, see above.}
 
@@ -55,7 +78,7 @@ Depending on the arguments, might include whole objects, lists, single values et
 }
 \description{
 The method \code{query} returns query information from objects of classes \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}} and
-\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+\code{\link[koRpus:kRp.text-class]{kRp.text}}.
 }
 \details{
 \emph{kRp.corp.freq:} Depending on the setting of the \code{var} parameter,
@@ -67,7 +90,7 @@ the range, respectively. In these cases,
       if \code{rel} is set to \code{"gt"} or \code{"lt"},
 the given range borders are excluded, otherwise they will be included as true matches.
 
-\emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. If \code{rel="num"},
+\emph{kRp.text:} \code{var} can be any of the variables in slot \code{tokens}. If \code{rel="num"},
 a vector with the row numbers in which the query was found is returned.
 }
 \section{Query lists}{

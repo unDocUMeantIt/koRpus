@@ -193,19 +193,44 @@ test_that("basic tokenizing", {
   # without a local TreeTagger installation, these tests will be limited
   # to what is possible with tokenize()
   tokenizedTextFile <- tokenize(
-    sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    sampleTextFile,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE
+  )
   tokenizedTextFileNoDesc <- tokenize(
-    sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=FALSE)
+    sampleTextFile,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=FALSE
+  )
   tokenizedTextObj <- tokenize(
-    sampleTextObj, format="obj", lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    sampleTextObj,
+    format="obj",
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE,
+    doc_id="sample_text.txt"
+  )
 
   textToTag <- file(sampleTextFile)
   tokenizedTextConnection <- tokenize(
-    textToTag, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    textToTag,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE,
+    doc_id="sample_text.txt"
+  )
   close(textToTag)
 
   # this was fixed in koRpus 0.06-4, checking it's still working
-  tokenizedToken <- tokenize("singleton", format="obj", lang="xy", add.desc=TRUE)
+  tokenizedToken <- tokenize(
+    "singleton",
+    format="obj",
+    lang="xy",
+    add.desc=TRUE,
+    doc_id="sample_text.txt"
+  )
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
   expect_equal(
@@ -233,11 +258,18 @@ test_that("basic tokenizing", {
 test_that("fixing old objects", {
   sampleTextFile <- normalizePath("sample_text.txt")
   expect_warning(
-    sampleTextStandardOld <- fixObject(dget("sample_text_tokenized_dput_old.txt"))
+    sampleTextStandardOld <- fixObject(
+      dget("sample_text_tokenized_dput_old.txt"),
+      doc_id="sample_text.txt"
+    )
   )
 
   tokenizedTextFile <- tokenize(
-    sampleTextFile, lang="xy", stopwords=c("it's","one","for","you","and","me"), add.desc=TRUE)
+    sampleTextFile,
+    lang="xy",
+    stopwords=c("it's","one","for","you","and","me"),
+    add.desc=TRUE
+  )
 
   # we can't compare with "is_identical_to() because the percentages may slightly differ
   expect_equal(
@@ -258,9 +290,8 @@ test_that("importing already tagged texts", {
   # methods, because the string is made into a connection and that
   # in turn into a matrix, both times calling the appropriate readTagged()
   # methods internally
-  treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy")
+  treeTaggedText <- readTagged(sampleTextFileTreeTagged, lang="xy", doc_id="sample_text.txt")
 
-  
   RDRPOSTaggedText <- readTagged(
     sampleTextFileRDRTagged,
     lang="xy",
@@ -268,7 +299,7 @@ test_that("importing already tagged texts", {
     tagger="manual",
     mtx_cols=c(token="token", tag="pos", lemma=NA)
   )
-  
+
   expect_equal(
     treeTaggedText,
     sampleTextTreeTaggedStandard
@@ -293,6 +324,10 @@ test_that("lexical diversity", {
   lexdivTextObj <- summary(lex.div(sampleTextTokenized, char=NULL, quiet=TRUE))
   TTRCharTextObj <- slot(TTR(sampleTextTokenized, char=TRUE, quiet=TRUE), "TTR.char")
 
+  # try with feature object
+  lexdivTextFeatureObj <- lex.div(sampleTextTokenized, char=NULL, quiet=TRUE, as.feature=TRUE)
+  lexdivTextFeatureSummary <- summary(corpusLexDiv(lexdivTextFeatureObj)[[1]])
+
   expect_equal(
     lexdivTextObj,
     sampleTextStandard
@@ -300,6 +335,10 @@ test_that("lexical diversity", {
   expect_equal(
     TTRCharTextObj,
     sampleTextStandardTTRChar
+  )
+  expect_equal(
+    lexdivTextFeatureSummary,
+    sampleTextStandard
   )
 })
 
@@ -326,6 +365,15 @@ test_that("hyphenation/syllable count", {
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjCache, "Papua", "Pa-pu-a")
   hyphenTextObjChanged <- correct.hyph(hyphenTextObjChanged, "in-edible", "inedible")
 
+  # try with feature object, using the updated cache
+  hyphenTextFeatureObj <- hyphen(
+    sampleTextTokenized,
+    hyph.pattern=samplePatternStandard,
+    quiet=TRUE,
+    as.feature=TRUE
+  )
+  hyphenTextFeature <- corpusHyphen(hyphenTextFeatureObj)
+
   expect_equal(
     hyphenTextObjNoCache,
     sampleTextStandard
@@ -336,6 +384,10 @@ test_that("hyphenation/syllable count", {
   )
   expect_equal(
     hyphenTextObjChanged,
+    sampleTextStandardChanged
+  )
+  expect_equal(
+    hyphenTextFeature,
     sampleTextStandardChanged
   )
 })
@@ -363,8 +415,28 @@ test_that("readability", {
         Spache=pseudoWordList)), flat=TRUE)
   )
 
+  # try with feature object
+  expect_warning(
+    readabilityTextFeatureObj <- readability(sampleTextTokenized,
+      hyphen=sampleTextHyphen,
+      index=c("all"),
+      word.lists=list(
+        Bormuth=pseudoWordList,
+        Dale.Chall=pseudoWordList,
+        Harris.Jacobson=pseudoWordList,
+        Spache=pseudoWordList
+      ),
+      as.feature=TRUE
+    )
+  )
+  readabilityTextFeatureSummary <- summary(corpusReadability(readabilityTextFeatureObj), flat=TRUE)
+
   expect_equal(
     readabilityTextObj,
+    sampleTextStandard
+  )
+  expect_equal(
+    readabilityTextFeatureSummary,
     sampleTextStandard
   )
 })
@@ -390,23 +462,22 @@ test_that("query", {
     sum(queryLttrGe5[["lttr"]]),
     2178
   )
-  
+
   queryLttr6to9 <- query(sampleTextTokenized, "lttr", c(5, 10), "gt")
   expect_equal(
     nrow(queryLttr6to9),
     191
   )
-  
+
   querySntc5 <- query(sampleTextTokenized, "sntc", 5)
   expect_equal(
     nrow(querySntc5),
     46
   )
-  
+
   expect_error(
     query(sampleTextTokenized, "sntcs", 30)
   )
-
 })
 
 
@@ -414,7 +485,7 @@ context("filterByClass")
 
 test_that("filterByClass", {
   sampleTextTreeTagged <- dget("sample_text_treetagged_dput.txt")
-  
+
   sampleTextNoPunct <- filterByClass(sampleTextTreeTagged)
   sampleTextNoNounsVerbs <- filterByClass(
     sampleTextTreeTagged,
@@ -430,7 +501,7 @@ test_that("filterByClass", {
     nrow(taggedText(sampleTextNoPunct)),
     556 # vs. 617
   )
-  
+
   expect_equal(
     nrow(taggedText(sampleTextNoPossPron)),
     608 # vs. 617
@@ -442,7 +513,7 @@ test_that("filterByClass", {
   )
 
   expect_equal(
-    describe(sampleTextNoPunct)[["all.chars"]],
+    koRpus::describe(sampleTextNoPunct)[["all.chars"]],
     3491 # vs. 3551
   )
 
@@ -451,10 +522,9 @@ test_that("filterByClass", {
   # character level. due to some punctuation not removed from tokens
   # by the TreeTagger tokenizer, there's still some residual left
   expect_equal(
-    describe(sampleTextNoPunct)[["punct"]],
+    koRpus::describe(sampleTextNoPunct)[["punct"]],
     17 # vs. 78
   )
-  
 })
 
 
@@ -492,7 +562,6 @@ test_that("pasteText", {
       c(21,22,1207,1208) %in% grep("\n", unlist(strsplit(tokenizedPasted, "")))
     )
   )
-  
 })
 
 
@@ -505,7 +574,7 @@ tokenizedSentence <- tokenize(
   lang="xy",
   add.desc=TRUE
 )
-  
+
 test_that("textTransform", {
   transMinor <- textTransform(tokenizedSentence, scheme="minor")
   transMajor <- textTransform(tokenizedSentence, scheme="major")
@@ -516,7 +585,7 @@ test_that("textTransform", {
   transEUNorm <- textTransform(tokenizedSentence, scheme="eu.norm")
   transEUInv <- textTransform(tokenizedSentence, scheme="eu.inv")
   transRandom <- textTransform(tokenizedSentence, scheme="random")
-  
+
   expect_equal(
     sum(taggedText(transMinor)[["lttr.diff"]]),
     2
@@ -593,4 +662,3 @@ test_that("originalText", {
     taggedText(tokenizedSentence)
   )
 })
- 

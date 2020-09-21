@@ -18,12 +18,12 @@
 
 #' Produce jumbled words
 #' 
-#' This method either takes a character vector or objects inheriting class \code{kRp.tagged}
+#' This method either takes a character vector or objects inheriting class \code{kRp.text}
 #' (i.e., text tokenized by \code{koRpus}), and jumbles the words. This usually means that the
 #' first and last letter of each word is left intact, while all characters inbetween are being
 #' randomized.
 #' 
-#' @param words Either a character vector or an object inheriting from class \code{kRp.tagged}.
+#' @param words Either a character vector or an object inheriting from class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param min.length An integer value, defining the minimum word length. Words with less characters
 #'    will not be changed. Grapheme clusters are counted as one.
 #' @param intact A named vector with the two integer values named \code{start} and \code{stop}.
@@ -31,7 +31,7 @@
 #'    and its end, respectively.
 #' @param ... Additional options, currently unused.
 #' @return Depending on the class of \code{words}, either a character vector or an object of class
-#'    \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 #' @import methods
 #' @docType methods
 #' @export
@@ -45,16 +45,15 @@ setGeneric("jumbleWords", function(words, ...){standardGeneric("jumbleWords")})
 #' @export
 #' @docType methods
 #' @rdname jumbleWords-methods
-#' @aliases jumbleWords,kRp.taggedText-method
-#' @include 01_class_80_kRp.taggedText_union.R
+#' @aliases jumbleWords,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 setMethod("jumbleWords",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(words="kRp.taggedText"),
+  signature(words="kRp.text"),
   function(words, min.length=3, intact=c(start=1, end=1)){
-    words.TT.res <- taggedText(words)
-    words.TT.res[["token"]] <- kRp_jumbleWords(words=words.TT.res[["token"]], min.length=min.length, intact=intact)
-    results <- txt_trans_diff(obj=words, TT.res.new=words.TT.res, transfmt="jumbleWords")
+    words.tokens <- taggedText(words)
+    words.tokens[["token"]] <- kRp_jumbleWords(words=words.tokens[["token"]], min.length=min.length, intact=intact)
+    results <- txt_trans_diff(obj=words, tokens.new=words.tokens[["token"]], transfmt="jumbleWords")
     return(results)
   }
 )
@@ -64,7 +63,6 @@ setMethod("jumbleWords",
 #' @rdname jumbleWords-methods
 #' @aliases jumbleWords,character-method
 setMethod("jumbleWords",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
   signature(words="character"),
   function(words, min.length=3, intact=c(start=1, end=1)){
     words <- kRp_jumbleWords(words=words, min.length=min.length, intact=intact)

@@ -4,8 +4,15 @@
 \alias{guess.lang}
 \title{Guess language a text is written in}
 \usage{
-guess.lang(txt.file, udhr.path, comp.length = 300, keep.udhr = FALSE,
-  quiet = TRUE, in.mem = TRUE, format = "file")
+guess.lang(
+  txt.file,
+  udhr.path,
+  comp.length = 300,
+  keep.udhr = FALSE,
+  quiet = TRUE,
+  in.mem = TRUE,
+  format = "file"
+)
 }
 \arguments{
 \item{txt.file}{A character vector pointing to the file with the text to be analyzed.}
@@ -60,6 +67,6 @@ Benedetto, D., Caglioti, E. & Loreto,
 
 [1] \url{http://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
 
-[2] \url{https://unicode.org/udhr}
+[2] \url{https://unicode.org/udhr/}
 }
 \keyword{misc}

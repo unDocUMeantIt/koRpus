@@ -4,8 +4,11 @@
 \alias{install.koRpus.lang}
 \title{Install language support packages}
 \usage{
-install.koRpus.lang(lang,
-  repos = "https://undocumeantit.github.io/repos/l10n/", ...)
+install.koRpus.lang(
+  lang,
+  repos = "https://undocumeantit.github.io/repos/l10n/",
+  ...
+)
 }
 \arguments{
 \item{lang}{Character vector,

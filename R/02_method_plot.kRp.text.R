@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -16,12 +16,12 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' Plot method for objects of class union kRp.taggedText
+#' Plot method for objects of class kRp.text
 #'
-#' Plot method for S4 objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
+#' Plot method for S4 objects of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
 #' plots the frequencies of tagged word classes.
 #'
-#' @param x An object of class \code{kRp.tagged}
+#' @param x An object of class \code{kRp.text}
 #' @param y From the generic \code{plot} function, ignored for koRpus class objects.
 #' @param what Character string, valid options are:
 #'    \describe{
@@ -29,7 +29,7 @@
 #'      \item{\code{"letters"}:}{Line plot of distribution of word length in letters}
 #'    }
 #' @param ... Any other argument suitable for plot()
-#' @seealso \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+#' @seealso \code{\link[koRpus:kRp.text-class]{kRp.text}}
 #' @examples
 #' \dontrun{
 #' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
@@ -45,10 +45,10 @@ setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 #' @export
 #' @docType methods
 #' @rdname plot-methods
-#' @aliases plot,kRp.taggedText,missing-method
-#' @include 01_class_01_kRp.tagged.R
+#' @aliases plot,kRp.text,missing-method
+#' @include 01_class_01_kRp.text.R
 #' @import graphics
-setMethod("plot", signature(x="kRp.taggedText", y="missing"), function(x, what="wclass", ...){
+setMethod("plot", signature(x="kRp.text", y="missing"), function(x, what="wclass", ...){
   if(identical(what, "wclass")){
     wclass.distrib <- summary(x)
     # Increase bottom margin to make room for rotated labels
@@ -59,7 +59,7 @@ setMethod("plot", signature(x="kRp.taggedText", y="missing"), function(x, what="
     text(barplot.ticks, par("usr")[3]-6, srt=45, adj=1, labels=labels, xpd=TRUE)
     mtext(1, text="word class", line=6)
   } else if(identical(what, "letters")){
-    lttr.distrib <- x@desc[["lttr.distrib"]]
+    lttr.distrib <- describe(x)[["lttr.distrib"]]
     plot(lttr.distrib["pct",], type="l", xlab="letters", ylab="percent", main="Distribution of word lengths (letters)", xaxt="n", ...)
     axis(1, at=c(1:ncol(lttr.distrib)), labels=colnames(lttr.distrib))
   } else {}

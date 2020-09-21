@@ -3,19 +3,29 @@
 \docType{methods}
 \name{correct.tag}
 \alias{correct.tag}
-\alias{correct.tag,kRp.taggedText-method}
+\alias{correct.tag,kRp.text-method}
 \title{Methods to correct koRpus objects}
 \usage{
-correct.tag(obj, row, tag = NULL, lemma = NULL, check.token = NULL)
+correct.tag(
+  obj,
+  row,
+  tag = NULL,
+  lemma = NULL,
+  check.token = NULL,
+  quiet = TRUE
+)
 
-\S4method{correct.tag}{kRp.taggedText}(obj, row, tag = NULL,
-  lemma = NULL, check.token = NULL)
+\S4method{correct.tag}{kRp.text}(
+  obj,
+  row,
+  tag = NULL,
+  lemma = NULL,
+  check.token = NULL,
+  quiet = TRUE
+)
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-      \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-\code{\link[koRpus:kRp.analysis-class]{kRp.analysis}},
-      or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}.}
+\item{obj}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{row}{Integer, the row number of the entry to be changed. Can be an integer vector
 to change several rows in one go.}
@@ -28,12 +38,14 @@ If \code{NULL} (the default) the entry remains unchanged.}
 
 \item{check.token}{A character string naming the token you expect to be in this row.
 If not \code{NULL}, \code{correct} will stop with an error if this values don't match.}
+
+\item{quiet}{If \code{FALSE}, messages about all applied changes are shown.}
 }
 \value{
 An object of the same class as \code{obj}.
 }
 \description{
-The method \code{correct.tag} can be used to alter objects of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+The method \code{correct.tag} can be used to alter objects of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 }
 \details{
 Although automatic POS tagging and lemmatization are remarkably accurate,
@@ -56,7 +68,7 @@ tagged.txt <- correct.tag(tagged.txt, row=21, tag="NN")
 }
 }
 \seealso{
-\code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:treetag]{treetag}},
+\code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[koRpus:treetag]{treetag}},
    \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}.
 }
 \keyword{methods}

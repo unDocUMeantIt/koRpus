@@ -90,8 +90,7 @@
 #' and used. Set \code{force.lang=get.kRp.env(lang=TRUE)} or to any other valid value, if you want to forcibly overwrite this
 #' default behaviour, and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 #'
-#' @param txt An object of either class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}},
-#'    \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}} or \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, containing the tagged text to be analyzed.
+#' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, containing the tagged text to be analyzed.
 #'    If \code{txt} is of class character, it is assumed to be the raw text to be analyzed.
 #' @param segment An integer value for MSTTR, defining how many tokens should form one segment.
 #' @param factor.size A real number between 0 and 1, defining the MTLD factor size.
@@ -123,13 +122,16 @@
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
 #' @param corp.rm.tag A character vector with POS tags which should be dropped.
+#' @param as.feature Logical, whether the output should be just the analysis results or the input object with
+#'    the results added as a feature. Use \code{\link[koRpus:corpusLexDiv]{corpusLexDiv}}
+#'    to get the results from such an aggregated object.
 #' @param quiet Logical. If \code{FALSE}, short status messages will be shown.
 #'    \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.
-#' @return An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
-# @author m.eik michalke \email{meik.michalke@@hhu.de}
+#' @return Depending on \code{as.feature}, either an object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
+#'    or an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{lex_div} containing it.
 #' @keywords LD
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 #' @references
 #'    Covington, M.A. & McFall, J.D. (2010). Cutting the Gordian Knot: The Moving-Average Type-Token Ratio (MATTR). 
 #'      \emph{Journal of Quantitative Linguistics}, 17(2), 94--100.
@@ -163,54 +165,126 @@ setGeneric("lex.div", function(txt, ...) standardGeneric("lex.div"))
 ######################################################################
 
 #' @export
-#' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
-#' @include 01_class_05_kRp.analysis.R
-#' @include 01_class_80_kRp.taggedText_union.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases lex.div lex.div,kRp.taggedText-method
+#' @aliases lex.div lex.div,kRp.text-method
 #' @rdname lex.div-methods
-setMethod("lex.div", signature(txt="kRp.taggedText"), function(txt, segment=100,
-    factor.size=0.72, min.tokens=9, MTLDMA.steps=1, rand.sample=42, window=100,
-    case.sens=FALSE, lemmatize=FALSE, detailed=FALSE,
+setMethod(
+  "lex.div",
+  signature(txt="kRp.text"),
+  function(
+    txt,
+    segment=100,
+    factor.size=0.72,
+    min.tokens=9,
+    MTLDMA.steps=1,
+    rand.sample=42,
+    window=100,
+    case.sens=FALSE,
+    lemmatize=FALSE,
+    detailed=FALSE,
     measure=c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
     char=c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
-    char.steps=5, log.base=10,
+    char.steps=5,
+    log.base=10,
     force.lang=NULL,
     keep.tokens=FALSE,
     type.index=FALSE,
     corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE){
+    corp.rm.tag=c(),
+    as.feature=FALSE,
+    quiet=FALSE
+  ){
+    doc_list <- split_by_doc_id(txt)
+    lex.div.results <- lapply(
+      doc_list,
+      kRp.lex.div.formulae,
+      segment=segment,
+      factor.size=factor.size,
+      min.tokens=min.tokens,
+      MTLDMA.steps=MTLDMA.steps,
+      rand.sample=rand.sample,
+      window=window,
+      case.sens=case.sens,
+      lemmatize=lemmatize,
+      detailed=detailed,
+      measure=measure,
+      char=char,
+      char.steps=char.steps,
+      log.base=log.base,
+      force.lang=force.lang,
+      keep.tokens=keep.tokens,
+      type.index=type.index,
+      corp.rm.class=corp.rm.class,
+      corp.rm.tag=corp.rm.tag,
+      quiet=quiet
+    )
+    names(lex.div.results) <- names(doc_list)
 
-    lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
-      MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
-      measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
-      keep.tokens=keep.tokens, type.index=type.index, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
-
-    return(lex.div.results)
+    if(isTRUE(as.feature)){
+      corpusLexDiv(txt) <- lex.div.results
+      return(txt)
+    } else {
+      if(length(lex.div.results) > 1){
+        return(lex.div.results)
+      } else {
+        return(lex.div.results[[1]])
+      }
+    }
   }
 )
 
 #' @export
 #' @aliases lex.div,character-method
 #' @rdname lex.div-methods
-setMethod("lex.div", signature(txt="character"), function(txt, segment=100,
-    factor.size=0.72, min.tokens=9, MTLDMA.steps=1, rand.sample=42, window=100,
-    case.sens=FALSE, lemmatize=FALSE, detailed=FALSE,
+setMethod(
+  "lex.div",
+  signature(txt="character"),
+  function(
+    txt,
+    segment=100,
+    factor.size=0.72,
+    min.tokens=9,
+    MTLDMA.steps=1,
+    rand.sample=42,
+    window=100,
+    case.sens=FALSE,
+    lemmatize=FALSE,
+    detailed=FALSE,
     measure=c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
     char=c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"),
-    char.steps=5, log.base=10,
+    char.steps=5,
+    log.base=10,
     force.lang=NULL,
     keep.tokens=FALSE,
     type.index=FALSE,
     corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE){
+    corp.rm.tag=c(),
+    quiet=FALSE
+  ){
 
-    lex.div.results <- kRp.lex.div.formulae(txt=txt, segment=segment, factor.size=factor.size, min.tokens=min.tokens,
-      MTLDMA.steps=MTLDMA.steps, rand.sample=rand.sample, window=window, case.sens=case.sens, lemmatize=lemmatize, detailed=detailed,
-      measure=measure, char=char, char.steps=char.steps, log.base=log.base, force.lang=force.lang,
-      keep.tokens=keep.tokens, type.index=type.index, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, quiet=quiet)
+    lex.div.results <- kRp.lex.div.formulae(
+      txt=txt,
+      segment=segment,
+      factor.size=factor.size,
+      min.tokens=min.tokens,
+      MTLDMA.steps=MTLDMA.steps,
+      rand.sample=rand.sample,
+      window=window,
+      case.sens=case.sens,
+      lemmatize=lemmatize,
+      detailed=detailed,
+      measure=measure,
+      char=char,
+      char.steps=char.steps,
+      log.base=log.base,
+      force.lang=force.lang,
+      keep.tokens=keep.tokens,
+      type.index=type.index,
+      corp.rm.class=corp.rm.class,
+      corp.rm.tag=corp.rm.tag,
+      quiet=quiet
+    )
 
     return(lex.div.results)
   }

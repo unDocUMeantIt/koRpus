@@ -3,19 +3,26 @@
 \docType{methods}
 \name{textTransform}
 \alias{textTransform}
-\alias{textTransform,kRp.taggedText-method}
+\alias{textTransform,kRp.text-method}
 \title{Letter case transformation}
 \usage{
 textTransform(txt, ...)
 
-\S4method{textTransform}{kRp.taggedText}(txt, scheme, p = 0.5,
-  paste = FALSE, var = "wclass", query = "fullstop",
-  method = "replace", replacement = ".", f = NA, ...)
+\S4method{textTransform}{kRp.text}(
+  txt,
+  scheme,
+  p = 0.5,
+  paste = FALSE,
+  var = "wclass",
+  query = "fullstop",
+  method = "replace",
+  replacement = ".",
+  f = NA,
+  ...
+)
 }
 \arguments{
-\item{txt}{An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}},
-      \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-\code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Parameters passed to \code{\link[koRpus:query]{query}} to find matching tokens. Relevant only if \code{scheme="normalize"}.}
 
@@ -69,9 +76,25 @@ Relevant only if \code{scheme="normalize"} and \code{method="replace"}.}
 Relevant only if \code{scheme="normalize"} and \code{method="function"}.}
 }
 \value{
-By default an object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}} is returned. If \code{paste=TRUE},
-      returns
-   an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
+By default an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff} is returned.
+   It provides a list with mostly atomic vectors,
+      describing the amount of diffences between both text variants (percentage):
+   \describe{
+     \item{\code{all.tokens}:}{Percentage of all tokens, including punctuation,
+      that were altered.}
+     \item{\code{words}:}{Percentage of altered words only.}
+     \item{\code{all.chars}:}{Percentage of all characters, including punctuation,
+      that were altered.}
+     \item{\code{letters}:}{Percentage of altered letters in words only.}
+     \item{\code{transfmt}:}{Character vector documenting the transformation(s) done to the tokens.}
+     \item{\code{transfmt.equal}:}{Data frame documenting which token was changed in which transformational step. Only available if more than one transformation was done.}
+     \item{\code{transfmt.normalize}:}{A list documenting steps of normalization that were done to the object,
+      one element per transformation.
+       Each entry holds the name of the method, the query parameters,
+      and the effective replacement value.}
+   }
+   If \code{paste=TRUE},
+      returns an atomic character vector (via \code{\link[koRpus:pasteText]{pasteText}}).
 }
 \description{
 Transforms text in koRpus objects token by token.
@@ -83,19 +106,23 @@ This method is mainly intended to produce text material for experiments.
  You can dynamically calculate the replacement value for the \code{"normalize"} scheme by setting \code{method="function"} and
 providing a function object as \code{f}. The function you provide must support the following arguments:
 \itemize{
-  \item {\code{TT.res}} {The original TT.res slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
+  \item {\code{tokens}} {The original tokens slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
   \item {\code{match}} {A logical vector,
-      indicating for each row of \code{TT.res} whether it's a query match or not.}
+      indicating for each row of \code{tokens} whether it's a query match or not.}
 }
 You can then use these arguments in your function body to calculate the replacement,
-      e.g. \code{TT.res[match,"token"]} to get all relevant tokens.
+      e.g. \code{tokens[match,"token"]} to get all relevant tokens.
 The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
 of length one or of the same length as all matches.
 }
 
 \examples{
 \dontrun{
-tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
+tagged.text.obj <- freq.analysis(
+  tagged.text.obj,
+  corp.freq=my.LCC.data,
+  as.feature=TRUE
+)
 textTransform(tagged.text.obj, scheme="random", paste=TRUE)
 }
 }

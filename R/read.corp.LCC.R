@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -55,7 +55,7 @@
 #' @references Quasthoff, U., Richter, M. & Biemann, C. (2006). Corpus Portal for Search in Monolingual Corpora, In
 #'    \emph{Proceedings of the Fifth International Conference on Language Resources and Evaluation}, Genoa, 1799--1802.
 #'
-#'    [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
+#'    [1] \url{https://wortschatz.uni-leipzig.de/en/download/}
 #' @export
 #' @examples
 #' \dontrun{

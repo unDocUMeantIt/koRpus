@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -48,18 +48,18 @@
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
 #' @param ... Additional options, currently unused.
-#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE}, prints internal variable settings and
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE}, prints internal variable settings and
 #'    attempts to return the original output if the TreeTagger system call in a matrix.
 #' @keywords misc
 #' @seealso \code{\link[koRpus:treetag]{treetag}},
 #'    \code{\link[koRpus:freq.analysis]{freq.analysis}},
 #'    \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-#'    \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}}
 #' @references
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
 #'
-#' [1] \url{http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/DecisionTreeTagger.html}
+#' [1] \url{https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/}
 #' @export
 #' @import methods
 #' @docType methods
@@ -348,9 +348,12 @@ kRp_read_tagged <- function(
   # add columns "idx", "sntc" and "doc_id"
   tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-  results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
+  results <- kRp_text(lang=lang, tokens=tagged.mtrx)
   ## descriptive statistics
-  describe(results) <- basic.tagged.descriptives(
+  if(is.na(doc_id)){
+    doc_id <- 1
+  } else {}
+  describe(results)[[doc_id]] <- basic.tagged.descriptives(
     results,
     lang=lang,
     txt.vector=paste.tokenized.text(tagged.mtrx[["token"]]),

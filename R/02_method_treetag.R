@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -83,17 +83,17 @@
 #' @param stemmer A function or method to perform stemming. For instance, you can set \code{SnowballC::wordStem} if you have
 #'    the \code{SnowballC} package installed. As of now, you cannot provide further arguments to this function.
 #' @param doc_id Character string, optional identifier of the particular document. Will be added to the \code{desc} slot, and as a factor to the \code{"doc_id"} column
-#'    of the \code{TT.res} slot.
+#'    of the \code{tokens} slot. If \code{NA}, the document name will be used (for \code{format="obj"} a random name).
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
 #' @param ... Only used for the method generic.
-#' @return An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
 #'    original output if the TreeTagger system call in a matrix.
 #' @author m.eik michalke \email{meik.michalke@@hhu.de}, support for various laguages was contributed by Earl Brown (Spanish), Alberto Mirisola (Italian) and
 #'    Alexandre Brulet (French).
 #' @keywords misc
 #' @seealso \code{\link[koRpus:freq.analysis]{freq.analysis}}, \code{\link[koRpus:get.kRp.env]{get.kRp.env}},
-#' \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}
+#' \code{\link[koRpus:kRp.text-class]{kRp.text}}
 #' @references
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
@@ -102,19 +102,27 @@
 #' @export
 #' @import methods
 #' @docType methods
-#' @include 01_class_80_kRp.taggedText_union.R
 #' @rdname treetag-methods
 #' @examples
 #' \dontrun{
 #' # first way to invoke POS tagging, using a built-in preset:
-#' tagged.results <- treetag("~/my.data/speech.txt", treetagger="manual", lang="en",
-#'    TT.options=list(path="~/bin/treetagger", preset="en"))
+#' tagged.results <- treetag(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+#'   treetagger="manual",
+#'   lang="en",
+#'   TT.options=list(path="~/bin/treetagger", preset="en")
+#' )
 #' # second way, use one of the batch scripts that come with TreeTagger:
-#' tagged.results <- treetag("~/my.data/speech.txt",
-#'    treetagger="~/bin/treetagger/cmd/tree-tagger-english", lang="en")
+#' tagged.results <- treetag(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+#'   treetagger="~/bin/treetagger/cmd/tree-tagger-english",
+#'   lang="en"
+#' )
 #' # third option, set the above batch script in an environment object first:
 #' set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-english", lang="en")
-#' tagged.results <- treetag("~/my.data/speech.txt")
+#' tagged.results <- treetag(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+#' )
 #'
 #' # after tagging, use the resulting object with other functions in this package:
 #' readability(tagged.results)
@@ -124,10 +132,12 @@
 #' # if you also installed the packages tm and SnowballC,
 #' # you can use some of their features with koRpus:
 #' set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger",
-#'    preset="en"))
-#' tagged.results <- treetag("~/my.data/speech.txt",
-#'    stopwords=tm::stopwords("en"),
-#'    stemmer=SnowballC::wordStem)
+#'   preset="en"))
+#' tagged.results <- treetag(
+#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+#'   stopwords=tm::stopwords("en"),
+#'   stemmer=SnowballC::wordStem
+#' )
 #'
 #' # removing all stopwords now is simple:
 #' tagged.noStopWords <- filterByClass(tagged.results, "stopword")
@@ -135,14 +145,26 @@
 setGeneric(
   "treetag",
   def=function(
-    file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
-    apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-    encoding=NULL, TT.options=NULL, debug=FALSE, TT.tknz=TRUE,
-    format="file", stopwords=NULL, stemmer=NULL, doc_id=NA,
-    add.desc="kRp.env", ...){
-      standardGeneric("treetag")
-    },
-  valueClass=c("kRp.taggedText","matrix")
+    file,
+    treetagger="kRp.env",
+    rm.sgml=TRUE,
+    lang="kRp.env",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    encoding=NULL,
+    TT.options=NULL,
+    debug=FALSE,
+    TT.tknz=TRUE,
+    format="file",
+    stopwords=NULL,
+    stemmer=NULL,
+    doc_id=NA,
+    add.desc="kRp.env",
+    ...
+  ){
+    standardGeneric("treetag")
+  },
+  valueClass=c("kRp.text","matrix")
 )
 
 #' @export
@@ -151,10 +173,23 @@ setGeneric(
 #' @aliases treetag,character-method
 setMethod("treetag",
   signature(file="character"),
-  function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
-    apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
-    encoding=NULL, TT.options=NULL, debug=FALSE, TT.tknz=TRUE,
-    format="file", stopwords=NULL, stemmer=NULL, doc_id=NA, add.desc="kRp.env"){
+  function(
+    file,
+    treetagger="kRp.env",
+    rm.sgml=TRUE,
+    lang="kRp.env",
+    apply.sentc.end=TRUE,
+    sentc.end=c(".","!","?",";",":"),
+    encoding=NULL,
+    TT.options=NULL,
+    debug=FALSE,
+    TT.tknz=TRUE,
+    format="file",
+    stopwords=NULL,
+    stemmer=NULL,
+    doc_id=NA,
+    add.desc="kRp.env"
+  ){
 
     # TreeTagger uses slightly different presets on windows and unix machines,
     # so we'll need to check the OS first
@@ -167,7 +202,7 @@ setMethod("treetag",
     # check on TT options
     if(identical(treetagger, "kRp.env")){
       treetagger <- get.kRp.env(TT.cmd=TRUE)
-      if(is.null(TT.options) & identical(treetagger, "manual")){
+      if(all(is.null(TT.options), identical(treetagger, "manual"))){
         TT.options <- get.kRp.env(TT.options=TRUE)
       } else {}
     } else {}
@@ -201,6 +236,10 @@ setMethod("treetag",
     }
     check.file(takeAsFile, mode="exist")
 
+    if(is.na(doc_id)){
+      doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(takeAsFile))
+    } else {}
+
     # TODO: move TT.options checks to internal function to call it here
     manual.config <- identical(treetagger, "manual")
     checkedOptions <- checkTTOptions(TT.options=TT.options, manual.config=manual.config, TT.tknz=TT.tknz)
@@ -215,8 +254,10 @@ setMethod("treetag",
       # basic options
       TT.opts <- checkedOptions[["TT.opts"]]
 
+      in.TT.options <- names(TT.options)
+
       have.preset <- use.splitter <- FALSE
-      if("preset" %in% names(TT.options)){
+      if(any(in.TT.options == "preset")){
         ## minimum requirements for new presets:
         #  TT.splitter        <- c() # done before tokenization
         #  TT.tokenizer       <- file.path(TT.cmd, "...")
@@ -248,39 +289,44 @@ setMethod("treetag",
         have.preset <- TRUE
       } else {}
 
-      if("tokenizer" %in% names(TT.options)){
+      if(any(in.TT.options == "tokenizer")){
         TT.tokenizer    <- check_toggle_utf8(file_utf8=TT.options[["tokenizer"]], dir=TT.cmd)
       } else {
         TT.tokenizer    <- check_toggle_utf8(file_utf8=TT.tokenizer)
       }
-      if("tagger" %in% names(TT.options)){
+      if(any(in.TT.options == "tagger")){
         TT.tagger      <- file.path(TT.bin, TT.options[["tagger"]])
       } else {}
       # check if path works
       check.file(TT.tagger, mode="exist")
-      if("pre.tagger" %in% names(TT.options)){
+      if(any(in.TT.options == "pre.tagger")){
         TT.pre.tagger  <- TT.options[["pre.tagger"]]
       } else {
         if(!isTRUE(have.preset)){
           TT.pre.tagger <- c()
         } else {}
       }
-      if("params" %in% names(TT.options)){
+      if(any(in.TT.options == "params")){
         TT.params      <- check_toggle_utf8(file_utf8=TT.options[["params"]], dir=TT.lib)
       } else {
         TT.params      <- check_toggle_utf8(file_utf8=TT.params)
+      }
+      if(any(in.TT.options == "lexicon")){
+        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.options[["lexicon"]], dir=TT.lib)
+      } else {
+        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.lexicon)
       }
 
       # check the input encoding
       input.enc <- ifelse(
         is.null(encoding),
           ifelse(
-            identical(treetagger, "manual") & ("preset" %in% names(TT.options)),
+            all(identical(treetagger, "manual"), any(in.TT.options == "preset")),
               preset.definition[["encoding"]],
               ""),
           encoding)
 
-      if("tknz.opts" %in% names(TT.options)){
+      if(any(in.TT.options == "tknz.opts")){
         TT.tknz.opts    <- TT.options[["tknz.opts"]]
       } else {
         if(!isTRUE(have.preset)){
@@ -288,14 +334,14 @@ setMethod("treetag",
         } else {}
       }
 
-      if("splitter" %in% names(TT.options)){
+      if(any(in.TT.options == "splitter")){
         TT.splitter     <- TT.options[["splitter"]]
       } else {
         if(!isTRUE(have.preset)){
           TT.splitter   <- c()
         } else {}
       }
-      if("splitter.opts" %in% names(TT.options)){
+      if(any(in.TT.options == "splitter.opts")){
         TT.splitter.opts <- TT.options[["splitter.opts"]]
       } else {
         if(!isTRUE(have.preset)){
@@ -308,13 +354,13 @@ setMethod("treetag",
         use.splitter <- TRUE
       }
 
-      if("abbrev" %in% names(TT.options)){
+      if(any(in.TT.options == "abbrev")){
         TT.abbrev      <- check_toggle_utf8(file_utf8=TT.options[["abbrev"]], dir=TT.lib)
         TT.tknz.opts   <- paste(TT.tknz.opts, "-a", TT.abbrev)
       } else {
-        if(isTRUE(have.preset) & !identical(TT.abbrev, c())){
-          TT.tknz.opts <- paste(TT.tknz.opts, "-a", TT.abbrev)
+        if(all(isTRUE(have.preset), !identical(TT.abbrev, c()))){
           TT.abbrev    <- check_toggle_utf8(file_utf8=TT.abbrev)
+          TT.tknz.opts <- paste(TT.tknz.opts, "-a", TT.abbrev)
         } else {
           TT.abbrev    <- eval(formals(tokenize)[["abbrev"]])
         }
@@ -329,14 +375,14 @@ setMethod("treetag",
         tokenize.options <- c("split", "ign.comp", "heuristics", "heur.fix",
           "sentc.end", "detect", "clean.raw", "perl", "stopwords", "stemmer")
         for (this.opt in tokenize.options){
-          if(!this.opt %in% given.tknz.options) {
+          if(!any(given.tknz.options == this.opt)) {
             TT.tknz.opts[[this.opt]] <- eval(formals(tokenize)[[this.opt]])
             if(isTRUE(debug)){
               message(paste0("        ", this.opt, "=", paste0(TT.tknz.opts[[this.opt]], collapse=", ")))
             } else {}
           } else {}
         }
-        if(!"abbrev" %in% given.tknz.options) {
+        if(!any(given.tknz.options == "abbrev")){
           TT.tknz.opts[["abbrev"]] <- TT.abbrev
         } else {}
 
@@ -365,14 +411,14 @@ setMethod("treetag",
         # TreeTagger can produce mixed encoded results if fed with UTF-8 in Latin1 mode
         tknz.results <- iconv(tknz.results, from="UTF-8", to=input.enc)
         on.exit(message(paste0("Assuming '", input.enc, "' as encoding for the input file. If the results turn out to be erroneous, check the file for invalid characters, e.g. em.dashes or fancy quotes, and/or consider setting 'encoding' manually.")))
-        cat(paste(tknz.results, collapse="\n"), "\n", file=tknz.tempfile)
+        cat(paste(tknz.results, collapse="\n"), "\n", file=tknz.tempfile, sep="")
         if(!isTRUE(debug)){
           on.exit(unlink(tknz.tempfile), add=TRUE)
         } else {}
       } else {}
 
-      if("lexicon" %in% names(TT.options)){
-        if(!isTRUE(have.preset) & !"lookup" %in% names(TT.options)){
+      if(any(in.TT.options == "lexicon")){
+        if(all(!isTRUE(have.preset), !any(in.TT.options == "lookup"))){
           TT.lookup.command  <- c()
           warning("Manual TreeTagger configuration: Defined a \"lexicon\" without a \"lookup\" command, hence omitted!")
         } else {
@@ -404,7 +450,7 @@ setMethod("treetag",
         }
       }
 
-      if("filter" %in% names(TT.options)){
+      if(any(in.TT.options == "filter")){
         TT.filter      <- file.path(TT.cmd, TT.options[["filter"]])
         TT.filter.command  <- paste("|", TT.filter)
       } else {
@@ -485,7 +531,7 @@ setMethod("treetag",
     if(isTRUE(unix.OS)){
       tagged.text <- system(sys.tt.call, ignore.stderr=TRUE, intern=TRUE)
     } else {
-      tagged.text <- shell(sys.tt.call, translate=TRUE, ignore.stderr=TRUE, intern=TRUE)
+      tagged.text <- shell(sys.tt.call, translate=FALSE, ignore.stderr=TRUE, intern=TRUE)
     }
     # TreeTagger should return UTF-8; explicitly declare it so there's no doubt about it
     Encoding(tagged.text) <- "UTF-8"
@@ -540,7 +586,7 @@ setMethod("treetag",
     # add columns "idx", "sntc" and "doc_id"
     tagged.mtrx <- indexSentenceDoc(tagged.mtrx, lang=lang, doc_id=doc_id)
 
-    results <- kRp_tagged(lang=lang, TT.res=tagged.mtrx)
+    results <- kRp_text(lang=lang, tokens=tagged.mtrx)
     ## descriptive statistics
     if(is.null(encoding)){
       encoding <- ""
@@ -548,7 +594,7 @@ setMethod("treetag",
     txt.vector <- readLines(takeAsFile, encoding=encoding, warn=FALSE)
     # force text into UTF-8 format
     txt.vector <- enc2utf8(txt.vector)
-    describe(results) <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
+    describe(results)[[doc_id]] <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
 
     return(results)
   }

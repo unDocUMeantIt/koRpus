@@ -4,8 +4,13 @@
 \alias{read.corp.celex}
 \title{Import Celex data}
 \usage{
-read.corp.celex(celex.path, running.words, fileEncoding = "ISO_8859-1",
-  n = -1, caseSens = TRUE)
+read.corp.celex(
+  celex.path,
+  running.words,
+  fileEncoding = "ISO_8859-1",
+  n = -1,
+  caseSens = TRUE
+)
 }
 \arguments{
 \item{celex.path}{A character string, path to a frequency file in Celex format to read.}

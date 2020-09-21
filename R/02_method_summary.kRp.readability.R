@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -25,7 +25,7 @@
 #' \dontrun{
 #' summary(flesch(tagged.txt))
 #' }
-#' @include 01_class_10_kRp.readability.R
+#' @include 01_class_05_kRp.readability.R
 #' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.readability"), function(object, flat=FALSE){
 
@@ -81,14 +81,27 @@ setMethod("summary", signature(object="kRp.readability"), function(object, flat=
   summary.flat <- c()
 
   if(sum(!is.na(slot(object, "ARI"))) > 1){
-    if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, ARI=slot(object, "ARI")[["grade"]])
+    if("simplified" %in% slot(object, "ARI")[["flavour"]]){
+      ARI.value <- "index"
     } else {
-      summary.table <- add.to.sumtab(summary.table, adds=list(
-          index="ARI",
-          flavour=slot(object, "ARI")[["flavour"]],
-          grade=slot(object, "ARI")[["grade"]]
-        ))
+      ARI.value <- "grade"
+    }
+    if(isTRUE(flat)){
+      summary.flat <- c(summary.flat, ARI=slot(object, "ARI")[[ARI.value]])
+    } else {
+      if(identical(ARI.value, "index")){
+        summary.table <- add.to.sumtab(summary.table, adds=list(
+            index="ARI",
+            flavour=slot(object, "ARI")[["flavour"]],
+            raw=slot(object, "ARI")[[ARI.value]]
+          ))
+      } else {
+        summary.table <- add.to.sumtab(summary.table, adds=list(
+            index="ARI",
+            flavour=slot(object, "ARI")[["flavour"]],
+            grade=slot(object, "ARI")[[ARI.value]]
+          ))
+      }
     }
   } else {}
   if(sum(!is.na(slot(object, "ARI.NRI"))) > 1){

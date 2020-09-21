@@ -20,7 +20,7 @@
 #'
 #' This method strips off defined word classes of tagged text objects.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param corp.rm.class A character vector with word classes which should be removed. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
 #'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
@@ -48,20 +48,20 @@ setGeneric("filterByClass", function(txt, ...){standardGeneric("filterByClass")}
 #' @export
 #' @docType methods
 #' @rdname filterByClass-methods
-#' @aliases filterByClass,kRp.taggedText-method
-#' @include 01_class_80_kRp.taggedText_union.R
+#' @aliases filterByClass,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 setMethod("filterByClass",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(txt="kRp.taggedText"),
+  signature(txt="kRp.text"),
   function(txt, corp.rm.class="nonpunct", corp.rm.tag=c(), as.vector=FALSE, update.desc=TRUE){
-    txt.TT.res <- taggedText(txt)
+    txt.tokens <- taggedText(txt)
     txt.desc <- describe(txt)
+    txt.id <- doc_id(txt)
 
     # set the language definition
     lang <- language.setting(txt, NULL)
 
-    pre.results <- tagged.txt.rm.classes(txt.TT.res, lemma=FALSE, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, as.vector=as.vector)
+    pre.results <- tagged.txt.rm.classes(txt.tokens, lemma=FALSE, lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, as.vector=as.vector)
 
     if(isTRUE(as.vector)){
       results <- pre.results
@@ -71,9 +71,9 @@ setMethod("filterByClass",
       taggedText(results) <- pre.results
       if(!is.null(update.desc)){
         if(isTRUE(update.desc)){
-          describe(results) <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=txt.desc[["doc_id"]])
+          describe(results, doc_id=txt.id) <- basic.tagged.descriptives(txt=results, txt.vector=pre.results[["token"]], doc_id=txt.id)
         } else {
-          describe(results) <- txt.desc
+          describe(results, doc_id=txt.id) <- txt.desc
         }
       } else {}
     }

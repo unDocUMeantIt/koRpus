@@ -20,11 +20,9 @@
 #'
 #' Paste the text in koRpus objects.
 #'
-#' This function takes objects of either class \code{kRp.tagged}, \code{kRp.txt.freq} or \code{kRp.analysis} and pastes only
-#' the actual text as is.
+#' This function takes objects of class \code{kRp.text} and pastes only the actual text as is.
 #'
-#' @param txt An object of class \code{\link[koRpus:kRp.txt.trans-class]{kRp.txt.trans}}, \code{\link[koRpus:kRp.tagged-class]{kRp.tagged}},
-#'    \code{\link[koRpus:kRp.txt.freq-class]{kRp.txt.freq}} or \code{\link[koRpus:kRp.analysis-class]{kRp.analysis}}.
+#' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param replace A named character vector to define replacements for \code{koRpus}' internal headline and paragraph tags.
 #' @param ... Additional options, currently unused.
 #' @return An atomic character vector.
@@ -35,7 +33,7 @@
 #' @rdname pasteText-methods
 #' @examples
 #' \dontrun{
-#'   tagged.text.obj <- freq.analysis("/some/text.txt", corp.freq=my.LCC.data)
+#'   tagged.text.obj <- freq.analysis(tagged.text.obj, corp.freq=my.LCC.data, as.feature=TRUE)
 #'   pasteText(tagged.text.obj)
 #' }
 setGeneric("pasteText", function(txt, ...){standardGeneric("pasteText")})
@@ -44,28 +42,27 @@ setGeneric("pasteText", function(txt, ...){standardGeneric("pasteText")})
 #' @export
 #' @docType methods
 #' @rdname pasteText-methods
-#' @aliases pasteText,kRp.taggedText-method
-#' @include 01_class_80_kRp.taggedText_union.R
+#' @aliases pasteText,kRp.text-method
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
 setMethod("pasteText",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(txt="kRp.taggedText"),
+  signature(txt="kRp.text"),
   function(txt, replace=c(hon.kRp="", hoff.kRp="\n\n", p.kRp="\n\n")){
-    TT.res <- taggedText(txt)
+    tokens <- taggedText(txt)
 
     # we probably need to replace tags
     if("hon.kRp" %in% names(replace)){
-      TT.res[TT.res[["tag"]] == "hon.kRp", "token"] <- replace["hon.kRp"]
+      tokens[tokens[["tag"]] == "hon.kRp", "token"] <- replace["hon.kRp"]
     } else {}
     if("hoff.kRp" %in% names(replace)){
-      TT.res[TT.res[["tag"]] == "hoff.kRp", "token"] <- replace["hoff.kRp"]
+      tokens[tokens[["tag"]] == "hoff.kRp", "token"] <- replace["hoff.kRp"]
     } else {}
     if("p.kRp" %in% names(replace)){
-      TT.res[TT.res[["tag"]] == "p.kRp", "token"] <- replace["p.kRp"]
+      tokens[tokens[["tag"]] == "p.kRp", "token"] <- replace["p.kRp"]
     } else {}
 
     # put all text together
-    results <- paste.tokenized.text(txt=TT.res[["token"]])
+    results <- paste.tokenized.text(txt=tokens[["token"]])
 
     return(results)
   }

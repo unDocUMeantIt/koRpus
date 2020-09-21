@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -24,15 +24,20 @@
 #' \dontrun{
 #' flesch(tagged.txt)
 #' }
-#' @include 01_class_10_kRp.readability.R
+#' @include 01_class_05_kRp.readability.R
 #' @include 02_method_show.kRp.lang.R
 setMethod("show", signature(object="kRp.readability"), function(object){
 
   if(sum(!is.na(slot(object, "ARI"))) == 0){
     show.ARI <- FALSE
   } else {
+    if("simplified" %in% slot(object, "ARI")[["flavour"]]){
+      ARI.value <- "index"
+    } else {
+      ARI.value <- "grade"
+    }
     prt.ARI.flavour <- slot(object, "ARI")[["flavour"]]
-    prt.ARI <- round(slot(object, "ARI")[["grade"]], digits=2)
+    prt.ARI <- round(slot(object, "ARI")[[ARI.value]], digits=2)
     show.ARI <- TRUE
   }
   if(sum(!is.na(slot(object, "ARI.NRI"))) == 0){
@@ -465,7 +470,11 @@ setMethod("show", signature(object="kRp.readability"), function(object){
   if(show.ARI){
     cat("\nAutomated Readability Index (ARI)\n")
     cat("  Parameters:", prt.ARI.flavour, "\n")
-    cat("       Grade:", prt.ARI, "\n\n")
+    if(identical(ARI.value, "index")){
+      cat("       Index:", prt.ARI, "\n\n")
+    } else {
+      cat("       Grade:", prt.ARI, "\n\n")
+    }
   } else {}
   if(show.ARI.NRI){
     cat("\nAutomated Readability Index (ARI)\n")
