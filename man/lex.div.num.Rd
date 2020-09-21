@@ -4,8 +4,13 @@
 \alias{lex.div.num}
 \title{Calculate lexical diversity}
 \usage{
-lex.div.num(num.tokens, num.types, measure = c("TTR", "C", "R", "CTTR", "U",
-  "S", "Maas"), log.base = 10, quiet = FALSE)
+lex.div.num(
+  num.tokens,
+  num.types,
+  measure = c("TTR", "C", "R", "CTTR", "U", "S", "Maas"),
+  log.base = 10,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{num.tokens}{Numeric, the number of tokens.}
@@ -20,7 +25,7 @@ lex.div.num(num.tokens, num.types, measure = c("TTR", "C", "R", "CTTR", "U",
 \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 }
 \description{
 This function is a stripped down version of \code{\link[koRpus:lex.div]{lex.div}}. It does not analyze text,

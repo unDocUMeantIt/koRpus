@@ -24,10 +24,13 @@
 #' @param running.words An integer value, number of running words in the Celex data corpus to be read.
 #' @param fileEncoding A character string naming the encoding of the Celex files.
 #' @param n An integer value defining how many lines of data should be read if \code{format="flatfile"}. Reads all at -1.
-#' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @param caseSens Logical, if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
+#'    Otherwise, if the imported database supports it, you will get different frequencies for the same tokens in different
+#'    cases (e.\,g., "one" and "One").
+#' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
-#' @seealso \code{\link[koRpus]{kRp.corp.freq-class}}
+#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 #' @references [1] \url{http://celex.mpi.nl}
 #' @export
 #' @examples
@@ -36,7 +39,7 @@
 #' freq.analysis("/some/text.txt", corp.freq=my.Celex.data)
 #' }
 
-read.corp.celex <- function(celex.path, running.words, fileEncoding="ISO_8859-1", n=-1){
+read.corp.celex <- function(celex.path, running.words, fileEncoding="ISO_8859-1", n=-1, caseSens=TRUE){
 
   # basic checks before we even proceed...
   # valid file?
@@ -65,13 +68,17 @@ read.corp.celex <- function(celex.path, running.words, fileEncoding="ISO_8859-1"
     words.p.sntc=avg.sntclgth.words,
     chars.p.sntc=avg.sntclgth.chars,
     chars.p.wform=avg.wrdlgth.form,
-    chars.p.word=avg.wrdlgth.running)
+    chars.p.word=avg.wrdlgth.running
+  )
 
   # call internal function create.corp.freq.object()
-  results <- create.corp.freq.object(matrix.freq=table.words,
-            num.running.words=num.running.words,
-            df.meta=data.frame(meta=NA,value=NA),
-            df.dscrpt.meta=dscrpt.meta)
+  results <- create.corp.freq.object(
+    matrix.freq=table.words,
+    num.running.words=num.running.words,
+    df.meta=data.frame(meta=NA,value=NA),
+    df.dscrpt.meta=dscrpt.meta,
+    caseSens=caseSens
+  )
 
   return(results)
 }

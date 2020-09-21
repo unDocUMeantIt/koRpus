@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="m.eik michalke" />
+
+<meta name="date" content="2020-09-21" />
+
+<title>Using the koRpus Package for Text Analysis</title>
+
+<meta name="flattr:id" content="4zdzgd" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+<style type="text/css">
+  p.abstract{
+    text-align: center;
+    font-weight: bold;
+  }
+  div.abstract{
+    margin: auto;
+    width: 90%;
+  }
+</style>
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using the koRpus Package for Text Analysis</h1>
+<h4 class="author">m.eik michalke</h4>
+<h4 class="date">2020-09-21</h4>
+<div class="abstract">
+<p class="abstract">Abstract</p>
+The R package <code>koRpus</code> aims to be a versatile tool for text analysis, with an emphasis on scientific research on that topic. It implements dozens of formulae to measure readability and lexical diversity. On a more basic level <code>koRpus</code> can be used as an R wrapper for third party products, like the tokenizer and POS tagger TreeTagger or language corpora of the Leipzig Corpora Collection. This vignette takes a brief tour around its core components, shows how they can be used and gives some insight on design decisions.
+</div>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#what-is-korpus">What is koRpus?</a></li>
+<li><a href="#recommendations">Recommendations</a><ul>
+<li><a href="#treetagger">TreeTagger</a></li>
+<li><a href="#word-lists">Word lists</a></li>
+<li><a href="#language-corpora">Language corpora</a></li>
+<li><a href="#translated-human-rights-declaration">Translated Human Rights Declaration</a></li>
+</ul></li>
+<li><a href="#a-sample-session">A sample session</a><ul>
+<li><a href="#loading-a-language-package">Loading a language package</a></li>
+<li><a href="#tokenizing-and-pos-tagging">Tokenizing and POS tagging</a><ul>
+<li><a href="#treetag"><code>treetag()</code></a></li>
+<li><a href="#alternative-tokenize">Alternative: <code>tokenize()</code></a></li>
+<li><a href="#accessing-data-from-korpus-objects">Accessing data from <code>koRpus</code> objects</a></li>
+<li><a href="#descriptive-statistics">Descriptive statistics</a></li>
+</ul></li>
+<li><a href="#lexical-diversity-type-token-ratios">Lexical diversity (type token ratios)</a></li>
+<li><a href="#frequency-analysis">Frequency analysis</a><ul>
+<li><a href="#importing-language-corpora-data">Importing language corpora data</a></li>
+<li><a href="#conduct-a-frequency-analysis">Conduct a frequency analysis</a></li>
+<li><a href="#new-to-the-desc-slot">New to the <code>desc</code> slot</a></li>
+</ul></li>
+<li><a href="#readability">Readability</a><ul>
+<li><a href="#readability-from-numeric-data">Readability from numeric data</a></li>
+</ul></li>
+<li><a href="#language-detection">Language detection</a></li>
+</ul></li>
+<li><a href="#extending-korpus">Extending <code>koRpus</code></a></li>
+<li><a href="#analyzing-full-corpora">Analyzing full corpora</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<div id="what-is-korpus" class="section level1">
+<h1>What is koRpus?</h1>
+<p>Work on <code>koRpus</code> started in February 2011, primarily with the goal in mind to examine how similar different texts are. Since then, it quickly grew into an R package which implements dozens of formulae for readability and lexical diversity, and wrappers for language corpus databases and a tokenizer/POS tagger.</p>
+</div>
+<div id="recommendations" class="section level1">
+<h1>Recommendations</h1>
+<div id="treetagger" class="section level2">
+<h2>TreeTagger</h2>
+<p>At the very beginning of almost every analysis with this package, the text you want to examine has to be sliced into its components, and the components must be identified and named. That is, it has to be split into its semantic parts (tokens), words, numbers, punctuation marks. After that, each token will be tagged regarding its part-of-speech (POS). For both of these steps, <code>koRpus</code> can use the third party software <a href="https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/">TreeTagger</a> <span class="citation">(Schmid, 1994)</span>.</p>
+<p>Especially for Windows users installation of TreeTagger might be a little more complex – e.g., it depends on Perl<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, and you need a tool to extract .tar.gz archives.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Detailed installations instructions are beyond the scope of this vignette.</p>
+<p>If you don’t want to use TreeTagger, <code>koRpus</code> provides a simple tokenizer of its own called <code>tokenize()</code>. While the tokenizing itself works quite well, <code>tokenize()</code> is not as elaborate as is TreeTagger when it comes to POS tagging, as it can merely tell words from numbers, punctuation and abbreviations. Although this is sufficient for most readability formulae, you can’t evaluate word classes in detail. If that’s what you want, a TreeTagger installation is needed.</p>
+</div>
+<div id="word-lists" class="section level2">
+<h2>Word lists</h2>
+<p>Some of the readability formulae depend on special word lists <span class="citation">(like Bormuth, 1968; Dale &amp; Chall, 1948; Spache, 1953)</span>. For copyright reasons these lists are not included as of now. This means, as long as you don’t have copies of these lists, you can’t calculate these particular measures, but of course all others. The expected format to use a list with this package is a simple text file with one word per line, preferably in UTF-8 encoding.</p>
+</div>
+<div id="language-corpora" class="section level2">
+<h2>Language corpora</h2>
+<p>The frequency analysis functions in this package can look up how often each word in a text is used in its language, given that a corpus database is provided. Databases in Celex format are support, as is the Leipzig Corpora Collection <span class="citation">(Quasthoff, Richter, &amp; Biemann, 2006)</span> file format. To use such a database with this package, you simply need to download one of the .zip/.tar files.</p>
+</div>
+<div id="translated-human-rights-declaration" class="section level2">
+<h2>Translated Human Rights Declaration</h2>
+<p>If you want to estimate the language of a text, reference texts in known languages are needed. In <code>koRpus</code>, the <a href="https://www.unicode.org/udhr/downloads.html">Universal Declaration of Human Rights with its more than 350 translations</a> is used.</p>
+</div>
+</div>
+<div id="a-sample-session" class="section level1">
+<h1>A sample session</h1>
+<p>From now on it is assumed that the above requirements are correctly installed and working. If an optional component is used it will be noted. Further, we’ll need a sample text to analyze. We’ll use the section on <a href="https://en.wikipedia.org/wiki/Phasmatodea#Defense_mechanisms">defense mechanisms of Phasmatodea</a> from Wikipedia for this purpose.</p>
+<div id="loading-a-language-package" class="section level2">
+<h2>Loading a language package</h2>
+<p>In order to do some analysis, you need to load a language support package for each language you would like to work with. For instance, in this vignette we’re analyzing an English sample text. Language support packages for <code>koRpus</code> are named <code>koRpus.lang.**</code>, where <code>**</code> is a two-character ID for the respective language, like <code>en</code> for English.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install the language support package</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">install.koRpus.lang</span>(<span class="st">&quot;en&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co"># load the package</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(koRpus.lang.en)</a></code></pre></div>
+<p>When <code>koRpus</code> itself is loaded, it will list you all language packages found on your system. To get a list of all installable packages, call <code>available.koRpus.lang()</code>.</p>
+</div>
+<div id="tokenizing-and-pos-tagging" class="section level2">
+<h2>Tokenizing and POS tagging</h2>
+<p>As explained earlier, splitting the text up into its basic components can be done by TreeTagger. To achieve this and have the results available in R, the function <code>treetag()</code> is used.</p>
+<div id="treetag" class="section level3">
+<h3><code>treetag()</code></h3>
+<p>At the very least you must provide it with the text, of course, and name the language it is written in. In addition to that you must specify where you installed TreeTagger. If you look at the package documentation you’ll see that <code>treetag()</code> understands a number of options to configure TreeTagger, but in most cases using one of the built-in presets should suffice. TreeTagger comes with batch/shell scripts for installed languages, and the presets of <code>treetag()</code> are basically just R implementations of these scripts.</p>
+<!--
+  we can't evaluate this code if the package should go to CRAN
+  because TreeTagger will not be present.
+-->
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">tagged.text &lt;-<span class="st"> </span><span class="kw">treetag</span>(</a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="st">&quot;sample_text.txt&quot;</span>,</a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="dt">treetagger=</span><span class="st">&quot;manual&quot;</span>,</a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="dt">lang=</span><span class="st">&quot;en&quot;</span>,</a>
+<a class="sourceLine" id="cb2-5" title="5">  <span class="dt">TT.options=</span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb2-6" title="6">    <span class="dt">path=</span><span class="st">&quot;~/bin/treetagger/&quot;</span>,</a>
+<a class="sourceLine" id="cb2-7" title="7">    <span class="dt">preset=</span><span class="st">&quot;en&quot;</span></a>
+<a class="sourceLine" id="cb2-8" title="8">  ),</a>
+<a class="sourceLine" id="cb2-9" title="9">  <span class="dt">doc_id=</span><span class="st">&quot;sample&quot;</span></a>
+<a class="sourceLine" id="cb2-10" title="10">)</a></code></pre></div>
+<!--
+  we work around that issue by silently loading the tagged text from a dput file
+-->
+<p>The first argument (file name) and <code>lang</code> should explain themselves. The <code>treetagger</code> option can either take the full path to one of the original TreeTagger scripts mentioned above, or the keyword “manual”, which will cause the interpretation of what is defined by <code>TT.options</code>. To use a preset, just put the <code>path</code> to your local TreeTagger installation and a valid <code>preset</code> name here.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> The document ID is optional and can be omitted.</p>
+<p>The resulting S4 object is of a class called <code>kRp.text</code>. If you call the object directly you get a shortened view of it’s main content:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">tagged.text</a></code></pre></div>
+<pre><code>##     doc_id       token  tag     lemma lttr      wclass desc stop stem idx sntc
+## 1   sample     Defense   NN   defense    7        noun &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   1    1
+## 2   sample  mechanisms  NNS mechanism   10        noun &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   2    1
+## 3   sample Phasmatodea   NP &lt;unknown&gt;   11        name &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   3    1
+## 4   sample     species   NN   species    7        noun &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   4    1
+## 5   sample     exhibit   NN   exhibit    7        noun &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   5    1
+## 6   sample  mechanisms  NNS mechanism   10        noun &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   6    1
+##                                                  [...]                        
+## 612 sample  considered  VBN  consider   10        verb &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 612   18
+## 613 sample    inedible   JJ  inedible    8   adjective &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 613   18
+## 614 sample          by   IN        by    2 preposition &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 614   18
+## 615 sample        some   DT      some    4  determiner &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 615   18
+## 616 sample   predators  NNS  predator    9        noun &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 616   18
+## 617 sample           . SENT         .    1    fullstop &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 617   18</code></pre>
+<p>Once you’ve come this far, i.e., having a valid object of class <code>kRp.text</code>, all following analyses should run smoothly.</p>
+<div id="troubleshooting" class="section level4">
+<h4>Troubleshooting</h4>
+<p>If <code>treetag()</code> should fail, you should first re-run it with the extra option <code>debug=TRUE</code>. Most interestingly, that will print the contents of <code>sys.tt.call</code>, which is the TreeTagger command given to your operating system for execution. With that it should be possible to examine where exactly the erroneous behavior starts.</p>
+</div>
+</div>
+<div id="alternative-tokenize" class="section level3">
+<h3>Alternative: <code>tokenize()</code></h3>
+<p>If you don’t need detailed word class analysis, you should be fine using <code>koRpus</code>’ own function <code>tokenize()</code>. As you can see, <code>tokenize()</code> comes to the same results regarding the tokens, but is rather limited in recognizing word classes:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">(tokenized.text &lt;-<span class="st"> </span><span class="kw">tokenize</span>(</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="st">&quot;sample_text.txt&quot;</span>,</a>
+<a class="sourceLine" id="cb5-3" title="3">    <span class="dt">lang=</span><span class="st">&quot;en&quot;</span>,</a>
+<a class="sourceLine" id="cb5-4" title="4">    <span class="dt">doc_id=</span><span class="st">&quot;sample&quot;</span></a>
+<a class="sourceLine" id="cb5-5" title="5">))</a></code></pre></div>
+<pre><code>##     doc_id       token      tag lemma lttr   wclass desc stop stem idx sntc
+## 1   sample     Defense word.kRp          7     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   1    1
+## 2   sample  mechanisms word.kRp         10     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   2    1
+## 3   sample Phasmatodea word.kRp         11     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   3    1
+## 4   sample     species word.kRp          7     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   4    1
+## 5   sample     exhibit word.kRp          7     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   5    1
+## 6   sample  mechanisms word.kRp         10     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;   6    1
+##                                               [...]                        
+## 620 sample  considered word.kRp         10     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 620   20
+## 621 sample    inedible word.kRp          8     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 621   20
+## 622 sample          by word.kRp          2     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 622   20
+## 623 sample        some word.kRp          4     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 623   20
+## 624 sample   predators word.kRp          9     word &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 624   20
+## 625 sample           .     .kRp          1 fullstop &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; 625   20</code></pre>
+</div>
+<div id="accessing-data-from-korpus-objects" class="section level3">
+<h3>Accessing data from <code>koRpus</code> objects</h3>
+<p>For this class of objects, <code>koRpus</code> provides some comfortable methods to extract the portions you’re interested in. For example, the main results are to be found in the slot <code>tokens</code>. In addition to TreeTagger’s original output (token, tag and lemma) <code>treetag()</code> also automatically counts letters and assigns tokens to global word classes. To get these results as a data.frame, use the getter method <code>taggedText()</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">taggedText</span>(tagged.text)[<span class="dv">26</span><span class="op">:</span><span class="dv">34</span>,]</a></code></pre></div>
+<pre><code>##    doc_id     token tag    lemma lttr      wclass desc stop stem idx sntc
+## 26 sample       and  CC      and    3 conjunction   NA   NA   NA  26    1
+## 27 sample       are VBP       be    3        verb   NA   NA   NA  27    1
+## 28 sample  deployed VBN   deploy    8        verb   NA   NA   NA  28    1
+## 29 sample     after  IN    after    5 preposition   NA   NA   NA  29    1
+## 30 sample        an  DT       an    2  determiner   NA   NA   NA  30    1
+## 31 sample    attack  NN   attack    6        noun   NA   NA   NA  31    1
+## 32 sample       has VBZ     have    3        verb   NA   NA   NA  32    1
+## 33 sample      been VBN       be    4        verb   NA   NA   NA  33    1
+## 34 sample initiated VBN initiate    9        verb   NA   NA   NA  34    1</code></pre>
+<p>In case you want to access a subset of the data in the resulting object, e.g., only the column with number of letters or the first five rows of <code>tokens</code>, you’ll be happy to know there’s special <code>[</code> and <code>[[</code> methods for these kinds of objects:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">head</span>(tagged.text[[<span class="st">&quot;lttr&quot;</span>]], <span class="dt">n=</span><span class="dv">50</span>)</a></code></pre></div>
+<pre><code>##  [1]  7 10 11  7  7 10  3  7  4  9  4  4  7  2  6  4  9  2  3  5  5  1  7  7  1  3  3
+## [28]  8  5  2  6  3  4  9  1  9  8  1  3  7  9  4  7 12  4 11  2 10  1  4</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">tagged.text[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]</a></code></pre></div>
+<pre><code>##   doc_id       token tag     lemma lttr wclass desc stop stem idx sntc
+## 1 sample     Defense  NN   defense    7   noun   NA   NA   NA   1    1
+## 2 sample  mechanisms NNS mechanism   10   noun   NA   NA   NA   2    1
+## 3 sample Phasmatodea  NP &lt;unknown&gt;   11   name   NA   NA   NA   3    1
+## 4 sample     species  NN   species    7   noun   NA   NA   NA   4    1
+## 5 sample     exhibit  NN   exhibit    7   noun   NA   NA   NA   5    1</code></pre>
+<p>The <code>[</code> and <code>[[</code> methods are basically a useful shortcut replacements for <code>taggedText()</code>.</p>
+</div>
+<div id="descriptive-statistics" class="section level3">
+<h3>Descriptive statistics</h3>
+<p>All results of both <code>treetag()</code> and <code>tokenize()</code> also provide various descriptive statistics calculated from the analyzed text. You can get them by calling <code>describe()</code> on the object:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">describe</span>(tagged.text)</a></code></pre></div>
+<pre><code>## $all.chars
+## [1] 3554
+## 
+## $lines
+## [1] 10
+## 
+## $normalized.space
+## [1] 3549
+## 
+## $chars.no.space
+## [1] 2996
+## 
+## $punct
+## [1] 78
+## 
+## $digits
+## [1] 4
+## 
+## $letters
+##  all   l1   l2   l3   l4   l5   l6   l7   l8   l9  l10  l11  l12  l13  l14  l15  l16 
+## 2918   19   92   74   80   51   49   65   43   35   22   15    6    3    0    1    1 
+## 
+## $letters.only
+## [1] 2914
+## 
+## $char.distrib
+##                 1         2         3         4          5          6         7
+## num      80.00000  92.00000  74.00000  80.00000  51.000000  49.000000  65.00000
+## cum.sum  80.00000 172.00000 246.00000 326.00000 377.000000 426.000000 491.00000
+## cum.inv 537.00000 445.00000 371.00000 291.00000 240.000000 191.000000 126.00000
+## pct      12.96596  14.91086  11.99352  12.96596   8.265802   7.941653  10.53485
+## cum.pct  12.96596  27.87682  39.87034  52.83630  61.102107  69.043760  79.57861
+## pct.inv  87.03404  72.12318  60.12966  47.16370  38.897893  30.956240  20.42139
+##                  8          9         10         11          12          13
+## num      43.000000  35.000000  22.000000  15.000000   6.0000000   3.0000000
+## cum.sum 534.000000 569.000000 591.000000 606.000000 612.0000000 615.0000000
+## cum.inv  83.000000  48.000000  26.000000  11.000000   5.0000000   2.0000000
+## pct       6.969206   5.672609   3.565640   2.431118   0.9724473   0.4862237
+## cum.pct  86.547812  92.220421  95.786062  98.217180  99.1896272  99.6758509
+## pct.inv  13.452188   7.779579   4.213938   1.782820   0.8103728   0.3241491
+##                  14          15          16
+## num       0.0000000   1.0000000   1.0000000
+## cum.sum 615.0000000 616.0000000 617.0000000
+## cum.inv   2.0000000   1.0000000   0.0000000
+## pct       0.0000000   0.1620746   0.1620746
+## cum.pct  99.6758509  99.8379254 100.0000000
+## pct.inv   0.3241491   0.1620746   0.0000000
+## 
+## $lttr.distrib
+##                  1         2         3         4          5         6         7
+## num      19.000000  92.00000  74.00000  80.00000  51.000000  49.00000  65.00000
+## cum.sum  19.000000 111.00000 185.00000 265.00000 316.000000 365.00000 430.00000
+## cum.inv 537.000000 445.00000 371.00000 291.00000 240.000000 191.00000 126.00000
+## pct       3.417266  16.54676  13.30935  14.38849   9.172662   8.81295  11.69065
+## cum.pct   3.417266  19.96403  33.27338  47.66187  56.834532  65.64748  77.33813
+## pct.inv  96.582734  80.03597  66.72662  52.33813  43.165468  34.35252  22.66187
+##                  8          9         10         11          12          13
+## num      43.000000  35.000000  22.000000  15.000000   6.0000000   3.0000000
+## cum.sum 473.000000 508.000000 530.000000 545.000000 551.0000000 554.0000000
+## cum.inv  83.000000  48.000000  26.000000  11.000000   5.0000000   2.0000000
+## pct       7.733813   6.294964   3.956835   2.697842   1.0791367   0.5395683
+## cum.pct  85.071942  91.366906  95.323741  98.021583  99.1007194  99.6402878
+## pct.inv  14.928058   8.633094   4.676259   1.978417   0.8992806   0.3597122
+##                  14          15          16
+## num       0.0000000   1.0000000   1.0000000
+## cum.sum 554.0000000 555.0000000 556.0000000
+## cum.inv   2.0000000   1.0000000   0.0000000
+## pct       0.0000000   0.1798561   0.1798561
+## cum.pct  99.6402878  99.8201439 100.0000000
+## pct.inv   0.3597122   0.1798561   0.0000000
+## 
+## $words
+## [1] 556
+## 
+## $sentences
+## [1] 18
+## 
+## $avg.sentc.length
+## [1] 30.88889
+## 
+## $avg.word.length
+## [1] 5.248201
+## 
+## $doc_id
+## [1] &quot;sample&quot;</code></pre>
+<p>Amongst others, you will find several indices describing the number of characters:</p>
+<ul>
+<li><code>all.chars</code>: Counts each character, including all space characters</li>
+<li><code>normalized.space</code>: Like <code>all.chars</code>, but clusters of space characters (incl. line breaks) are counted only as one character</li>
+<li><code>chars.no.space</code>: Counts all characters except any space characters</li>
+<li><code>letters.only</code>: Counts only letters, excluding(!) digits (which are counted seperately as <code>digits</code>)</li>
+</ul>
+<p>You’ll also find the number of <code>words</code> and <code>sentences</code>, as well as average word and sentence lengths, and tables describing how the word length is distributed throughout the text (<code>lttr.distrib</code>). For instance, we see that the text has 74 words with three letters, 185 with three or less, and 371 with more than three. The last three lines show the percentages, respectively.</p>
+</div>
+</div>
+<div id="lexical-diversity-type-token-ratios" class="section level2">
+<h2>Lexical diversity (type token ratios)</h2>
+<p>To analyze the lexical diversity of our text we can now simply hand over the tagged text object to the <code>lex.div()</code> method. You can call it on the object with no further arguments (like <code>lex.div(tagged.text)</code>), but in this example we’ll limit the analysis to a few measures:<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">lex.div</span>(</a>
+<a class="sourceLine" id="cb15-2" title="2">  tagged.text,</a>
+<a class="sourceLine" id="cb15-3" title="3">  <span class="dt">measure=</span><span class="kw">c</span>(<span class="st">&quot;TTR&quot;</span>, <span class="st">&quot;MSTTR&quot;</span>, <span class="st">&quot;MATTR&quot;</span>,<span class="st">&quot;HD-D&quot;</span>, <span class="st">&quot;MTLD&quot;</span>, <span class="st">&quot;MTLD-MA&quot;</span>),</a>
+<a class="sourceLine" id="cb15-4" title="4">  <span class="dt">char=</span><span class="kw">c</span>(<span class="st">&quot;TTR&quot;</span>, <span class="st">&quot;MATTR&quot;</span>,<span class="st">&quot;HD-D&quot;</span>, <span class="st">&quot;MTLD&quot;</span>, <span class="st">&quot;MTLD-MA&quot;</span>)</a>
+<a class="sourceLine" id="cb15-5" title="5">)</a></code></pre></div>
+<!-- the status bars ruin the document, silencing them for the actual output -->
+<pre><code>## 
+## Total number of tokens: 556 
+## Total number of types:  294
+## Total number of lemmas: 283
+## 
+## Type-Token Ratio
+##                TTR: 0.53 
+## 
+## TTR characteristics:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.5297  0.5466  0.5930  0.6188  0.6491  1.0000 
+##    SD
+##  0.0907
+## 
+## 
+## Mean Segmental Type-Token Ratio
+##              MSTTR: 0.72 
+##         SD of TTRs: 0.03 
+##       Segment size: 100 
+##     Tokens dropped: 56 
+## 
+## Hint: A segment size of 92 would reduce the drop rate to 4.
+##       Maybe try ?segment.optimizer()
+## 
+## 
+## Moving-Average Type-Token Ratio
+##              MATTR: 0.74 
+##         SD of TTRs: 0.03 
+##        Window size: 100 
+## 
+## MATTR characteristics:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.7138  0.7239  0.7308  0.7290  0.7341  0.7368 
+##    SD
+##  0.0066
+## 
+## 
+## HD-D
+##               HD-D: 35.54 
+##               ATTR: 0.85 
+##        Sample size: 42 
+## 
+## HD-D characteristics:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    5.00   35.46   35.62   34.31   35.82   36.16 
+##    SD
+##  5.0648
+## 
+## 
+## Measure of Textual Lexical Diversity
+##               MTLD: 97.38 
+##  Number of factors: 5.71 
+##        Factor size: 0.72 
+##   SD tokens/factor: 36.08 (all factors) 
+##                     26.06 (complete factors only)
+## 
+## MTLD characteristics:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   14.00   79.07   88.37   83.21   92.92  104.40       1 
+##    SD
+##  15.9015
+## 
+## 
+## Moving-Average Measure of Textual Lexical Diversity
+##            MTLD-MA: 102.73 
+##   SD tokens/factor: 26.74 
+##          Step size: 1 
+##        Factor size: 0.72 
+##        Min. tokens: 9 
+## 
+## MTLD-MA characteristics:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   63.00   92.99   96.57   95.89  102.76  107.99      12 
+##    SD
+##  9.6766</code></pre>
+<pre><code>## 
+## Note: Analysis was conducted case insensitive.</code></pre>
+<p>Let’s look at some particular parts: At first we are informed of the total number of types, tokens and lemmas (if available). After that the actual results are being printed, using the package’s <code>show()</code> method for this particular kind of object. As you can see, it prints the actual value of each measure before a summary of the characteristics.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+<p>Some measures return more information than just their actual index value. For instance, when the Mean Segmental Type-Token Ratio is calculated, you’ll be informed how much of your text was dropped and hence not examined. A small feature tool of <code>koRpus</code>, <code>segment.optimizer()</code>, automatically recommends you with a different segment size if this could decrease the number of lost tokens.</p>
+<p>By default, <code>lex.div()</code> calculates every measure of lexical diversity that was implemented. Of course this is fully configurable, e.g. to completely skip the calculation of characteristics just add the option <code>char=NULL</code>. If you’re only interested in one particular measure, it might be more convenient to call the according wrapper function instead of <code>lex.div()</code>. For example, to calculate only the measures proposed by <span class="citation">Maas (1972)</span>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">maas</span>(tagged.text)</a></code></pre></div>
+<pre><code>## Language: &quot;en&quot;</code></pre>
+<pre><code>## 
+## Total number of tokens: 556 
+## Total number of types:  294
+## Total number of lemmas: 283
+## 
+## Maas&#39; Indices
+##                  a: 0.19 
+##               lgV0: 5.64 
+##              lgeV0: 12.99 
+## 
+## Relative vocabulary growth (first half to full text)
+##                  a: 0.81 
+##               lgV0: 6.75 
+##                 V&#39;: 0.43 (43 new types every 100 tokens)</code></pre>
+<pre><code>## 
+## Note: Analysis was conducted case insensitive.</code></pre>
+<p>All wrapper functions have characteristics turned off by default. The following example demonstrates how to calculate and plot the classic type-token ratio with characteristics. The resulting plot shows the typical degredation of TTR values with increasing text length:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">ttr.res &lt;-<span class="st"> </span><span class="kw">TTR</span>(tagged.text, <span class="dt">char=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">plot</span>(ttr.res<span class="op">@</span>TTR.char, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">main=</span><span class="st">&quot;TTR degredation over text length&quot;</span>)</a></code></pre></div>
+<!-- same here silencing the status bars -->
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Since this package is intended for research, it is possible to directly influence all relevant values of each measure and examine the effects. For example, as mentioned before <code>segment.optimizer()</code> recommended a change of segment size for MSTTR to drop less words, which is easily done:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">MSTTR</span>(tagged.text, <span class="dt">segment=</span><span class="dv">92</span>)</a></code></pre></div>
+<pre><code>## Language: &quot;en&quot;</code></pre>
+<pre><code>## 
+## Total number of tokens: 556 
+## Total number of types:  294
+## Total number of lemmas: 283
+## 
+## Mean Segmental Type-Token Ratio
+##              MSTTR: 0.75 
+##         SD of TTRs: 0.04 
+##       Segment size: 92 
+##     Tokens dropped: 4</code></pre>
+<pre><code>## 
+## Note: Analysis was conducted case insensitive.</code></pre>
+<p>Please see to the documentation for more detailed information on the available measures and their references.</p>
+</div>
+<div id="frequency-analysis" class="section level2">
+<h2>Frequency analysis</h2>
+<div id="importing-language-corpora-data" class="section level3">
+<h3>Importing language corpora data</h3>
+<p>This package has rudimentary support to import corpus databases.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> That is, it can read frequency data for words into an R object and use this object for further analysis. Next to the <a href="http://celex.mpi.nl">Celex</a> database format (<code>read.corp.celex()</code>), it can read the LCC flatfile format<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> (<code>read.corp.LCC()</code>). The latter might be of special interest, because the needed database archives can be <a href="https://wortschatz.uni-leipzig.de/en/download/">freely downloaded</a>. Once you’ve downloaded one of these archives, it can be comfortably imported:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">LCC.en &lt;-<span class="st"> </span><span class="kw">read.corp.LCC</span>(<span class="st">&quot;~/downloads/corpora/eng_news_2010_1M-text.tar&quot;</span>)</a></code></pre></div>
+<p><code>read.corp.LCC()</code> will automatically extract the files it needs from the archive. Alernatively, you can specify the path to the unpacked archive as well. To work with the imported data directly, the tool <code>query()</code> was added to the package. It helps you to comfortably look up certain words, or ranges of interesting values:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">query</span>(LCC.en, <span class="st">&quot;word&quot;</span>, <span class="st">&quot;what&quot;</span>)</a></code></pre></div>
+<!-- we need to fake these results, as there will not be a corpus database around -->
+<pre><code>##     num word  freq         pct pmio    log10 rank.avg rank.min rank.rel.avg
+## 160 210 what 16396 0.000780145  780 2.892095   260759   260759     99.95362
+##     rank.rel.min
+## 160     99.95362</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">query</span>(LCC.en, <span class="st">&quot;pmio&quot;</span>, <span class="kw">c</span>(<span class="dv">780</span>, <span class="dv">790</span>))</a></code></pre></div>
+<pre><code>##     num  word  freq          pct pmio    log10 rank.avg rank.min rank.rel.avg
+## 156 206  many 16588 0.0007892806  789 2.897077   260763   260763     99.95515
+## 157 207   per 16492 0.0007847128  784 2.894316   260762   260762     99.95477
+## 158 208  down 16468 0.0007835708  783 2.893762   260761   260761     99.95439
+## 159 209 since 16431 0.0007818103  781 2.892651   260760   260760     99.95400
+## 160 210  what 16396 0.0007801450  780 2.892095   260759   260759     99.95362
+##     rank.rel.min
+## 156     99.95515
+## 157     99.95477
+## 158     99.95439
+## 159     99.95400
+## 160     99.95362</code></pre>
+</div>
+<div id="conduct-a-frequency-analysis" class="section level3">
+<h3>Conduct a frequency analysis</h3>
+<p>We can now conduct a full frequency analysis of our text:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">freq.analysis.res &lt;-<span class="st"> </span><span class="kw">freq.analysis</span>(tagged.text, <span class="dt">corp.freq=</span>LCC.en)</a></code></pre></div>
+<p>The resulting object holds a lot of information, even if no corpus data was used (i.e., <code>corp.freq=NULL</code>). To begin with, it contains the two slots <code>tokens</code> and <code>lang</code>, which are copied from the analyzed tagged text object. In this way analysis results can always be converted back into <code>kRp.text</code> objects.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> However, if corpus data was provided, the tagging results gained three new columns:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">taggedText</span>(freq.analysis.res)</a></code></pre></div>
+<pre><code>##        token tag     lemma lttr  [...] pmio rank.avg rank.min
+[...]
+## 30        an  DT        an    2        3817 99.98735 99.98735
+## 31    attack  NN    attack    6         163 99.70370 99.70370
+## 32       has VBZ      have    3        4318 99.98888 99.98888
+## 33      been VBN        be    4        2488 99.98313 99.98313
+## 34 initiated VBN  initiate    9          11 97.32617 97.32137
+## 35         (   (         (    1         854 99.96013 99.96013
+## 36 secondary  JJ secondary    9          21 98.23846 98.23674
+## 37   defense  NN   defense    7         210 99.77499 99.77499
+## 38         )   )         )    1         856 99.96052 99.96052
+[...]</code></pre>
+<p>Perhaps most informatively, <code>pmio</code> shows how often the respective token appears in a million tokens, according to the corpus data. Adding to this, the previously introduced slot <code>desc</code> now contains some more descriptive statistics on our text, and if we provided a corpus database, the slot <code>freq.analysis</code> lists summaries of various frequency information that was calculated.</p>
+<p>If the corpus object also provided inverse document frequency (i.e., values in column <code>idf</code>) data, <code>freq.analysis()</code> will automatically compute tf-idf statistics and put them in a column called <code>tfidf</code>.</p>
+</div>
+<div id="new-to-the-desc-slot" class="section level3">
+<h3>New to the <code>desc</code> slot</h3>
+<p>Amongst others, the descriptives now also give easy access to character vectors with all words (<code>$all.words</code>) and all lemmata (<code>$all.lemmata</code>), all tokens sorted<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> into word classes (e.g., all verbs in <code>$classes$verb</code>), or the number of words in each sentece:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">describe</span>(freq.analysis.res)[[<span class="st">&quot;sentc.length&quot;</span>]]</a></code></pre></div>
+<pre><code>##  [1] 34 10 37 16 44 31 14 31 34 23 17 43 40 47 22 19 65 29</code></pre>
+<p>As a practical example, the list <code>$classes</code> has proven to be very helpful to debug the results of TreeTagger, which is remarkably accurate, but of course not free from making a mistake now and then. By looking through <code>$classes</code>, where all tokens are grouped regarding to the global word class TreeTagger attributed to it, at least obvious errors (like names mistakenly taken for a pronoun) are easily found:<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">describe</span>(freq.analysis.res)<span class="op">$</span>classes</a></code></pre></div>
+<pre><code>## $conjunction
+## [1] &quot;both&quot; &quot;and&quot;  &quot;and&quot;  &quot;and&quot;  &quot;and&quot;  &quot;or&quot;   &quot;or&quot;   &quot;and&quot;  &quot;and&quot;  &quot;or&quot;  
+## [11] &quot;and&quot;  &quot;or&quot;   &quot;and&quot;  &quot;or&quot;   &quot;and&quot;  &quot;and&quot;  &quot;and&quot;  &quot;and&quot; 
+## 
+## $number
+## [1] &quot;20&quot;  &quot;one&quot;
+## 
+## $determiner
+##  [1] &quot;an&quot;      &quot;the&quot;     &quot;an&quot;      &quot;The&quot;     &quot;the&quot;     &quot;the&quot;     &quot;some&quot;   
+##  [8] &quot;that&quot;    &quot;Some&quot;    &quot;the&quot;     &quot;a&quot;       &quot;a&quot;       &quot;a&quot;       &quot;the&quot;    
+## [15] &quot;that&quot;    &quot;the&quot;     &quot;the&quot;     &quot;Another&quot; &quot;which&quot;   &quot;the&quot;     &quot;a&quot;      
+## [22] &quot;that&quot;    &quot;a&quot;       &quot;The&quot;     &quot;a&quot;       &quot;the&quot;     &quot;that&quot;    &quot;a&quot;      
+[...]</code></pre>
+</div>
+</div>
+<div id="readability" class="section level2">
+<h2>Readability</h2>
+<p>The package comes with implementations of several readability formulae. Some of them depend on the number of syllables in the text.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> To achieve this, the method <code>hyphen()</code> takes objects of class <code>kRp.text</code> and applies an hyphenation algorithm <span class="citation">(Liang, 1983)</span> to each word. This algorithm was originally developed for automatic word hyphenation in <span class="math inline">\(\LaTeX\)</span>, and is gracefully misused here to fulfill a slightly different service.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">(hyph.txt.en &lt;-<span class="st"> </span><span class="kw">hyphen</span>(tagged.text))</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">hyph.txt.en</a></code></pre></div>
+<pre><code>##     syll           word
+## 1      2       De-fense
+## 2      3   mech-a-nisms
+## 3      4 Phasm-a-to-dea
+## 4      2       spe-cies
+## 5      3      ex-hib-it
+## 6      3   mech-a-nisms
+##       NA      [...]    
+## 551    1             is
+## 552    3   con-sid-ered
+## 553    4    in-ed-i-ble
+## 554    1             by
+## 555    1           some
+## 556    3    pred-a-tors</code></pre>
+<p>This seperate hyphenation step can actually be skipped, as <code>readability()</code> will do it automatically if needed. But similar to TreeTagger, <code>hyphen()</code> will most likely not produce perfect results. As a rule of thumb, if in doubt it seems to behave rather conservative, that is, is underestimates the real number of syllables in a text. This, however, would of course affect the results of several readability formulae.</p>
+<p>So, the more accurate the end results should be, the less you should rely on the automatic hyphenation alone. But it sure is a good starting point, for there is a method called <code>correct.hyph()</code> to help you clean these results of errors later on. The most straight forward way to do this is to call <code>hyphenText(hyph.txt.en)</code>, which will get you a data frame with two colums, <code>word</code> (the hyphenated words) and <code>syll</code> (the number of syllables), in a spread sheet editor:<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">head</span>(<span class="kw">hyphenText</span>(hyph.txt.en))</a></code></pre></div>
+<pre><code>##   syll           word
+## 1    2       De-fense
+## 2    3   mech-a-nisms
+## 3    4 Phasm-a-to-dea
+## 4    2       spe-cies
+## 5    3      ex-hib-it
+## 6    3   mech-a-nisms</code></pre>
+<p>You can then manually correct wrong hyphenations by removing or inserting “-” as hyphenation indicators, and call <code>correct.hyph()</code> without further arguments, which will cause it to recount all syllables:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">hyph.txt.en &lt;-<span class="st"> </span><span class="kw">correct.hyph</span>(hyph.txt.en)</a></code></pre></div>
+<p>But the method can also be used to alter entries directly, which might be simpler and cleaner than manual changes:</p>
+<!-- this can cause errors if updated hyphen patterns lead to slighty different results in the first place -->
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">hyph.txt.en &lt;-<span class="st"> </span><span class="kw">correct.hyph</span>(hyph.txt.en, <span class="dt">word=</span><span class="st">&quot;mech-a-nisms&quot;</span>, <span class="dt">hyphen=</span><span class="st">&quot;mech-a-ni-sms&quot;</span>)</a></code></pre></div>
+<pre><code>## Changed
+## 
+##   syll         word
+## 2    3 mech-a-nisms
+## 6    3 mech-a-nisms
+## 
+##   into
+## 
+##   syll          word
+## 2    4 mech-a-ni-sms
+## 6    4 mech-a-ni-sms</code></pre>
+<p>The hyphenated text object can now be given to <code>readability()</code>, to calculate the measures of interest:<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">readbl.txt &lt;-<span class="st"> </span><span class="kw">readability</span>(tagged.text, <span class="dt">hyphen=</span>hyph.txt.en)</a></code></pre></div>
+<p>Similar to <code>lex.div()</code>, by default <code>readability()</code> calculates almost<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> all available measures:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">readbl.txt</a></code></pre></div>
+<pre><code>## 
+## Automated Readability Index (ARI)
+##   Parameters: default 
+##        Grade: 18.73 
+## 
+## 
+## Coleman Formulas
+##   Parameters: default 
+##     Pronouns: 1.62 (per 100 words)
+##      Prepos.: 13.49 (per 100 words)
+##    Formula 1: 39% cloze completions
+##    Formula 2: 37% cloze completions
+##    Formula 3: 35% cloze completions
+##    Formula 4: 36% cloze completions
+## 
+## 
+## Coleman-Liau
+##   Parameters: default 
+##          ECP: 33% (estimted cloze percentage)
+##        Grade: 14.1 
+##        Grade: 14.1 (short formula)
+## 
+## 
+## Danielson-Bryan
+##   Parameters: default 
+##          DB1: 9.86 
+##          DB2: 26.39 
+##        Grade: &gt;= 13 (college) 
+## 
+## 
+## Dickes-Steiwer&#39;s Handformel
+##   Parameters: default 
+##          TTR: 0.53 
+##        Score: 32.21 
+## 
+## 
+## Easy Listening Formula
+##   Parameters: default 
+##       Exsyls: 222 
+##        Score: 12.33 
+## 
+## 
+## Farr-Jenkins-Paterson
+##   Parameters: default 
+##           RE: 33.19 
+##        Grade: &gt;= 13 (college) 
+## 
+## 
+## Flesch Reading Ease
+##   Parameters: en (Flesch) 
+##           RE: 33.98 
+##        Grade: &gt;= 13 (college) 
+## 
+## 
+## Flesch-Kincaid Grade Level
+##   Parameters: default 
+##        Grade: 16.19 
+##          Age: 21.19 
+## 
+## 
+## Gunning Frequency of Gobbledygook (FOG)
+##   Parameters: default 
+##        Grade: 18.69 
+## 
+## 
+## FORCAST
+##   Parameters: default 
+##        Grade: 10.99 
+##          Age: 15.99 
+## 
+## 
+## Fucks&#39; Stilcharakteristik
+##        Score: 162.11 
+##        Grade: 12.73 
+## 
+## 
+## Linsear Write
+##   Parameters: default 
+##   Easy words: 80.4 
+##   Hard words: 19.6 
+##        Grade: 21.5 
+## 
+## 
+## Läsbarhetsindex (LIX)
+##   Parameters: default 
+##        Index: 65.24 
+##       Rating: very difficult 
+##        Grade: &gt; 11 
+## 
+## 
+## Neue Wiener Sachtextformeln
+##   Parameters: default 
+##        nWS 1: 10.57 
+##        nWS 2: 11.07 
+##        nWS 3: 10.58 
+##        nWS 4: 11.89 
+## 
+## 
+## Readability Index (RIX)
+##   Parameters: default 
+##        Index: 10.61 
+##        Grade: &gt; 12 (college) 
+## 
+## 
+## Simple Measure of Gobbledygook (SMOG)
+##   Parameters: default 
+##        Grade: 17.19 
+##          Age: 22.19 
+## 
+## 
+## Strain Index
+##   Parameters: default 
+##        Index: 15.5 
+## 
+## 
+## Tränkle-Bailer Formulas
+##    Parameters: default 
+##  Prepositions: 13%
+##  Conjunctions: 3%
+##          TB 1: 18.59 
+##          TB 2: 27.15 
+## 
+## 
+## Kuntzsch&#39;s Text-Redundanz-Index
+##   Parameters: default 
+##  Short words: 334 
+##  Punctuation: 78 
+##      Foreign: 0 
+##        Score: -56.88 
+## 
+## 
+## Tuldava&#39;s Text Difficulty Formula
+##   Parameters: default 
+##        Index: 5.74 
+## 
+## 
+## Wheeler-Smith
+##   Parameters: default 
+##        Score: 123.33 
+##        Grade: &gt; 4 
+## 
+## Text language: en</code></pre>
+<p>To get a more condensed overview of the results try the <code>summary()</code> method:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw">summary</span>(readbl.txt)</a></code></pre></div>
+<pre><code>## Text language: en</code></pre>
+<pre><code>##                    index     flavour    raw           grade  age
+## 1                    ARI                              18.73     
+## 2             Coleman C1                 39                     
+## 3             Coleman C2                 37                     
+## 4             Coleman C3                 35                     
+## 5             Coleman C4                 36                     
+## 6           Coleman-Liau                 33            14.1     
+## 7    Danielson-Bryan DB1               9.86                     
+## 8    Danielson-Bryan DB2              26.39 &gt;= 13 (college)     
+## 9         Dickes-Steiwer              32.21                     
+## 10                   ELF              12.33                     
+## 11 Farr-Jenkins-Paterson              33.19 &gt;= 13 (college)     
+## 12                Flesch en (Flesch)  33.98 &gt;= 13 (college)     
+## 13        Flesch-Kincaid                              16.19 21.2
+## 14                   FOG                              18.69     
+## 15               FORCAST                              10.99   16
+## 16                 Fucks             162.11           12.73     
+## 17         Linsear-Write                               21.5     
+## 18                   LIX              65.24            &gt; 11     
+## 19                  nWS1                              10.57     
+## 20                  nWS2                              11.07     
+## 21                  nWS3                              10.58     
+## 22                  nWS4                              11.89     
+## 23                   RIX              10.61  &gt; 12 (college)     
+## 24                  SMOG                              17.19 22.2
+## 25                Strain               15.5                     
+## 26   Traenkle-Bailer TB1              18.59                     
+## 27   Traenkle-Bailer TB2              27.15                     
+## 28                   TRI             -56.88                     
+## 29               Tuldava               5.74                     
+## 30         Wheeler-Smith             123.33             &gt; 4</code></pre>
+<p>The <code>summary()</code> method supports an additional flat format, which basically turns the table into a named numeric vector, using the raw values (because all indices have raw values, but only a few more than that). This format comes very handy when you want to use the output in further calculations:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">summary</span>(readbl.txt, <span class="dt">flat=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>##                   ARI            Coleman.C1            Coleman.C2 
+##                 18.73                 39.00                 37.00 
+##            Coleman.C3            Coleman.C4          Coleman.Liau 
+##                 35.00                 36.00                 33.00 
+##   Danielson.Bryan.DB1   Danielson.Bryan.DB2        Dickes.Steiwer 
+##                  9.86                 26.39                 32.21 
+##                   ELF Farr.Jenkins.Paterson                Flesch 
+##                 12.33                 33.19                 33.98 
+##        Flesch.Kincaid                   FOG               FORCAST 
+##                 16.19                 18.69                 10.99 
+##                 Fucks         Linsear.Write                   LIX 
+##                162.11                 21.50                 65.24 
+##                  nWS1                  nWS2                  nWS3 
+##                 10.57                 11.07                 10.58 
+##                  nWS4                   RIX                  SMOG 
+##                 11.89                 10.61                 17.19 
+##                Strain   Traenkle.Bailer.TB1   Traenkle.Bailer.TB2 
+##                 15.50                 18.59                 27.15 
+##                   TRI               Tuldava         Wheeler.Smith 
+##                -56.88                  5.74                123.33</code></pre>
+<p>If you’re interested in a particular formula, again a wrapper function might be more convenient:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">flesch.res &lt;-<span class="st"> </span><span class="kw">flesch</span>(tagged.text, <span class="dt">hyphen=</span>hyph.txt.en)</a>
+<a class="sourceLine" id="cb55-2" title="2">lix.res &lt;-<span class="st"> </span><span class="kw">LIX</span>(tagged.text)   <span class="co"># LIX doesn&#39;t need syllable count</span></a>
+<a class="sourceLine" id="cb55-3" title="3">lix.res</a></code></pre></div>
+<pre><code>## 
+## Läsbarhetsindex (LIX)
+##   Parameters: default 
+##        Index: 65.24 
+##       Rating: very difficult 
+##        Grade: &gt; 11 
+## 
+## Text language: en</code></pre>
+<div id="readability-from-numeric-data" class="section level3">
+<h3>Readability from numeric data</h3>
+<p>It is possible to calculate the readability measures from the relevant key values directly, rather than analyze an actual text, by using <code>readability.num()</code> instead of <code>readability()</code>. If you need to reanalyze a particular text, this can be considerably faster. Therefore, all objects returned by <code>readability()</code> can directly be fed to <code>readability.num()</code>, since all relevant data is present in the <code>desc</code> slot.</p>
+</div>
+</div>
+<div id="language-detection" class="section level2">
+<h2>Language detection</h2>
+<p>Another feature of this package is the detection of the language a text was (most probably) written in. This is done by gzipping reference texts in known languages, gzipping them again with addition of a small sample of the text in unknown language, and determining the case where the additional sample causes the smallest increase in file size <span class="citation">(as described in Benedetto, Caglioti, &amp; Loreto, 2002)</span>. By default, the compressed objects will be created in memory only.</p>
+<p>To use the function <code>guess.lang()</code>, you first need to download the reference material. In this implementation, the Universal Declaration of Human Rights in unicode formatting is used, because the document holds the world record of beeing the text translated into the most languages, and is <a href="https://www.unicode.org/udhr/downloads.html">publicly available</a>. Please get the zipped archive with all translations in .txt format. You can, but don’t have to unzip the archive. The text to find the language of must also be in a unicode .txt file:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">guessed &lt;-<span class="st"> </span><span class="kw">guess.lang</span>(</a>
+<a class="sourceLine" id="cb57-2" title="2">  <span class="kw">file.path</span>(<span class="kw">find.package</span>(<span class="st">&quot;koRpus&quot;</span>),<span class="st">&quot;tests&quot;</span>,<span class="st">&quot;testthat&quot;</span>,<span class="st">&quot;sample_text.txt&quot;</span>),</a>
+<a class="sourceLine" id="cb57-3" title="3">  <span class="dt">udhr.path=</span><span class="st">&quot;~/downloads/udhr_txt.zip&quot;</span></a>
+<a class="sourceLine" id="cb57-4" title="4">)</a>
+<a class="sourceLine" id="cb57-5" title="5"><span class="kw">summary</span>(guessed)</a></code></pre></div>
+<pre><code>##   Estimated language: English
+##           Identifier: eng
+##               Region: Europe
+## 
+## 435 different languages were checked.
+## 
+## Distribution of compression differences:
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   136.0   168.0   176.0   190.7   184.0   280.0 
+## 
+##   SD: 38.21 
+## 
+## Top 5 guesses:
+##                         name iso639-3 bcp47 region diff  diff.std
+## 1                    English      eng    en Europe  136 -1.430827
+## 2                      Scots      sco   sco Europe  136 -1.430827
+## 3           Pidgin, Nigerian      pcm   pcm Africa  144 -1.221473
+## 4   Catalan-Valencian-Balear      cat    ca Europe  152 -1.012119
+## 5                     French      fra    fr Europe  152 -1.012119
+## 
+## Last 5 guesses:
+##                         name iso639-3   bcp47 region diff diff.std
+## 431                  Burmese      mya      my   Asia  280 2.337547
+## 432                     Shan      shn     shn   Asia  280 2.337547
+## 433                    Tamil      tam      ta   Asia  280 2.337547
+## 434     Vietnamese (Han nom)      vie vi-Hani   Asia  280 2.337547
+## 435             Chinese, Yue      yue     yue   Asia  280 2.337547</code></pre>
+</div>
+</div>
+<div id="extending-korpus" class="section level1">
+<h1>Extending <code>koRpus</code></h1>
+<p>The language support of this package has a modular design. There are some pre-built language packages in <a href="https://undocumeantit.github.io/repos/">the <code>l10n</code> repository</a>, and with a little effort you should be able to add new languages yourself. You need the package sources for this, then basically you will have to add a new file to it and rebuild/reinstall the package. More details on this topic can be found in <code>inst/README.languages</code>. Once you got a new language to work with <code>koRpus</code>, I’d be happy to include your module in the official distribution.</p>
+</div>
+<div id="analyzing-full-corpora" class="section level1">
+<h1>Analyzing full corpora</h1>
+<p>Despite its name, the scope of <code>koRpus</code> is single texts. If you would like to do analysis an a full corpus of texts, have a look at the <a href="https://github.com/unDocUMeantIt/tm.plugin.koRpus">plugin package <code>tm.plugin.koRpus</code></a>.</p>
+</div>
+<div id="acknowledgements" class="section level1">
+<h1>Acknowledgements</h1>
+<p>The APA style used in this vignette was kindly provided by the <a href="https://citationstyles.org">CSL project</a>, licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported license</a>.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-benedetto_gzip_2002">
+<p>Benedetto, D., Caglioti, E., &amp; Loreto, V. (2002). Language trees and zipping. <em>Physical Review Letters</em>, <em>88</em>(4), 048702.</p>
+</div>
+<div id="ref-bormuth_cloze_1968">
+<p>Bormuth, J. R. (1968). Cloze test readability: Criterion reference scores. <em>Journal of Educational Measurement</em>, <em>5</em>(3), 189–196.</p>
+</div>
+<div id="ref-dale_formula_1948">
+<p>Dale, E., &amp; Chall, J. S. (1948). A formula for predicting readability. <em>Educational Research Bulletin</em>, 11–28.</p>
+</div>
+<div id="ref-liang_word_1983">
+<p>Liang, F. M. (1983). <em>Word hy-phen-a-tion by com-put-er</em> (PhD thesis). Stanford University, Dept. Computer Science, Stanford.</p>
+</div>
+<div id="ref-maas_ueber_1972">
+<p>Maas, H. D. (1972). Über den Zusammenhang zwischen Wortschatzumfang und Länge eines Textes. <em>Zeitschrift Für Literaturwissenschaft Und Linguistik</em>, <em>2</em>(8), 73–79.</p>
+</div>
+<div id="ref-mccarthy_vocd_2007">
+<p>McCarthy, P. M., &amp; Jarvis, S. (2007). Vocd – a theoretical and empirical evaluation. <em>Language Testing</em>, <em>24</em>(4), 459–488.</p>
+</div>
+<div id="ref-mccarthy_mtld_2010">
+<p>McCarthy, P. M., &amp; Jarvis, S. (2010). MTLD, vocd-D, and HD-D: a validation study of sophisticated approaches to lexical diversity assessment. <em>Behavior Research Methods</em>, <em>42</em>(2), 381–392.</p>
+</div>
+<div id="ref-quasthoff_LCC_2006">
+<p>Quasthoff, U., Richter, M., &amp; Biemann, C. (2006). Corpus portal for search in monolingual corpora. In <em>Proceedings of the fifth international conference on language resources and evaluation</em> (pp. 1799–1802). Genoa.</p>
+</div>
+<div id="ref-schmid_TT_1994">
+<p>Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In <em>International conference on new methods in language processing</em> (pp. 44–49). Manchester, UK.</p>
+</div>
+<div id="ref-spache_new_1953">
+<p>Spache, G. (1953). A new readability formula for primary-grade reading materials. <em>The Elementary School Journal</em>, <em>53</em>(7), 410–413.</p>
+</div>
+<div id="ref-tweedie_how_1998">
+<p>Tweedie, F. J., &amp; Baayen, R. H. (1998). How variable may a constant be? Measures of lexical richness in perspective. <em>Computers and the Humanities</em>, <em>32</em>(5), 323–352.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>For a free implementation try <a href="http://strawberryperl.com" class="uri">http://strawberryperl.com</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Like <a href="https://7-zip.org" class="uri">https://7-zip.org</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Unfortunately, these language packages did not get the approval of the CRAN maintainers and are officially hosted at (<a href="https://undocumeantit.github.io/repos/l10n/" class="uri">https://undocumeantit.github.io/repos/l10n/</a>)[<a href="https://undocumeantit.github.io/repos/l10n/" class="uri">https://undocumeantit.github.io/repos/l10n/</a>]. For your convenience the function <code>install.koRpus.lang()</code> can be used to easily install them anyway.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>Presets are defined in the language support packages, usually named like their respective two-character language identifier. Refer to their documentation.<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>For informtaion on the measures shown see <span class="citation">Tweedie &amp; Baayen (1998)</span>, <span class="citation">McCarthy &amp; Jarvis (2007)</span>, <span class="citation">McCarthy &amp; Jarvis (2010)</span>.<a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>Characteristics can be looked at to examine each measure’s dependency on text length. They are calculated by computing each measure repeatedly, beginning with only the first token, then adding the next, progressing until the full text was analyzed.<a href="#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>The package also has a function called <code>read.corp.custom()</code> which can be used to process language corpora yourself, and store the results in an object of class <code>kRp.corp.freq</code>, which is the class returned by <code>read.corp.LCC()</code> and <code>read.corp.celex()</code> as well. That is, if you can’t get any already analyzed corpus database but have a huge language corpus at hand, you can create your own frequency database. But be warned that depending on corpus size and your hardware, this might take ages. On the other hand, <code>read.corp.custom()</code> will provide inverse document frequency (idf) values for all types, which is necessary to compute tf-idf with <code>freq.analysis()</code><a href="#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>Actually, it unterstands two different LCC formats, both the older .zip and the newer .tar archive format.<a href="#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>This can easily be done by calling <code>as(freq.analysis.res, &quot;kRp.text&quot;)</code>.<a href="#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p>This sorting depends on proper POS-tagging, so this will only contain useful data if you used <code>treetag()</code> instead of <code>tokenize()</code>.<a href="#fnref10" class="footnote-back">↩</a></p></li>
+<li id="fn11"><p>And can then be corrected by using the function <code>correct.tag()</code><a href="#fnref11" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p>Whether this is the case can be looked up in the documentation.<a href="#fnref12" class="footnote-back">↩</a></p></li>
+<li id="fn13"><p>The <code>hyphen()</code> method was originally implemented as part of the <code>koRpus</code> package, but was later split off into its own package called <code>sylly</code>.<a href="#fnref13" class="footnote-back">↩</a></p></li>
+<li id="fn14"><p>For example, this can be comfortably done with RKWard: <a href="https://rkward.kde.org" class="uri">https://rkward.kde.org</a><a href="#fnref14" class="footnote-back">↩</a></p></li>
+<li id="fn15"><p>Please note that as of version 0.04-18, the correctness of some of these calculations has not been extensively validated yet. The package was released nonetheless, also to find outstanding bugs in the implemented measures. Any information on the validity of its results is very welcome!<a href="#fnref15" class="footnote-back">↩</a></p></li>
+<li id="fn16"><p>Measures which rely on word lists will be skipped if no list is provided.<a href="#fnref16" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

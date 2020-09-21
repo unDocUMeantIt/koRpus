@@ -3,6 +3,7 @@
 \docType{class}
 \name{kRp.TTR,-class}
 \alias{kRp.TTR,-class}
+\alias{kRp_TTR}
 \alias{kRp.TTR-class}
 \title{S4 Class kRp.TTR}
 \description{
@@ -15,8 +16,8 @@ This class is used for objects that are returned by \code{\link[koRpus:lex.div]{
 \item{\code{param}}{Relevant parameters of the given analysis,
       as given to the function call, see \code{\link[koRpus:lex.div]{lex.div}} for details.}
 
-\item{\code{tt}}{The analyzed text in tokenized form, with six elements ("tokens",
-      "types", "lemmas", "num.tokens", "num.types", "num.lemmas").}
+\item{\code{tt}}{The analyzed text in tokenized form, with eight elements ("tokens",
+      "types", "lemmas", "type.in.txt", "type.in.result", "num.tokens", "num.types", "num.lemmas").}
 
 \item{\code{TTR}}{Value of the classic type-token ratio. NA if not calculated.}
 
@@ -112,5 +113,13 @@ the whole text is analyzed. The matrix has two colums,
 \item{\code{MTLDMA.char}}{Equivalent to TTR.char,
       but calculated using the moving-average MTLD algorithm. NA if not calculated.}
 }}
+
+\section{Contructor function}{
+
+Should you need to manually generate objects of this class (which should rarely be the case),
+      the contructor function 
+\code{kRp_TTR(...)} can be used instead of
+\code{new("kRp.TTR", ...)}.
+}
 
 \keyword{classes}

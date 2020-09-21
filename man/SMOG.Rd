@@ -4,11 +4,15 @@
 \alias{SMOG}
 \title{Readability: Simple Measure of Gobbledygook (SMOG)}
 \usage{
-SMOG(txt.file, hyphen = NULL, parameters = c(syll = 3, sqrt = 1.043, fact =
-  30, const = 3.1291, sqrt.const = 0), ...)
+SMOG(
+  txt.file,
+  hyphen = NULL,
+  parameters = c(syll = 3, sqrt = 1.043, fact = 30, const = 3.1291, sqrt.const = 0),
+  ...
+)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation
@@ -24,7 +28,7 @@ is done by \code{\link[koRpus:readability.num]{readability.num}}.}
       see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -21,8 +21,13 @@
 #' This class is used for objects that are returned by \code{\link[koRpus:lex.div]{lex.div}} and its wrapper functions
 #' (like \code{TTR}, \code{MSTTR}, \code{MTLD}, etc.).
 #'
+#' @section Contructor function:
+#' Should you need to manually generate objects of this class (which should rarely be the case), the contructor function 
+#' \code{kRp_TTR(...)} can be used instead of
+#' \code{new("kRp.TTR", ...)}.
+#'
 #' @slot param Relevant parameters of the given analysis, as given to the function call, see \code{\link[koRpus:lex.div]{lex.div}} for details.
-#' @slot tt The analyzed text in tokenized form, with six elements ("tokens", "types", "lemmas", "num.tokens", "num.types", "num.lemmas").
+#' @slot tt The analyzed text in tokenized form, with eight elements ("tokens", "types", "lemmas", "type.in.txt", "type.in.result", "num.tokens", "num.types", "num.lemmas").
 #' @slot TTR Value of the classic type-token ratio. NA if not calculated.
 #' @slot MSTTR Mean segmental type-token ratio, including the actual "MSTTR",
 #'    TTR values of each segment ("TTR.seg"), and the number of dropped words due to segment size ("dropped"). NA if not calculated.
@@ -67,11 +72,12 @@
 #' @import methods
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
-#' @export
-#' @aliases kRp.TTR,-class kRp.TTR-class
+#' @export kRp_TTR
+#' @exportClass kRp.TTR
+#' @aliases kRp.TTR-class
 #' @rdname kRp.TTR-class
 
-setClass("kRp.TTR",
+kRp_TTR <- setClass("kRp.TTR",
     representation=representation(
       param="list",
       tt="list",
@@ -108,7 +114,7 @@ setClass("kRp.TTR",
     prototype(
       param=list(segment=NA, factor.size=NA, min.tokens=NA, rand.sample=NA, window=NA,
         case.sens=NA, lemmatize=NA, log.base=NA),
-      tt=list(tokens=NA, types=NA, lemmas=NA, num.tokens=numeric(), num.types=numeric(), num.lemmas=numeric()),
+      tt=list(tokens=NA, types=NA, lemmas=NA, type.in.txt=NA, type.in.result=NA, num.tokens=numeric(), num.types=numeric(), num.lemmas=numeric()),
       TTR=numeric(),
       MSTTR=list(MSTTR=NA, TTR.seg=NA, dropped=NA, sd=NA),
       MATTR=list(MATTR=NA, TTR.win=NA, sd=NA),
@@ -160,7 +166,7 @@ setValidity("kRp.TTR", function(object){
       stop(simpleError("Invalid object: Wrong names (slot \"param\")."))
     } else {}
 
-    if(!identical(tt.names, c("tokens", "types", "lemmas", "num.tokens", "num.types", "num.lemmas"))){
+    if(!identical(tt.names, c("tokens", "types", "lemmas", "type.in.txt", "type.in.result", "num.tokens", "num.types", "num.lemmas"))){
       stop(simpleError("Invalid object: Wrong names (slot \"tt\")."))
     } else {}
 

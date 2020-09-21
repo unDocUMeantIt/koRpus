@@ -4,25 +4,53 @@
 \name{query}
 \alias{query}
 \alias{query,kRp.corp.freq-method}
-\alias{query,kRp.tagged-method}
+\alias{query,kRp.text-method}
+\alias{query,data.frame-method}
 \title{A method to get information out of koRpus objects}
 \usage{
 query(obj, ...)
 
-\S4method{query}{kRp.corp.freq}(obj, var = NULL, query, rel = "eq",
-  as.df = TRUE, ignore.case = TRUE, perl = FALSE)
+\S4method{query}{kRp.corp.freq}(
+  obj,
+  var = NULL,
+  query,
+  rel = "eq",
+  as.df = TRUE,
+  ignore.case = TRUE,
+  perl = FALSE,
+  regexp_var = "word"
+)
 
-\S4method{query}{kRp.tagged}(obj, var, query, rel = "eq", as.df = TRUE,
-  ignore.case = TRUE, perl = FALSE)
+\S4method{query}{kRp.text}(
+  obj,
+  var,
+  query,
+  rel = "eq",
+  as.df = TRUE,
+  ignore.case = TRUE,
+  perl = FALSE,
+  regexp_var = "token"
+)
+
+\S4method{query}{data.frame}(
+  obj,
+  var,
+  query,
+  rel = "eq",
+  as.df = TRUE,
+  ignore.case = TRUE,
+  perl = FALSE,
+  regexp_var = "token"
+)
 }
 \arguments{
-\item{obj}{An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.}
+\item{obj}{An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+\code{\link[koRpus:kRp.text-class]{kRp.text}}, or \code{data.frame}.}
 
 \item{...}{Optional arguments, see above.}
 
 \item{var}{A character string naming a variable in the object (i.e., colname). If set to
-\code{"regexp"}, \code{grepl} is called on the \code{word} column of corpus frequency
-objects.}
+\code{"regexp"}, \code{grepl} is called on the column specified by \code{regexp_var}.}
 
 \item{query}{A character vector (for words), regular expression,
       or single number naming values to be matched in the variable.
@@ -37,18 +65,20 @@ Must either be \code{"eq"} (equal, the default), \code{"gt"} (greater than),
       is always interpreted as \code{"eq"}}
 
 \item{as.df}{Logical, if \code{TRUE}, returns a data.frame, otherwise an object of
-the input class.}
+the input class. Ignored if \code{obj} is a data frame already.}
 
 \item{ignore.case}{Logical, passed through to \code{grepl} if \code{var="regexp"}.}
 
 \item{perl}{Logical, passed through to \code{grepl} if \code{var="regexp"}.}
+
+\item{regexp_var}{A character string naming the column to query if \code{var="regexp"}.}
 }
 \value{
 Depending on the arguments, might include whole objects, lists, single values etc.
 }
 \description{
-The method \code{query} returns query information from objects of classes \code{\link[koRpus]{kRp.corp.freq-class}} and
-\code{\link[koRpus]{kRp.tagged-class}}.
+The method \code{query} returns query information from objects of classes \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}} and
+\code{\link[koRpus:kRp.text-class]{kRp.text}}.
 }
 \details{
 \emph{kRp.corp.freq:} Depending on the setting of the \code{var} parameter,
@@ -60,10 +90,8 @@ the range, respectively. In these cases,
       if \code{rel} is set to \code{"gt"} or \code{"lt"},
 the given range borders are excluded, otherwise they will be included as true matches.
 
-\emph{kRp.tagged:} \code{var} can be any of the variables in slot \code{TT.res}. For \code{rel} currently only
-"eq" and "num" are implemented. The latter isn't a relation,
-      but will return a vector with the row numbers in which
-the query was found.
+\emph{kRp.text:} \code{var} can be any of the variables in slot \code{tokens}. If \code{rel="num"},
+a vector with the row numbers in which the query was found is returned.
 }
 \section{Query lists}{
  You can combine an arbitrary number of queries in a simple way by providing a list of named lists to the
@@ -110,6 +138,6 @@ query(tagged.txt, "lemma", "he")
 }
 }
 \seealso{
-\code{\link[koRpus]{kRp.corp.freq-class}}, \code{\link[base]{subset}}
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, \code{\link[base]{subset}}
 }
 \keyword{methods}

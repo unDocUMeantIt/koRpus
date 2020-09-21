@@ -2,7 +2,7 @@
 % Please edit documentation in R/set.kRp.env.R
 \name{set.kRp.env}
 \alias{set.kRp.env}
-\title{A function to set information on your koRpus environmenton}
+\title{A function to set information on your koRpus environment}
 \usage{
 set.kRp.env(..., validate = TRUE)
 }
@@ -15,7 +15,10 @@ set.kRp.env(..., validate = TRUE)
   \item{lang}{ A character string specifying a valid language.}
   \item{TT.options}{ A list with arguments to be used as \code{TT.options} by \code{\link[koRpus:treetag]{treetag}}.}
   \item{hyph.cache.file}{ A character string specifying a path to a file to use for storing already hyphenated data,
-      used by \code{\link[koRpus:hyphen]{hyphen}}.}
+      used by
+     \code{\link[koRpus]{hyphen}}.}
+  \item{add.desc}{ A logical value,
+      whether tag descriptions should be added directly to tagged text objects.}
 }
 To explicitly unset a value again, set it to an empty character string (e.g.,
       \code{lang=""}).}
@@ -27,20 +30,38 @@ To explicitly unset a value again, set it to an empty character string (e.g.,
 Returns an invisible \code{NULL}.
 }
 \description{
-The function \code{set.kRp.env} can be called once before any of the analysing functions. It writes information
+The function \code{set.kRp.env} can be called before any of the analysing functions. It writes information
 on your session environment regarding the koRpus package,
       e.g. path to a local TreeTagger installation,
-to a hidden environment.
+to your global \code{\link[base:.Options]{.Options}}.
 }
 \details{
-To get the contents of the hitten environment,
-      the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
-can be used.
+To get the current settings, the function \code{\link[koRpus:get.kRp.env]{get.kRp.env}}
+should be used. For the most part, \code{set.kRp.env} is a convenient wrapper for
+\code{\link[base:options]{options}}. To permanently set some defaults, you could also add
+respective \code{options} calls to an \code{\link[base:.Rprofile]{.Rprofile}} file.
+
+Note that you can also suppress the startup message informing about \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}}
+and \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}} by adding \code{noStartupMessage=TRUE} to the options in \code{.Rprofile}.
 }
 \examples{
 \dontrun{
 set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-german", lang="de")
 get.kRp.env(TT.cmd=TRUE)
+
+# example for setting permanent default values in an .Rprofile file
+options(
+  koRpus=list(
+    TT.cmd="manual",
+    TT.options=list(
+      path="~/bin/treetagger",
+      preset="de"),
+    lang="de",
+    noStartupMessage=TRUE
+  )
+)
+# be aware that setting a permamnent default language without loading
+# the respective language support package might trigger errors
 }
 }
 \seealso{

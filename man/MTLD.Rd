@@ -4,12 +4,19 @@
 \alias{MTLD}
 \title{Lexical diversity: Measure of Textual Lexical Diversity (MTLD)}
 \usage{
-MTLD(txt, factor.size = 0.72, min.tokens = 9, detailed = FALSE,
-  char = FALSE, MA = FALSE, steps = 1, ...)
+MTLD(
+  txt,
+  factor.size = 0.72,
+  min.tokens = 9,
+  detailed = FALSE,
+  char = FALSE,
+  MA = FALSE,
+  steps = 1,
+  ...
+)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.analysis-class}},
-      containing the tagged text to be analyzed.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} containing the tagged text to be analyzed.}
 
 \item{factor.size}{A real number between 0 and 1, defining the MTLD factor size.}
 
@@ -36,7 +43,7 @@ the text is long enough.}
       see \code{\link[koRpus:lex.div]{lex.div}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:lex.div]{lex.div}}.
@@ -65,6 +72,7 @@ McCarthy, P. M. & Jarvis, S. (2010). MTLD, vocd-D,
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
- \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
+ \code{\link[koRpus:kRp.text-class]{kRp.text}},
+      \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 }
 \keyword{LD}

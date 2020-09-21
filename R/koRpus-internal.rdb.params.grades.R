@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -19,84 +19,466 @@
 # these functions are primarily being used by readability()
 # and have been moved here to make the code more readable itself ;-)
 
-## set default parameters
-default.params <- function(index=NULL, var=NULL){
-  default.parameters <- list(
-    ARI=c(asl=0.5, awl=4.71, const=21.43),
+## function rdb_parameters()
+# set default parameters
+# - index: character string naming the index to look up parameters for;
+#     if NULL returns the complete parameter list
+# - flavour: character string naming the version of the index
+# - var: character string naming a subvariable of parameters;
+#     if NULL returns all
+rdb_parameters <- function(
+  index=NULL,
+  flavour="default",
+  var=NULL
+){
+  all_parameters <- list(
+    ARI=list(
+      default=c(
+        asl=0.5,
+        awl=4.71,
+        const=21.43
+      ),
+      NRI=c(
+        asl=0.4,
+        awl=6,
+        const=27.4
+      ),
+      simple=c(
+        asl=1,
+        awl=9,
+        const=0
+      )
+    ),
     Bormuth=list(
-      clz=35,
-      meanc=c(const=0.886593, awl=0.08364, afw=0.161911, asl1=0.021401, asl2=0.000577, asl3=0.000005),
-      grade=c(const=4.275, m1=12.881, m2=34.934, m3=20.388, c1=26.194, c2=2.046, c3=11.767, mc1=44.285, mc2=97.62, mc3=59.538)),
-    Coleman=list(syll=1,
-      clz1=c(word=1.29, const=38.45),
-      clz2=c(word=1.16, sntc=1.48, const=37.95),
-      clz3=c(word=1.07, sntc=1.18, pron=0.76, const=34.02),
-      clz4=c(word=1.04, sntc=1.06, pron=0.56, prep=0.36, const=26.01)),
-    Coleman.Liau=list(
-      ecp=c(const=141.8401, char=0.21459, sntc=1.079812),
-      grade=c(ecp=-27.4004, const=23.06395),
-      short=c(awl=5.88, spw=29.6, const=15.8)),
-    Dale.Chall=c(const=64, dword=0.95, asl=0.69),
-    Danielson.Bryan=list(
-      db1=c(cpb=1.0364, cps=0.0194, const=0.6059),
-      db2=c(const=131.059, cpb=10.364, cps=0.194)),
-    Dickes.Steiwer=list(const=235.95993, awl=73.021, asl=12.56438, ttr=50.03293, case.sens=FALSE),
-    ELF=c(syll=2),
-    Farr.Jenkins.Paterson=c(const=-31.517, asl=1.015, monsy=1.599),
-    Flesch=c(const=206.835, asl=1.015, asw=84.6),
-    Flesch.Kincaid=c(asl=0.39, asw=11.8, const=15.59),
-    FOG=list(syll=3, const=0.4, suffix=c("es", "ed", "ing")),
-    FORCAST=c(syll=1, mult=.10, const=20),
-    Harris.Jacobson=list(char=6,
-      hj1=c(dword=0.094, asl=0.168, const=0.502),
-      hj2=c(dword=0.140, asl=0.153, const=0.560),
-      hj3=c(asl=0.158, lword=0.055, const=0.355),
-      hj4=c(dword=0.070, asl=0.125, lword=0.037, const=0.497),
-      hj5=c(dword=0.118, asl=0.134, lword=0.032, const=0.424)),
-    Linsear.Write=c(short.syll=2, long.syll=3, thrs=20),
-    LIX=c(char=6, const=100),
-    nWS=list(ms.syll=3, iw.char=6, es.syll=1,
-      nws1=c(ms=19.35, sl=0.1672, iw=12.97, es=3.27, const=0.875),
-      nws2=c(ms=20.07, sl=0.1682, iw=13.73, const=2.779),
-      nws3=c(ms=29.63, sl=0.1905, const=1.1144),
-      nws4=c(ms=27.44, sl=0.2656, const=1.693)),
-    RIX=c(char=6),
-    SMOG=c(syll=3, sqrt=1.043, fact=30, const=3.1291, sqrt.const=0),
-    Spache=c(asl=0.121, dword=0.082, const=0.659),
-    Strain=c(sent=3, const=10),
-    Traenkle.Bailer=list(
-      TB1=c(const=224.6814, awl=79.8304, asl=12.24032, prep=1.292857),
-      TB2=c(const=234.1063, awl=96.11069, prep=2.05444, conj=1.02805)),
-    TRI=c(syll=1, word=0.449, pnct=2.467, frgn=0.937, const=14.417),
-    Tuldava=c(syll=1, word1=1, word2=1, sent=1),
-    Wheeler.Smith=c(syll=2)
-  )
-  if(is.null(index)){
-    return(default.parameters)
-  } else if(identical(index, "dput")){
-    return(dput(default.parameters, control="useSource"))
-  } else if(all(index %in% names(default.parameters))){
-    if(length(index) == 1){
-      if(!is.null(var)){
-        stopifnot(var %in% names(default.parameters[[index]]))
-        return(default.parameters[[index]][[var]])
-      } else {
-        return(default.parameters[[index]])
-      }
-    } else {
-      return(default.parameters[index])
-    }
-  } else {
-    stop(
-      simpleError(
-        paste0(
-          "Unknown readability index: ",
-          paste0(index[!index %in% names(default.parameters)], collapse=", ")
+      default=list(
+        clz=35,
+        meanc=c(
+          const=0.886593,
+          awl=0.08364,
+          afw=0.161911,
+          asl1=0.021401,
+          asl2=0.000577,
+          asl3=0.000005
+        ),
+        grade=c(
+          const=4.275,
+          m1=12.881,
+          m2=34.934,
+          m3=20.388,
+          c1=26.194,
+          c2=2.046,
+          c3=11.767,
+          mc1=44.285,
+          mc2=97.62,
+          mc3=59.538
         )
       )
+    ),
+    Coleman=list(
+      default=list(
+        syll=1,
+        clz1=c(
+          word=1.29,
+          const=38.45
+        ),
+        clz2=c(
+          word=1.16,
+          sntc=1.48,
+          const=37.95
+        ),
+        clz3=c(
+          word=1.07,
+          sntc=1.18,
+          pron=0.76,
+          const=34.02
+        ),
+        clz4=c(
+          word=1.04,
+          sntc=1.06,
+          pron=0.56,
+          prep=0.36,
+          const=26.01
+        )
+      )
+    ),
+    Coleman.Liau=list(
+      default=list(
+        ecp=c(
+          const=141.8401,
+          char=0.21459,
+          sntc=1.079812
+        ),
+        grade=c(
+          ecp=-27.4004,
+          const=23.06395
+        ),
+        short=c(
+          awl=5.88,
+          spw=29.6,
+          const=15.8
+        )
+      )
+    ),
+    Dale.Chall=list(
+      default=c(
+        const=64,
+        dword=0.95,
+        asl=0.69
+      ),
+      PSK=c(
+        const=3.2672,
+        dword=0.1155,
+        asl=0.0596
+      ),
+      old=c(
+        const=3.6365,
+        dword=0.1579,
+        asl=0.0496
+      )
+    ),
+    Danielson.Bryan=list(
+      default=list(
+        db1=c(
+          cpb=1.0364,
+          cps=0.0194,
+          const=0.6059
+        ),
+        db2=c(
+          const=131.059,
+          cpb=10.364,
+          cps=0.194
+        )
+      )
+    ),
+    Dickes.Steiwer=list(
+      default=list(
+        const=235.95993,
+        awl=73.021,
+        asl=12.56438,
+        ttr=50.03293,
+        case.sens=FALSE
+      )
+    ),
+    ELF=list(
+      default=c(
+        syll=2
+      )
+    ),
+    Farr.Jenkins.Paterson=list(
+      default=c(
+        const=-31.517,
+        asl=1.015,
+        monsy=1.599
+      ),
+      PSK=c(
+        const=8.4335,
+        asl=-0.0923,
+        monsy=-0.0648
+      )
+    ),
+    Flesch=list(
+      default=c(
+        # a.k.a "en"
+        const=206.835,
+        asl=1.015,
+        asw=84.6
+      ),
+      de=c(
+        const=180,
+        asl=1,
+        asw=58.5
+      ),
+      es=c(
+        const=206.835,
+        asl=1.02,
+        asw=60
+      ),
+      "es-s"=c(
+        const=206.835,
+        asl=1,
+        asw=62.3
+      ),
+      nl=c(
+        const=206.835,
+        asl=0.93,
+        asw=77
+      ),
+      "nl-b"=c(
+        const=195,
+        asl=2,
+        asw=67
+      ),
+      fr=c(
+        const=209,
+        asl=1.15,
+        asw=68
+      ),
+      PSK=c(
+        const=-2.2029,
+        asl=-0.0778,
+        asw=-4.55
+      )
+    ),
+    Flesch.Kincaid=list(
+      default=c(
+        asl=0.39,
+        asw=11.8,
+        const=15.59
+      )
+    ),
+    FOG=list(
+      default=list(
+        const=0.4,
+        syll=3,
+        suffix=c(
+          "es",
+          "ed",
+          "ing"
+        )
+      ),
+      PSK=list(
+        const=3.0680,
+        asl=0.0877,
+        hword=0.0984,
+        syll=3,
+        suffix=c(
+          "es",
+          "ed",
+          "ing"
+        )
+      ),
+      NRI=list(
+        hword=3,
+        const=3,
+        div=2,
+        syll=3,
+        suffix=c(
+          "es",
+          "ed",
+          "ing"
+        )
+      )
+    ),
+    FORCAST=list(
+      default=c(
+        syll=1,
+        mult=.10,
+        const=20
+      ),
+      RGL=c(
+        syll=1,
+        mult=.11,
+        const=20.43
+      )
+    ),
+    Harris.Jacobson=list(
+      default=list(
+        char=6,
+        hj1=c(
+          dword=0.094,
+          asl=0.168,
+          const=0.502
+        ),
+        hj2=c(
+          dword=0.140,
+          asl=0.153,
+          const=0.560
+        ),
+        hj3=c(
+          asl=0.158,
+          lword=0.055,
+          const=0.355
+        ),
+        hj4=c(
+          dword=0.070,
+          asl=0.125,
+          lword=0.037,
+          const=0.497
+        ),
+        hj5=c(
+          dword=0.118,
+          asl=0.134,
+          lword=0.032,
+          const=0.424
+        )
+      )
+    ),
+    Linsear.Write=list(
+      default=c(
+        short.syll=2,
+        long.syll=3,
+        thrs=20
+      )
+    ),
+    LIX=list(
+      default=c(
+        char=6,
+        const=100
+      )
+    ),
+    nWS=list(
+      default=list(
+        ms.syll=3,
+        iw.char=6,
+        es.syll=1,
+        nws1=c(
+          ms=19.35,
+          sl=0.1672,
+          iw=12.97,
+          es=3.27,
+          const=0.875
+        ),
+        nws2=c(
+          ms=20.07,
+          sl=0.1682,
+          iw=13.73,
+          const=2.779
+        ),
+        nws3=c(
+          ms=29.63,
+          sl=0.1905,
+          const=1.1144
+        ),
+        nws4=c(
+          ms=27.44,
+          sl=0.2656,
+          const=1.693
+        )
+      )
+    ),
+    RIX=list(
+      default=c(
+        char=6
+      )
+    ),
+    SMOG=list(
+      default=c(
+        syll=3,
+        sqrt=1.043,
+        fact=30,
+        const=3.1291,
+        sqrt.const=0
+      ),
+      de=c(
+        sqrt=1,
+        fact=30,
+        syll=3,
+        const=-2,
+        sqrt.const=0
+      ),
+      C=c(
+        sqrt=0.9986,
+        fact=30,
+        syll=3,
+        const=2.8795,
+        sqrt.const=5
+      ),
+      simple=c(
+        sqrt=1,
+        fact=30,
+        syll=3,
+        const=3,
+        sqrt.const=0
+      )
+    ),
+    Spache=list(
+      default=c(
+        asl=0.121,
+        dword=0.082,
+        const=0.659
+      ),
+      old=c(
+        asl=0.141,
+        dword=0.086,
+        const=0.839
+      )
+    ),
+    Strain=list(
+      default=c(
+        sent=3,
+        const=10
+      )
+    ),
+    Traenkle.Bailer=list(
+      default=list(
+        TB1=c(
+          const=224.6814,
+          awl=79.8304,
+          asl=12.24032,
+          prep=1.292857
+        ),
+        TB2=c(
+          const=234.1063,
+          awl=96.11069,
+          prep=2.05444,
+          conj=1.02805
+        )
+      )
+    ),
+    TRI=list(
+      default=c(
+        syll=1,
+        word=0.449,
+        pnct=2.467,
+        frgn=0.937,
+        const=14.417
+      )
+    ),
+    Tuldava=list(
+      default=c(
+        syll=1,
+        word1=1,
+        word2=1,
+        sent=1
+      )
+    ),
+    Wheeler.Smith=list(
+      default=c(
+        syll=2
+      ),
+      de=c(
+        syll=2
+      )
     )
+  )
+
+  if(isTRUE(length(index) == 1)){
+    if(identical(index, "dput")){
+      return(dput(all_parameters, control="useSource"))
+    } else if(index %in% names(all_parameters)){
+      index_params <- all_parameters[[index]]
+      index_flavours <- names(index_params)
+      if(flavour %in% index_flavours){
+        index_params <- index_params[[flavour]]
+        if(length(var)){
+          if(var %in% names(index_params)){
+            index_params <- index_params[[var]]
+          } else {
+            stop(simpleError(
+              paste0("Unknown var \"", var,"\" for readability index \"", index,"\" (flavour \"", flavour, "\")!")
+            ))
+          }
+        } else {}
+        return(index_params)
+      } else {
+        stop(simpleError(
+          paste0("Unknown flavour \"", flavour, "\" for readability index \"", index,"\"!")
+        ))
+      }
+    } else {
+      stop(simpleError(
+        paste0("Unknown readability index \"", index, "\"!")
+      ))
+    }
+  } else if(length(index) > 1){
+    stop(
+      simpleError("rdb_parameters: \"index\" must be of length 1!")
+    )
+  } else {
+    return(all_parameters)
   }
-}
+} ## end function rdb_parameters()
+
 
 ## grade levels
 ## function get.grade.level()

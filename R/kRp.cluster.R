@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -42,14 +42,14 @@ kRp.cluster <- function(txts, lang, TT.path, TT.preset){
     POS.analysis.res <- treetag(txt, treetagger="manual", lang=lang, TT.options=list(path=TT.path, preset=TT.preset))
     frq.analysis.res <- freq.analysis(POS.analysis.res)
     # get relative token class distribution
-    frq.vector <- c(frq.analysis.res@desc$freq.token) / sum(frq.analysis.res@desc$freq.token)
+    frq.vector <- c(describe(frq.analysis.res)[["freq.token"]]) / sum(describe(frq.analysis.res)[["freq.token"]])
     # trigger hyphenation
     hyph.analysis.res <- hyphen(POS.analysis.res)
     rdb.vector <- c(
-      POS.analysis.res@desc$avg.sentc.length,
-      POS.analysis.res@desc$avg.word.length,
-      hyph.analysis.res@desc$avg.syll.word
-#      hyph.analysis.res@desc$syll.distrib["num",]/POS.analysis.res@desc$words, # relative distribution of syllables
+      describe(POS.analysis.res)[["avg.sentc.length"]],
+      describe(POS.analysis.res)[["avg.word.length"]],
+      describe(hyph.analysis.res)[["avg.syll.word"]]
+#      describe(hyph.analysis.res)[["syll.distrib"]]["num",]/describe(POS.analysis.res)[["words"]], # relative distribution of syllables
       )
     lxd.analysis.res <- lex.div(frq.analysis.res, measure=c("MATTR", "HD-D", "MTLD"), char=c())
 #    all.res <- list(frq.analysis.res, summary(rdb.analysis.res, flat=TRUE), summary(lxd.analysis.res))

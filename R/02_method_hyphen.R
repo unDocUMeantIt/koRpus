@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -19,40 +19,19 @@
 #' Automatic hyphenation
 #'
 #' These methods implement word hyphenation, based on Liang's algorithm.
+#' For details, please refer to the documentation for the generic
+#' \code{\link[sylly:hyphen]{hyphen}} method in the \code{sylly} package.
 #'
-#' For this to work the function must be told which pattern set it should use to
-#' find the right hyphenation spots. If \code{words} is already a tagged object,
-#' its language definition might be used. Otherwise, in addition to the words to
-#' be processed you must specify \code{hyph.pattern}. You have two options: If you
-#' want to use one of the built-in language patterns, just set it to the according
-#' language abbrevation. As of this version valid choices are:
-#' \itemize{
-#'  \item {\code{"de"}} {--- German (new spelling, since 1996)}
-#'  \item {\code{"de.old"}} {--- German (old spelling, 1901--1996)}
-#'  \item {\code{"en"}} {--- English (UK)}
-#'  \item {\code{"en.us"}} {--- English (US)}
-#'  \item {\code{"es"}} {--- Spanish}
-#'  \item {\code{"fr"}} {--- French}
-#'  \item {\code{"it"}} {--- Italian}
-#'  \item {\code{"ru"}} {--- Russian}
-#' }
-#' In case you'd rather use your own pattern set, \code{hyph.pattern} can be an
-#' object of class \code{kRp.hyph.pat}, alternatively.
-#'
-#' The built-in hyphenation patterns were derived from the patterns available on CTAN[1]
-#' under the terms of the LaTeX Project Public License[2], see \code{\link[koRpus:hyph.XX]{hyph.XX}}
-#' for detailed information.
-#'
-#' @param words Either an object of class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}} or
-#'    \code{\link[koRpus]{kRp.analysis-class}}, or a character vector with words to be hyphenated.
-#' @param hyph.pattern Either an object of class \code{\link[koRpus]{kRp.hyph.pat-class}}, or
+#' @param words Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
+#'    or a character vector with words to be hyphenated.
+#' @param hyph.pattern Either an object of class \code{\link[sylly:kRp.hyph.pat-class]{kRp.hyph.pat}}, or
 #'    a valid character string naming the language of the patterns to be used. See details.
 #' @param min.length Integer, number of letters a word must have for considering a hyphenation. \code{hyphen} will
 #'    not split words after the first or before the last letter, so values smaller than 4 are not useful.
 #' @param rm.hyph Logical, whether appearing hyphens in words should be removed before pattern matching.
 #' @param corp.rm.class A character vector with word classes which should be ignored. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
-#'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used. Relevant only if \code{words}
+#'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used. Relevant only if \code{words}
 #'    is a valid koRpus object.
 #' @param corp.rm.tag A character vector with POS tags which should be ignored. Relevant only if \code{words}
 #'    is a valid koRpus object.
@@ -61,12 +40,20 @@
 #'    current cache will be queried and new tokens also be added. Caches are language-specific and reside in an environment,
 #'    i.e., they are cleaned at the end of a session. If you want to save these for later use, see the option \code{hyph.cache.file}
 #'    in \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.
-#' @return An object of class \code{\link[koRpus]{kRp.hyphen-class}}
+#' @param as A character string defining the class of the object to be returned. Defaults to \code{"kRp.hyphen"}, but can also be
+#'    set to \code{"data.frame"} or \code{"numeric"}, returning only the central \code{data.frame} or the numeric vector of counted syllables,
+#'    respectively. For the latter two options, you can alternatively use the shortcut methods \code{hyphen_df} or  \code{hyphen_c}.
+#'    Ignored if \code{as.feature=TRUE}.
+#' @param as.feature Logical, whether the output should be just the analysis results or the input object with
+#'    the results added as a feature. Use \code{\link[koRpus:corpusHyphen]{corpusHyphen}} to get the results from such an aggregated object.
+#'    If set to \code{TRUE}, \code{as="kRp.hyphen"} is automatically set, overwriting other setting of \code{as} with a warning.
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}},
+#'    \code{data.frame} or a numeric vector, depending on the values of the \code{as} and \code{as.feature} arguments.
 #' @keywords hyphenation
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @seealso
-#'    \code{\link[koRpus:read.hyph.pat]{read.hyph.pat}},
-#'    \code{\link[koRpus:manage.hyph.pat]{manage.hyph.pat}}
+#'    \code{\link[sylly:read.hyph.pat]{read.hyph.pat}},
+#'    \code{\link[sylly:manage.hyph.pat]{manage.hyph.pat}}
 #' @references
 #'  Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.
 #'      Dissertation, Stanford University, Dept. of Computer Science.
@@ -74,34 +61,48 @@
 #' [1] \url{http://tug.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/}
 #'
 #' [2] \url{http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
-#' @export
 #' @import methods
-#' @rdname hyphen-methods
+#' @importFrom sylly hyphen
 #' @examples
 #' \dontrun{
 #' hyphen(tagged.text)
 #' }
-
-#################################################################
-## if this signature changes, check kRp.hyphen.calc() as well! ##
-#################################################################
-#' @param ... Only used for the method generic.
-setGeneric("hyphen", function(words, ...) standardGeneric("hyphen"))
-
 #' @export
-#' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
-#' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases hyphen,kRp.taggedText-method
+#' @aliases
+#'    hyphen
+#'    hyphen,kRp.text-method
 #' @rdname hyphen-methods
-setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
-    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE,
-    corp.rm.class="nonpunct",
-    corp.rm.tag=c(), quiet=FALSE, cache=TRUE){
 
-    # get class kRp.tagged from words object
+####################################################################################
+## if this signature changes, check kRp.hyphen.calc() in 'sylly' package as well! ##
+####################################################################################
+
+setMethod(
+  "hyphen",
+  signature(words="kRp.text"),
+  function(
+    words,
+    hyph.pattern=NULL,
+    min.length=4,
+    rm.hyph=TRUE,
+    corp.rm.class="nonpunct",
+    corp.rm.tag=c(),
+    quiet=FALSE,
+    cache=TRUE,
+    as="kRp.hyphen",
+    as.feature=FALSE
+  ){
+
+    if(isTRUE(as.feature)){
+      words_orig <- words
+      if(any(as != "kRp.hyphen")){
+        warning("Overwriting setting of \"as\" with \"kRp.hyphen\" because \"as.feature=TRUE\"!")
+        as <- "kRp.hyphen"
+      } else {}
+    } else {}
+    # get class kRp.text from words object
     # the internal function tag.kRp.txt() will return the object unchanged if it
     # is already tagged, so it's safe to call it with the lang set here
     tagged.text <- tag.kRp.txt(words, objects.only=TRUE)
@@ -109,21 +110,44 @@ setMethod("hyphen", signature(words="kRp.taggedText"), function(words,
     words <- tagged.txt.rm.classes(taggedText(tagged.text), lemma=FALSE,
       lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag)
 
-    results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, quiet=quiet, cache=cache, lang=lang)
+    if(is.null(hyph.pattern)){
+      hyph.pattern <- lang
+    } else {}
+    results <- sylly::hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, as=as)
+
+    if(isTRUE(as.feature)){
+      corpusHyphen(words_orig) <- results
+      return(words_orig)
+    } else {
+      return(results)
+    }
+  }
+)
+
+#' @export
+#' @importFrom sylly hyphen_df
+#' @aliases hyphen_df,kRp.text-method
+#' @rdname hyphen-methods
+setMethod("hyphen_df", signature(words="kRp.text"), function(words,
+    hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
+
+    results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, as="data.frame")
 
     return(results)
   }
 )
 
 #' @export
-#' @aliases hyphen,character-method
+#' @importFrom sylly hyphen_c
+#' @aliases hyphen_c,kRp.text-method
 #' @rdname hyphen-methods
-setMethod("hyphen", signature(words="character"), function(words,
+setMethod("hyphen_c", signature(words="kRp.text"), function(words,
     hyph.pattern=NULL, min.length=4, rm.hyph=TRUE, quiet=FALSE, cache=TRUE){
 
-    results <- kRp.hyphen.calc(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
-      rm.hyph=rm.hyph, quiet=quiet, cache=cache)
+    results <- hyphen(words=words, hyph.pattern=hyph.pattern, min.length=min.length,
+      rm.hyph=rm.hyph, quiet=quiet, cache=cache, as="numeric")
 
     return(results)
   }

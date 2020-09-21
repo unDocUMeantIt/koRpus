@@ -1,7 +1,12 @@
-library(shiny)
-library(koRpus)
+# you need to load all language packages defined in the dropdown menu of ui.R
+library(koRpus.lang.de)
+library(koRpus.lang.en)
+library(koRpus.lang.es)
+library(koRpus.lang.fr)
+library(koRpus.lang.it)
 library(koRpus.lang.nl)
 library(koRpus.lang.pt)
+library(koRpus.lang.ru)
 
 shinyServer(function(input, output){
 

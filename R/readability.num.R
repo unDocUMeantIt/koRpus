@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -51,7 +51,6 @@
 #' @param index A character vector, indicating which indices should actually be computed.
 #' @param parameters A named list with magic numbers, defining the relevant parameters for each index. If none are given,
 #'    the default values are used.
-#' @param ... Additional options, see \code{\link[koRpus:readability]{readability}}.
 #'
 #' @examples
 #' \dontrun{
@@ -78,30 +77,31 @@
 #' @export
 
 readability.num <- function(
-      txt.features=list(
-        sentences=NULL,
-        words=NULL,
-        letters=c(all=0, l5=0, l6=0),
-        syllables=c(all=0, s1=0, s2=0),
-        punct=NULL,
-        all.chars=NULL,
-        prepositions=NULL,
-        conjunctions=NULL,
-        pronouns=NULL,
-        foreign=NULL,
-        TTR=NULL,
-        FOG.hard.words=NULL,
-        Bormuth.NOL=NULL,
-        Dale.Chall.NOL=NULL,
-        Harris.Jacobson.NOL=NULL,
-        Spache.NOL=NULL),
-      index=c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
-        "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
-        "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
-        "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
-        "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-        "Wheeler.Smith"),
-      parameters=list(), ...){
+  txt.features=list(
+    sentences=NULL,
+    words=NULL,
+    letters=c(all=0, l5=0, l6=0),
+    syllables=c(all=0, s1=0, s2=0),
+    punct=NULL,
+    all.chars=NULL,
+    prepositions=NULL,
+    conjunctions=NULL,
+    pronouns=NULL,
+    foreign=NULL,
+    TTR=NULL,
+    FOG.hard.words=NULL,
+    Bormuth.NOL=NULL,
+    Dale.Chall.NOL=NULL,
+    Harris.Jacobson.NOL=NULL,
+    Spache.NOL=NULL),
+  index=c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
+    "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
+    "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
+    "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS",
+    "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+    "Wheeler.Smith"),
+  parameters=list()
+){
 
   # check if txt.features is a readability result, and
   # probably fetch the desct slot from it:
@@ -199,8 +199,14 @@ readability.num <- function(
     Harris.Jacobson=txt.features[["Harris.Jacobson.NOL"]],
     Spache=txt.features[["Spache.NOL"]])
 
-  results <- kRp.rdb.formulae(index=index, analyze.text=FALSE, txt.features=txt.features, parameters=parameters,
-    word.lists=word.lists, ...)
+  results <- kRp.rdb.formulae(
+    index=index,
+    analyze.text=FALSE,
+    txt.features=txt.features,
+    parameters=parameters,
+    word.lists=word.lists,
+    as.feature=FALSE
+  )
 
   return(results)
 }

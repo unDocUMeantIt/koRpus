@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -25,7 +25,7 @@
 #' \dontrun{
 #' summary(flesch(tagged.txt))
 #' }
-#' @include 01_class_10_kRp.readability.R
+#' @include 01_class_05_kRp.readability.R
 #' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.readability"), function(object, flat=FALSE){
 
@@ -80,658 +80,671 @@ setMethod("summary", signature(object="kRp.readability"), function(object, flat=
   summary.table <- data.frame(index="", flavour="", raw="", grade="", age="", stringsAsFactors=FALSE)
   summary.flat <- c()
 
-  if(sum(!is.na(object@ARI)) > 1){
+  if(sum(!is.na(slot(object, "ARI"))) > 1){
+    if("simplified" %in% slot(object, "ARI")[["flavour"]]){
+      ARI.value <- "index"
+    } else {
+      ARI.value <- "grade"
+    }
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, ARI=object@ARI$grade)
+      summary.flat <- c(summary.flat, ARI=slot(object, "ARI")[[ARI.value]])
+    } else {
+      if(identical(ARI.value, "index")){
+        summary.table <- add.to.sumtab(summary.table, adds=list(
+            index="ARI",
+            flavour=slot(object, "ARI")[["flavour"]],
+            raw=slot(object, "ARI")[[ARI.value]]
+          ))
+      } else {
+        summary.table <- add.to.sumtab(summary.table, adds=list(
+            index="ARI",
+            flavour=slot(object, "ARI")[["flavour"]],
+            grade=slot(object, "ARI")[[ARI.value]]
+          ))
+      }
+    }
+  } else {}
+  if(sum(!is.na(slot(object, "ARI.NRI"))) > 1){
+    if(isTRUE(flat)){
+      summary.flat <- c(summary.flat, ARI.NRI=slot(object, "ARI.NRI")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="ARI",
-          flavour=object@ARI$flavour,
-          grade=object@ARI$grade
+          flavour=slot(object, "ARI.NRI")[["flavour"]],
+          grade=slot(object, "ARI.NRI")[["grade"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@ARI.NRI)) > 1){
+  if(sum(!is.na(slot(object, "ARI.simple"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, ARI.NRI=object@ARI.NRI$grade)
+      summary.flat <- c(summary.flat, ARI.simple=slot(object, "ARI.simple")[["index"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="ARI",
-          flavour=object@ARI.NRI$flavour,
-          grade=object@ARI.NRI$grade
-        ))
-    }
-  } else {}
-  if(sum(!is.na(object@ARI.simple)) > 1){
-    if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, ARI.simple=object@ARI.simple$index)
-    } else {
-      summary.table <- add.to.sumtab(summary.table, adds=list(
-          index="ARI",
-          flavour=object@ARI.simple$flavour,
-          raw=object@ARI.simple$index
+          flavour=slot(object, "ARI.simple")[["flavour"]],
+          raw=slot(object, "ARI.simple")[["index"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Bormuth)) == 0){
+  if(sum(is.na(slot(object, "Bormuth"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Bormuth=object@Bormuth$mean.cloze)
+      summary.flat <- c(summary.flat, Bormuth=slot(object, "Bormuth")[["mean.cloze"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Bormuth",
-          flavour=object@Bormuth$flavour,
-          raw=object@Bormuth$mean.cloze,
-          grade=object@Bormuth$grade
+          flavour=slot(object, "Bormuth")[["flavour"]],
+          raw=slot(object, "Bormuth")[["mean.cloze"]],
+          grade=slot(object, "Bormuth")[["grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Coleman)) == 0){
+  if(sum(is.na(slot(object, "Coleman"))) == 0){
     if(isTRUE(flat)){
       summary.flat <- c(summary.flat,
-        Coleman.C1=round(object@Coleman$C1, digits=0),
-        Coleman.C2=round(object@Coleman$C2, digits=0),
-        Coleman.C3=round(object@Coleman$C3, digits=0),
-        Coleman.C4=round(object@Coleman$C4, digits=0))
+        Coleman.C1=round(slot(object, "Coleman")[["C1"]], digits=0),
+        Coleman.C2=round(slot(object, "Coleman")[["C2"]], digits=0),
+        Coleman.C3=round(slot(object, "Coleman")[["C3"]], digits=0),
+        Coleman.C4=round(slot(object, "Coleman")[["C4"]], digits=0))
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Coleman C1",
-          flavour=object@Coleman$flavour,
-          raw=round(object@Coleman$C1, digits=0)
+          flavour=slot(object, "Coleman")[["flavour"]],
+          raw=round(slot(object, "Coleman")[["C1"]], digits=0)
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Coleman C2",
-          flavour=object@Coleman$flavour,
-          raw=round(object@Coleman$C2, digits=0)
+          flavour=slot(object, "Coleman")[["flavour"]],
+          raw=round(slot(object, "Coleman")[["C2"]], digits=0)
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Coleman C3",
-          flavour=object@Coleman$flavour,
-          raw=round(object@Coleman$C3, digits=0)
+          flavour=slot(object, "Coleman")[["flavour"]],
+          raw=round(slot(object, "Coleman")[["C3"]], digits=0)
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Coleman C4",
-          flavour=object@Coleman$flavour,
-          raw=round(object@Coleman$C4, digits=0)
+          flavour=slot(object, "Coleman")[["flavour"]],
+          raw=round(slot(object, "Coleman")[["C4"]], digits=0)
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Coleman.Liau)) == 0){
+  if(sum(is.na(slot(object, "Coleman.Liau"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Coleman.Liau=round(object@Coleman.Liau$ECP, digits=0))
+      summary.flat <- c(summary.flat, Coleman.Liau=round(slot(object, "Coleman.Liau")[["ECP"]], digits=0))
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Coleman-Liau",
-          flavour=object@Coleman.Liau$flavour,
-          raw=round(object@Coleman.Liau$ECP, digits=0),
-          grade=object@Coleman.Liau$grade
+          flavour=slot(object, "Coleman.Liau")[["flavour"]],
+          raw=round(slot(object, "Coleman.Liau")[["ECP"]], digits=0),
+          grade=slot(object, "Coleman.Liau")[["grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Dale.Chall)) == 0){
+  if(sum(is.na(slot(object, "Dale.Chall"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Dale.Chall=object@Dale.Chall$raw)
+      summary.flat <- c(summary.flat, Dale.Chall=slot(object, "Dale.Chall")[["raw"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Dale-Chall",
-          flavour=object@Dale.Chall$flavour,
-          raw=object@Dale.Chall$raw,
-          grade=object@Dale.Chall$grade,
-          age=object@Dale.Chall$age
+          flavour=slot(object, "Dale.Chall")[["flavour"]],
+          raw=slot(object, "Dale.Chall")[["raw"]],
+          grade=slot(object, "Dale.Chall")[["grade"]],
+          age=slot(object, "Dale.Chall")[["age"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@Dale.Chall.PSK)) == 0){
+  if(sum(is.na(slot(object, "Dale.Chall.PSK"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Dale.Chall.PSK=object@Dale.Chall.PSK$raw)
+      summary.flat <- c(summary.flat, Dale.Chall.PSK=slot(object, "Dale.Chall.PSK")[["raw"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Dale-Chall",
-          flavour=object@Dale.Chall.PSK$flavour,
-          raw=object@Dale.Chall.PSK$raw,
-          grade=object@Dale.Chall.PSK$grade,
-          age=object@Dale.Chall.PSK$age
+          flavour=slot(object, "Dale.Chall.PSK")[["flavour"]],
+          raw=slot(object, "Dale.Chall.PSK")[["raw"]],
+          grade=slot(object, "Dale.Chall.PSK")[["grade"]],
+          age=slot(object, "Dale.Chall.PSK")[["age"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@Dale.Chall.old)) == 0){
+  if(sum(is.na(slot(object, "Dale.Chall.old"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Dale.Chall.old=object@Dale.Chall.old$raw)
+      summary.flat <- c(summary.flat, Dale.Chall.old=slot(object, "Dale.Chall.old")[["raw"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Dale-Chall",
-          flavour=object@Dale.Chall.old$flavour,
-          raw=object@Dale.Chall.old$raw,
-          grade=object@Dale.Chall.old$grade,
-          age=object@Dale.Chall.old$age
+          flavour=slot(object, "Dale.Chall.old")[["flavour"]],
+          raw=slot(object, "Dale.Chall.old")[["raw"]],
+          grade=slot(object, "Dale.Chall.old")[["grade"]],
+          age=slot(object, "Dale.Chall.old")[["age"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Danielson.Bryan)) == 0){
+  if(sum(is.na(slot(object, "Danielson.Bryan"))) == 0){
     if(isTRUE(flat)){
       summary.flat <- c(summary.flat,
-        Danielson.Bryan.DB1=object@Danielson.Bryan$DB1,
-        Danielson.Bryan.DB2=object@Danielson.Bryan$DB2)
+        Danielson.Bryan.DB1=slot(object, "Danielson.Bryan")[["DB1"]],
+        Danielson.Bryan.DB2=slot(object, "Danielson.Bryan")[["DB2"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Danielson-Bryan DB1",
-          flavour=object@Danielson.Bryan$flavour,
-          raw=object@Danielson.Bryan$DB1
+          flavour=slot(object, "Danielson.Bryan")[["flavour"]],
+          raw=slot(object, "Danielson.Bryan")[["DB1"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Danielson-Bryan DB2",
-          flavour=object@Danielson.Bryan$flavour,
-          raw=object@Danielson.Bryan$DB2,
-          grade=object@Danielson.Bryan$DB2.grade
+          flavour=slot(object, "Danielson.Bryan")[["flavour"]],
+          raw=slot(object, "Danielson.Bryan")[["DB2"]],
+          grade=slot(object, "Danielson.Bryan")[["DB2.grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Dickes.Steiwer)) == 0){
+  if(sum(is.na(slot(object, "Dickes.Steiwer"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Dickes.Steiwer=object@Dickes.Steiwer$Dickes.Steiwer)
+      summary.flat <- c(summary.flat, Dickes.Steiwer=slot(object, "Dickes.Steiwer")[["Dickes.Steiwer"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Dickes-Steiwer",
-          flavour=object@Dickes.Steiwer$flavour,
-          raw=object@Dickes.Steiwer$Dickes.Steiwer
+          flavour=slot(object, "Dickes.Steiwer")[["flavour"]],
+          raw=slot(object, "Dickes.Steiwer")[["Dickes.Steiwer"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@DRP)) == 0){
+  if(sum(is.na(slot(object, "DRP"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, DRP=object@DRP$DRP)
+      summary.flat <- c(summary.flat, DRP=slot(object, "DRP")[["DRP"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="DRP",
-          raw=object@DRP$DRP
+          raw=slot(object, "DRP")[["DRP"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@ELF)) == 0){
+  if(sum(is.na(slot(object, "ELF"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, ELF=object@ELF$ELF)
+      summary.flat <- c(summary.flat, ELF=slot(object, "ELF")[["ELF"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="ELF",
-          flavour=object@ELF$flavour,
-          raw=object@ELF$ELF
+          flavour=slot(object, "ELF")[["flavour"]],
+          raw=slot(object, "ELF")[["ELF"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Farr.Jenkins.Paterson)) == 0){
+  if(sum(is.na(slot(object, "Farr.Jenkins.Paterson"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Farr.Jenkins.Paterson=object@Farr.Jenkins.Paterson$FJP)
+      summary.flat <- c(summary.flat, Farr.Jenkins.Paterson=slot(object, "Farr.Jenkins.Paterson")[["FJP"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Farr-Jenkins-Paterson",
-          flavour=object@Farr.Jenkins.Paterson$flavour,
-          raw=object@Farr.Jenkins.Paterson$FJP,
-          grade=object@Farr.Jenkins.Paterson$grade
+          flavour=slot(object, "Farr.Jenkins.Paterson")[["flavour"]],
+          raw=slot(object, "Farr.Jenkins.Paterson")[["FJP"]],
+          grade=slot(object, "Farr.Jenkins.Paterson")[["grade"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@Farr.Jenkins.Paterson.PSK)) == 0){
+  if(sum(is.na(slot(object, "Farr.Jenkins.Paterson.PSK"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Farr.Jenkins.Paterson.PSK=object@Farr.Jenkins.Paterson.PSK$FJP)
+      summary.flat <- c(summary.flat, Farr.Jenkins.Paterson.PSK=slot(object, "Farr.Jenkins.Paterson.PSK")[["FJP"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Farr-Jenkins-Paterson",
-          flavour=object@Farr.Jenkins.Paterson.PSK$flavour,
-          grade=object@Farr.Jenkins.Paterson.PSK$FJP
+          flavour=slot(object, "Farr.Jenkins.Paterson.PSK")[["flavour"]],
+          grade=slot(object, "Farr.Jenkins.Paterson.PSK")[["FJP"]]
         ))
     }
   } else {}
 
-  if(sum(!is.na(object@Flesch)) > 1){
+  if(sum(!is.na(slot(object, "Flesch"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch=object@Flesch$RE)
+      summary.flat <- c(summary.flat, Flesch=slot(object, "Flesch")[["RE"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch$flavour,
-          raw=object@Flesch$RE,
-          grade=object@Flesch$grade,
-          age=object@Flesch$age
+          flavour=slot(object, "Flesch")[["flavour"]],
+          raw=slot(object, "Flesch")[["RE"]],
+          grade=slot(object, "Flesch")[["grade"]],
+          age=slot(object, "Flesch")[["age"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@Flesch.PSK)) > 1){
+  if(sum(!is.na(slot(object, "Flesch.PSK"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.PSK=object@Flesch.PSK$grade)
+      summary.flat <- c(summary.flat, Flesch.PSK=slot(object, "Flesch.PSK")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch.PSK$flavour,
-          raw=object@Flesch.PSK$RE,
-          grade=object@Flesch.PSK$grade,
-          age=object@Flesch.PSK$age
+          flavour=slot(object, "Flesch.PSK")[["flavour"]],
+          raw=slot(object, "Flesch.PSK")[["RE"]],
+          grade=slot(object, "Flesch.PSK")[["grade"]],
+          age=slot(object, "Flesch.PSK")[["age"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@Flesch.Brouwer)) > 1){
+  if(sum(!is.na(slot(object, "Flesch.Brouwer"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.Brouwer=object@Flesch.Brouwer$RE)
+      summary.flat <- c(summary.flat, Flesch.Brouwer=slot(object, "Flesch.Brouwer")[["RE"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch.Brouwer$flavour,
-          raw=object@Flesch.Brouwer$RE,
-          grade=object@Flesch.Brouwer$grade,
-          age=object@Flesch.Brouwer$age
+          flavour=slot(object, "Flesch.Brouwer")[["flavour"]],
+          raw=slot(object, "Flesch.Brouwer")[["RE"]],
+          grade=slot(object, "Flesch.Brouwer")[["grade"]],
+          age=slot(object, "Flesch.Brouwer")[["age"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@Flesch.Szigriszt)) > 1){
+  if(sum(!is.na(slot(object, "Flesch.Szigriszt"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.Szigriszt=object@Flesch.Szigriszt$RE)
+      summary.flat <- c(summary.flat, Flesch.Szigriszt=slot(object, "Flesch.Szigriszt")[["RE"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch.Szigriszt$flavour,
-          raw=object@Flesch.Szigriszt$RE,
-          grade=object@Flesch.Szigriszt$grade,
-          age=object@Flesch.Szigriszt$age
+          flavour=slot(object, "Flesch.Szigriszt")[["flavour"]],
+          raw=slot(object, "Flesch.Szigriszt")[["RE"]],
+          grade=slot(object, "Flesch.Szigriszt")[["grade"]],
+          age=slot(object, "Flesch.Szigriszt")[["age"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@Flesch.de)) > 1){
+  if(sum(!is.na(slot(object, "Flesch.de"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.de=object@Flesch.de$RE)
+      summary.flat <- c(summary.flat, Flesch.de=slot(object, "Flesch.de")[["RE"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch.de$flavour,
-          raw=object@Flesch.de$RE,
-          grade=object@Flesch.de$grade,
-          age=object@Flesch.de$age
+          flavour=slot(object, "Flesch.de")[["flavour"]],
+          raw=slot(object, "Flesch.de")[["RE"]],
+          grade=slot(object, "Flesch.de")[["grade"]],
+          age=slot(object, "Flesch.de")[["age"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@Flesch.es)) > 1){
+  if(sum(!is.na(slot(object, "Flesch.es"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.es=object@Flesch.es$RE)
+      summary.flat <- c(summary.flat, Flesch.es=slot(object, "Flesch.es")[["RE"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch.es$flavour,
-          raw=object@Flesch.es$RE,
-          grade=object@Flesch.es$grade,
-          age=object@Flesch.es$age
+          flavour=slot(object, "Flesch.es")[["flavour"]],
+          raw=slot(object, "Flesch.es")[["RE"]],
+          grade=slot(object, "Flesch.es")[["grade"]],
+          age=slot(object, "Flesch.es")[["age"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@Flesch.fr)) > 1){
+  if(sum(!is.na(slot(object, "Flesch.fr"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.fr=object@Flesch.fr$RE)
+      summary.flat <- c(summary.flat, Flesch.fr=slot(object, "Flesch.fr")[["RE"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch.fr$flavour,
-          raw=object@Flesch.fr$RE,
-          grade=object@Flesch.fr$grade,
-          age=object@Flesch.fr$age
+          flavour=slot(object, "Flesch.fr")[["flavour"]],
+          raw=slot(object, "Flesch.fr")[["RE"]],
+          grade=slot(object, "Flesch.fr")[["grade"]],
+          age=slot(object, "Flesch.fr")[["age"]]
         ))
     }
   } else {}
-  if(sum(!is.na(object@Flesch.nl)) > 1){
+  if(sum(!is.na(slot(object, "Flesch.nl"))) > 1){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.nl=object@Flesch.nl$RE)
+      summary.flat <- c(summary.flat, Flesch.nl=slot(object, "Flesch.nl")[["RE"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch",
-          flavour=object@Flesch.nl$flavour,
-          raw=object@Flesch.nl$RE,
-          grade=object@Flesch.nl$grade,
-          age=object@Flesch.nl$age
+          flavour=slot(object, "Flesch.nl")[["flavour"]],
+          raw=slot(object, "Flesch.nl")[["RE"]],
+          grade=slot(object, "Flesch.nl")[["grade"]],
+          age=slot(object, "Flesch.nl")[["age"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Flesch.Kincaid)) == 0){
+  if(sum(is.na(slot(object, "Flesch.Kincaid"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Flesch.Kincaid=object@Flesch.Kincaid$grade)
+      summary.flat <- c(summary.flat, Flesch.Kincaid=slot(object, "Flesch.Kincaid")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Flesch-Kincaid",
-          flavour=object@Flesch.Kincaid$flavour,
-          grade=object@Flesch.Kincaid$grade,
-          age=object@Flesch.Kincaid$age
+          flavour=slot(object, "Flesch.Kincaid")[["flavour"]],
+          grade=slot(object, "Flesch.Kincaid")[["grade"]],
+          age=slot(object, "Flesch.Kincaid")[["age"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@FOG)) == 0){
+  if(sum(is.na(slot(object, "FOG"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, FOG=object@FOG$FOG)
+      summary.flat <- c(summary.flat, FOG=slot(object, "FOG")[["FOG"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="FOG",
-          flavour=object@FOG$flavour,
-          grade=object@FOG$FOG
+          flavour=slot(object, "FOG")[["flavour"]],
+          grade=slot(object, "FOG")[["FOG"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@FOG.PSK)) == 0){
+  if(sum(is.na(slot(object, "FOG.PSK"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, FOG.PSK=object@FOG.PSK$FOG)
+      summary.flat <- c(summary.flat, FOG.PSK=slot(object, "FOG.PSK")[["FOG"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="FOG",
-          flavour=object@FOG.PSK$flavour,
-          grade=object@FOG.PSK$FOG
+          flavour=slot(object, "FOG.PSK")[["flavour"]],
+          grade=slot(object, "FOG.PSK")[["FOG"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@FOG.NRI)) == 0){
+  if(sum(is.na(slot(object, "FOG.NRI"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, FOG.NRI=object@FOG.NRI$FOG)
+      summary.flat <- c(summary.flat, FOG.NRI=slot(object, "FOG.NRI")[["FOG"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="FOG",
-          flavour=object@FOG.NRI$flavour,
-          grade=object@FOG.NRI$FOG
+          flavour=slot(object, "FOG.NRI")[["flavour"]],
+          grade=slot(object, "FOG.NRI")[["FOG"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@FORCAST)) == 0){
+  if(sum(is.na(slot(object, "FORCAST"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, FORCAST=object@FORCAST$grade)
+      summary.flat <- c(summary.flat, FORCAST=slot(object, "FORCAST")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="FORCAST",
-          flavour=object@FORCAST$flavour,
-          grade=object@FORCAST$grade,
-          age=object@FORCAST$age
+          flavour=slot(object, "FORCAST")[["flavour"]],
+          grade=slot(object, "FORCAST")[["grade"]],
+          age=slot(object, "FORCAST")[["age"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@FORCAST.RGL)) == 0){
+  if(sum(is.na(slot(object, "FORCAST.RGL"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, FORCAST.RGL=object@FORCAST.RGL$grade)
+      summary.flat <- c(summary.flat, FORCAST.RGL=slot(object, "FORCAST.RGL")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="FORCAST",
-          flavour=object@FORCAST.RGL$flavour,
-          grade=object@FORCAST.RGL$grade,
-          age=object@FORCAST.RGL$age
+          flavour=slot(object, "FORCAST.RGL")[["flavour"]],
+          grade=slot(object, "FORCAST.RGL")[["grade"]],
+          age=slot(object, "FORCAST.RGL")[["age"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Fucks)) == 0){
+  if(sum(is.na(slot(object, "Fucks"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Fucks=object@Fucks$Fucks)
+      summary.flat <- c(summary.flat, Fucks=slot(object, "Fucks")[["Fucks"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Fucks",
-          raw=object@Fucks$Fucks,
-          grade=object@Fucks$grade
+          raw=slot(object, "Fucks")[["Fucks"]],
+          grade=slot(object, "Fucks")[["grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Harris.Jacobson)) == 0){
+  if(sum(is.na(slot(object, "Harris.Jacobson"))) == 0){
     if(isTRUE(flat)){
       summary.flat <- c(summary.flat,
-        HJ1=object@Harris.Jacobson$HJ1,
-        HJ2=object@Harris.Jacobson$HJ2,
-        HJ3=object@Harris.Jacobson$HJ3,
-        HJ4=object@Harris.Jacobson$HJ4)
+        HJ1=slot(object, "Harris.Jacobson")[["HJ1"]],
+        HJ2=slot(object, "Harris.Jacobson")[["HJ2"]],
+        HJ3=slot(object, "Harris.Jacobson")[["HJ3"]],
+        HJ4=slot(object, "Harris.Jacobson")[["HJ4"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Harris-Jacobson HJ1",
-          flavour=object@Harris.Jacobson$flavour,
-          raw=object@Harris.Jacobson$HJ1
+          flavour=slot(object, "Harris.Jacobson")[["flavour"]],
+          raw=slot(object, "Harris.Jacobson")[["HJ1"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Harris-Jacobson HJ2",
-          flavour=object@Harris.Jacobson$flavour,
-          raw=object@Harris.Jacobson$HJ2
+          flavour=slot(object, "Harris.Jacobson")[["flavour"]],
+          raw=slot(object, "Harris.Jacobson")[["HJ2"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Harris-Jacobson HJ3",
-          flavour=object@Harris.Jacobson$flavour,
-          raw=object@Harris.Jacobson$HJ3
+          flavour=slot(object, "Harris.Jacobson")[["flavour"]],
+          raw=slot(object, "Harris.Jacobson")[["HJ3"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Harris-Jacobson HJ4",
-          flavour=object@Harris.Jacobson$flavour,
-          raw=object@Harris.Jacobson$HJ4
+          flavour=slot(object, "Harris.Jacobson")[["flavour"]],
+          raw=slot(object, "Harris.Jacobson")[["HJ4"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Harris-Jacobson HJ5",
-          flavour=object@Harris.Jacobson$flavour,
-          raw=object@Harris.Jacobson$HJ5
+          flavour=slot(object, "Harris.Jacobson")[["flavour"]],
+          raw=slot(object, "Harris.Jacobson")[["HJ5"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Linsear.Write)) == 0){
+  if(sum(is.na(slot(object, "Linsear.Write"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Linsear.Write=object@Linsear.Write$grade)
+      summary.flat <- c(summary.flat, Linsear.Write=slot(object, "Linsear.Write")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Linsear-Write",
-          flavour=object@Linsear.Write$flavour,
-          grade=object@Linsear.Write$grade
+          flavour=slot(object, "Linsear.Write")[["flavour"]],
+          grade=slot(object, "Linsear.Write")[["grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@LIX)) == 0){
+  if(sum(is.na(slot(object, "LIX"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, LIX=object@LIX$index)
+      summary.flat <- c(summary.flat, LIX=slot(object, "LIX")[["index"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="LIX",
-          flavour=object@LIX$flavour,
-          raw=object@LIX$index,
-          grade=object@LIX$grade
+          flavour=slot(object, "LIX")[["flavour"]],
+          raw=slot(object, "LIX")[["index"]],
+          grade=slot(object, "LIX")[["grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Wiener.STF)) == 0){
+  if(sum(is.na(slot(object, "Wiener.STF"))) == 0){
     if(isTRUE(flat)){
       summary.flat <- c(summary.flat,
-        nWS1=object@Wiener.STF$nWS1,
-        nWS2=object@Wiener.STF$nWS2,
-        nWS3=object@Wiener.STF$nWS3,
-        nWS4=object@Wiener.STF$nWS4)
+        nWS1=slot(object, "Wiener.STF")[["nWS1"]],
+        nWS2=slot(object, "Wiener.STF")[["nWS2"]],
+        nWS3=slot(object, "Wiener.STF")[["nWS3"]],
+        nWS4=slot(object, "Wiener.STF")[["nWS4"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="nWS1",
-          flavour=object@Wiener.STF$flavour,
-          grade=object@Wiener.STF$nWS1
+          flavour=slot(object, "Wiener.STF")[["flavour"]],
+          grade=slot(object, "Wiener.STF")[["nWS1"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="nWS2",
-          flavour=object@Wiener.STF$flavour,
-          grade=object@Wiener.STF$nWS2
+          flavour=slot(object, "Wiener.STF")[["flavour"]],
+          grade=slot(object, "Wiener.STF")[["nWS2"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="nWS3",
-          flavour=object@Wiener.STF$flavour,
-          grade=object@Wiener.STF$nWS3
+          flavour=slot(object, "Wiener.STF")[["flavour"]],
+          grade=slot(object, "Wiener.STF")[["nWS3"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="nWS4",
-          flavour=object@Wiener.STF$flavour,
-          grade=object@Wiener.STF$nWS4
+          flavour=slot(object, "Wiener.STF")[["flavour"]],
+          grade=slot(object, "Wiener.STF")[["nWS4"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@RIX)) == 0){
+  if(sum(is.na(slot(object, "RIX"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, RIX=object@RIX$index)
+      summary.flat <- c(summary.flat, RIX=slot(object, "RIX")[["index"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="RIX",
-          flavour=object@RIX$flavour,
-          raw=object@RIX$index,
-          grade=object@RIX$grade
+          flavour=slot(object, "RIX")[["flavour"]],
+          raw=slot(object, "RIX")[["index"]],
+          grade=slot(object, "RIX")[["grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@SMOG)) == 0){
+  if(sum(is.na(slot(object, "SMOG"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, SMOG=object@SMOG$grade)
+      summary.flat <- c(summary.flat, SMOG=slot(object, "SMOG")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="SMOG",
-          flavour=object@SMOG$flavour,
-          grade=object@SMOG$grade,
-          age=object@SMOG$age
+          flavour=slot(object, "SMOG")[["flavour"]],
+          grade=slot(object, "SMOG")[["grade"]],
+          age=slot(object, "SMOG")[["age"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@SMOG.de)) == 0){
+  if(sum(is.na(slot(object, "SMOG.de"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, SMOG.de=object@SMOG.de$grade)
+      summary.flat <- c(summary.flat, SMOG.de=slot(object, "SMOG.de")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="SMOG",
-          flavour=object@SMOG.de$flavour,
-          grade=object@SMOG.de$grade,
-          age=object@SMOG.de$age
+          flavour=slot(object, "SMOG.de")[["flavour"]],
+          grade=slot(object, "SMOG.de")[["grade"]],
+          age=slot(object, "SMOG.de")[["age"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@SMOG.C)) == 0){
+  if(sum(is.na(slot(object, "SMOG.C"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, SMOG.C=object@SMOG.C$grade)
+      summary.flat <- c(summary.flat, SMOG.C=slot(object, "SMOG.C")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="SMOG",
-          flavour=object@SMOG.C$flavour,
-          grade=object@SMOG.C$grade,
-          age=object@SMOG.C$age
+          flavour=slot(object, "SMOG.C")[["flavour"]],
+          grade=slot(object, "SMOG.C")[["grade"]],
+          age=slot(object, "SMOG.C")[["age"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@SMOG.simple)) == 0){
+  if(sum(is.na(slot(object, "SMOG.simple"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, SMOG.simple=object@SMOG.simple$grade)
+      summary.flat <- c(summary.flat, SMOG.simple=slot(object, "SMOG.simple")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="SMOG",
-          flavour=object@SMOG.simple$flavour,
-          grade=object@SMOG.simple$grade,
-          age=object@SMOG.simple$age
+          flavour=slot(object, "SMOG.simple")[["flavour"]],
+          grade=slot(object, "SMOG.simple")[["grade"]],
+          age=slot(object, "SMOG.simple")[["age"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Spache)) == 0){
+  if(sum(is.na(slot(object, "Spache"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Spache=object@Spache$grade)
+      summary.flat <- c(summary.flat, Spache=slot(object, "Spache")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Spache",
-          flavour=object@Spache$flavour,
-          grade=object@Spache$grade
+          flavour=slot(object, "Spache")[["flavour"]],
+          grade=slot(object, "Spache")[["grade"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@Spache.old)) == 0){
+  if(sum(is.na(slot(object, "Spache.old"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Spache.old=object@Spache.old$grade)
+      summary.flat <- c(summary.flat, Spache.old=slot(object, "Spache.old")[["grade"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Spache",
-          flavour=object@Spache.old$flavour,
-          grade=object@Spache.old$grade
+          flavour=slot(object, "Spache.old")[["flavour"]],
+          grade=slot(object, "Spache.old")[["grade"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Strain)) == 0){
+  if(sum(is.na(slot(object, "Strain"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Strain=object@Strain$index)
+      summary.flat <- c(summary.flat, Strain=slot(object, "Strain")[["index"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Strain",
-          flavour=object@Strain$flavour,
-          raw=object@Strain$index
+          flavour=slot(object, "Strain")[["flavour"]],
+          raw=slot(object, "Strain")[["index"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Traenkle.Bailer)) == 0){
+  if(sum(is.na(slot(object, "Traenkle.Bailer"))) == 0){
     if(isTRUE(flat)){
       summary.flat <- c(summary.flat,
-        Traenkle.Bailer.TB1=object@Traenkle.Bailer$TB1,
-        Traenkle.Bailer.TB2=object@Traenkle.Bailer$TB2)
+        Traenkle.Bailer.TB1=slot(object, "Traenkle.Bailer")[["TB1"]],
+        Traenkle.Bailer.TB2=slot(object, "Traenkle.Bailer")[["TB2"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Traenkle-Bailer TB1",
-          flavour=object@Traenkle.Bailer$flavour,
-          raw=object@Traenkle.Bailer$TB1
+          flavour=slot(object, "Traenkle.Bailer")[["flavour"]],
+          raw=slot(object, "Traenkle.Bailer")[["TB1"]]
         ))
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Traenkle-Bailer TB2",
-          flavour=object@Traenkle.Bailer$flavour,
-          raw=object@Traenkle.Bailer$TB2
+          flavour=slot(object, "Traenkle.Bailer")[["flavour"]],
+          raw=slot(object, "Traenkle.Bailer")[["TB2"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@TRI)) == 0){
+  if(sum(is.na(slot(object, "TRI"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, TRI=object@TRI$TRI)
+      summary.flat <- c(summary.flat, TRI=slot(object, "TRI")[["TRI"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="TRI",
-          flavour=object@TRI$flavour,
-          raw=object@TRI$TRI
+          flavour=slot(object, "TRI")[["flavour"]],
+          raw=slot(object, "TRI")[["TRI"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Tuldava)) == 0){
+  if(sum(is.na(slot(object, "Tuldava"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Tuldava=object@Tuldava$Tuldava)
+      summary.flat <- c(summary.flat, Tuldava=slot(object, "Tuldava")[["Tuldava"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Tuldava",
-          flavour=object@Tuldava$flavour,
-          raw=object@Tuldava$Tuldava
+          flavour=slot(object, "Tuldava")[["flavour"]],
+          raw=slot(object, "Tuldava")[["Tuldava"]]
         ))
     }
   } else {}
 
-  if(sum(is.na(object@Wheeler.Smith)) == 0){
+  if(sum(is.na(slot(object, "Wheeler.Smith"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Wheeler.Smith=object@Wheeler.Smith$score)
+      summary.flat <- c(summary.flat, Wheeler.Smith=slot(object, "Wheeler.Smith")[["score"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Wheeler-Smith",
-          flavour=object@Wheeler.Smith$flavour,
-          raw=object@Wheeler.Smith$score,
-          grade=object@Wheeler.Smith$grade
+          flavour=slot(object, "Wheeler.Smith")[["flavour"]],
+          raw=slot(object, "Wheeler.Smith")[["score"]],
+          grade=slot(object, "Wheeler.Smith")[["grade"]]
         ))
     }
   } else {}
-  if(sum(is.na(object@Wheeler.Smith.de)) == 0){
+  if(sum(is.na(slot(object, "Wheeler.Smith.de"))) == 0){
     if(isTRUE(flat)){
-      summary.flat <- c(summary.flat, Wheeler.Smith.de=object@Wheeler.Smith.de$score)
+      summary.flat <- c(summary.flat, Wheeler.Smith.de=slot(object, "Wheeler.Smith.de")[["score"]])
     } else {
       summary.table <- add.to.sumtab(summary.table, adds=list(
           index="Wheeler-Smith",
-          flavour=object@Wheeler.Smith.de$flavour,
-          raw=object@Wheeler.Smith.de$score,
-          grade=object@Wheeler.Smith.de$grade
+          flavour=slot(object, "Wheeler.Smith.de")[["flavour"]],
+          raw=slot(object, "Wheeler.Smith.de")[["score"]],
+          grade=slot(object, "Wheeler.Smith.de")[["grade"]]
         ))
     }
   } else {}
@@ -739,8 +752,8 @@ setMethod("summary", signature(object="kRp.readability"), function(object, flat=
   if(isTRUE(flat)){
     return(round(summary.flat, digits=2))
   } else {
-    if(length(object@lang) > 0){
-      cat("Text language:", object@lang, "\n")
+    if(length(slot(object, "lang")) > 0){
+      cat("Text language:", slot(object, "lang"), "\n")
     } else {}
     # remove the empty first row
     summary.table <- summary.table[-1,]

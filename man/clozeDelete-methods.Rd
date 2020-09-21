@@ -3,16 +3,15 @@
 \docType{methods}
 \name{clozeDelete}
 \alias{clozeDelete}
-\alias{clozeDelete,kRp.taggedText-method}
+\alias{clozeDelete,kRp.text-method}
 \title{Transform text into cloze test format}
 \usage{
 clozeDelete(obj, ...)
 
-\S4method{clozeDelete}{kRp.taggedText}(obj, every = 5, offset = 0,
-  replace.by = "_", fixed = 10)
+\S4method{clozeDelete}{kRp.text}(obj, every = 5, offset = 0, replace.by = "_", fixed = 10)
 }
 \arguments{
-\item{obj}{An object of class "kRp.tagged"}
+\item{obj}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
 \item{...}{Additional arguments to the method (as described in this document).}
 
@@ -34,8 +33,7 @@ be repeated this much times). If set to 0,
       the replacement wil be as long as the replaced word.}
 }
 \value{
-An object of class kRp.tagged, with an additional list \code{cloze} in its
-   \code{desc} slot, listing the words which were changed.
+An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 }
 \description{
 If you feed a tagged text object to this function, its text will be transformed into
@@ -48,4 +46,9 @@ to begin.
 The option \code{offset="all"} will not return one single object,
       but print the results after iterating
 through all possible offset values.
+}
+\examples{
+\dontrun{
+  clozed.text <- clozeDelete(tagged.text)
+}
 }

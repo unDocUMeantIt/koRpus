@@ -4,8 +4,15 @@
 \alias{guess.lang}
 \title{Guess language a text is written in}
 \usage{
-guess.lang(txt.file, udhr.path, comp.length = 300, keep.udhr = FALSE,
-  quiet = TRUE, in.mem = TRUE, format = "file")
+guess.lang(
+  txt.file,
+  udhr.path,
+  comp.length = 300,
+  keep.udhr = FALSE,
+  quiet = TRUE,
+  in.mem = TRUE,
+  format = "file"
+)
 }
 \arguments{
 \item{txt.file}{A character vector pointing to the file with the text to be analyzed.}
@@ -30,7 +37,7 @@ is probably the faster method. Otherwise temporary files are created and automat
       \code{txt.file} is not interpreted as a file path but the text to analyze itself.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.lang-class}}.
+An object of class \code{\link[koRpus:kRp.lang-class]{kRp.lang}}.
 }
 \description{
 This function tries to guess the language a text is written in.
@@ -44,7 +51,7 @@ record for being translated into the most different languages, and is publicly a
 \note{
 For this implementation the documents provided by the "UDHR in Unicode" project[2] have been used.
 Their translations are \emph{not part of this package} and must be downloaded seperately to use \code{guess.lang}!
-You need the ZIP archive containing \emph{all the plain text files} from \url{http://unicode.org/udhr/downloads.html}.
+You need the ZIP archive containing \emph{all the plain text files} from \url{https://unicode.org/udhr/downloads.html}.
 }
 \examples{
 \dontrun{
@@ -60,6 +67,6 @@ Benedetto, D., Caglioti, E. & Loreto,
 
 [1] \url{http://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
 
-[2] \url{http://unicode.org/udhr}
+[2] \url{https://unicode.org/udhr/}
 }
 \keyword{misc}

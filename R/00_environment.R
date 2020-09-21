@@ -1,4 +1,4 @@
-# Copyright 2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2018 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -17,17 +17,36 @@
 
 ## setting up the internal environment
 
-# empty environment for TreeTagger information
+#' @include koRpus-internal.R
+
+# empty environment for various information
 .koRpus.env <- new.env()
 
-# we're safe for words up to 200 characters for hyphenation
-hyph.max.word.length <- 200L
-
-## wrapper for paste0() needed?
-if(isTRUE(R_system_version(getRversion()) < 2.15)){
-  # if this is an older R version, we need a wrapper function for paste0()
-  # which was introduced with R 2.15 as a more efficient shortcut to paste(..., sep="")
-  paste0 <- function(..., collapse=NULL){
-    return(paste(..., sep="", collapse=collapse))
+.onLoad <- function(...){
+  ## check if "add.desc" is already set in global options
+  if(is.null(getOption("koRpus"))){
+    # case one: no koRpus options at all, that's easy
+    options(koRpus=list(add.desc=FALSE, checked_lang_support=FALSE))
+  } else {
+    koRpus_options <- getOption("koRpus", list())
+    for (thisOption in c("add.desc", "checked_lang_support")){
+      if(is.null(koRpus_options[[thisOption]])){
+        # case two, we have options, but add.desc is not set
+        koRpus_options[[thisOption]] <- FALSE
+        options(koRpus=koRpus_options)
+      } else {
+        if(!is.logical(koRpus_options[[thisOption]])){
+          # case three, add.desc is set but invalid
+          simpleError(paste0("Check your environment: 'koRpus$", thisOption, "' must be TRUE or FALSE!"))
+        } else {}
+      }
+    }
   }
-} else {}
+}
+
+.onAttach <- function(...) {
+  koRpus_options <- getOption("koRpus", list())
+  if(!isTRUE(koRpus_options[["noStartupMessage"]])){
+    packageStartupMessage("For information on available language packages for 'koRpus', run\n\n  available.koRpus.lang()\n\nand see ?install.koRpus.lang()\n")
+  } else {}
+}

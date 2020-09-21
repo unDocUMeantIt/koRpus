@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -29,16 +29,19 @@
 #' @export
 #' @docType methods
 #' @param ... Additional arguments to the method (as described in this document).
-#' @return An object of class kRp.tagged, with an additional list \code{cloze} in its
-#'    \code{desc} slot, listing the words which were changed.
+#' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 #' @rdname clozeDelete-methods
+#' @examples
+#' \dontrun{
+#'   clozed.text <- clozeDelete(tagged.text)
+#' }
 setGeneric("clozeDelete", function(obj, ...){standardGeneric("clozeDelete")})
 
 #### internal function 
 ## function clozify()
 # replaces a word with undercores
 clozify <- function(words, replace.by="_"){
-  num.chars <- nchar(words)
+  num.chars <- nchar(words, type="width")
   word.rest <- sapply(seq_along(num.chars), function(idx){
       return(paste(rep(replace.by, num.chars[idx]), collapse=""))
     })
@@ -48,8 +51,8 @@ clozify <- function(words, replace.by="_"){
 #' @export
 #' @docType methods
 #' @rdname clozeDelete-methods
-#' @aliases clozeDelete,kRp.taggedText-method
-#' @param obj An object of class "kRp.tagged"
+#' @aliases clozeDelete,kRp.text-method
+#' @param obj An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param every Integer numeric, setting the frequency of words to be manipulated. By default,
 #'    every fifth word is being transformed.
 #' @param offset Either an integer numeric, sets the number of words to offset the transformations. Or the
@@ -58,29 +61,39 @@ clozify <- function(words, replace.by="_"){
 #' @param replace.by Character, will be used as the replacement for the removed words.
 #' @param fixed Integer numberic, defines the length of the replacement (\code{replace.by} will
 #'    be repeated this much times). If set to 0, the replacement wil be as long as the replaced word.
-#' @include 01_class_01_kRp.tagged.R
+#' @include 01_class_01_kRp.text.R
 #' @include 01_class_02_kRp.TTR.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
-#' @include 01_class_05_kRp.analysis.R
 #' @include koRpus-internal.R
 setMethod("clozeDelete",
-  # "kRp.taggedText" is a ClassUnion defined in koRpus-internal.R
-  signature(obj="kRp.taggedText"),
-  function (obj, every=5, offset=0, replace.by="_", fixed=10){
-
+  signature(obj="kRp.text"),
+  function (
+    obj,
+    every=5,
+    offset=0,
+    replace.by="_",
+    fixed=10
+  ){
     if(identical(offset, "all")){
-      for(idx in seq_along(every)-1){
+      for(idx in (1:every)-1){
         clozeTxt <- clozeDelete(obj=obj, every=every, offset=idx, replace.by=replace.by, fixed=fixed)
-        changedTxt <- slot(clozeTxt, "desc")[["cloze"]][["origText"]]
+        # if the object was only cloze transformed, we can compare to the original text
+        # otherwise, we have to do a comparison between before and after for accurate statistics
+        if(identical("clozeDelete", diffText(clozeTxt)[["transfmt"]])){
+          orig.tokens <- originalText(clozeTxt)
+          unequal <- !orig.tokens[["equal"]]
+        } else {
+          orig.tokens <- taggedText(obj)
+          unequal <- orig.tokens[["token"]] != taggedText(clozeTxt)[["token"]]
+        }
+        changedTxt <- orig.tokens[unequal,]
         rmLetters <- sum(changedTxt[["lttr"]])
-        allLetters <- slot(obj, "desc")[["letters.only"]]
+        allLetters <- describe(obj)[["letters.only"]]
         cat(headLine(paste0("Cloze variant ", idx+1, " (offset ", idx, ")")), "\n\n",
-          kRp.text.paste(clozeTxt), "\n\n\n", headLine(paste0("Changed text (offset ", idx, "):"), level=2), "\n\n",
+          pasteText(clozeTxt), "\n\n\n", headLine(paste0("Changed text (offset ", idx, "):"), level=2), "\n\n",
           sep="")
         print(changedTxt)
         cat("\n\n", headLine(paste0("Statistics (offset ", idx, "):"), level=2), "\n", sep="")
-        print(summary(as(clozeTxt, "kRp.tagged")))
+        print(summary(clozeTxt, index=unequal))
         cat("\nCloze deletion took ", rmLetters, " letters (", round(rmLetters * 100 / allLetters, digits=2),"%)\n\n\n", sep="")
       }
       return(invisible(NULL))
@@ -90,8 +103,8 @@ setMethod("clozeDelete",
         stop(simpleError("'offset' can't be greater than 'every'!"))
       } else {}
 
-      lang <- slot(obj, "lang")
-      tagged.text <- slot(obj, "TT.res")
+      lang <- language(obj)
+      tagged.text <- taggedText(obj)
 
       # now do the actual text alterations
       word.tags <- kRp.POS.tags(lang=lang, list.tags=TRUE, tags="words")
@@ -105,7 +118,6 @@ setMethod("clozeDelete",
       txtToChange[0:max(0,offset-1)] <- FALSE
 
       relevant.text <- tagged.text[txtToChange, "token"]
-      textThatWasChanged <- tagged.text[txtToChange, ]
       # check if the deleted text should be replaced by a line with fixed length
       if(identical(fixed, 0)){
         relevant.text <- clozify(relevant.text, replace.by=replace.by)
@@ -114,12 +126,8 @@ setMethod("clozeDelete",
       }
       tagged.text[txtToChange, "token"] <- relevant.text
 
-      clozeDesc <- list(origText=textThatWasChanged)
-
-      # put the altered text back into the tagged object
-      slot(obj, "TT.res") <- tagged.text
-      slot(obj, "desc")[["cloze"]] <- clozeDesc
-      return(obj)
+      results <- txt_trans_diff(obj=obj, tokens.new=tagged.text[["token"]], transfmt="clozeDelete")
+      return(results)
     }
   }
 )

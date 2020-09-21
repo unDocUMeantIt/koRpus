@@ -3,49 +3,48 @@
 \docType{methods}
 \name{readability}
 \alias{readability}
-\alias{readability,kRp.taggedText-method}
-\alias{readability,character-method}
+\alias{readability,kRp.text-method}
 \alias{readability,missing-method}
+\alias{[,kRp.readability,ANY,ANY,ANY-method}
+\alias{[,kRp.readability,ANY-method}
+\alias{[[,kRp.readability-method}
+\alias{[[,kRp.readability,ANY-method}
 \title{Measure readability}
 \usage{
 readability(txt.file, ...)
 
-\S4method{readability}{kRp.taggedText}(txt.file, hyphen = NULL,
+\S4method{readability}{kRp.text}(
+  txt.file,
+  hyphen = NULL,
   index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-  "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson",
-  "Flesch", "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson",
-  "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain",
-  "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith"), parameters = list(),
-  word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL,
-  Spache = NULL), fileEncoding = "UTF-8", tagger = "kRp.env",
-  force.lang = NULL, sentc.tag = "sentc", nonword.class = "nonpunct",
-  nonword.tag = c(), quiet = FALSE, ...)
-
-\S4method{readability}{character}(txt.file, hyphen = NULL, index = c("ARI",
-  "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall", "Danielson.Bryan",
-  "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
-  "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson",
-  "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain",
-  "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith"), parameters = list(),
-  word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL,
-  Spache = NULL), fileEncoding = "UTF-8", tagger = "kRp.env",
-  force.lang = NULL, sentc.tag = "sentc", nonword.class = "nonpunct",
-  nonword.tag = c(), quiet = FALSE, ...)
+    "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
+    "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write",
+    "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+    "Wheeler.Smith"),
+  parameters = list(),
+  word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache =
+    NULL),
+  fileEncoding = "UTF-8",
+  sentc.tag = "sentc",
+  nonword.class = "nonpunct",
+  nonword.tag = c(),
+  quiet = FALSE,
+  keep.input = NULL,
+  as.feature = FALSE
+)
 
 \S4method{readability}{missing}(txt.file, index)
+
+\S4method{[}{kRp.readability,ANY,ANY,ANY}(x, i)
+
+\S4method{[[}{kRp.readability}(x, i)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
-      \code{\link[koRpus]{kRp.txt.freq-class}},
-\code{\link[koRpus]{kRp.analysis-class}} or \code{\link[koRpus]{kRp.txt.trans-class}},
-      or a character vector which must be be
-a valid path to a file containing the text to be analyzed. If the latter,
-      \code{force.lang} must be set as well, and
-the language specified must be supported by both \code{\link[koRpus:treetag]{treetag}} and \code{\link[koRpus:hyphen]{hyphen}}}
+\item{txt.file}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.}
 
-\item{...}{Additional options for the specified \code{tagger} function}
+\item{...}{Additional arguments for the generics.}
 
-\item{hyphen}{An object of class kRp.hyphen. If \code{NULL},
+\item{hyphen}{An object of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}. If \code{NULL},
       the text will be hyphenated automatically. All syllable handling will
 be skipped automatically if it's not needed for the selected indices.}
 
@@ -68,15 +67,8 @@ or as a file name, where this file must contain one word per line. Alternatively
       you can provide the number of words which are not
 on the list, directly.}
 
-\item{fileEncoding}{A character string naming the encoding of the word list files (if they are files). "ISO_8859-1" or "UTF-8" should work
-in most cases.}
-
-\item{tagger}{A character string pointing to the tokenizer/tagger command you want to use for basic text analysis. Can be omitted if
-\code{txt.file} is already of class \code{kRp.tagged-class}. Defaults to \code{tagger="kRp.env"} to get the settings by
-\code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Set to \code{"tokenize"} to use \code{\link[koRpus:tokenize]{tokenize}}.}
-
-\item{force.lang}{A character string defining the language to be assumed for the text,
-      by force.}
+\item{fileEncoding}{A character string defining the character encoding of the \code{word.lists} in case they are provided as files,
+like \code{"Latin1"} or \code{"UTF-8"}.}
 
 \item{sentc.tag}{A character vector with POS tags which indicate a sentence ending. The default value \code{"sentc"} has special meaning and
 will cause the result of \code{kRp.POS.tags(lang, tags="sentc",
@@ -84,7 +76,7 @@ will cause the result of \code{kRp.POS.tags(lang, tags="sentc",
 
 \item{nonword.class}{A character vector with word classes which should be ignored for readability analysis. The default value
 \code{"nonpunct"} has special meaning and will cause the result of \code{kRp.POS.tags(lang,
-      c("punct","sentc"), list.classes=TRUE)}
+      tags=c("punct","sentc"), list.classes=TRUE)}
 to be used. Will only be of consequence if \code{hyphen} is not set!}
 
 \item{nonword.tag}{A character vector with POS tags which should be ignored for readability analysis. Will only be
@@ -92,9 +84,28 @@ of consequence if \code{hyphen} is not set!}
 
 \item{quiet}{Logical. If \code{FALSE}, short status messages will be shown.
 \code{TRUE} will also suppress all potential warnings regarding the validation status of measures.}
+
+\item{keep.input}{Logical. If \code{FALSE},
+      neither the object provided by (or generated from) \code{txt.file} nor
+\code{hyphen} will be kept in the output object. By default (\code{NULL}) they are kept if the input was not already of the needed object class
+(e.g., \code{kRp.text}) or missing,
+      to allow for re-use without the need to tag or hyphenate the text again.
+If \code{TRUE}, they are always kept. In cases where you want smaller object sizes,
+      set this to \code{FALSE} to always drop these slots.}
+
+\item{as.feature}{Logical,
+      whether the output should be just the analysis results or the input object with
+the results added as a feature. Use \code{\link[koRpus:corpusReadability]{corpusReadability}}
+to get the results from such an aggregated object.}
+
+\item{x}{An object of class \code{kRp.readability}.}
+
+\item{i}{Defines the row selector (\code{[}) or the name to match (\code{[[}).}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+Depending on \code{as.feature},
+      either an object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+   or an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{readability} containing it.
 }
 \description{
 These methods calculate several readability indices.
@@ -110,139 +121,140 @@ for words with exactly one syllable,
 of words which are not on a certain word list (explained where needed).
 \describe{
    \item{\code{"ARI"}:}{\emph{Automated Readability Index}:
-     \deqn{ARI = 0.5 \times \frac{W}{St} + 4.71 \times \frac{C}{W} - 21.43}
+     \deqn{ARI = 0.5 \times \frac{W}{St} + 4.71 \times \frac{C}{W} - 21.43}{ARI = 0.5 * W / St + 4.71 * C / W - 21.43}
      If \code{parameters} is set to \code{ARI="NRI"},
       the revised parameters from the Navy Readability Indexes are used:
-     \deqn{ARI_{NRI} = 0.4 \times \frac{W}{St} + 6 \times \frac{C}{W} - 27.4}
+     \deqn{ARI_{NRI} = 0.4 \times \frac{W}{St} + 6 \times \frac{C}{W} - 27.4}{ARI_NRI = 0.4 * W / St + 6 * C / W - 27.4}
      If \code{parameters} is set to \code{ARI="simple"},
       the simplified formula is calculated:
-     \deqn{ARI_{simple} = \frac{W}{St} + 9 \times \frac{C}{W}}
+     \deqn{ARI_{simple} = \frac{W}{St} + 9 \times \frac{C}{W}}{ARI_simple = W / St + 9 * C / W}
 
-Wrapper function: \code{\link[koRpus:ARI]{ARI}}
+     Wrapper function: \code{\link[koRpus:ARI]{ARI}}
    }
    \item{\code{"Bormuth"}:}{\emph{Bormuth Mean Cloze} & Grade Placement:
      \deqn{
      B_{MC} = 0.886593 - \left( 0.08364 \times \frac{C}{W} \right) +  0.161911 \times \left(\frac{W_{-WL}}{W} \right)^3
-     }
+     }{B_MC = 0.886593 - (0.08364 * C / W) +  0.161911 * (W_-WL / W)^3}
      \deqn{
       - 0.21401 \times \left(\frac{W}{St} \right) + 0.000577 \times \left(\frac{W}{St} \right)^2
-     }
+     }{- 0.21401 * (W / St) + 0.000577 * (W / St)^2}
      \deqn{
       - 0.000005 \times \left(\frac{W}{St} \right)^3
-     }
-     \strong{Note:} This index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}. That is,
+     }{- 0.000005 * (W / St)^3}
+     \strong{Note:} This index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}{W_-WL}. That is,
       you must have a copy of
      this word list and provide it via the \code{word.lists=list(Bormuth=<your.list>)} parameter!
-     \deqn{B_{GP} = 4.275 + 12.881 \times B_{MC} - (34.934 \times B_{MC}^2) + (20.388 \times B_{MC}^3)
-     }
      \deqn{
-      + (26.194C - 2.046 C_{CS}^2) - (11.767 C_{CS}^3) - (44.285  \times B_{MC} \times C_{CS})
-     }
+     B_{GP} = 4.275 + 12.881 \times B_{MC} - (34.934 \times B_{MC}^2) + (20.388 \times B_{MC}^3)
+     }{B_GP = 4.275 + 12.881 * B_MC - (34.934 * B_MC^2) + (20.388 * B_MC^3)}
      \deqn{
-      + (97.620 \times (B_{MC} \times C_{CS})^2) - (59.538 \times (B_{MC} \times C_{CS})^3)}
-     Where \eqn{C_{CS}} represents the cloze criterion score (35\% by default).
+      + (26.194C - 2.046 C_{CS}^2) - (11.767 C_{CS}^3) - (44.285 \times B_{MC} \times C_{CS})
+     }{+ (26.194C - 2.046 C_CS^2) - (11.767 C_CS^3) - (44.285 * B_MC * C_CS)}
+     \deqn{
+      + (97.620 \times (B_{MC} \times C_{CS})^2) - (59.538 \times (B_{MC} \times C_{CS})^3)}{+ (97.620 * (B_MC * C_CS)^2) - (59.538 * (B_MC * C_CS)^3)}
+     Where \eqn{C_{CS}}{C_CS} represents the cloze criterion score (35\% by default).
 
-Wrapper function: \code{\link[koRpus:bormuth]{bormuth}}
+     Wrapper function: \code{\link[koRpus:bormuth]{bormuth}}
    }
    \item{\code{"Coleman"}:}{\emph{Coleman's Readability Formulas}:
-     \deqn{C_1 = 1.29 \times \left( \frac{100 \times W^{1Sy}}{W} \right) - 38.45}
-     \deqn{C_2 = 1.16 \times \left( \frac{100 \times W^{1Sy}}{W} \right) + 1.48 \times \left( \frac{100 \times St}{W} \right) - 37.95}
+     \deqn{C_1 = 1.29 \times \left( \frac{100 \times W^{1Sy}}{W} \right) - 38.45}{C_1 = 1.29 * (100 * W^1Sy / W) - 38.45}
+     \deqn{C_2 = 1.16 \times \left( \frac{100 \times W^{1Sy}}{W} \right) + 1.48 \times \left( \frac{100 \times St}{W} \right) - 37.95}{C_2 = 1.16 * (100 * W^1Sy / W) + 1.48 * (100 * St / W) - 37.95}
      \deqn{C_3 = 1.07 \times \left( \frac{100 \times W^{1Sy}}{W} \right) + 1.18 \times \left( \frac{100 \times St}{W} \right)
-       + 0.76 \times \left( \frac{100 \times W_{pron}}{W} \right) - 34.02}
+       + 0.76 \times \left( \frac{100 \times W_{pron}}{W} \right) - 34.02}{C_3 = 1.07 * (100 * W^1Sy / W) + 1.18 * (100 * St / W) + 0.76 * (100 * W_pron / W) - 34.02}
      \deqn{C_4 = 1.04 \times \left( \frac{100 \times W^{1Sy}}{W} \right) + 1.06 \times \left( \frac{100 \times St}{W} \right) \\
-       + 0.56 \times \left( \frac{100 \times W_{pron}}{W} \right) - 0.36  \times \left( \frac{100 \times W_{prep}}{W} \right) - 26.01}
-     Where \eqn{W_{pron}} is the number of pronouns,
-      and \eqn{W_{prep}} the number of prepositions.
+       + 0.56 \times \left( \frac{100 \times W_{pron}}{W} \right) - 0.36  \times \left( \frac{100 \times W_{prep}}{W} \right) - 26.01}{C_4 = 1.04 * (100 * W^1Sy / W) + 1.06 * (100 * St / W) + 0.56 * (100 * W_pron / W) - 0.36  * (100 * W_prep / W) - 26.01}
+     Where \eqn{W_{pron}}{W_pron} is the number of pronouns,
+      and \eqn{W_{prep}}{W_prep} the number of prepositions.
 
-Wrapper function: \code{\link[koRpus:coleman]{coleman}}
+     Wrapper function: \code{\link[koRpus:coleman]{coleman}}
    }
    \item{\code{"Coleman.Liau"}:}{First estimates cloze percentage,
       then calculates grade equivalent:
-     \deqn{CL_{ECP} = 141.8401 - 0.214590 \times \frac{100 \times C}{W} + 1.079812 \times \frac{100 \times St}{W}}
-     \deqn{CL_{grade} = -27.4004 \times \frac{CL_{ECP}}{100} + 23.06395}
+     \deqn{CL_{ECP} = 141.8401 - 0.214590 \times \frac{100 \times C}{W} + 1.079812 \times \frac{100 \times St}{W}}{CL_ECP = 141.8401 - 0.214590 * 100 * C / W + 1.079812 * 100 * St / W}
+     \deqn{CL_{grade} = -27.4004 \times \frac{CL_{ECP}}{100} + 23.06395}{CL_grade = -27.4004 * CL_ECP / 100 + 23.06395}
      The short form is also calculated:
-     \deqn{CL_{short} = 5.88 \times \frac{C}{W} - 29.6 \times \frac{St}{W} - 15.8}
+     \deqn{CL_{short} = 5.88 \times \frac{C}{W} - 29.6 \times \frac{St}{W} - 15.8}{CL_short = 5.88 * C / W - 29.6 * St / W - 15.8}
 
-Wrapper function: \code{\link[koRpus:coleman.liau]{coleman.liau}}
+     Wrapper function: \code{\link[koRpus:coleman.liau]{coleman.liau}}
    }
    \item{\code{"Dale.Chall"}:}{\emph{New Dale-Chall Readability Formula}. By default the revised formula (1995) is calculated:
-     \deqn{DC_{new} = 64 - 0.95 \times{} \frac{100 \times{} W_{-WL}}{W} - 0.69 \times{} \frac{W}{St} }
+     \deqn{DC_{new} = 64 - 0.95 \times{} \frac{100 \times{} W_{-WL}}{W} - 0.69 \times{} \frac{W}{St} }{DC_new = 64 - 0.95 * 100 * W_-WL / W - 0.69 * W / St}
      This will result in a cloze score which is then looked up in a grading table. If \code{parameters} is set to \code{Dale.Chall="old"},
      the original formula (1948) is used:
-     \deqn{DC_{old} = 0.1579 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.0496 \times{} \frac{W}{St} + 3.6365 }
+     \deqn{DC_{old} = 0.1579 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.0496 \times{} \frac{W}{St} + 3.6365 }{DC_old = 0.1579 * 100 * W_-WL / W + 0.0496 * W / St + 3.6365}
      If \code{parameters} is set to \code{Dale.Chall="PSK"},
       the revised parameters by Powers-Sumner-Kearl (1958) are used:
-     \deqn{DC_{PSK} =  0.1155 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.0596  \times{} \frac{W}{St} + 3.2672 }
-     \strong{Note:} This index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}. That is,
+     \deqn{DC_{PSK} =  0.1155 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.0596  \times{} \frac{W}{St} + 3.2672 }\deqn{DC_PSK =  0.1155 * 100 * W_-WL / W + 0.0596  * W / St + 3.2672}
+     \strong{Note:} This index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}{W_-WL}. That is,
       you must have a copy of
      this word list and provide it via the \code{word.lists=list(Dale.Chall=<your.list>)} parameter!
 
-Wrapper function: \code{\link[koRpus:dale.chall]{dale.chall}}
+     Wrapper function: \code{\link[koRpus:dale.chall]{dale.chall}}
    }
    \item{\code{"Danielson.Bryan"}:}{
-     \deqn{DB_1 = \left( 1.0364 \times \frac{C}{Bl} \right) + \left( 0.0194 \times \frac{C}{St} \right) - 0.6059}
-     \deqn{DB_2 = 131.059 - \left( 10.364 \times \frac{C}{Bl} \right) - \left( 0.194 \times \frac{C}{St} \right)}
+     \deqn{DB_1 = \left( 1.0364 \times \frac{C}{Bl} \right) + \left( 0.0194 \times \frac{C}{St} \right) - 0.6059}{DB_1 = (1.0364 * C / Bl) + (0.0194 * C / St) - 0.6059}
+     \deqn{DB_2 = 131.059 - \left( 10.364 \times \frac{C}{Bl} \right) - \left( 0.194 \times \frac{C}{St} \right)}{DB_2 = 131.059 - (10.364 * C / Bl) - (0.194 * C / St)}
      Where \eqn{Bl} means blanks between words,
       which is not really counted in this implementation, but estimated
      by \eqn{words - 1}. \eqn{C} is interpreted as literally all characters.
 
-Wrapper function: \code{\link[koRpus:danielson.bryan]{danielson.bryan}}
+     Wrapper function: \code{\link[koRpus:danielson.bryan]{danielson.bryan}}
    }
    \item{\code{"Dickes.Steiwer"}:}{\emph{Dickes-Steiwer Handformel}:
-     \deqn{DS = 235.95993 - \left( 73.021 \times \frac{C}{W} \right) - \left(12.56438 \times \frac{W}{St} \right) - \left(50.03293 \times TTR \right)}
+     \deqn{DS = 235.95993 - \left( 73.021 \times \frac{C}{W} \right) - \left(12.56438 \times \frac{W}{St} \right) - \left(50.03293 \times TTR \right)}{DS = 235.95993 - (73.021 * C / W) - (12.56438 * W / St) - (50.03293 * TTR)}
      Where \eqn{TTR} refers to the type-token ratio,
       which will be calculated case-insensitive by default.
 
-Wrapper function: \code{\link[koRpus:dickes.steiwer]{dickes.steiwer}}
+     Wrapper function: \code{\link[koRpus:dickes.steiwer]{dickes.steiwer}}
    }
    \item{\code{"DRP"}:}{\emph{Degrees of Reading Power}. Uses the Bormuth Mean Cloze Score:
-     \deqn{DRP = (1 - B_{MC}) \times 100}
+     \deqn{DRP = (1 - B_{MC}) \times 100}{DRP = (1 - B_MC) * 100}
      This formula itself has no parameters.
-     \strong{Note:} The Bormuth index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}.
+     \strong{Note:} The Bormuth index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}{W_-WL}.
      That is,
       you must have a copy of this word list and provide it via the \code{word.lists=list(Bormuth=<your.list>)} parameter!
      Wrapper function: \code{\link[koRpus:DRP]{DRP}}
    }
    \item{\code{"ELF"}:}{Fang's \emph{Easy Listening Formula}:
-     \deqn{ELF = \frac{W_{2Sy}}{St}}
+     \deqn{ELF = \frac{W_{2Sy}}{St}}{ELF = W_2Sy / St}
 
-Wrapper function: \code{\link[koRpus:ELF]{ELF}}
+     Wrapper function: \code{\link[koRpus:ELF]{ELF}}
    }
    \item{\code{"Farr.Jenkins.Paterson"}:}{A simplified version of Flesch Reading Ease:
-     \deqn{-31.517 - 1.015 \times \frac{W}{St} + 1.599 \times \frac{{W^{1Sy}}}{W}}
+     \deqn{FJP = -31.517 - 1.015 \times \frac{W}{St} + 1.599 \times \frac{W^{1Sy}}{W}}{FJP = -31.517 - 1.015 * W / St + 1.599 * W^1Sy / W}
      If \code{parameters} is set to \code{Farr.Jenkins.Paterson="PSK"},
       the revised parameters by Powers-Sumner-Kearl (1958) are used:
-     \deqn{8.4335 + 0.0923 \times \frac{W}{St} - 0.0648 \times \frac{{W^{1Sy}}}{W}}
+     \deqn{FJP_{PSK} = 8.4335 + 0.0923 \times \frac{W}{St} - 0.0648 \times \frac{W^{1Sy}}{W}}{FJP_PSK = 8.4335 + 0.0923 * W / St - 0.0648 * W^1Sy / W}
      Wrapper function: \code{\link[koRpus:farr.jenkins.paterson]{farr.jenkins.paterson}}
   }
   \item{\code{"Flesch"}:}{\emph{Flesch Reading Ease}:
-     \deqn{ 206.835 - 1.015 \times \frac{W}{St} - 84.6 \times \frac{Sy}{W}}
+     \deqn{F_{EN} = 206.835 - 1.015 \times \frac{W}{St} - 84.6 \times \frac{Sy}{W}}{F_EN = 206.835 - 1.015 * W / St - 84.6 * Sy / W}
      Certain internationalisations of the parameters are also implemented. They can be used by setting
      the \code{Flesch} parameter to one of the following language abbreviations.
      
      \code{"de"} (Amstad's Verständlichkeitsindex):
-     \deqn{ 180 - \frac{W}{St} - 58.5 \times \frac{Sy}{W}}
+     \deqn{F_{DE} = 180 - \frac{W}{St} - 58.5 \times \frac{Sy}{W}}
      \code{"es"} (Fernandez-Huerta):
-     \deqn{ 206.835 - 1.02 \times \frac{W}{St} - 60 \times \frac{Sy}{W}}
+     \deqn{F_{ES} = 206.835 - 1.02 \times \frac{W}{St} - 60 \times \frac{Sy}{W}}
      \code{"es-s"} (Szigriszt):
-     \deqn{ 206.835 - \frac{W}{St} - 62.3 \times \frac{Sy}{W}}
+     \deqn{F_{ES S} = 206.835 - \frac{W}{St} - 62.3 \times \frac{Sy}{W}}
      \code{"nl"} (Douma):
-     \deqn{ 206.835 - 0.93 \times \frac{W}{St} - 77 \times \frac{Sy}{W}}
+     \deqn{F_{NL} = 206.835 - 0.93 \times \frac{W}{St} - 77 \times \frac{Sy}{W}}
      \code{"nl-b"} (Brouwer Leesindex):
-     \deqn{ 195 - 2 \times \frac{W}{St} - 67 \times \frac{Sy}{W}}
+     \deqn{F_{NL B} = 195 - 2 \times \frac{W}{St} - 67 \times \frac{Sy}{W}}
      \code{"fr"} (Kandel-Moles):
-     \deqn{ 209 - 1.15 \times \frac{W}{St} - 68 \times \frac{Sy}{W}}
+     \deqn{F_{FR} = 209 - 1.15 \times \frac{W}{St} - 68 \times \frac{Sy}{W}}
      If \code{parameters} is set to \code{Flesch="PSK"},
       the revised parameters by Powers-Sumner-Kearl (1958) are used
      to calculate a grade level:
-     \deqn{Flesch_{PSK} = 0.0778 \times \frac{W}{St} + 4.55 \times \frac{Sy}{W} - 2.2029}
+     \deqn{F_{PSK} = 0.0778 \times \frac{W}{St} + 4.55 \times \frac{Sy}{W} - 2.2029}
 
-Wrapper function: \code{\link[koRpus:flesch]{flesch}}
+     Wrapper function: \code{\link[koRpus:flesch]{flesch}}
    }
    \item{\code{"Flesch.Kincaid"}:}{\emph{Flesch-Kincaid Grade Level}:
-     \deqn{0.39 \times \frac{W}{St} + 11.8 \times \frac{Sy}{W} - 15.59}
+     \deqn{FK = 0.39 \times \frac{W}{St} + 11.8 \times \frac{Sy}{W} - 15.59}
 
-Wrapper function: \code{\link[koRpus:flesch.kincaid]{flesch.kincaid}}
+     Wrapper function: \code{\link[koRpus:flesch.kincaid]{flesch.kincaid}}
    }
    \item{\code{"FOG"}:}{Gunning \emph{Frequency of Gobbledygook}:
      \deqn{FOG = 0.4 \times \left( \frac{W}{St} + \frac{100 \times W_{3Sy}}{W} \right)}
@@ -261,7 +273,7 @@ Wrapper function: \code{\link[koRpus:flesch.kincaid]{flesch.kincaid}}
       this formula takes considerably longer to compute than most others.
      If will be omitted if you set \code{index="fast"} instead of the default.
 
-Wrapper function: \code{\link[koRpus:FOG]{FOG}}
+     Wrapper function: \code{\link[koRpus:FOG]{FOG}}
    }
    \item{\code{"FORCAST"}:}{
      \deqn{FORCAST = 20 - \frac{W^{1Sy} \times \frac{150}{W}}{10}}
@@ -269,13 +281,13 @@ Wrapper function: \code{\link[koRpus:FOG]{FOG}}
       the parameters for the precise reading grade level are used (see Klare, 1975, pp. 84--85):
      \deqn{FORCAST_{RGL} = 20.43 - 0.11 \times W^{1Sy} \times \frac{150}{W}}
 
-Wrapper function: \code{\link[koRpus:FORCAST]{FORCAST}}
+     Wrapper function: \code{\link[koRpus:FORCAST]{FORCAST}}
    }
    \item{\code{"Fucks"}:}{Fucks' \emph{Stilcharakteristik}:
      \deqn{Fucks = \frac{C}{W} \times \frac{W}{St}}
      This simple formula has no parameters.
 
-Wrapper function: \code{\link[koRpus:fucks]{fucks}}
+     Wrapper function: \code{\link[koRpus:fucks]{fucks}}
    }
    \item{\code{"Harris.Jacobson"}:}{\emph{Revised Harris-Jacobson Readability Formulas} (Harris & Jacobson,
       1974):
@@ -293,22 +305,22 @@ Wrapper function: \code{\link[koRpus:fucks]{fucks}}
       you must have a copy of
      this word list and provide it via the \code{word.lists=list(Harris.Jacobson=<your.list>)} parameter!
 
-Wrapper function: \code{\link[koRpus:harris.jacobson]{harris.jacobson}}
+     Wrapper function: \code{\link[koRpus:harris.jacobson]{harris.jacobson}}
    }
    \item{\code{"Linsear.Write"} (O'Hayre, undated, see Klare, 1975, p. 85):}{
      \deqn{LW_{raw} = \frac{100 - \frac{100 \times W_{<3Sy}}{W} + \left( 3 \times \frac{100 \times W_{3Sy}}{W} \right)}{\frac{100 \times St}{W}}}
      \deqn{LW(LW_{raw} \leq 20) = \frac{LW_{raw} - 2}{2}}
      \deqn{LW(LW_{raw} > 20) = \frac{LW_{raw}}{2}}
 
-Wrapper function: \code{\link[koRpus:linsear.write]{linsear.write}}
+     Wrapper function: \code{\link[koRpus:linsear.write]{linsear.write}}
    }
   \item{\code{"LIX"}}{Björnsson's \emph{Läsbarhetsindex}. Originally proposed for Swedish texts,
       calculated by:
-     \deqn{\frac{W}{St} + \frac{100 \times{} W_{7C}}{W}}{LIX = W7C / St + (L*100) / W}
+     \deqn{LIX = \frac{W}{St} + \frac{100 \times{} W_{7C}}{W}}{LIX = W / St + (W7C * 100) / W}
      Texts with a LIX < 25 are considered very easy, around 40 normal,
       and > 55 very difficult to read.
 
-Wrapper function: \code{\link[koRpus:LIX]{LIX}}
+     Wrapper function: \code{\link[koRpus:LIX]{LIX}}
    }
    \item{\code{"nWS"}:}{\emph{Neue Wiener Sachtextformeln} (Bamberger & Vanecek, 1984):
      \deqn{nWS_1 = 19.35 \times \frac{W_{3Sy}}{W} + 0.1672 \times \frac{W}{St} + 12.97 \times \frac{W_{6C}}{W} - 3.27 \times \frac{W^{1Sy}}{W} - 0.875}
@@ -316,14 +328,14 @@ Wrapper function: \code{\link[koRpus:LIX]{LIX}}
      \deqn{nWS_3 = 29.63 \times \frac{W_{3Sy}}{W} + 0.1905 \times \frac{W}{St} - 1.1144}
      \deqn{nWS_4 = 27.44 \times \frac{W_{3Sy}}{W} + 0.2656 \times \frac{W}{St} - 1.693}
 
-Wrapper function: \code{\link[koRpus:nWS]{nWS}}
+     Wrapper function: \code{\link[koRpus:nWS]{nWS}}
    }
    \item{\code{"RIX"}}{Anderson's \emph{Readability Index}. A simplified version of LIX:
-     \deqn{\frac{W_{7C}}{St}}{RIX = W7C / St}
+     \deqn{RIX = \frac{W_{7C}}{St}}{RIX = W7C / St}
      Texts with a RIX < 1.8 are considered very easy, around 3.7 normal,
       and > 7.2 very difficult to read.
 
-Wrapper function: \code{\link[koRpus:RIX]{RIX}}
+     Wrapper function: \code{\link[koRpus:RIX]{RIX}}
    }
    \item{\code{"SMOG"}:}{\emph{Simple Measure of Gobbledygook}. By default calculates formula D by McLaughlin (1969):
      \deqn{SMOG = 1.043 \times \sqrt{W_{3Sy} \times \frac{30}{St}} + 3.1291}
@@ -335,7 +347,7 @@ Wrapper function: \code{\link[koRpus:RIX]{RIX}}
       the formula adapted to German texts ("Qu", Bamberger & Vanecek, 1984, p. 78) is used:
      \deqn{SMOG_{de} = \sqrt{W_{3Sy} \times \frac{30}{St}} - 2}
 
-Wrapper function: \code{\link[koRpus:SMOG]{SMOG}}
+     Wrapper function: \code{\link[koRpus:SMOG]{SMOG}}
    }
    \item{\code{"Spache"}:}{\emph{Spache Revised Formula (1974)}:
      \deqn{Spache = 0.121 \times \frac{W}{St} + 0.082 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.659}
@@ -348,12 +360,12 @@ Wrapper function: \code{\link[koRpus:SMOG]{SMOG}}
       you must have a copy of this word list and provide it via the
      \code{word.lists=list(Spache=<your.list>)} parameter!
 
-Wrapper function: \code{\link[koRpus:spache]{spache}}
+     Wrapper function: \code{\link[koRpus:spache]{spache}}
    }
    \item{\code{"Strain"}:}{\emph{Strain Index}. This index was proposed in [1]:
-     \deqn{Sy \times{} \frac{1}{St / 3} \times{} \frac{1}{10}}
+     \deqn{S = Sy \times{} \frac{1}{St / 3} \times{} \frac{1}{10}}
 
-Wrapper function: \code{\link[koRpus:strain]{strain}}
+     Wrapper function: \code{\link[koRpus:strain]{strain}}
    }
    \item{\code{"Traenkle.Bailer"}:}{\emph{Tränkle-Bailer Formeln}. These two formulas were the result of a re-examination of the ones proposed
      by Dickes-Steiwer. They try to avoid the usage of the type-token ratio,
@@ -363,19 +375,19 @@ Wrapper function: \code{\link[koRpus:strain]{strain}}
      Where \eqn{W_{prep}} refers to the number of prepositions,
       and \eqn{W_{conj}} to the number of conjunctions.
 
-Wrapper function: \code{\link[koRpus:traenkle.bailer]{traenkle.bailer}}
+     Wrapper function: \code{\link[koRpus:traenkle.bailer]{traenkle.bailer}}
    }
    \item{\code{"TRI"}:}{Kuntzsch's \emph{Text-Redundanz-Index}. Intended mainly for German newspaper comments.
      \deqn{TRI = \left(0.449 \times W^{1Sy}\right) - \left(2.467 \times Ptn\right) - \left(0.937 \times Frg\right) - 14.417}
      Where \eqn{Ptn} is the number of punctuation marks and \eqn{Frg} the number of foreign words.
 
-Wrapper function: \code{\link[koRpus:TRI]{TRI}}
+     Wrapper function: \code{\link[koRpus:TRI]{TRI}}
    }
    \item{\code{"Tuldava"}:}{Tuldava's \emph{Text Difficulty Formula}. Supposed to be rather independent of specific languages (Grzybek,
       2010).
      \deqn{TD = \frac{Sy}{W} \times ln\left( \frac{W}{St} \right)}
 
-Wrapper function: \code{\link[koRpus:tuldava]{tuldava}}
+     Wrapper function: \code{\link[koRpus:tuldava]{tuldava}}
    }
    \item{\code{"Wheeler.Smith"}:}{Intended for english texts in primary grades 1--4 (Wheeler & Smith,
       1954):
@@ -384,7 +396,7 @@ Wrapper function: \code{\link[koRpus:tuldava]{tuldava}}
       the calculation stays the same, but grade placement
      is done according to Bamberger & Vanecek (1984), that is for german texts.
 
-Wrapper function: \code{\link[koRpus:wheeler.smith]{wheeler.smith}}
+     Wrapper function: \code{\link[koRpus:wheeler.smith]{wheeler.smith}}
    }
 }
 
@@ -406,7 +418,10 @@ mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 }
 \examples{
 \dontrun{
-readability(tagged.text)
+rdb.results <- readability(tagged.text)
+
+# there is [ and [[ methods for these objects
+rdb.results[["ARI"]]
 }
 }
 \references{
@@ -473,6 +488,6 @@ Anderson,
       E.H. (1954). A practical readability formula for the classroom teacher in the primary grades. \emph{Elementary English},
      31, 397--399.
 
-   [1] \url{http://strainindex.wordpress.com/2007/09/25/hello-world/}
+   [1] \url{https://strainindex.wordpress.com/2007/09/25/hello-world/}
 }
 \keyword{readability}

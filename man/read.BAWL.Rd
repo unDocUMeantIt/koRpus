@@ -9,15 +9,15 @@ read.BAWL(csv, fileEncoding = NULL)
 \arguments{
 \item{csv}{A character string, path to the BAWL-R in CSV2 format.}
 
-\item{fileEncoding}{A character string naming the encoding of the file, if neccessary.}
+\item{fileEncoding}{A character string naming the encoding of the file, if necessary.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 }
 \description{
 Read the Berlin Affective Word List -- Reloaded (V\"o, Conrad, Kuchinke, Hartfeld,
       Hofmann & Jacobs, 2009; [1]) into a valid object of class
-\code{\link[koRpus]{kRp.corp.freq-class}}.
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 }
 \details{
 To use this function,
@@ -45,11 +45,13 @@ V\"o, M. L.-H., Conrad, M., Kuchinke, L., Hartfeld, K., Hofmann, M.F. & Jacobs,
       A.M. (2009).
   The Berlin Affective Word List Reloaded (BAWL-R). \emph{Behavior Research Methods},
       41(2), 534--538.
+  doi: 10.3758/BRM.41.2.534
 
-[1] \url{http://www.ewi-psy.fu-berlin.de/einrichtungen/arbeitsbereiche/allgpsy/BAWL-R/index.html}
+[1] \url{https://www.ewi-psy.fu-berlin.de/einrichtungen/arbeitsbereiche/allgpsy/Download/BAWL/index.html}
 }
 \seealso{
-\code{\link[koRpus]{kRp.corp.freq-class}}, \code{\link[koRpus:query]{query}},
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+      \code{\link[koRpus:query]{query}},
    \code{\link[koRpus:kRp.text.analysis]{kRp.text.analysis}}
 }
 \keyword{corpora}

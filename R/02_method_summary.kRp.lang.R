@@ -1,4 +1,4 @@
-# Copyright 2010-2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -16,31 +16,59 @@
 # along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#' Summary methods for koRpus objects
+#'
+#' Summary method for S4 objects of classes
+#' \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+#' \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+#' \code{\link[koRpus:kRp.text-class]{kRp.text}}, or
+#' \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
+#'
+#' @param object An object of class, \code{kRp.lang}, \code{kRp.readability}, 
+#'    \code{kRp.text}, or \code{kRp.TTR}.
+#' @param ... Further options, depending on the object class.
+#' @seealso
+#'    \code{\link[koRpus:kRp.lang-class]{kRp.lang}},
+#'    \code{\link[koRpus:kRp.readability-class]{kRp.readability}},
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}},
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
+#' @keywords methods
+#' @rdname summary-methods
+#' @export
+#' @docType methods
 #' @examples
 #' \dontrun{
 #' summary(guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt/"))
 #' }
+setGeneric("summary")
+
 #' @rdname summary-methods
-#' @include 01_class_09_kRp.lang.R
 #' @aliases summary,kRp.lang-method
 #' @export
 #' @docType methods
+#' @include 01_class_05_kRp.readability.R
+#' @include 02_method_summary.kRp.lang.R
 setMethod("summary", signature(object="kRp.lang"), function(object){
   # show the main results
   show(object)
 
+  udhr <- slot(object, "udhr")
   # then some statistics
   cat("Distribution of compression differences:\n")
-  print(summary(object@udhr[["diff"]]))
-  cat("\n  SD:", round(sd(object@udhr[["diff"]]), digits=2), "\n\n")
+  print(summary(udhr[["diff"]]))
+  cat("\n  SD:", round(sd(udhr[["diff"]]), digits=2), "\n\n")
 
-  langs.available <- nrow(object@udhr)
-  top5 <- top5.shown <- subset(head(object@udhr, n=5), select=c("name","uli","country","region","diff","diff.std"))
-  last5 <- last5.shown <- subset(tail(object@udhr, n=5), select=c("name","uli","country","region","diff","diff.std"))
+  langs.available <- nrow(udhr)
+  selectCols <- c("name","uli","iso639-3","bcp47","country","region","diff","diff.std")
+  # the 'country' data was only present in the index.xml until ~2014
+  # let's omit all columns that aren't available
+  selectCols <- selectCols[selectCols %in% colnames(udhr)]
+  top5 <- top5.shown <- subset(head(udhr, n=5), select=selectCols)
+  last5 <- last5.shown <- subset(tail(udhr, n=5), select=selectCols)
   # nicen up the visible output
-  lang.name.len <- max(nchar(c(top5.shown[["name"]], last5.shown[["name"]])))
-  lang.region.len <- max(nchar(c(top5.shown[["region"]], last5.shown[["region"]])))
-  top5.shown[["name"]] <- sprintf(paste0("%",lang.name.len + nchar(langs.available) - 1,"s"), top5.shown[["name"]])
+  lang.name.len <- max(nchar(c(top5.shown[["name"]], last5.shown[["name"]]), type="width"))
+  lang.region.len <- max(nchar(c(top5.shown[["region"]], last5.shown[["region"]]), type="width"))
+  top5.shown[["name"]] <- sprintf(paste0("%",lang.name.len + nchar(langs.available, type="width") - 1,"s"), top5.shown[["name"]])
   last5.shown[["name"]] <- sprintf(paste0("%",lang.name.len,"s"), last5.shown[["name"]])
   top5.shown[["region"]] <- sprintf(paste0("%",lang.region.len,"s"), top5.shown[["region"]])
   last5.shown[["region"]] <- sprintf(paste0("%",lang.region.len,"s"), last5.shown[["region"]])

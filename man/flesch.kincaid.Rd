@@ -4,11 +4,15 @@
 \alias{flesch.kincaid}
 \title{Readability: Flesch-Kincaid Grade Level}
 \usage{
-flesch.kincaid(txt.file, hyphen = NULL, parameters = c(asl = 0.39, asw =
-  11.8, const = 15.59), ...)
+flesch.kincaid(
+  txt.file,
+  hyphen = NULL,
+  parameters = c(asl = 0.39, asw = 11.8, const = 15.59),
+  ...
+)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation
@@ -24,7 +28,7 @@ is done by \code{\link[koRpus:readability.num]{readability.num}}.}
       see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.

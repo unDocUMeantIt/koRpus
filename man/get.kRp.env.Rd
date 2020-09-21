@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.kRp.env.R
 \name{get.kRp.env}
 \alias{get.kRp.env}
-\title{Get koRpus session environment}
+\title{Get koRpus session settings}
 \usage{
 get.kRp.env(..., errorIfUnset = TRUE)
 }
@@ -15,6 +15,8 @@ get.kRp.env(..., errorIfUnset = TRUE)
       whether the set TT.options for \code{treetag} should be returned.}
   \item{hyph.cache.file}{ Logical,
       whether the set hyphenation cache file for \code{hyphen} should be returned.}
+  \item{add.desc}{ Logical,
+      whether tag descriptions should be added directly to tagged text objects.}
 }}
 
 \item{errorIfUnset}{Logical, if \code{TRUE} and the desired property is not set at all,
@@ -32,6 +34,10 @@ The function \code{get.kRp.env} returns information on your session environment 
       e.g.
 where your local TreeTagger installation resides, if it was set before using
 \code{\link[koRpus:set.kRp.env]{set.kRp.env}}.
+}
+\details{
+For the most part,
+      \code{get.kRp.env} is a convenient wrapper for \code{\link[base:getOption]{getOption}}.
 }
 \examples{
 \dontrun{

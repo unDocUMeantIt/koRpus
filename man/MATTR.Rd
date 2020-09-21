@@ -7,8 +7,7 @@
 MATTR(txt, window = 100, char = FALSE, ...)
 }
 \arguments{
-\item{txt}{An object of either class \code{\link[koRpus]{kRp.tagged-class}} or \code{\link[koRpus]{kRp.analysis-class}},
-      containing the tagged text to be analyzed.}
+\item{txt}{An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} containing the tagged text to be analyzed.}
 
 \item{window}{An integer value for MATTR,
       defining how many tokens the moving window should include.}
@@ -20,7 +19,7 @@ MATTR(txt, window = 100, char = FALSE, ...)
       see \code{\link[koRpus:lex.div]{lex.div}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.TTR-class}}.
+An object of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:lex.div]{lex.div}}.
@@ -43,6 +42,7 @@ Covington, M.A. & McFall,
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
- \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.TTR-class}}
+ \code{\link[koRpus:kRp.text-class]{kRp.text}},
+      \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}
 }
 \keyword{LD}

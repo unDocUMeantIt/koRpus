@@ -1,11 +1,11 @@
 ## TEMPLATE FILE -- ADJUST TO YOUR LANGUAGE AND PREFERENCES
 ##
 ## you can use this template file to build a proper R package from your
-## lang.support-xx.R and hyph.xx-data.R files. that is, you must have
-## prepared them first before you can adjust and run this script!
+## lang.support-xx.R file. that is, you must have prepared them first
+## before you can adjust and run this script!
 ## 
 ## throughout the template, there are some values you need to replace globally:
-##   xyzedish: template name for the language (replace with "english", "dutch" etc.)
+##   Xyzedish: template name for the language (replace with "English", "Dutch" etc.)
 ##   xx:       template name for the language abbreviation (replace with "en", "nl" etc.)
 ## 
 ## when you're done, remove this block ;-)
@@ -17,14 +17,13 @@
 ##########################################################################
 ##
 ## roxyPackage will create all of the directories and files needed for
-## packaging. all you need is the two R files lang.support-xx.R and
-## hyph.xx-data.R, and this script.
+## packaging. all you need is the R file lang.support-xx.R and this script.
 ##   
 ##########################################################################
 ##
 ## this is how it's done:
 
-## 1. place lang.support-xx.R and hyph.xx-data.R in an R directory
+## 1. place lang.support-xx.R in an R directory
 #    
 #     R packages need to have the actual R code in a directory called R,
 #     right below the root directory of the package sources. your package
@@ -33,7 +32,6 @@
 #    
 #       koRpus.lang.xx/
 #         R/
-#           hyph.xx-data.R
 #           lang.support-xx.R
 
 require(roxyPackage)
@@ -56,11 +54,11 @@ local({
     email <- "first.family@example.org"
     
     # name of the language
-    language.long <- "Xyzdish"
+    language.long <- "Xyzedish"
     language.short <- "xx"
 
     # the package version number
-    package.version <- "0.01-1"
+    package.version <- "0.1-1"
     package.source.dir <- file.path("/path","to","your","package","sources")
     # roxyPackage sets up a fully functional R package repository,
     # you can set the root directory here, it will be created if not existing.
@@ -114,7 +112,7 @@ local({
     package.description <- data.frame(
         Package=package.name,
         Type="Package",
-        Title=paste0("Language support for koRpus: ", language.long),
+        Title=paste0("Language Support for 'koRpus': ", language.long),
         Author= paste0(name.full, " [aut, cre]"),
         AuthorsR=paste0("c(person(given=\"", name.first, "\", ",
           if(!is.null(name.middle) & !identical(name.middle, "")){
@@ -122,17 +120,19 @@ local({
           },
           "family=\"", name.family, "\", email=\"", email, "\", role=c(\"aut\", \"cre\")))"),
         Maintainer=paste0(name.full, " <", email, ">"),
-        Depends="R (>= 3.3.0), koRpus (>= 0.06-3), methods",
+        Depends="R (>= 3.3.0), koRpus (>= 0.11-1)",
+        Imports=paste0("methods,sylly.", language.short),
+        Additional_repositories="https://undocumeantit.github.io/repos/l10n",
         Description=paste0(
-          "Adds support for the ", language.long, " language to the koRpus package.",
+          "Adds support for the ", language.long, " language to the 'koRpus' package.",
           "Due to some restrictions on CRAN, the full package sources are only available from the project homepage.",
           "To ask for help, report bugs, suggest feature improvements, or discuss the global development of the package,",
-          "please subscribe to the koRpus-dev mailing list: https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de"
+          "please subscribe to the koRpus-dev mailing list (<http://korpusml.reaktanz.de>)."
         ),
         License="GPL (>= 3)",
         Encoding="UTF-8",
         LazyLoad="yes",
-        URL="http://reaktanz.de/?c=hacking&s=koRpus",
+        URL="https://reaktanz.de/?c=hacking&s=koRpus",
         stringsAsFactors=FALSE)
 
     roxy.package(actions=c(
@@ -147,6 +147,7 @@ local({
 #         "macosx",        # update the mac OS X binary package
         "cleanRd",         # linebreaks for >90 chars in *.Rd
         "log",             # update ChangeLog
+#       "buildVignettes",  # re-build vignettes with index
         "package"#,        # build & install koRpus.lang.xx package
 #        "readme",         # add initial README.md file
 #        "check"           # check package
@@ -158,7 +159,7 @@ local({
         R.libs=R.local.libs,
         repo.root=package.local.repository,
         cleanup=TRUE,
-        URL="http://R.reaktanz.de",
+        URL="https://undocumeantit.github.io/repos/l10n",
         ChangeLog=ChangeLog.entry
     )
 })

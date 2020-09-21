@@ -6,27 +6,28 @@
 ## and adjust it to your needs.
 ## 
 ## throughout the template, there are some values you need to replace globally:
+##   Xyzedish: capitalized template name for the language (replace with "English", "Dutch" etc.)
 ##   xyzedish: template name for the language (replace with "english", "dutch" etc.)
 ##   xx:       template name for the language abbreviation (replace with "en", "nl" etc.)
 ## 
 ## when you're done, remove this block ;-)
 
-# Copyright 2010-2015 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
 #
-# This file is part of the R package koRpus.
+# This file is part of the R package koRpus.lang.xx.
 #
-# koRpus is free software: you can redistribute it and/or modify
+# koRpus.lang.xx is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# koRpus is distributed in the hope that it will be useful,
+# koRpus.lang.xx is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with koRpus.  If not, see <http://www.gnu.org/licenses/>.
+# along with koRpus.lang.xx.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # this script is providing additional support for language "xx".
@@ -35,44 +36,35 @@
 ## a note on the use in packages:
 # if you use this template as basis for a language package, please update the
 # roxygen2 documentation notes:
-#' Language support for xyzedish
+#' Language support for Xyzedish
 #' 
-#' This function adds support for xyzedish to the koRpus package. You should not
+#' This function adds support for Xyzedish to the koRpus package. You should not
 #' need to call it manually, as that is done automatically when this package is
-#' loaded.
+#' being loaded.
 #' 
 #' In particular, this function adds the following:
 #' \itemize{
 #'  \item \code{lang}: The additional language "xx" to be used with koRpus
-#'  \item \code{hyphen}: An additional set of hyphenation patterns (see \code{\link[hyph.xx]{hyph.xx}})
-#'  \item \code{treetag}: The additional presets "xx" and "xx-utf8", implemented according to the respective
-#'    TreeTagger[1] script
+#'  \item \code{treetag}: The additional preset "xx", implemented according to the respective TreeTagger[1] script
 #'  \item \code{POS tags}: An additional set of tags, implemented using the documentation for the corresponding
 #'    TreeTagger parameter set[2]
 #' }
+#' Hyphenation patterns are provided by means of the \code{\link[sylly.xx:hyph.support.xx]{sylly.xx}} package.
 #'
+#' @param ... Optional arguments for \code{\link[koRpus:set.lang.support]{set.lang.support}}.
 #' @references
 #' [1] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/}
 #'
 #' [2] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data/xyzedish-tagset.txt}
 #' @export
+#' @importFrom koRpus set.lang.support
+#' @examples
+#' \dontrun{
+#' lang.support.xx()
+#' }
 # call this function to add further language support
 ## function lang.support.xx()
-lang.support.xx <- function() {
-  # first tell koRpus where to find hyphenation patterns (see ?set.lang.support for details)
-  koRpus::set.lang.support(target="hyphen",
-    value=list(
-      "xx"=c("xx", package="koRpus.lang.xx")
-      # if you want to use a custom hyphenation object called hyph.xx in the running session:
-      #   "xx"=hyph.xx
-      #
-      # should your language need more than one pattern, just extend the list accordingly,
-      # giving additional entries different names, e.g.:
-      #   "xx.old"=c("xx.old", package="koRpus.lang.xx")
-    )
-  )
-
-
+lang.support.xx <- function(...) {
   # here you have to adjust the parameters according to the contents of the TreeTagger
   # scripts for your language (see ?set.lang.support for details)
   #  - UTF-8 scripts are the default in TreeTagger now, add them as "xx"
@@ -136,8 +128,10 @@ lang.support.xx <- function() {
               )
             )
           }
-        })
-    )
+        }
+      )
+    ),
+    ...
   )
 
 
@@ -181,7 +175,8 @@ lang.support.xx <- function() {
           "SENT",       "fullstop",     "Sentence ending punctuation"
           ), ncol = 3, byrow = TRUE, dimnames = list(c(), c("tag", "wclass", "desc")))
       )
-    )
+    ),
+    ...
   )
 } ## end function lang.support.xx()
 
@@ -194,6 +189,8 @@ lang.support.xx <- function() {
 # putting the lang.support.xx() function directly inside an internal
 # .onAttach() function:
 #
+# #' @importFrom sylly.xx hyph.support.xx
 # .onAttach <- function(...) {
 #   lang.support.xx()
+#   sylly.xx::hyph.support.xx()
 # }

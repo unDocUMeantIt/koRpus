@@ -1,4 +1,4 @@
-# Copyright 2016 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2019 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -26,16 +26,15 @@
 #' properly if the input is a tagged text object with lemmata or you've properly set up the enviroment via \code{set.kRp.env}.
 #' Calling these methods on \code{kRp.TTR} objects is just returning the respective part of its \code{tt} slot.
 #'
-#' @param txt An object of either class \code{\link[koRpus]{kRp.tagged-class}}, \code{\link[koRpus]{kRp.txt.freq-class}},
-#'    \code{\link[koRpus]{kRp.analysis-class}}, \code{\link[koRpus]{kRp.txt.trans-class}}, \code{\link[koRpus]{kRp.TTR-class}}, or a
-#'    character vector.
+#' @param txt An object of either class \code{\link[koRpus:kRp.text-class]{kRp.text}} or
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}, or a character vector.
 #' @param case.sens Logical, whether types should be counted case sensitive.
 #'    This option is available for tagged text and character input only.
 #' @param lemmatize Logical, whether analysis should be carried out on the lemmatized tokens rather than all running word forms.
 #'    This option is available for tagged text and character input only.
 #' @param corp.rm.class A character vector with word classes which should be dropped. The default value
 #'    \code{"nonpunct"} has special meaning and will cause the result of
-#'    \code{kRp.POS.tags(lang, c("punct","sentc"), list.classes=TRUE)} to be used.
+#'    \code{kRp.POS.tags(lang, tags=c("punct","sentc"), list.classes=TRUE)} to be used.
 #'    This option is available for tagged text and character input only.
 #' @param corp.rm.tag A character vector with POS tags which should be dropped.
 #'    This option is available for tagged text and character input only.
@@ -46,8 +45,8 @@
 #'    and frequency. The \code{types} result is always sorted by frequency, with more frequent types coming first.
 #' @keywords LD
 #' @seealso \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},
-#'    \code{\link[koRpus]{kRp.tagged-class}},
-#'    \code{\link[koRpus]{kRp.TTR-class}},
+#'    \code{\link[koRpus:kRp.text-class]{kRp.text}},
+#'    \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}},
 #'    \code{\link[koRpus:lex.div]{lex.div}}
 #' @import methods
 #' @rdname types.tokens-methods
@@ -88,14 +87,11 @@ setMethod("tokens", signature(txt="kRp.TTR"), function(txt){
 
 
 #' @export
-#' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
-#' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases types,kRp.taggedText-method
+#' @aliases types,kRp.text-method
 #' @rdname types.tokens-methods
-setMethod("types", signature(txt="kRp.taggedText"), function(txt,
+setMethod("types", signature(txt="kRp.text"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c(), stats=FALSE){
     basicTnT <- TnT(
       txt=txt,
@@ -118,14 +114,11 @@ setMethod("types", signature(txt="kRp.taggedText"), function(txt,
   }
 )
 #' @export
-#' @include 01_class_01_kRp.tagged.R
-#' @include 01_class_03_kRp.txt.freq.R
-#' @include 01_class_04_kRp.txt.trans.R
-#' @include 01_class_05_kRp.analysis.R
+#' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
-#' @aliases tokens,kRp.taggedText-method
+#' @aliases tokens,kRp.text-method
 #' @rdname types.tokens-methods
-setMethod("tokens", signature(txt="kRp.taggedText"), function(txt,
+setMethod("tokens", signature(txt="kRp.text"), function(txt,
     case.sens=FALSE, lemmatize=FALSE, corp.rm.class="nonpunct", corp.rm.tag=c()){
     basicTnT <- TnT(
       txt=txt,

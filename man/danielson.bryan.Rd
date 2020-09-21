@@ -4,11 +4,15 @@
 \alias{danielson.bryan}
 \title{Readability: Danielson-Bryan}
 \usage{
-danielson.bryan(txt.file, db1 = c(cpb = 1.0364, cps = 0.0194, const = 0.6059),
-  db2 = c(const = 131.059, cpb = 10.364, cps = 0.194), ...)
+danielson.bryan(
+  txt.file,
+  db1 = c(cpb = 1.0364, cps = 0.0194, const = 0.6059),
+  db2 = c(const = 131.059, cpb = 10.364, cps = 0.194),
+  ...
+)
 }
 \arguments{
-\item{txt.file}{Either an object of class \code{\link[koRpus]{kRp.tagged-class}},
+\item{txt.file}{Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}},
       a character vector which must be be
 a valid path to a file containing the text to be analyzed,
       or a list of text features. If the latter, calculation
@@ -24,7 +28,7 @@ is done by \code{\link[koRpus:readability.num]{readability.num}}.}
       see \code{\link[koRpus:readability]{readability}} for details.}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.readability-class}}.
+An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 }
 \description{
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.

@@ -4,9 +4,17 @@
 \alias{read.corp.LCC}
 \title{Import LCC data}
 \usage{
-read.corp.LCC(LCC.path, format = "flatfile", fileEncoding = "UTF-8",
-  n = -1, keep.temp = FALSE, prefix = NULL, bigrams = FALSE,
-  cooccurence = FALSE)
+read.corp.LCC(
+  LCC.path,
+  format = "flatfile",
+  fileEncoding = "UTF-8",
+  n = -1,
+  keep.temp = FALSE,
+  prefix = NULL,
+  bigrams = FALSE,
+  cooccurence = FALSE,
+  caseSens = TRUE
+)
 }
 \arguments{
 \item{LCC.path}{A character string,
@@ -32,14 +40,20 @@ the function ends.}
 if they are already decompressed (autodetected if \code{LCC.path} points to the tar archive directly).}
 
 \item{bigrams}{Logical, whether infomration on bigrams should be imported.
-This is is \code{FALSE} by default, because it might make the objects quite large.
+This is \code{FALSE} by default, because it might make the objects quite large.
 Note that this will only work in \code{n = -1} because otherwise the tokens cannot be looked up.}
 
 \item{cooccurence}{Logical, like \code{bigrams},
-      but for infomration on co-occurences of tokens in a sentence.}
+      but for information on co-occurences of tokens in a sentence.}
+
+\item{caseSens}{Logical,
+      if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
+Otherwise, if the imported database supports it,
+      you will get different frequencies for the same tokens in different
+cases (e.\,g., "one" and "One").}
 }
 \value{
-An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 }
 \description{
 Read data from LCC[1] formatted corpora (Quasthoff, Richter & Biemann, 2006).
@@ -78,9 +92,9 @@ Quasthoff, U., Richter, M. & Biemann,
    \emph{Proceedings of the Fifth International Conference on Language Resources and Evaluation},
       Genoa, 1799--1802.
 
-   [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
+   [1] \url{https://wortschatz.uni-leipzig.de/en/download/}
 }
 \seealso{
-\code{\link[koRpus]{kRp.corp.freq-class}}
+\code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 }
 \keyword{corpora}

@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -19,23 +19,24 @@
 #' Import BAWL-R data
 #'
 #' Read the Berlin Affective Word List -- Reloaded (V\"o, Conrad, Kuchinke, Hartfeld, Hofmann & Jacobs, 2009; [1]) into a valid object of class
-#' \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 #'
 #' To use this function, you must first export the BAWL-R list into CSV format: Use comma for decimal values and semicolon as value separator
 #' (often referred to as CSV2). Once you have successfully imported the word list, you can use the object to perform frequency analysis.
 #'
 #' @param csv A character string, path to the BAWL-R in CSV2 format.
-#' @param fileEncoding A character string naming the encoding of the file, if neccessary.
-#' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @param fileEncoding A character string naming the encoding of the file, if necessary.
+#' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
-#' @seealso \code{\link[koRpus]{kRp.corp.freq-class}}, \code{\link[koRpus:query]{query}},
+#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, \code{\link[koRpus:query]{query}},
 #'    \code{\link[koRpus:kRp.text.analysis]{kRp.text.analysis}}
 #' @references
 #' V\"o, M. L.-H., Conrad, M., Kuchinke, L., Hartfeld, K., Hofmann, M.F. & Jacobs, A.M. (2009).
 #'   The Berlin Affective Word List Reloaded (BAWL-R). \emph{Behavior Research Methods}, 41(2), 534--538.
+#'   doi: 10.3758/BRM.41.2.534
 #'
-#' [1] \url{http://www.ewi-psy.fu-berlin.de/einrichtungen/arbeitsbereiche/allgpsy/BAWL-R/index.html}
+#' [1] \url{https://www.ewi-psy.fu-berlin.de/einrichtungen/arbeitsbereiche/allgpsy/Download/BAWL/index.html}
 #' @examples
 #' \dontrun{
 #' bawl.corp <- read.BAWL("~/mydata/valence/BAWL-R.csv")

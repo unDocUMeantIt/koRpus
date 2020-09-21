@@ -1,4 +1,4 @@
-# Copyright 2010-2014 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -42,17 +42,20 @@
 #' @param prefix Character string, giving the prefix for the file names in the archive. Needed for newer LCC tar archives
 #'    if they are already decompressed (autodetected if \code{LCC.path} points to the tar archive directly).
 #' @param bigrams Logical, whether infomration on bigrams should be imported.
-#'    This is is \code{FALSE} by default, because it might make the objects quite large.
+#'    This is \code{FALSE} by default, because it might make the objects quite large.
 #'    Note that this will only work in \code{n = -1} because otherwise the tokens cannot be looked up.
-#' @param cooccurence Logical, like \code{bigrams}, but for infomration on co-occurences of tokens in a sentence.
-#' @return An object of class \code{\link[koRpus]{kRp.corp.freq-class}}.
+#' @param cooccurence Logical, like \code{bigrams}, but for information on co-occurences of tokens in a sentence.
+#' @param caseSens Logical, if \code{FALSE} forces all frequency statistics to be calculated regardless of the tokens' case.
+#'    Otherwise, if the imported database supports it, you will get different frequencies for the same tokens in different
+#'    cases (e.\,g., "one" and "One").
+#' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
-#' @seealso \code{\link[koRpus]{kRp.corp.freq-class}}
+#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}
 #' @references Quasthoff, U., Richter, M. & Biemann, C. (2006). Corpus Portal for Search in Monolingual Corpora, In
 #'    \emph{Proceedings of the Fifth International Conference on Language Resources and Evaluation}, Genoa, 1799--1802.
 #'
-#'    [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
+#'    [1] \url{https://wortschatz.uni-leipzig.de/en/download/}
 #' @export
 #' @examples
 #' \dontrun{
@@ -67,7 +70,7 @@
 #' freq.analysis(tagged.results, corp.freq=my.LCC.data)
 #' }
 
-read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-1, keep.temp=FALSE, prefix=NULL, bigrams=FALSE, cooccurence=FALSE){
+read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-1, keep.temp=FALSE, prefix=NULL, bigrams=FALSE, cooccurence=FALSE, caseSens=TRUE){
 
   # basic checks before we even proceed...
   if(identical(format, "flatfile")){
@@ -249,7 +252,8 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
               df.meta=table.meta,
               df.dscrpt.meta=dscrpt.meta,
               matrix.table.bigrams=table.bigrams,
-              matrix.table.cooccur=table.cooccur
+              matrix.table.cooccur=table.cooccur,
+              caseSens=caseSens
             )
 
   return(results)
