@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.13-2 (2020-09-22)
+unreleased:
+  - this release is under development
+
 changes in version 0.13-1 (2020-09-21)
 fixed:
   - docTermMatrix(): numbers were calculated correctly, but possibly added to
