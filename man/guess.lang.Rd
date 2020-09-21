@@ -67,6 +67,6 @@ Benedetto, D., Caglioti, E. & Loreto,
 
 [1] \url{http://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
 
-[2] \url{https://unicode.org/udhr}
+[2] \url{https://unicode.org/udhr/}
 }
 \keyword{misc}

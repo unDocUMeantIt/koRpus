@@ -1,7 +1,7 @@
 # koRpus
 
-koRpus is an [R](https://r-project.org) package for text analysis. This includes, amongst others,
-a wrapper for the POS tagger [TreeTagger](http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/),
+koRpus is an [R](https://www.r-project.org/) package for text analysis. This includes, amongst others,
+a wrapper for the POS tagger [TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/),
 functions for automatic language detection, hyphenation, several indices of lexical diversity
 (e.g., type token ratio, HD-D/vocd-D, MTLD) and readability (e.g., Flesch, SMOG, LIX, Dale-Chall, Tuldava).
 
@@ -58,7 +58,7 @@ devtools::install_github("unDocUMeantIt/koRpus", ref="develop") # development re
 
 koRpus does not support any particular language out-of-the-box. Therefore, after installing the package you'll have
 to also install at least one language support package to really make use of it.
-You can find these in the [l10n](https://undocumeantit.github.io/repos) repository, they're called `koRpus.lang.*`.
+You can find these in the [l10n](https://undocumeantit.github.io/repos/) repository, they're called `koRpus.lang.*`.
 
 The most straight forward way to get these packages is to use the function `install.koRpus.lang()`.
 Here's an example how to install support for English and German:

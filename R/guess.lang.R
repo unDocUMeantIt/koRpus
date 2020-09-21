@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -44,7 +44,7 @@
 #'
 #' [1] \url{http://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
 #'
-#' [2] \url{https://unicode.org/udhr}
+#' [2] \url{https://unicode.org/udhr/}
 #' @keywords misc
 #' @examples
 #' \dontrun{

@@ -92,7 +92,7 @@ Quasthoff, U., Richter, M. & Biemann,
    \emph{Proceedings of the Fifth International Conference on Language Resources and Evaluation},
       Genoa, 1799--1802.
 
-   [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
+   [1] \url{https://wortschatz.uni-leipzig.de/en/download/}
 }
 \seealso{
 \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}

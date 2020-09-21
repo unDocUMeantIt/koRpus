@@ -82,7 +82,7 @@ Should you need to manually generate objects of this class (which should rarely 
 }
 
 \references{
-[1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
+[1] \url{https://wortschatz.uni-leipzig.de/en/download/}
 [2] \url{http://celex.mpi.nl}
 }
 \keyword{classes}
