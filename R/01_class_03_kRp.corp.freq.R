@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -80,7 +80,7 @@
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
-#' [1] \url{http://corpora.informatik.uni-leipzig.de/download.html}
+#' [1] \url{https://wortschatz.uni-leipzig.de/en/download/}
 #' [2] \url{http://celex.mpi.nl}
 #' @export kRp_corp_freq
 #' @exportClass kRp.corp.freq

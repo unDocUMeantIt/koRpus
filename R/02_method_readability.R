@@ -362,7 +362,7 @@
 #'    Wheeler, L.R. & Smith, E.H. (1954). A practical readability formula for the classroom teacher in the primary grades. \emph{Elementary English},
 #'      31, 397--399.
 #'
-#'    [1] \url{http://strainindex.wordpress.com/2007/09/25/hello-world/}
+#'    [1] \url{https://strainindex.wordpress.com/2007/09/25/hello-world/}
 #' @import methods
 #' @rdname readability-methods
 #' @export
