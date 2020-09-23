@@ -24,8 +24,8 @@ LazyLoad: yes
 Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
                     role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura",
                     family="Hauser", role=c("ctb")))
-Version: 0.13-1
-Date: 2020-09-21
+Version: 0.13-2
+Date: 2020-09-23
 RoxygenNote: 7.1.1
 Collate: 
     '01_class_01_kRp.text.R'
