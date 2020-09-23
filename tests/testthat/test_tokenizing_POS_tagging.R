@@ -572,6 +572,7 @@ tokenizedSentence <- tokenize(
   "The defense mechanism most readily identifiable with Phasmatodea is camouflage.",
   format="obj",
   lang="xy",
+  doc_id="Phasmatodea",
   add.desc=TRUE
 )
 
@@ -635,13 +636,23 @@ test_that("diffText", {
 })
 
 test_that("jumbleWords", {
-  transJumbled <- jumbleWords(tokenizedSentence)
+  # set seed to make results predictable
+  #
+  # paying symbolic tribute to reality leigh winner
+  # by setting it to her age in days as of today
+  #
+  # #freeRealityWinner
+  set.seed(10521)
 
-  # it's hard to test the result properly, characters
-  # are reandomly reordered. but let's assume that
-  # very likely less than 6 tokens remained identical
-  expect_true(
-    sum(taggedText(transJumbled)[["equal"]]) < 6
+  transJumbled <- jumbleWords(tokenizedSentence)
+  set.seed(NULL)
+
+  expect_equal(
+    transJumbled[["token"]],
+    c(
+      "The", "dnsefee", "mnacishem", "msot", "radiely", "iidtbfnailee",
+      "wtih", "Pohatdmeasa", "is", "coaagmflue", "."
+    )
   )
 })
 
