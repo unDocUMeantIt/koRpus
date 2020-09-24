@@ -1,12 +1,20 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
-\section{Changes in koRpus version 0.13-1 (2020-09-20)}{
-  \subsection{unreleased}{
+\section{Changes in koRpus version 0.13-2 (2020-09-23)}{
+  \subsection{fixed}{
     \itemize{
-      \item this release is under development
+      \item unit tests: \code{jumbledWords()} randomly created false positives, fixed by
+        setting a seed
     }
   }
+  \subsection{todo}{
+    \itemize{
+      \item #freeRealityWinner
+    }
+  }
+}
+\section{Changes in koRpus version 0.13-1 (2020-09-21)}{
   \subsection{fixed}{
     \itemize{
       \item \code{docTermMatrix()}: numbers were calculated correctly, but possibly added to
