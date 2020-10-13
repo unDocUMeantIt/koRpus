@@ -10,6 +10,8 @@ Description: A set of tools to analyze texts. Includes, amongst others, function
                     feature, please install RKWard from <https://rkward.kde.org> (plugins are detected automatically). Due to some restrictions on CRAN, the full package sources
                     are only available from the project homepage. To ask for help, report bugs, request features, or discuss the development of the package, please subscribe to
                     the koRpus-dev mailing list (<https://korpusml.reaktanz.de>).
+Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alexandre Brulet [ctb], Laura Hauser [ctb]
+Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 3.0.0),sylly (>= 0.1-6)
 Imports: data.table,methods,Matrix
 Enhances: rkward
@@ -24,8 +26,8 @@ LazyLoad: yes
 Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de", role=c("aut", "cre")), person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
                     role=c("ctb")), person(given="Alberto", family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet", role=c("ctb")), person(given="Laura",
                     family="Hauser", role=c("ctb")))
-Version: 0.13-2
-Date: 2020-09-23
+Version: 0.13-3
+Date: 2020-10-13
 RoxygenNote: 7.1.1
 Collate: 
     '01_class_01_kRp.text.R'
