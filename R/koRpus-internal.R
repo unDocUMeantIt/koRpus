@@ -1621,40 +1621,44 @@ check_lang_packages <- function(
 # - file_utf8: file to check for existance, the variant including "utf8" in its name
 # - dir: full path to expected file (directory only)
 check_toggle_utf8 <- function(file_utf8, dir=NA){
-  if(is.na(dir)){
-    dir <- dirname(normalizePath(file_utf8, mustWork=FALSE))
-    file_utf8 <- basename(file_utf8)
+  if(any(is.null(file_utf8), is.na(file_utf8))){
+    return(file_utf8)
   } else {
-    dir <- normalizePath(dir, mustWork=FALSE)
-  }
+    if(is.na(dir)){
+      dir <- dirname(normalizePath(file_utf8, mustWork=FALSE))
+      file_utf8 <- basename(file_utf8)
+    } else {
+      dir <- normalizePath(dir, mustWork=FALSE)
+    }
 
-  check.file(filename=dir, mode="dir", stopOnFail=TRUE)
+    check.file(filename=dir, mode="dir", stopOnFail=TRUE)
 
-  if(isTRUE(grepl("utf8", file_utf8))){
-    all_possible_files <- c(file_utf8, gsub("-utf8", "", gsub("^utf8-", "", file_utf8)))
-  } else {
-    all_possible_files <- file_utf8
-  }
-  if(isTRUE(grepl("\\.txt$", file_utf8))){
-    all_possible_files <- c(all_possible_files, gsub("\\.txt$", "", all_possible_files))
-  } else {}
+    if(isTRUE(grepl("utf8", file_utf8))){
+      all_possible_files <- c(file_utf8, gsub("-utf8", "", gsub("^utf8-", "", file_utf8)))
+    } else {
+      all_possible_files <- file_utf8
+    }
+    if(isTRUE(grepl("\\.txt$", file_utf8))){
+      all_possible_files <- c(all_possible_files, gsub("\\.txt$", "", all_possible_files))
+    } else {}
 
-  all_possible_files <- file.path(dir, all_possible_files)
-  all_files_found <- sapply(
-    all_possible_files,
-    check.file,
-    mode="exist",
-    stopOnFail=FALSE
-  )
+    all_possible_files <- file.path(dir, all_possible_files)
+    all_files_found <- sapply(
+      all_possible_files,
+      check.file,
+      mode="exist",
+      stopOnFail=FALSE
+    )
 
-  if(any(all_files_found)){
-    return(all_possible_files[all_files_found][1])
-  } else {
-    stop(simpleError(
-      paste0(
-        "None of the following files were found, please check your TreeTagger installation!\n ",
-        paste0(all_possible_files, collapse="\n ")
-      )
-    ))
+    if(any(all_files_found)){
+      return(all_possible_files[all_files_found][1])
+    } else {
+      stop(simpleError(
+        paste0(
+          "None of the following files were found, please check your TreeTagger installation!\n ",
+          paste0(all_possible_files, collapse="\n ")
+        )
+      ))
+    }
   }
 } ## end function check_toggle_utf8()
