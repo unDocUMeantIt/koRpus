@@ -44,7 +44,7 @@ Authors@R: c(person(given="Meik", family="Michalke",
         role=c("ctb")), person(given="Alexandre", family="Brulet",
         role=c("ctb")), person(given="Laura", family="Hauser",
         role=c("ctb")))
-Version: 0.13-3
+Version: 0.13-4
 Date: 2020-10-15
 RoxygenNote: 7.1.1
 Collate: 
