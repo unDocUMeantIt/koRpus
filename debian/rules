@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 # debian/rules file for the Debian/GNU Linux r-other-reaktanz-korpus package
-# Copyright 2019 by Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2020 by Meik Michalke <meik.michalke@hhu.de>
 
 debRreposname := other-reaktanz
 

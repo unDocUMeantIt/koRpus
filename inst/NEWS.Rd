@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.13-3 (2020-10-15)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{treetag()}: the \code{"utf8"} check for lexicon files led to path errors if the
+        lexicon was NULL
+    }
+  }
+}
 \section{Changes in koRpus version 0.13-2 (2020-09-23)}{
   \subsection{fixed}{
     \itemize{
