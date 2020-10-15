@@ -1,9 +1,9 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-3 (2020-10-13)
+changes in version 0.13-3 (2020-10-15)
 fixed:
-  - treetag(): the "utf8" check for lexicon files led to path errors
-    if the lexicon was NULL
+  - treetag(): the "utf8" check for lexicon files led to path errors if the
+    lexicon was NULL
 
 changes in version 0.13-2 (2020-09-23)
 fixed:
