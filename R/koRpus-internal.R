@@ -26,38 +26,42 @@ check.file <- function(filename, mode="exist", stopOnFail=TRUE){
 
   ret.value <- FALSE
 
-  if(identical(mode, "exist") | identical(mode, "exec")){
-    if(as.logical(file_test("-f", filename))){
-      ret.value <- TRUE
-    } else {
-      if(isTRUE(stopOnFail)){
-        stop(simpleError(paste("Specified file cannot be found:\n", filename)))
-      } else {}
-      ret.value <- FALSE
-    }
-  } else {}
+  if(any(is.na(filename), is.null(filename))){
+    return(FALSE)
+  } else {
+    if(identical(mode, "exist") | identical(mode, "exec")){
+      if(as.logical(file_test("-f", filename))){
+        ret.value <- TRUE
+      } else {
+        if(isTRUE(stopOnFail)){
+          stop(simpleError(paste("Specified file cannot be found:\n", filename)))
+        } else {}
+        ret.value <- FALSE
+      }
+    } else {}
 
-  if(identical(mode, "exec")){
-    if(as.logical(file_test("-x", filename))){
-      ret.value <- TRUE
-    } else {
-      if(isTRUE(stopOnFail)){
-        stop(simpleError(paste("Specified file cannot be executed:\n", filename)))
-      } else {}
-      ret.value <- FALSE
-    }
-  } else {}
+    if(identical(mode, "exec")){
+      if(as.logical(file_test("-x", filename))){
+        ret.value <- TRUE
+      } else {
+        if(isTRUE(stopOnFail)){
+          stop(simpleError(paste("Specified file cannot be executed:\n", filename)))
+        } else {}
+        ret.value <- FALSE
+      }
+    } else {}
 
-  if(identical(mode, "dir")){
-    if(as.logical(file_test("-d", filename))){
-      ret.value <- TRUE
-    } else {
-      if(isTRUE(stopOnFail)){
-        stop(simpleError(paste("Specified directory cannot be found:\n", filename)))
-      } else {}
-      ret.value <- FALSE
-    }
-  } else {}
+    if(identical(mode, "dir")){
+      if(as.logical(file_test("-d", filename))){
+        ret.value <- TRUE
+      } else {
+        if(isTRUE(stopOnFail)){
+          stop(simpleError(paste("Specified directory cannot be found:\n", filename)))
+        } else {}
+        ret.value <- FALSE
+      }
+    } else {}
+  }
 
   return(ret.value)
 } ## end function check.file()
@@ -1620,7 +1624,10 @@ check_lang_packages <- function(
 #
 # - file_utf8: file to check for existance, the variant including "utf8" in its name
 # - dir: full path to expected file (directory only)
-check_toggle_utf8 <- function(file_utf8, dir=NA){
+# - optional: if TRUE doesn't return an error if no file was found return the path as given;
+#     further checks are done elsewhere, we're not handling missing files here, just
+#     possible alternatives to defaults!
+check_toggle_utf8 <- function(file_utf8, dir=NA, optional=FALSE){
   if(any(is.null(file_utf8), is.na(file_utf8))){
     return(file_utf8)
   } else {
@@ -1653,12 +1660,16 @@ check_toggle_utf8 <- function(file_utf8, dir=NA){
     if(any(all_files_found)){
       return(all_possible_files[all_files_found][1])
     } else {
-      stop(simpleError(
-        paste0(
-          "None of the following files were found, please check your TreeTagger installation!\n ",
-          paste0(all_possible_files, collapse="\n ")
-        )
-      ))
+      if(isTRUE(optional)){
+        return(file_utf8)
+      } else {
+        stop(simpleError(
+          paste0(
+            "None of the following files were found, please check your TreeTagger installation!\n ",
+            paste0(all_possible_files, collapse="\n ")
+          )
+        ))
+      }
     }
   }
 } ## end function check_toggle_utf8()

@@ -312,9 +312,9 @@ setMethod("treetag",
         TT.params      <- check_toggle_utf8(file_utf8=TT.params)
       }
       if(any(in.TT.options == "lexicon")){
-        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.options[["lexicon"]], dir=TT.lib)
+        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.options[["lexicon"]], dir=TT.lib, optional=TRUE)
       } else {
-        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.lexicon)
+        TT.lexicon     <- check_toggle_utf8(file_utf8=TT.lexicon, optional=TRUE)
       }
 
       # check the input encoding

@@ -1,8 +1,11 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-4 (2020-10-15)
+changes in version 0.13-4 (2020-10-23)
 unreleased:
   - this release is under development
+fixed:
+  - treetag(): allow for lexicon files to be optional and not return an error
+    if none is found (which was the case with the newly added file name checks)
 
 changes in version 0.13-3 (2020-10-15)
 fixed:
