@@ -120,14 +120,14 @@ local({
           },
           "family=\"", name.family, "\", email=\"", email, "\", role=c(\"aut\", \"cre\")))"),
         Maintainer=paste0(name.full, " <", email, ">"),
-        Depends="R (>= 3.3.0), koRpus (>= 0.11-1)",
+        Depends="R (>= 3.3.0), koRpus (>= 0.11-2)",
         Imports=paste0("methods,sylly.", language.short),
         Additional_repositories="https://undocumeantit.github.io/repos/l10n",
         Description=paste0(
           "Adds support for the ", language.long, " language to the 'koRpus' package.",
           "Due to some restrictions on CRAN, the full package sources are only available from the project homepage.",
           "To ask for help, report bugs, suggest feature improvements, or discuss the global development of the package,",
-          "please subscribe to the koRpus-dev mailing list (<http://korpusml.reaktanz.de>)."
+          "please subscribe to the koRpus-dev mailing list (<https://korpusml.reaktanz.de>)."
         ),
         License="GPL (>= 3)",
         Encoding="UTF-8",
