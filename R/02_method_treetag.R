@@ -539,7 +539,9 @@ setMethod("treetag",
     ## workaround
     # in seldom cases TreeTagger seems to return duplicate tab stops
     # we'll try to correct for that here
-    tagged.text <- gsub("\t\t", "\t", tagged.text)
+    if(any(grepl("\t\t", tagged.text))){
+      tagged.text <- gsub("\t\t", "\t", tagged.text)
+    } else {}
 
     if(isTRUE(rm.sgml)){
       tagged.text <- tagged.text[grep("^[^<]", tagged.text)]

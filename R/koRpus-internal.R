@@ -121,31 +121,41 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
 basic.text.descriptives <- function(txt){
   # number of characters, including spaces and punctuation
   # the following vector counts chars per line
-  vct.all.chars <- nchar(txt, type="width")
-  num.lines <- length(vct.all.chars)
-  # now count each cluster of spaces as only one space
-  txt.trans <- gsub("[[:space:]]+", " ", paste(txt, collapse="\n"))
-  onespace.chars <- nchar(txt.trans, type="width")
+  vct_all_chars <- nchar(txt, type="width")
+  num_lines <- length(vct_all_chars)
+  all_chars_no_newline <- sum(vct_all_chars)
+  all_chars_incl_newline <- all_chars_no_newline + num_lines
+
+  # split txt into individual characters
+  # note this mighthave a different length than vct_all_chars + num_lines
+  # because of grapheme clusters, see ChangeLog for 0.11-5
+  txt_all_split <- unlist(strsplit(txt, ""))
+  spaces <- grepl("[[:space:]]", txt_all_split)
+  num_all_spaces <- sum(spaces)
+  num_normalized_spaces <- sum(rle(spaces)[["values"]])
   # count without any spaces
-  txt.trans <- gsub("[[:space:]]", "", txt.trans)
-  nospace.chars <- nchar(txt.trans, type="width")
-  # count without any punctuation, i.e. only letters and digits
-  txt.trans <- gsub("[^\\p{L}\\p{M}\\p{N}]", "", txt.trans, perl=TRUE)
-  nopunct.chars <- nchar(txt.trans, type="width")
-  num.punc <- nospace.chars - nopunct.chars
-  # fially, get rid of digits as well
-  txt.trans <- gsub("[\\p{N}+]", "", txt.trans, perl=TRUE)
-  only.letters <- nchar(txt.trans, type="width")
-  num.digits <- nopunct.chars - only.letters
+  nospace_chars <- all_chars_no_newline - num_all_spaces
+  # count punctuation
+  num_punct <- sum(grepl("[^\\p{L}\\p{M}\\p{N}[:space:]]", txt_all_split, perl=TRUE))
+  # count digits
+  num_digits <- sum(grepl("[\\p{N}]", txt_all_split, perl=TRUE))
+  # no spaces, punctuation or digits
+  only_letters <- nospace_chars - num_punct - num_digits
+
+  # count each cluster of spaces as only one space
+  onespace_chars <- nchar(
+    gsub("[[:space:]]{2,}", " ", paste(txt, collapse="\n")),
+    type="width"
+  )
 
   results <- list(
-    all.chars=sum(vct.all.chars) + num.lines,
-    lines=num.lines,
-    normalized.space=onespace.chars,
-    chars.no.space=nospace.chars,
-    punct=num.punc,
-    digits=num.digits,
-    letters=only.letters
+    all.chars=all_chars_incl_newline,
+    lines=num_lines,
+    normalized.space=onespace_chars,
+    chars.no.space=nospace_chars,
+    punct=num_punct,
+    digits=num_digits,
+    letters=only_letters
   )
   return(results)
 } ## end function basic.text.descriptives()
