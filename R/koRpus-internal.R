@@ -329,18 +329,17 @@ explain_tags <- function(tags, lang, cols=c("wclass","desc"), valid=rep(TRUE, le
 
 ## function treetag.com()
 treetag.com <- function(tagged.text, lang, add.desc=TRUE){
-  tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
   # initialize empty target data.frame to define the order of columns
   newDf <- init.kRp.text.df(rows=nrow(tagged.text))
   newDf[,c("token","lemma")] <- tagged.text[,c("token","lemma")]
 
-  valid_tags <- validate_tags(tags=tagged.text[["tag"]], lang=lang)
+  valid_tags <- validate_tags(tags=tagged.text[,"tag"], lang=lang)
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
  
   # make tag a factor with all possible tags for this language as levels
   newDf[["tag"]] <- factor(
-    tagged.text[["tag"]],
+    tagged.text[,"tag"],
     # keep invalid tags for debugging
     levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
@@ -349,7 +348,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
-    tagsExplained <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"), valid=valid_tags)
+    tagsExplained <- explain_tags(tags=tagged.text[,"tag"], lang=lang, cols=c("wclass","desc"), valid=valid_tags)
     tagsExplained.wclass <- factor(
       tagsExplained[,"wclass"],
       levels=unique(tag.class.def[,"wclass"])
@@ -360,7 +359,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     )
   } else {
     tagsExplained.wclass <- factor(
-      explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass", valid=valid_tags),
+      explain_tags(tags=tagged.text[,"tag"], lang=lang, cols="wclass", valid=valid_tags),
       levels=unique(tag.class.def[,"wclass"])
     )
     tagsExplained.desc <- NA
