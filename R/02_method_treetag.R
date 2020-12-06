@@ -253,6 +253,7 @@ setMethod("treetag",
 
       # basic options
       TT.opts <- checkedOptions[["TT.opts"]]
+      TT.extra.opts <- ""
 
       in.TT.options <- names(TT.options)
 
@@ -422,14 +423,18 @@ setMethod("treetag",
           TT.lookup.command  <- c()
           warning("Manual TreeTagger configuration: Defined a \"lexicon\" without a \"lookup\" command, hence omitted!")
         } else {
-          if(!isTRUE(have.preset)){
+          if(any(in.TT.options == "lookup")){
             TT.lookup    <- file.path(TT.cmd, TT.options[["lookup"]])
           } else {}
           TT.lexicon      <- file.path(TT.lib, TT.options[["lexicon"]])
           check.file(TT.lookup, mode="exist")
           lexiconExists <- check.file(TT.lexicon, mode="exist", stopOnFail=FALSE)
           if(isTRUE(lexiconExists)){
-            TT.lookup.command  <- paste(TT.lookup, TT.lexicon, "|")
+            if(any(identical(TT.lookup, ""), identical(TT.lookup, c()))){
+              TT.extra.opts <- paste0(TT.extra.opts, " -lex ", TT.lexicon)
+            } else {
+              TT.lookup.command  <- paste(TT.lookup, TT.lexicon, "|")
+            }
           } else {
             TT.lookup.command  <- c()
             warning(paste0("Can't find the lexicon file, hence omitted! Please ensure this path is valid:\n  ", TT.lexicon), call.=FALSE)
@@ -468,10 +473,10 @@ setMethod("treetag",
             TT.call.file <- ""
           } else {}
           sys.tt.call <- paste(TT.splitter, TT.tokenizer, TT.tknz.opts, TT.call.file, "|",
-            TT.lookup.command, TT.pre.tagger, TT.tagger, TT.opts, TT.params, TT.filter.command)
+            TT.lookup.command, TT.pre.tagger, TT.tagger, TT.opts, TT.extra.opts, TT.params, TT.filter.command)
         } else {
           sys.tt.call <- paste("cat ", tknz.tempfile, "|",
-            TT.lookup.command, TT.pre.tagger, TT.tagger, TT.opts, TT.params, TT.filter.command)
+            TT.lookup.command, TT.pre.tagger, TT.tagger, TT.opts, TT.extra.opts, TT.params, TT.filter.command)
         }
       } else {
         if(isTRUE(TT.tknz)){
@@ -481,10 +486,10 @@ setMethod("treetag",
             TT.call.file <- ""
           } else {}
           sys.tt.call <- paste(TT.splitter, "perl ", winPath(TT.tokenizer), TT.tknz.opts, TT.call.file, "|",
-            winPath(TT.lookup.command), TT.pre.tagger, winPath(TT.tagger), winPath(TT.params), TT.opts, TT.filter.command)
+            winPath(TT.lookup.command), TT.pre.tagger, winPath(TT.tagger), winPath(TT.params), TT.opts, TT.extra.opts, TT.filter.command)
         } else {
           sys.tt.call <- paste("type ", winPath(tknz.tempfile), "|",
-            winPath(TT.lookup.command), TT.pre.tagger, winPath(TT.tagger), winPath(TT.params), TT.opts, TT.filter.command)
+            winPath(TT.lookup.command), TT.pre.tagger, winPath(TT.tagger), winPath(TT.params), TT.opts, TT.extra.opts, TT.filter.command)
         }
       }
 
@@ -510,13 +515,14 @@ setMethod("treetag",
           },"
           TT.tokenizer: ",TT.tokenizer,
           ifelse(isTRUE(TT.tknz),
-            paste0("\n\t\t\t\tTT.tknz.opts: ",TT.tknz.opts),
-            paste0("\n\t\t\t\ttempfile: ",tknz.tempfile)),"
+            paste0("\n          TT.tknz.opts: ",TT.tknz.opts),
+            paste0("\n          tempfile: ",tknz.tempfile)),"
           file: ",takeAsFile,"
           TT.lookup.command: ",TT.lookup.command,"
           TT.pre.tagger: ", TT.pre.tagger,"
           TT.tagger: ",TT.tagger,"
           TT.opts: ",TT.opts,"
+          TT.extra.opts: ", TT.extra.opts,"
           TT.params: ",TT.params,"
           TT.filter.command: ",TT.filter.command,"\n
           sys.tt.call: ",sys.tt.call,"\n"))
