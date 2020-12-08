@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-4 (2020-12-06)
+changes in version 0.13-4 (2020-12-08)
 unreleased:
   - this release is under development
 fixed:
@@ -9,7 +9,8 @@ fixed:
   - treetag(): use "-lex" argument for lexicon files if no lookup command is
     given
   - treetag(): always add lookup command from manual options even if a preset is
-  - used
+    used
+  - read.corp.custom(): calculation failed if caseSens=FALSE
 changed:
   - treetag() et al.: drastically increased the speed of calculating descriptive
     statistics (can be 100x faster for very large texts)

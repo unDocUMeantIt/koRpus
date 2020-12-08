@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -45,7 +45,8 @@ read_corp_custom_calc <- function(
   # add tag, lemma and wclass
   extra_cols <- unique(taggedText(corpus)[,c("token","tag", "lemma", "wclass"), drop=FALSE])
   if(!isTRUE(caseSens)){
-    extra_cols[["token"]] <- unique(tolower(extra_cols[["token"]]))
+    extra_cols[["token"]] <- tolower(extra_cols[["token"]])
+    extra_cols <- unique(extra_cols)
   } else {}
   if(any(!extra_cols[["token"]] %in% all_tokens, !all_tokens %in% extra_cols[["token"]])){
     stop(simpleError("The tokens in the text corpus do not match the document term matrix -- messed up case sensitivity?"))
