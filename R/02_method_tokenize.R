@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -221,10 +221,11 @@ setMethod("tokenize",
           readLines(txt, encoding=fileEncoding, warn=FALSE)
         }))
       # force text into UTF-8 format
-      txt.vector <- enc2utf8(txt.vector)
+      Encoding(txt.vector) <- "UTF-8"
     } else {
       # process object
-      txt.vector <- enc2utf8(as.vector(takeAsTxt))
+      txt.vector <- as.vector(takeAsTxt)
+      Encoding(txt.vector) <- "UTF-8"
     }
 
     ## see if the text should be cleaned up further
