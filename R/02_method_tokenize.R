@@ -221,10 +221,11 @@ setMethod("tokenize",
           readLines(txt, encoding=fileEncoding, warn=FALSE)
         }))
       # force text into UTF-8 format
+      txt.vector <- enc2utf8(txt.vector)
       Encoding(txt.vector) <- "UTF-8"
     } else {
       # process object
-      txt.vector <- as.vector(takeAsTxt)
+      txt.vector <- enc2utf8(as.vector(takeAsTxt))
       Encoding(txt.vector) <- "UTF-8"
     }
 
