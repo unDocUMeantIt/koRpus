@@ -78,12 +78,20 @@ lang.support.xx <- function(...) {
         lang      = "xx",
         encoding  = "UTF-8",
         preset    = function(TT.cmd, TT.bin, TT.lib, unix.OS){
-          # note: these objects are set here for convenience, the
-          # actual important part is the return value below
-          TT.abbrev   <- file.path(TT.lib, "xyzedish-abbreviations")
-          TT.lexicon  <- file.path(TT.lib, "xyzedish-lexicon.txt")
-          TT.lookup   <- file.path(TT.cmd, "lookup.perl")
-          TT.filter   <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
+          # for convenience, all variables that are the same for unix and windows
+          # should be defined as objects here and used as seen below.
+          # the actual important part is the return value below.
+          TT.splitter      <- file.path(TT.cmd, "xyzedish-splitter.perl")
+          TT.splitter.opts <- paste("| sed \"s/\\([\\)\\\"\\'\\?\\!]\\)\\([\\.\\,\\;\\:]\\)/ \\1 \\2/g\" |")
+          TT.tokenizer     <- file.path(TT.cmd, "utf8-tokenize.perl")
+          TT.params        <- file.path(TT.lib, "xyzedish.par")
+          TT.abbrev        <- file.path(TT.lib, "xyzedish-abbreviations")
+          TT.lexicon       <- file.path(TT.lib, "xyzedish-lexicon.txt")
+          TT.lookup        <- file.path(TT.cmd, "lookup.perl")
+          TT.filter        <- "perl -pe 's/\\tV[BDHV]/\\tVB/;s/IN\\/that/\\tIN/;'"
+          TT.tknz.opts     <- paste("-a", TT.abbrev)
+          TT.pre.tagger    <- "grep -v '^$' |"
+          
           # generally, the parts below are combined in this order by treetag():
           # TT.splitter TT.splitter.opts TT.tokenizer TT.tknz.opts "|" TT.lookup.command TT.pre.tagger TT.tagger TT.opts TT.params TT.filter.command
           if(isTRUE(unix.OS)){
@@ -91,40 +99,40 @@ lang.support.xx <- function(...) {
             return(
               list(
                 # you should change these according to the TreeTagger script
-                TT.splitter         = file.path(TT.cmd, "xyzedish-splitter.perl"),
-                TT.splitter.opts    = paste("| sed \"s/\\([\\)\\\"\\'\\?\\!]\\)\\([\\.\\,\\;\\:]\\)/ \\1 \\2/g\" |"),
-                TT.tokenizer        = file.path(TT.cmd, "utf8-tokenize.perl"),
+                TT.splitter         = TT.splitter,
+                TT.splitter.opts    = TT.splitter.opts,
+                TT.tokenizer        = TT.tokenizer,
                 TT.tagger           = file.path(TT.bin, "tree-tagger"),
                 TT.abbrev           = TT.abbrev,
-                TT.params           = file.path(TT.lib, "xyzedish-utf8.par"),
+                TT.params           = TT.params,
                 TT.lexicon          = TT.lexicon,
                 TT.lookup           = TT.lookup,
                 TT.filter           = TT.filter,
 
-                TT.tknz.opts        = paste("-a", TT.abbrev),
+                TT.tknz.opts        = TT.tknz.opts,
                 TT.lookup.command   = paste("perl", TT.lookup, TT.lexicon, "|"),
                 TT.filter.command   = paste("|", TT.filter),
-                TT.pre.tagger       = "grep -v '^$' |"
+                TT.pre.tagger       = TT.pre.tagger
               )
             )
           } else {
             # preset for windows systems
             return(
               list(
-                TT.splitter         = file.path(TT.cmd, "xyzedish-splitter.perl"),
-                TT.splitter.opts    = paste("| sed \"s/\\([\\)\\\"\\'\\?\\!]\\)\\([\\.\\,\\;\\:]\\)/ \\1 \\2/g\" |"),
-                TT.tokenizer        = file.path(TT.cmd, "utf8-tokenize.perl"),
+                TT.splitter         = TT.splitter,
+                TT.splitter.opts    = TT.splitter.opts,
+                TT.tokenizer        = TT.tokenizer,
                 TT.tagger           = file.path(TT.bin, "tree-tagger.exe"),
                 TT.abbrev           = TT.abbrev,
-                TT.params           = file.path(TT.lib, "xyzedish-utf8.par"),
+                TT.params           = TT.params,
                 TT.lexicon          = c(), # example for undefined values
                 TT.lookup           = c(), # example for undefined values
                 TT.filter           = TT.filter,
 
-                TT.tknz.opts        = paste("-a", TT.abbrev),
+                TT.tknz.opts        = TT.tknz.opts,
                 TT.lookup.command   = c(),
                 TT.filter.command   = c(),
-                TT.pre.tagger       = "grep -v '^$' |"
+                TT.pre.tagger       = TT.pre.tagger
               )
             )
           }

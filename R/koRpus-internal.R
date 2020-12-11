@@ -26,38 +26,42 @@ check.file <- function(filename, mode="exist", stopOnFail=TRUE){
 
   ret.value <- FALSE
 
-  if(identical(mode, "exist") | identical(mode, "exec")){
-    if(as.logical(file_test("-f", filename))){
-      ret.value <- TRUE
-    } else {
-      if(isTRUE(stopOnFail)){
-        stop(simpleError(paste("Specified file cannot be found:\n", filename)))
-      } else {}
-      ret.value <- FALSE
-    }
-  } else {}
+  if(any(is.na(filename), is.null(filename))){
+    return(FALSE)
+  } else {
+    if(identical(mode, "exist") | identical(mode, "exec")){
+      if(as.logical(file_test("-f", filename))){
+        ret.value <- TRUE
+      } else {
+        if(isTRUE(stopOnFail)){
+          stop(simpleError(paste("Specified file cannot be found:\n", filename)))
+        } else {}
+        ret.value <- FALSE
+      }
+    } else {}
 
-  if(identical(mode, "exec")){
-    if(as.logical(file_test("-x", filename))){
-      ret.value <- TRUE
-    } else {
-      if(isTRUE(stopOnFail)){
-        stop(simpleError(paste("Specified file cannot be executed:\n", filename)))
-      } else {}
-      ret.value <- FALSE
-    }
-  } else {}
+    if(identical(mode, "exec")){
+      if(as.logical(file_test("-x", filename))){
+        ret.value <- TRUE
+      } else {
+        if(isTRUE(stopOnFail)){
+          stop(simpleError(paste("Specified file cannot be executed:\n", filename)))
+        } else {}
+        ret.value <- FALSE
+      }
+    } else {}
 
-  if(identical(mode, "dir")){
-    if(as.logical(file_test("-d", filename))){
-      ret.value <- TRUE
-    } else {
-      if(isTRUE(stopOnFail)){
-        stop(simpleError(paste("Specified directory cannot be found:\n", filename)))
-      } else {}
-      ret.value <- FALSE
-    }
-  } else {}
+    if(identical(mode, "dir")){
+      if(as.logical(file_test("-d", filename))){
+        ret.value <- TRUE
+      } else {
+        if(isTRUE(stopOnFail)){
+          stop(simpleError(paste("Specified directory cannot be found:\n", filename)))
+        } else {}
+        ret.value <- FALSE
+      }
+    } else {}
+  }
 
   return(ret.value)
 } ## end function check.file()
@@ -117,31 +121,41 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
 basic.text.descriptives <- function(txt){
   # number of characters, including spaces and punctuation
   # the following vector counts chars per line
-  vct.all.chars <- nchar(txt, type="width")
-  num.lines <- length(vct.all.chars)
-  # now count each cluster of spaces as only one space
-  txt.trans <- gsub("[[:space:]]+", " ", paste(txt, collapse="\n"))
-  onespace.chars <- nchar(txt.trans, type="width")
+  vct_all_chars <- nchar(txt, type="width")
+  num_lines <- length(vct_all_chars)
+  all_chars_no_newline <- sum(vct_all_chars)
+  all_chars_incl_newline <- all_chars_no_newline + num_lines
+
+  # split txt into individual characters
+  # note this mighthave a different length than vct_all_chars + num_lines
+  # because of grapheme clusters, see ChangeLog for 0.11-5
+  txt_all_split <- unlist(strsplit(txt, ""))
+  spaces <- grepl("[[:space:]]", txt_all_split)
+  num_all_spaces <- sum(spaces)
+  num_normalized_spaces <- sum(rle(spaces)[["values"]])
   # count without any spaces
-  txt.trans <- gsub("[[:space:]]", "", txt.trans)
-  nospace.chars <- nchar(txt.trans, type="width")
-  # count without any punctuation, i.e. only letters and digits
-  txt.trans <- gsub("[^\\p{L}\\p{M}\\p{N}]", "", txt.trans, perl=TRUE)
-  nopunct.chars <- nchar(txt.trans, type="width")
-  num.punc <- nospace.chars - nopunct.chars
-  # fially, get rid of digits as well
-  txt.trans <- gsub("[\\p{N}+]", "", txt.trans, perl=TRUE)
-  only.letters <- nchar(txt.trans, type="width")
-  num.digits <- nopunct.chars - only.letters
+  nospace_chars <- all_chars_no_newline - num_all_spaces
+  # count punctuation
+  num_punct <- sum(grepl("[^\\p{L}\\p{M}\\p{N}[:space:]]", txt_all_split, perl=TRUE))
+  # count digits
+  num_digits <- sum(grepl("[\\p{N}]", txt_all_split, perl=TRUE))
+  # no spaces, punctuation or digits
+  only_letters <- nospace_chars - num_punct - num_digits
+
+  # count each cluster of spaces as only one space
+  onespace_chars <- nchar(
+    gsub("[[:space:]]{2,}", " ", paste(txt, collapse="\n")),
+    type="width"
+  )
 
   results <- list(
-    all.chars=sum(vct.all.chars) + num.lines,
-    lines=num.lines,
-    normalized.space=onespace.chars,
-    chars.no.space=nospace.chars,
-    punct=num.punc,
-    digits=num.digits,
-    letters=only.letters
+    all.chars=all_chars_incl_newline,
+    lines=num_lines,
+    normalized.space=onespace_chars,
+    chars.no.space=nospace_chars,
+    punct=num_punct,
+    digits=num_digits,
+    letters=only_letters
   )
   return(results)
 } ## end function basic.text.descriptives()
@@ -315,18 +329,17 @@ explain_tags <- function(tags, lang, cols=c("wclass","desc"), valid=rep(TRUE, le
 
 ## function treetag.com()
 treetag.com <- function(tagged.text, lang, add.desc=TRUE){
-  tagged.text <- as.data.frame(tagged.text, row.names=1:nrow(tagged.text), stringsAsFactors=FALSE)
   # initialize empty target data.frame to define the order of columns
   newDf <- init.kRp.text.df(rows=nrow(tagged.text))
   newDf[,c("token","lemma")] <- tagged.text[,c("token","lemma")]
 
-  valid_tags <- validate_tags(tags=tagged.text[["tag"]], lang=lang)
+  valid_tags <- validate_tags(tags=tagged.text[,"tag"], lang=lang)
   # get all valid tags
   tag.class.def <- kRp.POS.tags(lang)
  
   # make tag a factor with all possible tags for this language as levels
   newDf[["tag"]] <- factor(
-    tagged.text[["tag"]],
+    tagged.text[,"tag"],
     # keep invalid tags for debugging
     levels=unique(c(tag.class.def[,"tag"], tagged.text[!valid_tags,"tag"]))
   )
@@ -335,7 +348,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
 
   # add further columns "wclass" and "desc"
   if(isTRUE(add.desc)){
-    tagsExplained <- explain_tags(tags=tagged.text[["tag"]], lang=lang, cols=c("wclass","desc"), valid=valid_tags)
+    tagsExplained <- explain_tags(tags=tagged.text[,"tag"], lang=lang, cols=c("wclass","desc"), valid=valid_tags)
     tagsExplained.wclass <- factor(
       tagsExplained[,"wclass"],
       levels=unique(tag.class.def[,"wclass"])
@@ -346,7 +359,7 @@ treetag.com <- function(tagged.text, lang, add.desc=TRUE){
     )
   } else {
     tagsExplained.wclass <- factor(
-      explain_tags(tags=tagged.text[["tag"]], lang=lang, cols="wclass", valid=valid_tags),
+      explain_tags(tags=tagged.text[,"tag"], lang=lang, cols="wclass", valid=valid_tags),
       levels=unique(tag.class.def[,"wclass"])
     )
     tagsExplained.desc <- NA
@@ -1620,7 +1633,10 @@ check_lang_packages <- function(
 #
 # - file_utf8: file to check for existance, the variant including "utf8" in its name
 # - dir: full path to expected file (directory only)
-check_toggle_utf8 <- function(file_utf8, dir=NA){
+# - optional: if TRUE doesn't return an error if no file was found return the path as given;
+#     further checks are done elsewhere, we're not handling missing files here, just
+#     possible alternatives to defaults!
+check_toggle_utf8 <- function(file_utf8, dir=NA, optional=FALSE){
   if(any(is.null(file_utf8), is.na(file_utf8))){
     return(file_utf8)
   } else {
@@ -1653,12 +1669,16 @@ check_toggle_utf8 <- function(file_utf8, dir=NA){
     if(any(all_files_found)){
       return(all_possible_files[all_files_found][1])
     } else {
-      stop(simpleError(
-        paste0(
-          "None of the following files were found, please check your TreeTagger installation!\n ",
-          paste0(all_possible_files, collapse="\n ")
-        )
-      ))
+      if(isTRUE(optional)){
+        return(file_utf8)
+      } else {
+        stop(simpleError(
+          paste0(
+            "None of the following files were found, please check your TreeTagger installation!\n ",
+            paste0(all_possible_files, collapse="\n ")
+          )
+        ))
+      }
     }
   }
 } ## end function check_toggle_utf8()

@@ -1,6 +1,29 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.13-4 (2020-12-11)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{treetag()}: allow for lexicon files to be optional and not return an error
+        if none is found (which was the case with the newly added file name
+        checks)
+      \item \code{treetag()}: use "-lex" argument for lexicon files if no lookup command is
+        given
+      \item \code{treetag()}: always add lookup command from manual options even if a preset
+        is used
+      \item \code{read.corp.custom()}: calculation failed if caseSens=FALSE
+      \item \code{tokenize()}/treetag(): force UTF-8 encoding on read texts to prevent
+        windows from misunderstanding characters
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item \code{treetag()} et al.: drastically increased the speed of calculating
+        descriptive statistics (can be 100x faster for very large texts)
+      \item updated the language package templates
+    }
+  }
+}
 \section{Changes in koRpus version 0.13-3 (2020-10-15)}{
   \subsection{fixed}{
     \itemize{
