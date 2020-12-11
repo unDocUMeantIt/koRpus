@@ -13,7 +13,8 @@ Architecture: all
 Section: gnu-r
 Depends: r-base-core (>= 4.0.0), r-api-4.0, r-cran-sylly (>= 0.1-6) |
  r-other-reaktanz-sylly (>= 0.1-6), r-cran-data.table, r-cran-matrix
-Description: GNU R package "An R Package for Text Analysis"
+Description: GNU R package "Text Analysis with Emphasis on POS Tagging,
+ Readability and Lexical Diversity"
  .
  A set of tools to analyze texts. Includes, amongst others, functions for
  automatic language detection, hyphenation, several indices of lexical
