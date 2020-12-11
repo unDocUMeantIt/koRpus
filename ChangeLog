@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.13-6 (2020-12-12)
+unreleased:
+  - this version is under development
+
 changes in version 0.13-4 (2020-12-11)
 fixed:
   - treetag(): allow for lexicon files to be optional and not return an error

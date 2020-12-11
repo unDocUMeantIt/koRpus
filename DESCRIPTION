@@ -1,32 +1,36 @@
 Package: koRpus
 Type: Package
-Title: Text Analysis with Emphasis on POS Tagging, Readability and Lexical Diversity
-Description: A set of tools to analyze texts. Includes, amongst others, functions for
-          automatic language detection, hyphenation, several indices of lexical diversity
-          (e.g., type token ratio, HD-D/vocd-D, MTLD) and readability (e.g., Flesch,
-          SMOG, LIX, Dale-Chall). Basic import functions for language corpora are also
-          provided, to enable frequency analyses (supports Celex and Leipzig Corpora
-          Collection file formats) and measures like tf-idf. Note: For full functionality
-          a local installation of TreeTagger is recommended. It is also recommended to
-          not load this package directly, but by loading one of the available language
-          support packages from the 'l10n' repository
-          <https://undocumeantit.github.io/repos/l10n/>. 'koRpus' also includes a plugin
-          for the R GUI and IDE RKWard, providing graphical dialogs for its basic
-          features. The respective R package 'rkward' cannot be installed directly from a
-          repository, as it is a part of RKWard. To make full use of this feature, please
-          install RKWard from <https://rkward.kde.org> (plugins are detected
-          automatically). Due to some restrictions on CRAN, the full package sources are
-          only available from the project homepage. To ask for help, report bugs, request
-          features, or discuss the development of the package, please subscribe to the
-          koRpus-dev mailing list (<https://korpusml.reaktanz.de>).
-Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alexandre
-          Brulet [ctb], Laura Hauser [ctb]
+Title: Text Analysis with Emphasis on POS Tagging, Readability and Lexical
+        Diversity
+Description: A set of tools to analyze texts. Includes, amongst others,
+        functions for automatic language detection, hyphenation, several
+        indices of lexical diversity (e.g., type token ratio, HD-D/vocd-D,
+        MTLD) and readability (e.g., Flesch, SMOG, LIX, Dale-Chall). Basic
+        import functions for language corpora are also provided, to enable
+        frequency analyses (supports Celex and Leipzig Corpora Collection
+        file formats) and measures like tf-idf. Note: For full
+        functionality a local installation of TreeTagger is recommended. It
+        is also recommended to not load this package directly, but by
+        loading one of the available language support packages from the
+        'l10n' repository <https://undocumeantit.github.io/repos/l10n/>.
+        'koRpus' also includes a plugin for the R GUI and IDE RKWard,
+        providing graphical dialogs for its basic features. The respective
+        R package 'rkward' cannot be installed directly from a repository,
+        as it is a part of RKWard. To make full use of this feature, please
+        install RKWard from <https://rkward.kde.org> (plugins are detected
+        automatically). Due to some restrictions on CRAN, the full package
+        sources are only available from the project homepage. To ask for
+        help, report bugs, request features, or discuss the development of
+        the package, please subscribe to the koRpus-dev mailing list
+        (<https://korpusml.reaktanz.de>).
+Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb],
+        Alexandre Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 3.0.0),sylly (>= 0.1-6)
 Imports: data.table,methods,Matrix
 Enhances: rkward
 Suggests:
-          testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.nl,koRpus.lang.pt,koRpus.lang.ru
+        testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.nl,koRpus.lang.pt,koRpus.lang.ru
 VignetteBuilder: knitr
 URL: https://reaktanz.de/?c=hacking&s=koRpus
 BugReports: https://github.com/unDocUMeantIt/koRpus/issues
@@ -34,13 +38,15 @@ Additional_repositories: https://undocumeantit.github.io/repos/l10n
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
-Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de",
-          role=c("aut", "cre")), person(given="Earl", family="Brown",
-          email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto",
-          family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet",
-          role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
-Version: 0.13-4
-Date: 2020-12-11
+Authors@R: c(person(given="Meik", family="Michalke",
+        email="meik.michalke@hhu.de", role=c("aut", "cre")),
+        person(given="Earl", family="Brown", email="ekbrown@ksu.edu",
+        role=c("ctb")), person(given="Alberto", family="Mirisola",
+        role=c("ctb")), person(given="Alexandre", family="Brulet",
+        role=c("ctb")), person(given="Laura", family="Hauser",
+        role=c("ctb")))
+Version: 0.13-5
+Date: 2020-12-12
 RoxygenNote: 7.1.1
 Collate: 
     '01_class_01_kRp.text.R'
