@@ -1,8 +1,11 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-6 (2020-12-12)
+changes in version 0.13-5 (2020-12-17)
 unreleased:
   - this version is under development
+fixed:
+  - cTest(): don't freak out if there's text left after the last sentence
+    ending punctuation
 
 changes in version 0.13-4 (2020-12-11)
 fixed:
