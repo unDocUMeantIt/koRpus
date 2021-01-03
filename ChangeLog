@@ -1,9 +1,17 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-5 (2020-12-17)
+changes in version 0.13-5 (2021-01-03)
 unreleased:
   - this version is under development
 fixed:
+  - readability()/fucks(): the oldest bug so far, present since the first
+    version of the package: Fucks' formula doesn't determine word length by
+    characters but syllables; references were updated. the index has been
+    on the list of "needs validation" and still remains there. the erroneous
+    formula likely came from the documentation of TextQuest, as the initial
+    scope of koRpus, when it wasn't even a package yet, was to validate the
+    calculations of various readability tools (thanks to berenike herrmann
+    for the hint)
   - cTest(): don't freak out if there's text left after the last sentence
     ending punctuation
 

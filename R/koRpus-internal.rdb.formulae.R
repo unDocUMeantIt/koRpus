@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -20,10 +20,6 @@
 # so it's mostly called by readability()
 
 ## TODO:
-# lit:
-# linsear write
-# strain
-
 # Fry Graph
 # Raygor Estimate Graph
   # http://en.wikipedia.org/wiki/Raygor_Readability_Estimate
@@ -36,58 +32,58 @@
 
 rdb_indices <- matrix(
   c(
-  # fast    sylls   params
-    TRUE,   FALSE,  TRUE,   # ARI
-    FALSE,  FALSE,  FALSE,  # ARI.NRI
-    FALSE,  FALSE,  FALSE,  # ARI.simple
-    TRUE,   FALSE,  TRUE,   # Bormuth
-    TRUE,   TRUE,   TRUE,   # Coleman
-    TRUE,   FALSE,  TRUE,   # Coleman.Liau
-    TRUE,   FALSE,  TRUE,   # Dale.Chall
-    FALSE,  FALSE,  FALSE,  # Dale.Chall.old
-    FALSE,  FALSE,  FALSE,  # Dale.Chall.PSK
-    TRUE,   FALSE,  TRUE,   # Danielson.Bryan
-    TRUE,   FALSE,  TRUE,   # Dickes.Steiwer
-    TRUE,   FALSE,  FALSE,  # DRP
-    TRUE,   TRUE,   TRUE,   # ELF
-    TRUE,   TRUE,   TRUE,   # Farr.Jenkins.Paterson
-    FALSE,  TRUE,   FALSE,  # Farr.Jenkins.Paterson.PSK
-    TRUE,   TRUE,   TRUE,   # Flesch
-    FALSE,  TRUE,   FALSE,  # Flesch.Brouwer
-    FALSE,  TRUE,   FALSE,  # Flesch.de
-    FALSE,  TRUE,   FALSE,  # Flesch.es
-    FALSE,  TRUE,   FALSE,  # Flesch.fr
-    TRUE,   TRUE,   TRUE,   # Flesch.Kincaid
-    FALSE,  TRUE,   FALSE,  # Flesch.nl
-    FALSE,  TRUE,   FALSE,  # Flesch.nl-b
-    FALSE,  TRUE,   FALSE,  # Flesch.PSK
-    FALSE,  TRUE,   FALSE,  # Flesch.Szigriszt
-    FALSE,  TRUE,   TRUE,   # FOG
-    FALSE,  TRUE,   FALSE,  # FOG.NRI
-    FALSE,  TRUE,   FALSE,  # FOG.PSK
-    TRUE,   TRUE,   TRUE,   # FORCAST
-    FALSE,  TRUE,   FALSE,  # FORCAST.RGL
-    TRUE,   FALSE,  FALSE,  # Fucks
-    TRUE,   FALSE,  TRUE,   # Harris.Jacobson
-    TRUE,   TRUE,   TRUE,   # Linsear.Write
-    TRUE,   FALSE,  TRUE,   # LIX
-    TRUE,   TRUE,   TRUE,   # nWS
-    TRUE,   FALSE,  TRUE,   # RIX
-    TRUE,   TRUE,   TRUE,   # SMOG
-    FALSE,  TRUE,   FALSE,  # SMOG.C
-    FALSE,  TRUE,   FALSE,  # SMOG.de
-    FALSE,  TRUE,   FALSE,  # SMOG.simple
-    TRUE,   FALSE,  TRUE,   # Spache
-    FALSE,  FALSE,  FALSE,  # Spache.de
-    FALSE,  FALSE,  FALSE,  # Spache.old
-    TRUE,   TRUE,   TRUE,   # Strain
-    TRUE,   FALSE,  TRUE,   # Traenkle.Bailer
-    TRUE,   TRUE,   TRUE,   # TRI
-    TRUE,   TRUE,   TRUE,   # Tuldava
-    TRUE,   TRUE,   TRUE,   # Wheeler.Smith
-    FALSE,  TRUE,   FALSE  # Wheeler.Smith.de
+  # fast    sylls   params  validated
+    TRUE,   FALSE,  TRUE,   TRUE,     # ARI
+    FALSE,  FALSE,  FALSE,  TRUE,     # ARI.NRI
+    FALSE,  FALSE,  FALSE,  FALSE,    # ARI.simple
+    TRUE,   FALSE,  TRUE,   TRUE,     # Bormuth
+    TRUE,   TRUE,   TRUE,   FALSE,    # Coleman
+    TRUE,   FALSE,  TRUE,   TRUE,     # Coleman.Liau
+    TRUE,   FALSE,  TRUE,   TRUE,     # Dale.Chall
+    FALSE,  FALSE,  FALSE,  TRUE,     # Dale.Chall.old
+    FALSE,  FALSE,  FALSE,  TRUE,     # Dale.Chall.PSK
+    TRUE,   FALSE,  TRUE,   FALSE,    # Danielson.Bryan
+    TRUE,   FALSE,  TRUE,   FALSE,    # Dickes.Steiwer
+    TRUE,   FALSE,  FALSE,  TRUE,     # DRP
+    TRUE,   TRUE,   TRUE,   FALSE,    # ELF
+    TRUE,   TRUE,   TRUE,   TRUE,     # Farr.Jenkins.Paterson
+    FALSE,  TRUE,   FALSE,  TRUE,     # Farr.Jenkins.Paterson.PSK
+    TRUE,   TRUE,   TRUE,   TRUE,     # Flesch
+    FALSE,  TRUE,   FALSE,  FALSE,    # Flesch.Brouwer
+    FALSE,  TRUE,   FALSE,  FALSE,    # Flesch.de
+    FALSE,  TRUE,   FALSE,  TRUE,     # Flesch.es
+    FALSE,  TRUE,   FALSE,  FALSE,    # Flesch.fr
+    TRUE,   TRUE,   TRUE,   TRUE,     # Flesch.Kincaid
+    FALSE,  TRUE,   FALSE,  FALSE,    # Flesch.nl
+    FALSE,  TRUE,   FALSE,  TRUE,     # Flesch.nl-b
+    FALSE,  TRUE,   FALSE,  TRUE,     # Flesch.PSK
+    FALSE,  TRUE,   FALSE,  TRUE,     # Flesch.Szigriszt
+    FALSE,  TRUE,   TRUE,   TRUE,     # FOG
+    FALSE,  TRUE,   FALSE,  TRUE,     # FOG.NRI
+    FALSE,  TRUE,   FALSE,  TRUE,     # FOG.PSK
+    TRUE,   TRUE,   TRUE,   TRUE,     # FORCAST
+    FALSE,  TRUE,   FALSE,  TRUE,     # FORCAST.RGL
+    TRUE,   TRUE,   FALSE,  FALSE,    # Fucks
+    TRUE,   FALSE,  TRUE,   FALSE,    # Harris.Jacobson
+    TRUE,   TRUE,   TRUE,   TRUE,     # Linsear.Write
+    TRUE,   FALSE,  TRUE,   TRUE,     # LIX
+    TRUE,   TRUE,   TRUE,   FALSE,    # nWS
+    TRUE,   FALSE,  TRUE,   TRUE,     # RIX
+    TRUE,   TRUE,   TRUE,   TRUE,     # SMOG
+    FALSE,  TRUE,   FALSE,  FALSE,    # SMOG.C
+    FALSE,  TRUE,   FALSE,  FALSE,    # SMOG.de
+    FALSE,  TRUE,   FALSE,  TRUE,     # SMOG.simple
+    TRUE,   FALSE,  TRUE,   TRUE,     # Spache
+    FALSE,  FALSE,  FALSE,  TRUE,     # Spache.de
+    FALSE,  FALSE,  FALSE,  TRUE,     # Spache.old
+    TRUE,   TRUE,   TRUE,   FALSE,    # Strain
+    TRUE,   FALSE,  TRUE,   FALSE,    # Traenkle.Bailer
+    TRUE,   TRUE,   TRUE,   FALSE,    # TRI
+    TRUE,   TRUE,   TRUE,   TRUE,     # Tuldava
+    TRUE,   TRUE,   TRUE,   TRUE,     # Wheeler.Smith
+    FALSE,  TRUE,   FALSE,  TRUE      # Wheeler.Smith.de
   ),
-  ncol=3,
+  ncol=4,
   byrow=TRUE,
   dimnames=list(
     c(
@@ -144,7 +140,8 @@ rdb_indices <- matrix(
     c(
       "fast",
       "sylls",
-      "params"
+      "params",
+      "validated"
     )
   )
 )
@@ -282,7 +279,7 @@ kRp.rdb.formulae <- function(
   - SMOG                  [OUT, RDS, WDC]
   - Spache                [RDS]
   - Wheeler-Smith         [RDS, WHE]
-  
+
   These measures produce plausible results, but need checking:
   - ARI simplified
   - Coleman Formulas (1-4)
@@ -304,7 +301,7 @@ kRp.rdb.formulae <- function(
   
   These measures look bogus:
   - TRI
-  
+
   Tools used:
   FRT: http://www.readabilityformulas.com/free-readability-formula-tests.php
   GFI: http://gunning-fog-index.com
@@ -885,7 +882,7 @@ kRp.rdb.formulae <- function(
 
   ## Fucks Stilcharakteristik
   if("Fucks" %in% index){
-    Fucks.raw <- avg.word.len * avg.sntc.len
+    Fucks.raw <- avg.syll.word * avg.sntc.len
     Fucks.grade <- sqrt(Fucks.raw)
     slot(all.results, "Fucks") <- list(Fucks=Fucks.raw, grade=Fucks.grade)
   } else {}
@@ -1268,10 +1265,7 @@ kRp.rdb.formulae <- function(
 #   } else {}
 
   ## for the time being, give a warning until all implementations have been validated
-  needs.warning <- index %in% c("ARI.simple", "Coleman", "Danielson.Bryan",
-      "Dickes.Steiwer", "ELF", "Flesch.Brouwer", "Flesch.de", "Flesch.fr",
-      "Flesch.nl", "Fucks", "Harris.Jacobson", "nWS",
-      "SMOG.C", "SMOG.de", "Strain", "Traenkle.Bailer", "TRI")
+  needs.warning <- index %in% rownames(rdb_indices)[!rdb_indices[, "validated"]]
   if(all(!isTRUE(quiet), any(needs.warning))){
     warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
     paste(index[needs.warning], collapse=", "),

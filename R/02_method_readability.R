@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -171,8 +171,8 @@
 #'
 #'      Wrapper function: \code{\link[koRpus:FORCAST]{FORCAST}}
 #'    }
-#'    \item{\code{"Fucks"}:}{Fucks' \emph{Stilcharakteristik}:
-#'      \deqn{Fucks = \frac{C}{W} \times \frac{W}{St}}
+#'    \item{\code{"Fucks"}:}{Fucks' \emph{Stilcharakteristik} (Fucks, 1955, as cited in Briest, 1974):
+#'      \deqn{Fucks = \frac{Sy}{W} \times \frac{W}{St}}
 #'      This simple formula has no parameters.
 #'
 #'      Wrapper function: \code{\link[koRpus:fucks]{fucks}}
@@ -327,6 +327,8 @@
 #'
 #'    Bamberger, R. & Vanecek, E. (1984). \emph{Lesen--Verstehen--Lernen--Schreiben}. Wien: Jugend und Volk.
 #'
+#'    Briest, W. (1974). Kann man Verständlichkeit messen? \emph{Zeitschrift für Phonetik, Sprachwissenschaft und Kommunikationsforschung}, 27, 543--563.
+#'
 #'    Coleman, M. & Liau, T.L. (1975). A computer readability formula designed for machine scoring, \emph{Journal of Applied Psychology}, 60(2), 283--284.
 #'
 #'    Dickes, P. & Steiwer, L. (1977). Ausarbeitung von Lesbarkeitsformeln für die deutsche Sprache.
@@ -338,8 +340,6 @@
 #'    Farr, J.N., Jenkins, J.J. & Paterson, D.G. (1951). Simplification of Flesch Reading Ease formula. \emph{Journal of Applied Psychology}, 35(5), 333--337.
 #'
 #'    Flesch, R. (1948). A new readability yardstick. \emph{Journal of Applied Psychology}, 32(3), 221--233.
-#'
-#'    Fucks, W. (1955). Der Unterschied des Prosastils von Dichtern und anderen Schriftstellern. \emph{Sprachforum}, 1, 233--244.
 #'    
 #'    Grzybek, P. (2010). Text difficulty and the Arens-Altmann law. In Peter Grzybek, Emmerich Kelih, \enc{Ján}{Jan} \enc{Mačutek}{Macutek} (Eds.),
 #'      \emph{Text and Language. Structures -- Functions -- Interrelations. Quantitative Perspectives}. Wien: Praesens, 57--70.
