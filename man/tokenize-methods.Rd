@@ -175,11 +175,13 @@ which gives you more control for automatic analyses. And adding to that,
 can replace these tags, which probably preserves more of the original layout.
 }
 \examples{
-\dontrun{
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
 tokenized.obj <- tokenize(
-  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+  file.path(path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt")
 )
 
+\dontrun{
 ## character manipulation
 # this is useful if you know of problematic characters in your
 # raw text files, but don't want to touch them directly. you
@@ -210,5 +212,6 @@ tokenized.obj <- tokenize(
 # removing all stopwords now is simple:
 tokenized.noStopWords <- filterByClass(tokenized.obj, "stopword")
 }
+} else {}
 }
 \keyword{misc}

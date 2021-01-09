@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -79,12 +79,13 @@
 #' @docType methods
 #' @export
 #' @rdname tokenize-methods
+#' @example inst/examples/if_lang_en_clause_start.R
 #' @examples
-#' \dontrun{
 #' tokenized.obj <- tokenize(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+#'   file.path(path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt")
 #' )
 #' 
+#' \dontrun{
 #' ## character manipulation
 #' # this is useful if you know of problematic characters in your
 #' # raw text files, but don't want to touch them directly. you
@@ -115,6 +116,7 @@
 #' # removing all stopwords now is simple:
 #' tokenized.noStopWords <- filterByClass(tokenized.obj, "stopword")
 #' }
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric(
   "tokenize",
   def=function(
