@@ -177,8 +177,9 @@ can replace these tags, which probably preserves more of the original layout.
 \examples{
 # code is only run when the english language package can be loaded
 if(require("koRpus.lang.en", quietly = TRUE)){
-  sample_file <- file.path(path.package("koRpus"), "examples", "corpus",
-      "Reality_Winner.txt")
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
   tokenized.obj <- tokenize(
     txt=sample_file,
     lang="en"

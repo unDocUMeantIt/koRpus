@@ -80,8 +80,8 @@
 #' @export
 #' @rdname tokenize-methods
 #' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#'   sample_file <- file.path(path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt")
 #'   tokenized.obj <- tokenize(
 #'     txt=sample_file,
 #'     lang="en"
