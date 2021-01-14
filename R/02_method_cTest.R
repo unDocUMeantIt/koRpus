@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -37,10 +37,24 @@
 #' @docType methods
 #' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 #' @rdname cTest-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   tokenized.obj <- cTest(tokenized.obj)
+#'   pasteText(tokenized.obj)
+#'
+#'   # diff stats are now part of the object
+#'   hasFeature(tokenized.obj)
+#'   diffText(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
+
 #' \dontrun{
 #'   ctest.text <- cTest(tagged.text)
-#' }
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric("cTest", function(obj, ...){standardGeneric("cTest")})
 
 #### internal function 

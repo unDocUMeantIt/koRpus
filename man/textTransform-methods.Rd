@@ -117,6 +117,25 @@ of length one or of the same length as all matches.
 }
 
 \examples{
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  tokenized.obj <- textTransform(
+    tokenized.obj,
+    scheme="random"
+  )
+  pasteText(tokenized.obj)
+
+  # diff stats are now part of the object
+  hasFeature(tokenized.obj)
+  diffText(tokenized.obj)
+} else {}
 \dontrun{
 tagged.text.obj <- freq.analysis(
   tagged.text.obj,

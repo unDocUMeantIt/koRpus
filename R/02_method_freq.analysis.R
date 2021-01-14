@@ -48,10 +48,31 @@
 #' @import methods
 #' @export
 #' @rdname freq.analysis-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' freq.analysis(tagged.text, corp.freq=my.LCC.data)
-#' }
+#'   # call freq.analysis() on a tokenized text
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   # the token slot before frequency analysis
+#'   head(taggedText(tokenized.obj))
+#'
+#'   # instead of data from a larger corpus, we'll
+#'   # use the token frequencies of the text itself
+#'   tokenized.obj <- freq.analysis(
+#'     tokenized.obj,
+#'     corp.freq=read.corp.custom(tokenized.obj)
+#'   )
+#'   # compare the columns after the anylsis
+#'   head(taggedText(tokenized.obj))
+#'
+#'   # the object now has further statistics in a
+#'   # new feature slot called freq
+#'   hasFeature(tokenized.obj)
+#'   corpusFreq(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 
 ########################################################################
 ## if this signature changes, check kRp.freq.analysis.calc() as well! ##

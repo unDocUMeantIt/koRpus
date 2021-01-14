@@ -14,6 +14,7 @@ fixed:
     for the hint)
   - cTest(): don't freak out if there's text left after the last sentence
     ending punctuation
+  - textTransform(): the argument "paste=TRUE" was broken
 added:
   - the package now installs a sample text that is used in many examples
 changed:

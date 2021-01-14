@@ -441,7 +441,7 @@ if(require("koRpus.lang.en", quietly = TRUE)){
     tokenized.obj,
     as.feature=TRUE
   )
-  # results are now part of he opject
+  # results are now part of the object
   hasFeature(tokenized.obj)
   corpusReadability(tokenized.obj)
 } else {}

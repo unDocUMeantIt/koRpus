@@ -97,9 +97,9 @@
 #'     tokenized.obj,
 #'     as.feature=TRUE
 #'   )
-#'   # results are now part of he opject
+#'   # results are now part of the object
 #'   hasFeature(tokenized.obj)
-#'   feature(tokenized.obj, "hyphen")
+#'   corpusHyphen(tokenized.obj)
 #' @example inst/examples/if_lang_en_clause_end.R
 
 ####################################################################################
