@@ -418,12 +418,33 @@ In case you want to provide different parameters,
 mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 }
 \examples{
-\dontrun{
-rdb.results <- readability(tagged.text)
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  # call readability() on a tokenized text
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # if you call readability() without arguments,
+  # you will get its results directly
+  rdb.results <- readability(tokenized.obj)
 
-# there is [ and [[ methods for these objects
-rdb.results[["ARI"]]
-}
+  # there is [ and [[ methods for these objects
+  rdb.results[["ARI"]]
+
+  # alternatively, you can also store those results as a
+  # feature in the object itself
+  tokenized.obj <- readability(
+    tokenized.obj,
+    as.feature=TRUE
+  )
+  # results are now part of he opject
+  hasFeature(tokenized.obj)
+  corpusReadability(tokenized.obj)
+} else {}
 }
 \references{
 Anderson,

@@ -366,13 +366,31 @@
 #' @import methods
 #' @rdname readability-methods
 #' @export
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' rdb.results <- readability(tagged.text)
+#'   # call readability() on a tokenized text
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   # if you call readability() without arguments,
+#'   # you will get its results directly
+#'   rdb.results <- readability(tokenized.obj)
 #'
-#' # there is [ and [[ methods for these objects
-#' rdb.results[["ARI"]]
-#' }
+#'   # there is [ and [[ methods for these objects
+#'   rdb.results[["ARI"]]
+#'
+#'   # alternatively, you can also store those results as a
+#'   # feature in the object itself
+#'   tokenized.obj <- readability(
+#'     tokenized.obj,
+#'     as.feature=TRUE
+#'   )
+#'   # results are now part of he opject
+#'   hasFeature(tokenized.obj)
+#'   corpusReadability(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 
 setGeneric("readability", function(txt.file, ...) standardGeneric("readability"))
 

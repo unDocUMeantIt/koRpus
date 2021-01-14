@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -39,10 +39,28 @@
 #' @import methods
 #' @rdname read.corp.custom-methods
 #' @export
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' ru.corp <- read.corp.custom("~/mydata/corpora/russian_corpus/")
-#' }
+#'   # call read.corp.custom() on a tokenized text
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   # if you call read.corp.custom() without arguments,
+#'   # you will get its results directly
+#'   en_corp <- read.corp.custom(tokenized.obj)
+#'
+#'   # alternatively, you can also store those results as a
+#'   # feature in the object itself
+#'   tokenized.obj <- read.corp.custom(
+#'     tokenized.obj,
+#'     as.feature=TRUE
+#'   )
+#'   # results are now part of he opject
+#'   hasFeature(tokenized.obj)
+#'   corpusCorpFreq(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 
 #######################################################################
 ## if this signature changes, check read_corp_custom_calc() as well! ##

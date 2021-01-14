@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -49,9 +49,10 @@
 #' @importFrom sylly set.sylly.env
 #' @export
 #' @examples
+#' set.kRp.env(lang="en")
+#' get.kRp.env(lang=TRUE)
 #' \dontrun{
 #' set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-german", lang="de")
-#' get.kRp.env(TT.cmd=TRUE)
 #' 
 #' # example for setting permanent default values in an .Rprofile file
 #' options(
