@@ -136,13 +136,5 @@ if(require("koRpus.lang.en", quietly = TRUE)){
   hasFeature(tokenized.obj)
   diffText(tokenized.obj)
 } else {}
-\dontrun{
-tagged.text.obj <- freq.analysis(
-  tagged.text.obj,
-  corp.freq=my.LCC.data,
-  as.feature=TRUE
-)
-textTransform(tagged.text.obj, scheme="random", paste=TRUE)
-}
 }
 \keyword{misc}

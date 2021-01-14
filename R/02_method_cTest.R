@@ -51,10 +51,6 @@
 #'   hasFeature(tokenized.obj)
 #'   diffText(tokenized.obj)
 #' @example inst/examples/if_lang_en_clause_end.R
-
-#' \dontrun{
-#'   ctest.text <- cTest(tagged.text)
-#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric("cTest", function(obj, ...){standardGeneric("cTest")})
 
 #### internal function 

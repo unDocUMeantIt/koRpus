@@ -106,16 +106,6 @@
 #'   hasFeature(tokenized.obj)
 #'   diffText(tokenized.obj)
 #' @example inst/examples/if_lang_en_clause_end.R
-
-#' @examples
-#' \dontrun{
-#' tagged.text.obj <- freq.analysis(
-#'   tagged.text.obj,
-#'   corp.freq=my.LCC.data,
-#'   as.feature=TRUE
-#' )
-#' textTransform(tagged.text.obj, scheme="random", paste=TRUE)
-#' }
 setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")})
 
 #' @export
