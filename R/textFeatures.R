@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -46,12 +46,15 @@
 #'      \emph{Proceedings of the Twenty-First Conference on Innovative Applications of Artificial Intelligence (IAAI)}, Pasadena, CA.
 #'    Tweedie, F.J., Singh, S., & Holmes, D.I. (1996). Neural Network Applications in Stylometry: The Federalist Papers.
 #'      \emph{Computers and the Humanities}, 30, 1--10.
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger", preset="en"))
-#' tagged.txt <- treetag("example_text.txt")
-#' tagged.txt.features <- textFeatures(tagged.txt)
-#' }
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   textFeatures(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 
 textFeatures <- function(text, hyphen=NULL){
 

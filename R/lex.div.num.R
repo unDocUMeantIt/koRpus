@@ -1,4 +1,4 @@
-# Copyright 2010-2018 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -48,7 +48,10 @@
 #'     \emph{Computers and the Humanities}, 32(5), 323--352.
 #' @export
 #' @examples
-#' lex.div.num(104, 43)
+#' lex.div.num(
+#'   num.tokens=104,
+#'   num.types=43
+#' )
 
 lex.div.num <- function(num.tokens, num.types, measure=c("TTR","C","R","CTTR","U","S","Maas"), log.base=10, quiet=FALSE){
 

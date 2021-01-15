@@ -378,7 +378,7 @@
 #'   # you will get its results directly
 #'   rdb.results <- readability(tokenized.obj)
 #'
-#'   # there is [ and [[ methods for these objects
+#'   # there are [ and [[ methods for these objects
 #'   rdb.results[["ARI"]]
 #'
 #'   # alternatively, you can also store those results as a

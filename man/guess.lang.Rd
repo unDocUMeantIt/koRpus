@@ -56,9 +56,15 @@ You need the ZIP archive containing \emph{all the plain text files} from \url{ht
 \examples{
 \dontrun{
   # using the still zipped bulk file
-  guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt.zip")
+  guess.lang(
+    file.path("~","data","some.txt"),
+    udhr.path=file.path("~","data","udhr_txt.zip")
+  )
   # using the unzipped UDHR archive
-  guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt/")
+  guess.lang(
+    file.path("~","data","some.txt"),
+    udhr.path=file.path("~","data","udhr_txt")
+  )
 }
 }
 \references{

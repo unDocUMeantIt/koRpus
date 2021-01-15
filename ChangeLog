@@ -15,11 +15,16 @@ fixed:
   - cTest(): don't freak out if there's text left after the last sentence
     ending punctuation
   - textTransform(): the argument "paste=TRUE" was broken
+  - readability.num(): solved issue of missing "txt.file" object and
+    undefined language; "lang" can now also be set in the "text.features"
+    if needed
 added:
   - the package now installs a sample text that is used in many examples
 changed:
   - many examples now use a sample text and can therefore omit the \dontrun{}
     clause they were previously enclosed in
+removed:
+  - kRp.text.analysis(): deprecated since 0.13-1, removed the code
 
 changes in version 0.13-4 (2020-12-11)
 fixed:

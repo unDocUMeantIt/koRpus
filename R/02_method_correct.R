@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -45,13 +45,18 @@
 #' @keywords methods
 #' @seealso \code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[koRpus:treetag]{treetag}},
 #'    \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}.
-#' @examples
-#' \dontrun{
-#' tagged.txt <- correct.tag(tagged.txt, row=21, tag="NN")
-#' }
 #' @export
 #' @docType methods
 #' @rdname correct-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
+#' @examples
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   tokenized.obj <- correct.tag(tokenized.obj, row=6, tag="NN")
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric("correct.tag", function(obj, row, tag=NULL, lemma=NULL, check.token=NULL, quiet=TRUE){standardGeneric("correct.tag")})
 
 #' @export

@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -30,16 +30,19 @@
 #'    }
 #' @param ... Any other argument suitable for plot()
 #' @seealso \code{\link[koRpus:kRp.text-class]{kRp.text}}
-#' @examples
-#' \dontrun{
-#' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
-#'    TT.options=list(path="~/bin/treetagger", preset="en"))
-#' plot(tagged.results)
-#' }
 #' @keywords methods plot
 #' @export
 #' @docType methods
 #' @rdname plot-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
+#' @examples
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   plot(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
 #' @export

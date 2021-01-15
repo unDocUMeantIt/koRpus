@@ -27,7 +27,9 @@ To use this function,
 }
 \examples{
 \dontrun{
-bawl.corp <- read.BAWL("~/mydata/valence/BAWL-R.csv")
+bawl.corp <- read.BAWL(
+  file.path("~","mydata","valence","BAWL-R.csv")
+)
 
 # you can now use query() now to create subsets of the word list,
 # e.g., only nound with 5 letters and an valence rating of >= 1
@@ -51,7 +53,6 @@ V\"o, M. L.-H., Conrad, M., Kuchinke, L., Hartfeld, K., Hofmann, M.F. & Jacobs,
 }
 \seealso{
 \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
-      \code{\link[koRpus:query]{query}},
-   \code{\link[koRpus:kRp.text.analysis]{kRp.text.analysis}}
+  \code{\link[koRpus:query]{query}}
 }
 \keyword{corpora}

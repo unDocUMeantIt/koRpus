@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -19,14 +19,21 @@
 #' @param flat Logical, if TRUE only a named vector of main results is returned
 #' @rdname summary-methods
 #' @aliases summary,kRp.readability-method
-#' @export
-#' @docType methods
-#' @examples
-#' \dontrun{
-#' summary(flesch(tagged.txt))
-#' }
 #' @include 01_class_05_kRp.readability.R
 #' @include 02_method_summary.kRp.lang.R
+#' @export
+#' @docType methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
+#' @examples
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   rdb.results <- readability(tokenized.obj, index="fast")
+#'   summary(rdb.results)
+#'   summary(rdb.results, flat=TRUE)
+#' @example inst/examples/if_lang_en_clause_end.R
 setMethod("summary", signature(object="kRp.readability"), function(object, flat=FALSE){
 
   # function to add stuff to the matrix,

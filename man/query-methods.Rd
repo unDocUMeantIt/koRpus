@@ -110,32 +110,45 @@ This method calls \code{\link[base]{subset}},
 }
 
 \examples{
-\dontrun{
-# look up frequencies for the word "aber"
-query(LCC.data, var="word", query="aber")
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  en_corp <- read.corp.custom(
+    tokenized.obj,
+    caseSens=FALSE
+  )
 
-# show all entries with a frequency of exactly 3000 in the corpus
-query(LCC.data, "freq", 3000)
+  # look up frequencies for the word "winner"
+  query(en_corp, var="word", query="winner")
 
-# now, which words appear more than 40000 times in a million?
-query(LCC.data, "pmio", 40000, "gt")
+  # show all entries with a frequency of exactly 3 in the corpus
+  query(en_corp, "freq", 3)
 
-# example for a range request: words with a log10 between 2 and 2.1
-# (including these two values)
-query(LCC.data, "log10", c(2, 2.1))
-# (and without them)
-query(LCC.data, "log10", c(2, 2.1), "gt")
+  # now, which tokens appear more than 40000 times in a million?
+  query(en_corp, "pmio", 40000, "gt")
 
-# example for a list of queries: get words with a frequency between
-# 700 and 750 per million and at least five letters
-query(LCC.data, query=list(
-  list(pmio=c(700,750)),
-  list(lttr=5, rel="ge"))
-)
+  # example for a range request: tokens with a log10 between 4.2 and 4.7
+  # (including these two values)
+  query(en_corp, "log10", c(4.2, 4.7))
+  # (and without them)
+  query(en_corp, "log10", c(4.2, 4.7), "gt")
 
-# get all "he" lemmata in a previously tagged text object
-query(tagged.txt, "lemma", "he")
-}
+  # example for a list of queries: get words with a frequency between
+  # 10000 and 25000 per million and at least four letters
+  query(en_corp, query=list(
+    list(pmio=c(10000, 25000)),
+    list(lttr=4, rel="ge"))
+  )
+
+  # get all instances of "the" in a tokenized text object
+  query(tokenized.obj, "token", "the")
+} else {}
 }
 \seealso{
 \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, \code{\link[base]{subset}}

@@ -254,12 +254,34 @@ default behaviour,
       and only then. See \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}} for all supported languages.
 }
 \examples{
-\dontrun{
-ld.results <- lex.div(tagged.text)
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  # call lex.div() on a tokenized text
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # if you call lex.div() without arguments,
+  # you will get its results directly
+  ld.results <- lex.div(tokenized.obj, char=c())
 
-# there is [ and [[ methods for these objects
-ld.results[["MSTTR"]]
-}
+  # there are [ and [[ methods for these objects
+  ld.results[["MSTTR"]]
+
+  # alternatively, you can also store those results as a
+  # feature in the object itself
+  tokenized.obj <- lex.div(
+    tokenized.obj,
+    char=c(),
+    as.feature=TRUE
+  )
+  # results are now part of the object
+  hasFeature(tokenized.obj)
+  corpusLexDiv(tokenized.obj)
+} else {}
 }
 \references{
 Covington, M.A. & McFall,

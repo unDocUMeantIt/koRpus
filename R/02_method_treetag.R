@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -103,25 +103,32 @@
 #' @import methods
 #' @docType methods
 #' @rdname treetag-methods
+#' @example inst/examples/define_sample_file.R
 #' @examples
 #' \dontrun{
 #' # first way to invoke POS tagging, using a built-in preset:
 #' tagged.results <- treetag(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+#'   sample_file,
 #'   treetagger="manual",
 #'   lang="en",
-#'   TT.options=list(path="~/bin/treetagger", preset="en")
+#'   TT.options=list(
+#'     path=file.path("~","bin","treetagger"),
+#'     preset="en"
+#'   )
 #' )
 #' # second way, use one of the batch scripts that come with TreeTagger:
 #' tagged.results <- treetag(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
-#'   treetagger="~/bin/treetagger/cmd/tree-tagger-english",
+#'   sample_file,
+#'   treetagger=file.path("~","bin","treetagger","cmd","tree-tagger-english"),
 #'   lang="en"
 #' )
 #' # third option, set the above batch script in an environment object first:
-#' set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-english", lang="en")
+#' set.kRp.env(
+#'   TT.cmd=file.path("~","bin","treetagger","cmd","tree-tagger-english"),
+#'   lang="en"
+#' )
 #' tagged.results <- treetag(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
+#'   sample_file
 #' )
 #'
 #' # after tagging, use the resulting object with other functions in this package:
@@ -131,16 +138,25 @@
 #' ## enabling stopword detection and stemming
 #' # if you also installed the packages tm and SnowballC,
 #' # you can use some of their features with koRpus:
-#' set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger",
-#'   preset="en"))
+#' set.kRp.env(
+#'   TT.cmd="manual",
+#'   lang="en",
+#'   TT.options=list(
+#'     path=file.path("~","bin","treetagger"),
+#'     preset="en"
+#'   )
+#' )
 #' tagged.results <- treetag(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
+#'   sample_file,
 #'   stopwords=tm::stopwords("en"),
 #'   stemmer=SnowballC::wordStem
 #' )
 #'
 #' # removing all stopwords now is simple:
-#' tagged.noStopWords <- filterByClass(tagged.results, "stopword")
+#' tagged.noStopWords <- filterByClass(
+#'   tagged.results,
+#'   "stopword"
+#' )
 #' }
 setGeneric(
   "treetag",

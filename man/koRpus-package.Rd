@@ -14,7 +14,7 @@ The DESCRIPTION file:
 Package: \tab koRpus\cr
 Type: \tab Package\cr
 Version: \tab 0.13-5\cr
-Date: \tab 2021-01-14\cr
+Date: \tab 2021-01-15\cr
 Depends: \tab R (>= 3.0.0),sylly (>= 0.1-6)\cr
 Enhances: \tab rkward\cr
 Encoding: \tab UTF-8\cr

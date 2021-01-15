@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -46,16 +46,23 @@ add.to.sumtab <- function(table, adds, flat=FALSE){
   }
 }
 
+#' @include 01_class_02_kRp.TTR.R
+#' @include 02_method_summary.kRp.lang.R
 #' @export
 #' @docType methods
 #' @rdname summary-methods
 #' @aliases summary,kRp.TTR-method
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' summary(lex.div(tagged.txt))
-#' }
-#' @include 01_class_02_kRp.TTR.R
-#' @include 02_method_summary.kRp.lang.R
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   ld.results <- lex.div(tokenized.obj, char=c())
+#'   summary(ld.results)
+#'   summary(ld.results, flat=TRUE)
+#' @example inst/examples/if_lang_en_clause_end.R
 setMethod("summary", signature(object="kRp.TTR"), function(object, flat=FALSE){
 
   if(isTRUE(flat)){

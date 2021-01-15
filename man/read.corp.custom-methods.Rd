@@ -67,12 +67,16 @@ if(require("koRpus.lang.en", quietly = TRUE)){
   )
   # if you call read.corp.custom() without arguments,
   # you will get its results directly
-  en_corp <- read.corp.custom(tokenized.obj)
+  en_corp <- read.corp.custom(
+    tokenized.obj,
+    caseSens=FALSE
+  )
 
   # alternatively, you can also store those results as a
   # feature in the object itself
   tokenized.obj <- read.corp.custom(
     tokenized.obj,
+    caseSens=FALSE,
     as.feature=TRUE
   )
   # results are now part of the object

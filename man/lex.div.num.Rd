@@ -42,7 +42,10 @@ but takes the numbers of tokens and types directly to calculate measures for whi
 See \code{\link[koRpus:lex.div]{lex.div}} for further details on the formulae.
 }
 \examples{
-lex.div.num(104, 43)
+lex.div.num(
+  num.tokens=104,
+  num.types=43
+)
 }
 \references{
 Maas, H.-D.,

@@ -448,6 +448,7 @@ kRp.rdb.formulae <- function(
     num.prepositions <- sum(taggedText(txt.file)$wclass %in% "preposition", na.rm=TRUE)
     num.pronouns <- sum(taggedText(txt.file)$wclass %in% "pronoun", na.rm=TRUE)
     num.foreign <- sum(taggedText(txt.file)$wclass %in% "foreign", na.rm=TRUE)
+    only.kRp.tags <- all(taggedText(txt.file)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))
   } else {
     ########################
     ## analyze.text=FALSE ##
@@ -481,7 +482,12 @@ kRp.rdb.formulae <- function(
     num.prepositions <- txt.features$prepositions
     num.pronouns <- txt.features$pronouns
     num.foreign <- txt.features$foreign
-    lang <- language(txt.file)
+    only.kRp.tags <- FALSE
+    if(is.null(txt.features$lang)){
+      lang <- character()
+    } else {
+      lang <- txt.features$lang
+    }
     if(!inherits(hyphen, "kRp.hyphen")){
       hyphen <- new("kRp.hyphen",
         desc=list(
@@ -532,11 +538,13 @@ kRp.rdb.formulae <- function(
     desc=desc,
     param=parameters
   )
-  if(isTRUE(keep.input)){
-    feature(txt.file, "hyphen") <- hyphen
-  } else if(is.null(keep.input)){
-    if(!isTRUE(dropHyphen)){
+  if(isTRUE(analyze.text)){
+    if(isTRUE(keep.input)){
       feature(txt.file, "hyphen") <- hyphen
+    } else if(is.null(keep.input)){
+      if(!isTRUE(dropHyphen)){
+        feature(txt.file, "hyphen") <- hyphen
+      } else {}
     } else {}
   } else {}
 
@@ -607,7 +615,7 @@ kRp.rdb.formulae <- function(
   ## Coleman Formulas
   if("Coleman" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(taggedText(txt.file)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(only.kRp.tags){
       # this text was just tagged with tokenize() and misses important tags
       warning("Coleman: POS tags are not elaborate enough, can't count pronouns and prepositions. Formulae skipped.", call.=FALSE)
     } else {
@@ -1177,7 +1185,7 @@ kRp.rdb.formulae <- function(
   # new Dickes-Steiwer for german texts
   if("Traenkle.Bailer" %in% index){
     # this formula needs proper POS tags; skip if missing
-    if(all(taggedText(txt.file)[["tag"]] %in% kRp.POS.tags("kRp", list.tags=TRUE))){
+    if(only.kRp.tags){
       # this text was just tagged with tokenize() and misses important tags
       warning("Traenkle.Bailer: POS tags are not elaborate enough, can't count prepositions and conjuctions. Formulae skipped.", call.=FALSE)
     } else {
