@@ -12,49 +12,10 @@
 
 <meta name="author" content="m.eik michalke" />
 
-<meta name="date" content="2020-12-11" />
+<meta name="date" content="2021-01-16" />
 
 <title>Using the koRpus Package for Text Analysis</title>
 
-<style type="text/css">
-a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
-a.anchor-section::before {content: '#';}
-.hasAnchor:hover a.anchor-section {visibility: visible;}
-</style>
-<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
-document.addEventListener('DOMContentLoaded', function() {
-  // Do nothing if AnchorJS is used
-  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
-    return;
-  }
-
-  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-  // Do nothing if sections are already anchored
-  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
-    return null;
-  }
-
-  // Use section id when pandoc runs with --section-divs
-  const section_id = function(x) {
-    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
-            ? x.id : '');
-  };
-
-  // Add anchors
-  h.forEach(function(x) {
-    const id = x.id || section_id(x.parentElement);
-    if (id === '') {
-      return null;
-    }
-    let anchor = document.createElement('a');
-    anchor.href = '#' + id;
-    anchor.classList = ['anchor-section'];
-    x.classList.add('hasAnchor');
-    x.appendChild(anchor);
-  });
-});
-</script>
 <meta name="flattr:id" content="4zdzgd" />
 
 <style type="text/css">
@@ -164,6 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     width: 90%;
   }
 </style>
+
 
 
 <style type="text/css">body {
@@ -360,7 +322,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Using the koRpus Package for Text Analysis</h1>
 <h4 class="author">m.eik michalke</h4>
-<h4 class="date">2020-12-11</h4>
+<h4 class="date">2021-01-16</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 The R package <code>koRpus</code> aims to be a versatile tool for text analysis, with an emphasis on scientific research on that topic. It implements dozens of formulae to measure readability and lexical diversity. On a more basic level <code>koRpus</code> can be used as an R wrapper for third party products, like the tokenizer and POS tagger TreeTagger or language corpora of the Leipzig Corpora Collection. This vignette takes a brief tour around its core components, shows how they can be used and gives some insight on design decisions.
@@ -954,8 +916,8 @@ The R package <code>koRpus</code> aims to be a versatile tool for text analysis,
 ## 
 ## 
 ## Fucks&#39; Stilcharakteristik
-##        Score: 162.11 
-##        Grade: 12.73 
+##        Score: 51.67 
+##        Grade: 7.19 
 ## 
 ## 
 ## Linsear Write
@@ -1043,7 +1005,7 @@ The R package <code>koRpus</code> aims to be a versatile tool for text analysis,
 ## 13        Flesch-Kincaid                              16.19 21.2
 ## 14                   FOG                              18.69     
 ## 15               FORCAST                              10.99   16
-## 16                 Fucks             162.11           12.73     
+## 16                 Fucks              51.67            7.19     
 ## 17         Linsear-Write                               21.5     
 ## 18                   LIX              65.24            &gt; 11     
 ## 19                  nWS1                              10.57     
@@ -1071,7 +1033,7 @@ The R package <code>koRpus</code> aims to be a versatile tool for text analysis,
 ##        Flesch.Kincaid                   FOG               FORCAST 
 ##                 16.19                 18.69                 10.99 
 ##                 Fucks         Linsear.Write                   LIX 
-##                162.11                 21.50                 65.24 
+##                 51.67                 21.50                 65.24 
 ##                  nWS1                  nWS2                  nWS3 
 ##                 10.57                 11.07                 10.58 
 ##                  nWS4                   RIX                  SMOG 

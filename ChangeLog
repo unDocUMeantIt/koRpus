@@ -1,23 +1,19 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-5 (2021-01-14)
-unreleased:
-  - this version is under development
+changes in version 0.13-5 (2021-01-16)
 fixed:
   - readability()/fucks(): the oldest bug so far, present since the first
     version of the package: Fucks' formula doesn't determine word length by
-    characters but syllables; references were updated. the index has been
-    on the list of "needs validation" and still remains there. the erroneous
-    formula likely came from the documentation of TextQuest, as the initial
-    scope of koRpus, when it wasn't even a package yet, was to validate the
-    calculations of various readability tools (thanks to berenike herrmann
-    for the hint)
+    characters but syllables; references were updated. the index has been on the
+    list of "needs validation" and still remains there. the erroneous formula
+    likely came from the documentation of TextQuest, as the initial scope of
+    koRpus, when it wasn't even a package yet, was to validate the calculations
+    of various readability tools (thanks to berenike herrmann for the hint)
   - cTest(): don't freak out if there's text left after the last sentence
     ending punctuation
   - textTransform(): the argument "paste=TRUE" was broken
   - readability.num(): solved issue of missing "txt.file" object and
-    undefined language; "lang" can now also be set in the "text.features"
-    if needed
+    undefined language; "lang" can now also be set in the "text.features" if needed
 added:
   - the package now installs a sample text that is used in many examples
 changed:

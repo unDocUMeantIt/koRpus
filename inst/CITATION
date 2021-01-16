@@ -1,13 +1,13 @@
 bibentry("Manual",
-    title="koRpus: Text Analysis with Emphasis on POS Tagging, Readability and Lexical Diversity",
+    title="koRpus: Text Analysis with Emphasis on POS Tagging, Readability, and Lexical Diversity",
     author="Meik Michalke",
-    year="2020",
-    note="(Version 0.13-4)",
+    year="2021",
+    note="(Version 0.13-5)",
     url="https://reaktanz.de/?c=hacking&s=koRpus",
 
     textVersion =
-    paste("Michalke, M. (2020). ",
-        "koRpus: Text Analysis with Emphasis on POS Tagging, Readability and Lexical Diversity (Version 0.13-4). ",
+    paste("Michalke, M. (2021). ",
+        "koRpus: Text Analysis with Emphasis on POS Tagging, Readability, and Lexical Diversity (Version 0.13-5). ",
         "Available from https://reaktanz.de/?c=hacking&s=koRpus",
         sep=""),
 
