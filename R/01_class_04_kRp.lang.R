@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -45,11 +45,24 @@ kRp_lang <- setClass("kRp.lang",
     lang.name="character",
     txt="character",
     txt.full="character",
-    udhr="data.frame"),
-  prototype(
+    udhr="data.frame")
+)
+
+setMethod("initialize", "kRp.lang",
+  function(
+    .Object,
     lang=character(),
     lang.name=character(),
     txt=character(),
     txt.full=character(),
-    udhr=data.frame())
+    udhr=data.frame()
+  ){
+    slot(.Object, "lang") <- lang
+    slot(.Object, "lang.name") <- lang.name
+    slot(.Object, "txt") <- txt
+    slot(.Object, "txt.full") <- txt.full
+    slot(.Object, "udhr") <- udhr
+    validObject(.Object)
+    return(.Object)
+  }
 )

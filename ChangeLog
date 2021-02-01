@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-5 (2021-01-16)
+changes in version 0.13-5 (2021-02-01)
 fixed:
   - readability()/fucks(): the oldest bug so far, present since the first
     version of the package: Fucks' formula doesn't determine word length by
@@ -14,11 +14,13 @@ fixed:
   - textTransform(): the argument "paste=TRUE" was broken
   - readability.num(): solved issue of missing "txt.file" object and
     undefined language; "lang" can now also be set in the "text.features" if needed
+  - kRp_TTR(): validity check was missing "sd" in names of the MSTTR slot
 added:
   - the package now installs a sample text that is used in many examples
 changed:
   - many examples now use a sample text and can therefore omit the \dontrun{}
     clause they were previously enclosed in
+  - class definitions now use the initialize method instead of prototype()
 removed:
   - kRp.text.analysis(): deprecated since 0.13-1, removed the code
 
