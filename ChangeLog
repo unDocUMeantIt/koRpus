@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-5 (2021-02-01)
+changes in version 0.13-5 (2021-02-02)
 fixed:
   - readability()/fucks(): the oldest bug so far, present since the first
     version of the package: Fucks' formula doesn't determine word length by

@@ -1,7 +1,7 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
-\section{Changes in koRpus version 0.13-5 (2021-01-16)}{
+\section{Changes in koRpus version 0.13-5 (2021-02-02)}{
   \subsection{fixed}{
     \itemize{
       \item \code{readability()}/fucks(): the oldest bug so far, present since the first
@@ -16,6 +16,7 @@
       \item \code{textTransform()}: the argument "paste=TRUE" was broken
       \item \code{readability.num()}: solved issue of missing \code{"txt.file"} object and
         undefined language; \code{"lang"} can now also be set in the \code{"text.features"} if needed
+      \item \code{kRp_TTR()}: validity check was missing \code{"sd"} in names of the MSTTR slot
     }
   }
   \subsection{added}{
@@ -27,6 +28,7 @@
     \itemize{
       \item many examples now use a sample text and can therefore omit the \\dontrun\{\}
         clause they were previously enclosed in
+      \item class definitions now use the initialize method instead of \code{prototype()}
     }
   }
   \subsection{removed}{
