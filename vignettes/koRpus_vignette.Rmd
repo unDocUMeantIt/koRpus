@@ -129,7 +129,7 @@ At the very beginning of almost every analysis with this package, the text you w
 must be identified and named. That is, it has to be split into its semantic parts (tokens), words, numbers, punctuation marks. After that, each token will
 be tagged regarding its part-of-speech (POS). For both of these steps, `koRpus` can use the third party software [TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/) [@schmid_TT_1994].
 
-Especially for Windows users installation of TreeTagger might be a little more complex -- e.g., it depends on Perl^[For a free implementation try <http://strawberryperl.com>], and you need a tool to extract .tar.gz archives.^[Like <https://7-zip.org>] Detailed installations instructions are beyond the scope of this vignette.
+Especially for Windows users installation of TreeTagger might be a little more complex -- e.g., it depends on Perl^[For a free implementation try <https://strawberryperl.com>], and you need a tool to extract .tar.gz archives.^[Like <https://7-zip.org>] Detailed installations instructions are beyond the scope of this vignette.
 
 If you don't want to use TreeTagger, `koRpus` provides a simple tokenizer of its own called `tokenize()`. While the tokenizing itself works quite well, `tokenize()` is not as elaborate as is TreeTagger when it comes to POS tagging, as it can merely tell words from numbers, punctuation and abbreviations. Although this is sufficient for most readability formulae, you can't evaluate word classes in detail. If that's what you want, a TreeTagger installation is needed.
 
