@@ -283,8 +283,9 @@ of words which are not on a certain word list (explained where needed).
 
      Wrapper function: \code{\link[koRpus:FORCAST]{FORCAST}}
    }
-   \item{\code{"Fucks"}:}{Fucks' \emph{Stilcharakteristik}:
-     \deqn{Fucks = \frac{C}{W} \times \frac{W}{St}}
+   \item{\code{"Fucks"}:}{Fucks' \emph{Stilcharakteristik} (Fucks, 1955,
+      as cited in Briest, 1974):
+     \deqn{Fucks = \frac{Sy}{W} \times \frac{W}{St}}
      This simple formula has no parameters.
 
      Wrapper function: \code{\link[koRpus:fucks]{fucks}}
@@ -417,12 +418,33 @@ In case you want to provide different parameters,
 mentioned in the index descriptions above (e.g., "PSK", if appropriate).
 }
 \examples{
-\dontrun{
-rdb.results <- readability(tagged.text)
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  # call readability() on a tokenized text
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # if you call readability() without arguments,
+  # you will get its results directly
+  rdb.results <- readability(tokenized.obj)
 
-# there is [ and [[ methods for these objects
-rdb.results[["ARI"]]
-}
+  # there are [ and [[ methods for these objects
+  rdb.results[["ARI"]]
+
+  # alternatively, you can also store those results as a
+  # feature in the object itself
+  tokenized.obj <- readability(
+    tokenized.obj,
+    as.feature=TRUE
+  )
+  # results are now part of the object
+  hasFeature(tokenized.obj)
+  corpusReadability(tokenized.obj)
+} else {}
 }
 \references{
 Anderson,
@@ -434,6 +456,9 @@ Anderson,
 
    Bamberger, R. & Vanecek,
       E. (1984). \emph{Lesen--Verstehen--Lernen--Schreiben}. Wien: Jugend und Volk.
+
+   Briest, W. (1974). Kann man Verständlichkeit messen? \emph{Zeitschrift für Phonetik,
+      Sprachwissenschaft und Kommunikationsforschung}, 27, 543--563.
 
    Coleman, M. & Liau,
       T.L. (1975). A computer readability formula designed for machine scoring, \emph{Journal of Applied Psychology}, 60(2), 283--284.
@@ -452,9 +477,6 @@ Anderson,
 
    Flesch, R. (1948). A new readability yardstick. \emph{Journal of Applied Psychology},
       32(3), 221--233.
-
-   Fucks,
-      W. (1955). Der Unterschied des Prosastils von Dichtern und anderen Schriftstellern. \emph{Sprachforum}, 1, 233--244.
    
    Grzybek, P. (2010). Text difficulty and the Arens-Altmann law. In Peter Grzybek,
       Emmerich Kelih, \enc{Ján}{Jan} \enc{Mačutek}{Macutek} (Eds.),

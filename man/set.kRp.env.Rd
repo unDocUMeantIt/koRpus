@@ -45,16 +45,20 @@ Note that you can also suppress the startup message informing about \code{\link[
 and \code{\link[koRpus:install.koRpus.lang]{install.koRpus.lang}} by adding \code{noStartupMessage=TRUE} to the options in \code{.Rprofile}.
 }
 \examples{
+set.kRp.env(lang="en")
+get.kRp.env(lang=TRUE)
 \dontrun{
-set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-german", lang="de")
-get.kRp.env(TT.cmd=TRUE)
+set.kRp.env(
+  TT.cmd=file.path("~","bin","treetagger","cmd","tree-tagger-german"),
+  lang="de"
+)
 
 # example for setting permanent default values in an .Rprofile file
 options(
   koRpus=list(
     TT.cmd="manual",
     TT.options=list(
-      path="~/bin/treetagger",
+      path=file.path("~","bin","treetagger"),
       preset="de"),
     lang="de",
     noStartupMessage=TRUE

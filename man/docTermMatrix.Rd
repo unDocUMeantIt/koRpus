@@ -45,24 +45,32 @@ Alternatively, a data frame with multiple \code{doc_id} entries can be used.
 See the examples to learn how to limit the analysis to desired word classes.
 }
 \examples{
-\dontrun{
-tokenized.obj <- tokenize(
-  file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
-)
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  # of course this makes more sense with a corpus of
+  # multiple texts, see the tm.plugin.koRpus[2] package
+  # for that
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # get the document-term frequencies in a sparse matrix
+  myDTMatrix <- docTermMatrix(tokenized.obj)
 
-# get the document-term frequencies in a sparse matrix
-myDTMatrix <- docTermMatrix(tokenized.obj)
+  # combine with filterByClass() to, e.g.,  exclude all punctuation
+  myDTMatrix <- docTermMatrix(filterByClass(tokenized.obj))
 
-# combine with filterByClass() to, e.g.,  exclude all punctuation
-myDTMatrix <- docTermMatrix(filterByClass(tokenized.obj))
-
-# instead of absolute frequencies, get the tf-idf values
-myDTMatrix <- docTermMatrix(
-  filterByClass(tokenized.obj),
-  tfidf=TRUE
-)
-}
+  # instead of absolute frequencies, get the tf-idf values
+  myDTMatrix <- docTermMatrix(
+    filterByClass(tokenized.obj),
+    tfidf=TRUE
+  )
+} else {}
 }
 \references{
 [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+   [2] tm.plugin.koRpus: https://CRAN.R-project.org/package=tm.plugin.koRpus
 }

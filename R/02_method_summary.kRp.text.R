@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -52,18 +52,23 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #'    Only valid for objects providing a \code{diff} feature.
 #' @param feature A character string naming a feature present in the object, to trigger a summary regarding that feature.
 #'    Currently only \code{"freq"} is implemented.
+#' @include 01_class_01_kRp.text.R
+#' @include 02_method_summary.kRp.lang.R
 #' @export
 #' @docType methods
 #' @rdname summary-methods
 #' @aliases summary,kRp.text-method
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
-#'    TT.options=list(path="~/bin/treetagger", preset="en"))
-#' summary(tagged.results)
-#' }
-#' @include 01_class_01_kRp.text.R
-#' @include 02_method_summary.kRp.lang.R
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   # this will look more useful when you
+#'   # can use treetag() instead of tokenize()
+#'   summary(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 setMethod("summary", signature(object="kRp.text"), function(object, index=NA, feature=NULL){
   if(identical(feature, "freq")){
     stopifnot(hasFeature(object, "freq"))

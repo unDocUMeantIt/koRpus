@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -602,11 +602,9 @@ FORCAST <- function(txt.file, hyphen=NULL, parameters=c(syll=1, mult=.10, const=
 #' 
 #' This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.
 #'
-#' Calculates Fucks' Stilcharakteristik ("characteristics of style"). In contrast to
-#' \code{\link[koRpus:readability]{readability}}, which by default calculates all possible indices,
+#' Calculates Fucks' Stilcharakteristik ("characteristics of style"; Fucks, 1955, as cited in Briest, 1974).
+#' In contrast to \code{\link[koRpus:readability]{readability}}, which by default calculates all possible indices,
 #' this function will only calculate the index value.
-#'
-#' This formula doesn't need syllable count.
 #'
 #' @param txt.file Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, a character vector which must be be
 #'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
@@ -615,7 +613,7 @@ FORCAST <- function(txt.file, hyphen=NULL, parameters=c(syll=1, mult=.10, const=
 #' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
-#'    Fucks, W. (1955). Der Unterschied des Prosastils von Dichtern und anderen Schriftstellern. \emph{Sprachforum}, 1, 233--244.
+#'    Briest, W. (1974). Kann man Verständlichkeit messen? \emph{Zeitschrift für Phonetik, Sprachwissenschaft und Kommunikationsforschung}, 27, 543--563.
 #' @keywords readability
 #' @export
 #' @examples

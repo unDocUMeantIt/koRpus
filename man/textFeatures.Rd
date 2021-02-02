@@ -35,12 +35,17 @@ This function combines several of \code{koRpus}' methods to extract the 9-Featur
 authorship detection (Brannon, Afroz & Greenstadt, 2011; Brannon & Greenstadt, 2009).
 }
 \examples{
-\dontrun{
-set.kRp.env(TT.cmd="manual", lang="en", TT.options=list(path="~/bin/treetagger",
-      preset="en"))
-tagged.txt <- treetag("example_text.txt")
-tagged.txt.features <- textFeatures(tagged.txt)
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  textFeatures(tokenized.obj)
+} else {}
 }
 \references{
 Brennan, M., Afroz, S., & Greenstadt,

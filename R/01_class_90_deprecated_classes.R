@@ -54,7 +54,7 @@ valid.TT.res.kRp.tagged <- colnames(deprecated.init.kRp.tagged.df())
 #' It was replaced by \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #'
 #' @section S4 Class \code{kRp.analysis}:
-#' This was used for objects returned by \code{\link[koRpus:kRp.text.analysis]{kRp.text.analysis}}.
+#' This was used for objects returned by \code{kRp.text.analysis}.
 #' The function is also deprecated, functionality can be replicated by combining \code{treetag},\code{freq.analysis} and \code{lex.div}.
 #'
 #' @slot lang A character string, naming the language that is assumed for the tokenized text in this object.

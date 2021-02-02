@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -169,62 +169,122 @@ kRp_readability <- setClass("kRp.readability",
       Tuldava="list",
       Wheeler.Smith="list",
       Wheeler.Smith.de="list",
-      Wiener.STF="list"),
-    prototype(
-      lang=character(),
-      tokens=init.kRp.text.df(),
-      desc=list(NA),
-      hyphen=new("kRp.hyphen"),
-      param=list(NA),
-      ARI=list(NA),
-      ARI.NRI=list(NA),
-      ARI.simple=list(NA),
-      Bormuth=list(NA),
-      Coleman=list(NA),
-      Coleman.Liau=list(NA),
-      Dale.Chall=list(NA),
-      Dale.Chall.PSK=list(NA),
-      Dale.Chall.old=list(NA),
-      Danielson.Bryan=list(NA),
-      Dickes.Steiwer=list(NA),
-      DRP=list(NA),
-      ELF=list(NA),
-      Flesch=list(NA),
-      Flesch.PSK=list(NA),
-      Flesch.Brouwer=list(NA),
-      Flesch.Szigriszt=list(NA),
-      Flesch.de=list(NA),
-      Flesch.es=list(NA),
-      Flesch.fr=list(NA),
-      Flesch.nl=list(NA),
-      Flesch.Kincaid=list(NA),
-      Farr.Jenkins.Paterson=list(NA),
-      Farr.Jenkins.Paterson.PSK=list(NA),
-      FOG=list(NA),
-      FOG.PSK=list(NA),
-      FOG.NRI=list(NA),
-      FORCAST=list(NA),
-      FORCAST.RGL=list(NA),
-      Fucks=list(NA),
-      Harris.Jacobson=list(NA),
-      Linsear.Write=list(NA),
-      LIX=list(NA),
-      RIX=list(NA),
-      SMOG=list(NA),
-      SMOG.de=list(NA),
-      SMOG.C=list(NA),
-      SMOG.simple=list(NA),
-      Spache=list(NA),
-      Spache.old=list(NA),
-      Strain=list(NA),
-      Traenkle.Bailer=list(NA),
-      TRI=list(NA),
-      Tuldava=list(NA),
-      Wheeler.Smith=list(NA),
-      Wheeler.Smith.de=list(NA),
-      Wiener.STF=list(NA)
-      ),
+      Wiener.STF="list"
+    ),
     contains=c("kRp.text")
+)
+
+setMethod("initialize", "kRp.readability",
+  function(
+    .Object,
+    lang=character(),
+    tokens=init.kRp.text.df(),
+    desc=list(NA),
+    hyphen=new("kRp.hyphen"),
+    param=list(NA),
+    ARI=list(NA),
+    ARI.NRI=list(NA),
+    ARI.simple=list(NA),
+    Bormuth=list(NA),
+    Coleman=list(NA),
+    Coleman.Liau=list(NA),
+    Dale.Chall=list(NA),
+    Dale.Chall.PSK=list(NA),
+    Dale.Chall.old=list(NA),
+    Danielson.Bryan=list(NA),
+    Dickes.Steiwer=list(NA),
+    DRP=list(NA),
+    ELF=list(NA),
+    Flesch=list(NA),
+    Flesch.PSK=list(NA),
+    Flesch.Brouwer=list(NA),
+    Flesch.Szigriszt=list(NA),
+    Flesch.de=list(NA),
+    Flesch.es=list(NA),
+    Flesch.fr=list(NA),
+    Flesch.nl=list(NA),
+    Flesch.Kincaid=list(NA),
+    Farr.Jenkins.Paterson=list(NA),
+    Farr.Jenkins.Paterson.PSK=list(NA),
+    FOG=list(NA),
+    FOG.PSK=list(NA),
+    FOG.NRI=list(NA),
+    FORCAST=list(NA),
+    FORCAST.RGL=list(NA),
+    Fucks=list(NA),
+    Harris.Jacobson=list(NA),
+    Linsear.Write=list(NA),
+    LIX=list(NA),
+    RIX=list(NA),
+    SMOG=list(NA),
+    SMOG.de=list(NA),
+    SMOG.C=list(NA),
+    SMOG.simple=list(NA),
+    Spache=list(NA),
+    Spache.old=list(NA),
+    Strain=list(NA),
+    Traenkle.Bailer=list(NA),
+    TRI=list(NA),
+    Tuldava=list(NA),
+    Wheeler.Smith=list(NA),
+    Wheeler.Smith.de=list(NA),
+    Wiener.STF=list(NA)
+  ){
+    slot(.Object, "lang") <- lang
+    slot(.Object, "tokens") <- tokens
+    slot(.Object, "desc") <- desc
+    slot(.Object, "hyphen") <- hyphen
+    slot(.Object, "param") <- param
+    slot(.Object, "ARI") <- ARI
+    slot(.Object, "ARI.NRI") <- ARI.NRI
+    slot(.Object, "ARI.simple") <- ARI.simple
+    slot(.Object, "Bormuth") <- Bormuth
+    slot(.Object, "Coleman") <- Coleman
+    slot(.Object, "Coleman.Liau") <- Coleman.Liau
+    slot(.Object, "Dale.Chall") <- Dale.Chall
+    slot(.Object, "Dale.Chall.PSK") <- Dale.Chall.PSK
+    slot(.Object, "Dale.Chall.old") <- Dale.Chall.old
+    slot(.Object, "Danielson.Bryan") <- Danielson.Bryan
+    slot(.Object, "Dickes.Steiwer") <- Dickes.Steiwer
+    slot(.Object, "DRP") <- DRP
+    slot(.Object, "ELF") <- ELF
+    slot(.Object, "Flesch") <- Flesch
+    slot(.Object, "Flesch.PSK") <- Flesch.PSK
+    slot(.Object, "Flesch.Brouwer") <- Flesch.Brouwer
+    slot(.Object, "Flesch.Szigriszt") <- Flesch.Szigriszt
+    slot(.Object, "Flesch.de") <- Flesch.de
+    slot(.Object, "Flesch.es") <- Flesch.es
+    slot(.Object, "Flesch.fr") <- Flesch.fr
+    slot(.Object, "Flesch.nl") <- Flesch.nl
+    slot(.Object, "Flesch.Kincaid") <- Flesch.Kincaid
+    slot(.Object, "Farr.Jenkins.Paterson") <- Farr.Jenkins.Paterson
+    slot(.Object, "Farr.Jenkins.Paterson.PSK") <- Farr.Jenkins.Paterson.PSK
+    slot(.Object, "FOG") <- FOG
+    slot(.Object, "FOG.PSK") <- FOG.PSK
+    slot(.Object, "FOG.NRI") <- FOG.NRI
+    slot(.Object, "FORCAST") <- FORCAST
+    slot(.Object, "FORCAST.RGL") <- FORCAST.RGL
+    slot(.Object, "Fucks") <- Fucks
+    slot(.Object, "Harris.Jacobson") <- Harris.Jacobson
+    slot(.Object, "Linsear.Write") <- Linsear.Write
+    slot(.Object, "LIX") <- LIX
+    slot(.Object, "RIX") <- RIX
+    slot(.Object, "SMOG") <- SMOG
+    slot(.Object, "SMOG.de") <- SMOG.de
+    slot(.Object, "SMOG.C") <- SMOG.C
+    slot(.Object, "SMOG.simple") <- SMOG.simple
+    slot(.Object, "Spache") <- Spache
+    slot(.Object, "Spache.old") <- Spache.old
+    slot(.Object, "Strain") <- Strain
+    slot(.Object, "Traenkle.Bailer") <- Traenkle.Bailer
+    slot(.Object, "TRI") <- TRI
+    slot(.Object, "Tuldava") <- Tuldava
+    slot(.Object, "Wheeler.Smith") <- Wheeler.Smith
+    slot(.Object, "Wheeler.Smith.de") <- Wheeler.Smith.de
+    slot(.Object, "Wiener.STF") <- Wiener.STF
+    validObject(.Object)
+    return(.Object)
+  }
 )
 
 setValidity("kRp.readability", function(object){

@@ -55,9 +55,34 @@ is of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
 other functions and methods of this package.
 }
 \examples{
-\dontrun{
-ru.corp <- read.corp.custom("~/mydata/corpora/russian_corpus/")
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  # call read.corp.custom() on a tokenized text
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # if you call read.corp.custom() without arguments,
+  # you will get its results directly
+  en_corp <- read.corp.custom(
+    tokenized.obj,
+    caseSens=FALSE
+  )
+
+  # alternatively, you can also store those results as a
+  # feature in the object itself
+  tokenized.obj <- read.corp.custom(
+    tokenized.obj,
+    caseSens=FALSE,
+    as.feature=TRUE
+  )
+  # results are now part of the object
+  hasFeature(tokenized.obj)
+  corpusCorpFreq(tokenized.obj)
+} else {}
 }
 \seealso{
 \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}

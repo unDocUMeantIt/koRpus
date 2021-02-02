@@ -63,9 +63,17 @@ provided is actually valid. If so,
 If \code{check.token} is set it must also match \code{token} in the given row(s). Note that no check is done on the lemmata.
 }
 \examples{
-\dontrun{
-tagged.txt <- correct.tag(tagged.txt, row=21, tag="NN")
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  tokenized.obj <- correct.tag(tokenized.obj, row=6, tag="NN")
+} else {}
 }
 \seealso{
 \code{\link[koRpus:kRp.text-class]{kRp.text}}, \code{\link[koRpus:treetag]{treetag}},

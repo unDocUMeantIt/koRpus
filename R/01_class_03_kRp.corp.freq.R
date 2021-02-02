@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -96,50 +96,65 @@ kRp_corp_freq <- setClass("kRp.corp.freq",
       caseSens="logical"
     ),
     prototype(
-      meta=data.frame(
-          meta=character(),
-          value=character()
-        ),
-      words=data.frame(
-          num=numeric(),
-          word=character(),
-          lemma=character(),
-          tag=character(),
-          wclass=character(),
-          lttr=numeric(),
-          freq=numeric(),
-          pct=numeric(),
-          pmio=numeric(),
-          log10=numeric(),
-          rank.avg=numeric(),
-          rank.min=numeric(),
-          rank.rel.avg=numeric(),
-          rank.rel.min=numeric(),
-          inDocs=numeric(),
-          idf=numeric()
-        ),
-      desc=data.frame(
-          tokens=character(),
-          types=character(),
-          words.p.sntc=numeric(),
-          chars.p.sntc=numeric(),
-          chars.p.wform=numeric(),
-          chars.p.word=numeric()
-        ),
-      bigrams=data.frame(
-          token1=character(),
-          token2=character(),
-          freq=numeric(),
-          sig=numeric()
-        ),
-      cooccur=data.frame(
-          token1=character(),
-          token2=character(),
-          freq=numeric(),
-          sig=numeric()
-        ),
-      caseSens=FALSE
     )
+)
+
+setMethod("initialize", "kRp.corp.freq",
+  function(
+    .Object,
+    meta=data.frame(
+        meta=character(),
+        value=character()
+      ),
+    words=data.frame(
+        num=numeric(),
+        word=character(),
+        lemma=character(),
+        tag=character(),
+        wclass=character(),
+        lttr=numeric(),
+        freq=numeric(),
+        pct=numeric(),
+        pmio=numeric(),
+        log10=numeric(),
+        rank.avg=numeric(),
+        rank.min=numeric(),
+        rank.rel.avg=numeric(),
+        rank.rel.min=numeric(),
+        inDocs=numeric(),
+        idf=numeric()
+      ),
+    desc=data.frame(
+        tokens=character(),
+        types=character(),
+        words.p.sntc=numeric(),
+        chars.p.sntc=numeric(),
+        chars.p.wform=numeric(),
+        chars.p.word=numeric()
+      ),
+    bigrams=data.frame(
+        token1=character(),
+        token2=character(),
+        freq=numeric(),
+        sig=numeric()
+      ),
+    cooccur=data.frame(
+        token1=character(),
+        token2=character(),
+        freq=numeric(),
+        sig=numeric()
+      ),
+    caseSens=FALSE
+  ){
+    slot(.Object, "meta") <- meta
+    slot(.Object, "words") <- words
+    slot(.Object, "desc") <- desc
+    slot(.Object, "bigrams") <- bigrams
+    slot(.Object, "cooccur") <- cooccur
+    slot(.Object, "caseSens") <- caseSens
+    validObject(.Object)
+    return(.Object)
+  }
 )
 
 setValidity("kRp.corp.freq", function(object){

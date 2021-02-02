@@ -75,15 +75,22 @@ Please note that MySQL support is not implemented yet.
 \examples{
 \dontrun{
 # old format .zip archive
-my.LCC.data <- read.corp.LCC("~/mydata/corpora/de05_3M.zip")
+my.LCC.data <- read.corp.LCC(
+  file.path("~","mydata","corpora","de05_3M.zip")
+)
 # new format tar archive
-my.LCC.data <- read.corp.LCC("~/mydata/corpora/rus_web_2002_300K-text.tar")
+my.LCC.data <- read.corp.LCC(
+  file.path("~","mydata","corpora","rus_web_2002_300K-text.tar")
+)
 # in case the tar archive was already unpacked
-my.LCC.data <- read.corp.LCC("~/mydata/corpora/rus_web_2002_300K-text",
-      prefix="rus_web_2002_300K-")
-
-tagged.results <- treetag("/some/text.txt")
-freq.analysis(tagged.results, corp.freq=my.LCC.data)
+my.LCC.data <- read.corp.LCC(
+  file.path("~","mydata","corpora","rus_web_2002_300K-text"),
+  prefix="rus_web_2002_300K-"
+)
+freq.analysis(
+  tokenized.obj,
+  corp.freq=my.LCC.data
+)
 }
 }
 \references{

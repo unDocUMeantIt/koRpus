@@ -63,10 +63,6 @@
 #' [2] \url{http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
 #' @import methods
 #' @importFrom sylly hyphen
-#' @examples
-#' \dontrun{
-#' hyphen(tagged.text)
-#' }
 #' @export
 #' @include 01_class_01_kRp.text.R
 #' @include koRpus-internal.R
@@ -74,6 +70,37 @@
 #'    hyphen
 #'    hyphen,kRp.text-method
 #' @rdname hyphen-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
+#' @examples
+#'   # call hyphen on a given english word
+#'   # "quiet=TRUE" suppresses the progress bar
+#'   hyphen(
+#'     "interference",
+#'     hyph.pattern="en",
+#'     quiet=TRUE
+#'   )
+#'
+#'   # call hyphen() on a tokenized text
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   # language definition is defined in the object
+#'   # if you call hyphen() without arguments,
+#'   # you will get its results directly
+#'   hyphen(tokenized.obj)
+#'
+#'   # alternatively, you can also store those results as a
+#'   # feature in the object itself
+#'   tokenized.obj <- hyphen(
+#'     tokenized.obj,
+#'     as.feature=TRUE
+#'   )
+#'   # results are now part of the object
+#'   hasFeature(tokenized.obj)
+#'   corpusHyphen(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 
 ####################################################################################
 ## if this signature changes, check kRp.hyphen.calc() in 'sylly' package as well! ##

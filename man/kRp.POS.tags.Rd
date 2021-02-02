@@ -59,11 +59,11 @@ The function is not so much intended to be used directly,
 it can still be useful to directly examine available POS tags.
 }
 \examples{
-tags.internal <- kRp.POS.tags("kRp")
-\dontrun{
-library(koRpus.lang.de)
-tags.de <- kRp.POS.tags("de")
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  tags.internal <- kRp.POS.tags("kRp")
+  tags.en <- kRp.POS.tags("en")
+} else {}
 }
 \references{
 [1] \url{https://universaldependencies.org/u/pos/index.html}

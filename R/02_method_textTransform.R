@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -89,15 +89,23 @@
 #' @docType methods
 #' @export
 #' @rdname textTransform-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' tagged.text.obj <- freq.analysis(
-#'   tagged.text.obj,
-#'   corp.freq=my.LCC.data,
-#'   as.feature=TRUE
-#' )
-#' textTransform(tagged.text.obj, scheme="random", paste=TRUE)
-#' }
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   tokenized.obj <- textTransform(
+#'     tokenized.obj,
+#'     scheme="random"
+#'   )
+#'   pasteText(tokenized.obj)
+#'
+#'   # diff stats are now part of the object
+#'   hasFeature(tokenized.obj)
+#'   diffText(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric("textTransform", function(txt, ...){standardGeneric("textTransform")})
 
 #' @export
@@ -199,26 +207,25 @@ setMethod("textTransform",
       stop(simpleError("Unknown scheme specified!"))
     }
 
+    results <- txt_trans_diff(
+      obj=txt,
+      tokens.new=txt.df[["token"]],
+      transfmt=scheme,
+      normalize=list(
+        method=method,
+        var=var,
+        query=query,
+        replacement=replacement,
+        f=f,
+        ...
+      ),
+      check_missing_letters=isTRUE(scheme == "normalize")
+    )
     if(isTRUE(paste)){
-      results <- pasteText(txt.df)
+      return(pasteText(results))
     } else {
-      results <- txt_trans_diff(
-        obj=txt,
-        tokens.new=txt.df[["token"]],
-        transfmt=scheme,
-        normalize=list(
-          method=method,
-          var=var,
-          query=query,
-          replacement=replacement,
-          f=f,
-          ...
-        ),
-        check_missing_letters=isTRUE(scheme == "normalize")
-      )
+      return(results)
     }
-
-    return(results)
   }
 )
 

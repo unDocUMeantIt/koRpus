@@ -45,9 +45,17 @@ An object of the input class. If \code{as.vector=TRUE}, returns only a character
 This method strips off defined word classes of tagged text objects.
 }
 \examples{
-\dontrun{
-   filterByClass(tagged.text)
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  filterByClass(tokenized.obj)
+} else {}
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}}

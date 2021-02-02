@@ -1,4 +1,4 @@
-# Copyright 2016-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2016-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -51,11 +51,17 @@
 #' @import methods
 #' @rdname types.tokens-methods
 #' @export
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' types(tagged.text)
-#' tokens(tagged.text)
-#' }
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'
+#'   types(tokenized.obj)
+#'   tokens(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 
 #' @param ... Only used for the method generic.
 setGeneric("types", function(txt, ...) standardGeneric("types"))

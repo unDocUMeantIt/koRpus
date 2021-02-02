@@ -104,10 +104,19 @@ properly if the input is a tagged text object with lemmata or you've properly se
 Calling these methods on \code{kRp.TTR} objects is just returning the respective part of its \code{tt} slot.
 }
 \examples{
-\dontrun{
-types(tagged.text)
-tokens(tagged.text)
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+
+  types(tokenized.obj)
+  tokens(tokenized.obj)
+} else {}
 }
 \seealso{
 \code{\link[koRpus:kRp.POS.tags]{kRp.POS.tags}},

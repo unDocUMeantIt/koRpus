@@ -23,12 +23,11 @@ An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.
 }
 \details{
-Calculates Fucks' Stilcharakteristik ("characteristics of style"). In contrast to
-\code{\link[koRpus:readability]{readability}},
+Calculates Fucks' Stilcharakteristik ("characteristics of style"; Fucks, 1955,
+      as cited in Briest, 1974).
+In contrast to \code{\link[koRpus:readability]{readability}},
       which by default calculates all possible indices,
 this function will only calculate the index value.
-
-This formula doesn't need syllable count.
 }
 \examples{
 \dontrun{
@@ -36,7 +35,7 @@ This formula doesn't need syllable count.
 }
 }
 \references{
-Fucks,
-      W. (1955). Der Unterschied des Prosastils von Dichtern und anderen Schriftstellern. \emph{Sprachforum}, 1, 233--244.
+Briest, W. (1974). Kann man Verständlichkeit messen? \emph{Zeitschrift für Phonetik,
+      Sprachwissenschaft und Kommunikationsforschung}, 27, 543--563.
 }
 \keyword{readability}

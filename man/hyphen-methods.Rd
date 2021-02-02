@@ -98,9 +98,39 @@ For details, please refer to the documentation for the generic
 \code{\link[sylly:hyphen]{hyphen}} method in the \code{sylly} package.
 }
 \examples{
-\dontrun{
-hyphen(tagged.text)
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  # call hyphen on a given english word
+  # "quiet=TRUE" suppresses the progress bar
+  hyphen(
+    "interference",
+    hyph.pattern="en",
+    quiet=TRUE
+  )
+
+  # call hyphen() on a tokenized text
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # language definition is defined in the object
+  # if you call hyphen() without arguments,
+  # you will get its results directly
+  hyphen(tokenized.obj)
+
+  # alternatively, you can also store those results as a
+  # feature in the object itself
+  tokenized.obj <- hyphen(
+    tokenized.obj,
+    as.feature=TRUE
+  )
+  # results are now part of the object
+  hasFeature(tokenized.obj)
+  corpusHyphen(tokenized.obj)
+} else {}
 }
 \references{
 Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.

@@ -1,6 +1,42 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.13-5 (2021-02-02)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{readability()}/fucks(): the oldest bug so far, present since the first
+        version of the package: Fucks' formula doesn't determine word length by
+        characters but syllables; references were updated. the index has been on the
+        list of "needs validation" and still remains there. the erroneous formula
+        likely came from the documentation of TextQuest, as the initial scope of
+        koRpus, when it wasn't even a package yet, was to validate the calculations
+        of various readability tools (thanks to berenike herrmann for the hint)
+      \item \code{cTest()}: don't freak out if there's text left after the last sentence
+        ending punctuation
+      \item \code{textTransform()}: the argument "paste=TRUE" was broken
+      \item \code{readability.num()}: solved issue of missing \code{"txt.file"} object and
+        undefined language; \code{"lang"} can now also be set in the \code{"text.features"} if needed
+      \item \code{kRp_TTR()}: validity check was missing \code{"sd"} in names of the MSTTR slot
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item the package now installs a sample text that is used in many examples
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item many examples now use a sample text and can therefore omit the \\dontrun\{\}
+        clause they were previously enclosed in
+      \item class definitions now use the initialize method instead of \code{prototype()}
+    }
+  }
+  \subsection{removed}{
+    \itemize{
+      \item \code{kRp.text.analysis()}: deprecated since 0.13-1, removed the code
+    }
+  }
+}
 \section{Changes in koRpus version 0.13-4 (2020-12-11)}{
   \subsection{fixed}{
     \itemize{

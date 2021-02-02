@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -37,10 +37,20 @@
 #' @docType methods
 #' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}} with the added feature \code{diff}.
 #' @rdname cTest-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#'   ctest.text <- cTest(tagged.text)
-#' }
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   tokenized.obj <- cTest(tokenized.obj)
+#'   pasteText(tokenized.obj)
+#'
+#'   # diff stats are now part of the object
+#'   hasFeature(tokenized.obj)
+#'   diffText(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric("cTest", function(obj, ...){standardGeneric("cTest")})
 
 #### internal function 
@@ -82,6 +92,11 @@ setMethod("cTest",
     # find out where the sentences end
     sntc.tags <- kRp.POS.tags(lang=lang, list.tags=TRUE, tags="sentc")
     txt.sntc.ends <- which(tagged.text[["tag"]] %in% sntc.tags)
+    # in case the last sentence is unfinished, i.e., does not have sentence ending punctuation,
+    # count it as an extra sentence anyway, to not end up with a mismatch of returned results
+    if(nrow(tagged.text) > txt.sntc.ends[length(txt.sntc.ends)]){
+      txt.sntc.ends <- c(txt.sntc.ends, nrow(tagged.text))
+    } else {}
     # make a list of the sentences, i.e., each element is a data.frame of one sentence
     txt.sntc.list <- lapply(seq_along(txt.sntc.ends), function(idx){
         txt.from <- ifelse(idx == 1, 1, txt.sntc.ends[idx-1]+1)

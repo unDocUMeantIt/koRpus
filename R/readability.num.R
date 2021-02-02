@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -47,34 +47,48 @@
 #'      \item{\code{Dale.Chall.NOL}:}{Number of words not on the Dale-Chall word list. Only needed to calculate \code{"Dale.Chall"}.}
 #'      \item{\code{Harris.Jacobson.NOL}:}{Number of words not on the Harris-Jacobson word list. Only needed to calculate \code{"Harris.Jacobson"}.}
 #'      \item{\code{Spache.NOL}:}{Number of words not on the Spache word list. Only needed to calculate \code{"Spache"}.}
+#'      \item{\code{lang}:}{A character string defining the language, if needed.}
 #'    }
 #' @param index A character vector, indicating which indices should actually be computed.
 #' @param parameters A named list with magic numbers, defining the relevant parameters for each index. If none are given,
 #'    the default values are used.
-#'
+#' @export
 #' @examples
 #' \dontrun{
-#'test.features <- list(
-#'  sentences=18,
-#'  words=556,
-#'  letters=c(all=2918, l1=19, l2=92, l3=74, l4=80, l5=51, l6=49),
-#'  syllables=c(all=974, s1=316, s2=116),
-#'  punct=78,
-#'  all.chars=3553,
-#'  prepositions=74,
-#'  conjunctions=18,
-#'  pronouns=9,
-#'  foreign=0,
-#'  TTR=0.5269784,
-#'  Bormuth.NOL=192,
-#'  Dale.Chall.NOL=192,
-#'  Harris.Jacobson.NOL=240,
-#'  Spache.NOL=240)
+#' test.features <- list(
+#'   sentences=18,
+#'   words=556,
+#'   letters=c(
+#'     all=2918,
+#'     l1=19,
+#'     l2=92,
+#'     l3=74,
+#'     l4=80,
+#'     l5=51,
+#'     l6=49
+#'   ),
+#'   syllables=c(
+#'     all=974,
+#'     s1=316,
+#'     s2=116
+#'   ),
+#'   punct=78,
+#'   all.chars=3553,
+#'   prepositions=74,
+#'   conjunctions=18,
+#'   pronouns=9,
+#'   foreign=0,
+#'   TTR=0.5269784,
+#'   Bormuth.NOL=192,
+#'   Dale.Chall.NOL=192,
+#'   Harris.Jacobson.NOL=240,
+#'   Spache.NOL=240,
+#'   lang="en"
+#' )
 #'
-#'# should not calculate FOG, because FOG.hard.words is missing:
-#'readability.num(test.features, index="all")
+#' # should not calculate FOG, because FOG.hard.words is missing:
+#' readability.num(test.features, index="all")
 #'}
-#' @export
 
 readability.num <- function(
   txt.features=list(
@@ -93,7 +107,9 @@ readability.num <- function(
     Bormuth.NOL=NULL,
     Dale.Chall.NOL=NULL,
     Harris.Jacobson.NOL=NULL,
-    Spache.NOL=NULL),
+    Spache.NOL=NULL,
+    lang=character()
+  ),
   index=c("ARI", "Bormuth", "Coleman", "Coleman.Liau",
     "Dale.Chall", "Danielson.Bryan", "Dickes.Steiwer","DRP",
     "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",

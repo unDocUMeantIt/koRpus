@@ -1,6 +1,6 @@
 Package: koRpus
 Type: Package
-Title: Text Analysis with Emphasis on POS Tagging, Readability and Lexical Diversity
+Title: Text Analysis with Emphasis on POS Tagging, Readability, and Lexical Diversity
 Description: A set of tools to analyze texts. Includes, amongst others, functions for
           automatic language detection, hyphenation, several indices of lexical diversity
           (e.g., type token ratio, HD-D/vocd-D, MTLD) and readability (e.g., Flesch,
@@ -19,9 +19,6 @@ Description: A set of tools to analyze texts. Includes, amongst others, function
           only available from the project homepage. To ask for help, report bugs, request
           features, or discuss the development of the package, please subscribe to the
           koRpus-dev mailing list (<https://korpusml.reaktanz.de>).
-Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alexandre
-          Brulet [ctb], Laura Hauser [ctb]
-Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 3.0.0),sylly (>= 0.1-6)
 Imports: data.table,methods,Matrix
 Enhances: rkward
@@ -39,8 +36,8 @@ Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de
           email="ekbrown@ksu.edu", role=c("ctb")), person(given="Alberto",
           family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet",
           role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
-Version: 0.13-4
-Date: 2020-12-11
+Version: 0.13-5
+Date: 2021-02-02
 RoxygenNote: 7.1.1
 Collate: 
     '01_class_01_kRp.text.R'
@@ -88,7 +85,6 @@ Collate:
     'install.koRpus.lang.R'
     'kRp.POS.tags.R'
     'kRp.cluster.R'
-    'kRp.text.analysis.R'
     'koRpus-internal.freq.analysis.R'
     'koRpus-internal.import.R'
     'koRpus-internal.lexdiv.formulae.R'

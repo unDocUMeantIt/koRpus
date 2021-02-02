@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -149,13 +149,32 @@
 #' @import methods
 #' @rdname lex.div-methods
 #' @export
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' ld.results <- lex.div(tagged.text)
-#' 
-#' # there is [ and [[ methods for these objects
-#' ld.results[["MSTTR"]]
-#' }
+#'   # call lex.div() on a tokenized text
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   # if you call lex.div() without arguments,
+#'   # you will get its results directly
+#'   ld.results <- lex.div(tokenized.obj, char=c())
+#'
+#'   # there are [ and [[ methods for these objects
+#'   ld.results[["MSTTR"]]
+#'
+#'   # alternatively, you can also store those results as a
+#'   # feature in the object itself
+#'   tokenized.obj <- lex.div(
+#'     tokenized.obj,
+#'     char=c(),
+#'     as.feature=TRUE
+#'   )
+#'   # results are now part of the object
+#'   hasFeature(tokenized.obj)
+#'   corpusLexDiv(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 
 #' @param ... Only used for the method generic.
 setGeneric("lex.div", function(txt, ...) standardGeneric("lex.div"))

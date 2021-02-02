@@ -30,10 +30,17 @@ Paste the text in koRpus objects.
 This function takes objects of class \code{kRp.text} and pastes only the actual text as is.
 }
 \examples{
-\dontrun{
-  tagged.text.obj <- freq.analysis(tagged.text.obj, corp.freq=my.LCC.data,
-      as.feature=TRUE)
-  pasteText(tagged.text.obj)
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  tokenized.obj <- jumbleWords(tokenized.obj)
+  pasteText(tokenized.obj)
+} else {}
 }
 \keyword{misc}

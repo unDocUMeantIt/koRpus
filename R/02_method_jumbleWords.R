@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -36,10 +36,20 @@
 #' @docType methods
 #' @export
 #' @rdname jumbleWords-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#'    jumbled.text <- jumbleWords(tagged.text)
-#' }
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   tokenized.obj <- jumbleWords(tokenized.obj)
+#'   pasteText(tokenized.obj)
+#'
+#'   # diff stats are now part of the object
+#'   hasFeature(tokenized.obj)
+#'   diffText(tokenized.obj)
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric("jumbleWords", function(words, ...){standardGeneric("jumbleWords")})
 
 #' @export

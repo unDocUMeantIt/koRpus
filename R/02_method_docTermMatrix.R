@@ -1,4 +1,4 @@
-# Copyright 2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2019-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -36,28 +36,33 @@
 #' @return A sparse matrix of class \code{\link[Matrix:dgCMatrix-class]{dgCMatrix}}.
 #' @references
 #'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+#'    [2] tm.plugin.koRpus: https://CRAN.R-project.org/package=tm.plugin.koRpus
 #' @importFrom Matrix Matrix
 #' @export
 #' @docType methods
 #' @rdname docTermMatrix
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' tokenized.obj <- tokenize(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
-#' )
+#'   # of course this makes more sense with a corpus of
+#'   # multiple texts, see the tm.plugin.koRpus[2] package
+#'   # for that
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
+#'   # get the document-term frequencies in a sparse matrix
+#'   myDTMatrix <- docTermMatrix(tokenized.obj)
 #' 
-#' # get the document-term frequencies in a sparse matrix
-#' myDTMatrix <- docTermMatrix(tokenized.obj)
+#'   # combine with filterByClass() to, e.g.,  exclude all punctuation
+#'   myDTMatrix <- docTermMatrix(filterByClass(tokenized.obj))
 #' 
-#' # combine with filterByClass() to, e.g.,  exclude all punctuation
-#' myDTMatrix <- docTermMatrix(filterByClass(tokenized.obj))
-#' 
-#' # instead of absolute frequencies, get the tf-idf values
-#' myDTMatrix <- docTermMatrix(
-#'   filterByClass(tokenized.obj),
-#'   tfidf=TRUE
-#' )
-#' }
+#'   # instead of absolute frequencies, get the tf-idf values
+#'   myDTMatrix <- docTermMatrix(
+#'     filterByClass(tokenized.obj),
+#'     tfidf=TRUE
+#'   )
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric(
   "docTermMatrix",
   function(

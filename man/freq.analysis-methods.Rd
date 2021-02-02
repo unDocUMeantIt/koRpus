@@ -55,9 +55,33 @@ term frequency--inverse document frequency statistic (tf-idf) will also be compu
 Missing idf values will result in \code{NA}.
 }
 \examples{
-\dontrun{
-freq.analysis(tagged.text, corp.freq=my.LCC.data)
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  # call freq.analysis() on a tokenized text
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # the token slot before frequency analysis
+  head(taggedText(tokenized.obj))
+
+  # instead of data from a larger corpus, we'll
+  # use the token frequencies of the text itself
+  tokenized.obj <- freq.analysis(
+    tokenized.obj,
+    corp.freq=read.corp.custom(tokenized.obj)
+  )
+  # compare the columns after the anylsis
+  head(taggedText(tokenized.obj))
+
+  # the object now has further statistics in a
+  # new feature slot called freq
+  hasFeature(tokenized.obj)
+  corpusFreq(tokenized.obj)
+} else {}
 }
 \seealso{
 \code{\link[koRpus:get.kRp.env]{get.kRp.env}},

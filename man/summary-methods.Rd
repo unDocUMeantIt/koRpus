@@ -50,17 +50,45 @@ Summary method for S4 objects of classes
 \dontrun{
 summary(guess.lang("/home/user/data/some.txt", udhr.path="/home/user/data/udhr_txt/"))
 }
-\dontrun{
-summary(lex.div(tagged.txt))
-}
-\dontrun{
-summary(flesch(tagged.txt))
-}
-\dontrun{
-tagged.results <- treetag("~/my.data/sample_text.txt", treetagger="manual", lang="en",
-   TT.options=list(path="~/bin/treetagger", preset="en"))
-summary(tagged.results)
-}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  ld.results <- lex.div(tokenized.obj, char=c())
+  summary(ld.results)
+  summary(ld.results, flat=TRUE)
+} else {}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  rdb.results <- readability(tokenized.obj, index="fast")
+  summary(rdb.results)
+  summary(rdb.results, flat=TRUE)
+} else {}
+# code is only run when the english language package can be loaded
+if(require("koRpus.lang.en", quietly = TRUE)){
+  sample_file <- file.path(
+    path.package("koRpus"), "examples", "corpus", "Reality_Winner.txt"
+  )
+  tokenized.obj <- tokenize(
+    txt=sample_file,
+    lang="en"
+  )
+  # this will look more useful when you
+  # can use treetag() instead of tokenize()
+  summary(tokenized.obj)
+} else {}
 }
 \seealso{
 \code{\link[koRpus:kRp.lang-class]{kRp.lang}},

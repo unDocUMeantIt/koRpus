@@ -9,7 +9,7 @@ readability.num(
     0), syllables = c(all = 0, s1 = 0, s2 = 0), punct = NULL, all.chars = NULL,
     prepositions = NULL, conjunctions = NULL, pronouns = NULL, foreign = NULL, TTR =
     NULL, FOG.hard.words = NULL, Bormuth.NOL = NULL, Dale.Chall.NOL = NULL,
-    Harris.Jacobson.NOL = NULL, Spache.NOL = NULL),
+    Harris.Jacobson.NOL = NULL, Spache.NOL = NULL, lang = character()),
   index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
     "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
     "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write",
@@ -52,6 +52,7 @@ readability.num(
   \item{\code{Dale.Chall.NOL}:}{Number of words not on the Dale-Chall word list. Only needed to calculate \code{"Dale.Chall"}.}
   \item{\code{Harris.Jacobson.NOL}:}{Number of words not on the Harris-Jacobson word list. Only needed to calculate \code{"Harris.Jacobson"}.}
   \item{\code{Spache.NOL}:}{Number of words not on the Spache word list. Only needed to calculate \code{"Spache"}.}
+  \item{\code{lang}:}{A character string defining the language, if needed.}
 }}
 
 \item{index}{A character vector, indicating which indices should actually be computed.}
@@ -67,21 +68,35 @@ but directly takes the values used by the formulae to calculate the readability 
 \examples{
 \dontrun{
 test.features <- list(
- sentences=18,
- words=556,
- letters=c(all=2918, l1=19, l2=92, l3=74, l4=80, l5=51, l6=49),
- syllables=c(all=974, s1=316, s2=116),
- punct=78,
- all.chars=3553,
- prepositions=74,
- conjunctions=18,
- pronouns=9,
- foreign=0,
- TTR=0.5269784,
- Bormuth.NOL=192,
- Dale.Chall.NOL=192,
- Harris.Jacobson.NOL=240,
- Spache.NOL=240)
+  sentences=18,
+  words=556,
+  letters=c(
+    all=2918,
+    l1=19,
+    l2=92,
+    l3=74,
+    l4=80,
+    l5=51,
+    l6=49
+  ),
+  syllables=c(
+    all=974,
+    s1=316,
+    s2=116
+  ),
+  punct=78,
+  all.chars=3553,
+  prepositions=74,
+  conjunctions=18,
+  pronouns=9,
+  foreign=0,
+  TTR=0.5269784,
+  Bormuth.NOL=192,
+  Dale.Chall.NOL=192,
+  Harris.Jacobson.NOL=240,
+  Spache.NOL=240,
+  lang="en"
+)
 
 # should not calculate FOG, because FOG.hard.words is missing:
 readability.num(test.features, index="all")

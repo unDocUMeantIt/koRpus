@@ -36,9 +36,14 @@ Read data from Celex[1] formatted corpora.
 }
 \examples{
 \dontrun{
-my.Celex.data <- read.corp.celex("~/mydata/Celex/GERMAN/GFW/GFW.CD",
-      running.words=5952000)
-freq.analysis("/some/text.txt", corp.freq=my.Celex.data)
+my.Celex.data <- read.corp.celex(
+  file.path("~","mydata","Celex","GERMAN","GFW","GFW.CD"),
+  running.words=5952000
+)
+freq.analysis(
+  tokenized.obj,
+  corp.freq=my.Celex.data
+)
 }
 }
 \references{

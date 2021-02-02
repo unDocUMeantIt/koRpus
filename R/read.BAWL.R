@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -29,8 +29,9 @@
 #' @return An object of class \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords corpora
-#' @seealso \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}}, \code{\link[koRpus:query]{query}},
-#'    \code{\link[koRpus:kRp.text.analysis]{kRp.text.analysis}}
+#' @seealso
+#'   \code{\link[koRpus:kRp.corp.freq-class]{kRp.corp.freq}},
+#'   \code{\link[koRpus:query]{query}}
 #' @references
 #' V\"o, M. L.-H., Conrad, M., Kuchinke, L., Hartfeld, K., Hofmann, M.F. & Jacobs, A.M. (2009).
 #'   The Berlin Affective Word List Reloaded (BAWL-R). \emph{Behavior Research Methods}, 41(2), 534--538.
@@ -39,7 +40,9 @@
 #' [1] \url{https://www.ewi-psy.fu-berlin.de/einrichtungen/arbeitsbereiche/allgpsy/Download/BAWL/index.html}
 #' @examples
 #' \dontrun{
-#' bawl.corp <- read.BAWL("~/mydata/valence/BAWL-R.csv")
+#' bawl.corp <- read.BAWL(
+#'   file.path("~","mydata","valence","BAWL-R.csv")
+#' )
 #'
 #' # you can now use query() now to create subsets of the word list,
 #' # e.g., only nound with 5 letters and an valence rating of >= 1

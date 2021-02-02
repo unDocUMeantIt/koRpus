@@ -40,10 +40,8 @@ For the most part,
       \code{get.kRp.env} is a convenient wrapper for \code{\link[base:getOption]{getOption}}.
 }
 \examples{
-\dontrun{
-set.kRp.env(TT.cmd="~/bin/treetagger/cmd/tree-tagger-german", lang="de")
-get.kRp.env(TT.cmd=TRUE)
-}
+set.kRp.env(lang="en")
+get.kRp.env(lang=TRUE)
 }
 \seealso{
 \code{\link[koRpus:set.kRp.env]{set.kRp.env}}

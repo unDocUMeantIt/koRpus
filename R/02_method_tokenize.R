@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -79,42 +79,54 @@
 #' @docType methods
 #' @export
 #' @rdname tokenize-methods
+#' @example inst/examples/if_lang_en_clause_start.R
+#' @example inst/examples/define_sample_file.R
 #' @examples
-#' \dontrun{
-#' tokenized.obj <- tokenize(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt")
-#' )
-#' 
-#' ## character manipulation
-#' # this is useful if you know of problematic characters in your
-#' # raw text files, but don't want to touch them directly. you
-#' # don't have to, as you can substitute them, even using regular
-#' # expressions. a simple example: replace all single quotes by
-#' # double quotes througout the text:
-#' tokenized.obj <- tokenize(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
-#'   clean.raw=list("'"='\"')
-#' )
-#' 
-#' # now replace all occurrances of the letter A followed
-#' # by two digits with the letter B, followed by the same
-#' # two digits:
-#' tokenized.obj <- tokenize(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
-#'   clean.raw=list("(A)([[:digit:]]{2})"="B\\2"),
-#'   perl=TRUE)
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en"
+#'   )
 #'
-#' ## enabling stopword detection and stemming
-#' # if you also installed the packages tm and Snowball,
-#' # you can use some of their features with koRpus:
-#' tokenized.obj <- tokenize(
-#'   file.path(path.package("koRpus"), "tests", "testthat", "sample_text.txt"),
-#'   stopwords=tm::stopwords("en"),
-#'   stemmer=SnowballC::wordStem)
+#'   ## character manipulation
+#'   # this is useful if you know of problematic characters in your
+#'   # raw text files, but don't want to touch them directly. you
+#'   # don't have to, as you can substitute them, even using regular
+#'   # expressions. a simple example: replace all single quotes by
+#'   # double quotes througout the text:
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en",
+#'     clean.raw=list("'"='\"')
+#'   )
 #'
-#' # removing all stopwords now is simple:
-#' tokenized.noStopWords <- filterByClass(tokenized.obj, "stopword")
-#' }
+#'   # now replace all occurrances of the letter A followed
+#'   # by two digits with the letter B, followed by the same
+#'   # two digits:
+#'   tokenized.obj <- tokenize(
+#'     txt=sample_file,
+#'     lang="en",
+#'     clean.raw=list("(A)([[:digit:]]{2})"="B\\2"),
+#'     perl=TRUE
+#'   )
+#'
+#'   ## enabling stopword detection and stemming
+#'   if(all(
+#'     requireNamespace("tm", quietly=TRUE),
+#'     requireNamespace("SnowballC", quietly=TRUE)
+#'   )){
+#'     # if you also installed the packages tm and Snowball,
+#'     # you can use some of their features with koRpus:
+#'     tokenized.obj <- tokenize(
+#'       txt=sample_file,
+#'       lang="en",
+#'       stopwords=tm::stopwords("en"),
+#'       stemmer=SnowballC::wordStem
+#'     )
+#'
+#'     # removing all stopwords now is simple:
+#'     tokenized.noStopWords <- filterByClass(tokenized.obj, "stopword")
+#'   } else {}
+#' @example inst/examples/if_lang_en_clause_end.R
 setGeneric(
   "tokenize",
   def=function(

@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -98,15 +98,28 @@ kRp_text <- setClass("kRp.text",
       tokens="data.frame",
       features="logical",
       feat_list="list"
-    ),
-    prototype(
-      lang=character(),
-      desc=list(),
-      tokens=init.kRp.text.df(),
-      features=logical(),
-      feat_list=list()
     )
 )
+
+setMethod("initialize", "kRp.text",
+  function(
+    .Object,
+    lang=character(),
+    desc=list(),
+    tokens=init.kRp.text.df(),
+    features=logical(),
+    feat_list=list()
+  ){
+    slot(.Object, "lang") <- lang
+    slot(.Object, "desc") <- desc
+    slot(.Object, "tokens") <- tokens
+    slot(.Object, "features") <- features
+    slot(.Object, "feat_list") <- feat_list
+    validObject(.Object)
+    return(.Object)
+  }
+)
+
 
 setValidity("kRp.text", function(object){
   features <- slot(object, "features")

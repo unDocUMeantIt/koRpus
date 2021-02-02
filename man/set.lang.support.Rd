@@ -105,9 +105,23 @@ If you would like to create a proper language support package,
 }
 
 \examples{
-\dontrun{
-set.lang.support("hyphen",
-  list("xyz"="xyz")
+hyph_pat_yxz <- sylly::kRp_hyph_pat(
+  lang = "xy",
+  pattern = matrix(
+    c(
+      ".im5b", ".in1", ".in3d",
+      ".imb", ".in", ".ind",
+      "0050", "001", "0030"
+    ),
+    nrow=3,
+    dimnames= list(
+      NULL,
+      c("orig", "char", "nums")
+    )
+  )
 )
-}
+set.lang.support(
+  target="hyphen",
+  value=list("xyz"=hyph_pat_yxz)
+)
 }
