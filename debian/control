@@ -2,9 +2,8 @@ Source: r-other-reaktanz-korpus
 Section: gnu-r
 Priority: optional
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
-Build-Depends-Indep: debhelper (>> 9.0.0), r-base-dev (>= 3.0.0), cdbs,
- r-cran-sylly (>= 0.1-6) | r-other-reaktanz-sylly (>= 0.1-6),
- r-cran-data.table, r-cran-matrix
+Build-Depends-Indep: debhelper (>> 9.0.0), r-base-dev (>= 3.0.0), cdbs, r-cran-sylly (>=
+ 0.1-6) | r-other-reaktanz-sylly (>= 0.1-6), r-cran-data.table, r-cran-matrix
 Standards-Version: 3.9.3.1
 Homepage: https://reaktanz.de/?c=hacking&s=koRpus
 
@@ -13,40 +12,36 @@ Architecture: all
 Section: gnu-r
 Depends: r-base-core (>= 4.0.0), r-api-4.0, r-cran-sylly (>= 0.1-6) |
  r-other-reaktanz-sylly (>= 0.1-6), r-cran-data.table, r-cran-matrix
-Description: GNU R package "Text Analysis with Emphasis on POS Tagging,
- Readability and Lexical Diversity"
+Description: GNU R package "Text Analysis with Emphasis on POS Tagging, Readability, and
+ Lexical Diversity"
  .
- A set of tools to analyze texts. Includes, amongst others, functions for
- automatic language detection, hyphenation, several indices of lexical
- diversity (e.g., type token ratio, HD-D/vocd-D, MTLD) and readability
- (e.g., Flesch, SMOG, LIX, Dale-Chall). Basic import functions for language
- corpora are also provided, to enable frequency analyses (supports Celex
- and Leipzig Corpora Collection file formats) and measures like tf-idf.
- Note: For full functionality a local installation of TreeTagger is
- recommended. It is also recommended to not load this package directly, but
- by loading one of the available language support packages from the 'l10n'
- repository <https://undocumeantit.github.io/repos/l10n/>. 'koRpus' also
- includes a plugin for the R GUI and IDE RKWard, providing graphical
- dialogs for its basic features. The respective R package 'rkward' cannot
- be installed directly from a repository, as it is a part of RKWard. To
- make full use of this feature, please install RKWard from
- <https://rkward.kde.org> (plugins are detected automatically). Due to some
- restrictions on CRAN, the full package sources are only available from the
- project homepage. To ask for help, report bugs, request features, or
- discuss the development of the package, please subscribe to the koRpus-dev
- mailing list (<https://korpusml.reaktanz.de>).
+ A set of tools to analyze texts. Includes, amongst others, functions for automatic
+ language detection, hyphenation, several indices of lexical diversity (e.g., type token
+ ratio, HD-D/vocd-D, MTLD) and readability (e.g., Flesch, SMOG, LIX, Dale-Chall). Basic
+ import functions for language corpora are also provided, to enable frequency analyses
+ (supports Celex and Leipzig Corpora Collection file formats) and measures like tf-idf.
+ Note: For full functionality a local installation of TreeTagger is recommended. It is
+ also recommended to not load this package directly, but by loading one of the available
+ language support packages from the 'l10n' repository
+ <https://undocumeantit.github.io/repos/l10n/>. 'koRpus' also includes a plugin for the R
+ GUI and IDE RKWard, providing graphical dialogs for its basic features. The respective R
+ package 'rkward' cannot be installed directly from a repository, as it is a part of
+ RKWard. To make full use of this feature, please install RKWard from
+ <https://rkward.kde.org> (plugins are detected automatically). Due to some restrictions
+ on CRAN, the full package sources are only available from the project homepage. To ask
+ for help, report bugs, request features, or discuss the development of the package,
+ please subscribe to the koRpus-dev mailing list (<https://korpusml.reaktanz.de>).
 Homepage: https://reaktanz.de/?c=hacking&s=koRpus
-Suggests: r-cran-testthat, r-cran-tm, r-cran-snowballc, r-cran-shiny,
- r-cran-knitr, r-cran-rmarkdown, r-cran-korpus.lang.de |
- r-other-reaktanz-korpus.lang.de | r-other-undocumeantit-korpus.lang.de,
- r-cran-korpus.lang.en | r-other-reaktanz-korpus.lang.en |
- r-other-undocumeantit-korpus.lang.en, r-cran-korpus.lang.es |
- r-other-reaktanz-korpus.lang.es | r-other-undocumeantit-korpus.lang.es,
- r-cran-korpus.lang.fr | r-other-reaktanz-korpus.lang.fr |
- r-other-undocumeantit-korpus.lang.fr, r-cran-korpus.lang.it |
- r-other-reaktanz-korpus.lang.it | r-other-undocumeantit-korpus.lang.it,
- r-cran-korpus.lang.nl | r-other-reaktanz-korpus.lang.nl |
- r-other-undocumeantit-korpus.lang.nl, r-cran-korpus.lang.pt |
- r-other-reaktanz-korpus.lang.pt | r-other-undocumeantit-korpus.lang.pt,
- r-cran-korpus.lang.ru | r-other-reaktanz-korpus.lang.ru |
- r-other-undocumeantit-korpus.lang.ru
+Suggests: r-cran-testthat, r-cran-tm, r-cran-snowballc, r-cran-shiny, r-cran-knitr,
+ r-cran-rmarkdown, r-cran-korpus.lang.de | r-other-reaktanz-korpus.lang.de |
+ r-other-undocumeantit-korpus.lang.de, r-cran-korpus.lang.en |
+ r-other-reaktanz-korpus.lang.en | r-other-undocumeantit-korpus.lang.en,
+ r-cran-korpus.lang.es | r-other-reaktanz-korpus.lang.es |
+ r-other-undocumeantit-korpus.lang.es, r-cran-korpus.lang.fr |
+ r-other-reaktanz-korpus.lang.fr | r-other-undocumeantit-korpus.lang.fr,
+ r-cran-korpus.lang.it | r-other-reaktanz-korpus.lang.it |
+ r-other-undocumeantit-korpus.lang.it, r-cran-korpus.lang.nl |
+ r-other-reaktanz-korpus.lang.nl | r-other-undocumeantit-korpus.lang.nl,
+ r-cran-korpus.lang.pt | r-other-reaktanz-korpus.lang.pt |
+ r-other-undocumeantit-korpus.lang.pt, r-cran-korpus.lang.ru |
+ r-other-reaktanz-korpus.lang.ru | r-other-undocumeantit-korpus.lang.ru
