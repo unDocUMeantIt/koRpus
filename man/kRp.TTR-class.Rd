@@ -57,7 +57,7 @@ on these probabilities and their standard deviation "sd".}
       two matrices with detailed
 information on forward and backward factorization ("all.forw" & "all.back"),
       a named vector holding both calculated
-factors and their mean value ("factors"),
+factors values ("factors"),
       and a named list with information on the number or tokens in each factor, both
 forward and backward,
       as well as their mean and standard deviation ("lengths"). NA if not calculated.}

@@ -47,7 +47,7 @@
 #'    on these probabilities and their standard deviation "sd".
 #' @slot MTLD Measure of textual lexical diversity, including the actual "MTLD", two matrices with detailed
 #'    information on forward and backward factorization ("all.forw" & "all.back"), a named vector holding both calculated
-#'    factors and their mean value ("factors"), and a named list with information on the number or tokens in each factor, both
+#'    factors values ("factors"), and a named list with information on the number or tokens in each factor, both
 #'    forward and backward, as well as their mean and standard deviation ("lengths"). NA if not calculated.
 #' @slot MTLDMA Moving-average MTLD, including the actual "MTLDMA", its standard deviation, a list ("all") with detailed
 #'    information on factorization, the step size, and a named list with information on the number or tokens in each factor,
@@ -133,7 +133,7 @@ setMethod("initialize", "kRp.TTR",
     lgeV0=numeric(),
     Maas.grw=c(a=NA, lgV0=NA, Vs=NA),
     HDD=list(HDD=NA, type.probs=NA, summary=NA, sd=NA),
-    MTLD=list(MTLD=NA, all.forw=NA, all.back=NA, factors=c(forw=NA, mean=NA, back=NA),
+    MTLD=list(MTLD=NA, all.forw=NA, all.back=NA, factors=c(forw=NA, back=NA),
       lengths=list(forw=NA, forw.compl=NA, mean=NA, mean.compl=NA, sd=NA, sd.compl=NA, back=NA, back.compl=NA)),
     MTLDMA=list(MTLDMA=NA, sd=NA, all=NA, steps=NA, lengths=list(factors=NA, mean=NA, sd=NA)),
     TTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),

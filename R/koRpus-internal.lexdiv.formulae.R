@@ -907,18 +907,17 @@ MTLD.calc <- function(txt.tokens, factor.size, num.tokens=NULL, back.only=FALSE,
   } else {
     mtld.res.forw <- mtld.sub.calc(txt.tokens, factor.size=factor.size, detailed=detailed)
     mtld.res.back <- mtld.sub.calc(rev(txt.tokens), factor.size=factor.size, detailed=detailed)
-    mtld.res.mean <- mean(c(mtld.res.forw[["factors"]], mtld.res.back[["factors"]]))
     mtld.len.mean <- mean(c(mtld.res.forw[["lengths"]], mtld.res.back[["lengths"]]))
     mtld.len.sd <- sd(c(mtld.res.forw[["lengths"]], mtld.res.back[["lengths"]]))
     mtld.len.mean.cmp <- mean(c(mtld.res.forw[["lengths.complete"]], mtld.res.back[["lengths.complete"]]))
     mtld.len.sd.cmp <- sd(c(mtld.res.forw[["lengths.complete"]], mtld.res.back[["lengths.complete"]]))
     # this is the final MTLD value
-    mtld.res.value <- num.tokens / mtld.res.mean
+    mtld.res.value <- mean(c(num.tokens / mtld.res.forw[["factors"]], num.tokens / mtld.res.back[["factors"]]))
     mtld.results <- list(
       MTLD=mtld.res.value,
       all.forw=mtld.res.forw[["MTLD.all"]],
       all.back=mtld.res.back[["MTLD.all"]],
-      factors=c(forw=mtld.res.forw[["factors"]], mean=mtld.res.mean, back=mtld.res.back[["factors"]]),
+      factors=c(forw=mtld.res.forw[["factors"]], back=mtld.res.back[["factors"]]),
       lengths=list(
         forw=mtld.res.forw[["lengths"]],
         forw.compl=mtld.res.forw[["lengths.complete"]],

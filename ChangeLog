@@ -1,8 +1,17 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-6 (2021-02-02)
+changes in version 0.13-6 (2021-02-13)
 unreleased:
   - this version is under development
+fixed:
+  - lex.div()/MTLD(): calculations were slightly off (~0.5%) due to an
+    incorrect stage of applying means to the forward/backward calculations;
+    MTLD-MA remains unaffected (thanks to akira murakami for reporting
+    the issue)
+changed:
+  - class kRp.TTR: dropped the mean value from the "factors" list of
+    MTLD results
+  - updated unit test standards
 
 changes in version 0.13-5 (2021-02-02)
 fixed:
