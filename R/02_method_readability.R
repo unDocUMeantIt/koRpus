@@ -84,15 +84,15 @@
 #'      the original formula (1948) is used:
 #'      \deqn{DC_{old} = 0.1579 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.0496 \times{} \frac{W}{St} + 3.6365 }{DC_old = 0.1579 * 100 * W_-WL / W + 0.0496 * W / St + 3.6365}
 #'      If \code{parameters} is set to \code{Dale.Chall="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used:
-#'      \deqn{DC_{PSK} =  0.1155 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.0596  \times{} \frac{W}{St} + 3.2672 }\deqn{DC_PSK =  0.1155 * 100 * W_-WL / W + 0.0596  * W / St + 3.2672}
+#'      \deqn{DC_{PSK} =  0.1155 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.0596  \times{} \frac{W}{St} + 3.2672 }{DC_PSK =  0.1155 * 100 * W_-WL / W + 0.0596  * W / St + 3.2672}
 #'      \strong{Note:} This index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}{W_-WL}. That is, you must have a copy of
 #'      this word list and provide it via the \code{word.lists=list(Dale.Chall=<your.list>)} parameter!
 #'
 #'      Wrapper function: \code{\link[koRpus:dale.chall]{dale.chall}}
 #'    }
 #'    \item{\code{"Danielson.Bryan"}:}{
-#'      \deqn{DB_1 = \left( 1.0364 \times \frac{C}{Bl} \right) + \left( 0.0194 \times \frac{C}{St} \right) - 0.6059}{DB_1 = (1.0364 * C / Bl) + (0.0194 * C / St) - 0.6059}
-#'      \deqn{DB_2 = 131.059 - \left( 10.364 \times \frac{C}{Bl} \right) - \left( 0.194 \times \frac{C}{St} \right)}{DB_2 = 131.059 - (10.364 * C / Bl) - (0.194 * C / St)}
+#'      \deqn{DB_1 = \left( 1.0364 \times \frac{C}{Bl} \right) + \left( 0.0194 \times \frac{C}{St} \right) - 0.6059}{DB_1 = ( 1.0364 * C / Bl) + ( 0.0194 * C / St ) - 0.6059}
+#'      \deqn{DB_2 = 131.059 - \left( 10.364 \times \frac{C}{Bl} \right) - \left( 0.194 \times \frac{C}{St} \right)}{DB_2 = 131.059 - ( 10.364 * C / Bl ) - ( 0.194 * C / St )}
 #'      Where \eqn{Bl} means blanks between words, which is not really counted in this implementation, but estimated
 #'      by \eqn{words - 1}. \eqn{C} is interpreted as literally all characters.
 #'
@@ -128,34 +128,34 @@
 #'      the \code{Flesch} parameter to one of the following language abbreviations.
 #'      
 #'      \code{"de"} (Amstad's Verständlichkeitsindex):
-#'      \deqn{F_{DE} = 180 - \frac{W}{St} - 58.5 \times \frac{Sy}{W}}
+#'      \deqn{F_{DE} = 180 - \frac{W}{St} - 58.5 \times \frac{Sy}{W}}{F_DE = 180 - W / St - 58.5 * Sy / W}
 #'      \code{"es"} (Fernandez-Huerta):
-#'      \deqn{F_{ES} = 206.835 - 1.02 \times \frac{W}{St} - 60 \times \frac{Sy}{W}}
+#'      \deqn{F_{ES} = 206.835 - 1.02 \times \frac{W}{St} - 60 \times \frac{Sy}{W}}{F_ES = 206.835 - 1.02 * W / St - 60 * Sy / W}
 #'      \code{"es-s"} (Szigriszt):
-#'      \deqn{F_{ES S} = 206.835 - \frac{W}{St} - 62.3 \times \frac{Sy}{W}}
+#'      \deqn{F_{ES S} = 206.835 - \frac{W}{St} - 62.3 \times \frac{Sy}{W}}{F_ES S = 206.835 - W / St - 62.3 * Sy / W}
 #'      \code{"nl"} (Douma):
-#'      \deqn{F_{NL} = 206.835 - 0.93 \times \frac{W}{St} - 77 \times \frac{Sy}{W}}
+#'      \deqn{F_{NL} = 206.835 - 0.93 \times \frac{W}{St} - 77 \times \frac{Sy}{W}}{F_NL = 206.835 - 0.93 * W / St - 77 * Sy / W}
 #'      \code{"nl-b"} (Brouwer Leesindex):
-#'      \deqn{F_{NL B} = 195 - 2 \times \frac{W}{St} - 67 \times \frac{Sy}{W}}
+#'      \deqn{F_{NL B} = 195 - 2 \times \frac{W}{St} - 67 \times \frac{Sy}{W}}{F_NL B = 195 - 2 * W / St - 67 * Sy / W}
 #'      \code{"fr"} (Kandel-Moles):
-#'      \deqn{F_{FR} = 209 - 1.15 \times \frac{W}{St} - 68 \times \frac{Sy}{W}}
+#'      \deqn{F_{FR} = 209 - 1.15 \times \frac{W}{St} - 68 \times \frac{Sy}{W}}{F_FR = 209 - 1.15 * W / St - 68 * Sy / W}
 #'      If \code{parameters} is set to \code{Flesch="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used
 #'      to calculate a grade level:
-#'      \deqn{F_{PSK} = 0.0778 \times \frac{W}{St} + 4.55 \times \frac{Sy}{W} - 2.2029}
+#'      \deqn{F_{PSK} = 0.0778 \times \frac{W}{St} + 4.55 \times \frac{Sy}{W} - 2.2029}{F_PSK = 0.0778 * W / St + 4.55 * Sy / W - 2.2029}
 #'
 #'      Wrapper function: \code{\link[koRpus:flesch]{flesch}}
 #'    }
 #'    \item{\code{"Flesch.Kincaid"}:}{\emph{Flesch-Kincaid Grade Level}:
-#'      \deqn{FK = 0.39 \times \frac{W}{St} + 11.8 \times \frac{Sy}{W} - 15.59}
+#'      \deqn{FK = 0.39 \times \frac{W}{St} + 11.8 \times \frac{Sy}{W} - 15.59}{FK = 0.39 * W / St + 11.8 * Sy / W - 15.59}
 #'
 #'      Wrapper function: \code{\link[koRpus:flesch.kincaid]{flesch.kincaid}}
 #'    }
 #'    \item{\code{"FOG"}:}{Gunning \emph{Frequency of Gobbledygook}:
-#'      \deqn{FOG = 0.4 \times \left( \frac{W}{St} + \frac{100 \times W_{3Sy}}{W} \right)}
+#'      \deqn{FOG = 0.4 \times \left( \frac{W}{St} + \frac{100 \times W_{3Sy}}{W} \right)}{FOG = 0.4 * ( W / St + 100 * W_3Sy / W )}
 #'      If \code{parameters} is set to \code{FOG="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used:
-#'      \deqn{FOG_{PSK} = 3.0680 + \left( 0.0877 \times \frac{W}{St} \right) + \left(0.0984 \times \frac{100 \times W_{3Sy}}{W} \right)}
+#'      \deqn{FOG_{PSK} = 3.0680 + \left( 0.0877 \times \frac{W}{St} \right) + \left(0.0984 \times \frac{100 \times W_{3Sy}}{W} \right)}{FOG_PSK = 3.0680 + ( 0.0877 * W / St ) + ( 0.0984 * 100 * W_3Sy / W )}
 #'      If \code{parameters} is set to \code{FOG="NRI"}, the new FOG count from the Navy Readability Indexes is used:
-#'      \deqn{FOG_{new} = \frac{\frac{W_{<3Sy} + (3 * W_{3Sy})}{\frac{100 \times St}{W}} - 3}{2}}
+#'      \deqn{FOG_{new} = \frac{\frac{W_{<3Sy} + (3 * W_{3Sy})}{\frac{100 \times St}{W}} - 3}{2}}{FOG_new = ( W_<3Sy + ( 3 * W_3Sy) / ( 100 * St / W ) - 3 ) / 2}
 #'      If the text was POS-tagged accordingly, proper nouns and combinations of only easy words will not be counted as hard words,
 #'      and the syllables of verbs ending in "-ed", "-es" or "-ing" will be counted without these suffixes.
 #'      
@@ -165,38 +165,44 @@
 #'      Wrapper function: \code{\link[koRpus:FOG]{FOG}}
 #'    }
 #'    \item{\code{"FORCAST"}:}{
-#'      \deqn{FORCAST = 20 - \frac{W^{1Sy} \times \frac{150}{W}}{10}}
+#'      \deqn{FORCAST = 20 - \frac{W^{1Sy} \times \frac{150}{W}}{10}}{FORCAST = 20 - ( W^1Sy * 150 / W ) / 10}
 #'      If \code{parameters} is set to \code{FORCAST="RGL"}, the parameters for the precise reading grade level are used (see Klare, 1975, pp. 84--85):
-#'      \deqn{FORCAST_{RGL} = 20.43 - 0.11 \times W^{1Sy} \times \frac{150}{W}}
+#'      \deqn{FORCAST_{RGL} = 20.43 - 0.11 \times W^{1Sy} \times \frac{150}{W}}{FORCAST_RGL = 20.43 - 0.11 * W^1Sy * 150 / W}
 #'
 #'      Wrapper function: \code{\link[koRpus:FORCAST]{FORCAST}}
 #'    }
 #'    \item{\code{"Fucks"}:}{Fucks' \emph{Stilcharakteristik} (Fucks, 1955, as cited in Briest, 1974):
-#'      \deqn{Fucks = \frac{Sy}{W} \times \frac{W}{St}}
+#'      \deqn{Fucks = \frac{Sy}{W} \times \frac{W}{St}}{Fucks = ( Sy / W ) * ( W / St )}
 #'      This simple formula has no parameters.
 #'
 #'      Wrapper function: \code{\link[koRpus:fucks]{fucks}}
 #'    }
+#'    \item{\code{"Gutierrez"}:}{Gutiérrez de Polini's \emph{Fórmula de comprensibilidad} (Gutiérrez, 1972, as cited in Fernández, 2016)
+#'      for Spanish:
+#'      \deqn{Gutierrez = 95.2 - \frac{9.7 \times C}{W} - \frac{0.35 \times W}{St}}{Gutierrez = 95.2 - 9.7 * C / W - 0.35 * W / St}
+#'
+#'      Wrapper function: \code{\link[koRpus:gutierrez]{gutierrez}}
+#'    }
 #'    \item{\code{"Harris.Jacobson"}:}{\emph{Revised Harris-Jacobson Readability Formulas} (Harris & Jacobson, 1974):
 #'      For primary-grade material:
-#'      \deqn{HJ_1 = 0.094 \times \frac{100 \times{} W_{-WL}}{W} + 0.168 \times \frac{W}{St} + 0.502}
+#'      \deqn{HJ_1 = 0.094 \times \frac{100 \times{} W_{-WL}}{W} + 0.168 \times \frac{W}{St} + 0.502}{HJ_1 = 0.094 * 100 * W_-WL / W + 0.168 *  W / St + 0.502}
 #'      For material above third grade:
-#'      \deqn{HJ_2 = 0.140 \times \frac{100 \times{} W_{-WL}}{W} + 0.153 \times \frac{W}{St} + 0.560}
+#'      \deqn{HJ_2 = 0.140 \times \frac{100 \times{} W_{-WL}}{W} + 0.153 \times \frac{W}{St} + 0.560}{HJ_2 = 0.140 * 100 * W_-WL / W + 0.153 * W / St + 0.560}
 #'      For material below forth grade:
-#'      \deqn{HJ_3 = 0.158 \times \frac{W}{St} + 0.055 \times \frac{100 \times{} W_{6C}}{W} + 0.355}
+#'      \deqn{HJ_3 = 0.158 \times \frac{W}{St} + 0.055 \times \frac{100 \times{} W_{6C}}{W} + 0.355}{HJ_3 = 0.158 * W / St + 0.055 * 100 * W_6C / W + 0.355}
 #'      For material below forth grade:
-#'      \deqn{HJ_4 = 0.070 \times \frac{100 \times{} W_{-WL}}{W} + 0.125 \times \frac{W}{St} + 0.037 \times \frac{100 \times{} W_{6C}}{W} + 0.497}
+#'      \deqn{HJ_4 = 0.070 \times \frac{100 \times{} W_{-WL}}{W} + 0.125 \times \frac{W}{St} + 0.037 \times \frac{100 \times{} W_{6C}}{W} + 0.497}{HJ_4 = 0.070 * 100 * W_-WL / W + 0.125 * W / St + 0.037 * 100 * W_6C / W + 0.497}
 #'      For material above third grade:
-#'      \deqn{HJ_5 = 0.118 \times \frac{100 \times{} W_{-WL}}{W} + 0.134 \times \frac{W}{St} + 0.032 \times \frac{100 \times{} W_{6C}}{W} + 0.424}
+#'      \deqn{HJ_5 = 0.118 \times \frac{100 \times{} W_{-WL}}{W} + 0.134 \times \frac{W}{St} + 0.032 \times \frac{100 \times{} W_{6C}}{W} + 0.424}{HJ_5 = 0.118 * 100 * W_-WL / W + 0.134 * W / St + 0.032 * 100 * W_6C / W + 0.424}
 #'      \strong{Note:} This index needs the short Harris-Jacobson word list for grades 1 and 2 (english) to compute \eqn{W_{-WL}}. That is, you must have a copy of
 #'      this word list and provide it via the \code{word.lists=list(Harris.Jacobson=<your.list>)} parameter!
 #'
 #'      Wrapper function: \code{\link[koRpus:harris.jacobson]{harris.jacobson}}
 #'    }
 #'    \item{\code{"Linsear.Write"} (O'Hayre, undated, see Klare, 1975, p. 85):}{
-#'      \deqn{LW_{raw} = \frac{100 - \frac{100 \times W_{<3Sy}}{W} + \left( 3 \times \frac{100 \times W_{3Sy}}{W} \right)}{\frac{100 \times St}{W}}}
-#'      \deqn{LW(LW_{raw} \leq 20) = \frac{LW_{raw} - 2}{2}}
-#'      \deqn{LW(LW_{raw} > 20) = \frac{LW_{raw}}{2}}
+#'      \deqn{LW_{raw} = \frac{100 - \frac{100 \times W_{<3Sy}}{W} + \left( 3 \times \frac{100 \times W_{3Sy}}{W} \right)}{\frac{100 \times St}{W}} }{LW_raw = ( 100 - 100 * W_<3Sy / W + ( 3 * 100 * W_3Sy / W ) ) / ( 100 * St / W )}
+#'      \deqn{LW(LW_{raw} \leq 20) = \frac{LW_{raw} - 2}{2}}{LW(LW_raw <= 20) = LW_raw - 2 / 2}
+#'      \deqn{LW(LW_{raw} > 20) = \frac{LW_{raw}}{2}}{LW(LW_raw > 20) = LW_raw / 2}
 #'
 #'      Wrapper function: \code{\link[koRpus:linsear.write]{linsear.write}}
 #'    }
@@ -207,10 +213,10 @@
 #'      Wrapper function: \code{\link[koRpus:LIX]{LIX}}
 #'    }
 #'    \item{\code{"nWS"}:}{\emph{Neue Wiener Sachtextformeln} (Bamberger & Vanecek, 1984):
-#'      \deqn{nWS_1 = 19.35 \times \frac{W_{3Sy}}{W} + 0.1672 \times \frac{W}{St} + 12.97 \times \frac{W_{6C}}{W} - 3.27 \times \frac{W^{1Sy}}{W} - 0.875}
-#'      \deqn{nWS_2 = 20.07 \times \frac{W_{3Sy}}{W} + 0.1682 \times \frac{W}{St} + 13.73 \times \frac{W_{6C}}{W} - 2.779}
-#'      \deqn{nWS_3 = 29.63 \times \frac{W_{3Sy}}{W} + 0.1905 \times \frac{W}{St} - 1.1144}
-#'      \deqn{nWS_4 = 27.44 \times \frac{W_{3Sy}}{W} + 0.2656 \times \frac{W}{St} - 1.693}
+#'      \deqn{nWS_1 = 19.35 \times \frac{W_{3Sy}}{W} + 0.1672 \times \frac{W}{St} + 12.97 \times \frac{W_{6C}}{W} - 3.27 \times \frac{W^{1Sy}}{W} - 0.875}{nWS_1 = 19.35 * W_3Sy / W + 0.1672 * W / St + 12.97 * W_6C / W - 3.27 * W^1Sy / W - 0.875}
+#'      \deqn{nWS_2 = 20.07 \times \frac{W_{3Sy}}{W} + 0.1682 \times \frac{W}{St} + 13.73 \times \frac{W_{6C}}{W} - 2.779}{nWS_2 = 20.07 * W_3Sy / W + 0.1682 * W / St + 13.73 * W_6C / W - 2.779}
+#'      \deqn{nWS_3 = 29.63 \times \frac{W_{3Sy}}{W} + 0.1905 \times \frac{W}{St} - 1.1144}{nWS_3 = 29.63 * W_3Sy / W + 0.1905 * W / St - 1.1144}
+#'      \deqn{nWS_4 = 27.44 \times \frac{W_{3Sy}}{W} + 0.2656 \times \frac{W}{St} - 1.693}{nWS_4 = 27.44 * W_3Sy / W + 0.2656 * W / St - 1.693}
 #'
 #'      Wrapper function: \code{\link[koRpus:nWS]{nWS}}
 #'    }
@@ -221,20 +227,20 @@
 #'      Wrapper function: \code{\link[koRpus:RIX]{RIX}}
 #'    }
 #'    \item{\code{"SMOG"}:}{\emph{Simple Measure of Gobbledygook}. By default calculates formula D by McLaughlin (1969):
-#'      \deqn{SMOG = 1.043 \times \sqrt{W_{3Sy} \times \frac{30}{St}} + 3.1291}
+#'      \deqn{SMOG = 1.043 \times \sqrt{W_{3Sy} \times \frac{30}{St}} + 3.1291}{SMOG = 1.043 * \sqrt{W_3Sy * 30 / St} + 3.1291}
 #'      If \code{parameters} is set to \code{SMOG="C"}, formula C will be calculated:
-#'      \deqn{SMOG_{C} = 0.9986 \times \sqrt{W_{3Sy} \times \frac{30}{St} + 5} + 2.8795}
+#'      \deqn{SMOG_{C} = 0.9986 \times \sqrt{W_{3Sy} \times \frac{30}{St} + 5} + 2.8795}{SMOG_C = 0.9986 * \sqrt{W_3Sy * 30 / St + 5} + 2.8795}
 #'      If \code{parameters} is set to \code{SMOG="simple"}, the simplified formula is used:
-#'      \deqn{SMOG_{simple} = \sqrt{W_{3Sy} \times \frac{30}{St}} + 3}
+#'      \deqn{SMOG_{simple} = \sqrt{W_{3Sy} \times \frac{30}{St}} + 3}{SMOG_simple = \sqrt{W_3Sy * 30 / St} + 3}
 #'      If \code{parameters} is set to \code{SMOG="de"}, the formula adapted to German texts ("Qu", Bamberger & Vanecek, 1984, p. 78) is used:
-#'      \deqn{SMOG_{de} = \sqrt{W_{3Sy} \times \frac{30}{St}} - 2}
+#'      \deqn{SMOG_{de} = \sqrt{W_{3Sy} \times \frac{30}{St}} - 2}{SMOG_de = \sqrt{W_3Sy *  30 / St} - 2}
 #'
 #'      Wrapper function: \code{\link[koRpus:SMOG]{SMOG}}
 #'    }
 #'    \item{\code{"Spache"}:}{\emph{Spache Revised Formula (1974)}:
-#'      \deqn{Spache = 0.121 \times \frac{W}{St} + 0.082 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.659}
+#'      \deqn{Spache = 0.121 \times \frac{W}{St} + 0.082 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.659}{Spache = 0.121 * W / St + 0.082 * 100 * W_-WL / W + 0.659}
 #'      If \code{parameters} is set to \code{Spache="old"}, the original parameters (Spache, 1953) are used:
-#'      \deqn{Spache_{old} = 0.141 \times \frac{W}{St} + 0.086 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.839}
+#'      \deqn{Spache_{old} = 0.141 \times \frac{W}{St} + 0.086 \times{} \frac{100 \times{} W_{-WL}}{W} + 0.839}{Spache_old = 0.141 * W / St + 0.086 * 100 * W_-WL / W + 0.839}
 #'      \strong{Note:} The revised index needs the revised Spache word list (see Klare, 1975, p. 73), and the old index the short Dale-Chall list of
 #'      769 familiar (english) words to compute \eqn{W_{-WL}}. That is, you must have a copy of this word list and provide it via the
 #'      \code{word.lists=list(Spache=<your.list>)} parameter!
@@ -242,31 +248,31 @@
 #'      Wrapper function: \code{\link[koRpus:spache]{spache}}
 #'    }
 #'    \item{\code{"Strain"}:}{\emph{Strain Index}. This index was proposed in [1]:
-#'      \deqn{S = Sy \times{} \frac{1}{St / 3} \times{} \frac{1}{10}}
+#'      \deqn{S = Sy \times{} \frac{1}{St / 3} \times{} \frac{1}{10}}{S = Sy * 1 / ( St / 3 ) * 1 / 10}
 #'
 #'      Wrapper function: \code{\link[koRpus:strain]{strain}}
 #'    }
 #'    \item{\code{"Traenkle.Bailer"}:}{\emph{Tränkle-Bailer Formeln}. These two formulas were the result of a re-examination of the ones proposed
 #'      by Dickes-Steiwer. They try to avoid the usage of the type-token ratio, which is dependent on text length (Tränkle & Bailer, 1984):
-#'      \deqn{TB1 = 224.6814 - \left(79.8304 \times \frac{C}{W} \right) - \left(12.24032 \times \frac{W}{St} \right) - \left(1.292857 \times \frac{100 \times{} W_{prep}}{W} \right)}
-#'      \deqn{TB2 = 234.1063 - \left(96.11069 \times \frac{C}{W} \right) - \left(2.05444 \times \frac{100 \times{} W_{prep}}{W} \right) - \left(1.02805 \times \frac{100 \times{} W_{conj}}{W} \right)}
+#'      \deqn{TB1 = 224.6814 - \left(79.8304 \times \frac{C}{W} \right) - \left(12.24032 \times \frac{W}{St} \right) - \left(1.292857 \times \frac{100 \times{} W_{prep}}{W} \right)}{TB1 = 224.6814 - ( 79.8304 * C / W ) - (12.24032 * W / St ) - (1.292857 * 100 * W_prep / W )}
+#'      \deqn{TB2 = 234.1063 - \left(96.11069 \times \frac{C}{W} \right) - \left(2.05444 \times \frac{100 \times{} W_{prep}}{W} \right) - \left(1.02805 \times \frac{100 \times{} W_{conj}}{W} \right)}{TB2 = 234.1063 - ( 96.11069 * C / W ) - ( 2.05444 * 100 * W_prep / W ) - (1.02805 * 100 * W_conj / W )}
 #'      Where \eqn{W_{prep}} refers to the number of prepositions, and \eqn{W_{conj}} to the number of conjunctions.
 #'
 #'      Wrapper function: \code{\link[koRpus:traenkle.bailer]{traenkle.bailer}}
 #'    }
 #'    \item{\code{"TRI"}:}{Kuntzsch's \emph{Text-Redundanz-Index}. Intended mainly for German newspaper comments.
-#'      \deqn{TRI = \left(0.449 \times W^{1Sy}\right) - \left(2.467 \times Ptn\right) - \left(0.937 \times Frg\right) - 14.417}
+#'      \deqn{TRI = \left(0.449 \times W^{1Sy}\right) - \left(2.467 \times Ptn\right) - \left(0.937 \times Frg\right) - 14.417}{TRI = ( 0.449 * W^1Sy ) - ( 2.467 * Ptn ) - ( 0.937 * Frg ) - 14.417}
 #'      Where \eqn{Ptn} is the number of punctuation marks and \eqn{Frg} the number of foreign words.
 #'
 #'      Wrapper function: \code{\link[koRpus:TRI]{TRI}}
 #'    }
 #'    \item{\code{"Tuldava"}:}{Tuldava's \emph{Text Difficulty Formula}. Supposed to be rather independent of specific languages (Grzybek, 2010).
-#'      \deqn{TD = \frac{Sy}{W} \times ln\left( \frac{W}{St} \right)}
+#'      \deqn{TD = \frac{Sy}{W} \times ln\left( \frac{W}{St} \right)}{TD = Sy / W * ln( W / St )}
 #'
 #'      Wrapper function: \code{\link[koRpus:tuldava]{tuldava}}
 #'    }
 #'    \item{\code{"Wheeler.Smith"}:}{Intended for english texts in primary grades 1--4 (Wheeler & Smith, 1954):
-#'      \deqn{WS = \frac{W}{St} \times \frac{10 \times{} W_{2Sy}}{W}}
+#'      \deqn{WS = \frac{W}{St} \times \frac{10 \times{} W_{2Sy}}{W}}{WS = W / St * 10 * W_2Sy / W}
 #'      If \code{parameters} is set to \code{Wheeler.Smith="de"}, the calculation stays the same, but grade placement
 #'      is done according to Bamberger & Vanecek (1984), that is for german texts.
 #'
@@ -338,6 +344,9 @@
 #'      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
 #'
 #'    Farr, J.N., Jenkins, J.J. & Paterson, D.G. (1951). Simplification of Flesch Reading Ease formula. \emph{Journal of Applied Psychology}, 35(5), 333--337.
+#'
+#'    Fernández, A. M. (2016, November 30). \emph{Fórmula de comprensibilidad de Gutiérrez de Polini}.
+#'      \url{https://legible.es/blog/comprensibilidad-gutierrez-de-polini/}
 #'
 #'    Flesch, R. (1948). A new readability yardstick. \emph{Journal of Applied Psychology}, 32(3), 221--233.
 #'    
@@ -425,6 +434,7 @@ setMethod(
       "FOG",
       "FORCAST",
       "Fucks",
+      "Gutierrez",
       "Harris.Jacobson",
       "Linsear.Write",
       "LIX",

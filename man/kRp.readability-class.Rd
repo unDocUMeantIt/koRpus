@@ -125,6 +125,13 @@ for detailed onformation.}
 
 \item{\code{Fucks}}{The calculated value of Fucks' Stilcharakteristik. NA if not calculated.}
 
+\item{\code{Gutierrez}}{The "flavour" of the parameter settings and the calculated value of the Gutierrez index. NA if not calculated.}
+
+\item{\code{Harris.Jacobson}}{The "flavour" of the parameter settings and the calculated value of the Harris-Jacobson index.
+the word list used, all words not found on the list, the percentage of difficult words,
+       the percentage of long words,
+as well as HJ1 to HJ5 for the five indices. NA if not calculated.}
+
 \item{\code{Linsear.Write}}{The "flavour" of the parameter settings and the calculated value of the Linsear Write index. NA if not calculated.}
 
 \item{\code{LIX}}{The "flavour" of the parameter settings and the calculated value of the LIX index. NA if not calculated.}

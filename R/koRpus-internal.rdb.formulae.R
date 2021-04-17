@@ -64,6 +64,7 @@ rdb_indices <- matrix(
     TRUE,   TRUE,   TRUE,   TRUE,     # FORCAST
     FALSE,  TRUE,   FALSE,  TRUE,     # FORCAST.RGL
     TRUE,   TRUE,   FALSE,  FALSE,    # Fucks
+    TRUE,   FALSE,  TRUE,   FALSE,    # Gutierrez
     TRUE,   FALSE,  TRUE,   FALSE,    # Harris.Jacobson
     TRUE,   TRUE,   TRUE,   TRUE,     # Linsear.Write
     TRUE,   FALSE,  TRUE,   TRUE,     # LIX
@@ -117,7 +118,8 @@ rdb_indices <- matrix(
       "FOG.PSK", 
       "FORCAST", 
       "FORCAST.RGL", 
-      "Fucks", 
+      "Fucks",
+      "Gutierrez",
       "Harris.Jacobson", 
       "Linsear.Write", 
       "LIX", 
@@ -291,6 +293,7 @@ kRp.rdb.formulae <- function(
     - some papers use 0.33 and other 0.93 for the average sentence length parameter!
   - Flesch.Brouwer (nl)
   - Fucks
+  - Gutierrez
   - Harris-Jacobson (1-5)
   - Neue Wiener Sachtextformeln (1-4)
   - SMOG Qu
@@ -992,6 +995,17 @@ kRp.rdb.formulae <- function(
     slot(all.results, "FOG.NRI") <- slot(kRp.rdb.formulae(txt.file, hyphen=hyphen, index=c("FOG"), parameters=list(FOG="NRI"),
       sentc.tag=sentc.tag,
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
+  } else {}
+
+  ## Gutierrez
+  # see https://legible.es/blog/comprensibilidad-gutierrez-de-polini/
+  if("Gutierrez" %in% index){
+    pf <- check_parameters(
+      index="Gutierrez",
+      given=parameters[["Gutierrez"]]
+    )
+    Gutierrez.C <- pf[["p"]][["const"]] - (pf[["p"]][["awl"]] * avg.word.len) - (pf[["p"]][["asl"]] * avg.sntc.len)
+    slot(all.results, "Gutierrez") <- list(flavour=pf[["f"]], Gutierrez=Gutierrez.C)
   } else {}
 
   ## Harris-Jacobson

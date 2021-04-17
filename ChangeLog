@@ -19,6 +19,8 @@ changed:
   - summary(): features "lex_div" and "readability" are now supported for
     kRp.txt objects, a new "flat" argument was added
   - updated unit test standards
+added:
+  - readability(): new formula "Gutierrez" for spanish texts
 
 changes in version 0.13-5 (2021-02-02)
 fixed:

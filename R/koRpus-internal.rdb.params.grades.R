@@ -271,6 +271,13 @@ rdb_parameters <- function(
         const=20.43
       )
     ),
+    Gutierrez=list(
+      default=c(
+        asl=0.35,
+        awl=9.7,
+        const=95.2
+      )
+    ),
     Harris.Jacobson=list(
       default=list(
         char=6,
