@@ -22,7 +22,7 @@
 ## TODO:
 # Fry Graph
 # Raygor Estimate Graph
-  # http://en.wikipedia.org/wiki/Raygor_Readability_Estimate
+  # https://en.wikipedia.org/wiki/Raygor_readability_estimate
 #  - harris-jacobson wide range (noch keine formel)
 #  - dolch sight words suite (noch keine formel)
 #  - mcalpine EFLAW
@@ -243,8 +243,7 @@ kRp.rdb.formulae <- function(
   quiet=FALSE,
   keep.input=NULL,
   analyze.text=TRUE,
-  txt.features=list(),
-  as.feature=FALSE
+  txt.features=list()
 ){
 
   ## TODO: validation
@@ -303,13 +302,13 @@ kRp.rdb.formulae <- function(
   - TRI
 
   Tools used:
-  FRT: http://www.readabilityformulas.com/free-readability-formula-tests.php
+  FRT: https://www.readabilityformulas.com/free-readability-formula-tests.php (17 apr 2021)
   GFI: http://gunning-fog-index.com
   INF: INFLESZ v1.0, http://www.legibilidad.com/home/descargas.html
-  JRT: http://juicystudio.com/services/readability.php
-  LLB: http://www.leichtlesbar.ch
+  JRT: https://juicystudio.com/services/readability.php (17 apr 2021)
+  LLB: http://www.leichtlesbar.ch/html/ (17 apr 2021)
   OKP: http://www.lefthandlogic.com/htmdocs/tools/okapi/okapi.php
-  OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
+  OUT: https://www.online-utility.org/english/readability_test_and_improve.jsp (17 apr 2021)
   RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
   TAL: http://www.textalyser.net
   WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
@@ -1170,7 +1169,7 @@ kRp.rdb.formulae <- function(
   } else {}
 
   ## Strain Index
-  # http://strainindex.wordpress.com/2007/09/25/hello-world/
+  # https://strainindex.wordpress.com/2007/09/25/hello-world/
   if("Strain" %in% index){
     pf <- check_parameters(
       index="Strain",
@@ -1281,12 +1280,7 @@ kRp.rdb.formulae <- function(
     "\n  See readability(index=\"validation\") for more details."), call.=FALSE)
   } else {}
 
-  if(isTRUE(as.feature)){
-    corpusReadability(txt.file) <- all.results
-    return(txt.file)
-  } else {
-    return(all.results)
-  }
+  return(all.results)
 }
 
 ############################

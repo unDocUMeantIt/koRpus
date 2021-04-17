@@ -220,8 +220,7 @@ readability.num <- function(
     analyze.text=FALSE,
     txt.features=txt.features,
     parameters=parameters,
-    word.lists=word.lists,
-    as.feature=FALSE
+    word.lists=word.lists
   )
 
   return(results)

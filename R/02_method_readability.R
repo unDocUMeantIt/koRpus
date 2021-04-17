@@ -453,24 +453,34 @@ setMethod(
     keep.input=NULL,
     as.feature=FALSE
   ){
-
-    return(
-      kRp.rdb.formulae(
-        txt.file=txt.file,
-        hyphen=hyphen,
-        index=index,
-        parameters=parameters,
-        word.lists=word.lists,
-        fileEncoding=fileEncoding,
-        sentc.tag=sentc.tag,
-        nonword.class=nonword.class,
-        nonword.tag=nonword.tag,
-        quiet=quiet,
-        keep.input=keep.input,
-        analyze.text=TRUE,
-        as.feature=as.feature
-      )
+    doc_list <- split_by_doc_id(txt.file)
+    rdb.results <- lapply(
+      doc_list,
+      kRp.rdb.formulae,
+      hyphen=hyphen,
+      index=index,
+      parameters=parameters,
+      word.lists=word.lists,
+      fileEncoding=fileEncoding,
+      sentc.tag=sentc.tag,
+      nonword.class=nonword.class,
+      nonword.tag=nonword.tag,
+      quiet=quiet,
+      keep.input=keep.input,
+      analyze.text=TRUE
     )
+    names(rdb.results) <- names(doc_list)
+
+    if(isTRUE(as.feature)){
+      corpusReadability(txt.file) <- rdb.results
+      return(txt.file)
+    } else {
+      if(length(rdb.results) > 1){
+        return(rdb.results)
+      } else {
+        return(rdb.results[[1]])
+      }
+    }
   }
 )
 
