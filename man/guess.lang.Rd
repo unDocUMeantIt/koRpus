@@ -71,7 +71,7 @@ You need the ZIP archive containing \emph{all the plain text files} from \url{ht
 Benedetto, D., Caglioti, E. & Loreto,
       V. (2002). Language trees and zipping. \emph{Physical Review Letters}, 88(4), 048702.
 
-[1] \url{http://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
+[1] \url{https://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
 
 [2] \url{https://unicode.org/udhr/}
 }
