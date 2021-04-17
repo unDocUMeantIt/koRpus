@@ -40,7 +40,7 @@ Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de
           family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet",
           role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
 Version: 0.13-6
-Date: 2021-02-13
+Date: 2021-04-17
 RoxygenNote: 7.1.1
 Collate: 
     '01_class_01_kRp.text.R'
