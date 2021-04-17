@@ -51,7 +51,10 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #'    If \code{NA}, all rows where \code{"equal"} is \code{FALSE} are used.
 #'    Only valid for objects providing a \code{diff} feature.
 #' @param feature A character string naming a feature present in the object, to trigger a summary regarding that feature.
-#'    Currently only \code{"freq"} is implemented.
+#'    Currently only \code{"freq"}, \code{"lex_div"}, and \code{"readability"} are implemented.
+#' @param flat Logical, if \code{TRUE} and \code{feature="lex_div"} or \code{"readability"}, a named vector of main
+#'    results is returned. For objects containig more than one \code{doc_id}, defaults to \code{TRUE} automatically and
+#'    returns a data frame with named rows.
 #' @include 01_class_01_kRp.text.R
 #' @include 02_method_summary.kRp.lang.R
 #' @export
@@ -69,7 +72,7 @@ wClassNoPunct <- function(wclass, lang, abs=NULL){
 #'   # can use treetag() instead of tokenize()
 #'   summary(tokenized.obj)
 #' @example inst/examples/if_lang_en_clause_end.R
-setMethod("summary", signature(object="kRp.text"), function(object, index=NA, feature=NULL){
+setMethod("summary", signature(object="kRp.text"), function(object, index=NA, feature=NULL, flat=FALSE){
   if(identical(feature, "freq")){
     stopifnot(hasFeature(object, "freq"))
     summary.table <- t(data.frame(
@@ -88,6 +91,36 @@ setMethod("summary", signature(object="kRp.text"), function(object, index=NA, fe
 
     colnames(summary.table) <- "freq"
 
+    return(summary.table)
+  } else if(identical(feature, "lex_div")){
+    stopifnot(hasFeature(object, "lex_div"))
+    object_lexdiv  <- corpusLexDiv(object)
+    if(length(object_lexdiv) > 1){
+        summary.table <- t(as.data.frame(
+            lapply(
+                object_lexdiv,
+                summary,
+                flat=TRUE
+            )
+        ))
+    } else {
+        summary.table <- summary(object_lexdiv[[1]], flat=flat)
+    }
+    return(summary.table)
+  } else if(identical(feature, "readability")){
+    stopifnot(hasFeature(object, "readability"))
+    object_rdb  <- corpusReadability(object)
+    if(length(object_rdb) > 1){
+        summary.table <- t(as.data.frame(
+            lapply(
+                object_rdb,
+                summary,
+                flat=TRUE
+            )
+        ))
+    } else {
+        summary.table <- summary(object_rdb[[1]], flat=flat)
+    }
     return(summary.table)
   } else {
     # to prevent hiccups from R CMD check
