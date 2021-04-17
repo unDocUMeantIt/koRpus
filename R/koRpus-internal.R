@@ -1055,7 +1055,7 @@ txt.compress <- function(obj, level=9, ratio=FALSE, in.mem=TRUE){
 
 ## function read.udhr()
 # this function will read the Universal Declaration of Human Rights from text files by
-# the UDHR in Unicode project: http://unicode.org/udhr/downloads.html
+# the UDHR in Unicode project: https://unicode.org/udhr/downloads.html
 # txt.path must be a character string pinting to the directory where the bulk files
 # were extracted, or to the ZIP file.
 read.udhr <- function(txt.path, quiet=TRUE){
@@ -1682,3 +1682,37 @@ check_toggle_utf8 <- function(file_utf8, dir=NA, optional=FALSE){
     }
   }
 } ## end function check_toggle_utf8()
+
+
+## function check_doc_id()
+check_doc_id <- function(
+    doc_id,
+    default,
+    quiet=TRUE
+){
+    warn <- FALSE
+    warn_class <- "unknown"
+    if(missing(doc_id)){
+        warn <- TRUE
+        warn_class <- "missing"
+        doc_id <- NA
+    } else {}
+    if(!is.character(doc_id)){
+        if(!isTRUE(warn)){
+            warn <- TRUE
+            warn_class <- class(doc_id)
+        } else {}
+        if(any(is.null(doc_id), is.logical(doc_id))){
+            if(missing(default)){
+                stop(simpleError("No \"doc_id\" given and no default value found!"))
+            } else {}
+            doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", default)
+        } else {
+            doc_id <- as.character(doc_id)
+        }
+    } else {}
+    if(all(!isTRUE(quiet), warn)){
+        warning(paste0("Fixed \"doc_id\", was ", warn_class, "!"), call.=FALSE)
+    } else {}
+    return(doc_id)
+} ## function check_doc_id()
