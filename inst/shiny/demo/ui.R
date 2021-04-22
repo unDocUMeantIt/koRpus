@@ -59,6 +59,7 @@ shinyUI(
               "FORCAST"="FORCAST",
               "FORCAST (reading grade level)"="FORCAST.RGL",
               "Fucks Stilcharakteristik"="Fucks",
+              "Gutiérrez"="Gutierrez",
               "Linsear-Write"="Linsear.Write",
               "LIX"="LIX",
               "Neue Wiener Sachtextformeln"="nWS",
