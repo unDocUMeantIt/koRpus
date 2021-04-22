@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-6 (2021-04-17)
+changes in version 0.13-6 (2021-04-22)
 unreleased:
   - this version is under development
 fixed:
@@ -20,7 +20,8 @@ changed:
     kRp.txt objects, a new "flat" argument was added
   - updated unit test standards
 added:
-  - readability(): new formula "Gutierrez" for spanish texts
+  - readability(): new formula "Gutierrez" for spanish texts, also added to
+    the shiny web app
 
 changes in version 0.13-5 (2021-02-02)
 fixed:
