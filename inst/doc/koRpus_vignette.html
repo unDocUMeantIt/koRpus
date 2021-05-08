@@ -12,7 +12,7 @@
 
 <meta name="author" content="m.eik michalke" />
 
-<meta name="date" content="2021-02-02" />
+<meta name="date" content="2021-05-08" />
 
 <title>Using the koRpus Package for Text Analysis</title>
 
@@ -28,7 +28,14 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
@@ -322,7 +329,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Using the koRpus Package for Text Analysis</h1>
 <h4 class="author">m.eik michalke</h4>
-<h4 class="date">2021-02-02</h4>
+<h4 class="date">2021-05-08</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 The R package <code>koRpus</code> aims to be a versatile tool for text analysis, with an emphasis on scientific research on that topic. It implements dozens of formulae to measure readability and lexical diversity. On a more basic level <code>koRpus</code> can be used as an R wrapper for third party products, like the tokenizer and POS tagger TreeTagger or language corpora of the Leipzig Corpora Collection. This vignette takes a brief tour around its core components, shows how they can be used and gives some insight on design decisions.
@@ -655,8 +662,8 @@ The R package <code>koRpus</code> aims to be a versatile tool for text analysis,
 ## 
 ## 
 ## Measure of Textual Lexical Diversity
-##               MTLD: 97.38 
-##  Number of factors: 5.71 
+##               MTLD: 97.5 
+##  Number of factors: NA 
 ##        Factor size: 0.72 
 ##   SD tokens/factor: 36.08 (all factors) 
 ##                     26.06 (complete factors only)
@@ -920,6 +927,10 @@ The R package <code>koRpus</code> aims to be a versatile tool for text analysis,
 ##        Grade: 7.19 
 ## 
 ## 
+## Gutiérrez Fórmula de Comprensibilidad
+##        Score: 33.48 
+## 
+## 
 ## Linsear Write
 ##   Parameters: default 
 ##   Easy words: 80.4 
@@ -1006,20 +1017,21 @@ The R package <code>koRpus</code> aims to be a versatile tool for text analysis,
 ## 14                   FOG                              18.69     
 ## 15               FORCAST                              10.99   16
 ## 16                 Fucks              51.67            7.19     
-## 17         Linsear-Write                               21.5     
-## 18                   LIX              65.24            &gt; 11     
-## 19                  nWS1                              10.57     
-## 20                  nWS2                              11.07     
-## 21                  nWS3                              10.58     
-## 22                  nWS4                              11.89     
-## 23                   RIX              10.61  &gt; 12 (college)     
-## 24                  SMOG                              17.19 22.2
-## 25                Strain               15.5                     
-## 26   Traenkle-Bailer TB1              18.59                     
-## 27   Traenkle-Bailer TB2              27.15                     
-## 28                   TRI             -56.88                     
-## 29               Tuldava               5.74                     
-## 30         Wheeler-Smith             123.33             &gt; 4</code></pre>
+## 17             Gutierrez              33.48                     
+## 18         Linsear-Write                               21.5     
+## 19                   LIX              65.24            &gt; 11     
+## 20                  nWS1                              10.57     
+## 21                  nWS2                              11.07     
+## 22                  nWS3                              10.58     
+## 23                  nWS4                              11.89     
+## 24                   RIX              10.61  &gt; 12 (college)     
+## 25                  SMOG                              17.19 22.2
+## 26                Strain               15.5                     
+## 27   Traenkle-Bailer TB1              18.59                     
+## 28   Traenkle-Bailer TB2              27.15                     
+## 29                   TRI             -56.88                     
+## 30               Tuldava               5.74                     
+## 31         Wheeler-Smith             123.33             &gt; 4</code></pre>
 <p>The <code>summary()</code> method supports an additional flat format, which basically turns the table into a named numeric vector, using the raw values (because all indices have raw values, but only a few more than that). This format comes very handy when you want to use the output in further calculations:</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">summary</span>(readbl.txt, <span class="dt">flat=</span><span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>##                   ARI            Coleman.C1            Coleman.C2 
@@ -1032,16 +1044,18 @@ The R package <code>koRpus</code> aims to be a versatile tool for text analysis,
 ##                 12.33                 33.19                 33.98 
 ##        Flesch.Kincaid                   FOG               FORCAST 
 ##                 16.19                 18.69                 10.99 
-##                 Fucks         Linsear.Write                   LIX 
-##                 51.67                 21.50                 65.24 
-##                  nWS1                  nWS2                  nWS3 
-##                 10.57                 11.07                 10.58 
-##                  nWS4                   RIX                  SMOG 
-##                 11.89                 10.61                 17.19 
-##                Strain   Traenkle.Bailer.TB1   Traenkle.Bailer.TB2 
-##                 15.50                 18.59                 27.15 
-##                   TRI               Tuldava         Wheeler.Smith 
-##                -56.88                  5.74                123.33</code></pre>
+##                 Fucks             Gutierrez         Linsear.Write 
+##                 51.67                 33.48                 21.50 
+##                   LIX                  nWS1                  nWS2 
+##                 65.24                 10.57                 11.07 
+##                  nWS3                  nWS4                   RIX 
+##                 10.58                 11.89                 10.61 
+##                  SMOG                Strain   Traenkle.Bailer.TB1 
+##                 17.19                 15.50                 18.59 
+##   Traenkle.Bailer.TB2                   TRI               Tuldava 
+##                 27.15                -56.88                  5.74 
+##         Wheeler.Smith 
+##                123.33</code></pre>
 <p>If you’re interested in a particular formula, again a wrapper function might be more convenient:</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">flesch.res &lt;-<span class="st"> </span><span class="kw">flesch</span>(tagged.text, <span class="dt">hyphen=</span>hyph.txt.en)</a>
 <a class="sourceLine" id="cb55-2" title="2">lix.res &lt;-<span class="st"> </span><span class="kw">LIX</span>(tagged.text)   <span class="co"># LIX doesn&#39;t need syllable count</span></a>

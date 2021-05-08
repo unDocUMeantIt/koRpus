@@ -1,6 +1,38 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.13-6 (2021-05-08)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{lex.div()}/MTLD(): calculations were slightly off (~0.5\%) due to an
+        incorrect stage of applying means to the forward/backward calculations; MTLD-MA
+        remains unaffected (thanks to akira murakami for reporting the issue)
+      \item \code{treetag()}/tokenize(): added a check to doc_id which is expected to be a
+        character string; especially if it was manually set to 0 issues were
+        reported
+      \item fixed some URLs (https if available)
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item class kRp.TTR: dropped the mean value from the \code{"factors"} list of MTLD
+        results
+      \item \code{readability()}: flat=TRUE now stores results in a list named by doc_id
+        like \code{lex.div()} already did
+      \item \code{summary()}: features \code{"lex_div"} and \code{"readability"} are now supported for
+        kRp.txt objects, a new \code{"flat"} argument was added
+      \item \code{readability()}/lex.\code{div()}: dropped "Note:" from validity warnings as it is
+        already a warning
+      \item updated unit test standards
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item \code{readability()}: new formula \code{"Gutierrez"} for spanish texts, also added to
+        the shiny web app
+    }
+  }
+}
 \section{Changes in koRpus version 0.13-5 (2021-02-02)}{
   \subsection{fixed}{
     \itemize{
