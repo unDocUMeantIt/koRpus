@@ -769,7 +769,7 @@ setMethod("show", signature(object="kRp.readability"), function(object){
   } else {}
 
   if(show.Gutierrez){
-    cat("\nGutierrez Fórmula de Comprensibilidad\n")
+    cat("\nGuti\u00e9rrez F\u00f3rmula de Comprensibilidad\n")
     cat("       Score:", prt.Gutierrez.score, "\n\n")
   } else {}
 

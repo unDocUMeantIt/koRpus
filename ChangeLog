@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-6 (2021-04-22)
+changes in version 0.13-6 (2021-05-08)
 unreleased:
   - this version is under development
 fixed:
@@ -18,6 +18,8 @@ changed:
     like lex.div() already did
   - summary(): features "lex_div" and "readability" are now supported for
     kRp.txt objects, a new "flat" argument was added
+  - readability()/lex.div(): dropped "Note:" from validity warnings as it
+    is already a warning
   - updated unit test standards
 added:
   - readability(): new formula "Gutierrez" for spanish texts, also added to

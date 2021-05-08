@@ -533,7 +533,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   ## for the time being, give a warning until all implementations have been validated
   needs.warning <- measure %in% c("S","K")
   if(!isTRUE(quiet) && any(needs.warning)){
-    warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
+    warning(paste0("The implementations of these formulas are still subject to validation:\n  ",
     paste(measure[needs.warning], collapse=", "),
     "\n  Use the results with caution, even if they seem plausible!",
     "\n  See lex.div(measure=\"validation\") for more details."), call.=FALSE)

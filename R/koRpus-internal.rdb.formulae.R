@@ -1288,7 +1288,7 @@ kRp.rdb.formulae <- function(
   ## for the time being, give a warning until all implementations have been validated
   needs.warning <- index %in% rownames(rdb_indices)[!rdb_indices[, "validated"]]
   if(all(!isTRUE(quiet), any(needs.warning))){
-    warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
+    warning(paste0("The implementations of these formulas are still subject to validation:\n  ",
     paste(index[needs.warning], collapse=", "),
     "\n  Use the results with caution, even if they seem plausible!",
     "\n  See readability(index=\"validation\") for more details."), call.=FALSE)
