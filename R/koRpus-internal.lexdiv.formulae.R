@@ -533,7 +533,7 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   ## for the time being, give a warning until all implementations have been validated
   needs.warning <- measure %in% c("S","K")
   if(!isTRUE(quiet) && any(needs.warning)){
-    warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
+    warning(paste0("The implementations of these formulas are still subject to validation:\n  ",
     paste(measure[needs.warning], collapse=", "),
     "\n  Use the results with caution, even if they seem plausible!",
     "\n  See lex.div(measure=\"validation\") for more details."), call.=FALSE)
@@ -907,18 +907,17 @@ MTLD.calc <- function(txt.tokens, factor.size, num.tokens=NULL, back.only=FALSE,
   } else {
     mtld.res.forw <- mtld.sub.calc(txt.tokens, factor.size=factor.size, detailed=detailed)
     mtld.res.back <- mtld.sub.calc(rev(txt.tokens), factor.size=factor.size, detailed=detailed)
-    mtld.res.mean <- mean(c(mtld.res.forw[["factors"]], mtld.res.back[["factors"]]))
     mtld.len.mean <- mean(c(mtld.res.forw[["lengths"]], mtld.res.back[["lengths"]]))
     mtld.len.sd <- sd(c(mtld.res.forw[["lengths"]], mtld.res.back[["lengths"]]))
     mtld.len.mean.cmp <- mean(c(mtld.res.forw[["lengths.complete"]], mtld.res.back[["lengths.complete"]]))
     mtld.len.sd.cmp <- sd(c(mtld.res.forw[["lengths.complete"]], mtld.res.back[["lengths.complete"]]))
     # this is the final MTLD value
-    mtld.res.value <- num.tokens / mtld.res.mean
+    mtld.res.value <- mean(c(num.tokens / mtld.res.forw[["factors"]], num.tokens / mtld.res.back[["factors"]]))
     mtld.results <- list(
       MTLD=mtld.res.value,
       all.forw=mtld.res.forw[["MTLD.all"]],
       all.back=mtld.res.back[["MTLD.all"]],
-      factors=c(forw=mtld.res.forw[["factors"]], mean=mtld.res.mean, back=mtld.res.back[["factors"]]),
+      factors=c(forw=mtld.res.forw[["factors"]], back=mtld.res.back[["factors"]]),
       lengths=list(
         forw=mtld.res.forw[["lengths"]],
         forw.compl=mtld.res.forw[["lengths.complete"]],

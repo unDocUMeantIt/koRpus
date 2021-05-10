@@ -632,6 +632,42 @@ fucks <- function(txt.file, ...){
 ## end fucks()
 
 
+## gutierrez()
+#' Readability: Gutiérrez \emph{Fórmula de comprensibilidad}
+#' 
+#' This is just a convenient wrapper function for \code{\link[koRpus:readability]{readability}}.
+#'
+#' Calculates Gutiérrez de Polini's \emph{Fórmula de comprensibilidad} (Gutiérrez, 1972, as cited in Fernández, 2016).
+#' In contrast to \code{\link[koRpus:readability]{readability}}, which by default calculates all possible indices,
+#' this function will only calculate the index value.
+#'
+#' @param txt.file Either an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}, a character vector which must be be
+#'    a valid path to a file containing the text to be analyzed, or a list of text features. If the latter, calculation
+#'    is done by \code{\link[koRpus:readability.num]{readability.num}}. 
+#' @param ... Further valid options for the main function, see \code{\link[koRpus:readability]{readability}} for details.
+#' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
+# @author m.eik michalke \email{meik.michalke@@hhu.de}
+#' @references
+#'    Fernández, A. M. (2016, November 30). \emph{Fórmula de comprensibilidad de Gutiérrez de Polini}.
+#'      \url{https://legible.es/blog/comprensibilidad-gutierrez-de-polini/}
+#' @keywords readability
+#' @export
+#' @examples
+#' \dontrun{
+#'   gutierrez(tagged.text)
+#' }
+
+gutierrez <- function(txt.file, ...){
+  if(is.list(txt.file)){
+    results <- readability.num(txt.features=txt.file, index="Gutierrez", ...)
+  } else {
+    results <- readability(txt.file=txt.file, index="Gutierrez", ...)
+  }
+  return(results)
+}
+## end gutierrez()
+
+
 ## harris.jacobson()
 #' Readability: Harris-Jacobson indices
 #'

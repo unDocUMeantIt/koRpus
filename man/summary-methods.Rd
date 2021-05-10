@@ -19,7 +19,7 @@ summary(object, ...)
 
 \S4method{summary}{kRp.readability}(object, flat = FALSE)
 
-\S4method{summary}{kRp.text}(object, index = NA, feature = NULL)
+\S4method{summary}{kRp.text}(object, index = NA, feature = NULL, flat = FALSE)
 }
 \arguments{
 \item{object}{An object of class, \code{kRp.lang}, \code{kRp.readability}, 
@@ -27,7 +27,11 @@ summary(object, ...)
 
 \item{...}{Further options, depending on the object class.}
 
-\item{flat}{Logical, if TRUE only a named vector of main results is returned}
+\item{flat}{Logical, if \code{TRUE} and \code{feature="lex_div"} or \code{"readability"},
+      a named vector of main
+results is returned. For objects containig more than one \code{doc_id},
+      defaults to \code{TRUE} automatically and
+returns a data frame with named rows.}
 
 \item{index}{Either a vector indicating which rows should be considered as transformed for the statistics,
 or the name of a particular transformation that was previously done to the object,
@@ -37,7 +41,7 @@ Only valid for objects providing a \code{diff} feature.}
 
 \item{feature}{A character string naming a feature present in the object,
       to trigger a summary regarding that feature.
-Currently only \code{"freq"} is implemented.}
+Currently only \code{"freq"}, \code{"lex_div"}, and \code{"readability"} are implemented.}
 }
 \description{
 Summary method for S4 objects of classes

@@ -98,7 +98,7 @@
 #' Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
 #'    \emph{International Conference on New Methods in Language Processing}, Manchester, UK, 44--49.
 #'
-#' [1] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/}
+#' [1] \url{https://www.cis.lmu.de/~schmid/tools/TreeTagger/}
 #' @export
 #' @import methods
 #' @docType methods
@@ -252,9 +252,7 @@ setMethod("treetag",
     }
     check.file(takeAsFile, mode="exist")
 
-    if(is.na(doc_id)){
-      doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(takeAsFile))
-    } else {}
+    doc_id <- check_doc_id(doc_id=doc_id, default=basename(takeAsFile))
 
     # TODO: move TT.options checks to internal function to call it here
     manual.config <- identical(treetagger, "manual")

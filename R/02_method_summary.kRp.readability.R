@@ -499,6 +499,17 @@ setMethod("summary", signature(object="kRp.readability"), function(object, flat=
     }
   } else {}
 
+  if(sum(is.na(slot(object, "Gutierrez"))) == 0){
+    if(isTRUE(flat)){
+      summary.flat <- c(summary.flat, Gutierrez=slot(object, "Gutierrez")[["Gutierrez"]])
+    } else {
+      summary.table <- add.to.sumtab(summary.table, adds=list(
+          index="Gutierrez",
+          raw=slot(object, "Gutierrez")[["Gutierrez"]]
+        ))
+    }
+  } else {}
+
   if(sum(is.na(slot(object, "Harris.Jacobson"))) == 0){
     if(isTRUE(flat)){
       summary.flat <- c(summary.flat,

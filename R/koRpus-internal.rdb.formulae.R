@@ -22,7 +22,7 @@
 ## TODO:
 # Fry Graph
 # Raygor Estimate Graph
-  # http://en.wikipedia.org/wiki/Raygor_Readability_Estimate
+  # https://en.wikipedia.org/wiki/Raygor_readability_estimate
 #  - harris-jacobson wide range (noch keine formel)
 #  - dolch sight words suite (noch keine formel)
 #  - mcalpine EFLAW
@@ -64,6 +64,7 @@ rdb_indices <- matrix(
     TRUE,   TRUE,   TRUE,   TRUE,     # FORCAST
     FALSE,  TRUE,   FALSE,  TRUE,     # FORCAST.RGL
     TRUE,   TRUE,   FALSE,  FALSE,    # Fucks
+    TRUE,   FALSE,  TRUE,   FALSE,    # Gutierrez
     TRUE,   FALSE,  TRUE,   FALSE,    # Harris.Jacobson
     TRUE,   TRUE,   TRUE,   TRUE,     # Linsear.Write
     TRUE,   FALSE,  TRUE,   TRUE,     # LIX
@@ -117,7 +118,8 @@ rdb_indices <- matrix(
       "FOG.PSK", 
       "FORCAST", 
       "FORCAST.RGL", 
-      "Fucks", 
+      "Fucks",
+      "Gutierrez",
       "Harris.Jacobson", 
       "Linsear.Write", 
       "LIX", 
@@ -243,8 +245,7 @@ kRp.rdb.formulae <- function(
   quiet=FALSE,
   keep.input=NULL,
   analyze.text=TRUE,
-  txt.features=list(),
-  as.feature=FALSE
+  txt.features=list()
 ){
 
   ## TODO: validation
@@ -292,6 +293,7 @@ kRp.rdb.formulae <- function(
     - some papers use 0.33 and other 0.93 for the average sentence length parameter!
   - Flesch.Brouwer (nl)
   - Fucks
+  - Gutierrez
   - Harris-Jacobson (1-5)
   - Neue Wiener Sachtextformeln (1-4)
   - SMOG Qu
@@ -303,13 +305,13 @@ kRp.rdb.formulae <- function(
   - TRI
 
   Tools used:
-  FRT: http://www.readabilityformulas.com/free-readability-formula-tests.php
+  FRT: https://www.readabilityformulas.com/free-readability-formula-tests.php (17 apr 2021)
   GFI: http://gunning-fog-index.com
   INF: INFLESZ v1.0, http://www.legibilidad.com/home/descargas.html
-  JRT: http://juicystudio.com/services/readability.php
-  LLB: http://www.leichtlesbar.ch
+  JRT: https://juicystudio.com/services/readability.php (17 apr 2021)
+  LLB: http://www.leichtlesbar.ch/html/ (17 apr 2021)
   OKP: http://www.lefthandlogic.com/htmdocs/tools/okapi/okapi.php
-  OUT: http://www.online-utility.org/english/readability_test_and_improve.jsp
+  OUT: https://www.online-utility.org/english/readability_test_and_improve.jsp (17 apr 2021)
   RDS: Readability Studio, version 3.2.7.0 (14 jan 2011)
   TAL: http://www.textalyser.net
   WDC: http://wordscount.info/wc/jsp/clear/analyze_smog.jsp (original SMOG implementation)
@@ -995,6 +997,17 @@ kRp.rdb.formulae <- function(
       nonword.class=nonword.class, nonword.tag=nonword.tag, analyze.text=analyze.text, txt.features=txt.features, quiet=TRUE, keep.input=FALSE), "FOG")
   } else {}
 
+  ## Gutierrez
+  # see https://legible.es/blog/comprensibilidad-gutierrez-de-polini/
+  if("Gutierrez" %in% index){
+    pf <- check_parameters(
+      index="Gutierrez",
+      given=parameters[["Gutierrez"]]
+    )
+    Gutierrez.C <- pf[["p"]][["const"]] - (pf[["p"]][["awl"]] * avg.word.len) - (pf[["p"]][["asl"]] * avg.sntc.len)
+    slot(all.results, "Gutierrez") <- list(flavour=pf[["f"]], Gutierrez=Gutierrez.C)
+  } else {}
+
   ## Harris-Jacobson
   # V1: percent unfamiliar words ("short list", grades 1 + 2)
   # V2: asl
@@ -1170,7 +1183,7 @@ kRp.rdb.formulae <- function(
   } else {}
 
   ## Strain Index
-  # http://strainindex.wordpress.com/2007/09/25/hello-world/
+  # https://strainindex.wordpress.com/2007/09/25/hello-world/
   if("Strain" %in% index){
     pf <- check_parameters(
       index="Strain",
@@ -1275,18 +1288,13 @@ kRp.rdb.formulae <- function(
   ## for the time being, give a warning until all implementations have been validated
   needs.warning <- index %in% rownames(rdb_indices)[!rdb_indices[, "validated"]]
   if(all(!isTRUE(quiet), any(needs.warning))){
-    warning(paste0("Note: The implementations of these formulas are still subject to validation:\n  ",
+    warning(paste0("The implementations of these formulas are still subject to validation:\n  ",
     paste(index[needs.warning], collapse=", "),
     "\n  Use the results with caution, even if they seem plausible!",
     "\n  See readability(index=\"validation\") for more details."), call.=FALSE)
   } else {}
 
-  if(isTRUE(as.feature)){
-    corpusReadability(txt.file) <- all.results
-    return(txt.file)
-  } else {
-    return(all.results)
-  }
+  return(all.results)
 }
 
 ############################

@@ -299,6 +299,13 @@ setMethod("show", signature(object="kRp.readability"), function(object){
     show.Fucks <- TRUE
   }
 
+  if(sum(!is.na(slot(object, "Gutierrez"))) == 0){
+    show.Gutierrez <- FALSE
+  } else {
+    prt.Gutierrez.score <- round(slot(object, "Gutierrez")[["Gutierrez"]], digits=2)
+    show.Gutierrez <- TRUE
+  }
+
   if(sum(!is.na(slot(object, "Harris.Jacobson"))) == 0){
     show.Harris.Jacobson <- FALSE
   } else {
@@ -759,6 +766,11 @@ setMethod("show", signature(object="kRp.readability"), function(object){
     cat("\nFucks' Stilcharakteristik\n")
     cat("       Score:", prt.Fucks.score, "\n")
     cat("       Grade:", prt.Fucks.grade, "\n\n")
+  } else {}
+
+  if(show.Gutierrez){
+    cat("\nGuti\u00e9rrez F\u00f3rmula de Comprensibilidad\n")
+    cat("       Score:", prt.Gutierrez.score, "\n\n")
   } else {}
 
   if(show.Harris.Jacobson){

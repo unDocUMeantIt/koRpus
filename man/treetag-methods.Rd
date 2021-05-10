@@ -253,7 +253,7 @@ Schmid, H. (1994). Probabilistic part-of-speec tagging using decision trees. In
    \emph{International Conference on New Methods in Language Processing}, Manchester, UK,
       44--49.
 
-[1] \url{http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/}
+[1] \url{https://www.cis.lmu.de/~schmid/tools/TreeTagger/}
 }
 \seealso{
 \code{\link[koRpus:freq.analysis]{freq.analysis}},

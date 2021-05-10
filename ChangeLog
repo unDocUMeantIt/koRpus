@@ -1,5 +1,28 @@
 ChangeLog for package koRpus
 
+changes in version 0.13-6 (2021-05-08)
+fixed:
+  - lex.div()/MTLD(): calculations were slightly off (~0.5%) due to an
+    incorrect stage of applying means to the forward/backward calculations; MTLD-MA
+    remains unaffected (thanks to akira murakami for reporting the issue)
+  - treetag()/tokenize(): added a check to doc_id which is expected to be a
+    character string; especially if it was manually set to 0 issues were
+    reported
+  - fixed some URLs (https if available)
+changed:
+  - class kRp.TTR: dropped the mean value from the "factors" list of MTLD
+    results
+  - readability(): flat=TRUE now stores results in a list named by doc_id
+    like lex.div() already did
+  - summary(): features "lex_div" and "readability" are now supported for
+    kRp.txt objects, a new "flat" argument was added
+  - readability()/lex.div(): dropped "Note:" from validity warnings as it is
+    already a warning
+  - updated unit test standards
+added:
+  - readability(): new formula "Gutierrez" for spanish texts, also added to
+    the shiny web app
+
 changes in version 0.13-5 (2021-02-02)
 fixed:
   - readability()/fucks(): the oldest bug so far, present since the first

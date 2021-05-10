@@ -327,6 +327,7 @@ test_that("lexical diversity", {
   # try with feature object
   lexdivTextFeatureObj <- lex.div(sampleTextTokenized, char=NULL, quiet=TRUE, as.feature=TRUE)
   lexdivTextFeatureSummary <- summary(corpusLexDiv(lexdivTextFeatureObj)[[1]])
+  lexdivTextFeatureSummary2 <- summary(lexdivTextFeatureObj, feature="lex_div", flat=FALSE)
 
   expect_equal(
     lexdivTextObj,
@@ -339,6 +340,10 @@ test_that("lexical diversity", {
   expect_equal(
     lexdivTextFeatureSummary,
     sampleTextStandard
+  )
+  expect_equal(
+    lexdivTextFeatureSummary,
+    lexdivTextFeatureSummary2
   )
 })
 
@@ -429,7 +434,8 @@ test_that("readability", {
       as.feature=TRUE
     )
   )
-  readabilityTextFeatureSummary <- summary(corpusReadability(readabilityTextFeatureObj), flat=TRUE)
+  readabilityTextFeatureSummary <- summary(corpusReadability(readabilityTextFeatureObj)[[1]], flat=TRUE)
+  readabilityTextFeatureSummary2 <- summary(readabilityTextFeatureObj, feature="readability", flat=TRUE)
 
   expect_equal(
     readabilityTextObj,
@@ -438,6 +444,10 @@ test_that("readability", {
   expect_equal(
     readabilityTextFeatureSummary,
     sampleTextStandard
+  )
+  expect_equal(
+    readabilityTextFeatureSummary,
+    readabilityTextFeatureSummary2
   )
 })
 

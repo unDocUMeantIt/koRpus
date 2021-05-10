@@ -92,6 +92,10 @@
 #' @slot FORCAST The "flavour" of the parameter settings and the calculated value of the FORCAST grade level. NA if not calculated.
 #' @slot FORCAST.RGL See "FORCAST".
 #' @slot Fucks The calculated value of Fucks' Stilcharakteristik. NA if not calculated.
+#' @slot Gutierrez The "flavour" of the parameter settings and the calculated value of the Gutierrez index. NA if not calculated.
+#' @slot Harris.Jacobson The "flavour" of the parameter settings and the calculated value of the Harris-Jacobson index.
+#'    the word list used, all words not found on the list, the percentage of difficult words,  the percentage of long words,
+#'    as well as HJ1 to HJ5 for the five indices. NA if not calculated.
 #' @slot Linsear.Write The "flavour" of the parameter settings and the calculated value of the Linsear Write index. NA if not calculated.
 #' @slot LIX The "flavour" of the parameter settings and the calculated value of the LIX index. NA if not calculated.
 #' @slot RIX The "flavour" of the parameter settings and the calculated value of the RIX index. NA if not calculated.
@@ -153,6 +157,7 @@ kRp_readability <- setClass("kRp.readability",
       FORCAST="list",
       FORCAST.RGL="list",
       Fucks="list",
+      Gutierrez="list",
       Harris.Jacobson="list",
       Linsear.Write="list",
       LIX="list",
@@ -212,6 +217,7 @@ setMethod("initialize", "kRp.readability",
     FORCAST=list(NA),
     FORCAST.RGL=list(NA),
     Fucks=list(NA),
+    Gutierrez=list(NA),
     Harris.Jacobson=list(NA),
     Linsear.Write=list(NA),
     LIX=list(NA),
@@ -265,6 +271,7 @@ setMethod("initialize", "kRp.readability",
     slot(.Object, "FORCAST") <- FORCAST
     slot(.Object, "FORCAST.RGL") <- FORCAST.RGL
     slot(.Object, "Fucks") <- Fucks
+    slot(.Object, "Gutierrez") <- Gutierrez
     slot(.Object, "Harris.Jacobson") <- Harris.Jacobson
     slot(.Object, "Linsear.Write") <- Linsear.Write
     slot(.Object, "LIX") <- LIX

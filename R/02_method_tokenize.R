@@ -202,24 +202,18 @@ setMethod("tokenize",
       # valid path? file or directory?
       if(check.file(txt, mode="exist", stopOnFail=FALSE)){
         txt.file <- txt
-        if(is.na(doc_id)){
-          doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(txt))
-        } else {}
+        doc_id <- check_doc_id(doc_id=doc_id, default=basename(txt))
         read.txt.files <- TRUE
       } else if(check.file(txt, mode="dir", stopOnFail=FALSE)){
         txt.file <- file.path(txt, dir(txt))
-        if(is.na(doc_id)){
-          doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(txt))
-        } else {}
+        doc_id <- check_doc_id(doc_id=doc_id, default=basename(txt))
         read.txt.files <- TRUE
       } else {
         stop(simpleError(paste0("Unable to locate\n ",txt)))
       }
     } else if(identical(format, "obj")){
       takeAsTxt <- txt
-      if(is.na(doc_id)){
-        doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(tempfile()))
-      } else {}
+      doc_id <- check_doc_id(doc_id=doc_id, default=basename(tempfile()))
       read.txt.files <- FALSE
     } else {
       stop(simpleError(paste0("Invalid value for format: ",format)))
@@ -315,9 +309,7 @@ setMethod("tokenize",
     } else {}
 
     takeAsTxt <- readLines(txt, encoding=fileEncoding, warn=FALSE)
-    if(is.na(doc_id)){
-      doc_id <- gsub("[^[:alnum:]_\\\\.-]+", "", basename(tempfile()))
-    } else {}
+    doc_id <- check_doc_id(doc_id=doc_id, default=basename(tempfile()))
 
     results <- tokenize(
       txt=takeAsTxt,
