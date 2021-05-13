@@ -1312,8 +1312,8 @@ read.word.list <- function(word.list, encoding="UTF-8"){
     (is.vector(word.list) & length(word.list) > 1)){
     local.word.list <- as.character(unlist(word.list))
   } else if(check.file(word.list, mode="exist")){
-    wl.file.con <- file(word.list, open="r", encoding=encoding)
-    local.word.list <- as.character(unlist(readLines(wl.file.con)))
+    wl.file.con <- file(word.list, open="r")
+    local.word.list <- as.character(unlist(readLines(wl.file.con, encoding=encoding)))
     close(wl.file.con)
   }
   return(local.word.list)
