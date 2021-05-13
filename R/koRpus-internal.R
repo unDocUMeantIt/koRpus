@@ -144,7 +144,7 @@ basic.text.descriptives <- function(txt){
 
   # count each cluster of spaces as only one space
   onespace_chars <- nchar(
-    gsub("[[:space:]]{2,}", " ", paste(txt, collapse="\n")),
+    gsub("[[:space:]]{2,}", " ", paste(txt, collapse=" ")),
     type="width"
   )
 
@@ -169,7 +169,7 @@ basic.text.descriptives <- function(txt){
 # because the vector lost all information on spaces between tokens or newlines. therefore:
 #  - if *both* "txt.vector" and "desc" are provided and "update.desc=TRUE", as is done by textTransform(),
 #    the old value of lines is left untouched, and all.chars and normalized.space are adjusted according to
-#    the difference betrwee the old and new value of chars.no.space
+#    the difference between the old and new value of chars.no.space
 #' @include 02_method_filterByClass.R
 basic.tagged.descriptives <- function(txt, lang=NULL, desc=NULL, txt.vector=NULL, update.desc=FALSE, doc_id=NA){
   extended_update <- FALSE
