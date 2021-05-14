@@ -42,7 +42,7 @@ readTagged(file, ...)
 \S4method{readTagged}{kRp.connection}(
   file,
   lang = "kRp.env",
-  encoding = "unknown",
+  encoding = getOption("encoding"),
   tagger = "TreeTagger",
   apply.sentc.end = TRUE,
   sentc.end = c(".", "!", "?", ";", ":"),

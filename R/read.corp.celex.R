@@ -55,8 +55,8 @@ read.corp.celex <- function(celex.path, running.words, fileEncoding="ISO_8859-1"
 
   # celex files can be veeeery large. if so, reading them will most likely freeze R
   # as a precaution we'll therefore use a file connection and readLines()
-  celex.file.con <- file(celex.path, open="r", encoding=fileEncoding)
-  rL.words <- readLines(celex.file.con, n=n)
+  celex.file.con <- file(celex.path, open="r")
+  rL.words <- readLines(celex.file.con, n=n, encoding=fileEncoding)
   close(celex.file.con)
 
   table.words <- matrix(unlist(strsplit(rL.words, "\\", fixed=TRUE)), ncol=13, byrow=TRUE, dimnames=list(c(),c("num","word",3,"freq",5:13)))[,-c(3,5:13)]

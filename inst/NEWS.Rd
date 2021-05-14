@@ -1,6 +1,19 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.13-7 (2021-05-13)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{read.corp.LCC()}/read.\code{corp.celex()}/readTagged(): changed how encoding is
+        applied to files to ensure no re-encoding takes place on windows, which
+        might break UTF-8 encoded characters and result in failure to correctly read
+        files
+      \item text descriptives: R-devel changed how nchar(type=\code{"width"}) counts newline
+        characters, therefore the counting of characters with normalized space
+        had to be adjusted
+    }
+  }
+}
 \section{Changes in koRpus version 0.13-6 (2021-05-08)}{
   \subsection{fixed}{
     \itemize{

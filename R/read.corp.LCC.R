@@ -198,8 +198,8 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
     # bigrams
     if(isTRUE(have[["co_n"]])){
       message("Importing bigrams... ", appendLF=FALSE)
-      LCC.file.con <- file(LCC.files[["co_n"]], open="r", encoding=fileEncoding)
-      rL.words <- readLines(LCC.file.con)
+      LCC.file.con <- file(LCC.files[["co_n"]], open="r")
+      rL.words <- readLines(LCC.file.con, encoding=fileEncoding)
       close(LCC.file.con)
       table.bigrams <- matrix(unlist(strsplit(rL.words, "\t")), ncol=4, byrow=TRUE, dimnames=list(c(),c("token1","token2","freq","sig")))
       rm(rL.words)
@@ -212,8 +212,8 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
     # co-occrrence in one sentence
     if(isTRUE(have[["co_s"]])){
       message("Importing co-occrrence in one sentence... ", appendLF=FALSE)
-      LCC.file.con <- file(LCC.files[["co_s"]], open="r", encoding=fileEncoding)
-      rL.words <- readLines(LCC.file.con)
+      LCC.file.con <- file(LCC.files[["co_s"]], open="r")
+      rL.words <- readLines(LCC.file.con, encoding=fileEncoding)
       close(LCC.file.con)
       table.cooccur <- matrix(unlist(strsplit(rL.words, "\t")), ncol=4, byrow=TRUE, dimnames=list(c(),c("token1","token2","freq","sig")))
       rm(rL.words)
@@ -224,8 +224,8 @@ read.corp.LCC <- function(LCC.path, format="flatfile", fileEncoding="UTF-8", n=-
   } else {}
   # LCC files can be veeeery large. if so, reading them will most likely freeze R
   # as a precaution we'll therefore use a file connection and readLines()
-  LCC.file.con <- file(LCC.files[["words"]], open="r", encoding=fileEncoding)
-  rL.words <- readLines(LCC.file.con, n=n)
+  LCC.file.con <- file(LCC.files[["words"]], open="r")
+  rL.words <- readLines(LCC.file.con, n=n, encoding=fileEncoding)
   close(LCC.file.con)
   # newer archives have four instead of three columns, check for this
   words.num.cols <- length(unlist(strsplit(rL.words[1], "\t")))

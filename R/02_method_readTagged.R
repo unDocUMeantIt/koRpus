@@ -175,7 +175,7 @@ setMethod("readTagged",
   function(
     file,
     lang="kRp.env",
-    encoding="unknown",
+    encoding=getOption("encoding"),
     tagger="TreeTagger",
     apply.sentc.end=TRUE,
     sentc.end=c(".","!","?",";",":"),
@@ -243,7 +243,7 @@ setMethod("readTagged",
   ){
     check.file(normalizePath(file), mode="exist")
     # turn into a connection and call another methods
-    file_con <- file(description=file, open="r", encoding=encoding)
+    file_con <- file(description=file, open="r")
     results <- readTagged(
       file=file_con,
       lang=lang,
