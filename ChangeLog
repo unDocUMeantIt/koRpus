@@ -1,5 +1,9 @@
 ChangeLog for package koRpus
 
+changes in version 0.13-8 (2021-05-14)
+unreleased:
+  - this release is under development
+
 changes in version 0.13-7 (2021-05-13)
 fixed:
   - read.corp.LCC()/read.corp.celex()/readTagged(): changed how encoding is
