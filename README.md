@@ -84,7 +84,7 @@ branch will be rejected, as it is reserved for the current stable release.
 
 ## Licence
 
-Copyright 2012-2020 Meik Michalke <meik.michalke@hhu.de>
+Copyright 2012-2021 Meik Michalke <meik.michalke@hhu.de>
 
 koRpus is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

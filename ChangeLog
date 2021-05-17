@@ -1,8 +1,9 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-8 (2021-05-14)
-unreleased:
-  - this release is under development
+changes in version 0.13-8 (2021-05-17)
+fixed:
+  - tokenize()/treetag(): as indicated by unit tests in tm.plugin.koRpus, the
+    nchar(type="width") issue wasn't fully fixed yet
 
 changes in version 0.13-7 (2021-05-13)
 fixed:
