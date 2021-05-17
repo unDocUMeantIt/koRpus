@@ -3,7 +3,8 @@ ChangeLog for package koRpus
 changes in version 0.13-8 (2021-05-17)
 fixed:
   - tokenize()/treetag(): as indicated by unit tests in tm.plugin.koRpus, the
-    nchar(type="width") issue wasn't fully fixed yet
+    nchar(type="width") issue wasn't fully fixed yet. this also corrects the
+    line count if a text is imported from a data frame
 
 changes in version 0.13-7 (2021-05-13)
 fixed:
