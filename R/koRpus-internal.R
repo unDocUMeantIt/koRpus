@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -119,6 +119,10 @@ tag.kRp.txt <- function(txt, tagger=NULL, lang, objects.only=TRUE, ...){
 ## function basic.text.descriptives()
 # txt must be a character vector
 basic.text.descriptives <- function(txt){
+  # check for newline characters which might cause trouble
+  if(any(grepl("\n", txt))){
+      txt <- unlist(strsplit(txt, "\n"))
+  } else {}
   # number of characters, including spaces and punctuation
   # the following vector counts chars per line
   vct_all_chars <- nchar(txt, type="width")

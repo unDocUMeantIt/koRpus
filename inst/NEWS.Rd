@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.13-8 (2021-05-17)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{tokenize()}/treetag(): as indicated by unit tests in tm.plugin.koRpus, the
+        nchar(type=\code{"width"}) issue wasn't fully fixed yet
+    }
+  }
+}
 \section{Changes in koRpus version 0.13-7 (2021-05-13)}{
   \subsection{fixed}{
     \itemize{
