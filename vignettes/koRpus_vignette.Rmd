@@ -538,6 +538,80 @@ summary(guessed)
 ## 435             Chinese, Yue      yue     yue   Asia  280 2.337547
 ```
 
+## Using `koRpus` with other POS taggers
+
+You might not want to use `TreeTagger` for POS tagging or have a corpus of already tagged texts that you would like to process with `koRpus`. For use cases like these, the package provides a method called `readTagged()`. It is designed to import texts that are already tokenized, lemmatized and tagged as a matrix or data frame.
+
+### Example: `udpipe`
+
+Let's tag an english sample text with `udpipe::udpipe_annotate()`:
+
+```{r, eval=FALSE}
+library(udpipe)
+model <- udpipe_download_model(language="english")
+ud_en <- udpipe_load_model(model$file_model)
+x <- udpipe_annotate(
+  ud_en,
+  x="This is my sample text."
+)
+```
+
+In order to use the annotated object `x` with `koRpus`, we can then convert it into a `kRp.text` class object:
+
+```{r, eval=FALSE}
+x_kRp <- readTagged(
+  as.data.frame(x),
+  lang="en",
+  tagger="manual",
+  doc_id=as.data.frame(x)[1,"doc_id"],
+  mtx_cols=c(
+    token="token",
+    tag="xpos",
+    lemma="lemma"
+  )
+)
+```
+
+The resulting object `x_kRp` can now be used just as if the sample text had been tagged using `treetag()`:
+
+```
+###   doc_id  token  tag  lemma lttr     wclass desc stop stem idx sntc
+### 1   doc1   This   DT   this    4 determiner   NA   NA   NA   1    1
+### 2   doc1     is  VBZ     be    2       verb   NA   NA   NA   2    1
+### 3   doc1     my PRP$     my    2    pronoun   NA   NA   NA   3    1
+### 4   doc1 sample   NN sample    6       noun   NA   NA   NA   4    1
+### 5   doc1   text   NN   text    4       noun   NA   NA   NA   5    1
+### 6   doc1      . SENT      .    1   fullstop   NA   NA   NA   6    1
+
+```
+
+This import method should basically work for any third party POS tagging, as long as the tagset is compatible with the ones provided by the `koRpus.lang.*` packages. In this case, this is true for the English model imported via `udpipe_load_model`.
+
+Since `udpipe_annotate` does additionally use the Universal Tagset and `koRpus` supports that as well, you can use it as a less precise fallback when the language specific tagset turns out to be incompatible. For this you simply have to use a different column for `tag`:
+
+```{r, eval=FALSE}
+x_kRp <- readTagged(
+  as.data.frame(x),
+  lang="en",
+  tagger="manual",
+  doc_id=as.data.frame(x)[1,"doc_id"],
+  mtx_cols=c(
+    token="token",
+    tag="upos",
+    lemma="lemma"
+  )
+)
+```
+```
+###   doc_id  token  tag  lemma lttr    wclass desc stop stem idx sntc
+### 1   doc1   This PRON   this    4   pronoun   NA   NA   NA   1    1
+### 2   doc1     is  AUX     be    2 auxiliary   NA   NA   NA   2    1
+### 3   doc1     my PRON     my    2   pronoun   NA   NA   NA   3    1
+### 4   doc1 sample NOUN sample    6      noun   NA   NA   NA   4    1
+### 5   doc1   text NOUN   text    4      noun   NA   NA   NA   5    1
+### 6   doc1      . SENT      .    1  fullstop   NA   NA   NA   6    1
+```
+
 # Extending `koRpus`
 The language support of this package has a modular design. There are some pre-built language packages in [the `l10n` repository](https://undocumeantit.github.io/repos/), and with a little effort you should be able to add new languages yourself. You need the package sources for this, then basically you will have to add a new file to it and rebuild/reinstall the package. More details on this topic can be found in `inst/README.languages`. Once you got a new language to work with `koRpus`, I'd be happy to include your module in the official distribution.
 
