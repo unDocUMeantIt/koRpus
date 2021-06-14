@@ -79,113 +79,114 @@
 
 kRp_TTR <- setClass("kRp.TTR",
     representation=representation(
-      param="list",
-      tt="list",
-      TTR="numeric",
-      MSTTR="list",
-      MATTR="list",
-      C.ld="numeric",
-      R.ld="numeric",
-      CTTR="numeric",
-      U.ld="numeric",
-      S.ld="numeric",
-      K.ld="numeric",
-      Maas="numeric",
-      lgV0="numeric",
-      lgeV0="numeric",
-      Maas.grw="vector",
-      HDD="list",
-      MTLD="list",
-      MTLDMA="list",
-      TTR.char="matrix",
-      MATTR.char="matrix",
-      C.char="matrix",
-      R.char="matrix",
-      CTTR.char="matrix",
-      U.char="matrix",
-      S.char="matrix",
-      K.char="matrix",
-      Maas.char="matrix",
-      lgV0.char="matrix",
-      lgeV0.char="matrix",
-      HDD.char="matrix",
-      MTLD.char="matrix",
-      MTLDMA.char="matrix")
+        param="list",
+        tt="list",
+        TTR="numeric",
+        MSTTR="list",
+        MATTR="list",
+        C.ld="numeric",
+        R.ld="numeric",
+        CTTR="numeric",
+        U.ld="numeric",
+        S.ld="numeric",
+        K.ld="numeric",
+        Maas="numeric",
+        lgV0="numeric",
+        lgeV0="numeric",
+        Maas.grw="vector",
+        HDD="list",
+        MTLD="list",
+        MTLDMA="list",
+        TTR.char="matrix",
+        MATTR.char="matrix",
+        C.char="matrix",
+        R.char="matrix",
+        CTTR.char="matrix",
+        U.char="matrix",
+        S.char="matrix",
+        K.char="matrix",
+        Maas.char="matrix",
+        lgV0.char="matrix",
+        lgeV0.char="matrix",
+        HDD.char="matrix",
+        MTLD.char="matrix",
+        MTLDMA.char="matrix"
+    )
 )
 
 setMethod("initialize", "kRp.TTR",
-  function(
-    .Object,
-    param=list(segment=NA, factor.size=NA, min.tokens=NA, rand.sample=NA, window=NA,
-      case.sens=NA, lemmatize=NA, log.base=NA),
-    tt=list(tokens=NA, types=NA, lemmas=NA, type.in.txt=NA, type.in.result=NA, num.tokens=numeric(), num.types=numeric(), num.lemmas=numeric()),
-    TTR=numeric(),
-    MSTTR=list(MSTTR=NA, TTR.seg=NA, dropped=NA, sd=NA),
-    MATTR=list(MATTR=NA, TTR.win=NA, sd=NA),
-    C.ld=numeric(),
-    R.ld=numeric(),
-    CTTR=numeric(),
-    U.ld=numeric(),
-    S.ld=numeric(),
-    K.ld=numeric(),
-    Maas=numeric(),
-    lgV0=numeric(),
-    lgeV0=numeric(),
-    Maas.grw=c(a=NA, lgV0=NA, Vs=NA),
-    HDD=list(HDD=NA, type.probs=NA, summary=NA, sd=NA),
-    MTLD=list(MTLD=NA, all.forw=NA, all.back=NA, factors=c(forw=NA, back=NA),
-      lengths=list(forw=NA, forw.compl=NA, mean=NA, mean.compl=NA, sd=NA, sd.compl=NA, back=NA, back.compl=NA)),
-    MTLDMA=list(MTLDMA=NA, sd=NA, all=NA, steps=NA, lengths=list(factors=NA, mean=NA, sd=NA)),
-    TTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    MATTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    C.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    R.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    CTTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    U.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    S.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    K.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    Maas.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    lgV0.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    lgeV0.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    HDD.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    MTLD.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
-    MTLDMA.char=matrix(ncol=2, dimnames=list(c(), c("token", "value")))
-  ){
-    slot(.Object, "param") <- param
-    slot(.Object, "tt") <- tt
-    slot(.Object, "TTR") <- TTR
-    slot(.Object, "MSTTR") <- MSTTR
-    slot(.Object, "MATTR") <- MATTR
-    slot(.Object, "C.ld") <- C.ld
-    slot(.Object, "R.ld") <- R.ld
-    slot(.Object, "CTTR") <- CTTR
-    slot(.Object, "U.ld") <- U.ld
-    slot(.Object, "S.ld") <- S.ld
-    slot(.Object, "K.ld") <- K.ld
-    slot(.Object, "Maas") <- Maas
-    slot(.Object, "lgV0") <- lgV0
-    slot(.Object, "lgeV0") <- lgeV0
-    slot(.Object, "Maas.grw") <- Maas.grw
-    slot(.Object, "HDD") <- HDD
-    slot(.Object, "MTLD") <- MTLD
-    slot(.Object, "MTLDMA") <- MTLDMA
-    slot(.Object, "TTR.char") <- TTR.char
-    slot(.Object, "MATTR.char") <- MATTR.char
-    slot(.Object, "C.char") <- C.char
-    slot(.Object, "R.char") <- R.char
-    slot(.Object, "CTTR.char") <- CTTR.char
-    slot(.Object, "U.char") <- U.char
-    slot(.Object, "S.char") <- S.char
-    slot(.Object, "K.char") <- K.char
-    slot(.Object, "Maas.char") <- Maas.char
-    slot(.Object, "lgV0.char") <- lgV0.char
-    slot(.Object, "lgeV0.char") <- lgeV0.char
-    slot(.Object, "HDD.char") <- HDD.char
-    slot(.Object, "MTLD.char") <- MTLD.char
-    slot(.Object, "MTLDMA.char") <- MTLDMA.char
-    validObject(.Object)
-    return(.Object)
-  }
+    function(
+        .Object,
+        param=list(segment=NA, factor.size=NA, min.tokens=NA, rand.sample=NA, window=NA,
+            case.sens=NA, lemmatize=NA, log.base=NA),
+        tt=list(tokens=NA, types=NA, lemmas=NA, type.in.txt=NA, type.in.result=NA, num.tokens=numeric(), num.types=numeric(), num.lemmas=numeric()),
+        TTR=numeric(),
+        MSTTR=list(MSTTR=NA, TTR.seg=NA, dropped=NA, sd=NA),
+        MATTR=list(MATTR=NA, TTR.win=NA, sd=NA),
+        C.ld=numeric(),
+        R.ld=numeric(),
+        CTTR=numeric(),
+        U.ld=numeric(),
+        S.ld=numeric(),
+        K.ld=numeric(),
+        Maas=numeric(),
+        lgV0=numeric(),
+        lgeV0=numeric(),
+        Maas.grw=c(a=NA, lgV0=NA, Vs=NA),
+        HDD=list(HDD=NA, type.probs=NA, summary=NA, sd=NA),
+        MTLD=list(MTLD=NA, all.forw=NA, all.back=NA, factors=c(forw=NA, back=NA),
+            lengths=list(forw=NA, forw.compl=NA, mean=NA, mean.compl=NA, sd=NA, sd.compl=NA, back=NA, back.compl=NA)),
+        MTLDMA=list(MTLDMA=NA, sd=NA, all=NA, steps=NA, lengths=list(factors=NA, mean=NA, sd=NA)),
+        TTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        MATTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        C.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        R.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        CTTR.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        U.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        S.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        K.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        Maas.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        lgV0.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        lgeV0.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        HDD.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        MTLD.char=matrix(ncol=2, dimnames=list(c(), c("token", "value"))),
+        MTLDMA.char=matrix(ncol=2, dimnames=list(c(), c("token", "value")))
+    ){
+        slot(.Object, "param") <- param
+        slot(.Object, "tt") <- tt
+        slot(.Object, "TTR") <- TTR
+        slot(.Object, "MSTTR") <- MSTTR
+        slot(.Object, "MATTR") <- MATTR
+        slot(.Object, "C.ld") <- C.ld
+        slot(.Object, "R.ld") <- R.ld
+        slot(.Object, "CTTR") <- CTTR
+        slot(.Object, "U.ld") <- U.ld
+        slot(.Object, "S.ld") <- S.ld
+        slot(.Object, "K.ld") <- K.ld
+        slot(.Object, "Maas") <- Maas
+        slot(.Object, "lgV0") <- lgV0
+        slot(.Object, "lgeV0") <- lgeV0
+        slot(.Object, "Maas.grw") <- Maas.grw
+        slot(.Object, "HDD") <- HDD
+        slot(.Object, "MTLD") <- MTLD
+        slot(.Object, "MTLDMA") <- MTLDMA
+        slot(.Object, "TTR.char") <- TTR.char
+        slot(.Object, "MATTR.char") <- MATTR.char
+        slot(.Object, "C.char") <- C.char
+        slot(.Object, "R.char") <- R.char
+        slot(.Object, "CTTR.char") <- CTTR.char
+        slot(.Object, "U.char") <- U.char
+        slot(.Object, "S.char") <- S.char
+        slot(.Object, "K.char") <- K.char
+        slot(.Object, "Maas.char") <- Maas.char
+        slot(.Object, "lgV0.char") <- lgV0.char
+        slot(.Object, "lgeV0.char") <- lgeV0.char
+        slot(.Object, "HDD.char") <- HDD.char
+        slot(.Object, "MTLD.char") <- MTLD.char
+        slot(.Object, "MTLDMA.char") <- MTLDMA.char
+        validObject(.Object)
+        return(.Object)
+    }
 )
 
 setValidity("kRp.TTR", function(object){
@@ -202,12 +203,12 @@ setValidity("kRp.TTR", function(object){
     MTLDMA.names <- names(MTLDMA)
 
     if(!identical(param.names, c("segment", "factor.size", "min.tokens", "rand.sample",
-      "window", "case.sens", "lemmatize", "log.base"))){
-      stop(simpleError("Invalid object: Wrong names (slot \"param\")."))
+        "window", "case.sens", "lemmatize", "log.base"))){
+        stop(simpleError("Invalid object: Wrong names (slot \"param\")."))
     } else {}
 
     if(!identical(tt.names, c("tokens", "types", "lemmas", "type.in.txt", "type.in.result", "num.tokens", "num.types", "num.lemmas"))){
-      stop(simpleError("Invalid object: Wrong names (slot \"tt\")."))
+        stop(simpleError("Invalid object: Wrong names (slot \"tt\")."))
     } else {}
 
     if(!all(
@@ -215,7 +216,7 @@ setValidity("kRp.TTR", function(object){
         identical(MTLD.names, c("MTLD", "all.forw", "all.back", "factors", "lengths")),
         identical(MTLDMA.names, c("MTLDMA", "sd", "all", "steps", "lengths")
     ))){
-      stop(simpleError("Invalid object: Wrong names (slot \"MSTTR\", \"MTLD\" or \"MTLDMA\")."))
+        stop(simpleError("Invalid object: Wrong names (slot \"MSTTR\", \"MTLD\" or \"MTLDMA\")."))
     } else {}
 
   return(TRUE)
