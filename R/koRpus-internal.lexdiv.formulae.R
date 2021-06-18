@@ -477,10 +477,16 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
             if(curr.token < all.factorEnds[1]){
               mtldma.value <- NA
             } else {
-              # see at which point a next full factor would need more text than we have
-              lastValidIndex <- min(which(all.factorEnds > curr.token)) - 1
-              relevantFactorLenghts <- all.factorLengths[1:lastValidIndex]
-              mtldma.value <- mean(relevantFactorLenghts[relevantFactorLenghts > min.tokens])
+              # if the text is very short, there could be cases where all factor ends are shorter
+              # than the current number of tokens, causing the calculation to fail
+              if(any(all.factorEnds > curr.token)){
+                # see at which point a next full factor would need more text than we have
+                lastValidIndex <- min(which(all.factorEnds > curr.token)) - 1
+                relevantFactorLenghts <- all.factorLengths[1:lastValidIndex]
+                mtldma.value <- mean(relevantFactorLenghts[relevantFactorLenghts > min.tokens])
+              } else {
+                mtldma.value <- NA
+              }
             }
             # uncomment to debug:
             # print(paste0("token: ", curr.token, "(", txt.all.tokens[curr.token],") -- MTLD-MA: ", mtldma.value, "lastValidIndex: ", lastValidIndex))
