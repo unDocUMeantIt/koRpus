@@ -3,6 +3,13 @@ ChangeLog for package koRpus
 changes in version 0.13-9 (2021-06-07)
 unreleased:
   - this release is under development
+fixed:
+  - lex.div(): if text was too short, calculation of MTLDMA.char would fail
+    with an error; these cases now return NAs
+changed:
+  - lex.div(): dropped all default measures from "char", it's rarely useful
+    and should therefore be requested if really needed and not waste CPU
+    otherwise
 added:
   - vignette: new section explaining how to use readTagged() with third party
     POS taggers like the udpipe package
