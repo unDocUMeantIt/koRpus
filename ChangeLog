@@ -1,15 +1,19 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2021-06-07)
+changes in version 0.13-9 (2021-12-14)
 unreleased:
   - this release is under development
 fixed:
   - lex.div(): if text was too short, calculation of MTLDMA.char would fail
     with an error; these cases now return NAs
+  - guess.lang(): newer zip files with UDHR translations introduced empty lines
+    that caused problems
 changed:
   - lex.div(): dropped all default measures from "char", it's rarely useful
     and should therefore be requested if really needed and not waste CPU
     otherwise
+  - show() (kRp.lang): omit "region" if none is available, but added location
+    code including a link to open street map
 added:
   - vignette: new section explaining how to use readTagged() with third party
     POS taggers like the udpipe package

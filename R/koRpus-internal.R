@@ -1098,6 +1098,9 @@ read.udhr <- function(txt.path, quiet=TRUE){
   udhr.XML.list <- strsplit(udhr.XML, split="#")
   udhr.list <- lapply(seq_along(udhr.XML.list), function(cur.entry){eval(parse(text=paste0("c(", paste(udhr.XML.list[[cur.entry]], collapse=", "), ")")))})
 
+  # remove empty entries
+  udhr.list[sapply(udhr.list, is.null)] <- NULL
+  
   names(udhr.list) <- seq_along(udhr.list)
   # correct for missing values and variables
   udhr.list.corr <- sapply(udhr.list, function(udhr.entry){

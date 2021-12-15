@@ -46,18 +46,35 @@ setMethod("show", signature(object="kRp.lang"), function(object){
   estim.lang.uli <- slot(object, "lang")
   estim.lang.udhr <- slot(object, "udhr")
   haveCountry <- "country" %in% colnames(estim.lang.udhr)
+  haveRegion <- "region" %in% colnames(estim.lang.udhr)
+  haveLoc <- "loc" %in% colnames(estim.lang.udhr)
   if(isTRUE(haveCountry)){
-    estim.lang.country <- estim.lang.udhr[1,"country"]
+    estim.lang.country <- estim.lang.udhr[1, "country"]
   } else {}
-  estim.lang.region <- estim.lang.udhr[1,"region"]
+  if(isTRUE(haveRegion)){
+    estim.lang.region <- estim.lang.udhr[1, "region"]
+  } else {}
+  if(isTRUE(haveLoc)){
+    estim.lang.loc <- estim.lang.udhr[1, "loc"]
+    loc <- unlist(strsplit(gsub(" ", "", estim.lang.loc), ","))
+    loc_read <- paste0("Lat=", loc[1], "°, Long=", loc[2], "°")
+    loc_OSM <- paste0("https://www.openstreetmap.org/?mlat=", loc[1], "&mlon=", loc[2], "&zoom=5")
+  } else {}
   langs.available <- nrow(estim.lang.udhr)
 
   cat("\n  Estimated language: ", estim.lang,
      "\n          Identifier: ", estim.lang.uli,
     if(isTRUE(haveCountry)){
       paste0("\n             Country: ", estim.lang.country, " (", estim.lang.region,")\n")
-    } else {
+    },
+    if(isTRUE(haveRegion)){
       paste0("\n              Region: ", estim.lang.region,"\n")
+    },
+    if(isTRUE(haveLoc)){
+      paste0(
+        "\n            Location: ", loc_read,"\n",
+        "                      ", loc_OSM,"\n"
+      )
     },
      "\n", langs.available, " different languages were checked.\n\n",
      sep="")
