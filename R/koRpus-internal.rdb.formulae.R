@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -151,8 +151,8 @@ rdb_indices <- matrix(
 
 ## function validate_parameters()
 # - given: character string or list of parameter names
-# - index: name of the index that all values of "given" qill be checked against
-#     if "all" a basic check is done whether params for unknown indizes are given
+# - index: name of the index that all values of "given" will be checked against
+#     if "all" a basic check is done whether params for unknown indices are given
 validate_parameters <- function(given, index){
   if(identical(index, "all")){
     valid <- rdb_indices[,"params"]
@@ -328,6 +328,19 @@ kRp.rdb.formulae <- function(
     return(rdb_parameters("dput"))
   } else {}
 
+  all.valid.indices <- rownames(rdb_indices)
+
+  # activate all?
+  if(identical(index, "all")){
+    index <- all.valid.indices
+  } else {}
+  if(identical(index, "fast")){
+    # this should be like the defaults but without FOG
+    index <- all.valid.indices[rdb_indices[, "fast"]]
+  } else {}
+
+  index <- match.arg(index, choices=all.valid.indices, several.ok=TRUE)
+
   # check for given magic numbers
   if(!is.list(parameters)){
     stop(simpleError("Missing accurate paramteter list!"))
@@ -339,17 +352,7 @@ kRp.rdb.formulae <- function(
     )
   }
 
-  all.valid.indices <- rownames(rdb_indices)
-  # activate all?
-  if(identical(index, "all")){
-    index <- rownames(rdb_indices)
-  } else {}
-  if(identical(index, "fast")){
-    # this should be like the defaults but without FOG
-    index <- rownames(rdb_indices)[rdb_indices[, "fast"]]
-  } else {}
-
-  need.sylls <- rownames(rdb_indices)[rdb_indices[, "sylls"]]
+  need.sylls <- all.valid.indices[rdb_indices[, "sylls"]]
 
   # use for keep.input
   dropHyphen <- FALSE

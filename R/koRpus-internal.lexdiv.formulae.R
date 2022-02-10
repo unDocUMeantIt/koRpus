@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -170,10 +170,11 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   if(!is.numeric(segment) | segment < 1){
     stop(simpleError(paste("Invalid segment value (must be > 0):",factor.size)))
   } else {}
+
   # check for optional measures
-  if(!any(measure %in% c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA")) &
-    !any(char %in% c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"))){
-      stop(simpleError(paste("You didn't specify at least one valid measure or characteristic!")))
+  measure <- match.arg(measure, several.ok=TRUE)
+  if(!identical(char, "")){
+    char <- match.arg(char, several.ok=TRUE)
   } else {}
 
   basicTnT <- TnT(

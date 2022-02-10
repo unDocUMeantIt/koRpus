@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -57,7 +57,7 @@ setMethod("show", signature(object="kRp.lang"), function(object){
   if(isTRUE(haveLoc)){
     estim.lang.loc <- estim.lang.udhr[1, "loc"]
     loc <- unlist(strsplit(gsub(" ", "", estim.lang.loc), ","))
-    loc_read <- paste0("Lat=", loc[1], "°, Long=", loc[2], "°")
+    loc_read <- paste0("Lat=", loc[1], "\u00B0, Long=", loc[2], "\u00B0")
     loc_OSM <- paste0("https://www.openstreetmap.org/?mlat=", loc[1], "&mlon=", loc[2], "&zoom=5")
   } else {}
   langs.available <- nrow(estim.lang.udhr)
