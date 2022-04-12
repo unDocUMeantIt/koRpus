@@ -114,10 +114,11 @@ These methods calculate several readability indices.
 In the following formulae, \eqn{W} stands for the number of words,
       \eqn{St} for the number of sentences, \eqn{C} for the number of
 characters (usually meaning letters), \eqn{Sy} for the number of syllables,
-      \eqn{W_{3Sy}} for the number of words with at least three syllables,
-\eqn{W_{<3Sy}} for the number of words with less than three syllables, \eqn{W^{1Sy}}
+      \eqn{W_{3Sy}}{W_3Sy} for the number of words with at least three syllables,
+\eqn{W_{<3Sy}}{W_<3Sy} for the number of words with less than three syllables,
+      \eqn{W^{1Sy}}{W^1Sy}
 for words with exactly one syllable,
-      \eqn{W_{6C}} for the number of words with at least six letters, and \eqn{W_{-WL}} for the number
+      \eqn{W_{6C}}{W_6C} for the number of words with at least six letters, and \eqn{W_{-WL}}{W_-WL} for the number
 of words which are not on a certain word list (explained where needed).
 \describe{
    \item{\code{"ARI"}:}{\emph{Automated Readability Index}:
@@ -324,7 +325,7 @@ of words which are not on a certain word list (explained where needed).
    }
   \item{\code{"LIX"}}{Björnsson's \emph{Läsbarhetsindex}. Originally proposed for Swedish texts,
       calculated by:
-     \deqn{LIX = \frac{W}{St} + \frac{100 \times{} W_{7C}}{W}}{LIX = W / St + (W7C * 100) / W}
+     \deqn{LIX = \frac{W}{St} + \frac{100 \times{} W_{7C}}{W}}{LIX = W / St + (W_7C * 100) / W}
      Texts with a LIX < 25 are considered very easy, around 40 normal,
       and > 55 very difficult to read.
 
