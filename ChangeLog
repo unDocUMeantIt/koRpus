@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2022-02-10)
+changes in version 0.13-9 (2022-04-12)
 unreleased:
   - this release is under development
 fixed:
@@ -8,6 +8,8 @@ fixed:
     with an error; these cases now return NAs
   - guess.lang(): newer zip files with UDHR translations introduced empty lines
     that caused problems
+  - freq.analysis(): internal function kRp.freq.analysis.calc() was
+    trying to use an object called frequency.pre when it didn't exist
 changed:
   - lex.div(): dropped all default measures from "char", it's rarely useful
     and should therefore be requested if really needed and not waste CPU

@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -53,13 +53,13 @@ kRp.freq.analysis.calc <- function(
     # commented will be overwritten with a new version containing percentages for each word
     taggedText(txt.file) <- frequency.pre[["commented"]]
     corpusFreq(txt.file) <- frequency.pre[["freq.analysis"]]
+    if(isTRUE(desc.stat)){
+      describe(txt.file) <- text.analysis(frequency.pre[["commented"]], lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=describe(txt.file))
+    } else {}
   } else {
     corpusFreq(txt.file) <- list(NA)
+    # nothing to update here for describe()
   }
-
-  if(isTRUE(desc.stat)){
-    describe(txt.file) <- text.analysis(frequency.pre[["commented"]], lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=describe(txt.file))
-  } else {}
 
   return(txt.file)
 } ## end function kRp.freq.analysis.calc()
