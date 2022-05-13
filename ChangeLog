@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2022-04-12)
+changes in version 0.13-9 (2022-05-13)
 unreleased:
   - this release is under development
 fixed:
@@ -10,6 +10,8 @@ fixed:
     that caused problems
   - freq.analysis(): internal function kRp.freq.analysis.calc() was
     trying to use an object called frequency.pre when it didn't exist
+  - kRp_text(): validity checks don't fail any more after adding corp_freq
+    feature was added
 changed:
   - lex.div(): dropped all default measures from "char", it's rarely useful
     and should therefore be requested if really needed and not waste CPU

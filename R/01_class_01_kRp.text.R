@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -129,6 +129,11 @@ setValidity("kRp.text", function(object){
   lex_div <- feat_list[["lex_div"]]
   freq <- feat_list[["freq"]]
   corp_freq <- feat_list[["corp_freq"]]
+  if(!is.null(corp_freq)){
+    # put this in a list to be able to call sapply later, otherwise
+    # we'll get an error that this S4 object can't be coerced into a vector
+    corp_freq <- list(corp_freq)
+  }
   # obj_summary <- feat_list[["summary"]]
 
   announced_features <- names(features[features])
