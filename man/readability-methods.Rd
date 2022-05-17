@@ -130,6 +130,9 @@ of words which are not on a certain word list (explained where needed).
       the simplified formula is calculated:
      \deqn{ARI_{simple} = \frac{W}{St} + 9 \times \frac{C}{W}}{ARI_simple = W / St + 9 * C / W}
 
+     For its variants, instead to setting the \code{ARI} parameter,
+      you can also use \code{index="ARI.NRI"} or \code{index="ARI.simple"}, respectively.
+
      Wrapper function: \code{\link[koRpus:ARI]{ARI}}
    }
    \item{\code{"Bormuth"}:}{\emph{Bormuth Mean Cloze} & Grade Placement:
@@ -190,6 +193,9 @@ of words which are not on a certain word list (explained where needed).
       you must have a copy of
      this word list and provide it via the \code{word.lists=list(Dale.Chall=<your.list>)} parameter!
 
+     For its variants, instead to setting the \code{Dale.Chall} parameter,
+      you can also use \code{index="Dale.Chall.old"} or \code{index="Dale.Chall.PSK"}, respectively.
+
      Wrapper function: \code{\link[koRpus:dale.chall]{dale.chall}}
    }
    \item{\code{"Danielson.Bryan"}:}{
@@ -214,6 +220,7 @@ of words which are not on a certain word list (explained where needed).
      \strong{Note:} The Bormuth index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}{W_-WL}.
      That is,
       you must have a copy of this word list and provide it via the \code{word.lists=list(Bormuth=<your.list>)} parameter!
+
      Wrapper function: \code{\link[koRpus:DRP]{DRP}}
    }
    \item{\code{"ELF"}:}{Fang's \emph{Easy Listening Formula}:
@@ -226,12 +233,16 @@ of words which are not on a certain word list (explained where needed).
      If \code{parameters} is set to \code{Farr.Jenkins.Paterson="PSK"},
       the revised parameters by Powers-Sumner-Kearl (1958) are used:
      \deqn{FJP_{PSK} = 8.4335 + 0.0923 \times \frac{W}{St} - 0.0648 \times \frac{W^{1Sy}}{W}}{FJP_PSK = 8.4335 + 0.0923 * W / St - 0.0648 * W^1Sy / W}
+
+     For its variant, instead to setting the \code{Farr.Jenkins.Paterson} parameter,
+      you can also use \code{index="Farr.Jenkins.Paterson.PSK"}.
+
      Wrapper function: \code{\link[koRpus:farr.jenkins.paterson]{farr.jenkins.paterson}}
   }
   \item{\code{"Flesch"}:}{\emph{Flesch Reading Ease}:
      \deqn{F_{EN} = 206.835 - 1.015 \times \frac{W}{St} - 84.6 \times \frac{Sy}{W}}{F_EN = 206.835 - 1.015 * W / St - 84.6 * Sy / W}
      Certain internationalisations of the parameters are also implemented. They can be used by setting
-     the \code{Flesch} parameter to one of the following language abbreviations.
+     the \code{Flesch} parameter to one of the following:
      
      \code{"de"} (Amstad's Verständlichkeitsindex):
      \deqn{F_{DE} = 180 - \frac{W}{St} - 58.5 \times \frac{Sy}{W}}{F_DE = 180 - W / St - 58.5 * Sy / W}
@@ -249,6 +260,14 @@ of words which are not on a certain word list (explained where needed).
       the revised parameters by Powers-Sumner-Kearl (1958) are used
      to calculate a grade level:
      \deqn{F_{PSK} = 0.0778 \times \frac{W}{St} + 4.55 \times \frac{Sy}{W} - 2.2029}{F_PSK = 0.0778 * W / St + 4.55 * Sy / W - 2.2029}
+
+     For its variants, instead to setting the \code{Flesch} parameter, you can also use
+     \code{index="Flesch.Brouwer"} (NL, Brouwer Leesindex), \code{index="Flesch.de"} (DE,
+      Amstad's Verständlichkeitsindex),
+     \code{index="Flesch.es"} (ES, Fernandez-Huerta), \code{index="Flesch.fr"} (FR,
+      Kandel-Moles), \code{index="Flesch.nl"} (NL, Douma),
+     \code{index="Flesch.Szigriszt"} (ES, Szigriszt), or \code{index="Flesch.PSK"},
+      respectively.
 
      Wrapper function: \code{\link[koRpus:flesch]{flesch}}
    }
@@ -274,6 +293,9 @@ of words which are not on a certain word list (explained where needed).
       this formula takes considerably longer to compute than most others.
      If will be omitted if you set \code{index="fast"} instead of the default.
 
+     For its variants, instead to setting the \code{FOG} parameter,
+      you can also use \code{index="FOG.PSK"} or \code{index="FOG.new"}, respectively.
+
      Wrapper function: \code{\link[koRpus:FOG]{FOG}}
    }
    \item{\code{"FORCAST"}:}{
@@ -281,6 +303,9 @@ of words which are not on a certain word list (explained where needed).
      If \code{parameters} is set to \code{FORCAST="RGL"},
       the parameters for the precise reading grade level are used (see Klare, 1975, pp. 84--85):
      \deqn{FORCAST_{RGL} = 20.43 - 0.11 \times W^{1Sy} \times \frac{150}{W}}{FORCAST_RGL = 20.43 - 0.11 * W^1Sy * 150 / W}
+
+     For its variant, instead to setting the \code{FORCAST} parameter,
+      you can also use \code{index="FORCAST.RGL"}.
 
      Wrapper function: \code{\link[koRpus:FORCAST]{FORCAST}}
    }
@@ -340,7 +365,7 @@ of words which are not on a certain word list (explained where needed).
      Wrapper function: \code{\link[koRpus:nWS]{nWS}}
    }
    \item{\code{"RIX"}}{Anderson's \emph{Readability Index}. A simplified version of LIX:
-     \deqn{RIX = \frac{W_{7C}}{St}}{RIX = W7C / St}
+     \deqn{RIX = \frac{W_{7C}}{St}}{RIX = W_7C / St}
      Texts with a RIX < 1.8 are considered very easy, around 3.7 normal,
       and > 7.2 very difficult to read.
 
@@ -356,6 +381,9 @@ of words which are not on a certain word list (explained where needed).
       the formula adapted to German texts ("Qu", Bamberger & Vanecek, 1984, p. 78) is used:
      \deqn{SMOG_{de} = \sqrt{W_{3Sy} \times \frac{30}{St}} - 2}{SMOG_de = \sqrt{W_3Sy *  30 / St} - 2}
 
+     For its variants, instead to setting the \code{SMOG} parameter,
+      you can also use \code{index="SMOG.C"}, \code{index="SMOG.simple"} or \code{index="SMOG.de"}, respectively.
+
      Wrapper function: \code{\link[koRpus:SMOG]{SMOG}}
    }
    \item{\code{"Spache"}:}{\emph{Spache Revised Formula (1974)}:
@@ -368,6 +396,9 @@ of words which are not on a certain word list (explained where needed).
      769 familiar (english) words to compute \eqn{W_{-WL}}. That is,
       you must have a copy of this word list and provide it via the
      \code{word.lists=list(Spache=<your.list>)} parameter!
+
+     For its variant, instead to setting the \code{Spache} parameter,
+      you can also use \code{index="Spache.old"}.
 
      Wrapper function: \code{\link[koRpus:spache]{spache}}
    }
@@ -404,6 +435,9 @@ of words which are not on a certain word list (explained where needed).
      If \code{parameters} is set to \code{Wheeler.Smith="de"},
       the calculation stays the same, but grade placement
      is done according to Bamberger & Vanecek (1984), that is for german texts.
+
+     For its variant, instead to setting the \code{Wheeler.Smith} parameter,
+      you can also use \code{index="Wheeler.Smith.de"}.
 
      Wrapper function: \code{\link[koRpus:wheeler.smith]{wheeler.smith}}
    }

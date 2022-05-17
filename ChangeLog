@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2022-05-13)
+changes in version 0.13-9 (2022-05-17)
 unreleased:
   - this release is under development
 fixed:
@@ -12,6 +12,7 @@ fixed:
     trying to use an object called frequency.pre when it didn't exist
   - kRp_text(): validity checks don't fail any more after adding corp_freq
     feature was added
+  - readability(): removed unused variant shortcut "Spache.de"
 changed:
   - lex.div(): dropped all default measures from "char", it's rarely useful
     and should therefore be requested if really needed and not waste CPU
@@ -21,6 +22,7 @@ changed:
   - show() (kRp.lang): omit "region" if none is available, but added location
     code including a link to open street map
 added:
+  - readability(): added all index shortcuts for varaints to the documentation
   - vignette: new section explaining how to use readTagged() with third party
     POS taggers like the udpipe package
 

@@ -75,7 +75,7 @@ rdb_indices <- matrix(
     FALSE,  TRUE,   FALSE,  FALSE,    # SMOG.de
     FALSE,  TRUE,   FALSE,  TRUE,     # SMOG.simple
     TRUE,   FALSE,  TRUE,   TRUE,     # Spache
-    FALSE,  FALSE,  FALSE,  TRUE,     # Spache.de
+    # FALSE,  FALSE,  FALSE,  TRUE,     # Spache.de
     FALSE,  FALSE,  FALSE,  TRUE,     # Spache.old
     TRUE,   TRUE,   TRUE,   FALSE,    # Strain
     TRUE,   FALSE,  TRUE,   FALSE,    # Traenkle.Bailer
@@ -130,7 +130,7 @@ rdb_indices <- matrix(
       "SMOG.de", 
       "SMOG.simple", 
       "Spache", 
-      "Spache.de", 
+      # "Spache.de", 
       "Spache.old", 
       "Strain", 
       "Traenkle.Bailer", 
