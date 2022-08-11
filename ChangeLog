@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2022-05-17)
+changes in version 0.13-9 (2022-08-11)
 unreleased:
   - this release is under development
 fixed:
@@ -13,6 +13,10 @@ fixed:
   - kRp_text(): validity checks don't fail any more after adding corp_freq
     feature was added
   - readability(): removed unused variant shortcut "Spache.de"
+  - dependencies: koRpus now requires sylly >= 0.1-7 because that fixed an
+    issue with syllable count for texts where not a single word is shorter
+    than three syllables: if the bug is triggered, SMOG() always returns -2.
+    thanks to jana ludwig for reporting this!
 changed:
   - lex.div(): dropped all default measures from "char", it's rarely useful
     and should therefore be requested if really needed and not waste CPU

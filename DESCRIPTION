@@ -22,7 +22,7 @@ Description: A set of tools to analyze texts. Includes, amongst others, function
 Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alexandre
           Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
-Depends: R (>= 3.0.0),sylly (>= 0.1-6)
+Depends: R (>= 3.0.0),sylly (>= 0.1-7)
 Imports: data.table,methods,Matrix
 Enhances: rkward
 Suggests:
@@ -40,8 +40,8 @@ Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de
           family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet",
           role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
 Version: 0.13-9
-Date: 2022-05-17
-RoxygenNote: 7.1.2
+Date: 2022-08-11
+RoxygenNote: 7.2.0
 Collate: 
     '01_class_01_kRp.text.R'
     '02_method_filterByClass.R'
