@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -224,12 +224,26 @@ setMethod("tokenize",
       # read in files
       # make sure we end up with UTF-8 to avoid nasty character problems
       txt.vector <- unlist(lapply(txt.file, function(txt){
-          readLines(txt, encoding=fileEncoding, warn=FALSE)
+          txt_read <- readLines(txt, encoding=fileEncoding, warn=FALSE)
+          # as a precaution, fail if txt is an empty file
+          if(identical(txt_read, character(0))){
+            stop(simpleError(
+              paste0("Empty files are not supported, please fix and re-run:\n  ", txt)
+            ))
+          } else {}
+          return(txt_read)
         }))
       # force text into UTF-8 format
       txt.vector <- enc2utf8(txt.vector)
       Encoding(txt.vector) <- "UTF-8"
     } else {
+      if(identical(takeAsTxt, character(0))){
+        stop(simpleError(
+          paste0(
+            "Empty text vectors are not supported, please fix and re-run!"
+          )
+        ))
+      } else {}
       # process object
       txt.vector <- enc2utf8(as.vector(takeAsTxt))
       Encoding(txt.vector) <- "UTF-8"
