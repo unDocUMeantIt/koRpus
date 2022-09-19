@@ -23,7 +23,7 @@ Author: Meik Michalke [aut, cre], Earl Brown [ctb], Alberto Mirisola [ctb], Alex
           Brulet [ctb], Laura Hauser [ctb]
 Maintainer: Meik Michalke <meik.michalke@hhu.de>
 Depends: R (>= 3.0.0),sylly (>= 0.1-7)
-Imports: data.table,methods,Matrix
+Imports: data.table,methods,Matrix (>= 1.3-0)
 Enhances: rkward
 Suggests:
           testthat,tm,SnowballC,shiny,knitr,rmarkdown,koRpus.lang.de,koRpus.lang.en,koRpus.lang.es,koRpus.lang.fr,koRpus.lang.it,koRpus.lang.nl,koRpus.lang.pt,koRpus.lang.ru
@@ -40,7 +40,7 @@ Authors@R: c(person(given="Meik", family="Michalke", email="meik.michalke@hhu.de
           family="Mirisola", role=c("ctb")), person(given="Alexandre", family="Brulet",
           role=c("ctb")), person(given="Laura", family="Hauser", role=c("ctb")))
 Version: 0.13-9
-Date: 2022-08-11
+Date: 2022-09-19
 RoxygenNote: 7.2.0
 Collate: 
     '01_class_01_kRp.text.R'

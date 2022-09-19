@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2022-09-02)
+changes in version 0.13-9 (2022-09-19)
 unreleased:
   - this release is under development
 fixed:
@@ -26,6 +26,8 @@ changed:
     to improve verification of selected measures/indices/relations/tagger
   - show() (kRp.lang): omit "region" if none is available, but added location
     code including a link to open street map
+  - dependencies: are recommended by the authors of the Matrix package, set
+    requirements to Matrix (>= 1.3-0)
 added:
   - readability(): added all index shortcuts for varaints to the documentation
   - vignette: new section explaining how to use readTagged() with third party
