@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2023 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -86,6 +86,8 @@
 #'    of the \code{tokens} slot. If \code{NA}, the document name will be used (for \code{format="obj"} a random name).
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}.
+#' @param algo Character string, the algorithm to use for hashing \code{file}. This enables \code{koRpus} to perform internal checks, e.g., skip re-tagging a file if it
+#'    wasn't changed. See \code{\link[digest::digest]{digest}} for a complete list of supported algorithms. Set to \code{FALSE} to disable hashing.
 #' @param ... Only used for the method generic.
 #' @return An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}. If \code{debug=TRUE}, prints internal variable settings and attempts to return the
 #'    original output if the TreeTagger system call in a matrix.
@@ -101,6 +103,7 @@
 #' [1] \url{https://www.cis.lmu.de/~schmid/tools/TreeTagger/}
 #' @export
 #' @import methods
+#' @importFrom digest digest
 #' @docType methods
 #' @rdname treetag-methods
 #' @example inst/examples/define_sample_file.R
@@ -176,6 +179,7 @@ setGeneric(
     stemmer=NULL,
     doc_id=NA,
     add.desc="kRp.env",
+    algo="sha256",
     ...
   ){
     standardGeneric("treetag")
@@ -204,7 +208,8 @@ setMethod("treetag",
     stopwords=NULL,
     stemmer=NULL,
     doc_id=NA,
-    add.desc="kRp.env"
+    add.desc="kRp.env",
+    algo="sha256"
   ){
 
     # TreeTagger uses slightly different presets on windows and unix machines,
@@ -241,18 +246,36 @@ setMethod("treetag",
 
     # TreeTagger won't be able to use a connection object, so to make these usable,
     # we have to write its content to a temporary file first
+    txt_hash <- list()
     if(identical(format, "obj")){
       takeAsFile <- dumpTextToTempfile(text=file, encoding=encoding)
+      if(isFALSE(algo)){
+        doc_id <- check_doc_id(doc_id=doc_id, default=basename(takeAsFile))
+      } else {
+        hashed_txt <- digest(file, algo=algo, serialize=FALSE, file=FALSE)
+        doc_id <- check_doc_id(doc_id=doc_id, default=hashed_txt)
+        txt_hash[[doc_id]] <- list(
+          hash=hashed_txt,
+          algo=algo,
+          file=FALSE
+        )
+      }
       if(!isTRUE(debug)){
         on.exit(unlink(takeAsFile), add=TRUE)
       } else {}
     } else {
       # does the text file exist?
       takeAsFile <- normalizePath(file)
+      doc_id <- check_doc_id(doc_id=doc_id, default=basename(takeAsFile))
+      if(!isFALSE(algo)){
+        txt_hash[[doc_id]] <- list(
+          hash=digest(takeAsFile, algo=algo, serialize=FALSE, file=TRUE),
+          algo=algo,
+          file=TRUE
+        )
+      } else {}
     }
     check.file(takeAsFile, mode="exist")
-
-    doc_id <- check_doc_id(doc_id=doc_id, default=basename(takeAsFile))
 
     # TODO: move TT.options checks to internal function to call it here
     manual.config <- identical(treetagger, "manual")
@@ -421,7 +444,8 @@ setMethod("treetag",
           clean.raw=TT.tknz.opts[["clean.raw"]],
           perl=TT.tknz.opts[["perl"]],
           stopwords=TT.tknz.opts[["stopwords"]],
-          stemmer=TT.tknz.opts[["stemmer"]]
+          stemmer=TT.tknz.opts[["stemmer"]],
+          algo=FALSE
         )
         # TreeTagger can produce mixed encoded results if fed with UTF-8 in Latin1 mode
         tknz.results <- iconv(tknz.results, from="UTF-8", to=input.enc)
@@ -518,7 +542,7 @@ setMethod("treetag",
       sys.tt.call <- paste(treetagger, takeAsFile)
     }
 
-    ## uncomment for debugging
+    ## debugging
     if(isTRUE(debug)){
       if(isTRUE(manual.config)){
         message(paste(
@@ -619,6 +643,10 @@ setMethod("treetag",
     Encoding(txt.vector) <- "UTF-8"
     describe(results)[[doc_id]] <- basic.tagged.descriptives(results, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
 
+    if(length(txt_hash) > 0){
+      corpusHash(results) <- txt_hash
+    } else {}
+
     return(results)
   }
 )
@@ -634,7 +662,9 @@ setMethod("treetag",
   function(file, treetagger="kRp.env", rm.sgml=TRUE, lang="kRp.env",
     apply.sentc.end=TRUE, sentc.end=c(".","!","?",";",":"),
     encoding=NULL, TT.options=NULL, debug=FALSE, TT.tknz=TRUE,
-    format=NA, stopwords=NULL, stemmer=NULL, doc_id=NA, add.desc="kRp.env"){
+    format=NA, stopwords=NULL, stemmer=NULL, doc_id=NA, add.desc="kRp.env",
+    algo="sha256"
+  ){
 
     takeAsFile <- dumpTextToTempfile(text=file, encoding=encoding)
     if(!isTRUE(debug)){
@@ -644,9 +674,10 @@ setMethod("treetag",
     results <- treetag(file=takeAsFile, treetagger=treetagger, rm.sgml=rm.sgml, lang=lang,
       apply.sentc.end=apply.sentc.end, sentc.end=sentc.end,
       encoding=encoding, TT.options=TT.options, debug=debug, TT.tknz=TT.tknz,
-      format="file", stopwords=stopwords, stemmer=stemmer, doc_id=doc_id, add.desc=add.desc
+      format="file", stopwords=stopwords, stemmer=stemmer, doc_id=doc_id, add.desc=add.desc,
+      algo=algo
     )
-    
+
     return(results)
   }
 )

@@ -10,11 +10,10 @@ readability.num(
     prepositions = NULL, conjunctions = NULL, pronouns = NULL, foreign = NULL, TTR =
     NULL, FOG.hard.words = NULL, Bormuth.NOL = NULL, Dale.Chall.NOL = NULL,
     Harris.Jacobson.NOL = NULL, Spache.NOL = NULL, lang = character()),
-  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-    "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
-    "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write",
-    "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
-    "Wheeler.Smith"),
+  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall", "Danielson.Bryan",
+    "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
+    "FOG", "FORCAST", "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX",
+    "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava", "Wheeler.Smith"),
   parameters = list()
 )
 }

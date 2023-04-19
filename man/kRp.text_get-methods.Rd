@@ -48,6 +48,12 @@
 \alias{corpusFreq<-}
 \alias{corpusFreq<-,kRp.text-method}
 \alias{corpusFreq<-,-methods}
+\alias{corpusHash}
+\alias{corpusHash,kRp.text-method}
+\alias{corpusHash,-methods}
+\alias{corpusHash<-}
+\alias{corpusHash<-,kRp.text-method}
+\alias{corpusHash<-,-methods}
 \alias{corpusCorpFreq}
 \alias{corpusCorpFreq,kRp.text-method}
 \alias{corpusCorpFreq,-methods}
@@ -161,6 +167,14 @@ corpusFreq(obj, ...)
 corpusFreq(obj) <- value
 
 \S4method{corpusFreq}{kRp.text}(obj) <- value
+
+corpusHash(obj, ...)
+
+\S4method{corpusHash}{kRp.text}(obj, doc_id = NULL)
+
+corpusHash(obj) <- value
+
+\S4method{corpusHash}{kRp.text}(obj) <- value
 
 corpusCorpFreq(obj, ...)
 

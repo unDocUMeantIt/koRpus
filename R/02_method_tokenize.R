@@ -1,4 +1,4 @@
-# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2023 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -71,11 +71,14 @@
 #'    of the \code{tokens} slot. If \code{NA}, the document name will be used (for \code{format="obj"} a random name).
 #' @param add.desc Logical. If \code{TRUE}, the tag description (column \code{"desc"} of the data.frame) will be added directly
 #'    to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.
+#' @param algo Character string, the algorithm to use for hashing \code{file}. This enables \code{koRpus} to perform internal checks, e.g., skip re-tagging a file if it
+#'    wasn't changed. See \code{\link[digest::digest]{digest}} for a complete list of supported algorithms. Set to \code{FALSE} to disable hashing.
 #' @param ... Only used for the method generic.
 #' @return If \code{tag=FALSE}, a character vector with the tokenized text. If \code{tag=TRUE}, returns an object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @keywords misc
 #' @import methods
+#' @importFrom digest digest
 #' @docType methods
 #' @export
 #' @rdname tokenize-methods
@@ -153,7 +156,9 @@ setGeneric(
     stopwords=NULL,
     stemmer=NULL,
     doc_id=NA,
-    add.desc="kRp.env", ...
+    add.desc="kRp.env",
+    algo="sha256",
+    ...
   ){
     standardGeneric("tokenize")
   },
@@ -190,7 +195,8 @@ setMethod("tokenize",
     stopwords=NULL,
     stemmer=NULL,
     doc_id=NA,
-    add.desc="kRp.env"
+    add.desc="kRp.env",
+    algo="sha256"
   ){
 
     if(is.null(fileEncoding)){
@@ -198,32 +204,70 @@ setMethod("tokenize",
     } else {}
 
     # basic checks before we even proceed...
+    txt_hash <- list()
     if(identical(format, "file")){
       # valid path? file or directory?
       if(check.file(txt, mode="exist", stopOnFail=FALSE)){
-        txt.file <- txt
+        txt_file <- txt
         doc_id <- check_doc_id(doc_id=doc_id, default=basename(txt))
-        read.txt.files <- TRUE
+        read_txt_files <- TRUE
+        if(!isFALSE(algo)){
+          txt_hash[[doc_id]] <- list(
+            hash=digest(txt_file, algo=algo, serialize=FALSE, file=TRUE),
+            algo=algo,
+            file=TRUE
+          )
+        } else {}
       } else if(check.file(txt, mode="dir", stopOnFail=FALSE)){
-        txt.file <- file.path(txt, dir(txt))
+        txt_file <- file.path(txt, dir(txt))
         doc_id <- check_doc_id(doc_id=doc_id, default=basename(txt))
-        read.txt.files <- TRUE
+        read_txt_files <- TRUE
+        if(!isFALSE(algo)){
+          txt_hash <- lapply(
+            seq_along(txt_file),
+            function(this_txt){
+              return(
+                list(
+                  hash=digest(
+                    txt_file[this_txt],
+                    algo=algo,
+                    serialize=FALSE,
+                    file=TRUE
+                  ),
+                  algo=algo,
+                  file=TRUE
+                )
+              )
+            }
+          )
+          names(txt_hash) <- doc_id
+        } else {}
       } else {
         stop(simpleError(paste0("Unable to locate\n ",txt)))
       }
     } else if(identical(format, "obj")){
       takeAsTxt <- txt
-      doc_id <- check_doc_id(doc_id=doc_id, default=basename(tempfile()))
-      read.txt.files <- FALSE
+      if(isFALSE(algo)){
+        doc_id <- check_doc_id(doc_id=doc_id, default=basename(tempfile()))
+      } else {
+        hashed_txt <- digest(txt, algo=algo, serialize=FALSE, file=FALSE)
+        doc_id <- check_doc_id(doc_id=doc_id, default=hashed_txt)
+        txt_hash[[doc_id]] <- list(
+          hash=hashed_txt,
+          algo=algo,
+          file=FALSE
+        )
+      }
+      read_txt_files <- FALSE
     } else {
-      stop(simpleError(paste0("Invalid value for format: ",format)))
+      stop(simpleError(paste0("Invalid value for format: ", format)))
     }
 
     ## read file or text vector?
-    if(isTRUE(read.txt.files)){
+    if(isTRUE(read_txt_files)){
       # read in files
       # make sure we end up with UTF-8 to avoid nasty character problems
-      txt.vector <- unlist(lapply(txt.file, function(txt){
+      txt_vector <- unlist(lapply(txt_file, function(txt){
           txt_read <- readLines(txt, encoding=fileEncoding, warn=FALSE)
           # as a precaution, fail if txt is an empty file
           if(identical(txt_read, character(0))){
@@ -234,8 +278,8 @@ setMethod("tokenize",
           return(txt_read)
         }))
       # force text into UTF-8 format
-      txt.vector <- enc2utf8(txt.vector)
-      Encoding(txt.vector) <- "UTF-8"
+      txt_vector <- enc2utf8(txt_vector)
+      Encoding(txt_vector) <- "UTF-8"
     } else {
       if(identical(takeAsTxt, character(0))){
         stop(simpleError(
@@ -245,18 +289,18 @@ setMethod("tokenize",
         ))
       } else {}
       # process object
-      txt.vector <- enc2utf8(as.vector(takeAsTxt))
-      Encoding(txt.vector) <- "UTF-8"
+      txt_vector <- enc2utf8(as.vector(takeAsTxt))
+      Encoding(txt_vector) <- "UTF-8"
     }
 
     ## see if the text should be cleaned up further
     if(!is.null(clean.raw)){
-      txt.vector <- clean.text(txt.vector, from.to=clean.raw, perl=perl)
+      txt_vector <- clean.text(txt_vector, from.to=clean.raw, perl=perl)
     } else {}
 
     ## run the tokenizer
     # tokenz() is an internal function
-    tokens <- tokenz(txt.vector, split=split, ign.comp=ign.comp, encoding=fileEncoding,
+    tokens <- tokenz(txt_vector, split=split, ign.comp=ign.comp, encoding=fileEncoding,
             heuristics=heuristics, heur.fix=heur.fix, abbrev=abbrev, tag=tag, sntc=sentc.end, detect=detect)
 
     if(isTRUE(tag)){
@@ -277,7 +321,11 @@ setMethod("tokenize",
       # create object, combine descriptives afterwards
       tokens <- kRp_text(lang=lang, tokens=tagged.mtrx)
       ## descriptive statistics
-      describe(tokens)[[doc_id]] <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt.vector, doc_id=doc_id)
+      describe(tokens)[[doc_id]] <- basic.tagged.descriptives(tokens, lang=lang, txt.vector=txt_vector, doc_id=doc_id)
+    } else {}
+
+    if(length(txt_hash) > 0){
+      corpusHash(tokens) <- txt_hash
     } else {}
 
     return(tokens)
@@ -315,7 +363,8 @@ setMethod("tokenize",
     stopwords=NULL,
     stemmer=NULL,
     doc_id=NA,
-    add.desc="kRp.env"
+    add.desc="kRp.env",
+    algo="sha256"
   ){
 
     if(is.null(fileEncoding)){
@@ -343,7 +392,8 @@ setMethod("tokenize",
       stopwords=stopwords,
       stemmer=stemmer,
       doc_id=doc_id,
-      add.desc=add.desc
+      add.desc=add.desc,
+      algo=algo
     )
 
     return(results)

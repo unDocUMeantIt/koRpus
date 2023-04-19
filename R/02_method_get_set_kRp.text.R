@@ -404,7 +404,6 @@ setMethod("corpusFreq",
   }
 )
 
-
 #' @rdname kRp.text_get-methods
 #' @export
 #' @docType methods
@@ -421,6 +420,45 @@ setMethod("corpusFreq<-",
   signature=signature(obj="kRp.text"),
   function (obj, value){
     feature(obj, "freq") <- value
+    return(obj)
+  }
+)
+
+
+#' @rdname kRp.text_get-methods
+#' @docType methods
+#' @export
+setGeneric("corpusHash", function(obj, ...) standardGeneric("corpusHash"))
+
+#' @rdname kRp.text_get-methods
+#' @docType methods
+#' @export
+#' @aliases
+#'    corpusHash,-methods
+#'    corpusHash,kRp.text-method
+setMethod("corpusHash",
+  signature=signature(obj="kRp.text"),
+  function (obj, doc_id=NULL){
+    return(feature(obj, "hash", doc_id=doc_id))
+  }
+)
+
+#' @rdname kRp.text_get-methods
+#' @export
+#' @docType methods
+# @param value The new value to replace the current with.
+setGeneric("corpusHash<-", function(obj, value) standardGeneric("corpusHash<-"))
+
+#' @rdname kRp.text_get-methods
+#' @export
+#' @docType methods
+#' @aliases
+#'    corpusHash<-,-methods
+#'    corpusHash<-,kRp.text-method
+setMethod("corpusHash<-",
+  signature=signature(obj="kRp.text"),
+  function (obj, value){
+    feature(obj, "hash") <- value
     return(obj)
   }
 )

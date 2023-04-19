@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2023 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -144,10 +144,16 @@ setMethod(
       rm.hyph=rm.hyph, quiet=quiet, cache=cache, as=as)
 
     if(isTRUE(as.feature)){
-      corpusHyphen(words_orig) <- results
+      result_feature <- list()
+      result_feature[[doc_id(words)]] <- results
+      corpusHyphen(words_orig) <- result_feature
       return(words_orig)
     } else {
-      return(results)
+      if(length(results) > 1){
+        return(results)
+      } else {
+        return(results[[1]])
+      }
     }
   }
 )

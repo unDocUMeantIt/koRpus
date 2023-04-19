@@ -26,6 +26,7 @@ tokenize(
   stemmer = NULL,
   doc_id = NA,
   add.desc = "kRp.env",
+  algo = "sha256",
   ...
 )
 
@@ -47,7 +48,8 @@ tokenize(
   stopwords = NULL,
   stemmer = NULL,
   doc_id = NA,
-  add.desc = "kRp.env"
+  add.desc = "kRp.env",
+  algo = "sha256"
 )
 
 \S4method{tokenize}{kRp.connection}(
@@ -68,7 +70,8 @@ tokenize(
   stopwords = NULL,
   stemmer = NULL,
   doc_id = NA,
-  add.desc = "kRp.env"
+  add.desc = "kRp.env",
+  algo = "sha256"
 )
 }
 \arguments{
@@ -150,6 +153,10 @@ of the \code{tokens} slot. If \code{NA},
 \item{add.desc}{Logical. If \code{TRUE},
       the tag description (column \code{"desc"} of the data.frame) will be added directly
 to the resulting object. If set to \code{"kRp.env"} this is fetched from \code{\link[koRpus:get.kRp.env]{get.kRp.env}}. Only needed if \code{tag=TRUE}.}
+
+\item{algo}{Character string,
+      the algorithm to use for hashing \code{file}. This enables \code{koRpus} to perform internal checks, e.g., skip re-tagging a file if it
+wasn't changed. See \code{\link[digest::digest]{digest}} for a complete list of supported algorithms. Set to \code{FALSE} to disable hashing.}
 
 \item{...}{Only used for the method generic.}
 }

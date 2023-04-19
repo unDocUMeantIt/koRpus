@@ -16,11 +16,11 @@ readability(txt.file, ...)
 \S4method{readability}{kRp.text}(
   txt.file,
   hyphen = NULL,
-  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-    "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
-    "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Gutierrez", "Harris.Jacobson",
-    "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer",
-    "TRI", "Tuldava", "Wheeler.Smith"),
+  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall", "Danielson.Bryan",
+    "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
+    "FOG", "FORCAST", "Fucks", "Gutierrez", "Harris.Jacobson", "Linsear.Write", "LIX",
+    "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+    "Wheeler.Smith"),
   parameters = list(),
   word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache =
     NULL),
