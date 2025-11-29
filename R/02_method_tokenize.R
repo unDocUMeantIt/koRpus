@@ -38,7 +38,7 @@
 #' @param ign.comp A character vector defining punctuation which might be used in composita that should 
 #'    not be split.
 #' @param heuristics A vector to indicate if the tokenizer should use some heuristics. Can be none, one or several of the following:
-#'    \itemize{
+#'    \describe{
 #'      \item{\code{"abbr"}}{Assume that "letter-dot-letter-dot" combinations are abbreviations and leave them intact.}
 #'      \item{\code{"suf"}}{Try to detect possesive suffixes like "'s", or shorting suffixes like "'ll" and treat them as one token}
 #'      \item{\code{"pre"}}{Try to detect prefixes like "s'" or "l'" and treat them as one token}

@@ -44,27 +44,27 @@
 #'    the encoding will either be taken from a preset (if defined in \code{TT.options}), or fall back to \code{""}. Hence you can overwrite the preset encoding with this parameter.
 #' @param TT.options A list of options to configure how TreeTagger is called. You have two basic choices: Either you choose one of the pre-defined presets
 #'    or you give a full set of valid options:
-#'    \itemize{
-#'      \item {\code{path}} {Mandatory: The absolute path to the TreeTagger root directory. That is where its subfolders \code{bin}, \code{cmd} and \code{lib} are located.}
-#'      \item {\code{preset}} {Optional: If you choose one of the pre-defined presets of one of the available language packages (like \code{"de"} for German, see
+#'    \describe{
+#'      \item{\code{path}}{Mandatory: The absolute path to the TreeTagger root directory. That is where its subfolders \code{bin}, \code{cmd} and \code{lib} are located.}
+#'      \item{\code{preset}}{Optional: If you choose one of the pre-defined presets of one of the available language packages (like \code{"de"} for German, see
 #'        \code{\link[koRpus:available.koRpus.lang]{available.koRpus.lang}} for details),
 #'        you can omit all the following elements, because they will be filled with defaults. Of course this only makes sense if you have a
 #'        working default installation. Note that since koRpus 0.07-1, UTF-8 is the global default encoding.}
-#'      \item {\code{tokenizer}} {Mandatory: A character string, naming the tokenizer to be called. Interpreted relative to \code{path/cmd/}.}
-#'      \item {\code{tknz.opts}} {Optional: A character string with the options to hand over to the tokenizer. You don't need to specify "-a"
+#'      \item{\code{tokenizer}}{Mandatory: A character string, naming the tokenizer to be called. Interpreted relative to \code{path/cmd/}.}
+#'      \item{\code{tknz.opts}}{Optional: A character string with the options to hand over to the tokenizer. You don't need to specify "-a"
 #'        if \code{abbrev} is given. If \code{TT.tknz=FALSE}, you can pass configurational options to \code{\link[koRpus:tokenize]{tokenize}}
 #'        by provinding them as a named list (instead of a character string) here.}
-#'      \item {\code{pre.tagger}} {Optional: A character string with code to be run before the tagger. This code is used as-is, so you need
+#'      \item{\code{pre.tagger}}{Optional: A character string with code to be run before the tagger. This code is used as-is, so you need
 #'        make sure it includes the needed pipe symbols.}
-#'      \item {\code{tagger}} {Mandatory: A character string, naming the tagger-command to be called. Interpreted relative to \code{path/bin/}.}
-#'      \item {\code{abbrev}} {Optional: A character string, naming the abbreviation list to be used. Interpreted relative to \code{path/lib/}.}
-#'      \item {\code{params}} {Mandatory: A character string, naming the parameter file to be used. Interpreted relative to \code{path/lib/}.}
-#'      \item {\code{lexicon}} {Optional: A character string, naming the lexicon file to be used. Interpreted relative to \code{path/lib/}.}
-#'      \item {\code{lookup}} {Optional: A character string, naming the lexicon lookup command. Interpreted relative to \code{path/cmd/}.}
-#'      \item {\code{filter}} {Optional: A character string, naming the output filter to be used. Interpreted relative to \code{path/cmd/}.}
-#'      \item {\code{no.unknown}} {Optional: Logical, can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults to \code{FALSE}).}
-#'      \item {\code{splitter}} {Optional: A character string, naming the splitter to be called (before the tokenizer). Interpreted relative to \code{path/cmd/}.}
-#'      \item {\code{splitter.opts}} {Optional: A character string with the options to hand over to the splitter.}
+#'      \item{\code{tagger}}{Mandatory: A character string, naming the tagger-command to be called. Interpreted relative to \code{path/bin/}.}
+#'      \item{\code{abbrev}}{Optional: A character string, naming the abbreviation list to be used. Interpreted relative to \code{path/lib/}.}
+#'      \item{\code{params}}{Mandatory: A character string, naming the parameter file to be used. Interpreted relative to \code{path/lib/}.}
+#'      \item{\code{lexicon}}{Optional: A character string, naming the lexicon file to be used. Interpreted relative to \code{path/lib/}.}
+#'      \item{\code{lookup}}{Optional: A character string, naming the lexicon lookup command. Interpreted relative to \code{path/cmd/}.}
+#'      \item{\code{filter}}{Optional: A character string, naming the output filter to be used. Interpreted relative to \code{path/cmd/}.}
+#'      \item{\code{no.unknown}}{Optional: Logical, can be used to toggle the \code{"-no-unknown"} option of TreeTagger (defaults to \code{FALSE}).}
+#'      \item{\code{splitter}}{Optional: A character string, naming the splitter to be called (before the tokenizer). Interpreted relative to \code{path/cmd/}.}
+#'      \item{\code{splitter.opts}}{Optional: A character string with the options to hand over to the splitter.}
 #'    }
 #' You can also set these options globally using \code{\link[koRpus:set.kRp.env]{set.kRp.env}},
 #' and then force \code{treetag} to use them by setting \code{TT.options="kRp.env"} here. Note: 

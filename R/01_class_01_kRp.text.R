@@ -63,7 +63,7 @@ valid.tokens.kRp.text <- colnames(init.kRp.text.df())
 #' @slot features A named logical vector, indicating which features are available in this object's \code{feat_list} slot.
 #'    Common features are listed in the description of the \code{feat_list} slot.
 #' @slot feat_list A named list with optional analysis results or other content as used by the defined \code{features}:
-#'    \itemize{
+#'    \describe{
 #'      \item{\code{hyphen} }{A named list of objects of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}.}
 #'      \item{\code{readability} }{A named list of objects of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.}
 #'      \item{\code{lex_div} }{A named list of objects of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.}
