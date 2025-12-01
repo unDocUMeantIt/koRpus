@@ -1,6 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2022-09-19)
+changes in version 0.13-9 (2025-12-01)
 unreleased:
   - this release is under development
 fixed:
@@ -17,6 +17,8 @@ fixed:
     issue with syllable count for texts where not a single word is shorter
     than three syllables: if the bug is triggered, SMOG() always returns -2.
     thanks to jana ludwig for reporting this!
+  - docs were fixed, mostly replacing "\itemize" with "\describe". thanks to
+    gerry ryan for suggesting this!
 changed:
   - tokenize(): now fails with an error if text files/vectors are empty
   - lex.div(): dropped all default measures from "char", it's rarely useful

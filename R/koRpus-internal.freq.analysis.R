@@ -1,4 +1,4 @@
-# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -43,7 +43,7 @@ kRp.freq.analysis.calc <- function(
   if(!is.null(corp.freq)){
     # before we even start, check if we're alright:
     stopifnot(inherits(corp.freq, "kRp.corp.freq"))
-    frequency.pre <- text.freq.analysis(
+    frequency.pre <- textFreqAnalysis(
       txt.commented=taggedText(txt.file),
       corp.freq=corp.freq,
       corp.rm.class=corp.rm.class,
@@ -54,7 +54,7 @@ kRp.freq.analysis.calc <- function(
     taggedText(txt.file) <- frequency.pre[["commented"]]
     corpusFreq(txt.file) <- frequency.pre[["freq.analysis"]]
     if(isTRUE(desc.stat)){
-      describe(txt.file) <- text.analysis(frequency.pre[["commented"]], lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=describe(txt.file))
+      describe(txt.file) <- textAnalysis(frequency.pre[["commented"]], lang=lang, corp.rm.class=corp.rm.class, corp.rm.tag=corp.rm.tag, desc=describe(txt.file))
     } else {}
   } else {
     corpusFreq(txt.file) <- list(NA)
@@ -142,9 +142,9 @@ frqcy.of.types <- function(tokens, byTypes=TRUE, byTokens=TRUE){
 } ## end function frqcy.of.types()
 
 
-## function text.freq.analysis()
+## function textFreqAnalysis()
 # expects tagged text, commented text and valid corp.freq objects
-text.freq.analysis <- function(
+textFreqAnalysis <- function(
   txt.commented,
   corp.freq,
   corp.rm.class,
@@ -204,4 +204,4 @@ text.freq.analysis <- function(
   results <- list(commented=txt.commented, freq.analysis=freq.analysis)
 
   return(results)
-} ## end function text.freq.analysis()
+} ## end function textFreqAnalysis()

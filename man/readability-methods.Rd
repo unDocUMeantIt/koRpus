@@ -16,11 +16,11 @@ readability(txt.file, ...)
 \S4method{readability}{kRp.text}(
   txt.file,
   hyphen = NULL,
-  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall",
-    "Danielson.Bryan", "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch",
-    "Flesch.Kincaid", "FOG", "FORCAST", "Fucks", "Gutierrez", "Harris.Jacobson",
-    "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer",
-    "TRI", "Tuldava", "Wheeler.Smith"),
+  index = c("ARI", "Bormuth", "Coleman", "Coleman.Liau", "Dale.Chall", "Danielson.Bryan",
+    "Dickes.Steiwer", "DRP", "ELF", "Farr.Jenkins.Paterson", "Flesch", "Flesch.Kincaid",
+    "FOG", "FORCAST", "Fucks", "Gutierrez", "Harris.Jacobson", "Linsear.Write", "LIX",
+    "nWS", "RIX", "SMOG", "Spache", "Strain", "Traenkle.Bailer", "TRI", "Tuldava",
+    "Wheeler.Smith"),
   parameters = list(),
   word.lists = list(Bormuth = NULL, Dale.Chall = NULL, Harris.Jacobson = NULL, Spache =
     NULL),
@@ -512,7 +512,7 @@ Anderson,
 
    DuBay,
       W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-     WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+     WWW: \url{https://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
 
    Farr, J.N., Jenkins, J.J. & Paterson,
       D.G. (1951). Simplification of Flesch Reading Ease formula. \emph{Journal of Applied Psychology}, 35(5), 333--337.

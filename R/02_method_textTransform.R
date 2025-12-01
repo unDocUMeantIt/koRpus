@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -122,13 +122,13 @@ setMethod("textTransform",
 
     if(identical(scheme, "minor")){
       # change first letter to lower case
-      txt.df[["token"]] <- text.1st.letter(txt.df[["token"]], "lower")
+      txt.df[["token"]] <- text1stLetter(txt.df[["token"]], "lower")
     } else if(identical(scheme, "all.minor")){
       # change all to lower case
       txt.df[["token"]] <- tolower(txt.df[["token"]])
     } else if(identical(scheme, "major")){
       # change first letter to upper case
-      txt.df[["token"]] <- text.1st.letter(txt.df[["token"]], "upper")
+      txt.df[["token"]] <- text1stLetter(txt.df[["token"]], "upper")
     } else if(identical(scheme, "all.major")){
       # change all to upper case
       txt.df[["token"]] <- toupper(txt.df[["token"]])
@@ -138,8 +138,8 @@ setMethod("textTransform",
       num.words <- nrow(txt.df)
       num.upper <- round(num.words * p)
       upper.select <- 1:num.words %in% sample(1:num.words, num.upper)
-      txt.df[upper.select,"token"] <- text.1st.letter(txt.df[upper.select,"token"], "upper")
-      txt.df[!upper.select,"token"] <- text.1st.letter(txt.df[!upper.select,"token"], "lower")
+      txt.df[upper.select,"token"] <- text1stLetter(txt.df[upper.select,"token"], "upper")
+      txt.df[!upper.select,"token"] <- text1stLetter(txt.df[!upper.select,"token"], "lower")
     } else if(scheme %in% c("de.norm", "de.inv", "eu.norm", "eu.inv")){
       # beginning of sentences must begin in upper case
       # we'll define "beginning" as anything after a fullstop
@@ -170,12 +170,12 @@ setMethod("textTransform",
       all.to.upper <- nouns | sentc.begins
       if(scheme %in% c("de.norm", "eu.norm")){
         # write all nouns, names and sentence beginnings starting with upper case
-        txt.df[all.to.upper,"token"] <- text.1st.letter(txt.df[all.to.upper,"token"], "upper")
-        txt.df[!all.to.upper,"token"] <- text.1st.letter(txt.df[!all.to.upper,"token"], "lower")
+        txt.df[all.to.upper,"token"] <- text1stLetter(txt.df[all.to.upper,"token"], "upper")
+        txt.df[!all.to.upper,"token"] <- text1stLetter(txt.df[!all.to.upper,"token"], "lower")
       } else {
         # full inversion of "de.norm"
-        txt.df[!all.to.upper,"token"] <- text.1st.letter(txt.df[!all.to.upper,"token"], "upper")
-        txt.df[all.to.upper,"token"] <- text.1st.letter(txt.df[all.to.upper,"token"], "lower")
+        txt.df[!all.to.upper,"token"] <- text1stLetter(txt.df[!all.to.upper,"token"], "upper")
+        txt.df[all.to.upper,"token"] <- text1stLetter(txt.df[all.to.upper,"token"], "lower")
       }
     } else if(identical(scheme, "normalize")){
       matched_tokens_idx <- query(txt.df, var=var, query=query, ...)[["idx"]]

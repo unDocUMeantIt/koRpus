@@ -364,7 +364,7 @@
 #'      \emph{Zeitschrift für Entwicklungspsychologie und Pädagogische Psychologie}, 9(1), 20--28.
 #'
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-#'      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+#'      WWW: \url{https://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
 #'
 #'    Farr, J.N., Jenkins, J.J. & Paterson, D.G. (1951). Simplification of Flesch Reading Ease formula. \emph{Journal of Applied Psychology}, 35(5), 333--337.
 #'

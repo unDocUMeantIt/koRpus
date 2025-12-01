@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -53,7 +53,7 @@
 #' @docType methods
 #' @export
 #' @references
-#'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+#'    [1] Text Interchange Formats (\url{https://github.com/ropenscilabs/tif})
 #' @example inst/examples/if_lang_en_clause_start.R
 #' @example inst/examples/define_sample_file.R
 #' @examples
