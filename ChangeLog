@@ -1,8 +1,6 @@
 ChangeLog for package koRpus
 
-changes in version 0.13-9 (2025-12-01)
-unreleased:
-  - this release is under development
+changes in version 0.13-9 (2026-02-01)
 fixed:
   - lex.div(): if text was too short, calculation of MTLDMA.char would fail
     with an error; these cases now return NAs
