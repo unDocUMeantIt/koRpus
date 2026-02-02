@@ -1,4 +1,4 @@
-# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -58,7 +58,7 @@
 #'  Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.
 #'      Dissertation, Stanford University, Dept. of Computer Science.
 #'
-#' [1] \url{https://tug.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/}
+#' [1] \url{https://ctan.org/tex-archive/language/hyph-utf8/tex/patterns/txt/}
 #'
 #' [2] \url{https://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
 #' @import methods

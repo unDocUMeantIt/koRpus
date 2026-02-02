@@ -1,4 +1,4 @@
-# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -84,7 +84,7 @@ valid.tokens.kRp.text <- colnames(init.kRp.text.df())
 #' @aliases kRp.text-class
 #' @import methods
 #' @references
-#'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+#'    [1] Text Interchange Formats (\url{https://github.com/ropenscilabs/tif})
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @export kRp_text
