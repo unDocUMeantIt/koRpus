@@ -71,6 +71,6 @@ if(require("koRpus.lang.en", quietly = TRUE)){
 } else {}
 }
 \references{
-[1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+[1] Text Interchange Formats (\url{https://github.com/ropenscilabs/tif})
    [2] tm.plugin.koRpus: https://CRAN.R-project.org/package=tm.plugin.koRpus
 }

@@ -512,7 +512,7 @@ Anderson,
 
    DuBay,
       W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-     WWW: \url{https://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+     WWW: \url{https://eric.ed.gov/?id=ed490073}; 02.02.2026.
 
    Farr, J.N., Jenkins, J.J. & Paterson,
       D.G. (1951). Simplification of Flesch Reading Ease formula. \emph{Journal of Applied Psychology}, 35(5), 333--337.

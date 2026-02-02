@@ -141,7 +141,7 @@ The frequency analysis functions in this package can look up how often each word
 in Celex format are support, as is the Leipzig Corpora Collection [@quasthoff_LCC_2006] file format. To use such a database with this package, you simply need to download one of the .zip/.tar files.
 
 ## Translated Human Rights Declaration
-If you want to estimate the language of a text, reference texts in known languages are needed. In `koRpus`, the [Universal Declaration of Human Rights with its more than 350 translations](https://www.unicode.org/udhr/downloads.html) is used.
+If you want to estimate the language of a text, reference texts in known languages are needed. In `koRpus`, the [Universal Declaration of Human Rights with its more than 350 translations](https://www.unicode.org/udhr/) is used.
 
 # A sample session
 From now on it is assumed that the above requirements are correctly installed and working. If an optional component is used it will be noted. Further, we'll need a sample text to analyze.
@@ -499,7 +499,7 @@ It is possible to calculate the readability measures from the relevant key value
 
 Another feature of this package is the detection of the language a text was (most probably) written in. This is done by gzipping reference texts in known languages, gzipping them again with addition of a small sample of the text in unknown language, and determining the case where the additional sample causes the smallest increase in file size [as described in @benedetto_gzip_2002]. By default, the compressed objects will be created in memory only.
 
-To use the function `guess.lang()`, you first need to download the reference material. In this implementation, the Universal Declaration of Human Rights in unicode formatting is used, because the document holds the world record of beeing the text translated into the most languages, and is [publicly available](https://www.unicode.org/udhr/downloads.html). Please get the zipped archive with all translations in .txt format. You can, but don't have to unzip the archive. The text to find the language of must also be in a unicode .txt file:
+To use the function `guess.lang()`, you first need to download the reference material. In this implementation, the Universal Declaration of Human Rights in unicode formatting is used, because the document holds the world record of beeing the text translated into the most languages, and is [publicly available](https://www.unicode.org/udhr/). Please get the zipped archive with all translations in .txt format. You can, but don't have to unzip the archive. The text to find the language of must also be in a unicode .txt file:
 
 ```{r, eval=FALSE}
 guessed <- guess.lang(

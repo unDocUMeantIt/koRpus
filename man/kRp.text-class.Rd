@@ -67,6 +67,6 @@ Should you need to manually generate objects of this class (which should rarely 
 }
 
 \references{
-[1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+[1] Text Interchange Formats (\url{https://github.com/ropenscilabs/tif})
 }
 \keyword{classes}

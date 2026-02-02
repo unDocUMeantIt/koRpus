@@ -51,7 +51,7 @@ FOG(tagged.text)
 }
 \references{
 DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-     WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+     WWW: \url{https://eric.ed.gov/?id=ed490073}; 02.02.2026.
 
    Powers, R.D, Sumner, W.A, & Kearl,
       B.E. (1958). A recalculation of four adult readability formulas,
