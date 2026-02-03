@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -26,7 +26,7 @@
 #'
 #' @note For this implementation the documents provided by the "UDHR in Unicode" project[2] have been used.
 #' Their translations are \emph{not part of this package} and must be downloaded seperately to use \code{guess.lang}!
-#' You need the ZIP archive containing \emph{all the plain text files} from \url{https://unicode.org/udhr/downloads.html}.
+#' You need the ZIP archive containing \emph{all the plain text files} from \url{https://unicode.org/udhr/}.
 #'
 #' @param txt.file A character vector pointing to the file with the text to be analyzed.
 #' @param udhr.path A character string, either pointing to the directory where you unzipped the translations of the
@@ -42,7 +42,7 @@
 #' @references
 #' Benedetto, D., Caglioti, E. & Loreto, V. (2002). Language trees and zipping. \emph{Physical Review Letters}, 88(4), 048702.
 #'
-#' [1] \url{https://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
+#' [1] \url{https://www.ohchr.org/en/universal-declaration-of-human-rights/}
 #'
 #' [2] \url{https://unicode.org/udhr/}
 #' @keywords misc

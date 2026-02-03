@@ -1,4 +1,4 @@
-# Copyright 2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2019-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -76,7 +76,7 @@ valid.TT.res.kRp.tagged <- colnames(deprecated.init.kRp.tagged.df())
 #'    This data.frame structure adheres to the "Text Interchange Formats" guidelines set out by rOpenSci[1].
 #' @import methods
 #' @references
-#'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+#'    [1] Text Interchange Formats (\url{https://github.com/ropenscilabs/tif})
 #' @keywords classes
 #' @export kRp_tagged
 #' @exportClass kRp.tagged

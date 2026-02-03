@@ -108,7 +108,8 @@ setGeneric("query", function(obj, ...) standardGeneric("query"))
 #' @include 01_class_03_kRp.corp.freq.R
 setMethod("query",
     signature(obj="kRp.corp.freq"),
-    function (obj, var=NULL, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="word"){
+    function (obj, var=NULL, query, rel=c("eq", "gt", "ge", "lt", "le"), as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="word"){
+      rel <- match.arg(rel)
       # if query is a list, invoke queryList()
       if(is.list(query)){
         obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)
@@ -139,7 +140,8 @@ setMethod("query",
 #' @include 01_class_01_kRp.text.R
 setMethod("query",
     signature(obj="kRp.text"),
-    function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="token"){
+    function (obj, var, query, rel=c("eq", "gt", "ge", "lt", "le"), as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="token"){
+      rel <- match.arg(rel)
       # if query is a list, invoke queryList()
       if(is.list(query)){
         obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=as.df, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)
@@ -170,7 +172,8 @@ setMethod("query",
 #' @aliases query,data.frame-method
 setMethod("query",
     signature(obj="data.frame"),
-    function (obj, var, query, rel="eq", as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="token"){
+    function (obj, var, query, rel=c("eq", "gt", "ge", "lt", "le"), as.df=TRUE, ignore.case=TRUE, perl=FALSE, regexp_var="token"){
+      rel <- match.arg(rel)
       # if query is a list, invoke queryList()
       if(is.list(query)){
         obj <- queryList(obj=obj, var=var, query=query, rel=rel, as.df=TRUE, ignore.case=ignore.case, perl=perl, regexp_var=regexp_var)

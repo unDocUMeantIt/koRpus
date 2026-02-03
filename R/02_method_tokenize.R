@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -38,7 +38,7 @@
 #' @param ign.comp A character vector defining punctuation which might be used in composita that should 
 #'    not be split.
 #' @param heuristics A vector to indicate if the tokenizer should use some heuristics. Can be none, one or several of the following:
-#'    \itemize{
+#'    \describe{
 #'      \item{\code{"abbr"}}{Assume that "letter-dot-letter-dot" combinations are abbreviations and leave them intact.}
 #'      \item{\code{"suf"}}{Try to detect possesive suffixes like "'s", or shorting suffixes like "'ll" and treat them as one token}
 #'      \item{\code{"pre"}}{Try to detect prefixes like "s'" or "l'" and treat them as one token}
@@ -224,12 +224,26 @@ setMethod("tokenize",
       # read in files
       # make sure we end up with UTF-8 to avoid nasty character problems
       txt.vector <- unlist(lapply(txt.file, function(txt){
-          readLines(txt, encoding=fileEncoding, warn=FALSE)
+          txt_read <- readLines(txt, encoding=fileEncoding, warn=FALSE)
+          # as a precaution, fail if txt is an empty file
+          if(identical(txt_read, character(0))){
+            stop(simpleError(
+              paste0("Empty files are not supported, please fix and re-run:\n  ", txt)
+            ))
+          } else {}
+          return(txt_read)
         }))
       # force text into UTF-8 format
       txt.vector <- enc2utf8(txt.vector)
       Encoding(txt.vector) <- "UTF-8"
     } else {
+      if(identical(takeAsTxt, character(0))){
+        stop(simpleError(
+          paste0(
+            "Empty text vectors are not supported, please fix and re-run!"
+          )
+        ))
+      } else {}
       # process object
       txt.vector <- enc2utf8(as.vector(takeAsTxt))
       Encoding(txt.vector) <- "UTF-8"

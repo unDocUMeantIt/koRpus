@@ -1,4 +1,4 @@
-# Copyright 2010-2019 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -170,10 +170,11 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
   if(!is.numeric(segment) | segment < 1){
     stop(simpleError(paste("Invalid segment value (must be > 0):",factor.size)))
   } else {}
+
   # check for optional measures
-  if(!any(measure %in% c("TTR","MSTTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA")) &
-    !any(char %in% c("TTR","MATTR","C","R","CTTR","U","S","K","Maas","HD-D","MTLD","MTLD-MA"))){
-      stop(simpleError(paste("You didn't specify at least one valid measure or characteristic!")))
+  measure <- match.arg(measure, several.ok=TRUE)
+  if(!identical(char, "")){
+    char <- match.arg(char, several.ok=TRUE)
   } else {}
 
   basicTnT <- TnT(
@@ -477,10 +478,16 @@ kRp.lex.div.formulae <- function(txt, segment=100, factor.size=0.72, min.tokens=
             if(curr.token < all.factorEnds[1]){
               mtldma.value <- NA
             } else {
-              # see at which point a next full factor would need more text than we have
-              lastValidIndex <- min(which(all.factorEnds > curr.token)) - 1
-              relevantFactorLenghts <- all.factorLengths[1:lastValidIndex]
-              mtldma.value <- mean(relevantFactorLenghts[relevantFactorLenghts > min.tokens])
+              # if the text is very short, there could be cases where all factor ends are shorter
+              # than the current number of tokens, causing the calculation to fail
+              if(any(all.factorEnds > curr.token)){
+                # see at which point a next full factor would need more text than we have
+                lastValidIndex <- min(which(all.factorEnds > curr.token)) - 1
+                relevantFactorLenghts <- all.factorLengths[1:lastValidIndex]
+                mtldma.value <- mean(relevantFactorLenghts[relevantFactorLenghts > min.tokens])
+              } else {
+                mtldma.value <- NA
+              }
             }
             # uncomment to debug:
             # print(paste0("token: ", curr.token, "(", txt.all.tokens[curr.token],") -- MTLD-MA: ", mtldma.value, "lastValidIndex: ", lastValidIndex))

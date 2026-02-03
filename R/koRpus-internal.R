@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -611,9 +611,9 @@ distrib.to.fixed <- function(distrib, all.values, idx="s"){
 } ## end function distrib.to.fixed()
 
 
-## function text.analysis()
+## function textAnalysis()
 # "txt" must be a tagged and commented text object!
-text.analysis <- function(txt, lang, corp.rm.class, corp.rm.tag, desc){
+textAnalysis <- function(txt, lang, corp.rm.class, corp.rm.tag, desc){
   ## global stuff
   # count sentences
   txt.stend.tags <- kRp.POS.tags(lang, list.tags=TRUE, tags="sentc")
@@ -681,7 +681,7 @@ text.analysis <- function(txt, lang, corp.rm.class, corp.rm.tag, desc){
           )
   results <- append(add.results, desc)
   return(results)
-} ## end function text.analysis()
+} ## end function textAnalysis()
 
 
 ## function word.freq()
@@ -1098,6 +1098,9 @@ read.udhr <- function(txt.path, quiet=TRUE){
   udhr.XML.list <- strsplit(udhr.XML, split="#")
   udhr.list <- lapply(seq_along(udhr.XML.list), function(cur.entry){eval(parse(text=paste0("c(", paste(udhr.XML.list[[cur.entry]], collapse=", "), ")")))})
 
+  # remove empty entries
+  udhr.list[sapply(udhr.list, is.null)] <- NULL
+  
   names(udhr.list) <- seq_along(udhr.list)
   # correct for missing values and variables
   udhr.list.corr <- sapply(udhr.list, function(udhr.entry){
@@ -1144,10 +1147,10 @@ read.udhr <- function(txt.path, quiet=TRUE){
 } ## end function read.udhr()
 
 
-## function text.1st.letter()
+## function text1stLetter()
 # changes the first letter of a word to upper or lower case
 # if case="change", the present case will be switched to the other
-text.1st.letter <- function(word, case){
+text1stLetter <- function(word, case){
 
   results <- sapply(word, function(cur.word){
     word.vector <- unlist(strsplit(cur.word, split=""))
@@ -1171,7 +1174,7 @@ text.1st.letter <- function(word, case){
     }, USE.NAMES=FALSE)
 
   return(results)
-} ## end function text.1st.letter()
+} ## end function text1stLetter()
 
 
 ## function taggz()

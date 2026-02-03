@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -63,7 +63,7 @@ valid.tokens.kRp.text <- colnames(init.kRp.text.df())
 #' @slot features A named logical vector, indicating which features are available in this object's \code{feat_list} slot.
 #'    Common features are listed in the description of the \code{feat_list} slot.
 #' @slot feat_list A named list with optional analysis results or other content as used by the defined \code{features}:
-#'    \itemize{
+#'    \describe{
 #'      \item{\code{hyphen} }{A named list of objects of class \code{\link[sylly:kRp.hyphen-class]{kRp.hyphen}}.}
 #'      \item{\code{readability} }{A named list of objects of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.}
 #'      \item{\code{lex_div} }{A named list of objects of class \code{\link[koRpus:kRp.TTR-class]{kRp.TTR}}.}
@@ -84,7 +84,7 @@ valid.tokens.kRp.text <- colnames(init.kRp.text.df())
 #' @aliases kRp.text-class
 #' @import methods
 #' @references
-#'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+#'    [1] Text Interchange Formats (\url{https://github.com/ropenscilabs/tif})
 #' @keywords classes
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @export kRp_text
@@ -129,6 +129,11 @@ setValidity("kRp.text", function(object){
   lex_div <- feat_list[["lex_div"]]
   freq <- feat_list[["freq"]]
   corp_freq <- feat_list[["corp_freq"]]
+  if(!is.null(corp_freq)){
+    # put this in a list to be able to call sapply later, otherwise
+    # we'll get an error that this S4 object can't be coerced into a vector
+    corp_freq <- list(corp_freq)
+  }
   # obj_summary <- feat_list[["summary"]]
 
   announced_features <- names(features[features])

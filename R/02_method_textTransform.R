@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -24,9 +24,9 @@
 #' 
 #' @section Function: You can dynamically calculate the replacement value for the \code{"normalize"} scheme by setting \code{method="function"} and
 #' providing a function object as \code{f}. The function you provide must support the following arguments:
-#' \itemize{
-#'   \item {\code{tokens}} {The original tokens slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
-#'   \item {\code{match}} {A logical vector, indicating for each row of \code{tokens} whether it's a query match or not.}
+#' \describe{
+#'   \item{\code{tokens}}{The original tokens slot of the \code{txt} object (see \code{\link[koRpus:taggedText]{taggedText}}).}
+#'   \item{\code{match}}{A logical vector, indicating for each row of \code{tokens} whether it's a query match or not.}
 #' }
 #' You can then use these arguments in your function body to calculate the replacement, e.g. \code{tokens[match,"token"]} to get all relevant tokens.
 #' The return value of the function will be used as the replacement for all matched tokens. You probably want to make sure it's a character vecor
@@ -34,19 +34,19 @@
 #'
 #' @param txt An object of class \code{\link[koRpus:kRp.text-class]{kRp.text}}.
 #' @param scheme One of the following character strings:
-#' \itemize{
-#'   \item {\code{"minor"}} {Start each word with a lowercase letter.}
-#'   \item {\code{"all.minor"}} {Forces all letters into lowercase.}
-#'   \item {\code{"major"}} {Start each word with a uppercase letter.}
-#'   \item {\code{"all.major"}} {Forces all letters into uppercase.}
-#'   \item {\code{"random"}} {Randomly start words with uppercase or lowercase letters.}
-#'   \item {\code{"de.norm"}} {German norm: All names, nouns and sentence beginnings start with an uppercase letter,
+#' \describe{
+#'   \item{\code{"minor"}}{Start each word with a lowercase letter.}
+#'   \item{\code{"all.minor"}}{Forces all letters into lowercase.}
+#'   \item{\code{"major"}}{Start each word with a uppercase letter.}
+#'   \item{\code{"all.major"}}{Forces all letters into uppercase.}
+#'   \item{\code{"random"}}{Randomly start words with uppercase or lowercase letters.}
+#'   \item{\code{"de.norm"}}{German norm: All names, nouns and sentence beginnings start with an uppercase letter,
 #'      anything else with a lowercase letter.}
-#'   \item {\code{"de.inv"}} {Inversion of \code{"de.norm"}.}
-#'   \item {\code{"eu.norm"}} {Usual European cases: Only names and sentence beginnings start with an uppercase letter,
+#'   \item{\code{"de.inv"}}{Inversion of \code{"de.norm"}.}
+#'   \item{\code{"eu.norm"}}{Usual European cases: Only names and sentence beginnings start with an uppercase letter,
 #'      anything else with a lowercase letter.}
-#'   \item {\code{"eu.inv"}} {Inversion of \code{"eu.norm"}.}
-#'   \item {\code{"normalize"}} {Replace all tokens matching \code{query} in column \code{var} according to \code{method} (see below).}
+#'   \item{\code{"eu.inv"}}{Inversion of \code{"eu.norm"}.}
+#'   \item{\code{"normalize"}}{Replace all tokens matching \code{query} in column \code{var} according to \code{method} (see below).}
 #'  }
 #' @param p Numeric value between 0 and 1. Defines the probability for upper case letters (relevant only
 #'    if \code{scheme="random"}).
@@ -56,11 +56,11 @@
 #' @param query A character vector (for words), regular expression, or single number naming values to be matched in the variable.
 #'    See \code{\link[koRpus:query]{query}} for details. Relevant only if \code{scheme="normalize"}.
 #' @param method One of the following character strings:
-#'    \itemize{
-#'      \item {\code{"shortest"}} {Replace all matches with the shortest value found.}
-#'      \item {\code{"longest"}} {Replace all matches with the longest value found.}
-#'      \item {\code{"replace"}} {Replace all matches with the token given via \code{replacement}.}
-#'      \item {\code{"function"}} {Replace all matches with the result of the function provided by \code{f} (see section Function for details).}
+#'    \describe{
+#'      \item{\code{"shortest"}}{Replace all matches with the shortest value found.}
+#'      \item{\code{"longest"}}{Replace all matches with the longest value found.}
+#'      \item{\code{"replace"}}{Replace all matches with the token given via \code{replacement}.}
+#'      \item{\code{"function"}}{Replace all matches with the result of the function provided by \code{f} (see section Function for details).}
 #'    }
 #'    In case of \code{"shortest"} and \code{"longest"}, if multiple values of the same length are found, the (first) most prevalent one is being used.
 #'    The actual replacement value is documented in the \code{diff} slot of the object, as a list called \code{transfmt.normalize}.
@@ -122,13 +122,13 @@ setMethod("textTransform",
 
     if(identical(scheme, "minor")){
       # change first letter to lower case
-      txt.df[["token"]] <- text.1st.letter(txt.df[["token"]], "lower")
+      txt.df[["token"]] <- text1stLetter(txt.df[["token"]], "lower")
     } else if(identical(scheme, "all.minor")){
       # change all to lower case
       txt.df[["token"]] <- tolower(txt.df[["token"]])
     } else if(identical(scheme, "major")){
       # change first letter to upper case
-      txt.df[["token"]] <- text.1st.letter(txt.df[["token"]], "upper")
+      txt.df[["token"]] <- text1stLetter(txt.df[["token"]], "upper")
     } else if(identical(scheme, "all.major")){
       # change all to upper case
       txt.df[["token"]] <- toupper(txt.df[["token"]])
@@ -138,8 +138,8 @@ setMethod("textTransform",
       num.words <- nrow(txt.df)
       num.upper <- round(num.words * p)
       upper.select <- 1:num.words %in% sample(1:num.words, num.upper)
-      txt.df[upper.select,"token"] <- text.1st.letter(txt.df[upper.select,"token"], "upper")
-      txt.df[!upper.select,"token"] <- text.1st.letter(txt.df[!upper.select,"token"], "lower")
+      txt.df[upper.select,"token"] <- text1stLetter(txt.df[upper.select,"token"], "upper")
+      txt.df[!upper.select,"token"] <- text1stLetter(txt.df[!upper.select,"token"], "lower")
     } else if(scheme %in% c("de.norm", "de.inv", "eu.norm", "eu.inv")){
       # beginning of sentences must begin in upper case
       # we'll define "beginning" as anything after a fullstop
@@ -170,12 +170,12 @@ setMethod("textTransform",
       all.to.upper <- nouns | sentc.begins
       if(scheme %in% c("de.norm", "eu.norm")){
         # write all nouns, names and sentence beginnings starting with upper case
-        txt.df[all.to.upper,"token"] <- text.1st.letter(txt.df[all.to.upper,"token"], "upper")
-        txt.df[!all.to.upper,"token"] <- text.1st.letter(txt.df[!all.to.upper,"token"], "lower")
+        txt.df[all.to.upper,"token"] <- text1stLetter(txt.df[all.to.upper,"token"], "upper")
+        txt.df[!all.to.upper,"token"] <- text1stLetter(txt.df[!all.to.upper,"token"], "lower")
       } else {
         # full inversion of "de.norm"
-        txt.df[!all.to.upper,"token"] <- text.1st.letter(txt.df[!all.to.upper,"token"], "upper")
-        txt.df[all.to.upper,"token"] <- text.1st.letter(txt.df[all.to.upper,"token"], "lower")
+        txt.df[!all.to.upper,"token"] <- text1stLetter(txt.df[!all.to.upper,"token"], "upper")
+        txt.df[all.to.upper,"token"] <- text1stLetter(txt.df[all.to.upper,"token"], "lower")
       }
     } else if(identical(scheme, "normalize")){
       matched_tokens_idx <- query(txt.df, var=var, query=query, ...)[["idx"]]

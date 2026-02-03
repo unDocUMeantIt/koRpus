@@ -136,9 +136,9 @@ if(require("koRpus.lang.en", quietly = TRUE)){
 Liang, F.M. (1983). \emph{Word Hy-phen-a-tion by Com-put-er}.
      Dissertation, Stanford University, Dept. of Computer Science.
 
-[1] \url{http://tug.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/}
+[1] \url{https://ctan.org/tex-archive/language/hyph-utf8/tex/patterns/txt/}
 
-[2] \url{http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
+[2] \url{https://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
 }
 \seealso{
 \code{\link[sylly:read.hyph.pat]{read.hyph.pat}},

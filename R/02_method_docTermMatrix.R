@@ -1,4 +1,4 @@
-# Copyright 2019-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2019-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -35,7 +35,7 @@
 #' @param ... Additional arguments depending on the particular method.
 #' @return A sparse matrix of class \code{\link[Matrix:dgCMatrix-class]{dgCMatrix}}.
 #' @references
-#'    [1] Text Interchange Formats (\url{https://github.com/ropensci/tif})
+#'    [1] Text Interchange Formats (\url{https://github.com/ropenscilabs/tif})
 #'    [2] tm.plugin.koRpus: https://CRAN.R-project.org/package=tm.plugin.koRpus
 #' @importFrom Matrix Matrix
 #' @export

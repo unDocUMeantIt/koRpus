@@ -1,11 +1,55 @@
 \name{NEWS}
 \title{News for Package 'koRpus'}
 \encoding{UTF-8}
+\section{Changes in koRpus version 0.13-9 (2026-02-02)}{
+  \subsection{fixed}{
+    \itemize{
+      \item \code{lex.div()}: if text was too short, calculation of MTLDMA.char would fail
+        with an error; these cases now return NAs
+        \code{guess.lang()}: newer zip files with UDHR translations introduced empty
+        lines that caused problems
+        \code{freq.analysis()}: internal function \code{kRp.freq.analysis.calc()} was trying to
+        use an object called frequency.pre when it didn't exist
+        \code{kRp_text()}: validity checks don't fail any more after adding corp_freq
+        feature was added
+        \code{readability()}: removed unused variant shortcut \code{"Spache.de"}
+        dependencies: koRpus now requires sylly >= 0.1-7 because that fixed an
+        issue with syllable count for texts where not a single word is shorter
+        than three syllables: if the bug is triggered, \code{SMOG()} always returns -2.
+        thanks to jana ludwig for reporting this!
+        docs were fixed, mostly replacing "\\itemize" with "\\describe". thanks to
+        gerry ryan for suggesting this!
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item \code{tokenize()}: now fails with an error if text files/vectors are empty
+        \code{lex.div()}: dropped all default measures from \code{"char"}, it's rarely useful
+        and should therefore be requested if really needed and not waste CPU
+        otherwise
+        \code{lex.div()}/readability()/\code{query()}/readTagged(): added \code{match.arg()} calls to
+        improve verification of selected measures/indices/relations/tagger
+        \code{show()} (kRp.lang): omit \code{"region"} if none is available, but added location
+        code including a link to open street map
+        dependencies: are recommended by the authors of the Matrix package, set
+        requirements to Matrix (>= 1.3-0)
+    }
+  }
+  \subsection{added}{
+    \itemize{
+      \item \code{readability()}: added all index shortcuts for varaints to the
+        documentation
+        vignette: new section explaining how to use \code{readTagged()} with third party
+        POS taggers like the udpipe package
+    }
+  }
+}
 \section{Changes in koRpus version 0.13-8 (2021-05-17)}{
   \subsection{fixed}{
     \itemize{
       \item \code{tokenize()}/treetag(): as indicated by unit tests in tm.plugin.koRpus, the
-        nchar(type=\code{"width"}) issue wasn't fully fixed yet
+        nchar(type=\code{"width"}) issue wasn't fully fixed yet. this also corrects the
+        line count if a text is imported from a data frame
     }
   }
 }
@@ -14,9 +58,9 @@
     \itemize{
       \item \code{read.corp.LCC()}/read.\code{corp.celex()}/readTagged(): changed how encoding is
         applied to files to ensure no re-encoding takes place on windows, which
-        might break UTF-8 encoded characters and result in failure to correctly read
-        files
-      \item text descriptives: R-devel changed how nchar(type=\code{"width"}) counts newline
+        might break UTF-8 encoded characters and result in failure to correctly
+        read files
+        text descriptives: R-devel changed how nchar(type=\code{"width"}) counts newline
         characters, therefore the counting of characters with normalized space
         had to be adjusted
     }
@@ -26,25 +70,26 @@
   \subsection{fixed}{
     \itemize{
       \item \code{lex.div()}/MTLD(): calculations were slightly off (~0.5\%) due to an
-        incorrect stage of applying means to the forward/backward calculations; MTLD-MA
-        remains unaffected (thanks to akira murakami for reporting the issue)
-      \item \code{treetag()}/tokenize(): added a check to doc_id which is expected to be a
+        incorrect stage of applying means to the forward/backward calculations;
+        MTLD-MA remains unaffected (thanks to akira murakami for reporting the
+        issue)
+        \code{treetag()}/tokenize(): added a check to doc_id which is expected to be a
         character string; especially if it was manually set to 0 issues were
         reported
-      \item fixed some URLs (https if available)
+        fixed some URLs (https if available)
     }
   }
   \subsection{changed}{
     \itemize{
       \item class kRp.TTR: dropped the mean value from the \code{"factors"} list of MTLD
         results
-      \item \code{readability()}: flat=TRUE now stores results in a list named by doc_id
+        \code{readability()}: flat=TRUE now stores results in a list named by doc_id
         like \code{lex.div()} already did
-      \item \code{summary()}: features \code{"lex_div"} and \code{"readability"} are now supported for
+        \code{summary()}: features \code{"lex_div"} and \code{"readability"} are now supported for
         kRp.txt objects, a new \code{"flat"} argument was added
-      \item \code{readability()}/lex.\code{div()}: dropped "Note:" from validity warnings as it is
+        \code{readability()}/lex.\code{div()}: dropped "Note:" from validity warnings as it is
         already a warning
-      \item updated unit test standards
+        updated unit test standards
     }
   }
   \subsection{added}{
@@ -59,17 +104,19 @@
     \itemize{
       \item \code{readability()}/fucks(): the oldest bug so far, present since the first
         version of the package: Fucks' formula doesn't determine word length by
-        characters but syllables; references were updated. the index has been on the
-        list of "needs validation" and still remains there. the erroneous formula
-        likely came from the documentation of TextQuest, as the initial scope of
-        koRpus, when it wasn't even a package yet, was to validate the calculations
-        of various readability tools (thanks to berenike herrmann for the hint)
-      \item \code{cTest()}: don't freak out if there's text left after the last sentence
+        characters but syllables; references were updated. the index has been on
+        the list of "needs validation" and still remains there. the erroneous
+        formula likely came from the documentation of TextQuest, as the initial
+        scope of koRpus, when it wasn't even a package yet, was to validate the
+        calculations of various readability tools (thanks to berenike herrmann
+        for the hint)
+        \code{cTest()}: don't freak out if there's text left after the last sentence
         ending punctuation
-      \item \code{textTransform()}: the argument "paste=TRUE" was broken
-      \item \code{readability.num()}: solved issue of missing \code{"txt.file"} object and
-        undefined language; \code{"lang"} can now also be set in the \code{"text.features"} if needed
-      \item \code{kRp_TTR()}: validity check was missing \code{"sd"} in names of the MSTTR slot
+        \code{textTransform()}: the argument "paste=TRUE" was broken
+        \code{readability.num()}: solved issue of missing \code{"txt.file"} object and
+        undefined language; \code{"lang"} can now also be set in the \code{"text.features"} if
+        needed
+        \code{kRp_TTR()}: validity check was missing \code{"sd"} in names of the MSTTR slot
     }
   }
   \subsection{added}{
@@ -81,7 +128,7 @@
     \itemize{
       \item many examples now use a sample text and can therefore omit the \\dontrun\{\}
         clause they were previously enclosed in
-      \item class definitions now use the initialize method instead of \code{prototype()}
+        class definitions now use the initialize method instead of \code{prototype()}
     }
   }
   \subsection{removed}{
@@ -96,12 +143,12 @@
       \item \code{treetag()}: allow for lexicon files to be optional and not return an error
         if none is found (which was the case with the newly added file name
         checks)
-      \item \code{treetag()}: use "-lex" argument for lexicon files if no lookup command is
+        \code{treetag()}: use "-lex" argument for lexicon files if no lookup command is
         given
-      \item \code{treetag()}: always add lookup command from manual options even if a preset
+        \code{treetag()}: always add lookup command from manual options even if a preset
         is used
-      \item \code{read.corp.custom()}: calculation failed if caseSens=FALSE
-      \item \code{tokenize()}/treetag(): force UTF-8 encoding on read texts to prevent
+        \code{read.corp.custom()}: calculation failed if caseSens=FALSE
+        \code{tokenize()}/treetag(): force UTF-8 encoding on read texts to prevent
         windows from misunderstanding characters
     }
   }
@@ -109,7 +156,7 @@
     \itemize{
       \item \code{treetag()} et al.: drastically increased the speed of calculating
         descriptive statistics (can be 100x faster for very large texts)
-      \item updated the language package templates
+        updated the language package templates
     }
   }
 }
@@ -139,90 +186,93 @@
     \itemize{
       \item \code{docTermMatrix()}: numbers were calculated correctly, but possibly added to
         the wrong columns, leading to a completely wrong document term matrix
-      \item \code{treetag()}: a dumb misorderig of calls suppressed the \code{"utf8"} check for
+        \code{treetag()}: a dumb misorderig of calls suppressed the \code{"utf8"} check for
         abbreviation files introduced with 0.11-5
-      \item \code{treetag()}: also added a \code{"utf8"} check for lexicon files and \code{".txt"} file
+        \code{treetag()}: also added a \code{"utf8"} check for lexicon files and \code{".txt"} file
         extensions (which might be missing in newer versions of TreeTagger)
-      \item \code{correct.tag()}: stopped method from adding tag descriptions to objects
+        \code{correct.tag()}: stopped method from adding tag descriptions to objects
         that didn't have them yet
-      \item \code{kRp_readability()}/kRp_corp_freq(): properly initialize the slots
-      \item \code{readability()} wrapper functions: fixed a bunch of \code{readability.num()} calls
+        \code{kRp_readability()}/kRp_corp_freq(): properly initialize the slots
+        \code{readability()} wrapper functions: fixed a bunch of \code{readability.num()} calls
         including an unused hyphen argument
-      \item \code{readability()}: HTML documentation had a wrong formula for LIX (LaTeX was
+        \code{readability()}: HTML documentation had a wrong formula for LIX (LaTeX was
         correct)
-      \item \code{textTransform()}: now recounting letters when scheme is \code{"normalize"} as it
-        might have altered word lengths; the calculations of some data in the desc
-        slot (all.chars, lines, normalized.space) as now also done relative to
-        the old values, because they can't be correctly recalculated from a mere
-        vector of tokens
+        \code{textTransform()}: now recounting letters when scheme is \code{"normalize"} as it
+        might have altered word lengths; the calculations of some data in the
+        desc slot (all.chars, lines, normalized.space) as now also done relative
+        to the old values, because they can't be correctly recalculated from a
+        mere vector of tokens
     }
   }
   \subsection{changed}{
     \itemize{
       \item \code{docTermMatrix()}: optimzed calculation speed drastically
-      \item \code{read.corp.custom()}: re-wrote most of the code, now based on
-        \code{docTermMatrix()} and thereby up to 50 times faster; also removed the now unused quiet
-        argument, as well as methods using the directory path or lists of tagged
-        texts, because using methods of the tm.plugin.koRpus package instead is much
-        more efficient now
-      \item \code{show()}: simplified the code for kRp.text class objects and unified the
+        \code{read.corp.custom()}: re-wrote most of the code, now based on
+        \code{docTermMatrix()} and thereby up to 50 times faster; also removed the now
+        unused quiet argument, as well as methods using the directory path or
+        lists of tagged texts, because using methods of the tm.plugin.koRpus
+        package instead is much more efficient now
+        \code{show()}: simplified the code for kRp.text class objects and unified the
         horizontal positioning of resulting values
-      \item \code{show()}: generalized the handling of factor columns to be able to deal
+        \code{show()}: generalized the handling of factor columns to be able to deal
         with unexpected columns
-      \item \code{tokenize()}, \code{treetag()}: always generate a doc_id if none was given; also
+        \code{tokenize()}, \code{treetag()}: always generate a doc_id if none was given; also
         improved the examples
-      \item \code{readability()}: added some ASCII versions of the formulae to the
+        \code{readability()}: added some ASCII versions of the formulae to the
         documentation
-      \item \code{readability()}: the code of the internal workhorse \code{kRp.rdb.formulae()} was
+        \code{readability()}: the code of the internal workhorse \code{kRp.rdb.formulae()} was
         cleaned up, now using the new helper functions \code{validate_parameters()},
         \code{check_parameters()} and \code{rdb_parameters()}, saving ~350 lines of code
-      \item updated unit test
+        updated unit test
     }
   }
   \subsection{added}{
     \itemize{
       \item kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
-        kRp.txt.trans; the TT.res slot was renamed into \code{"tokens"}, additional columns in the
-        data frame are now ok, new slots \code{"features"} and \code{"feat_list"} to host
-        analysis results like readability or lexical diversity, and the \code{"desc"} slot now
-        always contains elements named by doc_id
-      \item \code{docTermMatrix()}: new method to calculate document term matrices from TIF
+        kRp.txt.trans; the TT.res slot was renamed into \code{"tokens"}, additional
+        columns in the data frame are now ok, new slots \code{"features"} and
+        \code{"feat_list"} to host analysis results like readability or lexical
+        diversity, and the \code{"desc"} slot now always contains elements named by
+        doc_id
+        \code{docTermMatrix()}: new method to calculate document term matrices from TIF
         compliant token data frames and koRpus objects
-      \item \code{doc_id()}, \code{hasFeatures()}, \code{hasFeatures()}<-, \code{features()}, \code{features()}<-,
-        \code{corpusReadability()}, \code{corpusReadability()}<-, \code{corpusHyphen()}, \code{corpusHyphen()}<-,
-        \code{corpusLexDiv()}, \code{corpusLexDiv()}<-, \code{corpusFreq()}, \code{corpusFreq()}<-,
-        \code{corpusCorpFreq()}, \code{corpusCorpFreq()}<-, \code{corpusStopwords()}, \code{corpusStopwords()}<-: new
-        getter/setter methods for kRp.text objects
-      \item dependencies: the Matrix package was added to imports for \code{docTermMatrix()}
-      \item \code{validate_df()}: new internal method to check data frames for expected
+        \code{doc_id()}, \code{hasFeatures()}, \code{hasFeatures()}<-, \code{features()}, \code{features()}<-,
+        \code{corpusReadability()}, \code{corpusReadability()}<-, \code{corpusHyphen()},
+        \code{corpusHyphen()}<-, \code{corpusLexDiv()}, \code{corpusLexDiv()}<-, \code{corpusFreq()},
+        \code{corpusFreq()}<-, \code{corpusCorpFreq()}, \code{corpusCorpFreq()}<-, \code{corpusStopwords()},
+        \code{corpusStopwords()}<-: new getter/setter methods for kRp.text objects
+        dependencies: the Matrix package was added to imports for \code{docTermMatrix()}
+        validate_df(): new internal method to check data frames for expected
         columns
-      \item \code{readability()}: new argument \code{"keep.input"} to define whether hyphen objects
+        \code{readability()}: new argument \code{"keep.input"} to define whether hyphen objects
         should be preserved in the output or dropped
-      \item \code{hyphen()}, \code{lex.div()}: new argument \code{"as.feature"} to store results in the
-        new \code{"feat_list"} slot of the input object rather than returning it directly
-      \item \code{fixObject()}: new methods to convert old objects of deprecated classes
+        \code{hyphen()}, \code{lex.div()}: new argument \code{"as.feature"} to store results in the
+        new \code{"feat_list"} slot of the input object rather than returning it
+        directly
+        \code{fixObject()}: new methods to convert old objects of deprecated classes
         kRp.tagged, kRp.txt.freq, kRp.txt.trans, and kRp.analysis
-      \item \code{split_by_doc_id()}: new method transforms a kRp.text object with multiple
+        \code{split_by_doc_id()}: new method transforms a kRp.text object with multiple
         doc_ids into a list of single-document kRp.text objects
-      \item [[/[[<-: gained new argument \code{"doc_id"} to limit the scope to particular
+        [[/[[<-: gained new argument \code{"doc_id"} to limit the scope to particular
         documents
-      \item \code{describe()}/describe()<-: now support filtering by doc_id
+        \code{describe()}/describe()<-: now support filtering by doc_id
     }
   }
   \subsection{removed}{
     \itemize{
       \item kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes were
         special cases of kRp.text, and since all their information can now be
-        part of kRp.text objects, they are no longer used; they are actually still
-        present, but considered deprecated and should be converted using \code{fixObject()}
-      \item \code{readability()}, \code{freq.analysis()}: removed the methods that could be called
+        part of kRp.text objects, they are no longer used; they are actually
+        still present, but considered deprecated and should be converted using
+        \code{fixObject()}
+        readability(), \code{freq.analysis()}: removed the methods that could be called
         on files directly instead of objects of class kRp.text. this simplifies
-        the code and it's probably not too much to ask users to call \code{tokenize()} or
-        \code{treetag()} directly instead of doing this internally with less control
-      \item \code{freq.analysis()}: removed the \code{"tfidf"} argument; as it turned out, its
-        value was never effectively used, the tf-idf was always calculated, and it
-        seemed like a reasonable default anyway
-      \item \code{kRp.text.analysis()}: now deprecated, just use \code{lex.div()} and
+        the code and it's probably not too much to ask users to call \code{tokenize()}
+        or \code{treetag()} directly instead of doing this internally with less control
+        \code{freq.analysis()}: removed the \code{"tfidf"} argument; as it turned out, its
+        value was never effectively used, the tf-idf was always calculated, and
+        it seemed like a reasonable default anyway
+        \code{kRp.text.analysis()}: now deprecated, just use \code{lex.div()} and
         \code{freq.analysis()} to the same effect
     }
   }
@@ -231,70 +281,71 @@
   \subsection{fixed}{
     \itemize{
       \item \code{query()}: method was broken for tagged objects
-      \item \code{textTransform()}: method was broken
-      \item class kRp.txt.trans: renamed column \code{"token.old"} into \code{"token.orig"}, which
+        \code{textTransform()}: method was broken
+        class kRp.txt.trans: renamed column \code{"token.old"} into \code{"token.orig"}, which
         is what was actually used by \code{textTransform()}; also added a validity test
         for those column names to prevent confusion
-      \item \code{readTagged()}: adjusted default encoding
+        \code{readTagged()}: adjusted default encoding
     }
   }
   \subsection{added}{
     \itemize{
       \item \code{query()}: new method for objects of class data.frame, which is now used if
         \code{query()} is being called on koRpus class objects
-      \item \code{query()}: now also supports all numerical queries for tagged texts that
+        \code{query()}: now also supports all numerical queries for tagged texts that
         were previously only available for frequency objects
-      \item \code{filterByClass()}: a new method for tagged text objects, replacing the
+        \code{filterByClass()}: a new method for tagged text objects, replacing the
         \code{kRp.filter.wclass()} function, which is now deprecated
-      \item \code{pasteText()}: like \code{filterByClass()}, but replacing \code{kRp.text.paste()}
-      \item \code{readTagged()}: like \code{filterByClass()}, but replacing \code{read.tagged()}
-      \item \code{readTagged()}: new argument mtx_cols for new tagger=\code{"manual"} setting,
+        \code{pasteText()}: like \code{filterByClass()}, but replacing \code{kRp.text.paste()}
+        readTagged(): like \code{filterByClass()}, but replacing \code{read.tagged()}
+        readTagged(): new argument mtx_cols for new tagger=\code{"manual"} setting,
         allowing to import data POS tagged with third party tools
-      \item \code{textTransform()}: new scheme \code{"normalize"} to replace tokens by given query
+        \code{textTransform()}: new scheme \code{"normalize"} to replace tokens by given query
         rules with a defined value or the result of a provided function
-      \item \code{diffText()}/diffText()<-: new getter/setter methods for the \code{"diff"} slot of
+        \code{diffText()}/diffText()<-: new getter/setter methods for the \code{"diff"} slot of
         transformed text objects
-      \item \code{originalText()}: new method to revert text transformations and get the
+        \code{originalText()}: new method to revert text transformations and get the
         original text
-      \item \code{kRp.POS.tags()}: now includes universal POS tags by default
-      \item new unit tests for many methods, including \code{query()}, \code{textTransform()},
+        \code{kRp.POS.tags()}: now includes universal POS tags by default
+        new unit tests for many methods, including \code{query()}, \code{textTransform()},
         \code{readTagged()}, \code{filterByClass()}, \code{pasteText()}, \code{diffText()}, \code{originalText()},
         \code{jumbleWords()}, and \code{clozeDelete()}
     }
   }
   \subsection{changed}{
     \itemize{
-      \item \code{tokenize()}: now a S4 method for objects of class character and connections
-      \item \code{treetag()}: now a S4 method for objects of class character and connections
-      \item class kRp.txt.trans: \code{"diff"} slot now also lists the transformations done
+      \item \code{tokenize()}: now a S4 method for objects of class character and
+        connections
+        \code{treetag()}: now a S4 method for objects of class character and connections
+        class kRp.txt.trans: \code{"diff"} slot now also lists the transformations done
         to the tokens in a new list element called \code{"transfmt"}, the changed tokens
         in a data frame called \code{"transfmt.equal"} and normalization details in a
         list called \code{"transfmt.normalize"}
-      \item language support: if you try using a preset but the langauge package
-        wasn't loaded or even installed, a more elaborate error message is returned
-        with hopefully useful hints to what to try next
-      \item \code{jumbleWords()}: now a S4 method, no longer a function; the resulting
+        language support: if you try using a preset but the langauge package
+        wasn't loaded or even installed, a more elaborate error message is
+        returned with hopefully useful hints to what to try next
+        \code{jumbleWords()}: now a S4 method, no longer a function; the resulting
         object is now also of class kRp.txt.trans if the input was a tagged text
         object, preserving the original tokens
-      \item \code{clozeDelete()}: now returns an object of class kRp.txt.trans, dropping the
+        \code{clozeDelete()}: now returns an object of class kRp.txt.trans, dropping the
         additional data frame in \code{"desc"}; this ist much more consistent with other
         text transformations in the packahe
-      \item \code{cTest()}: like \code{clozeDelete()} now returns an object of class kRp.txt.trans,
+        \code{cTest()}: like \code{clozeDelete()} now returns an object of class kRp.txt.trans,
         dropping the additional data frame in \code{"desc"}
-      \item moved class union definition kRp.taggedText to its own file and updated
+        moved class union definition kRp.taggedText to its own file and updated
         the import calls on a number of files accordingly
-      \item \code{textTransform()}: moved the whole code segment that combines the
-        transformed text into the returned object to a separate internal function so it can
-        be re-used by other text transforming methods
-      \item \code{cTest()}: changed method signature from kRp.tagged to class union
+        \code{textTransform()}: moved the whole code segment that combines the
+        transformed text into the returned object to a separate internal function
+        so it can be re-used by other text transforming methods
+        \code{cTest()}: changed method signature from kRp.tagged to class union
         kRp.taggedText
-      \item \code{summary()}: changed method signature from kRp.tagged to class union
+        \code{summary()}: changed method signature from kRp.tagged to class union
         kRp.taggedText
-      \item \code{plot()}: changed method signature from kRp.tagged to class union
+        \code{plot()}: changed method signature from kRp.tagged to class union
         kRp.taggedText
-      \item \code{lex.div()}: removed the validation warning for MATTR, implementation has
+        \code{lex.div()}: removed the validation warning for MATTR, implementation has
         been validated by kevin cunningham and katarina haley
-      \item restructured source code files
+        restructured source code files
     }
   }
 }
@@ -302,20 +353,21 @@
   \subsection{changed}{
     \itemize{
       \item \code{set.kRp.env()}/treetag(): now throws an error if you try to combine a
-        language preset with TreeTagger's batch files as the tagger to use; some users
-        seem to be confused about what to configure, and this error message
+        language preset with TreeTagger's batch files as the tagger to use; some
+        users seem to be confused about what to configure, and this error message
         hopefully helps them to understand why \code{treetag()} must fail in these cases
-      \item \code{treetag()}: newer versions of TreeTagger will no longer have \code{"utf8"} in
-        their parameter and abbreviation files. since we never know what version of
-        TreeTagger we're dealing with, \code{treetag()} will from now on look for files
-        with \code{"utf8"} if specified in the language package, but not fail if none is
-        found, but also try for a non-labelled file and replace the file name on the
-        fly if one is found
-      \item grapheme clusters: in UTF-8, certain characters in some languages are
-        shown as a single character, but technically are several characters combined.
-        \code{nchar()} counts all combined parts individially, which in most use cases
-        for this package is not what one expects. it now uses nchar(type=\code{"width"})
-        for a letter count that is much closer to user's expectations
+        \code{treetag()}: newer versions of TreeTagger will no longer have \code{"utf8"} in
+        their parameter and abbreviation files. since we never know what version
+        of TreeTagger we're dealing with, \code{treetag()} will from now on look for
+        files with \code{"utf8"} if specified in the language package, but not fail if
+        none is found, but also try for a non-labelled file and replace the file
+        name on the fly if one is found
+        grapheme clusters: in UTF-8, certain characters in some languages are
+        shown as a single character, but technically are several characters
+        combined. \code{nchar()} counts all combined parts individially, which in most
+        use cases for this package is not what one expects. it now uses
+        nchar(type=\code{"width"}) for a letter count that is much closer to user's
+        expectations
     }
   }
   \subsection{fixed}{
@@ -331,14 +383,14 @@
   \subsection{fixed}{
     \itemize{
       \item templates: incomplete package name in license header
-      \item \code{read.BAWL()}: updated download URL and added DOI
+        \code{read.BAWL()}: updated download URL and added DOI
     }
   }
   \subsection{changed}{
     \itemize{
       \item the startup check for available language packages was reduced to short
         hints to \code{available.koRpus.lang()} and \code{install.koRpus.lang()}
-      \item the startup message can now be suppressed by adding
+        the startup message can now be suppressed by adding
         "noStartupMessage=TRUE" to the koRpus options in .Rprofile
     }
   }
@@ -348,22 +400,23 @@
     \itemize{
       \item \code{treetag()}/tokenize(): fixed an issue with sentence numbering which was
         triggered if all sentences were of equal length
-      \item \code{query()}: method failed for columns which are now factors
+        \code{query()}: method failed for columns which are now factors
     }
   }
   \subsection{changed}{
     \itemize{
       \item \code{treetag()}: koRpus no longer fails with an error if unknown tags are
-        found. there will be a warning, but you can continue to work with the object
-      \item depends on R >= 3.0.0 now
-      \item improved \code{available.koRpus.lang()} to make it more obvious how to install
+        found. there will be a warning, but you can continue to work with the
+        object
+        depends on R >= 3.0.0 now
+        improved \code{available.koRpus.lang()} to make it more obvious how to install
         language support packages, and which
-      \item session settings done with \code{set.kRp.env()} or queried by \code{get.kRp.env()} are
+        session settings done with \code{set.kRp.env()} or queried by \code{get.kRp.env()} are
         no longer stored in an internal environment but the global .Options; this
         also allows for setting defaults in an .Rprofile file using \code{options()}
-      \item in the docs, improved the link format for classes, omitting the "-class"
+        in the docs, improved the link format for classes, omitting the "-class"
         suffix
-      \item \code{set.lang.support()}: the levels of tag, wclass, and desc are now
+        \code{set.lang.support()}: the levels of tag, wclass, and desc are now
         automatically sorted; test standards had to be adjusted accordingly
     }
   }
@@ -371,7 +424,7 @@
     \itemize{
       \item \code{set.lang.support()}: new argument \code{"merge"}; it is now possible to add or
         update single POS tag definitions
-      \item new class object contructors \code{kRp_tagged()}, \code{kRp_TTR()}, \code{kRp_txt_freq()},
+        new class object contructors \code{kRp_tagged()}, \code{kRp_TTR()}, \code{kRp_txt_freq()},
         \code{kRp_txt_trans()}, \code{kRp_analysis()}, \code{kRp_corp_freq()}, \code{kRp_lang()}, and
         \code{kRp_readability()} can be used instead of new(\code{"kRp.tagged"}, ...) etc.
     }
@@ -381,8 +434,8 @@
   \subsection{attention}{
     \itemize{
       \item this is a testing release introducing major changes in the way language
-        support is handled (see other changes in this log). tl;dr: you must install
-        additional koRpus.lang.** packages to fully restore the previous
+        support is handled (see other changes in this log). tl;dr: you must
+        install additional koRpus.lang.** packages to fully restore the previous
         functionality, i.e., all supported languages. see ?install.koRpus.lang
     }
   }
@@ -391,34 +444,35 @@
       \item \code{treetag()}: with TT.tknz=FALSE, the last letter of a text was truncated
         due to a missing newline at the end of the tempfile (thanks to adam
         spannbauer for both reporting and fixing it)
-      \item \code{treetag()}: hopefully fixed a nasty encoding issue on windows, again
-      \item \code{treetag()}: fixed an issue that could be triggered by hard to tokenize
+        \code{treetag()}: hopefully fixed a nasty encoding issue on windows, again
+        \code{treetag()}: fixed an issue that could be triggered by hard to tokenize
         texts exceeding a default limit of \code{summary()} for factors
-      \item \code{treetag()}/tokenize(): silenced warnings of \code{readLines()} for missing final
+        \code{treetag()}/tokenize(): silenced warnings of \code{readLines()} for missing final
         EOL of input files
     }
   }
   \subsection{changed}{
     \itemize{
       \item language support: while the sylly package is released on CRAN now, its
-        separate language packages were not allowed to be published there as well. a
-        special repository was therefore set up on gitub and added via the
-        \code{"Additional_repositories"} field to the DESCRIPTION file. however, not having the
-        sylly.XX packages on CRAN made it necessary to further modularize the
-        package and complete remove all out-of-the-box language support (see removed
-        section). all these support packages for language are now being resolved
-        by installing from that repo instead of CRAN.
-      \item package loading: when koRpus is being loaded, it now checks for available
+        separate language packages were not allowed to be published there as
+        well. a special repository was therefore set up on gitub and added via
+        the \code{"Additional_repositories"} field to the DESCRIPTION file. however, not
+        having the sylly.XX packages on CRAN made it necessary to further
+        modularize the package and complete remove all out-of-the-box language
+        support (see removed section). all these support packages for language
+        are now being resolved by installing from that repo instead of CRAN.
+        package loading: when koRpus is being loaded, it now checks for available
         (i.e. already installed) language packages. if none are found, it asks
         you to install one. i'm sorry for the unconvenience
-      \item vignette is now in RMarkdown/HTML format; the SWeave/PDF version was
+        vignette is now in RMarkdown/HTML format; the SWeave/PDF version was
         dropped
     }
   }
   \subsection{added}{
     \itemize{
-      \item \code{tif_as_tokens_df()}: new method to get TT.res in fully TIF compliant format
-      \item new functions \code{available.koRpus.lang()} and \code{install.koRpus.lang()} for more
+      \item \code{tif_as_tokens_df()}: new method to get TT.res in fully TIF compliant
+        format
+        new functions \code{available.koRpus.lang()} and \code{install.koRpus.lang()} for more
         convenient handling of language support packages.
     }
   }
@@ -436,94 +490,96 @@
     \itemize{
       \item kRp.lang: fixed the \code{show()} and \code{summary()} methods to omit country
         information which was dropped from the UDHR data a while ago
-      \item \code{treetag()}: windows users might run into problems because of differences
+        \code{treetag()}: windows users might run into problems because of differences
         between the file separators R uses internally when they are also used in
-        \code{shell()} calls. this hasn't been an issue earlier, but is worked around now
-        anyway. hope this doesn't cause new issues...
+        \code{shell()} calls. this hasn't been an issue earlier, but is worked around
+        now anyway. hope this doesn't cause new issues...
     }
   }
   \subsection{changed}{
     \itemize{
       \item kRp.tagged: the TT.res data.frame of the object class has new columns
-        \code{"doc_id"}, \code{"idx"} (index), and \code{"sntc"} (sentence), with \code{"doc_id"} now being the
-        first column before \code{"token"} to comply with the Text Interchange Formats
-        proposed by rOpenSci
-      \item kRp.tagged: in TT.res, the columns \code{"tag"}, \code{"wclass"} and \code{"desc"} are no
-        longer character vectors but factors. this doesn't actually change the class
-        definition, as TT.res just has to be a data.frame, but it reduces the
-        object size especially for larger texts, and makes it much simpler to do
-        analysis with these objects
-      \item \code{tokenize()}/treetag()/\code{read.tagged()}: these functions now add token index
+        \code{"doc_id"}, \code{"idx"} (index), and \code{"sntc"} (sentence), with \code{"doc_id"} now being
+        the first column before \code{"token"} to comply with the Text Interchange
+        Formats proposed by rOpenSci
+        kRp.tagged: in TT.res, the columns \code{"tag"}, \code{"wclass"} and \code{"desc"} are no
+        longer character vectors but factors. this doesn't actually change the
+        class definition, as TT.res just has to be a data.frame, but it reduces
+        the object size especially for larger texts, and makes it much simpler to
+        do analysis with these objects
+        \code{tokenize()}/treetag()/\code{read.tagged()}: these functions now add token index
         and sentence number to the resulting objects; document ID is added if
         provided
-      \item kRp.lang: depending on the information available in the UDHR data, the
-        \code{show()} and \code{summary()} methods' output is now dynamically adjusted; \code{summary()}
-        now also lists the columns "iso639-3" and \code{"bcp47"} by default
-      \item \code{treetag()}: debug output for \code{tokenize()} looks a little nicer
-      \item \code{kRp.text.transform()}: the old function is now deprecated and was replaced
+        kRp.lang: depending on the information available in the UDHR data, the
+        \code{show()} and \code{summary()} methods' output is now dynamically adjusted;
+        \code{summary()} now also lists the columns "iso639-3" and \code{"bcp47"} by default
+        \code{treetag()}: debug output for \code{tokenize()} looks a little nicer
+        \code{kRp.text.transform()}: the old function is now deprecated and was replaced
         by a proper S4 method called \code{textTransform()}. the old one will work for
         the moment, but you'll get a warning
-      \item the tt slot in class kRp.TTR gained two new entries called \code{"type.in.txt"}
+        the tt slot in class kRp.TTR gained two new entries called \code{"type.in.txt"}
         and \code{"type.in.result"}, which will contain a list of all types with the
-        index where it is to be found in the original text or the \code{lex.div()} results
-        respectively, if type.index=TRUE; the indices might differ because the
-        result might be stripped of certain word classes
-      \item \code{treetag()}/tokenize(): internal workflow for adding word class and
-        description of tags was modularized for more detailed control. you can now toggle
-        whether you want the verbose description of each tag added directly to
-        objects with the new argument \code{"add.desc"}. it is set in the environment by
-        \code{set.kRp.env()} and defaults to FALSE, making the objects about 5\% smaller in
-        memory.
-      \item kRp.corp.freq: the class gained a new slot called \code{"caseSens"}, documenting
+        index where it is to be found in the original text or the \code{lex.div()}
+        results respectively, if type.index=TRUE; the indices might differ
+        because the result might be stripped of certain word classes
+        \code{treetag()}/tokenize(): internal workflow for adding word class and
+        description of tags was modularized for more detailed control. you can
+        now toggle whether you want the verbose description of each tag added
+        directly to objects with the new argument \code{"add.desc"}. it is set in the
+        environment by \code{set.kRp.env()} and defaults to FALSE, making the objects
+        about 5\% smaller in memory.
+        kRp.corp.freq: the class gained a new slot called \code{"caseSens"}, documenting
         whether the frequency statistics were calculated case sensitive (see
         read.corp.*() below).
-      \item validity check for objects of class kRp.tagged is a bit more liberal when
+        validity check for objects of class kRp.tagged is a bit more liberal when
         TT.res doesn't have all expected columns and suggests to call \code{fixObject()}
         (see below) instead of failing with an error
-      \item adjusted unit tests
+        adjusted unit tests
     }
   }
   \subsection{added}{
     \itemize{
       \item \code{summary()}: method for class kRp.TTR now also supports the logical \code{"flat"}
         argument
-      \item new "[" and "[[" methods can be used to directly address the data.frames
+        new "[" and "[[" methods can be used to directly address the data.frames
         in tagged or hyphenated objects. that is, you don't have to call
         \code{taggedText()} or \code{hyphenText()} first, it will be done internally
-      \item new "[" and "[[" methods have also been added for objects of classes
-        kRp.TTR and kRp.readability for quick access to their \code{summary()} results (index
-        by measure)
-      \item \code{treetag()}: a new check will throw an informative error message if
+        new "[" and "[[" methods have also been added for objects of classes
+        kRp.TTR and kRp.readability for quick access to their \code{summary()} results
+        (index by measure)
+        \code{treetag()}: a new check will throw an informative error message if
         TreeTagger didn't return something the function can use
-      \item \code{lex.div()} et al.: new option \code{"type.index"} to produce the indices
+        \code{lex.div()} et al.: new option \code{"type.index"} to produce the indices
         described above in the \code{"changed"} section
-      \item \code{hyphen()}: new option \code{"as"} to set the return value class, still defaults
+        \code{hyphen()}: new option \code{"as"} to set the return value class, still defaults
         to \code{"kRp.hyph"}, but can also be \code{"data.frame"} or \code{"numeric"}
-      \item new shortcut methods \code{hyphen_df()} and \code{hyphen_c()} use different defaults
+        new shortcut methods \code{hyphen_df()} and \code{hyphen_c()} use different defaults
         for \code{"as"}
-      \item \code{treetag()}/tokenize(): new option \code{"add.desc"} (see changed section)
-      \item \code{taggedText()}: new option \code{"add.desc"} to (re-)write the \code{"desc"} column in
-        the data.frame, useful if it was omitted during \code{treetag()}/tokenize() but you
-        want to add it later without retagging everything
-      \item \code{read.corp.LCC()}/read.\code{corp.celex()}: added new option \code{"caseSens"} to toggle
+        treetag()/\code{tokenize()}: new option \code{"add.desc"} (see changed section)
+        \code{taggedText()}: new option \code{"add.desc"} to (re-)write the \code{"desc"} column in
+        the data.frame, useful if it was omitted during \code{treetag()}/tokenize() but
+        you want to add it later without retagging everything
+        \code{read.corp.LCC()}/read.\code{corp.celex()}: added new option \code{"caseSens"} to toggle
         whether frequency statistics should be calculated case sensitive or
         insensitive
-      \item new method \code{fixObject()} can upgrade old tagged objects from previous
-        koRpus releases, i.e. add missing columns and adjust data types where needed
+        new method \code{fixObject()} can upgrade old tagged objects from previous
+        koRpus releases, i.e. add missing columns and adjust data types where
+        needed
     }
   }
   \subsection{removed}{
     \itemize{
       \item \code{hyphen()}: all parts of the package that were specific for hyphenation
-        were removed as they are now part of the new sylly package. this includes the
-        class definitions (kRp.hyph.pat and kRp.hyphen) and methods (\code{correct()},
-        \code{hyphen()}, \code{show()} and \code{summary()}) for those classes, as long as they in turn
-        are not specific to koRpus. the hyphenation definitions were also removed
-        from the language support files, as they are now part of individual
-        language packages for the sylly package (sylly.en, sylly.de, etc.) that this
-        package now depends on. you should, however, notice no difference in using
-        the package, everything should just work like it did before this split.
-      \item the standard generics for \code{describe()} and \code{language()} were removed because
+        were removed as they are now part of the new sylly package. this includes
+        the class definitions (kRp.hyph.pat and kRp.hyphen) and methods
+        (\code{correct()}, \code{hyphen()}, \code{show()} and \code{summary()}) for those classes, as long as
+        they in turn are not specific to koRpus. the hyphenation definitions were
+        also removed from the language support files, as they are now part of
+        individual language packages for the sylly package (sylly.en, sylly.de,
+        etc.) that this package now depends on. you should, however, notice no
+        difference in using the package, everything should just work like it did
+        before this split.
+        the standard generics for \code{describe()} and \code{language()} were removed because
         they are now defined in the sylly package
     }
   }
@@ -534,7 +590,7 @@
       \item leftover typo in lang.support-en.R referencing "utf8-tokenize.pl" instead
         of "utf8-tokenize.perl" in the windows preset and a call to grep that is
         not present in Treetagger's *.bat file
-      \item \code{readability()}: fixed a minor issue with the internal handling of wrongly
+        \code{readability()}: fixed a minor issue with the internal handling of wrongly
         tagged dashes in the FOG formula (shouldn't have any effect on results)
     }
   }
@@ -542,26 +598,28 @@
     \itemize{
       \item if no encoding is provided and \code{treetag()} needs to write temporary files,
         output file encoding is now forced into UTF-8
-      \item \code{hyphen()}: caching now uses an environment instead of a data.frame. this
+        \code{hyphen()}: caching now uses an environment instead of a data.frame. this
         means that old cache files will need to be changed as well. \code{hyphen()} will
-        try to convert them on the fly, but if this fails you should remove the old
-        files
-      \item \code{hyphen()}: cached results are now looked up much more efficient, speeding
+        try to convert them on the fly, but if this fails you should remove the
+        old files
+        \code{hyphen()}: cached results are now looked up much more efficient, speeding
         up the process drastically (about 100 times faster in my benchmarks!)
-      \item \code{hyphen()}: hyphenation patterns are now internally converted to
-        environments which speeds up uncached runs (or first runs with cache) noticeably
-      \item \code{readability()}: default parameters are now always fetched by the internal
+        \code{hyphen()}: hyphenation patterns are now internally converted to
+        environments which speeds up uncached runs (or first runs with cache)
+        noticeably
+        \code{readability()}: default parameters are now always fetched by the internal
         function \code{default.params()}, individually for each index
-      \item source code: moved all wrapper functions for \code{readability()} and \code{lex.div()}
-        from individual source files to one wrapper file, respectively. the source
-        tree became a bit overcrowded over the years
+        source code: moved all wrapper functions for \code{readability()} and \code{lex.div()}
+        from individual source files to one wrapper file, respectively. the
+        source tree became a bit overcrowded over the years
     }
   }
   \subsection{added}{
     \itemize{
       \item new options redability(index=\code{"validation"}) and
-        lex.div(measure=\code{"validation"}) show current the status of validation. this info was previously only
-        available as comments in the source code and is now directly available.
+        lex.div(measure=\code{"validation"}) show current the status of validation. this
+        info was previously only available as comments in the source code and is
+        now directly available.
     }
   }
   \subsection{removed}{
@@ -580,12 +638,13 @@
   \subsection{changed}{
     \itemize{
       \item CRAN doesn't accept leading zeroes in version numbers any longer and
-        asked me to change 0.07 into 0.7. i'd rather play this safe, so i'm jumping
-        right to 0.10 to keep the versioning consistent fo all users. the reason for
-        this policy change was not explained to me, could be anything from "we
-        think it looks ugly" to "it breaks our build systems".
-      \item allowing \code{treetag()} to run even when a defined lexicon file is not found.
-        this previously resulted in an error and now causes only a warning message.
+        asked me to change 0.07 into 0.7. i'd rather play this safe, so i'm
+        jumping right to 0.10 to keep the versioning consistent fo all users. the
+        reason for this policy change was not explained to me, could be anything
+        from "we think it looks ugly" to "it breaks our build systems".
+        allowing \code{treetag()} to run even when a defined lexicon file is not found.
+        this previously resulted in an error and now causes only a warning
+        message.
     }
   }
 }
@@ -593,17 +652,18 @@
   \subsection{fixed}{
     \itemize{
       \item the show method for Flesch Brouwer was not working properly
-      \item if a cache file for hyphen is set but not existing, it will be created
+        if a cache file for hyphen is set but not existing, it will be created
         automatically
-      \item the manual page for the wrapper function \code{ELF()} attributed the index to
+        the manual page for the wrapper function \code{ELF()} attributed the index to
         Farr, when it was in fact Fang (as correctly said in ?readability);
         vigilantly spotted by Mario Martinez
-      \item calling \code{lex.div()} on untagged character vectors didn't really work yet
-      \item \code{guess.lang()} had problems with newer UDHR files which included comments
+        calling \code{lex.div()} on untagged character vectors didn't really work yet
+        \code{guess.lang()} had problems with newer UDHR files which included comments
         in the index.xml file
-      \item shiny app: was omitting the row names of tables in newer versions of shiny
-      \item \code{treetag()} appended the abbreviation list two times in english preset
-      \item TT.options checks in \code{treetag()} do no longer ask for mandatory options if
+        shiny app: was omitting the row names of tables in newer versions of
+        shiny
+        \code{treetag()} appended the abbreviation list two times in english preset
+        TT.options checks in \code{treetag()} do no longer ask for mandatory options if
         TT.cmd is not \code{"manual"}
     }
   }
@@ -612,16 +672,17 @@
       \item updated shiny app: disabling FOG by default (faster), adding Brouwer and
         MTLDMA.steps options, adding dutch and portuguese by default, disabled
         language selection in language guessing tab
-      \item shiny app: using \code{fluidPage()} now
-      \item shiny app: set tables to use bootstrap striped layout
-      \item reaktanz.de supports HTTPS now, updated references
+        shiny app: using \code{fluidPage()} now
+        shiny app: set tables to use bootstrap striped layout
+        reaktanz.de supports HTTPS now, updated references
     }
   }
   \subsection{added}{
     \itemize{
       \item new \code{summary()} method for kRp.hyph objects
-      \item new \code{show()} methods for kRp.hyph and kRp.taggedText objects
-      \item new methods \code{tokens()} and \code{types()} to quickly get tokens and types of a text
+        new \code{show()} methods for kRp.hyph and kRp.taggedText objects
+        new methods \code{tokens()} and \code{types()} to quickly get tokens and types of a
+        text
     }
   }
 }
@@ -631,40 +692,40 @@
       \item the \code{treetag()} function actually omittet options for the tokenizer due to
         a never updated variable and a wrong setting later on; this has been the
         case for years -- interesting that no-one ever noticed this
-      \item \code{read.corp.LCC()} can now digest newer LCC archives, omitting the
-        *-meta.txt file if none is present, and also supporting *-words.txt files with
-        duplicate columns
-      \item some typos in the ChangeLog...
-      \item fixed manual page for class kRp.corp.freq
+        \code{read.corp.LCC()} can now digest newer LCC archives, omitting the
+        *-meta.txt file if none is present, and also supporting *-words.txt files
+        with duplicate columns
+        some typos in the ChangeLog...
+        fixed manual page for class kRp.corp.freq
     }
   }
   \subsection{changed}{
     \itemize{
       \item the support for non-UTF-8 presets for was removed, since TreeTagger is
-        only endorsing UTF-8 encoding itself for a while; the old preset names will
-        continue to work for the time being, but if possible you should already
-        rename them from "<lang>-utf8" into just "<lang>" in your scripts
-      \item removed options corp.rm.class and corp.rm.tag from method \code{hyphen()} for
+        only endorsing UTF-8 encoding itself for a while; the old preset names
+        will continue to work for the time being, but if possible you should
+        already rename them from "<lang>-utf8" into just "<lang>" in your scripts
+        removed options corp.rm.class and corp.rm.tag from method \code{hyphen()} for
         character strings
-      \item massively improved the speed of hyphen by using a new method for
-        exploding words into their sub-parts. in benchmark tests (text with ~30.000 words)
-        the new method only takes about 15\% of the time without cache, and about
-        50\% with cache
-      \item massively improved the speed of \code{lex.div()} by reducing unnecessary
-        computations. in benchmark tests (see above) the new method is more than 100
-        times faster, which also makes \code{readability()} three times as fast with standard
-        indices. if you disable the FOG index, \code{readability()} is now finished in
-        an instant, too. see the new index=\code{"fast"} option below
-      \item \code{tokenize()} now uses \code{data.table()} instead of \code{data.frame()} internally,
+        massively improved the speed of hyphen by using a new method for
+        exploding words into their sub-parts. in benchmark tests (text with
+        ~30.000 words) the new method only takes about 15\% of the time without
+        cache, and about 50\% with cache
+        massively improved the speed of \code{lex.div()} by reducing unnecessary
+        computations. in benchmark tests (see above) the new method is more than
+        100 times faster, which also makes \code{readability()} three times as fast with
+        standard indices. if you disable the FOG index, \code{readability()} is now
+        finished in an instant, too. see the new index=\code{"fast"} option below
+        \code{tokenize()} now uses \code{data.table()} instead of \code{data.frame()} internally,
         leading to an increase in speed of about 20\%
-      \item new slots \code{"bigrams"} and \code{"cooccur"} in S4 class kRp.corp.freq
-      \item cleaned up code
-      \item removed the never used variable TT.tknz.opts.def in the language support
-      \item \code{set.lang.support()} now checks for duplicate tag definitions and throws an
+        new slots \code{"bigrams"} and \code{"cooccur"} in S4 class kRp.corp.freq
+        cleaned up code
+        removed the never used variable TT.tknz.opts.def in the language support
+        \code{set.lang.support()} now checks for duplicate tag definitions and throws an
         error if any were found
-      \item renamed class and method files to set some environment first
-      \item moved several internal hyphenation functions to koRpus-internal.hyphen.R
-      \item moved several internal readability functions to
+        renamed class and method files to set some environment first
+        moved several internal hyphenation functions to koRpus-internal.hyphen.R
+        moved several internal readability functions to
         koRpus-internal.rdb.formulae.R
     }
   }
@@ -672,18 +733,19 @@
     \itemize{
       \item \code{read.corp.LCC()} can now import the information on bigrams and
         co-occurences of tokens in a sentence
-      \item language support now also uses TT.splitter, TT.splitter.opts, and
-        TT.pre.tagger, which was needed mostly to implement the TreeTagger script for
-        portuguese (available in the separate package koRpus.lang.pt), but also for
-        updates of languages that were already supported
-      \item updated the RKWard plugin (UTF-8 defaults, added dutch and portuguese,
+        language support now also uses TT.splitter, TT.splitter.opts, and
+        TT.pre.tagger, which was needed mostly to implement the TreeTagger script
+        for portuguese (available in the separate package koRpus.lang.pt), but
+        also for updates of languages that were already supported
+        updated the RKWard plugin (UTF-8 defaults, added dutch and portuguese,
         added Brouwer formula)
-      \item new unit tests for \code{lex.div()}, \code{tokenize()} and \code{readability()}
-      \item new options to set index=\code{"fast"} in \code{readability()} to drop FPG from the
+        new unit tests for \code{lex.div()}, \code{tokenize()} and \code{readability()}
+        new options to set index=\code{"fast"} in \code{readability()} to drop FPG from the
         defaults for faster calculations
-      \item new option MTLDMA.steps to increase the step size for MTLD-MA. this
-        diverts from the original proposal, but if your text is long enough, you will
-        get a very good estimate and only need a fraction of the computing time
+        new option MTLDMA.steps to increase the step size for MTLD-MA. this
+        diverts from the original proposal, but if your text is long enough, you
+        will get a very good estimate and only need a fraction of the computing
+        time
     }
   }
 }
@@ -691,25 +753,25 @@
   \subsection{fixed}{
     \itemize{
       \item fixed the Douma formula: based on available literature, the factor for
-        average sentence length was set to 0.33, but the original paper reported it
-        as 0.93
-      \item fixed the documentation for \code{tokenize()}, roxygen2 had problems with an
+        average sentence length was set to 0.33, but the original paper reported
+        it as 0.93
+        fixed the documentation for \code{tokenize()}, roxygen2 had problems with an
         escaped double quote
-      \item corrected some problems with umlauts in the docs
+        corrected some problems with umlauts in the docs
     }
   }
   \subsection{added}{
     \itemize{
       \item new template for a roxyPackage script to make it easy to build packages
         from language support scripts
-      \item additional validation for ARI, flesch (en), flesch-kincaid, SMOG and FOG,
+        additional validation for ARI, flesch (en), flesch-kincaid, SMOG and FOG,
         via http://wordscount.info/wc/jsp/clear/analyze_readability.jsp
-      \item new Flesch parameters to calculate readability according to Brouwer (NL),
+        new Flesch parameters to calculate readability according to Brouwer (NL),
         can be invoked as index "Flesch.nl-b", \code{"Flesch.Brouwer"}, or Flesch
         paremeters set to "nl-b"
-      \item now the manual is actually documenting all the various Flesch formulas,
-        i.e., listing all parameter values, so that it's easier for users to check
-        what is being calculated
+        now the manual is actually documenting all the various Flesch formulas,
+        i.e., listing all parameter values, so that it's easier for users to
+        check what is being calculated
     }
   }
 }
@@ -717,28 +779,29 @@
   \subsection{fixed}{
     \itemize{
       \item workaround for missing POS tag \code{"NS"} for english texts
-      \item made \code{guess.lang()} compatible with recent format of UDHR archives, now
+        made \code{guess.lang()} compatible with recent format of UDHR archives, now
         using ISO 639-3 codes as language identifier
-      \item \code{tokenize()} and \code{treetag()} weren't able to cope with text that only
+        \code{tokenize()} and \code{treetag()} weren't able to cope with text that only
         consisted of a single token
-      \item declared import from graphics package to satisfy CRAN checks
+        declared import from graphics package to satisfy CRAN checks
     }
   }
   \subsection{changed}{
     \itemize{
       \item updated rkwarddev script according to recent development in the rkwarddev
         package
-      \item some basic validity checks of treetag()s \code{"TT.options"} moved to an
-        internal function \code{checkTTOptions()}, which is now also called by \code{set.kRp.env()}
-      \item \code{guess.lang()} doesn't warn about missing EOL in the UDHR texts any longer
+        some basic validity checks of treetag()s \code{"TT.options"} moved to an
+        internal function \code{checkTTOptions()}, which is now also called by
+        \code{set.kRp.env()}
+        guess.\code{lang()} doesn't warn about missing EOL in the UDHR texts any longer
     }
   }
   \subsection{added}{
     \itemize{
       \item added a README.md file
-      \item new option \code{"no.unknown"} can be passed to the \code{"TT.options"} of \code{treetag()},
+        new option \code{"no.unknown"} can be passed to the \code{"TT.options"} of \code{treetag()},
         to toggle the "-no-unknown" switch of TreeTagger
-      \item new option \code{"validate"} for \code{set.kRp.env()} to enable/disable checks
+        new option \code{"validate"} for \code{set.kRp.env()} to enable/disable checks
     }
   }
 }
@@ -746,12 +809,12 @@
   \subsection{fixed}{
     \itemize{
       \item actually query for supported POS tags in internal function
-        \code{is.supported.lang()}. the function previously looked for supported languages in the
-        available presets, which failed if there was no preset named like the language
-        abberviation
-      \item made \code{hyphen()} not split words after first or before last character,
+        \code{is.supported.lang()}. the function previously looked for supported
+        languages in the available presets, which failed if there was no preset
+        named like the language abberviation
+        made \code{hyphen()} not split words after first or before last character,
         therefore min.length was increased to 4 accordingly
-      \item adjusted test standards to changed hyphen results
+        adjusted test standards to changed hyphen results
     }
   }
   \subsection{added}{
@@ -766,26 +829,26 @@
     \itemize{
       \item \code{read.corp.custom()} calculated the in-document frequency wrong if analysis
         was performed case insensitive
-      \item updated some more links in the docs (?kRp.POS.tags)
+        updated some more links in the docs (?kRp.POS.tags)
     }
   }
   \subsection{changed}{
     \itemize{
       \item \code{correct.tag()} now accepts all objects of class union kRp.taggedText
-      \item \code{query()} now uses "\%in\%" instead of "==" to match character strings
+        \code{query()} now uses "\%in\%" instead of "==" to match character strings
         against \code{"query"}
-      \item exported the previously internal function \code{set.lang.support()}, to prepare
+        exported the previously internal function \code{set.lang.support()}, to prepare
         for the possibility of third party package to add new languages
     }
   }
   \subsection{added}{
     \itemize{
       \item initial support to manually extend the languages supported by the
-        package. you can now add new languages on-the-fly in a running session, or in a
-        more sustainable manner by providing a language package (using the same
-        methods, basically). key to this is the now globally available function
-        \code{set.lang.support()}, and there's also two commented template scripts installed
-        with the package, see the \code{"templates"} folder
+        package. you can now add new languages on-the-fly in a running session,
+        or in a more sustainable manner by providing a language package (using
+        the same methods, basically). key to this is the now globally available
+        function \code{set.lang.support()}, and there's also two commented template
+        scripts installed with the package, see the \code{"templates"} folder
     }
   }
 }
@@ -793,7 +856,7 @@
   \subsection{fixed}{
     \itemize{
       \item \code{read.corp.custom()} was buggy when dealing with tagged objects
-      \item suppress message stating text language in \code{summary()} for readability
+        suppress message stating text language in \code{summary()} for readability
         objects if "flat=TRUE"
     }
   }
@@ -801,19 +864,19 @@
     \itemize{
       \item changed the following functions into S4 methods: \code{readability()},
         \code{lex.div()}, \code{hyphen()}, \code{read.corp.custom()} and \code{freq.analysis()}
-      \item removed long since deprecated function \code{kRp.freq.analysis()}
-      \item splitted the code of the monolithic internal function for
+        removed long since deprecated function \code{kRp.freq.analysis()}
+        splitted the code of the monolithic internal function for
         \code{read.corp.custom()} into several subfunctions to get more flexibility
-      \item \code{read.corp.custom()} now also supports analysis of lists of tagged objects
-      \item removed option \code{"fileEncoding"} from the signature of \code{read.corp.custom()},
-        but it can still be used as part of the \code{"..."} options; this was neccessary
-        because \code{treetag()} uses \code{"encoding"} instead
+        \code{read.corp.custom()} now also supports analysis of lists of tagged objects
+        removed option \code{"fileEncoding"} from the signature of \code{read.corp.custom()},
+        but it can still be used as part of the \code{"..."} options; this was
+        neccessary because \code{treetag()} uses \code{"encoding"} instead
     }
   }
   \subsection{added}{
     \itemize{
       \item new option \code{"tagger"} now also available in \code{read.corp.custom()}
-      \item there is now a mailing list to discuss the koRpus development:
+        there is now a mailing list to discuss the koRpus development:
         https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de
     }
   }
@@ -823,31 +886,31 @@
     \itemize{
       \item changed \code{"selected"} values of \code{checkboxGroupInput()} in the shiny file ui.R
         to comply with the changes made in shiny 0.9.0
-      \item function \code{kRp.text.transform()} was missing some columns in TT.res
-      \item fixing this ChangeLog: the parameter for Szigriszt (Flesch ES) is not
+        function \code{kRp.text.transform()} was missing some columns in TT.res
+        fixing this ChangeLog: the parameter for Szigriszt (Flesch ES) is not
         \code{"es2"}, as reported in the log to koRpus 0.05.3, but "es-s"!
-      \item calling readability for \code{"ARI.NRI"} without hyphenation didn't work,
+        calling readability for \code{"ARI.NRI"} without hyphenation didn't work,
         allthough ARI doesn't need syllables
-      \item updated some broken links in the docs (?kRp.POS.tags, ?guess.lang)
-      \item added imports for 'utils' and 'stats' packages to comply with new CRAN
+        updated some broken links in the docs (?kRp.POS.tags, ?guess.lang)
+        added imports for 'utils' and 'stats' packages to comply with new CRAN
         checks
-      \item added a otherwise useless definition of \code{"text"} to the body of
+        added a otherwise useless definition of \code{"text"} to the body of
         \code{guess.lang()}, also to satisfy R CMD check
     }
   }
   \subsection{changed}{
     \itemize{
       \item replaced the RKWard plugin with a modularized rewrite (rkwarddev script)
-      \item some code cleaning in internal function \code{kRp.rdb.formulae()} and
+        some code cleaning in internal function \code{kRp.rdb.formulae()} and
         \code{freq.analysis()}, mostly replacing @ by \code{slot()}
     }
   }
   \subsection{added}{
     \itemize{
       \item new readability formula \code{tuldava()}, kindly suggested by peter grzybek
-      \item the shiny app has gained support for Tuldava and Szigriszt (Flesch ES)
+        the shiny app has gained support for Tuldava and Szigriszt (Flesch ES)
         formulae and log.base parameter (lexical diversity)
-      \item \code{set.kRp.env()} does now check whether a language preset is valid
+        \code{set.kRp.env()} does now check whether a language preset is valid
     }
   }
 }
@@ -856,17 +919,18 @@
     \itemize{
       \item removed Snowball from the list of suggested packages, as it is deprecated
         and fully replaced by SnowballC
-      \item re-generated all docs with roxygen2 3.1.0, which can now handle S4 class
+        re-generated all docs with roxygen2 3.1.0, which can now handle S4 class
         definitions properly
-      \item replaced all tabs in the source code by two space characters
+        replaced all tabs in the source code by two space characters
     }
   }
   \subsection{added}{
     \itemize{
       \item new tf-idf feature: \code{read.corp.custom()} now calculates idf, then
-        \code{freq.analysis()} can use that to calculate tf-idf, kindly suggested by sandro tsang
-      \item new columns \code{"inDocs"} and \code{"idf"} in slot \code{"words"} of class kRp.corp.freq
-      \item new columns \code{"tf"}, \code{"idf"} and \code{"tfidf"} in slot \code{"words"} of class kRp.txt.freq
+        \code{freq.analysis()} can use that to calculate tf-idf, kindly suggested by
+        sandro tsang
+        new columns \code{"inDocs"} and \code{"idf"} in slot \code{"words"} of class kRp.corp.freq
+        new columns \code{"tf"}, \code{"idf"} and \code{"tfidf"} in slot \code{"words"} of class kRp.txt.freq
     }
   }
 }
@@ -874,8 +938,8 @@
   \subsection{fixed}{
     \itemize{
       \item PCRE 8.34 caused the tests to fail because of problems with regular
-        expressions in internal tokenizing function \code{tokenz()}; fixed by ensuring that
-        "-" is being escaped as "\\\\-"
+        expressions in internal tokenizing function \code{tokenz()}; fixed by ensuring
+        that "-" is being escaped as "\\\\-"
     }
   }
 }
@@ -884,7 +948,7 @@
     \itemize{
       \item due to a logical bug in calls to internal functions, the \code{"lemmatize"}
         argument if \code{lex.div()} didn't really have any effect
-      \item using file names with \code{readability()} and its wrappers was broken, works
+        using file names with \code{readability()} and its wrappers was broken, works
         again now
     }
   }
@@ -892,16 +956,16 @@
     \itemize{
       \item the \code{"tt"} slot in class kRp.TTR gained two new entries, \code{"lemmas"} and
         \code{"num.lemmas"}, kindly suggested by roberto trunfio
-      \item \code{show()} method for kRp.TTR objects now also lists the number of lemmas (if
+        \code{show()} method for kRp.TTR objects now also lists the number of lemmas (if
         found)
-      \item parameters of Flesch formulae were slightly changed to be more accurate
+        parameters of Flesch formulae were slightly changed to be more accurate
         (from rounded values of 206.84 to 206.835) where applicable
-      \item Flesch-Szigriszt and Fernandez-Huerta have been validated against INFLESZ
+        Flesch-Szigriszt and Fernandez-Huerta have been validated against INFLESZ
         v1.0, so the warning was removed
-      \item \code{readability.num()} now gracefully accepts a single number of syllables for
+        \code{readability.num()} now gracefully accepts a single number of syllables for
         formulae who don't need to know more
-      \item added a proper GPL notice at the beginning of each R file
-      \item adjustet tests according to the changes made
+        added a proper GPL notice at the beginning of each R file
+        adjustet tests according to the changes made
     }
   }
   \subsection{added}{
@@ -914,8 +978,9 @@
     \itemize{
       \item this is the first version of the package with slightly reduced sources on
         CRAN -- the debian directory, GPL license file and hyphenation pattern
-        ChangeLog had to be removed. if you want the full sources to this package,
-        please use the packages provided at http://reaktanz.de/?c=hacking&s=koRpus
+        ChangeLog had to be removed. if you want the full sources to this
+        package, please use the packages provided at
+        http://reaktanz.de/?c=hacking&s=koRpus
     }
   }
 }
@@ -924,8 +989,8 @@
     \itemize{
       \item added two previously undocumented (and hence missing) italian tags \code{"FW"}
         and \code{"LS"}
-      \item removed some ::: operators which were not neccessary
-      \item updated slot \code{"param"} of kRp.TTR objects to include \code{"min.tokens"},
+        removed some ::: operators which were not neccessary
+        updated slot \code{"param"} of kRp.TTR objects to include \code{"min.tokens"},
         \code{"rand.sample"}, \code{"window"} and \code{"log.base"}
     }
   }
@@ -938,11 +1003,11 @@
   \subsection{added}{
     \itemize{
       \item support for marco baroni's TreeTagger tagset for italian was added
-      \item added SnowballC to the suggested packages, as \code{tokenize()} and \code{treetag()}
+        added SnowballC to the suggested packages, as \code{tokenize()} and \code{treetag()}
         can also use \code{SnowballC::wordStem()} for stemming
-      \item new function \code{read.tagged()} can be used to import already tagged texts
-      \item new argument \code{"apply.sentc.end"} in function \code{treetag()}
-      \item new argument \code{"log.base"} in functions \code{lex.div()} and \code{lex.div.num()}
+        new function \code{read.tagged()} can be used to import already tagged texts
+        new argument \code{"apply.sentc.end"} in function \code{treetag()}
+        new argument \code{"log.base"} in functions \code{lex.div()} and \code{lex.div.num()}
     }
   }
 }
@@ -952,40 +1017,42 @@
       \item \code{DRP()} readability formula tried to fetch a non-existing variable and
         hence didn't calculate; this also fixed a problem with \code{summary()}, if DRP
         results were expected in the object; tests had to be corrected as well
-      \item \code{textFeatures()} gets number of letters and TTR again
-      \item MTLD calculation (\code{lex.div()}) now counts a factor as full if it is <
+        \code{textFeatures()} gets number of letters and TTR again
+        MTLD calculation (\code{lex.div()}) now counts a factor as full if it is <
         factor.size, it was implemented as <= factor.size before (thanks to scott
         jarvis for insight on the details)
-      \item \code{summary()} for kRp.TTR objects always showed MTLD, even if it was empty
+        \code{summary()} for kRp.TTR objects always showed MTLD, even if it was empty
     }
   }
   \subsection{changed}{
     \itemize{
       \item vignette now describes the use of \code{taggedText()} and \code{describe()}, instead of
         direct access to slots
-      \item \code{readability()} now assumes that if there's any text, it represents at
+        \code{readability()} now assumes that if there's any text, it represents at
         least one sentence, even if no sentence ending punctuation can be found
-      \item "quiet=TRUE" in \code{readability()}, \code{readability.num()}, \code{lex.div()} and
-        \code{lex.div.num()} will now also suppress all warnings regarding validation status
-      \item MTLD calculation (\code{lex.div()}) was optimized and takes less than half of
-        the time it used to. it also gained a new boolean argument \code{"detailed"}, which
-        is FALSE by default. this means that the full factor results are skipped
-        now, which boosts performance even more (six times as fast as before)
-      \item the caching mechanism for \code{hyphen()} was restructured into internal
+        "quiet=TRUE" in \code{readability()}, \code{readability.num()}, \code{lex.div()} and
+        \code{lex.div.num()} will now also suppress all warnings regarding validation
+        status
+        MTLD calculation (\code{lex.div()}) was optimized and takes less than half of
+        the time it used to. it also gained a new boolean argument \code{"detailed"},
+        which is FALSE by default. this means that the full factor results are
+        skipped now, which boosts performance even more (six times as fast as
+        before)
+        the caching mechanism for \code{hyphen()} was restructured into internal
         functions, allowing for better access to the cached data
-      \item \code{set.kRp.env()} and \code{get.kRp.env()} have new signatures, namely, all
-        previously hardcoded parameters have been replaced by the more flexible \code{"..."}.
-        usage stays the same, so there's no need to change any scripts, as long as
-        you called all parameters by name, not only by position!
-      \item object class kRp.corp.freq can now have additional columns in slots
-        \code{"words"} and \code{"desc"}. this flexibility allows for using this class with valence
-        data as well
-      \item \code{query()} now examines the desired columns to decide whether character or
+        \code{set.kRp.env()} and \code{get.kRp.env()} have new signatures, namely, all
+        previously hardcoded parameters have been replaced by the more flexible
+        \code{"..."}. usage stays the same, so there's no need to change any scripts, as
+        long as you called all parameters by name, not only by position!
+        object class kRp.corp.freq can now have additional columns in slots
+        \code{"words"} and \code{"desc"}. this flexibility allows for using this class with
+        valence data as well
+        \code{query()} now examines the desired columns to decide whether character or
         numeric operations are to be done
-      \item performance of \code{hyphen()} has been massively improved if cache=TRUE
-      \item \code{guess.lang()} now also standardizes the difference values; this was added
+        performance of \code{hyphen()} has been massively improved if cache=TRUE
+        \code{guess.lang()} now also standardizes the difference values; this was added
         to the respective \code{summary()} method, which also produces nicer output
-      \item the source code was re-organized a bit, to ensure classes and methods are
+        the source code was re-organized a bit, to ensure classes and methods are
         found in an appropriate order; the collate roclet of roxygen2 had
         problems with this when running in R 3.0.0
     }
@@ -993,21 +1060,22 @@
   \subsection{added}{
     \itemize{
       \item new function \code{read.BAWL()} to import BAWL-R data
-      \item new demo application for use with the \code{"shiny"} package, can be found in
+        new demo application for use with the \code{"shiny"} package, can be found in
         $SRC/inst/shiny
-      \item \code{lex.div()} now supports a new method for calculating MTLD (MTLDMA,
+        \code{lex.div()} now supports a new method for calculating MTLD (MTLDMA,
         moving-average)
-      \item new getter method \code{hyphenText()} to access the \code{"hyphen"} slot in kRp.hyphen
+        new getter method \code{hyphenText()} to access the \code{"hyphen"} slot in kRp.hyphen
         objects
-      \item getter methods \code{language()} and \code{describe()} for kRp.hyphen objects also added
-      \item added \code{"quiet"} argument to \code{lex.div.num()}
-      \item \code{guess.lang()} can now analyze a given text directly, not only from files
-      \item \code{set.kRp.env()} can now explicitly unset parameters in the environment
-      \item \code{set.kRp.env()} and \code{get.kRp.env()} know a new parameter,
-        \code{"hyphen.cache.file"}, which can be set to a file name to read from/write to the hyphenation
-        cache. this way you can easily restore cached hyphenation rules over
-        sessions. if this parameter is set, it will be used by \code{hyphen()} automatically if
-        called with "cache=TRUE"
+        getter methods \code{language()} and \code{describe()} for kRp.hyphen objects also
+        added
+        added \code{"quiet"} argument to \code{lex.div.num()}
+        guess.\code{lang()} can now analyze a given text directly, not only from files
+        \code{set.kRp.env()} can now explicitly unset parameters in the environment
+        \code{set.kRp.env()} and \code{get.kRp.env()} know a new parameter,
+        \code{"hyphen.cache.file"}, which can be set to a file name to read from/write
+        to the hyphenation cache. this way you can easily restore cached
+        hyphenation rules over sessions. if this parameter is set, it will be
+        used by \code{hyphen()} automatically if called with "cache=TRUE"
     }
   }
 }
@@ -1024,8 +1092,8 @@
     \itemize{
       \item optimized \code{tokenize()} to also detect prefixes/suffixes of the defined
         heuristics if they co-occur with punctuation
-      \item re-saved hyph.fr.rda with explicitly UTF-8 ecoded vectors
-      \item renamed LICENSE to LINCENSE.txt, so it won't get installed, as demnanded
+        re-saved hyph.fr.rda with explicitly UTF-8 ecoded vectors
+        renamed LICENSE to LINCENSE.txt, so it won't get installed, as demnanded
         by Writing R Extensions
     }
   }
@@ -1034,28 +1102,28 @@
       \item the language specific heuristics \code{"en"} and \code{"fr"} in \code{tokenize()} were renamed
         into \code{"suf"} and \code{"pre"}. but they are still available, with \code{"fr"} now
         activating both \code{"suf"} and \code{"pre"}.
-      \item \code{read.hyph.pat()} now explicitly sets vector encoding to UTF-8 with
-        \code{Encoding()}<-, to ensure that the generated objects don't cause warnings from R
-        CMD check if they're included in packages
-      \item internally replaced paste(..., sep=\code{""}) with paste0(...)
+        \code{read.hyph.pat()} now explicitly sets vector encoding to UTF-8 with
+        \code{Encoding()}<-, to ensure that the generated objects don't cause warnings
+        from R CMD check if they're included in packages
+        internally replaced paste(..., sep=\code{""}) with paste0(...)
     }
   }
   \subsection{added}{
     \itemize{
       \item added new getter/setter methods \code{taggedText()}, \code{taggedText()}<-, \code{describe()},
         \code{describe()}<-, \code{language()} and \code{language()}<- for tagged text objects
-      \item added \code{is.taggedText()} test function
-      \item added a warning to \code{treetag()} if \code{"TT.options"} is not a list (because this
+        added \code{is.taggedText()} test function
+        added a warning to \code{treetag()} if \code{"TT.options"} is not a list (because this
         will likely render the options meaningless if they *contain* a list).
-      \item \code{tokenize()} can now apply a list of patterns/replacements to given texts
+        \code{tokenize()} can now apply a list of patterns/replacements to given texts
         via the new \code{"clean.raw"} attribute, and even supports perl-like regular
-        expressions. the replacements are done before the texts are tokenized, so this
-        can be tried to globally clean up bad characters or simply replace
+        expressions. the replacements are done before the texts are tokenized, so
+        this can be tried to globally clean up bad characters or simply replace
         strings, etc.
-      \item \code{tokenize()} and \code{treetag()} have a new option \code{"stopwords"} to enable stopword
+        \code{tokenize()} and \code{treetag()} have a new option \code{"stopwords"} to enable stopword
         detection
-      \item \code{kRp.filter.wclass()} can now remove detected stopwords
-      \item \code{tokenize()} and \code{treetag()} have a new option \code{"stemmer"} to interface with
+        \code{kRp.filter.wclass()} can now remove detected stopwords
+        \code{tokenize()} and \code{treetag()} have a new option \code{"stemmer"} to interface with
         stemmer functions/methods like \code{Snowball::SnowballStemmer()}
     }
   }
@@ -1072,18 +1140,18 @@
     \itemize{
       \item a typo in Spache calculation (substraction instead of addition of a
         constant) lead to wrong results
-      \item Spache now counts unfamiliar words only once, as explained in the
+        Spache now counts unfamiliar words only once, as explained in the
         original article
-      \item old Spache formula was missing in readability(index=\code{"all"})
+        old Spache formula was missing in readability(index=\code{"all"})
     }
   }
   \subsection{changed}{
     \itemize{
       \item validated Linsear Write, Dale-Chall (1948) and Spache (1953) results and
         removed warnings
-      \item status messages of \code{hyphen()} and \code{lex.div()} have been replaced by a space
+        status messages of \code{hyphen()} and \code{lex.div()} have been replaced by a space
         saving prograss bar added
-      \item added tests for \code{lex.div()}, \code{hyphen()} and \code{readability()}
+        added tests for \code{lex.div()}, \code{hyphen()} and \code{readability()}
     }
   }
 }
@@ -1098,8 +1166,8 @@
   \subsection{changed}{
     \itemize{
       \item using utf8-tokenizer.perl now in all UTF-8 presets, also on windows
-        systems. the script is part of the windows installer of TreeTagger 3.2 (at
-        least since june 2012)
+        systems. the script is part of the windows installer of TreeTagger 3.2
+        (at least since june 2012)
     }
   }
   \subsection{fixed}{
@@ -1119,10 +1187,10 @@
   \subsection{changed}{
     \itemize{
       \item advanced \code{summary()} statistics for objects returned by \code{clozeDelete()}
-      \item clozeDelete(offset=\code{"all"}) now iterates through all cloze variants and
+        clozeDelete(offset=\code{"all"}) now iterates through all cloze variants and
         prints the results, including the new \code{summary()} data
-      \item \code{clozeDelete()} now uses the new class union \code{"kRp.taggedText"} as signature
-      \item \code{read.corp.custom()} now uses \code{table()}, \code{"quiet"} is TRUE by default, the new
+        \code{clozeDelete()} now uses the new class union \code{"kRp.taggedText"} as signature
+        \code{read.corp.custom()} now uses \code{table()}, \code{"quiet"} is TRUE by default, the new
         option \code{"caseSens"} can be used to ignore character case, and \code{"corpus"} can
         now also be a tagged text object
     }
@@ -1130,7 +1198,7 @@
   \subsection{fixed}{
     \itemize{
       \item \code{summary()} for objects of class kRp.txt.freq was broken
-      \item as(\code{"kRp.tagged"}) for objects of class kRp.txt.freq was broken
+        as(\code{"kRp.tagged"}) for objects of class kRp.txt.freq was broken
     }
   }
 }
@@ -1143,7 +1211,7 @@
   \subsection{added}{
     \itemize{
       \item added new method \code{clozeDelete()}
-      \item added new list \code{"cTest"} in desc slot of the objects returned by \code{cTest()},
+        added new list \code{"cTest"} in desc slot of the objects returned by \code{cTest()},
         which lists all words that were changed (in \code{clozeDelete()} this list is
         called \code{"cloze"})
     }
@@ -1165,8 +1233,9 @@
 \section{Changes in koRpus version 0.04-31 (2012-04-22)}{
   \subsection{added}{
     \itemize{
-      \item koRpus now suggests the \code{"testthat"} package and uses it for automatic tests
-      \item \code{treetag()} and \code{tokenize()} now also accept input from open connections
+      \item koRpus now suggests the \code{"testthat"} package and uses it for automatic
+        tests
+        \code{treetag()} and \code{tokenize()} now also accept input from open connections
     }
   }
   \subsection{fixed}{
@@ -1178,26 +1247,27 @@
 \section{Changes in koRpus version 0.04-30 (2012-04-06)}{
   \itemize{
     \item added features:
-    \item kRp.corp.freq class objects now include the columns 'lttr', 'lemma',
+      kRp.corp.freq class objects now include the columns 'lttr', 'lemma',
       'tag' and 'wclass'
-    \item \code{query()} for corpus frequency objects now returns objects of the same
+      \code{query()} for corpus frequency objects now returns objects of the same
       class, to allow nested queries
-    \item the 'query' parameter of \code{query()} can now be a list of lists, to
+      the 'query' parameter of \code{query()} can now be a list of lists, to
       facilitate nested requests more easily
-    \item \code{query()} can now invoke \code{grepl()}, if 'var' is set to \code{"regexp"}; i.e., you
-      can now filter words by regular expressions (inspired by suggestions after
-      the koRpus talk at TeaP 2012)
+      \code{query()} can now invoke \code{grepl()}, if 'var' is set to \code{"regexp"}; i.e., you
+      can now filter words by regular expressions (inspired by suggestions
+      after the koRpus talk at TeaP 2012)
   }
 }
 \section{Changes in koRpus version 0.04-29 (2012-04-05)}{
   \itemize{
     \item fixed bug in \code{summary()} for tagged objects without punctuation
-    \item renamed \code{kRp.freq.analysis()} to \code{freq.analysis()} (with wrapper function for
+      renamed \code{kRp.freq.analysis()} to \code{freq.analysis()} (with wrapper function for
       backwards compatibility)
-    \item \code{readability.num()} can now directly digest objects of class kRp.readability
-    \item data documentation hyph.XX is now a roxygen source file as well
-    \item cleaned up \code{summary()} and \code{show()} docs
-    \item adjustements to the roxygen2 docs (methods)
+      \code{readability.num()} can now directly digest objects of class
+      kRp.readability
+      data documentation hyph.XX is now a roxygen source file as well
+      cleaned up \code{summary()} and \code{show()} docs
+      adjustements to the roxygen2 docs (methods)
   }
 }
 \section{Changes in koRpus version 0.04-28 (2012-03-10)}{
@@ -1206,213 +1276,215 @@
       needless NOTEs from R CMD check (\code{hyphen()}, and internal functions
       \code{frqcy.by.rel()}, \code{load.hyph.pattern()}, \code{tagged.txt.rm.classes()} and
       \code{text.freq.analysis()})
-    \item re-formatted the ChangeLog so roxyPackage can translate it into a NEWS.Rd
+      re-formatted the ChangeLog so roxyPackage can translate it into a NEWS.Rd
       file
   }
 }
 \section{Changes in koRpus version 0.04-27 (2012-03-07)}{
   \itemize{
     \item prep for CRAN release:
-    \item 0.04-26 was short-lived...
-    \item really fixed plot docs
-    \item removed usage section from hyph.XX data documentation
-    \item renamed \code{text.features()} to \code{textFeatures()}
-    \item encapsulated examples in \code{set.kRp.env()}/get.\code{kRp.env()} in \\dontrun\{\}
-    \item re-encoded hyph.XX data objects to UTF-8
-    \item replaces non-ASCII characters in code with unicode escapes
+      0.04-26 was short-lived...
+      really fixed plot docs
+      removed usage section from hyph.XX data documentation
+      renamed \code{text.features()} to \code{textFeatures()}
+      encapsulated examples in \code{set.kRp.env()}/get.\code{kRp.env()} in \\dontrun\{\}
+      re-encoded hyph.XX data objects to UTF-8
+      replaces non-ASCII characters in code with unicode escapes
   }
 }
 \section{Changes in koRpus version 0.04-26 (2012-03-07)}{
   \itemize{
     \item fixed plot docs
-    \item prep for inital CRAN release
+      prep for inital CRAN release
   }
 }
 \section{Changes in koRpus version 0.04-25 (2012-03-05)}{
   \itemize{
     \item re-compressed all hyphenation pattern data files, using xz compression
-    \item lifted the R dependency from 2.9 to 2.10
-    \item compressed LCC tarballs are now detected automatically
-    \item \code{kRp.freq.analysis()} now also lists the log10 value of word frequencies in
+      lifted the R dependency from 2.9 to 2.10
+      compressed LCC tarballs are now detected automatically
+      \code{kRp.freq.analysis()} now also lists the log10 value of word frequencies in
       the TT.res slot
-    \item in the desc slot of kRp.txt.freq class objects, the rather misleading
+      in the desc slot of kRp.txt.freq class objects, the rather misleading
       list elements \code{"freq"} and \code{"freq.wclass"} were more adequately renamed to
       \code{"freq.token"} and \code{"freq.types"}, respectively
-    \item unmatched words in frequency analyses now get value 0, not NA
-    \item fixed wrong signature for option \code{"tagger"} in \code{kRp.text.analysis()}
-    \item fixed \code{kRp.cluster()} which still called some old slots
+      unmatched words in frequency analyses now get value 0, not NA
+      fixed wrong signature for option \code{"tagger"} in \code{kRp.text.analysis()}
+      fixed \code{kRp.cluster()} which still called some old slots
   }
 }
 \section{Changes in koRpus version 0.04-24 (2012-03-01)}{
   \itemize{
     \item fixed bug for attempts to calculate value distribution texts without any
       sentence endings
-    \item all readability wrapper functions now also accept a list of text features
+      all readability wrapper functions now also accept a list of text features
       for calculation
-    \item class kRp.readability now inherits kRp.tagged
-    \item \code{readability()} now checks for presence of a hyphen slot and re-uses it, if
+      class kRp.readability now inherits kRp.tagged
+      \code{readability()} now checks for presence of a hyphen slot and re-uses it, if
       no new hyphen object was provided; this in addition to the previous
-      change enables one to re-analyze a text more efficiently, as already calculated
-      results are also preserved
-    \item letter and character distribution in kRp.tagged desc slot now include
-      columns with zero values if the respective values are missing (e.g., no words
-      with five letters, but some with six, etc.)
-    \item added summary method for class kRp.tagged, summarizing main information
+      change enables one to re-analyze a text more efficiently, as already
+      calculated results are also preserved
+      letter and character distribution in kRp.tagged desc slot now include
+      columns with zero values if the respective values are missing (e.g., no
+      words with five letters, but some with six, etc.)
+      added summary method for class kRp.tagged, summarizing main information
       from the desc slot
-    \item added plot method for class kRp.tagged
-    \item show method for kRp.readability now lists unfamiliar words for
+      added plot method for class kRp.tagged
+      show method for kRp.readability now lists unfamiliar words for
       Harris-Jacobson
-    \item cleaned up code of \code{lex.div.num()} a bit
+      cleaned up code of \code{lex.div.num()} a bit
   }
 }
 \section{Changes in koRpus version 0.04-23 (2012-02-24)}{
   \itemize{
     \item added precise RGL formula option to FORCAST
-    \item removed validation warnings from several indices, because results have
+      removed validation warnings from several indices, because results have
       been checked against those of other tools, and were comparable, so the
-      implementations of these measures are assumed to be correct: - \code{lex.div()}: TTR,
-      MSTTR, C, R, CTTR, U, Maas, HD-D, MTLD (thanks a lot to scott jarvis &
-      phil mccarthy for calculating sample texts!) - \code{readability()}: ARI, ARI NRI,
-      Bormuth, Coleman-Liau, Dale-Chall, Dale-Chall PSK, DRP,
-      Farr-Jenkins-Paterson, Farr-Jenkins-Paterson PSK, Flesch, Flesch PSK, Flesch-Kincaid, FOG,
-      FOG PSK, FORCAST, LIX, RIX, SMOG, Spache, Wheeler-Smith
-    \item moved all calculation from \code{readability()} to an internal function
-      \code{kRp.rdb.formulae()}. to make it easier to write a similar function to \code{lex.div.num()}
-      for the readability fomulas as well
-    \item added \code{readability.num()}
-    \item adjusted exsyl calculation for ELF to the approach used in other
-      measures, which also results in a change of its default \code{"syll"} parameter from 1 to
-      2; also corrected a typo in the docs, the index was proposed by Fang, not
-      Farr
-    \item readability results now list letter distribution, not character
+      implementations of these measures are assumed to be correct: - \code{lex.div()}:
+      TTR, MSTTR, C, R, CTTR, U, Maas, HD-D, MTLD (thanks a lot to scott jarvis
+      & phil mccarthy for calculating sample texts!) - \code{readability()}: ARI, ARI
+      NRI, Bormuth, Coleman-Liau, Dale-Chall, Dale-Chall PSK, DRP,
+      Farr-Jenkins-Paterson, Farr-Jenkins-Paterson PSK, Flesch, Flesch PSK,
+      Flesch-Kincaid, FOG, FOG PSK, FORCAST, LIX, RIX, SMOG, Spache,
+      Wheeler-Smith
+      moved all calculation from \code{readability()} to an internal function
+      \code{kRp.rdb.formulae()}. to make it easier to write a similar function to
+      \code{lex.div.num()} for the readability fomulas as well
+      added \code{readability.num()}
+      adjusted exsyl calculation for ELF to the approach used in other
+      measures, which also results in a change of its default \code{"syll"} parameter
+      from 1 to 2; also corrected a typo in the docs, the index was proposed by
+      Fang, not Farr
+      readability results now list letter distribution, not character
       distribution in desc slot
-    \item the desc slot from readability calculations was enhanced so that it can
+      the desc slot from readability calculations was enhanced so that it can
       directly be used as the txt.features parameter for \code{readability.num()}
-    \item docs were polished
+      docs were polished
   }
 }
 \section{Changes in koRpus version 0.04-22 (2012-02-08)}{
   \itemize{
     \item further fixes to the Wheeler-Smith implementation. according to the
-      original paper, polysyllabic words need to be counted, and the example given
-      shows that this means words with more than one syllable, not three or more,
-      as Bamberger & Vanecek (1984) suggested
-    \item fixed HD-D, previous results are now labelled as ATTR in the HDD slot
-    \item adjusted HD-D.char calculation for small number of tokens (probabilities
+      original paper, polysyllabic words need to be counted, and the example
+      given shows that this means words with more than one syllable, not three
+      or more, as Bamberger & Vanecek (1984) suggested
+      fixed HD-D, previous results are now labelled as ATTR in the HDD slot
+      adjusted HD-D.char calculation for small number of tokens (probabilities
       are now set to 1, not NaN)
-    \item added MATTR characteristics
-    \item \code{show()} for \code{lex.div()} objects now also reports SD for characteristics
+      added MATTR characteristics
+      \code{show()} for \code{lex.div()} objects now also reports SD for characteristics
   }
 }
 \section{Changes in koRpus version 0.04-21 (2012-02-07)}{
   \itemize{
     \item MTLD now uses a slightly more efficient algorithm, inspired by the one
       used for MATTR
-    \item MSTTR now also reports SD of TTRs
-    \item differentiated the word class adposition into pre-, post- and
+      MSTTR now also reports SD of TTRs
+      differentiated the word class adposition into pre-, post- and
       circumposition in the language support for german and russian
-    \item added both Tränke-Bailer formulae to \code{readability()}, incl. wrapper
+      added both Tränke-Bailer formulae to \code{readability()}, incl. wrapper
       \code{traenkle.bailer()} and \code{show()}/summary() methods
-    \item Coleman formulae now also count only prepositions as such
-    \item fixed Wheeler-Smith (thanks to eleni miltsakaki)
+      Coleman formulae now also count only prepositions as such
+      fixed Wheeler-Smith (thanks to eleni miltsakaki)
   }
 }
 \section{Changes in koRpus version 0.04-20 (2012-02-06)}{
   \itemize{
-    \item added Moving Average TTR (MATTR) to \code{lex.div()}, incl. wrapper  \code{MATTR()} and
+    \item added Moving Average TTR (MATTR) to \code{lex.div()}, incl. wrapper \code{MATTR()} and
       \code{show()}/summary() methods
-    \item added \code{"rand.sample"} and \code{"window"} to the parameters returned by \code{lex.div()}
-    \item further re-arranged the code of \code{readability()} and \code{lex.div()} to make it
+      added \code{"rand.sample"} and \code{"window"} to the parameters returned by \code{lex.div()}
+      further re-arranged the code of \code{readability()} and \code{lex.div()} to make it
       easier to maintain
-    \item summary(flat=TRUE) for readability objects is now a numeric vector
+      summary(flat=TRUE) for readability objects is now a numeric vector
   }
 }
 \section{Changes in koRpus version 0.04-19 (2012-02-02)}{
   \itemize{
     \item added five harris-jacobson readability formulae, incl. wrapper
       \code{harris.jacobson()} and \code{show()}/summary() methods
-    \item updated vignette
-    \item MTLD characteristics are now twice as fast
-    \item classes \code{"kRp.txt.freq"} and \code{"kRp.txt.trans"} now simply extend
+      updated vignette
+      MTLD characteristics are now twice as fast
+      classes \code{"kRp.txt.freq"} and \code{"kRp.txt.trans"} now simply extend
       \code{"kRp.tagged"}, and \code{"kRp.analysis"} extends \code{"kRp.txt.freq"}
-    \item removed internal function \code{check.kRp.object()} (globally replaced by
+      removed internal function \code{check.kRp.object()} (globally replaced by
       \code{inherits()})
-    \item fixed letter count issue in \code{readability()}
-    \item fixed bugs in loading word lists in \code{readability()}
-    \item fixed crash if index=\code{"all"} in \code{readability()}
-    \item reordered default kRp.readabilty slot order alphabetically, as well as
+      fixed letter count issue in \code{readability()}
+      fixed bugs in loading word lists in \code{readability()}
+      fixed crash if index=\code{"all"} in \code{readability()}
+      reordered default kRp.readabilty slot order alphabetically, as well as
       \code{show()} and \code{summary()} for readability results
-    \item renamed results of the Neue Wiener Sachtextformeln from WSTF* to nWS* in
+      renamed results of the Neue Wiener Sachtextformeln from WSTF* to nWS* in
       readability object methods \code{show()} and \code{summary()} for consistency
-    \item renamed \code{WSFT()} to \code{nWS()} for the same reason
-    \item cleaned up roxygen comments for more roxygen2 compliance
+      renamed \code{WSFT()} to \code{nWS()} for the same reason
+      cleaned up roxygen comments for more roxygen2 compliance
   }
 }
 \section{Changes in koRpus version 0.04-18 (2012-01-22)}{
   \itemize{
     \item added missing word exclusion to Gunning FOG measure
-    \item added sentence length, word length, distribution of characters and
-      letters to \code{"desc"} slot of class kRp.tagged and \code{readability()} results, where
-      missing
-    \item both syllable (\code{hyphen()}) and character distributions gained inversed
-      cummulation for absolute numbers and percentages, so this one table now makes
-      it easy to see how many words with more/equal/less characters/syllables
-      there are in a text
-    \item changed internals of \code{kRp.freq.analysis()} and \code{readability()} to re-use
+      added sentence length, word length, distribution of characters and
+      letters to \code{"desc"} slot of class kRp.tagged and \code{readability()} results,
+      where missing
+      both syllable (\code{hyphen()}) and character distributions gained inversed
+      cummulation for absolute numbers and percentages, so this one table now
+      makes it easy to see how many words with more/equal/less
+      characters/syllables there are in a text
+      changed internals of \code{kRp.freq.analysis()} and \code{readability()} to re-use
       descriptives of tagged text objects
-    \item NOTE: this also changed the names of some result elements in their \code{"desc"}
+      NOTE: this also changed the names of some result elements in their \code{"desc"}
       slots for overall consistency (\code{"avg.sent.len"} is now \code{"avg.sentc.length"},
       \code{"avg.word.len"} became \code{"avg.word.length"}, and instances of \code{"num.words"},
       \code{"num.chars"} etc. lost the \code{"num."} prefix). in case you accessed these
-      directly, check if you need to adopt these changes. this is a first round of
-      changes towards 0.05, see the notes to 0.04-17 below!
+      directly, check if you need to adopt these changes. this is a first round
+      of changes towards 0.05, see the notes to 0.04-17 below!
   }
 }
 \section{Changes in koRpus version 0.04-17 (2012-01-17)}{
   \itemize{
     \item replaced the english hyphenation parameter set with a new one, which was
       made with PatGen2 especially for koRpus
-    \item \code{tokenize()} will now interpret single letters followed by a dot as an
-      abbreviation (e.g., of a name), not a sentence ending, if heuristics include
-      \code{"abbr"}
-    \item fixed bug which caused \code{hyphen()} to drop syllables if only one pattern
+      \code{tokenize()} will now interpret single letters followed by a dot as an
+      abbreviation (e.g., of a name), not a sentence ending, if heuristics
+      include \code{"abbr"}
+      fixed bug which caused \code{hyphen()} to drop syllables if only one pattern
       match was found
-    \item added cache support to the correct method of class kRp.hyphen
-    \item added number of words and sentences to \code{"desc"} slot of class kRp.tagged
-    \item elaborated \code{treetag()} error message if no TreeTagger command was specified
-    \item NOTE: koRpus 0.05 will likely merge some object classes similar to
-      kRp.tagged, i.e. kRp.txt.freq and kRp.txt.trans, into one class for tokenized
-      text, either replacing or inheriting those classes
+      added cache support to the correct method of class kRp.hyphen
+      added number of words and sentences to \code{"desc"} slot of class kRp.tagged
+      elaborated \code{treetag()} error message if no TreeTagger command was specified
+      NOTE: koRpus 0.05 will likely merge some object classes similar to
+      kRp.tagged, i.e. kRp.txt.freq and kRp.txt.trans, into one class for
+      tokenized text, either replacing or inheriting those classes
   }
 }
 \section{Changes in koRpus version 0.04-16 (2012-01-15)}{
   \itemize{
     \item added slot \code{"desc"} to class kRp.tagged, to have descriptive statistics
       directly available in the object
-    \item added support for descriptive statistics to \code{tokenize()} and \code{treetag()}
-    \item added function \code{text.features()} to extract a 9-features set from texts for
+      added support for descriptive statistics to \code{tokenize()} and \code{treetag()}
+      added function \code{text.features()} to extract a 9-features set from texts for
       authorship detection (inspired by a talk at the 28C3)
-    \item \code{hyphen()} can now cache results on a per session basis, making it
+      \code{hyphen()} can now cache results on a per session basis, making it
       noticeably faster
   }
 }
 \section{Changes in koRpus version 0.04-15 (2012-01-04)}{
   \itemize{
     \item \code{manage.hyph.pat()} is now an exported function
-    \item added initial support for italian (thanks to alberto mirisola)
-    \item added italian hyphenation patterns
-    \item changed min.length from 4 to 3 in \code{hyphen()} and \code{manage.hyph.pat()}
-    \item hyphen now considers hyphenating before last letters of a word
-    \item tuned hyph.en (with contributions by laura hauser)
-    \item fixed check for existing tokenizer, tagger and parameter file in \code{treetag()}
-    \item fixed MTLD calculation for texts which don't make even one factor
+      added initial support for italian (thanks to alberto mirisola)
+      added italian hyphenation patterns
+      changed min.length from 4 to 3 in \code{hyphen()} and \code{manage.hyph.pat()}
+      hyphen now considers hyphenating before last letters of a word
+      tuned hyph.en (with contributions by laura hauser)
+      fixed check for existing tokenizer, tagger and parameter file in
+      \code{treetag()}
+      fixed MTLD calculation for texts which don't make even one factor
   }
 }
 \section{Changes in koRpus version 0.04-14 (2011-12-22)}{
   \itemize{
     \item added new internal function \code{manage.hyph.pat()} to add/replace/remove
       pattern entries for hyphenation
-    \item added number of tokens per factor and standard deviation to MTLD results
+      added number of tokens per factor and standard deviation to MTLD results
       (thx to aris xanthos for the suggestion)
   }
 }
@@ -1420,21 +1492,21 @@
   \itemize{
     \item added column \code{"token"} to slots MTLD$all.forw and MTLD$all.back of
       \code{lex.div()} results, so you can verify the results more easily
-    \item slot HDD$type.probs of \code{lex.div()} results is now sorted (decreasing)
-    \item removed warnings of missing encoding, since \code{enc2utf()} seems to do a
+      slot HDD$type.probs of \code{lex.div()} results is now sorted (decreasing)
+      removed warnings of missing encoding, since \code{enc2utf()} seems to do a
       pretty good job
   }
 }
 \section{Changes in koRpus version 0.04-12 (2011-11-21)}{
   \itemize{
     \item added support for the newer LCC .tar archive format
-    \item changed vignette accordingly
-    \item for consistency, changed \code{"words"} and \code{"dist.words"} into \code{"tokens"} and
+      changed vignette accordingly
+      for consistency, changed \code{"words"} and \code{"dist.words"} into \code{"tokens"} and
       \code{"types"} in class kRp.corp.freq, slot desc
-    \item added lgeV0 and the relative vocabulary growth measures suggested by Maas
+      added lgeV0 and the relative vocabulary growth measures suggested by Maas
       to \code{lex.div()}; furthermore, a is now reported instead of a^2
-    \item added lgV0 and lgeV0 to \code{lex.div.num()}
-    \item show method for class kRp.TTR now excludes Inf values from
+      added lgV0 and lgeV0 to \code{lex.div.num()}
+      show method for class kRp.TTR now excludes Inf values from
       charasteristics values
   }
 }
@@ -1442,17 +1514,17 @@
   \itemize{
     \item added function \code{lex.div.num()}, calculates TTR family measures by numbers
       of tokens and types directly
-    \item cleaned up \code{lex.div()} code a little
+      cleaned up \code{lex.div()} code a little
   }
 }
 \section{Changes in koRpus version 0.04-10 (2011-11-19)}{
   \itemize{
     \item fixed missing 'input.enc' information if \code{treetag()} option 'treetagger' is
       not \code{"manual"} but a script
-    \item enhanced encoding handling internally if none was specified
-    \item changed default value of 'case.sens' to FALSE in \code{lex.div()}, as this seems
+      enhanced encoding handling internally if none was specified
+      changed default value of 'case.sens' to FALSE in \code{lex.div()}, as this seems
       to be more common
-    \item changed default value of 'fileEncoding' from "UTF-8" to NULL and use
+      changed default value of 'fileEncoding' from "UTF-8" to NULL and use
       \code{enc2utf()} internally if no encoding was defined
   }
 }
@@ -1460,7 +1532,7 @@
   \itemize{
     \item \code{tokenize()} now converts all input to UTF-8 internally, to prevent
       conflicts later on (\code{treetag()} does that since 0.04-7 already)
-    \item added an experimental feature to \code{treetag()} to replace TreeTagger's
+      added an experimental feature to \code{treetag()} to replace TreeTagger's
       tokenizer with \code{tokenize()}
   }
 }
@@ -1473,7 +1545,7 @@
 \section{Changes in koRpus version 0.04-7 (2011-09-16)}{
   \itemize{
     \item added \code{"encoding"} option to \code{treetag()} and defaults to the language presets
-    \item fixed some option check and file path issues in \code{treetag()}
+      fixed some option check and file path issues in \code{treetag()}
   }
 }
 \section{Changes in koRpus version 0.04-6 (2011-09-11)}{
@@ -1497,46 +1569,46 @@
   \itemize{
     \item modularized language support by the internal function \code{set.lang.support()},
       this should make it much easier to add new languages in the future,
-      because it means to add only one R file. \code{hyphen()}, \code{kRp.POS.tags()} and \code{treetag()}
-      now use this new method
-    \item added CITATION file
+      because it means to add only one R file. \code{hyphen()}, \code{kRp.POS.tags()} and
+      \code{treetag()} now use this new method
+      added CITATION file
   }
 }
 \section{Changes in koRpus version 0.04-2 (2011-08-18)}{
   \itemize{
     \item fixed duplicate \code{"PREP"} definition in spanish POS tags, which caused
       \code{treetag()} to consume lots of RAM
-    \item fixed superfluous \code{"es"} definitions in \code{treetag()}
+      fixed superfluous \code{"es"} definitions in \code{treetag()}
   }
 }
 \section{Changes in koRpus version 0.04-1 (2011-08-16)}{
   \itemize{
     \item added support for spanish (thanks to earl brown)
-    \item docs can be created from source by roxygen2 (but all class docs are
+      docs can be created from source by roxygen2 (but all class docs are
       static, until '@slot' works again)
   }
 }
 \section{Changes in koRpus version 0.03-4 (2011-08-09)}{
   \itemize{
     \item added support for autodetection of headlines and paragraphs in \code{tokenize()}
-    \item added support to revert autodetected headlines and paragraphs in
+      added support to revert autodetected headlines and paragraphs in
       \code{kRp.text.paste()}
-    \item updated RKWard plugin to use \code{tokenize()}
+      updated RKWard plugin to use \code{tokenize()}
   }
 }
 \section{Changes in koRpus version 0.03-3 (2011-08-08)}{
   \itemize{
     \item added parameters for formula C and simplified formula to SMOG
-    \item enhanced readability formulas (like adding age levels to Flesch.Kincaid,
+      enhanced readability formulas (like adding age levels to Flesch.Kincaid,
       grade levels to LIX)
-    \item removed the duplicate Amstad index (is now just Flesch.de)
+      removed the duplicate Amstad index (is now just Flesch.de)
   }
 }
 \section{Changes in koRpus version 0.03-2 (2011-08-03)}{
   \itemize{
     \item added the full RKWard plugin as inst/rkward, so both get updated
       simultanously
-    \item added experimental internal functions to import result logs from
+      added experimental internal functions to import result logs from
       Readability Studio and TextQuest
   }
 }
@@ -1545,67 +1617,68 @@
     \item integrated internal tags to \code{kRp.POS.tags()}, so \code{tokenize()} can return
       valid kRp.tagged class objects, i.e. substitute TreeTagger if it's not
       available
-    \item consequently renamed 'treetagger' option into 'tagger' in \code{readability()},
+      consequently renamed 'treetagger' option into 'tagger' in \code{readability()},
       \code{kRp.freq.analysis()} and \code{kRp.text.analysis()}
-    \item lots of small fixes
+      lots of small fixes
   }
 }
 \section{Changes in koRpus version 0.02-9 (2011-07-17)}{
   \itemize{
     \item added a simple \code{tokenize()} function
-    \item first working version of \code{read.corp.custom()}
-    \item added \code{"..."} option to readability, kRp.freq.analysis and
+      first working version of \code{read.corp.custom()}
+      added \code{"..."} option to readability, kRp.freq.analysis and
       kRp.text.analysis, to configure \code{treetag()}
-    \item added TT.options to the get/set environment functions
-    \item changed default values for \code{treetag()} (for readability)
-    \item fixed bug in internal \code{check.file()} function (mode=\code{"exec"} returned TRUE
+      added TT.options to the get/set environment functions
+      changed default values for \code{treetag()} (for readability)
+      fixed bug in internal \code{check.file()} function (mode=\code{"exec"} returned TRUE
       too soon)
-    \item added warning messages to \code{readability()} and \code{lex.div()} to make people
+      added warning messages to \code{readability()} and \code{lex.div()} to make people
       aware these implemetations are not yet fully validatied
-    \item introduced release dates in this ChangeLog ;-) (reconstructed them for
+      introduced release dates in this ChangeLog ;-) (reconstructed them for
       earlier releases from the time stamps on the server)
   }
 }
 \section{Changes in koRpus version 0.02-8 (2011-07-03)}{
   \itemize{
     \item added \code{"desc"} slot with some statistics to class kRp.hyphen and \code{hyphen()}
-    \item added grading information for Flesch and RIX measures
-    \item fixed grading for Wheeler-Smith formula
-    \item introduced \code{"quiet"} options for \code{hyphen()}, \code{lex.div()} and \code{readability()}
-    \item further improved the vignette, elaborated on the examples
+      added grading information for Flesch and RIX measures
+      fixed grading for Wheeler-Smith formula
+      introduced \code{"quiet"} options for \code{hyphen()}, \code{lex.div()} and \code{readability()}
+      further improved the vignette, elaborated on the examples
   }
 }
 \section{Changes in koRpus version 0.02-7 (2011-06-29)}{
   \itemize{
     \item fixed typo in kRp.POS.tags(\code{"ru"}): "Vmis-sfa-e" tags no longer a \code{"vern"},
       but a \code{"verb"}
-    \item removed XML package dependency again, by writing a small parser (there
-      was no windows binary for the XML package, which was obviously a problem...)
-    \item fixed \code{"quiet"} option in \code{guess.lang()}
+      removed XML package dependency again, by writing a small parser (there
+      was no windows binary for the XML package, which was obviously a
+      problem...)
+      fixed \code{"quiet"} option in \code{guess.lang()}
   }
 }
 \section{Changes in koRpus version 0.02-6 (2011-06-26)}{
   \itemize{
     \item fixed bug in calculation of sentence lengths in \code{kRp.freq.analysis()}
       (counted punctuation as words)
-    \item tweaked hyph.en patterns to get better results
-    \item solved a small charset issue in \code{treetag()}
-    \item fixed \code{hyphen()} output if doubled hyphenation marks appeared
+      tweaked hyph.en patterns to get better results
+      solved a small charset issue in \code{treetag()}
+      fixed \code{hyphen()} output if doubled hyphenation marks appeared
   }
 }
 \section{Changes in koRpus version 0.02-5 (2011-06-25)}{
   \itemize{
     \item elaborated the vignette a little (including some references)
-    \item added support for zipped LCC database archives to \code{read.corp.LCC()}
-    \item improved handling of unknown POS tags: now causes an error dump for
+      added support for zipped LCC database archives to \code{read.corp.LCC()}
+      improved handling of unknown POS tags: now causes an error dump for
       debugging
-    \item added \code{query()} method to search in objects of class kRp.tagged
+      added \code{query()} method to search in objects of class kRp.tagged
   }
 }
 \section{Changes in koRpus version 0.02-4 (2011-06-18)}{
   \itemize{
     \item de-factorized \code{treetag()} output
-    \item fixed hyphenation problems (remove all non-characters for \code{hyphen()})
+      fixed hyphenation problems (remove all non-characters for \code{hyphen()})
   }
 }
 \section{Changes in koRpus version 0.02-3 (2011-06-11)}{
@@ -1616,12 +1689,12 @@
 \section{Changes in koRpus version 0.02-2 (2011-06-06)}{
   \itemize{
     \item renamed \code{kRp.guess.lang()} to \code{guess.lang()}
-    \item \code{guess.lang()} now gzips only in memory by default, saves about 1/8 of
-      processing time - added option \code{"in.mem"} to switch back to previous behavious
-      (temporary files)
-    \item added internal function \code{is.supported.lang()} as a possible wrapper for
+      guess.\code{lang()} now gzips only in memory by default, saves about 1/8 of
+      processing time - added option \code{"in.mem"} to switch back to previous
+      behavious (temporary files)
+      added internal function \code{is.supported.lang()} as a possible wrapper for
       guessed ULIs
-    \item added internal functions \code{roxy.description()} and \code{roxy.package()} to ease
+      added internal functions \code{roxy.description()} and \code{roxy.package()} to ease
       development
   }
 }
@@ -1635,52 +1708,53 @@
 \section{Changes in koRpus version 0.01-8 (2011-05-30)}{
   \itemize{
     \item added class kRp.txt.trans for results of \code{kRp.text.transform()}
-    \item enhanced function \code{kRp.text.transform()}, most notably calculate differences
+      enhanced function \code{kRp.text.transform()}, most notably calculate
+      differences
   }
 }
 \section{Changes in koRpus version 0.01-7 (2011-05-28)}{
   \itemize{
     \item added function \code{kRp.text.paste()}
-    \item added function \code{kRp.text.transform()}
+      added function \code{kRp.text.transform()}
   }
 }
 \section{Changes in koRpus version 0.01-6 (2011-05-27)}{
   \itemize{
     \item fixed \code{hyphen()} bug (leading dots in words caused functions to fail)
-    \item added \code{kRp.filter.wclass()}
-    \item added TODO list to the sources
+      added \code{kRp.filter.wclass()}
+      added TODO list to the sources
   }
 }
 \section{Changes in koRpus version 0.01-5 (2011-05-16)}{
   \itemize{
     \item fixed another bug in frequency analysis with corpus data (superfluous
       class definition)
-    \item fixed missing POS tags: refinement of english tags (extra tags for "to
+      fixed missing POS tags: refinement of english tags (extra tags for "to
       be" and "to have")
-    \item added more to the vignette
-    \item added .Rinstignore file to clean up the doc folder
+      added more to the vignette
+      added .Rinstignore file to clean up the doc folder
   }
 }
 \section{Changes in koRpus version 0.01-4 (2011-05-12)}{
   \itemize{
     \item began to write a vignette
-    \item fixed \code{treetag()} failing on windows machines (hopefully...)
+      fixed \code{treetag()} failing on windows machines (hopefully...)
   }
 }
 \section{Changes in koRpus version 0.01-3 (2011-05-10)}{
   \itemize{
     \item added TRI readability index
-    \item fixed bug in frequency analysis with corpus data (wrong class definition)
-    \item fixed bug in Bormuth implementation (didn't fetch parameters)
-    \item fixed missing Flesch indices in summary method
-    \item corrected display of FOG indices in summary method (grade instead of raw)
-    \item added \code{compression.ratio()} to internal functions
+      fixed bug in frequency analysis with corpus data (wrong class definition)
+      fixed bug in Bormuth implementation (didn't fetch parameters)
+      fixed missing Flesch indices in summary method
+      corrected display of FOG indices in summary method (grade instead of raw)
+      added \code{compression.ratio()} to internal functions
   }
 }
 \section{Changes in koRpus version 0.01-2 (2011-05-03)}{
   \itemize{
     \item enhanced \code{query()} methods
-    \item fixed some typos and smaller bugs
+      fixed some typos and smaller bugs
   }
 }
 \section{Changes in koRpus version 0.01-1 (2011-04-24)}{

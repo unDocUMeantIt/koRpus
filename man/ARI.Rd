@@ -43,7 +43,7 @@ ARI(tagged.text)
 }
 \references{
 DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-     WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+     WWW: \url{https://eric.ed.gov/?id=ed490073}; 02.02.2026.
 
    Smith, E.A. & Senter,
       R.J. (1967). \emph{Automated readability index}. AMRL-TR-66-22. Wright-Paterson AFB, Ohio: Aerospace Medical Division.

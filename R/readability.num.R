@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -151,7 +151,7 @@ readability.num <- function(
       "Flesch", "Flesch.de", "Flesch.es", "Flesch.fr", "Flesch.Kincaid", "Flesch.nl",
       "Flesch.PSK", "Flesch.Szigriszt", "FOG", "FOG.NRI", "FOG.PSK", "FORCAST", "FORCAST.RGL",
       "Fucks", "Harris.Jacobson", "Linsear.Write", "LIX", "nWS", "RIX", "SMOG", "SMOG.C",
-      "SMOG.de", "SMOG.simple", "Spache", "Spache.de", "Spache.old", "Strain", "Traenkle.Bailer", "TRI",
+      "SMOG.de", "SMOG.simple", "Spache", "Spache.old", "Strain", "Traenkle.Bailer", "TRI",
       "Tuldava", "Wheeler.Smith", "Wheeler.Smith.de")
   # activate all?
   if(identical(index, "all")){
@@ -205,7 +205,7 @@ readability.num <- function(
   index <- got.all.i.need("Dickes.Steiwer", data=txt.features, value="TTR")
   index <- got.all.i.need(c("FOG", "FOG.NRI", "FOG.PSK"), data=txt.features, value="FOG.hard.words")
   index <- got.all.i.need("Harris.Jacobson", data=txt.features, value="Harris.Jacobson.NOL")
-  index <- got.all.i.need(c("Spache", "Spache.old", "Spache.de"), data=txt.features, value="Spache.NOL")
+  index <- got.all.i.need(c("Spache", "Spache.old"), data=txt.features, value="Spache.NOL")
   index <- got.all.i.need("Traenkle.Bailer", data=txt.features, value=c("prepositions", "conjunctions"))
   index <- got.all.i.need("TRI", data=txt.features, value=c("foreign", "punct"))
 

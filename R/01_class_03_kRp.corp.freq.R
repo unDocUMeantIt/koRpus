@@ -94,8 +94,6 @@ kRp_corp_freq <- setClass("kRp.corp.freq",
       bigrams="data.frame",
       cooccur="data.frame",
       caseSens="logical"
-    ),
-    prototype(
     )
 )
 

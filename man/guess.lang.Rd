@@ -51,7 +51,7 @@ record for being translated into the most different languages, and is publicly a
 \note{
 For this implementation the documents provided by the "UDHR in Unicode" project[2] have been used.
 Their translations are \emph{not part of this package} and must be downloaded seperately to use \code{guess.lang}!
-You need the ZIP archive containing \emph{all the plain text files} from \url{https://unicode.org/udhr/downloads.html}.
+You need the ZIP archive containing \emph{all the plain text files} from \url{https://unicode.org/udhr/}.
 }
 \examples{
 \dontrun{
@@ -71,7 +71,7 @@ You need the ZIP archive containing \emph{all the plain text files} from \url{ht
 Benedetto, D., Caglioti, E. & Loreto,
       V. (2002). Language trees and zipping. \emph{Physical Review Letters}, 88(4), 048702.
 
-[1] \url{https://www.ohchr.org/EN/UDHR/Pages/UDHRIndex.aspx}
+[1] \url{https://www.ohchr.org/en/universal-declaration-of-human-rights/}
 
 [2] \url{https://unicode.org/udhr/}
 }

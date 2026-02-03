@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -37,7 +37,7 @@
 #' @return An object of class \code{\link[koRpus:kRp.readability-class]{kRp.readability}}.
 #' @references
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-#'      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+#'      WWW: \url{https://eric.ed.gov/?id=ed490073}; 02.02.2026.
 #'
 #'    Smith, E.A. & Senter, R.J. (1967). \emph{Automated readability index}. AMRL-TR-66-22. Wright-Paterson AFB, Ohio: Aerospace Medical Division.
 #' @keywords readability
@@ -375,7 +375,7 @@ DRP <- function(txt.file, word.list, ...){
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-#'      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+#'      WWW: \url{https://eric.ed.gov/?id=ed490073}; 02.02.2026.
 #' @keywords readability
 #' @export
 #' @examples
@@ -537,7 +537,7 @@ flesch <- function(txt.file, hyphen=NULL, parameters=c(const=206.835, asl=1.015,
 # @author m.eik michalke \email{meik.michalke@@hhu.de}
 #' @references
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-#'      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+#'      WWW: \url{https://eric.ed.gov/?id=ed490073}; 02.02.2026.
 #'
 #'    Powers, R.D, Sumner, W.A, & Kearl, B.E. (1958). A recalculation of four adult readability formulas,
 #'      \emph{Journal of Educational Psychology}, 49(2), 99--105.

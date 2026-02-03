@@ -1,5 +1,39 @@
 ChangeLog for package koRpus
 
+changes in version 0.13-9 (2026-02-02)
+fixed:
+  - lex.div(): if text was too short, calculation of MTLDMA.char would fail
+    with an error; these cases now return NAs
+    guess.lang(): newer zip files with UDHR translations introduced empty
+    lines that caused problems
+    freq.analysis(): internal function kRp.freq.analysis.calc() was trying to
+    use an object called frequency.pre when it didn't exist
+    kRp_text(): validity checks don't fail any more after adding corp_freq
+    feature was added
+    readability(): removed unused variant shortcut "Spache.de"
+    dependencies: koRpus now requires sylly >= 0.1-7 because that fixed an
+    issue with syllable count for texts where not a single word is shorter
+    than three syllables: if the bug is triggered, SMOG() always returns -2.
+    thanks to jana ludwig for reporting this!
+    docs were fixed, mostly replacing "\itemize" with "\describe". thanks to
+    gerry ryan for suggesting this!
+changed:
+  - tokenize(): now fails with an error if text files/vectors are empty
+    lex.div(): dropped all default measures from "char", it's rarely useful
+    and should therefore be requested if really needed and not waste CPU
+    otherwise
+    lex.div()/readability()/query()/readTagged(): added match.arg() calls to
+    improve verification of selected measures/indices/relations/tagger
+    show() (kRp.lang): omit "region" if none is available, but added location
+    code including a link to open street map
+    dependencies: are recommended by the authors of the Matrix package, set
+    requirements to Matrix (>= 1.3-0)
+added:
+  - readability(): added all index shortcuts for varaints to the
+    documentation
+    vignette: new section explaining how to use readTagged() with third party
+    POS taggers like the udpipe package
+
 changes in version 0.13-8 (2021-05-17)
 fixed:
   - tokenize()/treetag(): as indicated by unit tests in tm.plugin.koRpus, the
@@ -10,31 +44,32 @@ changes in version 0.13-7 (2021-05-13)
 fixed:
   - read.corp.LCC()/read.corp.celex()/readTagged(): changed how encoding is
     applied to files to ensure no re-encoding takes place on windows, which
-    might break UTF-8 encoded characters and result in failure to correctly read
-    files
-  - text descriptives: R-devel changed how nchar(type="width") counts newline
+    might break UTF-8 encoded characters and result in failure to correctly
+    read files
+    text descriptives: R-devel changed how nchar(type="width") counts newline
     characters, therefore the counting of characters with normalized space
     had to be adjusted
 
 changes in version 0.13-6 (2021-05-08)
 fixed:
   - lex.div()/MTLD(): calculations were slightly off (~0.5%) due to an
-    incorrect stage of applying means to the forward/backward calculations; MTLD-MA
-    remains unaffected (thanks to akira murakami for reporting the issue)
-  - treetag()/tokenize(): added a check to doc_id which is expected to be a
+    incorrect stage of applying means to the forward/backward calculations;
+    MTLD-MA remains unaffected (thanks to akira murakami for reporting the
+    issue)
+    treetag()/tokenize(): added a check to doc_id which is expected to be a
     character string; especially if it was manually set to 0 issues were
     reported
-  - fixed some URLs (https if available)
+    fixed some URLs (https if available)
 changed:
   - class kRp.TTR: dropped the mean value from the "factors" list of MTLD
     results
-  - readability(): flat=TRUE now stores results in a list named by doc_id
+    readability(): flat=TRUE now stores results in a list named by doc_id
     like lex.div() already did
-  - summary(): features "lex_div" and "readability" are now supported for
+    summary(): features "lex_div" and "readability" are now supported for
     kRp.txt objects, a new "flat" argument was added
-  - readability()/lex.div(): dropped "Note:" from validity warnings as it is
+    readability()/lex.div(): dropped "Note:" from validity warnings as it is
     already a warning
-  - updated unit test standards
+    updated unit test standards
 added:
   - readability(): new formula "Gutierrez" for spanish texts, also added to
     the shiny web app
@@ -43,23 +78,25 @@ changes in version 0.13-5 (2021-02-02)
 fixed:
   - readability()/fucks(): the oldest bug so far, present since the first
     version of the package: Fucks' formula doesn't determine word length by
-    characters but syllables; references were updated. the index has been on the
-    list of "needs validation" and still remains there. the erroneous formula
-    likely came from the documentation of TextQuest, as the initial scope of
-    koRpus, when it wasn't even a package yet, was to validate the calculations
-    of various readability tools (thanks to berenike herrmann for the hint)
-  - cTest(): don't freak out if there's text left after the last sentence
+    characters but syllables; references were updated. the index has been on
+    the list of "needs validation" and still remains there. the erroneous
+    formula likely came from the documentation of TextQuest, as the initial
+    scope of koRpus, when it wasn't even a package yet, was to validate the
+    calculations of various readability tools (thanks to berenike herrmann
+    for the hint)
+    cTest(): don't freak out if there's text left after the last sentence
     ending punctuation
-  - textTransform(): the argument "paste=TRUE" was broken
-  - readability.num(): solved issue of missing "txt.file" object and
-    undefined language; "lang" can now also be set in the "text.features" if needed
-  - kRp_TTR(): validity check was missing "sd" in names of the MSTTR slot
+    textTransform(): the argument "paste=TRUE" was broken
+    readability.num(): solved issue of missing "txt.file" object and
+    undefined language; "lang" can now also be set in the "text.features" if
+    needed
+    kRp_TTR(): validity check was missing "sd" in names of the MSTTR slot
 added:
   - the package now installs a sample text that is used in many examples
 changed:
   - many examples now use a sample text and can therefore omit the \dontrun{}
     clause they were previously enclosed in
-  - class definitions now use the initialize method instead of prototype()
+    class definitions now use the initialize method instead of prototype()
 removed:
   - kRp.text.analysis(): deprecated since 0.13-1, removed the code
 
@@ -68,17 +105,17 @@ fixed:
   - treetag(): allow for lexicon files to be optional and not return an error
     if none is found (which was the case with the newly added file name
     checks)
-  - treetag(): use "-lex" argument for lexicon files if no lookup command is
+    treetag(): use "-lex" argument for lexicon files if no lookup command is
     given
-  - treetag(): always add lookup command from manual options even if a preset
+    treetag(): always add lookup command from manual options even if a preset
     is used
-  - read.corp.custom(): calculation failed if caseSens=FALSE
-  - tokenize()/treetag(): force UTF-8 encoding on read texts to prevent
+    read.corp.custom(): calculation failed if caseSens=FALSE
+    tokenize()/treetag(): force UTF-8 encoding on read texts to prevent
     windows from misunderstanding characters
 changed:
   - treetag() et al.: drastically increased the speed of calculating
     descriptive statistics (can be 100x faster for very large texts)
-  - updated the language package templates
+    updated the language package templates
 
 changes in version 0.13-3 (2020-10-15)
 fixed:
@@ -96,162 +133,167 @@ changes in version 0.13-1 (2020-09-21)
 fixed:
   - docTermMatrix(): numbers were calculated correctly, but possibly added to
     the wrong columns, leading to a completely wrong document term matrix
-  - treetag(): a dumb misorderig of calls suppressed the "utf8" check for
+    treetag(): a dumb misorderig of calls suppressed the "utf8" check for
     abbreviation files introduced with 0.11-5
-  - treetag(): also added a "utf8" check for lexicon files and ".txt" file
+    treetag(): also added a "utf8" check for lexicon files and ".txt" file
     extensions (which might be missing in newer versions of TreeTagger)
-  - correct.tag(): stopped method from adding tag descriptions to objects
+    correct.tag(): stopped method from adding tag descriptions to objects
     that didn't have them yet
-  - kRp_readability()/kRp_corp_freq(): properly initialize the slots
-  - readability() wrapper functions: fixed a bunch of readability.num() calls
+    kRp_readability()/kRp_corp_freq(): properly initialize the slots
+    readability() wrapper functions: fixed a bunch of readability.num() calls
     including an unused hyphen argument
-  - readability(): HTML documentation had a wrong formula for LIX (LaTeX was
+    readability(): HTML documentation had a wrong formula for LIX (LaTeX was
     correct)
-  - textTransform(): now recounting letters when scheme is "normalize" as it
-    might have altered word lengths; the calculations of some data in the desc
-    slot (all.chars, lines, normalized.space) as now also done relative to
-    the old values, because they can't be correctly recalculated from a mere
-    vector of tokens
+    textTransform(): now recounting letters when scheme is "normalize" as it
+    might have altered word lengths; the calculations of some data in the
+    desc slot (all.chars, lines, normalized.space) as now also done relative
+    to the old values, because they can't be correctly recalculated from a
+    mere vector of tokens
 changed:
   - docTermMatrix(): optimzed calculation speed drastically
-  - read.corp.custom(): re-wrote most of the code, now based on
-    docTermMatrix() and thereby up to 50 times faster; also removed the now unused quiet
-    argument, as well as methods using the directory path or lists of tagged
-    texts, because using methods of the tm.plugin.koRpus package instead is much
-    more efficient now
-  - show(): simplified the code for kRp.text class objects and unified the
+    read.corp.custom(): re-wrote most of the code, now based on
+    docTermMatrix() and thereby up to 50 times faster; also removed the now
+    unused quiet argument, as well as methods using the directory path or
+    lists of tagged texts, because using methods of the tm.plugin.koRpus
+    package instead is much more efficient now
+    show(): simplified the code for kRp.text class objects and unified the
     horizontal positioning of resulting values
-  - show(): generalized the handling of factor columns to be able to deal
+    show(): generalized the handling of factor columns to be able to deal
     with unexpected columns
-  - tokenize(), treetag(): always generate a doc_id if none was given; also
+    tokenize(), treetag(): always generate a doc_id if none was given; also
     improved the examples
-  - readability(): added some ASCII versions of the formulae to the
+    readability(): added some ASCII versions of the formulae to the
     documentation
-  - readability(): the code of the internal workhorse kRp.rdb.formulae() was
+    readability(): the code of the internal workhorse kRp.rdb.formulae() was
     cleaned up, now using the new helper functions validate_parameters(),
     check_parameters() and rdb_parameters(), saving ~350 lines of code
-  - updated unit test
+    updated unit test
 added:
   - kRp.text: new replacement class for kRp.tagged, kRp.txt.freq,
-    kRp.txt.trans; the TT.res slot was renamed into "tokens", additional columns in the
-    data frame are now ok, new slots "features" and "feat_list" to host
-    analysis results like readability or lexical diversity, and the "desc" slot now
-    always contains elements named by doc_id
-  - docTermMatrix(): new method to calculate document term matrices from TIF
+    kRp.txt.trans; the TT.res slot was renamed into "tokens", additional
+    columns in the data frame are now ok, new slots "features" and
+    "feat_list" to host analysis results like readability or lexical
+    diversity, and the "desc" slot now always contains elements named by
+    doc_id
+    docTermMatrix(): new method to calculate document term matrices from TIF
     compliant token data frames and koRpus objects
-  - doc_id(), hasFeatures(), hasFeatures()<-, features(), features()<-,
-    corpusReadability(), corpusReadability()<-, corpusHyphen(), corpusHyphen()<-,
-    corpusLexDiv(), corpusLexDiv()<-, corpusFreq(), corpusFreq()<-,
-    corpusCorpFreq(), corpusCorpFreq()<-, corpusStopwords(), corpusStopwords()<-: new
-    getter/setter methods for kRp.text objects
-  - dependencies: the Matrix package was added to imports for docTermMatrix()
-  - validate_df(): new internal method to check data frames for expected
+    doc_id(), hasFeatures(), hasFeatures()<-, features(), features()<-,
+    corpusReadability(), corpusReadability()<-, corpusHyphen(),
+    corpusHyphen()<-, corpusLexDiv(), corpusLexDiv()<-, corpusFreq(),
+    corpusFreq()<-, corpusCorpFreq(), corpusCorpFreq()<-, corpusStopwords(),
+    corpusStopwords()<-: new getter/setter methods for kRp.text objects
+    dependencies: the Matrix package was added to imports for docTermMatrix()
+    validate_df(): new internal method to check data frames for expected
     columns
-  - readability(): new argument "keep.input" to define whether hyphen objects
+    readability(): new argument "keep.input" to define whether hyphen objects
     should be preserved in the output or dropped
-  - hyphen(), lex.div(): new argument "as.feature" to store results in the
-    new "feat_list" slot of the input object rather than returning it directly
-  - fixObject(): new methods to convert old objects of deprecated classes
+    hyphen(), lex.div(): new argument "as.feature" to store results in the
+    new "feat_list" slot of the input object rather than returning it
+    directly
+    fixObject(): new methods to convert old objects of deprecated classes
     kRp.tagged, kRp.txt.freq, kRp.txt.trans, and kRp.analysis
-  - split_by_doc_id(): new method transforms a kRp.text object with multiple
+    split_by_doc_id(): new method transforms a kRp.text object with multiple
     doc_ids into a list of single-document kRp.text objects
-  - [[/[[<-: gained new argument "doc_id" to limit the scope to particular
+    [[/[[<-: gained new argument "doc_id" to limit the scope to particular
     documents
-  - describe()/describe()<-: now support filtering by doc_id
+    describe()/describe()<-: now support filtering by doc_id
 removed:
   - kRp.tagged, kRp.txt.freq, kRp.txt.trans, kRp.analysis: these classes were
     special cases of kRp.text, and since all their information can now be
-    part of kRp.text objects, they are no longer used; they are actually still
-    present, but considered deprecated and should be converted using fixObject()
-  - readability(), freq.analysis(): removed the methods that could be called
+    part of kRp.text objects, they are no longer used; they are actually
+    still present, but considered deprecated and should be converted using
+    fixObject()
+    readability(), freq.analysis(): removed the methods that could be called
     on files directly instead of objects of class kRp.text. this simplifies
-    the code and it's probably not too much to ask users to call tokenize() or
-    treetag() directly instead of doing this internally with less control
-  - freq.analysis(): removed the "tfidf" argument; as it turned out, its
-    value was never effectively used, the tf-idf was always calculated, and it
-    seemed like a reasonable default anyway
-  - kRp.text.analysis(): now deprecated, just use lex.div() and
+    the code and it's probably not too much to ask users to call tokenize()
+    or treetag() directly instead of doing this internally with less control
+    freq.analysis(): removed the "tfidf" argument; as it turned out, its
+    value was never effectively used, the tf-idf was always calculated, and
+    it seemed like a reasonable default anyway
+    kRp.text.analysis(): now deprecated, just use lex.div() and
     freq.analysis() to the same effect
 
 changes in version 0.12-1 (2019-05-13)
 fixed:
   - query(): method was broken for tagged objects
-  - textTransform(): method was broken
-  - class kRp.txt.trans: renamed column "token.old" into "token.orig", which
+    textTransform(): method was broken
+    class kRp.txt.trans: renamed column "token.old" into "token.orig", which
     is what was actually used by textTransform(); also added a validity test
     for those column names to prevent confusion
-  - readTagged(): adjusted default encoding
+    readTagged(): adjusted default encoding
 added:
   - query(): new method for objects of class data.frame, which is now used if
     query() is being called on koRpus class objects
-  - query(): now also supports all numerical queries for tagged texts that
+    query(): now also supports all numerical queries for tagged texts that
     were previously only available for frequency objects
-  - filterByClass(): a new method for tagged text objects, replacing the
+    filterByClass(): a new method for tagged text objects, replacing the
     kRp.filter.wclass() function, which is now deprecated
-  - pasteText(): like filterByClass(), but replacing kRp.text.paste()
-  - readTagged(): like filterByClass(), but replacing read.tagged()
-  - readTagged(): new argument mtx_cols for new tagger="manual" setting,
+    pasteText(): like filterByClass(), but replacing kRp.text.paste()
+    readTagged(): like filterByClass(), but replacing read.tagged()
+    readTagged(): new argument mtx_cols for new tagger="manual" setting,
     allowing to import data POS tagged with third party tools
-  - textTransform(): new scheme "normalize" to replace tokens by given query
+    textTransform(): new scheme "normalize" to replace tokens by given query
     rules with a defined value or the result of a provided function
-  - diffText()/diffText()<-: new getter/setter methods for the "diff" slot of
+    diffText()/diffText()<-: new getter/setter methods for the "diff" slot of
     transformed text objects
-  - originalText(): new method to revert text transformations and get the
+    originalText(): new method to revert text transformations and get the
     original text
-  - kRp.POS.tags(): now includes universal POS tags by default
-  - new unit tests for many methods, including query(), textTransform(),
+    kRp.POS.tags(): now includes universal POS tags by default
+    new unit tests for many methods, including query(), textTransform(),
     readTagged(), filterByClass(), pasteText(), diffText(), originalText(),
     jumbleWords(), and clozeDelete()
 changed:
-  - tokenize(): now a S4 method for objects of class character and connections
-  - treetag(): now a S4 method for objects of class character and connections
-  - class kRp.txt.trans: "diff" slot now also lists the transformations done
+  - tokenize(): now a S4 method for objects of class character and
+    connections
+    treetag(): now a S4 method for objects of class character and connections
+    class kRp.txt.trans: "diff" slot now also lists the transformations done
     to the tokens in a new list element called "transfmt", the changed tokens
     in a data frame called "transfmt.equal" and normalization details in a
     list called "transfmt.normalize"
-  - language support: if you try using a preset but the langauge package
-    wasn't loaded or even installed, a more elaborate error message is returned
-    with hopefully useful hints to what to try next
-  - jumbleWords(): now a S4 method, no longer a function; the resulting
+    language support: if you try using a preset but the langauge package
+    wasn't loaded or even installed, a more elaborate error message is
+    returned with hopefully useful hints to what to try next
+    jumbleWords(): now a S4 method, no longer a function; the resulting
     object is now also of class kRp.txt.trans if the input was a tagged text
     object, preserving the original tokens
-  - clozeDelete(): now returns an object of class kRp.txt.trans, dropping the
+    clozeDelete(): now returns an object of class kRp.txt.trans, dropping the
     additional data frame in "desc"; this ist much more consistent with other
     text transformations in the packahe
-  - cTest(): like clozeDelete() now returns an object of class kRp.txt.trans,
+    cTest(): like clozeDelete() now returns an object of class kRp.txt.trans,
     dropping the additional data frame in "desc"
-  - moved class union definition kRp.taggedText to its own file and updated
+    moved class union definition kRp.taggedText to its own file and updated
     the import calls on a number of files accordingly
-  - textTransform(): moved the whole code segment that combines the
-    transformed text into the returned object to a separate internal function so it can
-    be re-used by other text transforming methods
-  - cTest(): changed method signature from kRp.tagged to class union
+    textTransform(): moved the whole code segment that combines the
+    transformed text into the returned object to a separate internal function
+    so it can be re-used by other text transforming methods
+    cTest(): changed method signature from kRp.tagged to class union
     kRp.taggedText
-  - summary(): changed method signature from kRp.tagged to class union
+    summary(): changed method signature from kRp.tagged to class union
     kRp.taggedText
-  - plot(): changed method signature from kRp.tagged to class union
+    plot(): changed method signature from kRp.tagged to class union
     kRp.taggedText
-  - lex.div(): removed the validation warning for MATTR, implementation has
+    lex.div(): removed the validation warning for MATTR, implementation has
     been validated by kevin cunningham and katarina haley
-  - restructured source code files
+    restructured source code files
 
 changes in version 0.11-5 (2018-10-27)
 changed:
   - set.kRp.env()/treetag(): now throws an error if you try to combine a
-    language preset with TreeTagger's batch files as the tagger to use; some users
-    seem to be confused about what to configure, and this error message
+    language preset with TreeTagger's batch files as the tagger to use; some
+    users seem to be confused about what to configure, and this error message
     hopefully helps them to understand why treetag() must fail in these cases
-  - treetag(): newer versions of TreeTagger will no longer have "utf8" in
-    their parameter and abbreviation files. since we never know what version of
-    TreeTagger we're dealing with, treetag() will from now on look for files
-    with "utf8" if specified in the language package, but not fail if none is
-    found, but also try for a non-labelled file and replace the file name on the
-    fly if one is found
-  - grapheme clusters: in UTF-8, certain characters in some languages are
-    shown as a single character, but technically are several characters combined.
-    nchar() counts all combined parts individially, which in most use cases
-    for this package is not what one expects. it now uses nchar(type="width")
-    for a letter count that is much closer to user's expectations
+    treetag(): newer versions of TreeTagger will no longer have "utf8" in
+    their parameter and abbreviation files. since we never know what version
+    of TreeTagger we're dealing with, treetag() will from now on look for
+    files with "utf8" if specified in the language package, but not fail if
+    none is found, but also try for a non-labelled file and replace the file
+    name on the fly if one is found
+    grapheme clusters: in UTF-8, certain characters in some languages are
+    shown as a single character, but technically are several characters
+    combined. nchar() counts all combined parts individially, which in most
+    use cases for this package is not what one expects. it now uses
+    nchar(type="width") for a letter count that is much closer to user's
+    expectations
 fixed:
   - set.lang.support(): explicitly set the sorting method for factor levels
     to "radix" as the new default "auto" (R >= 3.5) produced unstable results
@@ -261,70 +303,72 @@ fixed:
 changes in version 0.11-4 (2018-07-29)
 fixed:
   - templates: incomplete package name in license header
-  - read.BAWL(): updated download URL and added DOI
+    read.BAWL(): updated download URL and added DOI
 changed:
   - the startup check for available language packages was reduced to short
     hints to available.koRpus.lang() and install.koRpus.lang()
-  - the startup message can now be suppressed by adding
+    the startup message can now be suppressed by adding
     "noStartupMessage=TRUE" to the koRpus options in .Rprofile
 
 changes in version 0.11-3 (2018-03-07)
 fixed:
   - treetag()/tokenize(): fixed an issue with sentence numbering which was
     triggered if all sentences were of equal length
-  - query(): method failed for columns which are now factors
+    query(): method failed for columns which are now factors
 changed:
   - treetag(): koRpus no longer fails with an error if unknown tags are
-    found. there will be a warning, but you can continue to work with the object
-  - depends on R >= 3.0.0 now
-  - improved available.koRpus.lang() to make it more obvious how to install
+    found. there will be a warning, but you can continue to work with the
+    object
+    depends on R >= 3.0.0 now
+    improved available.koRpus.lang() to make it more obvious how to install
     language support packages, and which
-  - session settings done with set.kRp.env() or queried by get.kRp.env() are
+    session settings done with set.kRp.env() or queried by get.kRp.env() are
     no longer stored in an internal environment but the global .Options; this
     also allows for setting defaults in an .Rprofile file using options()
-  - in the docs, improved the link format for classes, omitting the "-class"
+    in the docs, improved the link format for classes, omitting the "-class"
     suffix
-  - set.lang.support(): the levels of tag, wclass, and desc are now
+    set.lang.support(): the levels of tag, wclass, and desc are now
     automatically sorted; test standards had to be adjusted accordingly
 added:
   - set.lang.support(): new argument "merge"; it is now possible to add or
     update single POS tag definitions
-  - new class object contructors kRp_tagged(), kRp_TTR(), kRp_txt_freq(),
+    new class object contructors kRp_tagged(), kRp_TTR(), kRp_txt_freq(),
     kRp_txt_trans(), kRp_analysis(), kRp_corp_freq(), kRp_lang(), and
     kRp_readability() can be used instead of new("kRp.tagged", ...) etc.
 
 changes in version 0.11-2 (2018-01-07)
 attention:
   - this is a testing release introducing major changes in the way language
-    support is handled (see other changes in this log). tl;dr: you must install
-    additional koRpus.lang.** packages to fully restore the previous
+    support is handled (see other changes in this log). tl;dr: you must
+    install additional koRpus.lang.** packages to fully restore the previous
     functionality, i.e., all supported languages. see ?install.koRpus.lang
 fixed:
   - treetag(): with TT.tknz=FALSE, the last letter of a text was truncated
     due to a missing newline at the end of the tempfile (thanks to adam
     spannbauer for both reporting and fixing it)
-  - treetag(): hopefully fixed a nasty encoding issue on windows, again
-  - treetag(): fixed an issue that could be triggered by hard to tokenize
+    treetag(): hopefully fixed a nasty encoding issue on windows, again
+    treetag(): fixed an issue that could be triggered by hard to tokenize
     texts exceeding a default limit of summary() for factors
-  - treetag()/tokenize(): silenced warnings of readLines() for missing final
+    treetag()/tokenize(): silenced warnings of readLines() for missing final
     EOL of input files
 changed:
   - language support: while the sylly package is released on CRAN now, its
-    separate language packages were not allowed to be published there as well. a
-    special repository was therefore set up on gitub and added via the
-    "Additional_repositories" field to the DESCRIPTION file. however, not having the
-    sylly.XX packages on CRAN made it necessary to further modularize the
-    package and complete remove all out-of-the-box language support (see removed
-    section). all these support packages for language are now being resolved
-    by installing from that repo instead of CRAN.
-  - package loading: when koRpus is being loaded, it now checks for available
+    separate language packages were not allowed to be published there as
+    well. a special repository was therefore set up on gitub and added via
+    the "Additional_repositories" field to the DESCRIPTION file. however, not
+    having the sylly.XX packages on CRAN made it necessary to further
+    modularize the package and complete remove all out-of-the-box language
+    support (see removed section). all these support packages for language
+    are now being resolved by installing from that repo instead of CRAN.
+    package loading: when koRpus is being loaded, it now checks for available
     (i.e. already installed) language packages. if none are found, it asks
     you to install one. i'm sorry for the unconvenience
-  - vignette is now in RMarkdown/HTML format; the SWeave/PDF version was
+    vignette is now in RMarkdown/HTML format; the SWeave/PDF version was
     dropped
 added:
-  - tif_as_tokens_df(): new method to get TT.res in fully TIF compliant format
-  - new functions available.koRpus.lang() and install.koRpus.lang() for more
+  - tif_as_tokens_df(): new method to get TT.res in fully TIF compliant
+    format
+    new functions available.koRpus.lang() and install.koRpus.lang() for more
     convenient handling of language support packages.
 removed:
   - language support: koRpus previously supported some languages directly
@@ -336,85 +380,87 @@ changes in version 0.11-1 (2017-06-20)
 fixed:
   - kRp.lang: fixed the show() and summary() methods to omit country
     information which was dropped from the UDHR data a while ago
-  - treetag(): windows users might run into problems because of differences
+    treetag(): windows users might run into problems because of differences
     between the file separators R uses internally when they are also used in
-    shell() calls. this hasn't been an issue earlier, but is worked around now
-    anyway. hope this doesn't cause new issues...
+    shell() calls. this hasn't been an issue earlier, but is worked around
+    now anyway. hope this doesn't cause new issues...
 changed:
   - kRp.tagged: the TT.res data.frame of the object class has new columns
-    "doc_id", "idx" (index), and "sntc" (sentence), with "doc_id" now being the
-    first column before "token" to comply with the Text Interchange Formats
-    proposed by rOpenSci
-  - kRp.tagged: in TT.res, the columns "tag", "wclass" and "desc" are no
-    longer character vectors but factors. this doesn't actually change the class
-    definition, as TT.res just has to be a data.frame, but it reduces the
-    object size especially for larger texts, and makes it much simpler to do
-    analysis with these objects
-  - tokenize()/treetag()/read.tagged(): these functions now add token index
+    "doc_id", "idx" (index), and "sntc" (sentence), with "doc_id" now being
+    the first column before "token" to comply with the Text Interchange
+    Formats proposed by rOpenSci
+    kRp.tagged: in TT.res, the columns "tag", "wclass" and "desc" are no
+    longer character vectors but factors. this doesn't actually change the
+    class definition, as TT.res just has to be a data.frame, but it reduces
+    the object size especially for larger texts, and makes it much simpler to
+    do analysis with these objects
+    tokenize()/treetag()/read.tagged(): these functions now add token index
     and sentence number to the resulting objects; document ID is added if
     provided
-  - kRp.lang: depending on the information available in the UDHR data, the
-    show() and summary() methods' output is now dynamically adjusted; summary()
-    now also lists the columns "iso639-3" and "bcp47" by default
-  - treetag(): debug output for tokenize() looks a little nicer
-  - kRp.text.transform(): the old function is now deprecated and was replaced
+    kRp.lang: depending on the information available in the UDHR data, the
+    show() and summary() methods' output is now dynamically adjusted;
+    summary() now also lists the columns "iso639-3" and "bcp47" by default
+    treetag(): debug output for tokenize() looks a little nicer
+    kRp.text.transform(): the old function is now deprecated and was replaced
     by a proper S4 method called textTransform(). the old one will work for
     the moment, but you'll get a warning
-  - the tt slot in class kRp.TTR gained two new entries called "type.in.txt"
+    the tt slot in class kRp.TTR gained two new entries called "type.in.txt"
     and "type.in.result", which will contain a list of all types with the
-    index where it is to be found in the original text or the lex.div() results
-    respectively, if type.index=TRUE; the indices might differ because the
-    result might be stripped of certain word classes
-  - treetag()/tokenize(): internal workflow for adding word class and
-    description of tags was modularized for more detailed control. you can now toggle
-    whether you want the verbose description of each tag added directly to
-    objects with the new argument "add.desc". it is set in the environment by
-    set.kRp.env() and defaults to FALSE, making the objects about 5% smaller in
-    memory.
-  - kRp.corp.freq: the class gained a new slot called "caseSens", documenting
+    index where it is to be found in the original text or the lex.div()
+    results respectively, if type.index=TRUE; the indices might differ
+    because the result might be stripped of certain word classes
+    treetag()/tokenize(): internal workflow for adding word class and
+    description of tags was modularized for more detailed control. you can
+    now toggle whether you want the verbose description of each tag added
+    directly to objects with the new argument "add.desc". it is set in the
+    environment by set.kRp.env() and defaults to FALSE, making the objects
+    about 5% smaller in memory.
+    kRp.corp.freq: the class gained a new slot called "caseSens", documenting
     whether the frequency statistics were calculated case sensitive (see
     read.corp.*() below).
-  - validity check for objects of class kRp.tagged is a bit more liberal when
+    validity check for objects of class kRp.tagged is a bit more liberal when
     TT.res doesn't have all expected columns and suggests to call fixObject()
     (see below) instead of failing with an error
-  - adjusted unit tests
+    adjusted unit tests
 added:
   - summary(): method for class kRp.TTR now also supports the logical "flat"
     argument
-  - new "[" and "[[" methods can be used to directly address the data.frames
+    new "[" and "[[" methods can be used to directly address the data.frames
     in tagged or hyphenated objects. that is, you don't have to call
     taggedText() or hyphenText() first, it will be done internally
-  - new "[" and "[[" methods have also been added for objects of classes
-    kRp.TTR and kRp.readability for quick access to their summary() results (index
-    by measure)
-  - treetag(): a new check will throw an informative error message if
+    new "[" and "[[" methods have also been added for objects of classes
+    kRp.TTR and kRp.readability for quick access to their summary() results
+    (index by measure)
+    treetag(): a new check will throw an informative error message if
     TreeTagger didn't return something the function can use
-  - lex.div() et al.: new option "type.index" to produce the indices
+    lex.div() et al.: new option "type.index" to produce the indices
     described above in the "changed" section
-  - hyphen(): new option "as" to set the return value class, still defaults
+    hyphen(): new option "as" to set the return value class, still defaults
     to "kRp.hyph", but can also be "data.frame" or "numeric"
-  - new shortcut methods hyphen_df() and hyphen_c() use different defaults
+    new shortcut methods hyphen_df() and hyphen_c() use different defaults
     for "as"
-  - treetag()/tokenize(): new option "add.desc" (see changed section)
-  - taggedText(): new option "add.desc" to (re-)write the "desc" column in
-    the data.frame, useful if it was omitted during treetag()/tokenize() but you
-    want to add it later without retagging everything
-  - read.corp.LCC()/read.corp.celex(): added new option "caseSens" to toggle
+    treetag()/tokenize(): new option "add.desc" (see changed section)
+    taggedText(): new option "add.desc" to (re-)write the "desc" column in
+    the data.frame, useful if it was omitted during treetag()/tokenize() but
+    you want to add it later without retagging everything
+    read.corp.LCC()/read.corp.celex(): added new option "caseSens" to toggle
     whether frequency statistics should be calculated case sensitive or
     insensitive
-  - new method fixObject() can upgrade old tagged objects from previous
-    koRpus releases, i.e. add missing columns and adjust data types where needed
+    new method fixObject() can upgrade old tagged objects from previous
+    koRpus releases, i.e. add missing columns and adjust data types where
+    needed
 removed:
   - hyphen(): all parts of the package that were specific for hyphenation
-    were removed as they are now part of the new sylly package. this includes the
-    class definitions (kRp.hyph.pat and kRp.hyphen) and methods (correct(),
-    hyphen(), show() and summary()) for those classes, as long as they in turn
-    are not specific to koRpus. the hyphenation definitions were also removed
-    from the language support files, as they are now part of individual
-    language packages for the sylly package (sylly.en, sylly.de, etc.) that this
-    package now depends on. you should, however, notice no difference in using
-    the package, everything should just work like it did before this split.
-  - the standard generics for describe() and language() were removed because
+    were removed as they are now part of the new sylly package. this includes
+    the class definitions (kRp.hyph.pat and kRp.hyphen) and methods
+    (correct(), hyphen(), show() and summary()) for those classes, as long as
+    they in turn are not specific to koRpus. the hyphenation definitions were
+    also removed from the language support files, as they are now part of
+    individual language packages for the sylly package (sylly.en, sylly.de,
+    etc.) that this package now depends on. you should, however, notice no
+    difference in using the package, everything should just work like it did
+    before this split.
+    the standard generics for describe() and language() were removed because
     they are now defined in the sylly package
 
 changes in version 0.10-2 (2017-04-04)
@@ -422,28 +468,30 @@ fixed:
   - leftover typo in lang.support-en.R referencing "utf8-tokenize.pl" instead
     of "utf8-tokenize.perl" in the windows preset and a call to grep that is
     not present in Treetagger's *.bat file
-  - readability(): fixed a minor issue with the internal handling of wrongly
+    readability(): fixed a minor issue with the internal handling of wrongly
     tagged dashes in the FOG formula (shouldn't have any effect on results)
 changed:
   - if no encoding is provided and treetag() needs to write temporary files,
     output file encoding is now forced into UTF-8
-  - hyphen(): caching now uses an environment instead of a data.frame. this
+    hyphen(): caching now uses an environment instead of a data.frame. this
     means that old cache files will need to be changed as well. hyphen() will
-    try to convert them on the fly, but if this fails you should remove the old
-    files
-  - hyphen(): cached results are now looked up much more efficient, speeding
+    try to convert them on the fly, but if this fails you should remove the
+    old files
+    hyphen(): cached results are now looked up much more efficient, speeding
     up the process drastically (about 100 times faster in my benchmarks!)
-  - hyphen(): hyphenation patterns are now internally converted to
-    environments which speeds up uncached runs (or first runs with cache) noticeably
-  - readability(): default parameters are now always fetched by the internal
+    hyphen(): hyphenation patterns are now internally converted to
+    environments which speeds up uncached runs (or first runs with cache)
+    noticeably
+    readability(): default parameters are now always fetched by the internal
     function default.params(), individually for each index
-  - source code: moved all wrapper functions for readability() and lex.div()
-    from individual source files to one wrapper file, respectively. the source
-    tree became a bit overcrowded over the years
+    source code: moved all wrapper functions for readability() and lex.div()
+    from individual source files to one wrapper file, respectively. the
+    source tree became a bit overcrowded over the years
 added:
   - new options redability(index="validation") and
-    lex.div(measure="validation") show current the status of validation. this info was previously only
-    available as comments in the source code and is now directly available.
+    lex.div(measure="validation") show current the status of validation. this
+    info was previously only available as comments in the source code and is
+    now directly available.
 removed:
   - WSFT(): deprecated wrapper, was replaced by nWS() in 2012
 
@@ -453,142 +501,147 @@ fixed:
     (TT.call.file) when using treetag()
 changed:
   - CRAN doesn't accept leading zeroes in version numbers any longer and
-    asked me to change 0.07 into 0.7. i'd rather play this safe, so i'm jumping
-    right to 0.10 to keep the versioning consistent fo all users. the reason for
-    this policy change was not explained to me, could be anything from "we
-    think it looks ugly" to "it breaks our build systems".
-  - allowing treetag() to run even when a defined lexicon file is not found.
-    this previously resulted in an error and now causes only a warning message.
+    asked me to change 0.07 into 0.7. i'd rather play this safe, so i'm
+    jumping right to 0.10 to keep the versioning consistent fo all users. the
+    reason for this policy change was not explained to me, could be anything
+    from "we think it looks ugly" to "it breaks our build systems".
+    allowing treetag() to run even when a defined lexicon file is not found.
+    this previously resulted in an error and now causes only a warning
+    message.
 
 changes in version 0.07-2 (2016-12-21)
 fixed:
   - the show method for Flesch Brouwer was not working properly
-  - if a cache file for hyphen is set but not existing, it will be created
+    if a cache file for hyphen is set but not existing, it will be created
     automatically
-  - the manual page for the wrapper function ELF() attributed the index to
+    the manual page for the wrapper function ELF() attributed the index to
     Farr, when it was in fact Fang (as correctly said in ?readability);
     vigilantly spotted by Mario Martinez
-  - calling lex.div() on untagged character vectors didn't really work yet
-  - guess.lang() had problems with newer UDHR files which included comments
+    calling lex.div() on untagged character vectors didn't really work yet
+    guess.lang() had problems with newer UDHR files which included comments
     in the index.xml file
-  - shiny app: was omitting the row names of tables in newer versions of shiny
-  - treetag() appended the abbreviation list two times in english preset
-  - TT.options checks in treetag() do no longer ask for mandatory options if
+    shiny app: was omitting the row names of tables in newer versions of
+    shiny
+    treetag() appended the abbreviation list two times in english preset
+    TT.options checks in treetag() do no longer ask for mandatory options if
     TT.cmd is not "manual"
 changed:
   - updated shiny app: disabling FOG by default (faster), adding Brouwer and
     MTLDMA.steps options, adding dutch and portuguese by default, disabled
     language selection in language guessing tab
-  - shiny app: using fluidPage() now
-  - shiny app: set tables to use bootstrap striped layout
-  - reaktanz.de supports HTTPS now, updated references
+    shiny app: using fluidPage() now
+    shiny app: set tables to use bootstrap striped layout
+    reaktanz.de supports HTTPS now, updated references
 added:
   - new summary() method for kRp.hyph objects
-  - new show() methods for kRp.hyph and kRp.taggedText objects
-  - new methods tokens() and types() to quickly get tokens and types of a text
+    new show() methods for kRp.hyph and kRp.taggedText objects
+    new methods tokens() and types() to quickly get tokens and types of a
+    text
 
 changes in version 0.07-1 (2016-07-11)
 fixed:
   - the treetag() function actually omittet options for the tokenizer due to
     a never updated variable and a wrong setting later on; this has been the
     case for years -- interesting that no-one ever noticed this
-  - read.corp.LCC() can now digest newer LCC archives, omitting the
-    *-meta.txt file if none is present, and also supporting *-words.txt files with
-    duplicate columns
-  - some typos in the ChangeLog...
-  - fixed manual page for class kRp.corp.freq
+    read.corp.LCC() can now digest newer LCC archives, omitting the
+    *-meta.txt file if none is present, and also supporting *-words.txt files
+    with duplicate columns
+    some typos in the ChangeLog...
+    fixed manual page for class kRp.corp.freq
 changed:
   - the support for non-UTF-8 presets for was removed, since TreeTagger is
-    only endorsing UTF-8 encoding itself for a while; the old preset names will
-    continue to work for the time being, but if possible you should already
-    rename them from "<lang>-utf8" into just "<lang>" in your scripts
-  - removed options corp.rm.class and corp.rm.tag from method hyphen() for
+    only endorsing UTF-8 encoding itself for a while; the old preset names
+    will continue to work for the time being, but if possible you should
+    already rename them from "<lang>-utf8" into just "<lang>" in your scripts
+    removed options corp.rm.class and corp.rm.tag from method hyphen() for
     character strings
-  - massively improved the speed of hyphen by using a new method for
-    exploding words into their sub-parts. in benchmark tests (text with ~30.000 words)
-    the new method only takes about 15% of the time without cache, and about
-    50% with cache
-  - massively improved the speed of lex.div() by reducing unnecessary
-    computations. in benchmark tests (see above) the new method is more than 100
-    times faster, which also makes readability() three times as fast with standard
-    indices. if you disable the FOG index, readability() is now finished in
-    an instant, too. see the new index="fast" option below
-  - tokenize() now uses data.table() instead of data.frame() internally,
+    massively improved the speed of hyphen by using a new method for
+    exploding words into their sub-parts. in benchmark tests (text with
+    ~30.000 words) the new method only takes about 15% of the time without
+    cache, and about 50% with cache
+    massively improved the speed of lex.div() by reducing unnecessary
+    computations. in benchmark tests (see above) the new method is more than
+    100 times faster, which also makes readability() three times as fast with
+    standard indices. if you disable the FOG index, readability() is now
+    finished in an instant, too. see the new index="fast" option below
+    tokenize() now uses data.table() instead of data.frame() internally,
     leading to an increase in speed of about 20%
-  - new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
-  - cleaned up code
-  - removed the never used variable TT.tknz.opts.def in the language support
-  - set.lang.support() now checks for duplicate tag definitions and throws an
+    new slots "bigrams" and "cooccur" in S4 class kRp.corp.freq
+    cleaned up code
+    removed the never used variable TT.tknz.opts.def in the language support
+    set.lang.support() now checks for duplicate tag definitions and throws an
     error if any were found
-  - renamed class and method files to set some environment first
-  - moved several internal hyphenation functions to koRpus-internal.hyphen.R
-  - moved several internal readability functions to
+    renamed class and method files to set some environment first
+    moved several internal hyphenation functions to koRpus-internal.hyphen.R
+    moved several internal readability functions to
     koRpus-internal.rdb.formulae.R
 added:
   - read.corp.LCC() can now import the information on bigrams and
     co-occurences of tokens in a sentence
-  - language support now also uses TT.splitter, TT.splitter.opts, and
-    TT.pre.tagger, which was needed mostly to implement the TreeTagger script for
-    portuguese (available in the separate package koRpus.lang.pt), but also for
-    updates of languages that were already supported
-  - updated the RKWard plugin (UTF-8 defaults, added dutch and portuguese,
+    language support now also uses TT.splitter, TT.splitter.opts, and
+    TT.pre.tagger, which was needed mostly to implement the TreeTagger script
+    for portuguese (available in the separate package koRpus.lang.pt), but
+    also for updates of languages that were already supported
+    updated the RKWard plugin (UTF-8 defaults, added dutch and portuguese,
     added Brouwer formula)
-  - new unit tests for lex.div(), tokenize() and readability()
-  - new options to set index="fast" in readability() to drop FPG from the
+    new unit tests for lex.div(), tokenize() and readability()
+    new options to set index="fast" in readability() to drop FPG from the
     defaults for faster calculations
-  - new option MTLDMA.steps to increase the step size for MTLD-MA. this
-    diverts from the original proposal, but if your text is long enough, you will
-    get a very good estimate and only need a fraction of the computing time
+    new option MTLDMA.steps to increase the step size for MTLD-MA. this
+    diverts from the original proposal, but if your text is long enough, you
+    will get a very good estimate and only need a fraction of the computing
+    time
 
 changes in version 0.06-5 (2016-06-05)
 fixed:
   - fixed the Douma formula: based on available literature, the factor for
-    average sentence length was set to 0.33, but the original paper reported it
-    as 0.93
-  - fixed the documentation for tokenize(), roxygen2 had problems with an
+    average sentence length was set to 0.33, but the original paper reported
+    it as 0.93
+    fixed the documentation for tokenize(), roxygen2 had problems with an
     escaped double quote
-  - corrected some problems with umlauts in the docs
+    corrected some problems with umlauts in the docs
 added:
   - new template for a roxyPackage script to make it easy to build packages
     from language support scripts
-  - additional validation for ARI, flesch (en), flesch-kincaid, SMOG and FOG,
+    additional validation for ARI, flesch (en), flesch-kincaid, SMOG and FOG,
     via http://wordscount.info/wc/jsp/clear/analyze_readability.jsp
-  - new Flesch parameters to calculate readability according to Brouwer (NL),
+    new Flesch parameters to calculate readability according to Brouwer (NL),
     can be invoked as index "Flesch.nl-b", "Flesch.Brouwer", or Flesch
     paremeters set to "nl-b"
-  - now the manual is actually documenting all the various Flesch formulas,
-    i.e., listing all parameter values, so that it's easier for users to check
-    what is being calculated
+    now the manual is actually documenting all the various Flesch formulas,
+    i.e., listing all parameter values, so that it's easier for users to
+    check what is being calculated
 
 changes in version 0.06-4 (2016-03-07)
 fixed:
   - workaround for missing POS tag "NS" for english texts
-  - made guess.lang() compatible with recent format of UDHR archives, now
+    made guess.lang() compatible with recent format of UDHR archives, now
     using ISO 639-3 codes as language identifier
-  - tokenize() and treetag() weren't able to cope with text that only
+    tokenize() and treetag() weren't able to cope with text that only
     consisted of a single token
-  - declared import from graphics package to satisfy CRAN checks
+    declared import from graphics package to satisfy CRAN checks
 changed:
   - updated rkwarddev script according to recent development in the rkwarddev
     package
-  - some basic validity checks of treetag()s "TT.options" moved to an
-    internal function checkTTOptions(), which is now also called by set.kRp.env()
-  - guess.lang() doesn't warn about missing EOL in the UDHR texts any longer
+    some basic validity checks of treetag()s "TT.options" moved to an
+    internal function checkTTOptions(), which is now also called by
+    set.kRp.env()
+    guess.lang() doesn't warn about missing EOL in the UDHR texts any longer
 added:
   - added a README.md file
-  - new option "no.unknown" can be passed to the "TT.options" of treetag(),
+    new option "no.unknown" can be passed to the "TT.options" of treetag(),
     to toggle the "-no-unknown" switch of TreeTagger
-  - new option "validate" for set.kRp.env() to enable/disable checks
+    new option "validate" for set.kRp.env() to enable/disable checks
 
 changes in version 0.06-3 (2015-11-02)
 fixed:
   - actually query for supported POS tags in internal function
-    is.supported.lang(). the function previously looked for supported languages in the
-    available presets, which failed if there was no preset named like the language
-    abberviation
-  - made hyphen() not split words after first or before last character,
+    is.supported.lang(). the function previously looked for supported
+    languages in the available presets, which failed if there was no preset
+    named like the language abberviation
+    made hyphen() not split words after first or before last character,
     therefore min.length was increased to 4 accordingly
-  - adjusted test standards to changed hyphen results
+    adjusted test standards to changed hyphen results
 added:
   - read.tagged() does now also accept matrix objects, see
     https://github.com/unDocUMeantIt/koRpus/issues/1
@@ -597,185 +650,190 @@ changes in version 0.06-2 (2015-09-21)
 fixed:
   - read.corp.custom() calculated the in-document frequency wrong if analysis
     was performed case insensitive
-  - updated some more links in the docs (?kRp.POS.tags)
+    updated some more links in the docs (?kRp.POS.tags)
 changed:
   - correct.tag() now accepts all objects of class union kRp.taggedText
-  - query() now uses "%in%" instead of "==" to match character strings
+    query() now uses "%in%" instead of "==" to match character strings
     against "query"
-  - exported the previously internal function set.lang.support(), to prepare
+    exported the previously internal function set.lang.support(), to prepare
     for the possibility of third party package to add new languages
 added:
   - initial support to manually extend the languages supported by the
-    package. you can now add new languages on-the-fly in a running session, or in a
-    more sustainable manner by providing a language package (using the same
-    methods, basically). key to this is the now globally available function
-    set.lang.support(), and there's also two commented template scripts installed
-    with the package, see the "templates" folder
+    package. you can now add new languages on-the-fly in a running session,
+    or in a more sustainable manner by providing a language package (using
+    the same methods, basically). key to this is the now globally available
+    function set.lang.support(), and there's also two commented template
+    scripts installed with the package, see the "templates" folder
 
 changes in version 0.06-1 (2015-07-08)
 fixed:
   - read.corp.custom() was buggy when dealing with tagged objects
-  - suppress message stating text language in summary() for readability
+    suppress message stating text language in summary() for readability
     objects if "flat=TRUE"
 changed:
   - changed the following functions into S4 methods: readability(),
     lex.div(), hyphen(), read.corp.custom() and freq.analysis()
-  - removed long since deprecated function kRp.freq.analysis()
-  - splitted the code of the monolithic internal function for
+    removed long since deprecated function kRp.freq.analysis()
+    splitted the code of the monolithic internal function for
     read.corp.custom() into several subfunctions to get more flexibility
-  - read.corp.custom() now also supports analysis of lists of tagged objects
-  - removed option "fileEncoding" from the signature of read.corp.custom(),
-    but it can still be used as part of the "..." options; this was neccessary
-    because treetag() uses "encoding" instead
+    read.corp.custom() now also supports analysis of lists of tagged objects
+    removed option "fileEncoding" from the signature of read.corp.custom(),
+    but it can still be used as part of the "..." options; this was
+    neccessary because treetag() uses "encoding" instead
 added:
   - new option "tagger" now also available in read.corp.custom()
-  - there is now a mailing list to discuss the koRpus development:
+    there is now a mailing list to discuss the koRpus development:
     https://ml06.ispgateway.de/mailman/listinfo/korpus-dev_r.reaktanz.de
 
 changes in version 0.05-6 (2015-06-30)
 fixed:
   - changed "selected" values of checkboxGroupInput() in the shiny file ui.R
     to comply with the changes made in shiny 0.9.0
-  - function kRp.text.transform() was missing some columns in TT.res
-  - fixing this ChangeLog: the parameter for Szigriszt (Flesch ES) is not
+    function kRp.text.transform() was missing some columns in TT.res
+    fixing this ChangeLog: the parameter for Szigriszt (Flesch ES) is not
     "es2", as reported in the log to koRpus 0.05.3, but "es-s"!
-  - calling readability for "ARI.NRI" without hyphenation didn't work,
+    calling readability for "ARI.NRI" without hyphenation didn't work,
     allthough ARI doesn't need syllables
-  - updated some broken links in the docs (?kRp.POS.tags, ?guess.lang)
-  - added imports for 'utils' and 'stats' packages to comply with new CRAN
+    updated some broken links in the docs (?kRp.POS.tags, ?guess.lang)
+    added imports for 'utils' and 'stats' packages to comply with new CRAN
     checks
-  - added a otherwise useless definition of "text" to the body of
+    added a otherwise useless definition of "text" to the body of
     guess.lang(), also to satisfy R CMD check
 changed:
   - replaced the RKWard plugin with a modularized rewrite (rkwarddev script)
-  - some code cleaning in internal function kRp.rdb.formulae() and
+    some code cleaning in internal function kRp.rdb.formulae() and
     freq.analysis(), mostly replacing @ by slot()
 added:
   - new readability formula tuldava(), kindly suggested by peter grzybek
-  - the shiny app has gained support for Tuldava and Szigriszt (Flesch ES)
+    the shiny app has gained support for Tuldava and Szigriszt (Flesch ES)
     formulae and log.base parameter (lexical diversity)
-  - set.kRp.env() does now check whether a language preset is valid
+    set.kRp.env() does now check whether a language preset is valid
 
 changes in version 0.05-5 (2014-03-19)
 changed:
   - removed Snowball from the list of suggested packages, as it is deprecated
     and fully replaced by SnowballC
-  - re-generated all docs with roxygen2 3.1.0, which can now handle S4 class
+    re-generated all docs with roxygen2 3.1.0, which can now handle S4 class
     definitions properly
-  - replaced all tabs in the source code by two space characters
+    replaced all tabs in the source code by two space characters
 added:
   - new tf-idf feature: read.corp.custom() now calculates idf, then
-    freq.analysis() can use that to calculate tf-idf, kindly suggested by sandro tsang
-  - new columns "inDocs" and "idf" in slot "words" of class kRp.corp.freq
-  - new columns "tf", "idf" and "tfidf" in slot "words" of class kRp.txt.freq
+    freq.analysis() can use that to calculate tf-idf, kindly suggested by
+    sandro tsang
+    new columns "inDocs" and "idf" in slot "words" of class kRp.corp.freq
+    new columns "tf", "idf" and "tfidf" in slot "words" of class kRp.txt.freq
 
 changes in version 0.05-4 (2014-01-22)
 fixed:
   - PCRE 8.34 caused the tests to fail because of problems with regular
-    expressions in internal tokenizing function tokenz(); fixed by ensuring that
-    "-" is being escaped as "\\-"
+    expressions in internal tokenizing function tokenz(); fixed by ensuring
+    that "-" is being escaped as "\\-"
 
 changes in version 0.05-3 (2013-12-21)
 fixed:
   - due to a logical bug in calls to internal functions, the "lemmatize"
     argument if lex.div() didn't really have any effect
-  - using file names with readability() and its wrappers was broken, works
+    using file names with readability() and its wrappers was broken, works
     again now
 changed:
   - the "tt" slot in class kRp.TTR gained two new entries, "lemmas" and
     "num.lemmas", kindly suggested by roberto trunfio
-  - show() method for kRp.TTR objects now also lists the number of lemmas (if
+    show() method for kRp.TTR objects now also lists the number of lemmas (if
     found)
-  - parameters of Flesch formulae were slightly changed to be more accurate
+    parameters of Flesch formulae were slightly changed to be more accurate
     (from rounded values of 206.84 to 206.835) where applicable
-  - Flesch-Szigriszt and Fernandez-Huerta have been validated against INFLESZ
+    Flesch-Szigriszt and Fernandez-Huerta have been validated against INFLESZ
     v1.0, so the warning was removed
-  - readability.num() now gracefully accepts a single number of syllables for
+    readability.num() now gracefully accepts a single number of syllables for
     formulae who don't need to know more
-  - added a proper GPL notice at the beginning of each R file
-  - adjustet tests according to the changes made
+    added a proper GPL notice at the beginning of each R file
+    adjustet tests according to the changes made
 added:
   - alternative Flesch parameters for spanish texts according to Szigriszt
     were added as parameters="es2", kindly suggested by carlos ortega
 removed:
   - this is the first version of the package with slightly reduced sources on
     CRAN -- the debian directory, GPL license file and hyphenation pattern
-    ChangeLog had to be removed. if you want the full sources to this package,
-    please use the packages provided at http://reaktanz.de/?c=hacking&s=koRpus
+    ChangeLog had to be removed. if you want the full sources to this
+    package, please use the packages provided at
+    http://reaktanz.de/?c=hacking&s=koRpus
 
 changes in version 0.05-2 (2013-10-27)
 fixed:
   - added two previously undocumented (and hence missing) italian tags "FW"
     and "LS"
-  - removed some ::: operators which were not neccessary
-  - updated slot "param" of kRp.TTR objects to include "min.tokens",
+    removed some ::: operators which were not neccessary
+    updated slot "param" of kRp.TTR objects to include "min.tokens",
     "rand.sample", "window" and "log.base"
 changed:
   - moved some parts of treetag() and kRp.text.paste() to internal functions
     for easier re-use of its functionality
 added:
   - support for marco baroni's TreeTagger tagset for italian was added
-  - added SnowballC to the suggested packages, as tokenize() and treetag()
+    added SnowballC to the suggested packages, as tokenize() and treetag()
     can also use SnowballC::wordStem() for stemming
-  - new function read.tagged() can be used to import already tagged texts
-  - new argument "apply.sentc.end" in function treetag()
-  - new argument "log.base" in functions lex.div() and lex.div.num()
+    new function read.tagged() can be used to import already tagged texts
+    new argument "apply.sentc.end" in function treetag()
+    new argument "log.base" in functions lex.div() and lex.div.num()
 
 changes in version 0.05-1 (2013-05-05)
 fixed:
   - DRP() readability formula tried to fetch a non-existing variable and
     hence didn't calculate; this also fixed a problem with summary(), if DRP
     results were expected in the object; tests had to be corrected as well
-  - textFeatures() gets number of letters and TTR again
-  - MTLD calculation (lex.div()) now counts a factor as full if it is <
+    textFeatures() gets number of letters and TTR again
+    MTLD calculation (lex.div()) now counts a factor as full if it is <
     factor.size, it was implemented as <= factor.size before (thanks to scott
     jarvis for insight on the details)
-  - summary() for kRp.TTR objects always showed MTLD, even if it was empty
+    summary() for kRp.TTR objects always showed MTLD, even if it was empty
 changed:
   - vignette now describes the use of taggedText() and describe(), instead of
     direct access to slots
-  - readability() now assumes that if there's any text, it represents at
+    readability() now assumes that if there's any text, it represents at
     least one sentence, even if no sentence ending punctuation can be found
-  - "quiet=TRUE" in readability(), readability.num(), lex.div() and
-    lex.div.num() will now also suppress all warnings regarding validation status
-  - MTLD calculation (lex.div()) was optimized and takes less than half of
-    the time it used to. it also gained a new boolean argument "detailed", which
-    is FALSE by default. this means that the full factor results are skipped
-    now, which boosts performance even more (six times as fast as before)
-  - the caching mechanism for hyphen() was restructured into internal
+    "quiet=TRUE" in readability(), readability.num(), lex.div() and
+    lex.div.num() will now also suppress all warnings regarding validation
+    status
+    MTLD calculation (lex.div()) was optimized and takes less than half of
+    the time it used to. it also gained a new boolean argument "detailed",
+    which is FALSE by default. this means that the full factor results are
+    skipped now, which boosts performance even more (six times as fast as
+    before)
+    the caching mechanism for hyphen() was restructured into internal
     functions, allowing for better access to the cached data
-  - set.kRp.env() and get.kRp.env() have new signatures, namely, all
-    previously hardcoded parameters have been replaced by the more flexible "...".
-    usage stays the same, so there's no need to change any scripts, as long as
-    you called all parameters by name, not only by position!
-  - object class kRp.corp.freq can now have additional columns in slots
-    "words" and "desc". this flexibility allows for using this class with valence
-    data as well
-  - query() now examines the desired columns to decide whether character or
+    set.kRp.env() and get.kRp.env() have new signatures, namely, all
+    previously hardcoded parameters have been replaced by the more flexible
+    "...". usage stays the same, so there's no need to change any scripts, as
+    long as you called all parameters by name, not only by position!
+    object class kRp.corp.freq can now have additional columns in slots
+    "words" and "desc". this flexibility allows for using this class with
+    valence data as well
+    query() now examines the desired columns to decide whether character or
     numeric operations are to be done
-  - performance of hyphen() has been massively improved if cache=TRUE
-  - guess.lang() now also standardizes the difference values; this was added
+    performance of hyphen() has been massively improved if cache=TRUE
+    guess.lang() now also standardizes the difference values; this was added
     to the respective summary() method, which also produces nicer output
-  - the source code was re-organized a bit, to ensure classes and methods are
+    the source code was re-organized a bit, to ensure classes and methods are
     found in an appropriate order; the collate roclet of roxygen2 had
     problems with this when running in R 3.0.0
 added:
   - new function read.BAWL() to import BAWL-R data
-  - new demo application for use with the "shiny" package, can be found in
+    new demo application for use with the "shiny" package, can be found in
     $SRC/inst/shiny
-  - lex.div() now supports a new method for calculating MTLD (MTLDMA,
+    lex.div() now supports a new method for calculating MTLD (MTLDMA,
     moving-average)
-  - new getter method hyphenText() to access the "hyphen" slot in kRp.hyphen
+    new getter method hyphenText() to access the "hyphen" slot in kRp.hyphen
     objects
-  - getter methods language() and describe() for kRp.hyphen objects also added
-  - added "quiet" argument to lex.div.num()
-  - guess.lang() can now analyze a given text directly, not only from files
-  - set.kRp.env() can now explicitly unset parameters in the environment
-  - set.kRp.env() and get.kRp.env() know a new parameter,
-    "hyphen.cache.file", which can be set to a file name to read from/write to the hyphenation
-    cache. this way you can easily restore cached hyphenation rules over
-    sessions. if this parameter is set, it will be used by hyphen() automatically if
-    called with "cache=TRUE"
+    getter methods language() and describe() for kRp.hyphen objects also
+    added
+    added "quiet" argument to lex.div.num()
+    guess.lang() can now analyze a given text directly, not only from files
+    set.kRp.env() can now explicitly unset parameters in the environment
+    set.kRp.env() and get.kRp.env() know a new parameter,
+    "hyphen.cache.file", which can be set to a file name to read from/write
+    to the hyphenation cache. this way you can easily restore cached
+    hyphenation rules over sessions. if this parameter is set, it will be
+    used by hyphen() automatically if called with "cache=TRUE"
 
 changes in version 0.04-40 (2013-04-07)
 fixed:
@@ -786,32 +844,32 @@ changes in version 0.04-39 (2013-03-12)
 fixed:
   - optimized tokenize() to also detect prefixes/suffixes of the defined
     heuristics if they co-occur with punctuation
-  - re-saved hyph.fr.rda with explicitly UTF-8 ecoded vectors
-  - renamed LICENSE to LINCENSE.txt, so it won't get installed, as demnanded
+    re-saved hyph.fr.rda with explicitly UTF-8 ecoded vectors
+    renamed LICENSE to LINCENSE.txt, so it won't get installed, as demnanded
     by Writing R Extensions
 changed:
   - the language specific heuristics "en" and "fr" in tokenize() were renamed
     into "suf" and "pre". but they are still available, with "fr" now
     activating both "suf" and "pre".
-  - read.hyph.pat() now explicitly sets vector encoding to UTF-8 with
-    Encoding()<-, to ensure that the generated objects don't cause warnings from R
-    CMD check if they're included in packages
-  - internally replaced paste(..., sep="") with paste0(...)
+    read.hyph.pat() now explicitly sets vector encoding to UTF-8 with
+    Encoding()<-, to ensure that the generated objects don't cause warnings
+    from R CMD check if they're included in packages
+    internally replaced paste(..., sep="") with paste0(...)
 added:
   - added new getter/setter methods taggedText(), taggedText()<-, describe(),
     describe()<-, language() and language()<- for tagged text objects
-  - added is.taggedText() test function
-  - added a warning to treetag() if "TT.options" is not a list (because this
+    added is.taggedText() test function
+    added a warning to treetag() if "TT.options" is not a list (because this
     will likely render the options meaningless if they *contain* a list).
-  - tokenize() can now apply a list of patterns/replacements to given texts
+    tokenize() can now apply a list of patterns/replacements to given texts
     via the new "clean.raw" attribute, and even supports perl-like regular
-    expressions. the replacements are done before the texts are tokenized, so this
-    can be tried to globally clean up bad characters or simply replace
+    expressions. the replacements are done before the texts are tokenized, so
+    this can be tried to globally clean up bad characters or simply replace
     strings, etc.
-  - tokenize() and treetag() have a new option "stopwords" to enable stopword
+    tokenize() and treetag() have a new option "stopwords" to enable stopword
     detection
-  - kRp.filter.wclass() can now remove detected stopwords
-  - tokenize() and treetag() have a new option "stemmer" to interface with
+    kRp.filter.wclass() can now remove detected stopwords
+    tokenize() and treetag() have a new option "stemmer" to interface with
     stemmer functions/methods like Snowball::SnowballStemmer()
 
 changes in version 0.04-38 (2012-11-30)
@@ -822,15 +880,15 @@ changes in version 0.04-37 (2012-09-15)
 fixed:
   - a typo in Spache calculation (substraction instead of addition of a
     constant) lead to wrong results
-  - Spache now counts unfamiliar words only once, as explained in the
+    Spache now counts unfamiliar words only once, as explained in the
     original article
-  - old Spache formula was missing in readability(index="all")
+    old Spache formula was missing in readability(index="all")
 changed:
   - validated Linsear Write, Dale-Chall (1948) and Spache (1953) results and
     removed warnings
-  - status messages of hyphen() and lex.div() have been replaced by a space
+    status messages of hyphen() and lex.div() have been replaced by a space
     saving prograss bar added
-  - added tests for lex.div(), hyphen() and readability()
+    added tests for lex.div(), hyphen() and readability()
 
 changes in version 0.04-36 (2012-08-27)
 fixed:
@@ -839,8 +897,8 @@ fixed:
 changes in version 0.04-35 (2012-08-21)
 changed:
   - using utf8-tokenizer.perl now in all UTF-8 presets, also on windows
-    systems. the script is part of the windows installer of TreeTagger 3.2 (at
-    least since june 2012)
+    systems. the script is part of the windows installer of TreeTagger 3.2
+    (at least since june 2012)
 fixed:
   - correct.*() methods now also update the descriptive statistics in
     corrected objects
@@ -851,22 +909,22 @@ added:
     "kRp.analysis", "kRp.txt.freq" and "kRp.txt.trans"
 changed:
   - advanced summary() statistics for objects returned by clozeDelete()
-  - clozeDelete(offset="all") now iterates through all cloze variants and
+    clozeDelete(offset="all") now iterates through all cloze variants and
     prints the results, including the new summary() data
-  - clozeDelete() now uses the new class union "kRp.taggedText" as signature
-  - read.corp.custom() now uses table(), "quiet" is TRUE by default, the new
+    clozeDelete() now uses the new class union "kRp.taggedText" as signature
+    read.corp.custom() now uses table(), "quiet" is TRUE by default, the new
     option "caseSens" can be used to ignore character case, and "corpus" can
     now also be a tagged text object
 fixed:
   - summary() for objects of class kRp.txt.freq was broken
-  - as("kRp.tagged") for objects of class kRp.txt.freq was broken
+    as("kRp.tagged") for objects of class kRp.txt.freq was broken
 
 changes in version 0.04-33 (2012-05-26)
 changed:
   - elaborated documentation for method cTest()
 added:
   - added new method clozeDelete()
-  - added new list "cTest" in desc slot of the objects returned by cTest(),
+    added new list "cTest" in desc slot of the objects returned by cTest(),
     which lists all words that were changed (in clozeDelete() this list is
     called "cloze")
 
@@ -879,254 +937,258 @@ fixed:
 
 changes in version 0.04-31 (2012-04-22)
 added:
-  - koRpus now suggests the "testthat" package and uses it for automatic tests
-  - treetag() and tokenize() now also accept input from open connections
+  - koRpus now suggests the "testthat" package and uses it for automatic
+    tests
+    treetag() and tokenize() now also accept input from open connections
 fixed:
   - treetag() shouldn't fail on file names with spaces any more
 
 changes in version 0.04-30 (2012-04-06)
   - added features:
-  - kRp.corp.freq class objects now include the columns 'lttr', 'lemma',
+    kRp.corp.freq class objects now include the columns 'lttr', 'lemma',
     'tag' and 'wclass'
-  - query() for corpus frequency objects now returns objects of the same
+    query() for corpus frequency objects now returns objects of the same
     class, to allow nested queries
-  - the 'query' parameter of query() can now be a list of lists, to
+    the 'query' parameter of query() can now be a list of lists, to
     facilitate nested requests more easily
-  - query() can now invoke grepl(), if 'var' is set to "regexp"; i.e., you
-    can now filter words by regular expressions (inspired by suggestions after
-    the koRpus talk at TeaP 2012)
+    query() can now invoke grepl(), if 'var' is set to "regexp"; i.e., you
+    can now filter words by regular expressions (inspired by suggestions
+    after the koRpus talk at TeaP 2012)
 
 changes in version 0.04-29 (2012-04-05)
   - fixed bug in summary() for tagged objects without punctuation
-  - renamed kRp.freq.analysis() to freq.analysis() (with wrapper function for
+    renamed kRp.freq.analysis() to freq.analysis() (with wrapper function for
     backwards compatibility)
-  - readability.num() can now directly digest objects of class kRp.readability
-  - data documentation hyph.XX is now a roxygen source file as well
-  - cleaned up summary() and show() docs
-  - adjustements to the roxygen2 docs (methods)
+    readability.num() can now directly digest objects of class
+    kRp.readability
+    data documentation hyph.XX is now a roxygen source file as well
+    cleaned up summary() and show() docs
+    adjustements to the roxygen2 docs (methods)
 
 changes in version 0.04-28 (2012-03-10)
   - code cleanup: initialized some variables by setting them NULL, to avoid
     needless NOTEs from R CMD check (hyphen(), and internal functions
     frqcy.by.rel(), load.hyph.pattern(), tagged.txt.rm.classes() and
     text.freq.analysis())
-  - re-formatted the ChangeLog so roxyPackage can translate it into a NEWS.Rd
+    re-formatted the ChangeLog so roxyPackage can translate it into a NEWS.Rd
     file
 
 changes in version 0.04-27 (2012-03-07)
   - prep for CRAN release:
-  - 0.04-26 was short-lived...
-  - really fixed plot docs
-  - removed usage section from hyph.XX data documentation
-  - renamed text.features() to textFeatures()
-  - encapsulated examples in set.kRp.env()/get.kRp.env() in \dontrun{}
-  - re-encoded hyph.XX data objects to UTF-8
-  - replaces non-ASCII characters in code with unicode escapes
+    0.04-26 was short-lived...
+    really fixed plot docs
+    removed usage section from hyph.XX data documentation
+    renamed text.features() to textFeatures()
+    encapsulated examples in set.kRp.env()/get.kRp.env() in \dontrun{}
+    re-encoded hyph.XX data objects to UTF-8
+    replaces non-ASCII characters in code with unicode escapes
 
 changes in version 0.04-26 (2012-03-07)
   - fixed plot docs
-  - prep for inital CRAN release
+    prep for inital CRAN release
 
 changes in version 0.04-25 (2012-03-05)
   - re-compressed all hyphenation pattern data files, using xz compression
-  - lifted the R dependency from 2.9 to 2.10
-  - compressed LCC tarballs are now detected automatically
-  - kRp.freq.analysis() now also lists the log10 value of word frequencies in
+    lifted the R dependency from 2.9 to 2.10
+    compressed LCC tarballs are now detected automatically
+    kRp.freq.analysis() now also lists the log10 value of word frequencies in
     the TT.res slot
-  - in the desc slot of kRp.txt.freq class objects, the rather misleading
+    in the desc slot of kRp.txt.freq class objects, the rather misleading
     list elements "freq" and "freq.wclass" were more adequately renamed to
     "freq.token" and "freq.types", respectively
-  - unmatched words in frequency analyses now get value 0, not NA
-  - fixed wrong signature for option "tagger" in kRp.text.analysis()
-  - fixed kRp.cluster() which still called some old slots
+    unmatched words in frequency analyses now get value 0, not NA
+    fixed wrong signature for option "tagger" in kRp.text.analysis()
+    fixed kRp.cluster() which still called some old slots
 
 changes in version 0.04-24 (2012-03-01)
   - fixed bug for attempts to calculate value distribution texts without any
     sentence endings
-  - all readability wrapper functions now also accept a list of text features
+    all readability wrapper functions now also accept a list of text features
     for calculation
-  - class kRp.readability now inherits kRp.tagged
-  - readability() now checks for presence of a hyphen slot and re-uses it, if
+    class kRp.readability now inherits kRp.tagged
+    readability() now checks for presence of a hyphen slot and re-uses it, if
     no new hyphen object was provided; this in addition to the previous
-    change enables one to re-analyze a text more efficiently, as already calculated
-    results are also preserved
-  - letter and character distribution in kRp.tagged desc slot now include
-    columns with zero values if the respective values are missing (e.g., no words
-    with five letters, but some with six, etc.)
-  - added summary method for class kRp.tagged, summarizing main information
+    change enables one to re-analyze a text more efficiently, as already
+    calculated results are also preserved
+    letter and character distribution in kRp.tagged desc slot now include
+    columns with zero values if the respective values are missing (e.g., no
+    words with five letters, but some with six, etc.)
+    added summary method for class kRp.tagged, summarizing main information
     from the desc slot
-  - added plot method for class kRp.tagged
-  - show method for kRp.readability now lists unfamiliar words for
+    added plot method for class kRp.tagged
+    show method for kRp.readability now lists unfamiliar words for
     Harris-Jacobson
-  - cleaned up code of lex.div.num() a bit
+    cleaned up code of lex.div.num() a bit
 
 changes in version 0.04-23 (2012-02-24)
   - added precise RGL formula option to FORCAST
-  - removed validation warnings from several indices, because results have
+    removed validation warnings from several indices, because results have
     been checked against those of other tools, and were comparable, so the
-    implementations of these measures are assumed to be correct: - lex.div(): TTR,
-    MSTTR, C, R, CTTR, U, Maas, HD-D, MTLD (thanks a lot to scott jarvis &
-    phil mccarthy for calculating sample texts!) - readability(): ARI, ARI NRI,
-    Bormuth, Coleman-Liau, Dale-Chall, Dale-Chall PSK, DRP,
-    Farr-Jenkins-Paterson, Farr-Jenkins-Paterson PSK, Flesch, Flesch PSK, Flesch-Kincaid, FOG,
-    FOG PSK, FORCAST, LIX, RIX, SMOG, Spache, Wheeler-Smith
-  - moved all calculation from readability() to an internal function
-    kRp.rdb.formulae(). to make it easier to write a similar function to lex.div.num()
-    for the readability fomulas as well
-  - added readability.num()
-  - adjusted exsyl calculation for ELF to the approach used in other
-    measures, which also results in a change of its default "syll" parameter from 1 to
-    2; also corrected a typo in the docs, the index was proposed by Fang, not
-    Farr
-  - readability results now list letter distribution, not character
+    implementations of these measures are assumed to be correct: - lex.div():
+    TTR, MSTTR, C, R, CTTR, U, Maas, HD-D, MTLD (thanks a lot to scott jarvis
+    & phil mccarthy for calculating sample texts!) - readability(): ARI, ARI
+    NRI, Bormuth, Coleman-Liau, Dale-Chall, Dale-Chall PSK, DRP,
+    Farr-Jenkins-Paterson, Farr-Jenkins-Paterson PSK, Flesch, Flesch PSK,
+    Flesch-Kincaid, FOG, FOG PSK, FORCAST, LIX, RIX, SMOG, Spache,
+    Wheeler-Smith
+    moved all calculation from readability() to an internal function
+    kRp.rdb.formulae(). to make it easier to write a similar function to
+    lex.div.num() for the readability fomulas as well
+    added readability.num()
+    adjusted exsyl calculation for ELF to the approach used in other
+    measures, which also results in a change of its default "syll" parameter
+    from 1 to 2; also corrected a typo in the docs, the index was proposed by
+    Fang, not Farr
+    readability results now list letter distribution, not character
     distribution in desc slot
-  - the desc slot from readability calculations was enhanced so that it can
+    the desc slot from readability calculations was enhanced so that it can
     directly be used as the txt.features parameter for readability.num()
-  - docs were polished
+    docs were polished
 
 changes in version 0.04-22 (2012-02-08)
   - further fixes to the Wheeler-Smith implementation. according to the
-    original paper, polysyllabic words need to be counted, and the example given
-    shows that this means words with more than one syllable, not three or more,
-    as Bamberger & Vanecek (1984) suggested
-  - fixed HD-D, previous results are now labelled as ATTR in the HDD slot
-  - adjusted HD-D.char calculation for small number of tokens (probabilities
+    original paper, polysyllabic words need to be counted, and the example
+    given shows that this means words with more than one syllable, not three
+    or more, as Bamberger & Vanecek (1984) suggested
+    fixed HD-D, previous results are now labelled as ATTR in the HDD slot
+    adjusted HD-D.char calculation for small number of tokens (probabilities
     are now set to 1, not NaN)
-  - added MATTR characteristics
-  - show() for lex.div() objects now also reports SD for characteristics
+    added MATTR characteristics
+    show() for lex.div() objects now also reports SD for characteristics
 
 changes in version 0.04-21 (2012-02-07)
   - MTLD now uses a slightly more efficient algorithm, inspired by the one
     used for MATTR
-  - MSTTR now also reports SD of TTRs
-  - differentiated the word class adposition into pre-, post- and
+    MSTTR now also reports SD of TTRs
+    differentiated the word class adposition into pre-, post- and
     circumposition in the language support for german and russian
-  - added both Tränke-Bailer formulae to readability(), incl. wrapper
+    added both Tränke-Bailer formulae to readability(), incl. wrapper
     traenkle.bailer() and show()/summary() methods
-  - Coleman formulae now also count only prepositions as such
-  - fixed Wheeler-Smith (thanks to eleni miltsakaki)
+    Coleman formulae now also count only prepositions as such
+    fixed Wheeler-Smith (thanks to eleni miltsakaki)
 
 changes in version 0.04-20 (2012-02-06)
-  - added Moving Average TTR (MATTR) to lex.div(), incl. wrapper  MATTR() and
+  - added Moving Average TTR (MATTR) to lex.div(), incl. wrapper MATTR() and
     show()/summary() methods
-  - added "rand.sample" and "window" to the parameters returned by lex.div()
-  - further re-arranged the code of readability() and lex.div() to make it
+    added "rand.sample" and "window" to the parameters returned by lex.div()
+    further re-arranged the code of readability() and lex.div() to make it
     easier to maintain
-  - summary(flat=TRUE) for readability objects is now a numeric vector
+    summary(flat=TRUE) for readability objects is now a numeric vector
 
 changes in version 0.04-19 (2012-02-02)
   - added five harris-jacobson readability formulae, incl. wrapper
     harris.jacobson() and show()/summary() methods
-  - updated vignette
-  - MTLD characteristics are now twice as fast
-  - classes "kRp.txt.freq" and "kRp.txt.trans" now simply extend
+    updated vignette
+    MTLD characteristics are now twice as fast
+    classes "kRp.txt.freq" and "kRp.txt.trans" now simply extend
     "kRp.tagged", and "kRp.analysis" extends "kRp.txt.freq"
-  - removed internal function check.kRp.object() (globally replaced by
+    removed internal function check.kRp.object() (globally replaced by
     inherits())
-  - fixed letter count issue in readability()
-  - fixed bugs in loading word lists in readability()
-  - fixed crash if index="all" in readability()
-  - reordered default kRp.readabilty slot order alphabetically, as well as
+    fixed letter count issue in readability()
+    fixed bugs in loading word lists in readability()
+    fixed crash if index="all" in readability()
+    reordered default kRp.readabilty slot order alphabetically, as well as
     show() and summary() for readability results
-  - renamed results of the Neue Wiener Sachtextformeln from WSTF* to nWS* in
+    renamed results of the Neue Wiener Sachtextformeln from WSTF* to nWS* in
     readability object methods show() and summary() for consistency
-  - renamed WSFT() to nWS() for the same reason
-  - cleaned up roxygen comments for more roxygen2 compliance
+    renamed WSFT() to nWS() for the same reason
+    cleaned up roxygen comments for more roxygen2 compliance
 
 changes in version 0.04-18 (2012-01-22)
   - added missing word exclusion to Gunning FOG measure
-  - added sentence length, word length, distribution of characters and
-    letters to "desc" slot of class kRp.tagged and readability() results, where
-    missing
-  - both syllable (hyphen()) and character distributions gained inversed
-    cummulation for absolute numbers and percentages, so this one table now makes
-    it easy to see how many words with more/equal/less characters/syllables
-    there are in a text
-  - changed internals of kRp.freq.analysis() and readability() to re-use
+    added sentence length, word length, distribution of characters and
+    letters to "desc" slot of class kRp.tagged and readability() results,
+    where missing
+    both syllable (hyphen()) and character distributions gained inversed
+    cummulation for absolute numbers and percentages, so this one table now
+    makes it easy to see how many words with more/equal/less
+    characters/syllables there are in a text
+    changed internals of kRp.freq.analysis() and readability() to re-use
     descriptives of tagged text objects
-  - NOTE: this also changed the names of some result elements in their "desc"
+    NOTE: this also changed the names of some result elements in their "desc"
     slots for overall consistency ("avg.sent.len" is now "avg.sentc.length",
     "avg.word.len" became "avg.word.length", and instances of "num.words",
     "num.chars" etc. lost the "num." prefix). in case you accessed these
-    directly, check if you need to adopt these changes. this is a first round of
-    changes towards 0.05, see the notes to 0.04-17 below!
+    directly, check if you need to adopt these changes. this is a first round
+    of changes towards 0.05, see the notes to 0.04-17 below!
 
 changes in version 0.04-17 (2012-01-17)
   - replaced the english hyphenation parameter set with a new one, which was
     made with PatGen2 especially for koRpus
-  - tokenize() will now interpret single letters followed by a dot as an
-    abbreviation (e.g., of a name), not a sentence ending, if heuristics include
-    "abbr"
-  - fixed bug which caused hyphen() to drop syllables if only one pattern
+    tokenize() will now interpret single letters followed by a dot as an
+    abbreviation (e.g., of a name), not a sentence ending, if heuristics
+    include "abbr"
+    fixed bug which caused hyphen() to drop syllables if only one pattern
     match was found
-  - added cache support to the correct method of class kRp.hyphen
-  - added number of words and sentences to "desc" slot of class kRp.tagged
-  - elaborated treetag() error message if no TreeTagger command was specified
-  - NOTE: koRpus 0.05 will likely merge some object classes similar to
-    kRp.tagged, i.e. kRp.txt.freq and kRp.txt.trans, into one class for tokenized
-    text, either replacing or inheriting those classes
+    added cache support to the correct method of class kRp.hyphen
+    added number of words and sentences to "desc" slot of class kRp.tagged
+    elaborated treetag() error message if no TreeTagger command was specified
+    NOTE: koRpus 0.05 will likely merge some object classes similar to
+    kRp.tagged, i.e. kRp.txt.freq and kRp.txt.trans, into one class for
+    tokenized text, either replacing or inheriting those classes
 
 changes in version 0.04-16 (2012-01-15)
   - added slot "desc" to class kRp.tagged, to have descriptive statistics
     directly available in the object
-  - added support for descriptive statistics to tokenize() and treetag()
-  - added function text.features() to extract a 9-features set from texts for
+    added support for descriptive statistics to tokenize() and treetag()
+    added function text.features() to extract a 9-features set from texts for
     authorship detection (inspired by a talk at the 28C3)
-  - hyphen() can now cache results on a per session basis, making it
+    hyphen() can now cache results on a per session basis, making it
     noticeably faster
 
 changes in version 0.04-15 (2012-01-04)
   - manage.hyph.pat() is now an exported function
-  - added initial support for italian (thanks to alberto mirisola)
-  - added italian hyphenation patterns
-  - changed min.length from 4 to 3 in hyphen() and manage.hyph.pat()
-  - hyphen now considers hyphenating before last letters of a word
-  - tuned hyph.en (with contributions by laura hauser)
-  - fixed check for existing tokenizer, tagger and parameter file in treetag()
-  - fixed MTLD calculation for texts which don't make even one factor
+    added initial support for italian (thanks to alberto mirisola)
+    added italian hyphenation patterns
+    changed min.length from 4 to 3 in hyphen() and manage.hyph.pat()
+    hyphen now considers hyphenating before last letters of a word
+    tuned hyph.en (with contributions by laura hauser)
+    fixed check for existing tokenizer, tagger and parameter file in
+    treetag()
+    fixed MTLD calculation for texts which don't make even one factor
 
 changes in version 0.04-14 (2011-12-22)
   - added new internal function manage.hyph.pat() to add/replace/remove
     pattern entries for hyphenation
-  - added number of tokens per factor and standard deviation to MTLD results
+    added number of tokens per factor and standard deviation to MTLD results
     (thx to aris xanthos for the suggestion)
 
 changes in version 0.04-13 (2011-11-22)
   - added column "token" to slots MTLD$all.forw and MTLD$all.back of
     lex.div() results, so you can verify the results more easily
-  - slot HDD$type.probs of lex.div() results is now sorted (decreasing)
-  - removed warnings of missing encoding, since enc2utf() seems to do a
+    slot HDD$type.probs of lex.div() results is now sorted (decreasing)
+    removed warnings of missing encoding, since enc2utf() seems to do a
     pretty good job
 
 changes in version 0.04-12 (2011-11-21)
   - added support for the newer LCC .tar archive format
-  - changed vignette accordingly
-  - for consistency, changed "words" and "dist.words" into "tokens" and
+    changed vignette accordingly
+    for consistency, changed "words" and "dist.words" into "tokens" and
     "types" in class kRp.corp.freq, slot desc
-  - added lgeV0 and the relative vocabulary growth measures suggested by Maas
+    added lgeV0 and the relative vocabulary growth measures suggested by Maas
     to lex.div(); furthermore, a is now reported instead of a^2
-  - added lgV0 and lgeV0 to lex.div.num()
-  - show method for class kRp.TTR now excludes Inf values from
+    added lgV0 and lgeV0 to lex.div.num()
+    show method for class kRp.TTR now excludes Inf values from
     charasteristics values
 
 changes in version 0.04-11 (2011-11-20)
   - added function lex.div.num(), calculates TTR family measures by numbers
     of tokens and types directly
-  - cleaned up lex.div() code a little
+    cleaned up lex.div() code a little
 
 changes in version 0.04-10 (2011-11-19)
   - fixed missing 'input.enc' information if treetag() option 'treetagger' is
     not "manual" but a script
-  - enhanced encoding handling internally if none was specified
-  - changed default value of 'case.sens' to FALSE in lex.div(), as this seems
+    enhanced encoding handling internally if none was specified
+    changed default value of 'case.sens' to FALSE in lex.div(), as this seems
     to be more common
-  - changed default value of 'fileEncoding' from "UTF-8" to NULL and use
+    changed default value of 'fileEncoding' from "UTF-8" to NULL and use
     enc2utf() internally if no encoding was defined
 
 changes in version 0.04-9 (2011-10-27)
   - tokenize() now converts all input to UTF-8 internally, to prevent
     conflicts later on (treetag() does that since 0.04-7 already)
-  - added an experimental feature to treetag() to replace TreeTagger's
+    added an experimental feature to treetag() to replace TreeTagger's
     tokenizer with tokenize()
 
 changes in version 0.04-8 (2011-09-21)
@@ -1135,7 +1197,7 @@ changes in version 0.04-8 (2011-09-21)
 
 changes in version 0.04-7 (2011-09-16)
   - added "encoding" option to treetag() and defaults to the language presets
-  - fixed some option check and file path issues in treetag()
+    fixed some option check and file path issues in treetag()
 
 changes in version 0.04-6 (2011-09-11)
   - fixed package description for R 2.14
@@ -1151,103 +1213,104 @@ changes in version 0.04-4 (2011-08-23)
 changes in version 0.04-3 (2011-08-19)
   - modularized language support by the internal function set.lang.support(),
     this should make it much easier to add new languages in the future,
-    because it means to add only one R file. hyphen(), kRp.POS.tags() and treetag()
-    now use this new method
-  - added CITATION file
+    because it means to add only one R file. hyphen(), kRp.POS.tags() and
+    treetag() now use this new method
+    added CITATION file
 
 changes in version 0.04-2 (2011-08-18)
   - fixed duplicate "PREP" definition in spanish POS tags, which caused
     treetag() to consume lots of RAM
-  - fixed superfluous "es" definitions in treetag()
+    fixed superfluous "es" definitions in treetag()
 
 changes in version 0.04-1 (2011-08-16)
   - added support for spanish (thanks to earl brown)
-  - docs can be created from source by roxygen2 (but all class docs are
+    docs can be created from source by roxygen2 (but all class docs are
     static, until '@slot' works again)
 
 changes in version 0.03-4 (2011-08-09)
   - added support for autodetection of headlines and paragraphs in tokenize()
-  - added support to revert autodetected headlines and paragraphs in
+    added support to revert autodetected headlines and paragraphs in
     kRp.text.paste()
-  - updated RKWard plugin to use tokenize()
+    updated RKWard plugin to use tokenize()
 
 changes in version 0.03-3 (2011-08-08)
   - added parameters for formula C and simplified formula to SMOG
-  - enhanced readability formulas (like adding age levels to Flesch.Kincaid,
+    enhanced readability formulas (like adding age levels to Flesch.Kincaid,
     grade levels to LIX)
-  - removed the duplicate Amstad index (is now just Flesch.de)
+    removed the duplicate Amstad index (is now just Flesch.de)
 
 changes in version 0.03-2 (2011-08-03)
   - added the full RKWard plugin as inst/rkward, so both get updated
     simultanously
-  - added experimental internal functions to import result logs from
+    added experimental internal functions to import result logs from
     Readability Studio and TextQuest
 
 changes in version 0.03-1 (2011-07-29)
   - integrated internal tags to kRp.POS.tags(), so tokenize() can return
     valid kRp.tagged class objects, i.e. substitute TreeTagger if it's not
     available
-  - consequently renamed 'treetagger' option into 'tagger' in readability(),
+    consequently renamed 'treetagger' option into 'tagger' in readability(),
     kRp.freq.analysis() and kRp.text.analysis()
-  - lots of small fixes
+    lots of small fixes
 
 changes in version 0.02-9 (2011-07-17)
   - added a simple tokenize() function
-  - first working version of read.corp.custom()
-  - added "..." option to readability, kRp.freq.analysis and
+    first working version of read.corp.custom()
+    added "..." option to readability, kRp.freq.analysis and
     kRp.text.analysis, to configure treetag()
-  - added TT.options to the get/set environment functions
-  - changed default values for treetag() (for readability)
-  - fixed bug in internal check.file() function (mode="exec" returned TRUE
+    added TT.options to the get/set environment functions
+    changed default values for treetag() (for readability)
+    fixed bug in internal check.file() function (mode="exec" returned TRUE
     too soon)
-  - added warning messages to readability() and lex.div() to make people
+    added warning messages to readability() and lex.div() to make people
     aware these implemetations are not yet fully validatied
-  - introduced release dates in this ChangeLog ;-) (reconstructed them for
+    introduced release dates in this ChangeLog ;-) (reconstructed them for
     earlier releases from the time stamps on the server)
 
 changes in version 0.02-8 (2011-07-03)
   - added "desc" slot with some statistics to class kRp.hyphen and hyphen()
-  - added grading information for Flesch and RIX measures
-  - fixed grading for Wheeler-Smith formula
-  - introduced "quiet" options for hyphen(), lex.div() and readability()
-  - further improved the vignette, elaborated on the examples
+    added grading information for Flesch and RIX measures
+    fixed grading for Wheeler-Smith formula
+    introduced "quiet" options for hyphen(), lex.div() and readability()
+    further improved the vignette, elaborated on the examples
 
 changes in version 0.02-7 (2011-06-29)
   - fixed typo in kRp.POS.tags("ru"): "Vmis-sfa-e" tags no longer a "vern",
     but a "verb"
-  - removed XML package dependency again, by writing a small parser (there
-    was no windows binary for the XML package, which was obviously a problem...)
-  - fixed "quiet" option in guess.lang()
+    removed XML package dependency again, by writing a small parser (there
+    was no windows binary for the XML package, which was obviously a
+    problem...)
+    fixed "quiet" option in guess.lang()
 
 changes in version 0.02-6 (2011-06-26)
   - fixed bug in calculation of sentence lengths in kRp.freq.analysis()
     (counted punctuation as words)
-  - tweaked hyph.en patterns to get better results
-  - solved a small charset issue in treetag()
-  - fixed hyphen() output if doubled hyphenation marks appeared
+    tweaked hyph.en patterns to get better results
+    solved a small charset issue in treetag()
+    fixed hyphen() output if doubled hyphenation marks appeared
 
 changes in version 0.02-5 (2011-06-25)
   - elaborated the vignette a little (including some references)
-  - added support for zipped LCC database archives to read.corp.LCC()
-  - improved handling of unknown POS tags: now causes an error dump for
+    added support for zipped LCC database archives to read.corp.LCC()
+    improved handling of unknown POS tags: now causes an error dump for
     debugging
-  - added query() method to search in objects of class kRp.tagged
+    added query() method to search in objects of class kRp.tagged
 
 changes in version 0.02-4 (2011-06-18)
   - de-factorized treetag() output
-  - fixed hyphenation problems (remove all non-characters for hyphen())
+    fixed hyphenation problems (remove all non-characters for hyphen())
 
 changes in version 0.02-3 (2011-06-11)
   - fixed missing "''" and "$" POS tags in kRp.POS.tags("en")
 
 changes in version 0.02-2 (2011-06-06)
   - renamed kRp.guess.lang() to guess.lang()
-  - guess.lang() now gzips only in memory by default, saves about 1/8 of
-    processing time - added option "in.mem" to switch back to previous behavious
-    (temporary files)
-  - added internal function is.supported.lang() as a possible wrapper for
+    guess.lang() now gzips only in memory by default, saves about 1/8 of
+    processing time - added option "in.mem" to switch back to previous
+    behavious (temporary files)
+    added internal function is.supported.lang() as a possible wrapper for
     guessed ULIs
-  - added internal functions roxy.description() and roxy.package() to ease
+    added internal functions roxy.description() and roxy.package() to ease
     development
 
 changes in version 0.02-1 (2011-06-04)
@@ -1257,40 +1320,41 @@ changes in version 0.02-1 (2011-06-04)
 
 changes in version 0.01-8 (2011-05-30)
   - added class kRp.txt.trans for results of kRp.text.transform()
-  - enhanced function kRp.text.transform(), most notably calculate differences
+    enhanced function kRp.text.transform(), most notably calculate
+    differences
 
 changes in version 0.01-7 (2011-05-28)
   - added function kRp.text.paste()
-  - added function kRp.text.transform()
+    added function kRp.text.transform()
 
 changes in version 0.01-6 (2011-05-27)
   - fixed hyphen() bug (leading dots in words caused functions to fail)
-  - added kRp.filter.wclass()
-  - added TODO list to the sources
+    added kRp.filter.wclass()
+    added TODO list to the sources
 
 changes in version 0.01-5 (2011-05-16)
   - fixed another bug in frequency analysis with corpus data (superfluous
     class definition)
-  - fixed missing POS tags: refinement of english tags (extra tags for "to
+    fixed missing POS tags: refinement of english tags (extra tags for "to
     be" and "to have")
-  - added more to the vignette
-  - added .Rinstignore file to clean up the doc folder
+    added more to the vignette
+    added .Rinstignore file to clean up the doc folder
 
 changes in version 0.01-4 (2011-05-12)
   - began to write a vignette
-  - fixed treetag() failing on windows machines (hopefully...)
+    fixed treetag() failing on windows machines (hopefully...)
 
 changes in version 0.01-3 (2011-05-10)
   - added TRI readability index
-  - fixed bug in frequency analysis with corpus data (wrong class definition)
-  - fixed bug in Bormuth implementation (didn't fetch parameters)
-  - fixed missing Flesch indices in summary method
-  - corrected display of FOG indices in summary method (grade instead of raw)
-  - added compression.ratio() to internal functions
+    fixed bug in frequency analysis with corpus data (wrong class definition)
+    fixed bug in Bormuth implementation (didn't fetch parameters)
+    fixed missing Flesch indices in summary method
+    corrected display of FOG indices in summary method (grade instead of raw)
+    added compression.ratio() to internal functions
 
 changes in version 0.01-2 (2011-05-03)
   - enhanced query() methods
-  - fixed some typos and smaller bugs
+    fixed some typos and smaller bugs
 
 changes in version 0.01-1 (2011-04-24)
   - initial public release (via reaktanz.de)

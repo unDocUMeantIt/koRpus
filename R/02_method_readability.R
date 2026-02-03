@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2026 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -21,9 +21,9 @@
 #' These methods calculate several readability indices.
 #'
 #' In the following formulae, \eqn{W} stands for the number of words, \eqn{St} for the number of sentences, \eqn{C} for the number of
-#' characters (usually meaning letters), \eqn{Sy} for the number of syllables, \eqn{W_{3Sy}} for the number of words with at least three syllables,
-#' \eqn{W_{<3Sy}} for the number of words with less than three syllables, \eqn{W^{1Sy}}
-#' for words with exactly one syllable, \eqn{W_{6C}} for the number of words with at least six letters, and \eqn{W_{-WL}} for the number
+#' characters (usually meaning letters), \eqn{Sy} for the number of syllables, \eqn{W_{3Sy}}{W_3Sy} for the number of words with at least three syllables,
+#' \eqn{W_{<3Sy}}{W_<3Sy} for the number of words with less than three syllables, \eqn{W^{1Sy}}{W^1Sy}
+#' for words with exactly one syllable, \eqn{W_{6C}}{W_6C} for the number of words with at least six letters, and \eqn{W_{-WL}}{W_-WL} for the number
 #' of words which are not on a certain word list (explained where needed).
 #' \describe{
 #'    \item{\code{"ARI"}:}{\emph{Automated Readability Index}:
@@ -32,6 +32,8 @@
 #'      \deqn{ARI_{NRI} = 0.4 \times \frac{W}{St} + 6 \times \frac{C}{W} - 27.4}{ARI_NRI = 0.4 * W / St + 6 * C / W - 27.4}
 #'      If \code{parameters} is set to \code{ARI="simple"}, the simplified formula is calculated:
 #'      \deqn{ARI_{simple} = \frac{W}{St} + 9 \times \frac{C}{W}}{ARI_simple = W / St + 9 * C / W}
+#'
+#'      For its variants, instead to setting the \code{ARI} parameter, you can also use \code{index="ARI.NRI"} or \code{index="ARI.simple"}, respectively.
 #'
 #'      Wrapper function: \code{\link[koRpus:ARI]{ARI}}
 #'    }
@@ -88,6 +90,8 @@
 #'      \strong{Note:} This index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}{W_-WL}. That is, you must have a copy of
 #'      this word list and provide it via the \code{word.lists=list(Dale.Chall=<your.list>)} parameter!
 #'
+#'      For its variants, instead to setting the \code{Dale.Chall} parameter, you can also use \code{index="Dale.Chall.old"} or \code{index="Dale.Chall.PSK"}, respectively.
+#'
 #'      Wrapper function: \code{\link[koRpus:dale.chall]{dale.chall}}
 #'    }
 #'    \item{\code{"Danielson.Bryan"}:}{
@@ -109,6 +113,7 @@
 #'      This formula itself has no parameters.
 #'      \strong{Note:} The Bormuth index needs the long Dale-Chall list of 3000 familiar (english) words to compute \eqn{W_{-WL}}{W_-WL}.
 #'      That is, you must have a copy of this word list and provide it via the \code{word.lists=list(Bormuth=<your.list>)} parameter!
+#'
 #'      Wrapper function: \code{\link[koRpus:DRP]{DRP}}
 #'    }
 #'    \item{\code{"ELF"}:}{Fang's \emph{Easy Listening Formula}:
@@ -120,12 +125,15 @@
 #'      \deqn{FJP = -31.517 - 1.015 \times \frac{W}{St} + 1.599 \times \frac{W^{1Sy}}{W}}{FJP = -31.517 - 1.015 * W / St + 1.599 * W^1Sy / W}
 #'      If \code{parameters} is set to \code{Farr.Jenkins.Paterson="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used:
 #'      \deqn{FJP_{PSK} = 8.4335 + 0.0923 \times \frac{W}{St} - 0.0648 \times \frac{W^{1Sy}}{W}}{FJP_PSK = 8.4335 + 0.0923 * W / St - 0.0648 * W^1Sy / W}
+#'
+#'      For its variant, instead to setting the \code{Farr.Jenkins.Paterson} parameter, you can also use \code{index="Farr.Jenkins.Paterson.PSK"}.
+#'
 #'      Wrapper function: \code{\link[koRpus:farr.jenkins.paterson]{farr.jenkins.paterson}}
 #'   }
 #'   \item{\code{"Flesch"}:}{\emph{Flesch Reading Ease}:
 #'      \deqn{F_{EN} = 206.835 - 1.015 \times \frac{W}{St} - 84.6 \times \frac{Sy}{W}}{F_EN = 206.835 - 1.015 * W / St - 84.6 * Sy / W}
 #'      Certain internationalisations of the parameters are also implemented. They can be used by setting
-#'      the \code{Flesch} parameter to one of the following language abbreviations.
+#'      the \code{Flesch} parameter to one of the following:
 #'      
 #'      \code{"de"} (Amstad's Verständlichkeitsindex):
 #'      \deqn{F_{DE} = 180 - \frac{W}{St} - 58.5 \times \frac{Sy}{W}}{F_DE = 180 - W / St - 58.5 * Sy / W}
@@ -142,6 +150,11 @@
 #'      If \code{parameters} is set to \code{Flesch="PSK"}, the revised parameters by Powers-Sumner-Kearl (1958) are used
 #'      to calculate a grade level:
 #'      \deqn{F_{PSK} = 0.0778 \times \frac{W}{St} + 4.55 \times \frac{Sy}{W} - 2.2029}{F_PSK = 0.0778 * W / St + 4.55 * Sy / W - 2.2029}
+#'
+#'      For its variants, instead to setting the \code{Flesch} parameter, you can also use
+#'      \code{index="Flesch.Brouwer"} (NL, Brouwer Leesindex), \code{index="Flesch.de"} (DE, Amstad's Verständlichkeitsindex),
+#'      \code{index="Flesch.es"} (ES, Fernandez-Huerta), \code{index="Flesch.fr"} (FR, Kandel-Moles), \code{index="Flesch.nl"} (NL, Douma),
+#'      \code{index="Flesch.Szigriszt"} (ES, Szigriszt), or \code{index="Flesch.PSK"}, respectively.
 #'
 #'      Wrapper function: \code{\link[koRpus:flesch]{flesch}}
 #'    }
@@ -162,12 +175,16 @@
 #'      Due to the need to re-hyphenate combined words after splitting them up, this formula takes considerably longer to compute than most others.
 #'      If will be omitted if you set \code{index="fast"} instead of the default.
 #'
+#'      For its variants, instead to setting the \code{FOG} parameter, you can also use \code{index="FOG.PSK"} or \code{index="FOG.new"}, respectively.
+#'
 #'      Wrapper function: \code{\link[koRpus:FOG]{FOG}}
 #'    }
 #'    \item{\code{"FORCAST"}:}{
 #'      \deqn{FORCAST = 20 - \frac{W^{1Sy} \times \frac{150}{W}}{10}}{FORCAST = 20 - ( W^1Sy * 150 / W ) / 10}
 #'      If \code{parameters} is set to \code{FORCAST="RGL"}, the parameters for the precise reading grade level are used (see Klare, 1975, pp. 84--85):
 #'      \deqn{FORCAST_{RGL} = 20.43 - 0.11 \times W^{1Sy} \times \frac{150}{W}}{FORCAST_RGL = 20.43 - 0.11 * W^1Sy * 150 / W}
+#'
+#'      For its variant, instead to setting the \code{FORCAST} parameter, you can also use \code{index="FORCAST.RGL"}.
 #'
 #'      Wrapper function: \code{\link[koRpus:FORCAST]{FORCAST}}
 #'    }
@@ -207,7 +224,7 @@
 #'      Wrapper function: \code{\link[koRpus:linsear.write]{linsear.write}}
 #'    }
 #'   \item{\code{"LIX"}}{Björnsson's \emph{Läsbarhetsindex}. Originally proposed for Swedish texts, calculated by:
-#'      \deqn{LIX = \frac{W}{St} + \frac{100 \times{} W_{7C}}{W}}{LIX = W / St + (W7C * 100) / W}
+#'      \deqn{LIX = \frac{W}{St} + \frac{100 \times{} W_{7C}}{W}}{LIX = W / St + (W_7C * 100) / W}
 #'      Texts with a LIX < 25 are considered very easy, around 40 normal, and > 55 very difficult to read.
 #'
 #'      Wrapper function: \code{\link[koRpus:LIX]{LIX}}
@@ -221,7 +238,7 @@
 #'      Wrapper function: \code{\link[koRpus:nWS]{nWS}}
 #'    }
 #'    \item{\code{"RIX"}}{Anderson's \emph{Readability Index}. A simplified version of LIX:
-#'      \deqn{RIX = \frac{W_{7C}}{St}}{RIX = W7C / St}
+#'      \deqn{RIX = \frac{W_{7C}}{St}}{RIX = W_7C / St}
 #'      Texts with a RIX < 1.8 are considered very easy, around 3.7 normal, and > 7.2 very difficult to read.
 #'
 #'      Wrapper function: \code{\link[koRpus:RIX]{RIX}}
@@ -235,6 +252,8 @@
 #'      If \code{parameters} is set to \code{SMOG="de"}, the formula adapted to German texts ("Qu", Bamberger & Vanecek, 1984, p. 78) is used:
 #'      \deqn{SMOG_{de} = \sqrt{W_{3Sy} \times \frac{30}{St}} - 2}{SMOG_de = \sqrt{W_3Sy *  30 / St} - 2}
 #'
+#'      For its variants, instead to setting the \code{SMOG} parameter, you can also use \code{index="SMOG.C"}, \code{index="SMOG.simple"} or \code{index="SMOG.de"}, respectively.
+#'
 #'      Wrapper function: \code{\link[koRpus:SMOG]{SMOG}}
 #'    }
 #'    \item{\code{"Spache"}:}{\emph{Spache Revised Formula (1974)}:
@@ -244,6 +263,8 @@
 #'      \strong{Note:} The revised index needs the revised Spache word list (see Klare, 1975, p. 73), and the old index the short Dale-Chall list of
 #'      769 familiar (english) words to compute \eqn{W_{-WL}}. That is, you must have a copy of this word list and provide it via the
 #'      \code{word.lists=list(Spache=<your.list>)} parameter!
+#'
+#'      For its variant, instead to setting the \code{Spache} parameter, you can also use \code{index="Spache.old"}.
 #'
 #'      Wrapper function: \code{\link[koRpus:spache]{spache}}
 #'    }
@@ -275,6 +296,8 @@
 #'      \deqn{WS = \frac{W}{St} \times \frac{10 \times{} W_{2Sy}}{W}}{WS = W / St * 10 * W_2Sy / W}
 #'      If \code{parameters} is set to \code{Wheeler.Smith="de"}, the calculation stays the same, but grade placement
 #'      is done according to Bamberger & Vanecek (1984), that is for german texts.
+#'
+#'      For its variant, instead to setting the \code{Wheeler.Smith} parameter, you can also use \code{index="Wheeler.Smith.de"}.
 #'
 #'      Wrapper function: \code{\link[koRpus:wheeler.smith]{wheeler.smith}}
 #'    }
@@ -341,7 +364,7 @@
 #'      \emph{Zeitschrift für Entwicklungspsychologie und Pädagogische Psychologie}, 9(1), 20--28.
 #'
 #'    DuBay, W.H. (2004). \emph{The Principles of Readability}. Costa Mesa: Impact Information.
-#'      WWW: \url{http://www.impact-information.com/impactinfo/readability02.pdf}; 22.03.2011.
+#'      WWW: \url{https://eric.ed.gov/?id=ed490073}; 02.02.2026.
 #'
 #'    Farr, J.N., Jenkins, J.J. & Paterson, D.G. (1951). Simplification of Flesch Reading Ease formula. \emph{Journal of Applied Psychology}, 35(5), 333--337.
 #'

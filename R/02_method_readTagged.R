@@ -1,4 +1,4 @@
-# Copyright 2010-2020 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2022 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -101,7 +101,7 @@ setMethod("readTagged",
   function(
     file,
     lang="kRp.env",
-    tagger="TreeTagger",
+    tagger=c("TreeTagger", "manual"),
     apply.sentc.end=TRUE,
     sentc.end=c(".","!","?",";",":"),
     stopwords=NULL,
@@ -111,6 +111,7 @@ setMethod("readTagged",
     add.desc="kRp.env",
     mtx_cols=c(token="token", tag="tag", lemma="lemma")
   ){
+    tagger <- match.arg(tagger)
     results <- kRp_read_tagged(
       mtrx=file,
       lang=lang,
@@ -137,7 +138,7 @@ setMethod("readTagged",
   function(
     file,
     lang="kRp.env",
-    tagger="TreeTagger",
+    tagger=c("TreeTagger", "manual"),
     apply.sentc.end=TRUE,
     sentc.end=c(".","!","?",";",":"),
     stopwords=NULL,
@@ -147,6 +148,7 @@ setMethod("readTagged",
     add.desc="kRp.env",
     mtx_cols=c(token="token", tag="tag", lemma="lemma")
   ){
+    tagger <- match.arg(tagger)
     results <- readTagged(
       file=as.matrix(file),
       lang=lang,
@@ -176,7 +178,7 @@ setMethod("readTagged",
     file,
     lang="kRp.env",
     encoding=getOption("encoding"),
-    tagger="TreeTagger",
+    tagger=c("TreeTagger", "manual"),
     apply.sentc.end=TRUE,
     sentc.end=c(".","!","?",";",":"),
     stopwords=NULL,
@@ -185,6 +187,7 @@ setMethod("readTagged",
     doc_id=NA,
     add.desc="kRp.env"
   ){
+    tagger <- match.arg(tagger)
     ## read the file
     tagged.text <- readLines(file, encoding=encoding)
     tagged.text <- enc2utf8(tagged.text)
@@ -232,7 +235,7 @@ setMethod("readTagged",
     file,
     lang="kRp.env",
     encoding=getOption("encoding"),
-    tagger="TreeTagger",
+    tagger=c("TreeTagger", "manual"),
     apply.sentc.end=TRUE,
     sentc.end=c(".","!","?",";",":"),
     stopwords=NULL,
@@ -241,6 +244,7 @@ setMethod("readTagged",
     doc_id=NA,
     add.desc="kRp.env"
   ){
+    tagger <- match.arg(tagger)
     check.file(normalizePath(file), mode="exist")
     # turn into a connection and call another methods
     file_con <- file(description=file, open="r")
@@ -276,7 +280,7 @@ read.tagged <- function(...){
 kRp_read_tagged <- function(
   mtrx,
   lang="kRp.env",
-  tagger="TreeTagger",
+  tagger=c("TreeTagger", "manual"),
   apply.sentc.end=TRUE,
   sentc.end=c(".","!","?",";",":"),
   stopwords=NULL,
@@ -285,6 +289,7 @@ kRp_read_tagged <- function(
   add.desc="kRp.env",
   mtx_cols=c(token="token", tag="tag", lemma="lemma")
 ){
+  tagger <- match.arg(tagger)
   if(identical(lang, "kRp.env")){
     lang <- get.kRp.env(lang=TRUE)
   } else {}

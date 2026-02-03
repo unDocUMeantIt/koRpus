@@ -1,4 +1,4 @@
-# Copyright 2010-2021 Meik Michalke <meik.michalke@hhu.de>
+# Copyright 2010-2025 Meik Michalke <meik.michalke@hhu.de>
 #
 # This file is part of the R package koRpus.
 #
@@ -20,14 +20,14 @@
 #' 
 #' This function is a stripped down version of \code{\link[koRpus:lex.div]{lex.div}}. It does not analyze text,
 #' but takes the numbers of tokens and types directly to calculate measures for which this information is sufficient:
-#' \itemize{
-#'    \item \code{"TTR"}{The classic \emph{Type-Token Ratio}}
-#'    \item {\code{"C"}}{Herdan's \emph{C}}
-#'    \item {\code{"R"}}{Guiraud's \emph{Root TTR}}
-#'    \item {\code{"CTTR"}}{Carroll's \emph{Corrected TTR}}
-#'    \item {\code{"U"}}{Dugast's \emph{Uber Index}}
-#'    \item {\code{"S"}}{Summer's index}
-#'    \item {\code{"Maas"}} {Maas' (\eqn{a^2})}
+#' \describe{
+#'    \item{\code{"TTR"}}{The classic \emph{Type-Token Ratio}}
+#'    \item{\code{"C"}}{Herdan's \emph{C}}
+#'    \item{\code{"R"}}{Guiraud's \emph{Root TTR}}
+#'    \item{\code{"CTTR"}}{Carroll's \emph{Corrected TTR}}
+#'    \item{\code{"U"}}{Dugast's \emph{Uber Index}}
+#'    \item{\code{"S"}}{Summer's index}
+#'    \item{\code{"Maas"}}{Maas' (\eqn{a^2})}
 #' }
 #' See \code{\link[koRpus:lex.div]{lex.div}} for further details on the formulae.
 #' 
